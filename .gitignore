@@ -10,3 +10,6 @@ desktop.ini
 *.bak
 ~$*
 .trash/
+
+# Smart Connections 插件数据
+.smart-env/
