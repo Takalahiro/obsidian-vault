@@ -1,0 +1,39 @@
+{
+	"nodes":[
+		{"id":"7813bb89d04d0b31","type":"group","x":514,"y":-1472,"width":762,"height":1312,"color":"6","label":"脚本/解释型"},
+		{"id":"517b780f4c4921c3","type":"group","x":695,"y":-144,"width":906,"height":648,"color":"6","label":"编译型/虚拟机"},
+		{"id":"a8a81965b8586151","type":"text","text":"# 通用编程语言总览\n\n汇总常用通用编程语言的定位、特性与用途","x":221,"y":120,"width":245,"height":136,"color":"2"},
+		{"id":"c25c47fe954c8520","type":"text","text":"# Python\n\n解释型高级语言，强调可读性，广泛用于数据与AI","x":562,"y":-1208,"width":265,"height":136,"color":"4"},
+		{"id":"7c9d097e7bdcc757","type":"text","text":"# JavaScript (ECMA-262)\n\nWeb 行为层脚本语言，支持浏览器与服务端","x":562,"y":-544,"width":265,"height":136,"color":"4"},
+		{"id":"b9ef97a6ab84dcbe","type":"text","text":"# Python 核心要点\n\n字节码+PVM 执行；动态类型；丰富生态","x":923,"y":-1408,"width":250,"height":136,"color":"4"},
+		{"id":"4a704d3a1f46e086","type":"text","text":"# Python 主要应用\n\n数据分析、AI、Web、自动化、爬虫与运维","x":923,"y":-1008,"width":255,"height":136,"color":"4"},
+		{"id":"dd8d7e84f6ee2391","type":"text","text":"# JS 语言特性\n\nlet/const、原型与类、闭包、Promise/async","x":923,"y":-744,"width":305,"height":136,"color":"4"},
+		{"id":"eb076e46ab738512","type":"text","text":"# JS 运行环境\n\n浏览器 DOM/事件循环 与 Node.js 服务端","x":923,"y":-344,"width":280,"height":136,"color":"4"},
+		{"id":"10bb9c1122b5f1b3","type":"text","text":"# Assembly 汇编\n\n贴近机器指令的低级语言，用于底层与优化","x":-40,"y":920,"width":245,"height":136,"color":"4"},
+		{"id":"4ca442983e54e5a4","type":"text","text":"# C / C++\n\n系统级编译型语言，贴近硬件，性能优先","x":640,"y":784,"width":240,"height":136,"color":"4"},
+		{"id":"cb0b1dc11439e91f","type":"text","text":"# PHP / Shell 等脚本\n\nWeb 后端脚本与系统运维自动化脚本","x":1120,"y":1056,"width":240,"height":136,"color":"4"},
+		{"id":"8d3b1dd1744c7ab2","type":"text","text":"# 语言执行方式对比\n\n编译型 vs 解释型 vs 字节码虚拟机执行","x":302,"y":988,"width":260,"height":136,"color":"4"},
+		{"id":"9389cf3f3fe5062c","type":"text","text":"# Java 体系与平台\n\nJavaSE/EE/ME，JVM 跨平台，强类型 OOP","x":1228,"y":-80,"width":290,"height":136,"color":"4"},
+		{"id":"242e168a323024ce","type":"text","text":"# Java 语法基础\n\n8 种基本类型、变量作用域、运算符与控制结构","x":1280,"y":320,"width":260,"height":136,"color":"4"},
+		{"id":"05ea27ec8be5b5df","type":"text","text":"# Java\n\n面向对象、跨平台的编译+解释语言，企业应用主力","x":811,"y":120,"width":265,"height":136,"color":"4"}
+	],
+	"edges":[
+		{"id":"af2534e552c35fe1","fromNode":"a8a81965b8586151","fromSide":"top","toNode":"c25c47fe954c8520","toSide":"bottom","label":"脚本语言代表"},
+		{"id":"5356a185d9fcf764","fromNode":"a8a81965b8586151","fromSide":"top","toNode":"7c9d097e7bdcc757","toSide":"bottom","label":"Web 脚本代表"},
+		{"id":"895a8aa0266bfbe9","fromNode":"a8a81965b8586151","fromSide":"right","toNode":"05ea27ec8be5b5df","toSide":"left","label":"企业级语言"},
+		{"id":"38194350c786ac19","fromNode":"a8a81965b8586151","fromSide":"bottom","toNode":"4ca442983e54e5a4","toSide":"top","label":"系统级语言"},
+		{"id":"145ca9e82368e61f","fromNode":"a8a81965b8586151","fromSide":"bottom","toNode":"10bb9c1122b5f1b3","toSide":"top","label":"底层语言"},
+		{"id":"f90eccd3b6b338c0","fromNode":"a8a81965b8586151","fromSide":"bottom","toNode":"cb0b1dc11439e91f","toSide":"top","label":"其他脚本"},
+		{"id":"3dddb714eabd6338","fromNode":"c25c47fe954c8520","fromSide":"right","toNode":"b9ef97a6ab84dcbe","toSide":"left","label":"核心特性"},
+		{"id":"3e8fef4113fa2bba","fromNode":"c25c47fe954c8520","fromSide":"right","toNode":"4a704d3a1f46e086","toSide":"left","label":"应用领域"},
+		{"id":"abfdde97f02517d5","fromNode":"7c9d097e7bdcc757","fromSide":"right","toNode":"dd8d7e84f6ee2391","toSide":"left","label":"语言特性"},
+		{"id":"f6313745f6a43e10","fromNode":"7c9d097e7bdcc757","fromSide":"right","toNode":"eb076e46ab738512","toSide":"left","label":"运行环境"},
+		{"id":"b0132b07813151e3","fromNode":"05ea27ec8be5b5df","fromSide":"right","toNode":"9389cf3f3fe5062c","toSide":"left","label":"平台体系"},
+		{"id":"d872a028a2f1dc6b","fromNode":"05ea27ec8be5b5df","fromSide":"right","toNode":"242e168a323024ce","toSide":"left","label":"语法基础"},
+		{"id":"985221e640c9ffcb","fromNode":"a8a81965b8586151","fromSide":"bottom","toNode":"8d3b1dd1744c7ab2","toSide":"top","label":"横向比较"}
+	],
+	"metadata":{
+		"version":"1.0-1.0",
+		"frontmatter":{}
+	}
+}

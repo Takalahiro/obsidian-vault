@@ -1,0 +1,45 @@
+{
+	"nodes":[
+		{"id":"5f2fa87cb058d493","type":"group","x":494,"y":-1264,"width":747,"height":248,"label":"概念","color":"6"},
+		{"id":"768b8f2795bfcd9c","type":"group","x":494,"y":-736,"width":747,"height":776,"label":"三要素","color":"6"},
+		{"id":"0062e684bb387b01","type":"group","x":494,"y":56,"width":747,"height":648,"label":"流程","color":"6"},
+		{"id":"fa911a377d9847b9","type":"group","x":494,"y":720,"width":812,"height":1176,"label":"类型","color":"6"},
+		{"id":"62dc2aee5deea6d5","type":"text","x":221,"y":120,"width":225,"height":136,"text":"# 机器学习导论\n\nML 核心定义、流程与类型总览","color":"2"},
+		{"id":"2d3d8951ba20d5fb","type":"text","x":542,"y":-1200,"width":305,"height":136,"text":"# 什么是机器学习\n\nSamuel 与 Mitchell 的经典定义 (T/E/P)","color":"4"},
+		{"id":"ef9489772e29b29a","type":"text","x":943,"y":-1200,"width":250,"height":136,"text":"# 传统编程 vs ML\n\n规则+数据→答案 vs 数据+答案→规则","color":"4"},
+		{"id":"631146ac8beef849","type":"text","x":542,"y":-936,"width":240,"height":136,"text":"# 为什么需要 ML\n\n处理难以规则化的复杂任务与大规模数据","color":"4"},
+		{"id":"11b86fdb8ddd11a1","type":"text","x":542,"y":-408,"width":270,"height":136,"text":"# 三要素\n\n数据 + 模型 + 算法（或：模型+策略+算法）","color":"4"},
+		{"id":"f79aa7e505908fac","type":"text","x":943,"y":-672,"width":250,"height":136,"text":"# 数据 Data\n\n样本/特征/标签；训练/验证/测试集划分","color":"4"},
+		{"id":"c2a44d757b4d7f88","type":"text","x":943,"y":-408,"width":245,"height":136,"text":"# 模型 Model\n\n假设空间中的映射函数 y=f(x;θ)","color":"4"},
+		{"id":"84e09f8c8e87370c","type":"text","x":943,"y":-144,"width":245,"height":136,"text":"# 算法 Algorithm\n\n梯度下降、SGD、最小二乘、反向传播等","color":"4"},
+		{"id":"4c76878e746ce87f","type":"text","x":542,"y":320,"width":260,"height":136,"text":"# 工作流程\n\n采集→预处理→选模型→训练→评估→部署→监控","color":"4"},
+		{"id":"0dd349177d304704","type":"text","x":943,"y":120,"width":225,"height":136,"text":"# 训练循环\n\n前向传播→损失→梯度→参数更新","color":"4"},
+		{"id":"643bb4e3c31a33fd","type":"text","x":943,"y":520,"width":250,"height":136,"text":"# 常见挑战\n\n过拟合/欠拟合/学习率/数据不平衡/泄漏","color":"4"},
+		{"id":"7414d1e5e8ed5669","type":"text","x":542,"y":1248,"width":225,"height":136,"text":"# ML 类型\n\n监督、无监督、半监督、强化学习","color":"4"},
+		{"id":"8b66de2440c49a10","type":"text","x":943,"y":784,"width":220,"height":136,"text":"# 监督学习\n\n有标签：分类与回归","color":"4"},
+		{"id":"2bb905f38144d42f","type":"text","x":943,"y":1048,"width":220,"height":136,"text":"# 无监督学习\n\n无标签：聚类、降维、关联规则","color":"4"},
+		{"id":"72e9b17c81ba1c5c","type":"text","x":943,"y":1448,"width":230,"height":136,"text":"# 半监督学习\n\n少量标注 + 大量未标注数据结合","color":"4"},
+		{"id":"11d477cc54801e06","type":"text","x":943,"y":1712,"width":315,"height":136,"text":"# 强化学习\n\nAgent 与 Environment 交互，最大化 Reward","color":"4"}
+	],
+	"edges":[
+		{"id":"ccfd5fe3bf500c37","fromNode":"62dc2aee5deea6d5","toNode":"2d3d8951ba20d5fb","toEnd":"arrow","label":"定义","fromSide":"top","toSide":"bottom"},
+		{"id":"0305128d823ec3b0","fromNode":"2d3d8951ba20d5fb","toNode":"ef9489772e29b29a","toEnd":"arrow","label":"对比","fromSide":"right","toSide":"left"},
+		{"id":"74086bb6b7a98519","fromNode":"62dc2aee5deea6d5","toNode":"631146ac8beef849","toEnd":"arrow","label":"动机","fromSide":"top","toSide":"bottom"},
+		{"id":"8cbccc34b5b05fdf","fromNode":"62dc2aee5deea6d5","toNode":"11b86fdb8ddd11a1","toEnd":"arrow","label":"构成","fromSide":"top","toSide":"bottom"},
+		{"id":"595a815fdd53b631","fromNode":"11b86fdb8ddd11a1","toNode":"f79aa7e505908fac","toEnd":"arrow","fromSide":"right","toSide":"left"},
+		{"id":"e704dc0d181d1786","fromNode":"11b86fdb8ddd11a1","toNode":"c2a44d757b4d7f88","toEnd":"arrow","fromSide":"right","toSide":"left"},
+		{"id":"01e105e4e3715b21","fromNode":"11b86fdb8ddd11a1","toNode":"84e09f8c8e87370c","toEnd":"arrow","fromSide":"right","toSide":"left"},
+		{"id":"d5d68acf62636295","fromNode":"62dc2aee5deea6d5","toNode":"4c76878e746ce87f","toEnd":"arrow","label":"流程","fromSide":"right","toSide":"left"},
+		{"id":"da7e66ec16e196f3","fromNode":"4c76878e746ce87f","toNode":"0dd349177d304704","toEnd":"arrow","label":"核心","fromSide":"right","toSide":"left"},
+		{"id":"b59615fd862639e1","fromNode":"4c76878e746ce87f","toNode":"643bb4e3c31a33fd","toEnd":"arrow","label":"风险","fromSide":"right","toSide":"left"},
+		{"id":"71a0b840ee7cd40f","fromNode":"62dc2aee5deea6d5","toNode":"7414d1e5e8ed5669","toEnd":"arrow","label":"分类","fromSide":"bottom","toSide":"top"},
+		{"id":"458d428b9a33f346","fromNode":"7414d1e5e8ed5669","toNode":"8b66de2440c49a10","toEnd":"arrow","fromSide":"top","toSide":"bottom"},
+		{"id":"e8fc9a8f0a2b20e9","fromNode":"7414d1e5e8ed5669","toNode":"2bb905f38144d42f","toEnd":"arrow","fromSide":"right","toSide":"left"},
+		{"id":"b112f7503c53f0d3","fromNode":"7414d1e5e8ed5669","toNode":"72e9b17c81ba1c5c","toEnd":"arrow","fromSide":"right","toSide":"left"},
+		{"id":"23af3ade493d7232","fromNode":"7414d1e5e8ed5669","toNode":"11d477cc54801e06","toEnd":"arrow","fromSide":"bottom","toSide":"top"}
+	],
+	"metadata":{
+		"version":"1.0-1.0",
+		"frontmatter":{}
+	}
+}

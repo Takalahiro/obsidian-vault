@@ -1,0 +1,37 @@
+{
+	"nodes":[
+		{"id":"29e8a0a43c192e16","type":"group","x":524,"y":520,"width":1396,"height":648,"color":"6","label":"数据与文件"},
+		{"id":"9cd87e954e478c99","type":"group","x":524,"y":-1336,"width":782,"height":648,"color":"6","label":"程序本质"},
+		{"id":"05d13eb6c4cf4942","type":"text","text":"# 计算机科学基础全景\n\n从程序本质到数据表示与网络的系统化知识地图","x":221,"y":120,"width":255,"height":136,"color":"2"},
+		{"id":"83873b23e6274018","type":"text","text":"# 程序与计算本质\n\n程序 = 数据结构 + 算法，图灵机定义可计算性边界","x":572,"y":-1072,"width":280,"height":136,"color":"4"},
+		{"id":"7880c6a1242e4f6e","type":"text","text":"# Wirth 公式\n\n数据结构描述存储，算法描述处理，二者结合即程序","x":988,"y":-1272,"width":265,"height":136,"color":"4"},
+		{"id":"196fdc5695484189","type":"text","text":"# 图灵机模型\n\n纸带+读写头+状态机，奠定可计算性与图灵完备概念","x":988,"y":-872,"width":270,"height":136,"color":"4"},
+		{"id":"f1c2a83cdf49ca00","type":"text","text":"# 用户定义数据类型\n\n复合类型（记录/类）与非复合类型（枚举/指针）扩展表达能力","x":1600,"y":584,"width":295,"height":136,"color":"4"},
+		{"id":"79b54e7fc312f3ac","type":"text","text":"# 数据表示\n\n二进制、补码、BCD、字符集、浮点数标准化表示数值与文本","x":722,"y":892,"width":290,"height":136,"color":"4"},
+		{"id":"d9aedd7d284ae463","type":"text","text":"# 语言执行模式\n\n编译型、解释型、JIT 混合型三类执行机制对比","x":1080,"y":-400,"width":265,"height":136,"color":"4"},
+		{"id":"5f7c5972530cf053","type":"text","text":"# 源代码到可执行文件\n\n预处理 → 编译 → 汇编 → 链接四阶段流水线","x":742,"y":-600,"width":270,"height":136,"color":"4"},
+		{"id":"6f738f45ee37af8b","type":"text","text":"# 文件组织与访问\n\n顺序/连续/随机组织，配合顺序或直接访问，哈希加速检索","x":1600,"y":960,"width":285,"height":136,"color":"4"},
+		{"id":"1396605ff6a628e3","type":"text","text":"# 网络与通信\n\nLAN/WAN、拓扑结构、客户端-服务器与 P2P、云计算与 DNS","x":1080,"y":2000,"width":320,"height":136,"color":"4"},
+		{"id":"d9d408fc6a374989","type":"text","text":"# 图像与声音处理\n\n位图与矢量、压缩方式、采样率与位深决定多媒体质量","x":206,"y":1864,"width":270,"height":136,"color":"4"},
+		{"id":"b3adc2893c7d2712","type":"text","text":"# 抽象层次\n\n机器码→汇编→C→高级语言，抽象越高开发效率越高但性能下降","x":1600,"y":-200,"width":295,"height":136,"color":"4"},
+		{"id":"33e74082377866d4","type":"text","text":"# 编程语言生态\n\n通用、系统、脚本、Web、文档发布等多领域语言分布","x":1600,"y":52,"width":275,"height":136,"color":"4"}
+	],
+	"edges":[
+		{"id":"da9f68cccd0a3bf8","fromNode":"05d13eb6c4cf4942","fromSide":"top","toNode":"83873b23e6274018","toSide":"bottom","label":"核心理论"},
+		{"id":"2a4a771a87ab40ff","fromNode":"83873b23e6274018","fromSide":"right","toNode":"7880c6a1242e4f6e","toSide":"left","label":"经典公式"},
+		{"id":"092876b4b94eba43","fromNode":"83873b23e6274018","fromSide":"right","toNode":"196fdc5695484189","toSide":"left","label":"理论模型"},
+		{"id":"38886084c4b471b2","fromNode":"05d13eb6c4cf4942","fromSide":"top","toNode":"5f7c5972530cf053","toSide":"bottom","label":"实现路径"},
+		{"id":"535aff8a8a092352","fromNode":"05d13eb6c4cf4942","fromSide":"top","toNode":"d9aedd7d284ae463","toSide":"bottom","label":"执行方式"},
+		{"id":"5af481670fee7aeb","fromNode":"05d13eb6c4cf4942","fromSide":"right","toNode":"b3adc2893c7d2712","toSide":"left","label":"抽象维度"},
+		{"id":"0251b6bd8da24dd3","fromNode":"05d13eb6c4cf4942","fromSide":"right","toNode":"33e74082377866d4","toSide":"left","label":"语言生态"},
+		{"id":"11d7ac3b33f46cc1","fromNode":"05d13eb6c4cf4942","fromSide":"bottom","toNode":"79b54e7fc312f3ac","toSide":"top","label":"数据基础"},
+		{"id":"fcc1046861a5bb5d","fromNode":"79b54e7fc312f3ac","fromSide":"right","toNode":"f1c2a83cdf49ca00","toSide":"left","label":"类型扩展"},
+		{"id":"8e3a60ac78c2463b","fromNode":"79b54e7fc312f3ac","fromSide":"right","toNode":"6f738f45ee37af8b","toSide":"left","label":"持久化"},
+		{"id":"7aad21e252c0f7c6","fromNode":"05d13eb6c4cf4942","fromSide":"bottom","toNode":"d9d408fc6a374989","toSide":"top","label":"多媒体表示"},
+		{"id":"09416fcb9a553aa6","fromNode":"05d13eb6c4cf4942","fromSide":"bottom","toNode":"1396605ff6a628e3","toSide":"top","label":"通信基础"}
+	],
+	"metadata":{
+		"version":"1.0-1.0",
+		"frontmatter":{}
+	}
+}

@@ -1,0 +1,8 @@
+{
+  "cssTheme": "Zen",
+  "accentColor": "#00dad1",
+  "showRibbon": true,
+  "baseFontSize": 16,
+  "nativeMenus": true,
+  "textFontFamily": "Inter"
+}
