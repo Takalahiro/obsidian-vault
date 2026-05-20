@@ -1196,9 +1196,9 @@ s = "".join(str(i) for i in range(10000))  # O(n)
 1.1.1 通用语言
 - Python：简洁易学，生态丰富，适合快速开发、数据分析、Web 后端 [[Python 技术文档]]
 - Java：跨平台，企业级应用，Android 开发 [[Java 技术笔记]]
-- C++：高性能，游戏开发，系统软件 [[C++ 技术文档]]
+- C++：高性能，游戏开发，系统软件 [[CPP 技术文档]]
 - JavaScript：Web 前端必备，Node.js 后端 [[Javascript (ECMA-262 ) 技术文档]]
-- C# : .NET 生态 [[计算机/编程语言/通用编程语言/C# 计算文档|C# 计算文档]]
+- C# : .NET 生态 [[CSharp 计算文档]]
 
 1.1.2 系统语言
 - C：接近硬件，操作系统、嵌入式开发 [[C 技术文档]]
@@ -1206,7 +1206,7 @@ s = "".join(str(i) for i in range(10000))  # O(n)
 - Go：并发友好，云原生，微服务
 
 1.1.3 脚本语言
-- Python：自动化脚本，数据处理 [[python]]
+- Python：自动化脚本，数据处理 [[Python 技术文档]]
 - Shell/Bash：系统管理，命令行自动化 [[Shell 技术文档]]
 - Ruby：Web 开发（Rails），脚本编写
 - PHP:  Web 开发 [[PHP 技术文档]]
