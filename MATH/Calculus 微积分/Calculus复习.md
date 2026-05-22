@@ -1,16 +1,4 @@
-# MATH1061 微积分部分 - 超详细保姆级复习指南
-
-## 使用说明
-这份文档的目标：让你看完每一个知识点后，能立刻知道"遇到什么题用什么方法"，以及"每一步具体怎么做"。
-
-建议使用方式：
-1. 先看"题型识别"部分，训练第一眼反应
-2. 再看对应的"详细步骤"，跟着例题走一遍
-3. 做题时对照"常见错误"，避开陷阱
-4. 错题用"诊断清单"分类，针对性复习
-
----
-
+# MATH1061 微积分部分
 ## 第一部分：Functions 函数基础
 
 ### 1.1 Domain 定义域 - 保姆级判断法
@@ -821,7 +809,6 @@ $$|R_3(0.1)| \leq \frac{1}{4!} |0.1|^4 = \frac{0.0001}{24} \approx 0.0000042$$
 **答案：** 误差小于 $4.2 \times 10^{-6}$
 
 ---
-
 ## 第八部分：Integration 积分
 
 ### 8.1 Fundamental Theorem of Calculus (FTC)
@@ -874,7 +861,10 @@ $$= 2xe^{x^4} - \cos x \cdot e^{\sin^2 x}$$
 **注意：** 这里 $x$ 不是积分变量，可以提出来
 
 **Step 1:** 提出 $x$
-$$\frac{d}{dx}\left[x \int_0^x t^2 dt\right]$**Step 2:** 先算积分
+$$\frac{d}{dx}\left[x \int_0^x t^2 dt\right]$$
+
+
+**Step 2:** 先算积分
 $$\int_0^x t^2 dt = \left[\frac{t^3}{3}\right]_0^x = \frac{x^3}{3}$$
 
 **Step 3:** 代入
@@ -899,10 +889,6 @@ $$= \int_0^x t^2 dt + x \cdot x^2 = \frac{x^3}{3} + x^3 = \frac{4x^3}{3}$$
 - 令 $u = x^2$
 
 **Step 2:** 求 $du$
-
-
----
-
 $$du = 2x dx \quad \Rightarrow \quad x dx = \frac{1}{2}du$$
 
 **Step 3:** 替换
@@ -979,21 +965,21 @@ $$= \left[\frac{u^8}{8}\right]_0^1 = \frac{1}{8} - 0 = \frac{1}{8}$$
 
 **错误 1：忘记调整 $dx$**
 
-**错误：** $\int x \cos(x^2) dx$，令 $u = x^2$，得 $\int x \cos(u) dx$
+❌ **错误：** $\int x \cos(x^2) dx$，令 $u = x^2$，得 $\int x \cos(u) dx$
 
-**正确：** $du = 2x dx$，所以 $x dx = \frac{1}{2}du$，得 $\int \cos(u) \cdot \frac{1}{2} du$
+✓ **正确：** $du = 2x dx$，所以 $x dx = \frac{1}{2}du$，得 $\int \cos(u) \cdot \frac{1}{2} du$
 
 **错误 2：定积分换元后忘记改上下限**
 
-**错误：** $\int_0^1 x e^{x^2} dx$，令 $u = x^2$，得 $\frac{1}{2}\int_0^1 e^u du$
+❌ **错误：** $\int_0^1 x e^{x^2} dx$，令 $u = x^2$，得 $\frac{1}{2}\int_0^1 e^u du$
 
-**正确：** 上下限也要换：$x=0 \to u=0$，$x=1 \to u=1$，所以是 $\frac{1}{2}\int_0^1 e^u du$（这个例子碰巧上下限一样，但必须检查）
+✓ **正确：** 上下限也要换：$x=0 \to u=0$，$x=1 \to u=1$，所以是 $\frac{1}{2}\int_0^1 e^u du$（这个例子碰巧上下限一样，但必须检查）
 
 **错误 3：$du$ 和被积函数不匹配**
 
-**错误：** $\int x^2 e^{x^3} dx$，令 $u = x^3$，$du = 3x^2 dx$，得 $\int e^u du$（漏了系数）
+❌ **错误：** $\int x^2 e^{x^3} dx$，令 $u = x^3$，$du = 3x^2 dx$，得 $\int e^u du$（漏了系数）
 
-**正确：** $x^2 dx = \frac{1}{3}du$，所以是 $\frac{1}{3}\int e^u du$
+✓ **正确：** $x^2 dx = \frac{1}{3}du$，所以是 $\frac{1}{3}\int e^u du$
 
 ---
 
@@ -1252,4 +1238,413 @@ e^x &= \sum_{n=0}^{\infty} \frac{x^n}{n!} = 1 + x + \frac{x^2}{2!} + \frac{x^3}{
 ### 13.3 检查重点
 
 **高频错误检查清单：**
-- [ ] Chain rule 有没有
+- [ ] Chain rule 有没有乘内层导数？
+- [ ] Product rule 和 Quotient rule 的符号对不对？
+- [ ] 隐函数求导有没有漏 $y'$ 或 $\frac{dy}{dx}$？
+- [ ] Substitution 有没有调整 $dx$？
+- [ ] 定积分换元有没有改上下限？
+- [ ] L'Hopital 用之前检查过类型了吗？
+- [ ] Optimization 有没有检查端点？
+- [ ] Domain 的不等号是 $>$ 还是 $\geq$？
+- [ ] 不定积分有没有写 $+C$？
+- [ ] 最终答案有没有化简？有没有单位？
+
+### 13.4 遇到不会的题怎么办
+
+**策略 1：部分分数法**
+- 即使不会做完，也要写出你知道的步骤
+- 例如：Optimization 问题
+  - 至少写出变量定义
+  - 至少写出目标函数
+  - 至少写出约束条件
+  - 即使求不出答案，这些步骤也有分
+
+**策略 2：特殊值检验法**
+- 选择题可以代入特殊值排除错误选项
+- 例如：$x=0, x=1, x=-1$ 通常是好的测试点
+
+**策略 3：图像辅助法**
+- 不确定的时候画个草图
+- 特别是 curve sketching、optimization、极限问题
+
+**策略 4：公式反推法**
+- 忘记公式时，从简单情况推导
+- 例如：忘记 $\int \sec^2 x dx$
+  - 想：什么函数的导数是 $\sec^2 x$？
+  - 回忆：$(\tan x)' = \sec^2 x$
+  - 所以：$\int \sec^2 x dx = \tan x + C$
+
+---
+
+## 第十四部分：综合练习题（带完整解答）
+
+### 练习 1：Domain 综合
+
+**题目：** 求 $f(x) = \frac{\sqrt{4-x^2}}{\ln(x+3)}$ 的 domain
+
+**完整解答：**
+
+**Step 1:** 根号要求
+$$4 - x^2 \geq 0$$
+$$x^2 \leq 4$$
+$$-2 \leq x \leq 2$$
+
+**Step 2:** 对数要求
+$$x + 3 > 0$$
+$$x > -3$$
+
+**Step 3:** 分母不为 0
+$$\ln(x+3) \neq 0$$
+$$x + 3 \neq 1$$
+$$x \neq -2$$
+
+**Step 4:** 取交集
+- 从 Step 1：$[-2, 2]$
+- 从 Step 2：$(-3, \infty)$
+- 从 Step 3：$x \neq -2$
+- 交集：$(-2, 2]$
+
+**答案：** $(-2, 2]$
+
+---
+
+### 练习 2：Implicit Differentiation 综合
+
+**题目：** 求 $e^{xy} + x^2y = 2$ 的 $\frac{dy}{dx}$
+
+**完整解答：**
+
+**Step 1:** 两边对 $x$ 求导
+$$\frac{d}{dx}(e^{xy}) + \frac{d}{dx}(x^2y) = \frac{d}{dx}(2)$$
+
+**Step 2:** 第一项用 chain rule
+- 外层：$e^u$ → $e^u$
+- 内层：$xy$ → 用 product rule → $y + xy'$
+$$\frac{d}{dx}(e^{xy}) = e^{xy}(y + xy')$$
+
+**Step 3:** 第二项用 product rule
+$$\frac{d}{dx}(x^2y) = 2xy + x^2y'$$
+
+**Step 4:** 右边
+$$\frac{d}{dx}(2) = 0$$
+
+**Step 5:** 合并
+$$e^{xy}(y + xy') + 2xy + x^2y' = 0$$
+
+**Step 6:** 展开
+$$ye^{xy} + xye^{xy} + 2xy + x^2y' = 0$$
+
+**Step 7:** 把含 $y'$ 的项移到左边
+$$xy'e^{xy} + x^2y' = -ye^{xy} - 2xy$$
+
+**Step 8:** 提取 $y'$
+$$y'(xe^{xy} + x^2) = -ye^{xy} - 2xy$$
+
+**Step 9:** 解出 $y'$
+$$y' = \frac{-ye^{xy} - 2xy}{xe^{xy} + x^2} = \frac{-y(e^{xy} + 2x)}{x(e^{xy} + x)}$$
+
+**答案：** $\frac{dy}{dx} = \frac{-y(e^{xy} + 2x)}{x(e^{xy} + x)}$
+
+---
+
+### 练习 3：L'Hopital 综合
+
+**题目：** 求 $\lim_{x \to 0} \frac{e^x - 1 - x}{x^2}$
+
+**完整解答：**
+
+**Step 1:** 检查类型
+- 分子：$e^0 - 1 - 0 = 0$
+- 分母：$0$
+- 类型：$\frac{0}{0}$ ✓ 可以用 L'Hopital
+
+**Step 2:** 第一次 L'Hopital
+$$\lim_{x \to 0} \frac{e^x - 1 - x}{x^2} = \lim_{x \to 0} \frac{e^x - 1}{2x}$$
+
+**Step 3:** 检查类型
+- 分子：$e^0 - 1 = 0$
+- 分母：$0$
+- 还是 $\frac{0}{0}$，继续用
+
+**Step 4:** 第二次 L'Hopital
+$$\lim_{x \to 0} \frac{e^x - 1}{2x} = \lim_{x \to 0} \frac{e^x}{2}$$
+
+**Step 5:** 代入
+$$= \frac{e^0}{2} = \frac{1}{2}$$
+
+**答案：** $\frac{1}{2}$
+
+---
+
+### 练习 4：Optimization 综合
+
+**题目：** 一个圆柱形罐子（有盖），体积为 $1000\pi$ 立方厘米。求使表面积最小的半径和高。
+
+**完整解答：**
+
+**Step 1:** 定义变量
+- 设半径为 $r$ cm
+- 设高为 $h$ cm
+
+**Step 2:** 写目标函数（表面积）
+- 两个圆形底面：$2\pi r^2$
+- 侧面：$2\pi rh$
+- 总表面积：$S = 2\pi r^2 + 2\pi rh$
+
+**Step 3:** 写约束条件（体积）
+$$V = \pi r^2 h = 1000\pi$$
+
+**Step 4:** 用约束消元
+$$h = \frac{1000\pi}{\pi r^2} = \frac{1000}{r^2}$$
+
+**Step 5:** 代入目标函数
+$$S(r) = 2\pi r^2 + 2\pi r \cdot \frac{1000}{r^2} = 2\pi r^2 + \frac{2000\pi}{r}$$
+
+**Step 6:** 确定 domain
+$$r > 0$$
+
+**Step 7:** 求导
+$$S'(r) = 4\pi r - \frac{2000\pi}{r^2}$$
+
+**Step 8:** 求临界点
+$$4\pi r - \frac{2000\pi}{r^2} = 0$$
+$$4\pi r = \frac{2000\pi}{r^2}$$
+$$4r^3 = 2000$$
+$$r^3 = 500$$
+$$r = \sqrt[3]{500} = 5\sqrt[3]{4} \approx 7.94 \text{ cm}$$
+
+**Step 9:** 验证是最小值（二阶导数）
+$$S''(r) = 4\pi + \frac{4000\pi}{r^3}$$
+$$S''(5\sqrt[3]{4}) = 4\pi + \frac{4000\pi}{500} = 4\pi + 8\pi = 12\pi > 0$$
+所以是最小值 ✓
+
+**Step 10:** 求对应的 $h$
+$$h = \frac{1000}{r^2} = \frac{1000}{(5\sqrt[3]{4})^2} = \frac{1000}{25\sqrt[3]{16}} = \frac{40}{\sqrt[3]{16}} = 10\sqrt[3]{4} \approx 15.87 \text{ cm}$$
+
+**Step 11:** 观察关系
+$$h = 10\sqrt[3]{4} = 2 \times 5\sqrt[3]{4} = 2r$$
+
+**答案：** 
+- 半径 $r = 5\sqrt[3]{4} \approx 7.94$ cm
+- 高 $h = 10\sqrt[3]{4} \approx 15.87$ cm
+- 关系：$h = 2r$（高是直径）
+
+---
+
+### 练习 5：FTC 综合
+
+**题目：** 求 $\frac{d}{dx}\left[\int_{\sin x}^{x^3} e^{t^2} dt\right]$
+
+**完整解答：**
+
+**Step 1:** 识别类型
+- 上下限都是变量 → 用公式
+$$\frac{d}{dx}\left[\int_{a(x)}^{b(x)} f(t) dt\right] = f(b(x)) \cdot b'(x) - f(a(x)) \cdot a'(x)$$
+
+**Step 2:** 确定各部分
+- $f(t) = e^{t^2}$
+- $b(x) = x^3$，$b'(x) = 3x^2$
+- $a(x) = \sin x$，$a'(x) = \cos x$
+
+**Step 3:** 上限部分
+$$f(b(x)) \cdot b'(x) = e^{(x^3)^2} \cdot 3x^2 = 3x^2 e^{x^6}$$
+
+**Step 4:** 下限部分
+$$f(a(x)) \cdot a'(x) = e^{(\sin x)^2} \cdot \cos x = \cos x \cdot e^{\sin^2 x}$$
+
+**Step 5:** 相减
+$$\frac{d}{dx}\left[\int_{\sin x}^{x^3} e^{t^2} dt\right] = 3x^2 e^{x^6} - \cos x \cdot e^{\sin^2 x}$$
+
+**答案：** $3x^2 e^{x^6} - \cos x \cdot e^{\sin^2 x}$
+
+---
+
+### 练习 6：Taylor Series 综合
+
+**题目：** 求 $f(x) = x\cos(x^2)$ 在 $x=0$ 处的 5 阶 Maclaurin polynomial
+
+**完整解答：**
+
+**方法 1：从定义求导**
+
+**Step 1:** 求各阶导数
+
+| 阶数 | 导数 | 在 $x=0$ 的值 |
+|------|------|---------------|
+| 0 | $x\cos(x^2)$ | $0$ |
+| 1 | $\cos(x^2) + x(-\sin(x^2))(2x) = \cos(x^2) - 2x^2\sin(x^2)$ | $1$ |
+| 2 | $-2x\sin(x^2) - [4x\sin(x^2) + 2x^2\cos(x^2)(2x)]$ | $0$ |
+| 3 | （计算复杂）| $-4$ |
+| 4 | （计算复杂）| $0$ |
+| 5 | （计算复杂）| $16$ |
+
+这个方法太复杂了！
+
+**方法 2：用已知级数（推荐）**
+
+**Step 1:** 回忆 $\cos u$ 的级数
+$$\cos u = 1 - \frac{u^2}{2!} + \frac{u^4}{4!} - \frac{u^6}{6!} + \cdots$$
+
+**Step 2:** 用 $u = x^2$ 替换
+$$\cos(x^2) = 1 - \frac{(x^2)^2}{2!} + \frac{(x^2)^4}{4!} - \cdots = 1 - \frac{x^4}{2} + \frac{x^8}{24} - \cdots$$
+
+**Step 3:** 乘以 $x$
+$$x\cos(x^2) = x\left(1 - \frac{x^4}{2} + \frac{x^8}{24} - \cdots\right)$$
+$$= x - \frac{x^5}{2} + \frac{x^9}{24} - \cdots$$
+
+**Step 4:** 取到 5 阶
+$$T_5(x) = x - \frac{x^5}{2}$$
+
+**答案：** $T_5(x) = x - \frac{x^5}{2}$
+
+---
+
+### 练习 7：Curve Sketching 综合
+
+**题目：** 画出 $f(x) = xe^{-x}$ 的草图
+
+**完整解答：**
+
+**Step 1:** Domain
+- 没有限制
+- **Domain:** $(-\infty, \infty)$
+
+**Step 2:** Intercepts
+- $y$-intercept: $f(0) = 0$
+- $x$-intercept: $xe^{-x} = 0$ → $x = 0$
+- **截距：** $(0, 0)$
+
+**Step 3:** Asymptotes
+- 垂直渐近线：无（函数处处有定义）
+- 水平渐近线：
+  - $\lim_{x \to \infty} xe^{-x} = \lim_{x \to \infty} \frac{x}{e^x} \stackrel{L'H}{=} \lim_{x \to \infty} \frac{1}{e^x} = 0$
+  - $\lim_{x \to -\infty} xe^{-x} = \lim_{x \to -\infty} \frac{x}{e^x} = -\infty \cdot 0 = -\infty$
+- **水平渐近线：** $y = 0$（当 $x \to \infty$）
+
+**Step 4:** First derivative
+$$f'(x) = (1)(e^{-x}) + (x)(-e^{-x}) = e^{-x}(1-x)$$
+
+**Step 5:** Critical points
+$$f'(x) = 0$$
+$$e^{-x}(1-x) = 0$$
+$$1 - x = 0$$（因为 $e^{-x} \neq 0$）
+$$x = 1$$
+
+**Step 6:** Increasing/Decreasing
+
+| 区间 | 测试点 | $f'(x)$ 符号 | 结论 |
+|------|--------|--------------|------|
+| $(-\infty, 1)$ | $x=0$ | $e^0(1-0) = 1 > 0$ | 递增 ↗ |
+| $(1, \infty)$ | $x=2$ | $e^{-2}(1-2) < 0$ | 递减 ↘ |
+
+- **$x=1$ 是局部最大值**
+- $f(1) = 1 \cdot e^{-1} = \frac{1}{e} \approx 0.368$
+
+**Step 7:** Second derivative
+$$f''(x) = \frac{d}{dx}[e^{-x}(1-x)]$$
+$$= (-e^{-x})(1-x) + e^{-x}(-1)$$
+$$= e^{-x}[-(1-x) - 1]$$
+$$= e^{-x}(-1+x-1)$$
+$$= e^{-x}(x-2)$$
+
+**Step 8:** Inflection points
+$$f''(x) = 0$$
+$$e^{-x}(x-2) = 0$$
+$$x = 2$$
+
+**Step 9:** Concavity
+
+| 区间 | 测试点 | $f''(x)$ 符号 | 凹凸性 |
+|------|--------|---------------|--------|
+| $(-\infty, 2)$ | $x=0$ | $e^0(0-2) = -2 < 0$ | 凹向下 ∩ |
+| $(2, \infty)$ | $x=3$ | $e^{-3}(3-2) > 0$ | 凹向上 ∪ |
+
+- **拐点：** $x=2$，$f(2) = 2e^{-2} \approx 0.271$
+
+**Step 10:** 关键信息总结
+- 截距：$(0, 0)$
+- 局部最大值：$(1, 1/e)$
+- 拐点：$(2, 2/e^2)$
+- 水平渐近线：$y=0$（右侧）
+- $(-\infty, 1)$ 递增凹向下
+- $(1, 2)$ 递减凹向下
+- $(2, \infty)$ 递减凹向上
+
+**草图特征：**
+- 从左下方上升
+- 在 $(1, 1/e)$ 达到最高点
+- 然后下降
+- 在 $(2, 2/e^2)$ 改变凹凸性
+- 最后趋近于 $x$ 轴
+
+---
+
+### 练习 8：Integration 综合
+
+**题目：** 求 $\int_0^{\pi/4} \tan x \sec^2 x dx$
+
+**完整解答：**
+
+**Step 1:** 识别 substitution
+- 看到 $\tan x$ 和 $\sec^2 x$
+- 回忆：$\frac{d}{dx}(\tan x) = \sec^2 x$
+- 令 $u = \tan x$
+
+**Step 2:** 求 $du$
+$$du = \sec^2 x dx$$
+
+**Step 3:** 改变上下限
+- 当 $x = 0$ 时，$u = \tan 0 = 0$
+- 当 $x = \pi/4$ 时，$u = \tan(\pi/4) = 1$
+
+**Step 4:** 替换
+$$\int_0^{\pi/4} \tan x \sec^2 x dx = \int_0^1 u \, du$$
+
+**Step 5:** 积分
+$$= \left[\frac{u^2}{2}\right]_0^1 = \frac{1}{2} - 0 = \frac{1}{2}$$
+
+**答案：** $\frac{1}{2}$
+
+---
+## 附录：快速自测清单
+
+**考前 30 分钟自测（每题 30 秒内回答）：**
+
+1. $\frac{d}{dx}(\sin(x^2)) = ?$
+   - **答案：** $2x\cos(x^2)$
+
+2. $(fg)' = ?$
+   - **答案：** $f'g + fg'$
+
+3. $\left(\frac{f}{g}\right)' = ?$
+   - **答案：** $\frac{f'g - fg'}{g^2}$
+
+4. $\int x^n dx = ?$ ($n \neq -1$)
+   - **答案：** $\frac{x^{n+1}}{n+1} + C$
+
+5. $e^x$ 的 Maclaurin series 前 4 项？
+   - **答案：** $1 + x + \frac{x^2}{2} + \frac{x^3}{6}$
+
+6. $\sin x$ 的 Maclaurin series 前 3 项？
+   - **答案：** $x - \frac{x^3}{6} + \frac{x^5}{120}$
+
+7. $\frac{d}{dx}\left[\int_0^x f(t) dt\right] = ?$
+   - **答案：** $f(x)$
+
+8. L'Hopital 适用于哪两种类型？
+   - **答案：** $\frac{0}{0}$ 和 $\frac{\infty}{\infty}$
+
+9. 隐函数求导 $\frac{d}{dx}(y^2) = ?$
+   - **答案：** $2y \cdot y'$ 或 $2y \frac{dy}{dx}$
+
+10. $\ln(x+1)$ 的 domain？
+    - **答案：** $x > -1$
+
+**如果这 10 题你都能快速答对，你已经准备好了！**
+
+---
+
+---
+
+**文档完成时间：** 2026-05-22  
+**适用课程：** MATH1061 Calculus  
