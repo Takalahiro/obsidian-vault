@@ -1054,10 +1054,863 @@ $$\int_0^2 x^2 dx = \left[\frac{x^3}{3}\right]_0^2 = \frac{8}{3} \approx 2.667$$
 - 中点法 $M_4 = 2.625$ 最接近真实值
 
 ---
+## 第十章：单变量积分（Integration）
 
-## 第十部分：常见错误诊断清单
+> 🎯 **学习目标：** 掌握不定积分、定积分、积分技巧及应用
 
-### 10.1 Domain 相关错误
+---
+
+### 10.1 积分的基本概念
+
+#### 10.1.1 什么是积分？
+
+**两种理解：**
+
+1. **几何意义：** 曲线下的面积
+2. **代数意义：** 求导的逆运算（"反导数"）
+
+$$
+\frac{d}{dx}F(x) = f(x) \quad \Longleftrightarrow \quad \int f(x)\,dx = F(x) + C
+$$
+
+#### 10.1.2 不定积分 vs 定积分
+
+| 类型 | 符号 | 结果 | 含义 |
+|------|------|------|------|
+| 不定积分 | $\int f(x)\,dx$ | 函数 $F(x) + C$ | 反导数族 |
+| 定积分 | $\int_a^b f(x)\,dx$ | 数值 | 净面积 |
+
+⚠️ **关键区别：** 不定积分**必须加 $+C$**，定积分**不加 $C$**！
+
+---
+
+### 10.2 不定积分（Indefinite Integral）
+
+#### 10.2.1 基本性质
+
+**线性性质：**
+
+$$
+\int [af(x) + bg(x)]\,dx = a\int f(x)\,dx + b\int g(x)\,dx
+$$
+
+⚠️ **注意：** 积分 **没有** 乘法和除法的简单法则！
+
+$$
+\int f(x)g(x)\,dx \neq \left(\int f\,dx\right)\left(\int g\,dx\right) \quad ❌
+$$
+
+#### 10.2.2 常数处理
+
+**常数可以提到积分号外：**
+
+$$
+\int 5x^2\,dx = 5\int x^2\,dx = 5 \cdot \frac{x^3}{3} + C = \frac{5x^3}{3} + C
+$$
+
+---
+
+### 10.3 基本积分公式表
+
+#### 10.3.1 幂函数（最重要！）
+
+$$
+\boxed{\int x^n\,dx = \frac{x^{n+1}}{n+1} + C, \quad n \neq -1}
+$$
+
+**特殊情形：**
+
+$$
+\int \frac{1}{x}\,dx = \ln|x| + C \quad (n = -1)
+$$
+
+#### 10.3.2 指数与对数
+
+| 积分 | 结果 |
+|------|------|
+| $\int e^x\,dx$ | $e^x + C$ |
+| $\int a^x\,dx$ | $\frac{a^x}{\ln a} + C$ |
+| $\int \ln x\,dx$ | $x\ln x - x + C$（用分部积分） |
+
+#### 10.3.3 三角函数
+
+| 积分 | 结果 |
+|------|------|
+| $\int \sin x\,dx$ | $-\cos x + C$ |
+| $\int \cos x\,dx$ | $\sin x + C$ |
+| $\int \sec^2 x\,dx$ | $\tan x + C$ |
+| $\int \csc^2 x\,dx$ | $-\cot x + C$ |
+| $\int \sec x \tan x\,dx$ | $\sec x + C$ |
+| $\int \csc x \cot x\,dx$ | $-\csc x + C$ |
+| $\int \tan x\,dx$ | $-\ln|\cos x| + C = \ln|\sec x| + C$ |
+| $\int \sec x\,dx$ | $\ln|\sec x + \tan x| + C$ |
+
+#### 10.3.4 反三角函数（积分形式）
+
+| 积分 | 结果 |
+|------|------|
+| $\int \frac{1}{\sqrt{1-x^2}}\,dx$ | $\arcsin x + C$ |
+| $\int \frac{1}{1+x^2}\,dx$ | $\arctan x + C$ |
+| $\int \frac{1}{|x|\sqrt{x^2-1}}\,dx$ | $\text{arcsec}\,x + C$ |
+
+**一般形式：**
+
+$$
+\int \frac{1}{\sqrt{a^2-x^2}}\,dx = \arcsin\frac{x}{a} + C
+$$
+
+$$
+\int \frac{1}{a^2+x^2}\,dx = \frac{1}{a}\arctan\frac{x}{a} + C
+$$
+
+#### 10.3.5 完整例题
+
+**例 1：** 求 $\int (3x^4 - 2x^2 + 5)\,dx$
+
+**Step 1：** 用线性性质拆开
+
+$$
+\int 3x^4\,dx - \int 2x^2\,dx + \int 5\,dx
+$$
+
+**Step 2：** 逐项积分
+
+$$
+3 \cdot \frac{x^5}{5} - 2 \cdot \frac{x^3}{3} + 5x + C
+$$
+
+**答案：** $\frac{3x^5}{5} - \frac{2x^3}{3} + 5x + C$
+
+---
+
+**例 2：** 求 $\int \left(\sqrt{x} + \frac{1}{x^2}\right) dx$
+
+**Step 1：** 改写为幂函数形式
+
+$$
+\int (x^{1/2} + x^{-2})\,dx
+$$
+
+**Step 2：** 用幂函数公式
+
+$$
+\frac{x^{3/2}}{3/2} + \frac{x^{-1}}{-1} + C = \frac{2}{3}x^{3/2} - \frac{1}{x} + C
+$$
+
+**答案：** $\frac{2}{3}x^{3/2} - \frac{1}{x} + C$
+
+---
+
+### 10.4 定积分（Definite Integral）
+
+#### 10.4.1 定义
+
+$$
+\int_a^b f(x)\,dx = \lim_{n\to\infty} \sum_{i=1}^{n} f(x_i^*)\Delta x
+$$
+
+**几何意义：** $f(x)$ 在 $[a, b]$ 上与 $x$ 轴所夹的**净面积**（上方为正，下方为负）
+
+#### 10.4.2 基本性质
+
+| 性质 | 公式 |
+|------|------|
+| 上下限相等 | $\int_a^a f(x)\,dx = 0$ |
+| 上下限交换 | $\int_a^b f(x)\,dx = -\int_b^a f(x)\,dx$ |
+| 区间可加性 | $\int_a^b + \int_b^c = \int_a^c$ |
+| 线性性 | $\int_a^b [cf + dg]\,dx = c\int_a^b f + d\int_a^b g$ |
+| 比较定理 | $f \leq g \Rightarrow \int_a^b f \leq \int_a^b g$ |
+
+#### 10.4.3 奇偶函数的简化
+
+**对称区间 $[-a, a]$ 上：**
+
+$$
+\boxed{
+\begin{aligned}
+\text{奇函数：} & \int_{-a}^a f(x)\,dx = 0 \\
+\text{偶函数：} & \int_{-a}^a f(x)\,dx = 2\int_0^a f(x)\,dx
+\end{aligned}
+}
+$$
+
+**例：** $\int_{-2}^2 x^3 \cos x\,dx = 0$（奇函数 × 偶函数 = 奇函数）
+
+---
+
+### 10.5 微积分基本定理（FTC）
+
+#### 10.5.1 FTC 第一部分
+
+**定理：** 若 $F(x) = \int_a^x f(t)\,dt$，则
+
+$$
+\boxed{F'(x) = f(x)}
+$$
+
+**含义：** 求导和积分互为逆运算！
+
+**变上限的链式法则：**
+
+$$
+\frac{d}{dx}\int_a^{g(x)} f(t)\,dt = f(g(x)) \cdot g'(x)
+$$
+
+**双变限：**
+
+$$
+\frac{d}{dx}\int_{h(x)}^{g(x)} f(t)\,dt = f(g(x))g'(x) - f(h(x))h'(x)
+$$
+
+#### 10.5.2 FTC 第二部分（计算定积分）
+
+$$
+\boxed{\int_a^b f(x)\,dx = F(b) - F(a)}
+$$
+
+其中 $F$ 是 $f$ 的任意一个反导数。
+
+**记号：** $F(b) - F(a)$ 常写作 $\big[F(x)\big]_a^b$ 或 $F(x)\Big|_a^b$
+
+#### 10.5.3 完整例题
+
+**例 1：** 计算 $\int_1^3 (2x + 1)\,dx$
+
+**Step 1：** 找反导数
+
+$$
+F(x) = x^2 + x
+$$
+
+**Step 2：** 代入上下限
+
+$$
+\int_1^3 (2x+1)\,dx = [x^2 + x]_1^3 = (9 + 3) - (1 + 1) = 12 - 2 = 10
+$$
+
+**答案：** $10$
+
+---
+
+**例 2：** 计算 $\frac{d}{dx}\int_0^{x^2} \sin t\,dt$
+
+**Step 1：** 识别 $g(x) = x^2$，$f(t) = \sin t$
+
+**Step 2：** 用 FTC + 链式法则
+
+$$
+\frac{d}{dx}\int_0^{x^2}\sin t\,dt = \sin(x^2) \cdot 2x = 2x\sin(x^2)
+$$
+
+**答案：** $2x\sin(x^2)$
+
+---
+
+### 10.6 积分技巧 1 — u-substitution（换元法）
+
+#### 10.6.1 核心思想
+
+**目的：** 把复杂的积分转化为基本积分公式能解的形式。
+
+**对应关系：** 链式法则的逆运算
+
+$$
+\int f(g(x))g'(x)\,dx \xrightarrow{u = g(x)} \int f(u)\,du
+$$
+
+#### 10.6.2 操作步骤
+
+**Step 1：** 选择 $u = g(x)$（通常选**括号内**或**指数上**的表达式）
+
+**Step 2：** 计算 $du = g'(x)\,dx$
+
+**Step 3：** 把原积分中所有 $x$ 的部分换成 $u$
+
+**Step 4：** 求新积分
+
+**Step 5：** 把 $u$ 换回 $x$（不定积分时）
+
+#### 10.6.3 如何选择 $u$？
+
+✅ **常见选择：**
+- 复合函数的"内层"：$\sin(3x+1)$ → $u = 3x+1$
+- 根号下的式子：$\sqrt{x^2+1}$ → $u = x^2+1$
+- 分母：$\frac{1}{x^2+1}$ → $u = x^2+1$（如果分子是导数）
+- 指数：$e^{x^2}$ → $u = x^2$
+- 对数内部：$\ln(x^3)$ → $u = x^3$
+
+🔑 **判断标准：** 选了 $u$ 之后，$du$ 应该出现在被积式里（可能差一个常数）
+
+#### 10.6.4 完整例题
+
+**例 1：** 求 $\int 2x \cdot e^{x^2}\,dx$
+
+**Step 1：** 令 $u = x^2$
+
+**Step 2：** $du = 2x\,dx$
+
+**Step 3：** 替换
+
+$$
+\int e^{x^2} \cdot 2x\,dx = \int e^u\,du
+$$
+
+**Step 4：** 求积分
+
+$$
+\int e^u\,du = e^u + C
+$$
+
+**Step 5：** 换回 $x$
+
+$$
+e^{x^2} + C
+$$
+
+**答案：** $e^{x^2} + C$
+
+---
+
+**例 2：** 求 $\int x\sqrt{x^2 + 1}\,dx$
+
+**Step 1：** 令 $u = x^2 + 1$
+
+**Step 2：** $du = 2x\,dx \Rightarrow x\,dx = \frac{1}{2}du$
+
+**Step 3：** 替换
+
+$$
+\int \sqrt{u} \cdot \frac{1}{2}du = \frac{1}{2}\int u^{1/2}\,du
+$$
+
+**Step 4：** 求积分
+
+$$
+\frac{1}{2} \cdot \frac{u^{3/2}}{3/2} + C = \frac{1}{3}u^{3/2} + C
+$$
+
+**Step 5：** 换回
+
+$$
+\frac{1}{3}(x^2+1)^{3/2} + C
+$$
+
+**答案：** $\frac{1}{3}(x^2+1)^{3/2} + C$
+
+---
+
+**例 3（定积分换元）：** 计算 $\int_0^1 \frac{x}{x^2+1}\,dx$
+
+**Step 1：** 令 $u = x^2 + 1$，$du = 2x\,dx$
+
+**Step 2：** **变换上下限！**
+- $x = 0 \Rightarrow u = 1$
+- $x = 1 \Rightarrow u = 2$
+
+**Step 3：** 替换
+
+$$
+\int_1^2 \frac{1}{u} \cdot \frac{1}{2}du = \frac{1}{2}\int_1^2 \frac{1}{u}\,du
+$$
+
+**Step 4：** 计算
+
+$$
+\frac{1}{2}[\ln|u|]_1^2 = \frac{1}{2}(\ln 2 - \ln 1) = \frac{\ln 2}{2}
+$$
+
+**答案：** $\frac{\ln 2}{2}$
+
+⚠️ **重要提示：** 定积分换元时，**必须改变上下限**！或者先求不定积分再换回来。
+
+---
+
+### 10.7 积分技巧 2 — Integration by Parts（分部积分）
+
+#### 10.7.1 公式
+
+$$
+\boxed{\int u\,dv = uv - \int v\,du}
+$$
+
+**对应关系：** 乘积法则的逆运算
+
+#### 10.7.2 如何选择 $u$ 和 $dv$？
+
+🎯 **LIATE 口诀**（按优先级选 $u$）：
+
+| 字母 | 含义 | 例子 |
+|------|------|------|
+| **L** | Logarithmic（对数） | $\ln x$ |
+| **I** | Inverse trig（反三角） | $\arctan x$ |
+| **A** | Algebraic（代数/多项式） | $x^2$ |
+| **T** | Trigonometric（三角） | $\sin x$ |
+| **E** | Exponential（指数） | $e^x$ |
+
+**规则：** 字母靠前的选作 $u$，靠后的归为 $dv$
+
+#### 10.7.3 完整例题
+
+**例 1：** 求 $\int x e^x\,dx$
+
+**Step 1：** 用 LIATE，$x$ 是代数（A），$e^x$ 是指数（E），所以 $u = x$，$dv = e^x\,dx$
+
+**Step 2：** 计算 $du$ 和 $v$
+
+$$
+\begin{aligned}
+u &= x & du &= dx \\
+dv &= e^x\,dx & v &= e^x
+\end{aligned}
+$$
+
+**Step 3：** 套公式
+
+$$
+\int xe^x\,dx = xe^x - \int e^x\,dx = xe^x - e^x + C
+$$
+
+**答案：** $(x-1)e^x + C$
+
+---
+
+**例 2：** 求 $\int \ln x\,dx$
+
+**Step 1：** $u = \ln x$（L 优先），$dv = dx$
+
+**Step 2：** 计算
+
+$$
+\begin{aligned}
+u &= \ln x & du &= \frac{1}{x}dx \\
+dv &= dx & v &= x
+\end{aligned}
+$$
+
+**Step 3：** 套公式
+
+$$
+\int \ln x\,dx = x\ln x - \int x \cdot \frac{1}{x}dx = x\ln x - \int 1\,dx = x\ln x - x + C
+$$
+
+**答案：** $x\ln x - x + C$
+
+---
+
+**例 3（重复使用分部积分）：** 求 $\int x^2 \sin x\,dx$
+
+**Step 1：** $u = x^2$，$dv = \sin x\,dx$
+
+$$
+du = 2x\,dx, \quad v = -\cos x
+$$
+
+**Step 2：** 套公式
+
+$$
+\int x^2\sin x\,dx = -x^2\cos x + \int 2x\cos x\,dx
+$$
+
+**Step 3：** 对 $\int 2x\cos x\,dx$ 再用一次分部积分
+- $u = 2x$，$dv = \cos x\,dx$
+- $du = 2\,dx$，$v = \sin x$
+
+$$
+\int 2x\cos x\,dx = 2x\sin x - \int 2\sin x\,dx = 2x\sin x + 2\cos x + C
+$$
+
+**Step 4：** 合并
+
+$$
+\int x^2\sin x\,dx = -x^2\cos x + 2x\sin x + 2\cos x + C
+$$
+
+**答案：** $-x^2\cos x + 2x\sin x + 2\cos x + C$
+
+---
+
+### 10.8 积分技巧 3 — 三角换元 & 部分分式
+
+#### 10.8.1 三角换元（Trig Substitution）
+
+**适用情形：**
+
+| 被积式形式 | 替换 | 三角恒等式 |
+|------------|------|------------|
+| $\sqrt{a^2 - x^2}$ | $x = a\sin\theta$ | $1 - \sin^2\theta = \cos^2\theta$ |
+| $\sqrt{a^2 + x^2}$ | $x = a\tan\theta$ | $1 + \tan^2\theta = \sec^2\theta$ |
+| $\sqrt{x^2 - a^2}$ | $x = a\sec\theta$ | $\sec^2\theta - 1 = \tan^2\theta$ |
+
+**例：** 求 $\int \frac{1}{\sqrt{1-x^2}}\,dx$
+
+**Step 1：** 令 $x = \sin\theta$，则 $dx = \cos\theta\,d\theta$
+
+**Step 2：** $\sqrt{1-x^2} = \sqrt{1-\sin^2\theta} = \cos\theta$
+
+**Step 3：** 替换
+
+$$
+\int \frac{\cos\theta}{\cos\theta}\,d\theta = \int 1\,d\theta = \theta + C
+$$
+
+**Step 4：** 换回 $x$：$\theta = \arcsin x$
+
+**答案：** $\arcsin x + C$
+
+#### 10.8.2 部分分式（Partial Fractions）
+
+**适用：** 有理函数 $\frac{P(x)}{Q(x)}$，其中 $\deg P < \deg Q$
+
+**步骤：**
+
+1. 因式分解分母 $Q(x)$
+2. 拆成简单分式之和
+3. 通分求待定系数
+4. 分别积分
+
+**例：** 求 $\int \frac{1}{x^2 - 1}\,dx$
+
+**Step 1：** 分解 $x^2 - 1 = (x-1)(x+1)$
+
+**Step 2：** 设
+
+$$
+\frac{1}{(x-1)(x+1)} = \frac{A}{x-1} + \frac{B}{x+1}
+$$
+
+**Step 3：** 通分
+
+$$
+1 = A(x+1) + B(x-1)
+$$
+
+- 令 $x = 1$：$1 = 2A \Rightarrow A = \frac{1}{2}$
+- 令 $x = -1$：$1 = -2B \Rightarrow B = -\frac{1}{2}$
+
+**Step 4：** 积分
+
+$$
+\int \frac{1}{x^2-1}\,dx = \frac{1}{2}\int \frac{1}{x-1}dx - \frac{1}{2}\int\frac{1}{x+1}dx
+$$
+
+$$
+= \frac{1}{2}\ln|x-1| - \frac{1}{2}\ln|x+1| + C = \frac{1}{2}\ln\left|\frac{x-1}{x+1}\right| + C
+$$
+
+**答案：** $\frac{1}{2}\ln\left|\frac{x-1}{x+1}\right| + C$
+
+---
+
+### 10.9 反常积分（Improper Integrals）
+
+#### 10.9.1 类型
+
+**类型 I：** 积分区间无穷
+
+$$
+\int_a^\infty f(x)\,dx = \lim_{b\to\infty}\int_a^b f(x)\,dx
+$$
+
+**类型 II：** 被积函数在区间内有无穷不连续点
+
+$$
+\int_a^b f(x)\,dx = \lim_{t\to c^-}\int_a^t f(x)\,dx + \lim_{t\to c^+}\int_t^b f(x)\,dx
+$$
+（其中 $c$ 是不连续点）
+
+#### 10.9.2 收敛 vs 发散
+
+- **收敛（Convergent）：** 极限存在且有限
+- **发散（Divergent）：** 极限不存在或为 $\pm\infty$
+
+#### 10.9.3 经典例子
+
+**例 1：** $\int_1^\infty \frac{1}{x^2}\,dx$
+
+$$
+\lim_{b\to\infty}\int_1^b x^{-2}\,dx = \lim_{b\to\infty}\left[-\frac{1}{x}\right]_1^b = \lim_{b\to\infty}\left(-\frac{1}{b} + 1\right) = 1
+$$
+
+**结果：** 收敛于 $1$ ✓
+
+---
+
+**例 2：** $\int_1^\infty \frac{1}{x}\,dx$
+
+$$
+\lim_{b\to\infty}[\ln x]_1^b = \lim_{b\to\infty}\ln b = \infty
+$$
+
+**结果：** 发散 ✗
+
+#### 10.9.4 p-test（重要！）
+
+$$
+\boxed{
+\int_1^\infty \frac{1}{x^p}\,dx
+\begin{cases}
+\text{收敛}, & p > 1 \\
+\text{发散}, & p \leq 1
+\end{cases}
+}
+$$
+
+---
+
+### 10.10 积分应用
+
+#### 10.10.1 求面积
+
+**两曲线之间的面积：**
+
+$$
+A = \int_a^b [f(x) - g(x)]\,dx \quad (f \geq g)
+$$
+
+**例：** 求 $y = x^2$ 和 $y = x$ 围成的面积
+
+**Step 1：** 求交点
+
+$$
+x^2 = x \Rightarrow x = 0 \text{ 或 } x = 1
+$$
+
+**Step 2：** 在 $[0, 1]$ 上 $x \geq x^2$
+
+**Step 3：** 计算
+
+$$
+A = \int_0^1 (x - x^2)\,dx = \left[\frac{x^2}{2} - \frac{x^3}{3}\right]_0^1 = \frac{1}{2} - \frac{1}{3} = \frac{1}{6}
+$$
+
+**答案：** $\frac{1}{6}$
+
+#### 10.10.2 旋转体体积
+
+**圆盘法（Disk Method）：** 绕 $x$ 轴旋转
+
+$$
+V = \pi \int_a^b [f(x)]^2\,dx
+$$
+
+**圆环法（Washer Method）：**
+
+$$
+V = \pi \int_a^b \left([R(x)]^2 - [r(x)]^2\right)\,dx
+$$
+
+**柱壳法（Shell Method）：** 绕 $y$ 轴旋转
+
+$$
+V = 2\pi\int_a^b x \cdot f(x)\,dx
+$$
+
+---
+
+**例：** 求 $y = \sqrt{x}$，$0 \leq x \leq 4$ 绕 $x$ 轴旋转的体积
+
+$$
+V = \pi\int_0^4 (\sqrt{x})^2\,dx = \pi\int_0^4 x\,dx = \pi\left[\frac{x^2}{2}\right]_0^4 = 8\pi
+$$
+
+**答案：** $8\pi$
+
+#### 10.10.3 弧长
+
+$$
+L = \int_a^b \sqrt{1 + [f'(x)]^2}\,dx
+$$
+
+#### 10.10.4 平均值
+
+$$
+\bar{f} = \frac{1}{b-a}\int_a^b f(x)\,dx
+$$
+
+---
+
+### 10.11 综合例题
+
+#### 例 1：选择正确的方法
+
+**题目：** 计算 $\int x\ln x\,dx$
+
+**分析：** 有 $\ln x$，用 LIATE → $u = \ln x$（分部积分）
+
+$$
+u = \ln x, \quad dv = x\,dx
+$$
+
+$$
+du = \frac{1}{x}dx, \quad v = \frac{x^2}{2}
+$$
+
+$$
+\int x\ln x\,dx = \frac{x^2}{2}\ln x - \int \frac{x^2}{2}\cdot\frac{1}{x}dx = \frac{x^2}{2}\ln x - \frac{x^2}{4} + C
+$$
+
+---
+
+#### 例 2：定积分换元
+
+**题目：** 计算 $\int_0^{\pi/2} \sin^3 x\cos x\,dx$
+
+**Step 1：** 令 $u = \sin x$，$du = \cos x\,dx$
+
+**Step 2：** 换上下限：$x = 0 \Rightarrow u = 0$；$x = \pi/2 \Rightarrow u = 1$
+
+**Step 3：**
+
+$$
+\int_0^1 u^3\,du = \left[\frac{u^4}{4}\right]_0^1 = \frac{1}{4}
+$$
+
+**答案：** $\frac{1}{4}$
+
+---
+
+#### 例 3：FTC 应用
+
+**题目：** 设 $F(x) = \int_0^{x^3}\sqrt{1+t^2}\,dt$，求 $F'(x)$
+
+**解：** 用 FTC + 链式法则
+
+$$
+F'(x) = \sqrt{1 + (x^3)^2}\cdot 3x^2 = 3x^2\sqrt{1+x^6}
+$$
+
+---
+
+#### 例 4：综合应用
+
+**题目：** 求 $y = e^x$，$y = 0$，$x = 0$，$x = 1$ 围成区域绕 $x$ 轴旋转的体积。
+
+$$
+V = \pi\int_0^1 (e^x)^2\,dx = \pi\int_0^1 e^{2x}\,dx
+$$
+
+$$
+= \pi\left[\frac{e^{2x}}{2}\right]_0^1 = \frac{\pi}{2}(e^2 - 1)
+$$
+
+**答案：** $\frac{\pi(e^2 - 1)}{2}$
+
+---
+
+### 10.12 易错点 + 公式速查表
+
+#### 10.12.1 易错点总结
+
+| 错误 | 正确 |
+|------|------|
+| 不定积分忘记 $+C$ | 必须加 $+C$ |
+| 幂函数公式忘了 $n \neq -1$ | $n = -1$ 时是 $\ln|x|$ |
+| 定积分换元忘了换上下限 | 换 $u$ 必须换上下限 |
+| 分部积分 $u, dv$ 选反 | 用 LIATE 口诀 |
+| $\int \frac{1}{x}\,dx = \ln x$ | 应为 $\ln|x|$ |
+| $\int e^{2x}\,dx = e^{2x}$ | 应为 $\frac{1}{2}e^{2x}$ |
+| 体积公式忘记 $\pi$ | 圆盘法必须乘 $\pi$ |
+
+#### 10.12.2 速查表
+
+**基本积分：**
+
+$$
+\boxed{
+\begin{aligned}
+& \int x^n\,dx = \frac{x^{n+1}}{n+1} + C \quad (n \neq -1) \\
+& \int \frac{1}{x}\,dx = \ln|x| + C \\
+& \int e^x\,dx = e^x + C \\
+& \int a^x\,dx = \frac{a^x}{\ln a} + C \\
+& \int \sin x\,dx = -\cos x + C \\
+& \int \cos x\,dx = \sin x + C \\
+& \int \sec^2 x\,dx = \tan x + C \\
+& \int \frac{1}{\sqrt{1-x^2}}\,dx = \arcsin x + C \\
+& \int \frac{1}{1+x^2}\,dx = \arctan x + C
+\end{aligned}
+}
+$$
+
+**积分技巧：**
+
+$$
+\boxed{
+\begin{aligned}
+& \text{u-sub: } \int f(g(x))g'(x)\,dx = \int f(u)\,du \\
+& \text{Parts: } \int u\,dv = uv - \int v\,du \\
+& \text{LIATE: 选 } u \text{ 的优先级}
+\end{aligned}
+}
+$$
+
+**FTC：**
+
+$$
+\boxed{
+\begin{aligned}
+& \frac{d}{dx}\int_a^x f(t)\,dt = f(x) \\
+& \int_a^b f(x)\,dx = F(b) - F(a) \\
+& \frac{d}{dx}\int_a^{g(x)} f(t)\,dt = f(g(x))g'(x)
+\end{aligned}
+}
+$$
+
+**应用公式：**
+
+$$
+\boxed{
+\begin{aligned}
+& \text{Area: } A = \int_a^b [f(x)-g(x)]\,dx \\
+& \text{Disk: } V = \pi\int_a^b [f(x)]^2\,dx \\
+& \text{Shell: } V = 2\pi\int_a^b xf(x)\,dx \\
+& \text{Arc length: } L = \int_a^b\sqrt{1+[f'(x)]^2}\,dx \\
+& \text{Average: } \bar{f} = \frac{1}{b-a}\int_a^b f(x)\,dx
+\end{aligned}
+}
+$$
+
+#### 10.12.3 考前检查清单
+
+**基本积分：**
+- [ ] 记住幂函数公式（注意 $n = -1$ 例外）
+- [ ] 记住三角函数 6 个基本积分
+- [ ] 记住 $e^x$ 和 $\ln x$ 的积分
+
+**技巧：**
+- [ ] 会用 u-substitution（注意定积分换上下限）
+- [ ] 会用分部积分（LIATE 口诀）
+- [ ] 知道何时用三角换元、部分分式
+
+**FTC：**
+- [ ] 会用 FTC 求定积分
+- [ ] 会求变上限积分的导数（含链式法则）
+
+**应用：**
+- [ ] 会求两曲线之间的面积
+- [ ] 会用圆盘法/圆环法求体积
+- [ ] 会判断反常积分的收敛性（p-test）
+
+**检查习惯：**
+- [ ] 不定积分写 $+C$
+- [ ] 定积分换元时改上下限
+- [ ] 答案能否求导验证？
+
+---
+
+> 📌 **本章一句话总结：** 不定积分先选方法（基本/u-sub/分部）→ 定积分先求反导数再代上下限 → 应用题先画图再列公式
+
+
+
+
+
+
+
+
+---
+
+## 第十一部分：常见错误诊断清单
+
+### 11.1 Domain 相关错误
 
 | 错误类型 | 错误示例 | 正确做法 |
 |----------|----------|----------|
@@ -1066,7 +1919,7 @@ $$\int_0^2 x^2 dx = \left[\frac{x^3}{3}\right]_0^2 = \frac{8}{3} \approx 2.667$$
 | 复合函数只看外层 | $\ln(\sqrt{x-1})$ 只要求 $x > 1$ | 要先 $x \geq 1$（根号），再 $x > 1$（对数）|
 | 分式不等式符号错误 | $\frac{x-1}{x+2} > 0$ 直接得 $x > 1$ | 要分情况：同号分析 |
 
-### 10.2 求导相关错误
+### 11.2 求导相关错误
 
 | 错误类型 | 错误示例 | 正确做法 |
 |----------|----------|----------|
@@ -1076,7 +1929,7 @@ $$\int_0^2 x^2 dx = \left[\frac{x^3}{3}\right]_0^2 = \frac{8}{3} \approx 2.667$$
 | 隐函数求导忘记 $y'$ | $\frac{d}{dx}(y^2) = 2y$ | 应该是 $2y \cdot y'$ |
 | 常数的导数 | $\frac{d}{dx}(5) = 5$ | 常数导数是 0 |
 
-### 10.3 L'Hopital 相关错误
+### 11.3 L'Hopital 相关错误
 
 | 错误类型 | 错误示例 | 正确做法 |
 |----------|----------|----------|
@@ -1084,7 +1937,7 @@ $$\int_0^2 x^2 dx = \left[\frac{x^3}{3}\right]_0^2 = \frac{8}{3} \approx 2.667$$
 | 整体求导 | $\lim \frac{f(x)}{g(x)}$ 变成 $\lim \frac{[f(x)/g(x)]'}{1}$ | 应该分子分母分别求导 |
 | 一次不够就放弃 | $\lim_{x \to 0} \frac{1-\cos x}{x^2}$ 用一次还是 $\frac{0}{0}$ | 可以继续用第二次 |
 
-### 10.4 Optimization 相关错误
+### 11.4 Optimization 相关错误
 
 | 错误类型 | 错误示例 | 正确做法 |
 |----------|----------|----------|
@@ -1093,7 +1946,7 @@ $$\int_0^2 x^2 dx = \left[\frac{x^3}{3}\right]_0^2 = \frac{8}{3} \approx 2.667$$
 | 忘记写单位 | 答案：$x = 5$ | 答案：$x = 5$ 米 |
 | 没有验证是最大还是最小 | 找到临界点就结束 | 用二阶导数或比较函数值 |
 
-### 10.5 Taylor Series 相关错误
+### 11.5 Taylor Series 相关错误
 
 | 错误类型 | 错误示例 | 正确做法 |
 |----------|----------|----------|
@@ -1102,7 +1955,7 @@ $$\int_0^2 x^2 dx = \left[\frac{x^3}{3}\right]_0^2 = \frac{8}{3} \approx 2.667$$
 | 替换时符号错误 | $e^{-x}$ 用 $e^x$ 替换，忘记负号 | 每一项都要带负号 |
 | 收敛域不写 | $\ln(1+x) = x - \frac{x^2}{2} + \cdots$ | 要注明 $-1 < x \leq 1$ |
 
-### 10.6 Integration 相关错误
+### 11.6 Integration 相关错误
 
 | 错误类型 | 错误示例 | 正确做法 |
 |----------|----------|----------|
@@ -1113,9 +1966,9 @@ $$\int_0^2 x^2 dx = \left[\frac{x^3}{3}\right]_0^2 = \frac{8}{3} \approx 2.667$$
 
 ---
 
-## 第十一部分：考前速查公式表
+## 第十二部分：考前速查公式表
 
-### 11.1 基础导数
+### 12.1 基础导数
 
 $$\begin{align}
 \frac{d}{dx}(x^n) &= nx^{n-1} \\
@@ -1128,7 +1981,7 @@ $$\begin{align}
 \frac{d}{dx}(\cosh x) &= \sinh x
 \end{align}$$
 
-### 11.2 求导法则
+### 12.2 求导法则
 
 $$\begin{align}
 (f+g)' &= f' + g' \\
@@ -1138,7 +1991,7 @@ $$\begin{align}
 (f \circ g)' &= f'(g(x)) \cdot g'(x)
 \end{align}$$
 
-### 11.3 积分公式
+### 12.3 积分公式
 
 $$\begin{align}
 \int x^n dx &= \frac{x^{n+1}}{n+1} + C \quad (n \neq -1) \\
@@ -1151,7 +2004,7 @@ $$\begin{align}
 \int \frac{1}{\sqrt{1-x^2}} dx &= \arcsin x + C
 \end{align}$$
 
-### 11.4 Taylor Series（Maclaurin）
+### 12.4 Taylor Series（Maclaurin）
 
 $$\begin{align}
 e^x &= \sum_{n=0}^{\infty} \frac{x^n}{n!} = 1 + x + \frac{x^2}{2!} + \frac{x^3}{3!} + \cdots \\
@@ -1163,9 +2016,9 @@ e^x &= \sum_{n=0}^{\infty} \frac{x^n}{n!} = 1 + x + \frac{x^2}{2!} + \frac{x^3}{
 
 ---
 
-## 第十二部分：题型快速识别训练
+## 第十三部分：题型快速识别训练
 
-### 12.1 看到题目第一眼应该想到什么
+### 13.1 看到题目第一眼应该想到什么
 
 **练习：快速判断下列题目用什么方法**
 
@@ -1199,7 +2052,7 @@ e^x &= \sum_{n=0}^{\infty} \frac{x^n}{n!} = 1 + x + \frac{x^2}{2!} + \frac{x^3}{
 10. 判断 $f(x) = \begin{cases} x^2 & x < 1 \\ 2x-1 & x \geq 1 \end{cases}$ 在 $x=1$ 是否连续
     - **答案：** 检查左极限、右极限、函数值是否相等
 
-### 12.2 多步骤问题的思路链
+### 13.2 多步骤问题的思路链
 
 **例：** 求曲线 $y = x^3 - 3x + 2$ 在 $x=1$ 处的切线方程，并求该切线与曲线的其他交点。
 
@@ -1214,9 +2067,9 @@ e^x &= \sum_{n=0}^{\infty} \frac{x^n}{n!} = 1 + x + \frac{x^2}{2!} + \frac{x^3}{
 
 ---
 
-## 第十三部分：考试策略
+## 第十四部分：考试策略
 
-### 13.1 时间分配建议
+### 14.1 时间分配建议
 
 假设考试 2 小时，题目分布：
 
@@ -1228,14 +2081,14 @@ e^x &= \sum_{n=0}^{\infty} \frac{x^n}{n!} = 1 + x + \frac{x^2}{2!} + \frac{x^3}{
 | Taylor series / FTC | 20-30 分钟 | 公式要准确，展开要完整 |
 | 检查 | 10-15 分钟 | 重点检查计算和符号 |
 
-### 13.2 答题顺序建议
+### 14.2 答题顺序建议
 
 1. **先做会做的**：快速浏览全卷，标记难度
 2. **先易后难**：从最有把握的开始
 3. **计算题写步骤**：即使答案不对，步骤分也很重要
 4. **不要在一道题上卡太久**：超过 10 分钟没思路就跳过
 
-### 13.3 检查重点
+### 14.3 检查重点
 
 **高频错误检查清单：**
 - [ ] Chain rule 有没有乘内层导数？
@@ -1249,7 +2102,7 @@ e^x &= \sum_{n=0}^{\infty} \frac{x^n}{n!} = 1 + x + \frac{x^2}{2!} + \frac{x^3}{
 - [ ] 不定积分有没有写 $+C$？
 - [ ] 最终答案有没有化简？有没有单位？
 
-### 13.4 遇到不会的题怎么办
+### 14.4 遇到不会的题怎么办
 
 **策略 1：部分分数法**
 - 即使不会做完，也要写出你知道的步骤
@@ -1276,7 +2129,7 @@ e^x &= \sum_{n=0}^{\infty} \frac{x^n}{n!} = 1 + x + \frac{x^2}{2!} + \frac{x^3}{
 
 ---
 
-## 第十四部分：综合练习题（带完整解答）
+## 第十五部分：综合练习题（带完整解答）
 
 ### 练习 1：Domain 综合
 
