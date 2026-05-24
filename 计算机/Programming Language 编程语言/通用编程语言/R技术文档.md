@@ -3873,3 +3873,297 @@ autoplot(z)
   - **滚动窗口**：`rollmean()`、`rollapply()`
   - **时间对齐合并**：`merge()`
 - 与 `lubridate` 搭配：`lubridate` 生成/操作时间索引，`zoo` 管理带索引的数据
+# 第 19 章　拼图利器：`patchwork` 包
+
+## 19.1 patchwork 简介
+- 由 Thomas Lin Pedersen 开发
+- 用**最直观的运算符**（`+`、`/`、`|`）将多个 `ggplot2` 图拼在一起
+- 相比 `gridExtra::grid.arrange()` 与 `cowplot::plot_grid()`，语法更简洁、对齐更智能
+- 完美保留 ggplot 主题与图例
+
+安装与加载：
+```r
+install.packages("patchwork")
+library(patchwork)
+library(ggplot2)
+```
+
+---
+
+## 19.2 基础语法
+
+先准备三张图：
+```r
+p1 <- ggplot(mtcars, aes(mpg, disp)) + geom_point()
+p2 <- ggplot(mtcars, aes(mpg, hp))   + geom_point()
+p3 <- ggplot(mtcars, aes(mpg, wt))   + geom_point()
+```
+
+### 19.2.1 核心运算符
+
+| 运算符 | 作用 |
+|--------|------|
+| `+` | 并排（自动布局） |
+| `\|` | 水平并排（强制一行） |
+| `/` | 垂直堆叠 |
+| `()` | 分组，控制优先级 |
+
+```r
+p1 + p2                 # 两图并排
+p1 | p2 | p3            # 一行三张
+p1 / p2                 # 上下两张
+(p1 | p2) / p3          # 上面一行两张，下面一张
+```
+
+---
+
+## 19.3 控制布局
+
+### 19.3.1 `plot_layout()`
+```r
+p1 + p2 + p3 + 
+  plot_layout(ncol = 2, nrow = 2)
+```
+
+设置相对宽高：
+```r
+p1 + p2 + plot_layout(widths = c(2, 1))
+p1 / p2 + plot_layout(heights = c(1, 2))
+```
+
+### 19.3.2 自定义布局（区域设计）
+```r
+layout <- "
+AAB
+AAC
+"
+p1 + p2 + p3 + plot_layout(design = layout)
+```
+
+---
+
+## 19.4 共享图例与坐标轴
+
+### 19.4.1 合并图例
+```r
+p1 + p2 + plot_layout(guides = "collect")
+```
+
+### 19.4.2 共享坐标轴标题
+```r
+(p1 + p2 + p3) & 
+  theme(axis.title = element_text(size = 12))
+```
+> `&` 将主题应用到**所有子图**；`+` 只作用于最后一张。
+
+---
+
+## 19.5 添加注释
+
+```r
+p1 + p2 + p3 +
+  plot_annotation(
+    title    = "整体标题",
+    subtitle = "副标题",
+    caption  = "数据来源：示例",
+    tag_levels = "A"      # 自动给子图编号 A、B、C
+  )
+```
+
+---
+
+## 19.6 嵌入空白与文字
+
+```r
+p1 + plot_spacer() + p2     # 中间留白
+p1 + grid::textGrob("说明文字")
+```
+
+---
+
+## 19.7 小结
+- `+ | /` 三符号搞定 90% 拼图需求
+- `plot_layout()` 控制行列与比例
+- `plot_annotation()` 加整体标题与子图编号
+- `&` 与 `+` 区别：前者作用所有图，后者只作用最后一张
+
+---
+
+# 第 20 章　坐标轴与标度美化：`scales` 包
+
+## 20.1 scales 简介
+- `ggplot2` 的"隐藏功臣"，负责**坐标轴刻度、标签格式、颜色映射**
+- 解决常见痛点：
+  - 数字显示为 `1e+06` 而非 `1,000,000`
+  - 百分比、货币、日期格式化
+  - 自定义配色与渐变
+- 可以单独使用，也大量出现在 `scale_*` 函数中
+
+安装与加载：
+```r
+install.packages("scales")
+library(scales)
+library(ggplot2)
+```
+
+---
+
+## 20.2 标签格式化（最常用）
+
+| 函数 | 作用 | 示例输出 |
+|------|------|----------|
+| `comma()` | 千分位 | `1,234,567` |
+| `percent()` | 百分比 | `12.3%` |
+| `dollar()` | 货币 | `$1,234` |
+| `scientific()` | 科学计数 | `1.23e+06` |
+| `number()` | 通用数字 | 可指定精度 |
+| `unit_format()` | 带单位 | `1.2 M` |
+| `label_bytes()` | 字节单位 | `1.2 MB` |
+| `date_format()` | 日期 | `2026-05-24` |
+
+```r
+comma(1234567)              # "1,234,567"
+percent(0.1234)             # "12%"
+percent(0.1234, accuracy = 0.01)   # "12.34%"
+dollar(1234, prefix = "¥")  # "¥1,234"
+number(1234567, scale = 1e-6, suffix = "M")   # "1M"
+```
+
+---
+
+## 20.3 在 ggplot 中使用
+
+### 20.3.1 格式化坐标轴
+```r
+ggplot(diamonds, aes(carat, price)) +
+  geom_point(alpha = 0.3) +
+  scale_y_continuous(labels = comma) +     # 千分位
+  scale_x_continuous(labels = number_format(accuracy = 0.1))
+```
+
+### 20.3.2 百分比 y 轴
+```r
+ggplot(df, aes(x, rate)) +
+  geom_col() +
+  scale_y_continuous(labels = percent_format(accuracy = 1))
+```
+
+### 20.3.3 货币
+```r
+scale_y_continuous(labels = dollar_format(prefix = "¥", big.mark = ","))
+```
+
+### 20.3.4 大数缩写（K/M/B）
+```r
+scale_y_continuous(labels = label_number(scale_cut = cut_short_scale()))
+# 1,500,000 → 1.5M
+```
+
+### 20.3.5 日期轴
+```r
+scale_x_date(
+  date_breaks = "1 month",
+  date_labels = "%Y-%m"
+)
+```
+
+---
+
+## 20.4 刻度断点（Breaks）
+
+```r
+scale_x_continuous(
+  breaks = breaks_pretty(n = 6)        # 漂亮断点
+)
+scale_x_continuous(breaks = breaks_width(width = 10))   # 等距
+scale_x_log10(breaks = breaks_log())   # 对数轴专用
+scale_x_date(breaks = breaks_width("2 weeks"))
+```
+
+---
+
+## 20.5 颜色与配色
+
+### 20.5.1 渐变色生成
+```r
+show_col(viridis_pal()(8))                 # viridis 8 色
+show_col(brewer_pal(palette = "Set2")(6))  # ColorBrewer
+show_col(gradient_n_pal(c("white","red"))(seq(0, 1, 0.1)))
+```
+
+### 20.5.2 在 ggplot 中
+```r
+ggplot(df, aes(x, y, color = z)) +
+  geom_point() +
+  scale_color_gradientn(
+    colors = brewer_pal(palette = "RdYlBu")(11),
+    labels = comma
+  )
+```
+
+### 20.5.3 透明度
+```r
+alpha("red", 0.3)     # 给颜色加透明度
+```
+
+---
+
+## 20.6 数值变换（Transformations）
+
+```r
+scale_y_continuous(trans = "log10", labels = comma)
+scale_y_continuous(trans = "sqrt")
+scale_y_continuous(trans = "reverse")
+```
+
+常用变换：`"log10"`、`"log2"`、`"sqrt"`、`"reverse"`、`"date"`、`"time"`。
+
+可自定义：
+```r
+my_trans <- trans_new("square",
+                      transform = function(x) x^2,
+                      inverse   = function(x) sqrt(x))
+```
+
+---
+
+## 20.7 区间压缩（rescale）
+
+```r
+rescale(c(1, 5, 10))             # 缩放到 [0,1]
+rescale(c(1, 5, 10), to = c(0, 100))
+squish(c(-1, 0.5, 2), range = c(0, 1))   # 越界值压缩到边界
+```
+在自定义渐变色映射时常用：
+```r
+scale_fill_gradient(low = "white", high = "red",
+                    limits = c(0, 1), oob = squish)
+```
+
+---
+
+## 20.8 常见组合示例
+
+```r
+ggplot(economics, aes(date, unemploy)) +
+  geom_line(color = "steelblue") +
+  scale_x_date(date_breaks = "5 years", date_labels = "%Y") +
+  scale_y_continuous(
+    labels = label_number(scale_cut = cut_short_scale()),
+    breaks = breaks_pretty(6)
+  ) +
+  labs(title = "美国失业人数", x = NULL, y = "失业人数") +
+  theme_minimal()
+```
+
+---
+
+## 20.9 小结
+
+- **格式化**：`comma`、`percent`、`dollar`、`label_number` —— 让数字"说人话"
+- **断点**：`breaks_pretty`、`breaks_width`、`breaks_log`
+- **配色**：`viridis_pal`、`brewer_pal`、`gradient_n_pal`
+- **变换**：`log10`、`sqrt`、`reverse` 等
+- 与 `patchwork` 搭配：先用 `scales` 把每张图打磨到位，再用 `patchwork` 组合成报告级图表
+
+> 工作流口诀：**ggplot 画图 → scales 美化 → patchwork 拼版**
