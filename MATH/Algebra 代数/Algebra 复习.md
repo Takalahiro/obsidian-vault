@@ -6,13 +6,13 @@
 
 **核心定义：**
 
-| 概念 | 公式 | 说明 |
-|------|------|------|
-| 标准形式 | $z = x + iy$ | $x = \text{Re}(z)$ 实部，$y = \text{Im}(z)$ 虚部 |
-| 共轭 conjugate | $\bar{z} = x - iy$ | 虚部取负 |
-| 模 modulus | $\|z\| = \sqrt{x^2 + y^2}$ | 复数到原点的距离 |
-| 极坐标形式 | $z = r(\cos\theta + i\sin\theta) = re^{i\theta}$ | $r = \|z\|$，$\theta$ 是辐角 |
-| Euler 公式 | $e^{i\theta} = \cos\theta + i\sin\theta$ | 连接指数和三角函数 |
+| 概念           | 公式                                               | 说明                                          |
+| ------------ | ------------------------------------------------ | ------------------------------------------- |
+| 标准形式         | $z = x + iy$                                     | $x = \text{Re}(z)$ 实部，$y = \text{Im}(z)$ 虚部 |
+| 共轭 conjugate | $\bar{z} = x - iy$                               | 虚部取负                                        |
+| 模 modulus    | $\|z\| = \sqrt{x^2 + y^2}$                       | 复数到原点的距离                                    |
+| 极坐标形式        | $z = r(\cos\theta + i\sin\theta) = re^{i\theta}$ | $r = \|z\|$，$\theta$ 是辐角                    |
+| Euler 公式     | $e^{i\theta} = \cos\theta + i\sin\theta$         | 连接指数和三角函数                                   |
 
 ### 1.2 复数运算
 
