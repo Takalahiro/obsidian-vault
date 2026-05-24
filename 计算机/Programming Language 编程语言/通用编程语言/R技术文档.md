@@ -3195,3 +3195,681 @@ ggplot() +
 
 ---
 
+# 第14章：plotly 包使用方法简短讲解
+
+## 一、plotly 是什么
+- R 中最流行的**交互式可视化包**，基于 JavaScript 库 plotly.js
+- 支持悬停提示、缩放、平移、图例切换、导出 PNG 等交互
+- 输出 HTML 部件，可嵌入 R Markdown / Shiny / 网页
+
+## 二、两种使用方式
+
+### 方式 1：ggplot2 一键转换（最简单）
+```r
+p <- ggplot(data, aes(x, y)) + geom_point()
+ggplotly(p)   # 直接把静态图变成交互图
+```
+
+### 方式 2：原生语法 `plot_ly()`（更灵活）
+```r
+plot_ly(data, x = ~var1, y = ~var2, 
+        type = "scatter", mode = "markers")
+```
+- 变量前用 `~` 引用（类似 aes）
+- `type` 指定图形类型，`mode` 指定细节
+
+## 三、常用图形类型
+
+| 类型 | 参数 |
+|------|------|
+| 散点图 | `type="scatter", mode="markers"` |
+| 折线图 | `type="scatter", mode="lines"` |
+| 柱状图 | `type="bar"` |
+| 热力图 | `type="heatmap"` |
+| 箱线图 | `type="box"` |
+| 3D 图 | `type="scatter3d"` |
+| 地图 | `type="choropleth"` |
+
+## 四、管道式增强（`%>%`）
+
+```r
+plot_ly(data, x=~x, y=~y, type="bar") %>%
+  add_trace(y=~y2, name="第二组") %>%        # 加新图层
+  layout(title="标题",                        # 整体布局
+         xaxis=list(title="X轴"),
+         yaxis=list(title="Y轴"),
+         barmode="group") %>%
+  config(displayModeBar=TRUE)                 # 工具栏配置
+```
+
+## 五、核心函数速查
+
+- **`plot_ly()`**：创建图表
+- **`add_trace()` / `add_markers()` / `add_lines()` / `add_bars()`**：添加图层
+- **`layout()`**：设置标题、坐标轴、图例、配色
+- **`subplot()`**：多图拼接（如 `subplot(p1, p2, nrows=2)`）
+- **`ggplotly()`**：ggplot 转交互图
+- **`style()`**：修改已有图层样式
+- **`config()`**：交互工具栏设置
+
+## 六、悬停信息自定义
+```r
+plot_ly(data, x=~x, y=~y,
+        text = ~paste("名称:", name, "<br>值:", y),
+        hoverinfo = "text")
+```
+
+## 七、保存输出
+```r
+htmlwidgets::saveWidget(fig, "output.html", selfcontained = TRUE)
+```
+
+---
+# 第15章：leaflet 包使用方法简短讲解
+
+## 一、leaflet 是什么
+- R 中最常用的**交互式地图**可视化包，封装自 JavaScript 库 Leaflet.js
+- 支持缩放、平移、点击弹窗、图层切换、热力图等交互
+- 输出 HTML 部件，可嵌入 R Markdown / Shiny / 网页
+
+## 二、基本使用流程（管道式）
+
+```r
+leaflet(data) %>%
+  addTiles() %>%              # 添加底图
+  addMarkers(~lng, ~lat) %>%  # 添加数据图层
+  setView(lng, lat, zoom)     # 设置初始视角
+```
+
+## 三、结合你的代码逐步讲解
+
+### 1. 初始化 + 底图
+```r
+leaflet() %>%
+  addProviderTiles(providers$CartoDB.DarkMatter)
+```
+- **`leaflet()`**：创建空地图对象
+- **`addProviderTiles()`**：使用第三方底图（如 `CartoDB.DarkMatter` 暗色风格、`OpenStreetMap`、`Esri.WorldImagery` 卫星图）
+- 也可用 `addTiles()` 加载默认 OSM 底图
+
+### 2. 设置初始视角
+```r
+setView(lng = -73.95, lat = 40.75, zoom = 11)
+```
+- 把地图中心定位到纽约市
+- `zoom` 越大越精细（1=世界，18=街道级）
+
+### 3. 添加圆点标记（犯罪点）
+```r
+addCircleMarkers(
+  lng = ~Longitude, lat = ~Latitude,
+  radius = 3,
+  color = ~pal(LAW_CAT_CD),    # 按犯罪等级着色
+  stroke = FALSE,
+  fillOpacity = 0.6,
+  popup = ~paste("类型:", OFNS_DESC,
+                 "<br>日期:", CMPLT_FR_DT)
+)
+```
+- **`~`** 引用数据列（同 plotly）
+- **`popup`**：点击弹窗，支持 HTML
+- **`label`**：悬停提示（不点击直接显示）
+
+### 4. 配色函数
+```r
+pal <- colorFactor(
+  palette = c("red", "orange", "green"),
+  domain = c("FELONY", "MISDEMEANOR", "VIOLATION")
+)
+```
+- **`colorFactor()`**：离散变量配色（你的犯罪等级）
+- **`colorNumeric()`**：连续变量配色
+- **`colorBin()`**：分箱配色
+
+### 5. 添加图例
+```r
+addLegend(
+  position = "bottomright",
+  pal = pal, values = ~LAW_CAT_CD,
+  title = "犯罪等级",
+  opacity = 0.8
+)
+```
+
+### 6. 热力图层（如果你用了）
+```r
+addHeatmap(
+  lng = ~Longitude, lat = ~Latitude,
+  radius = 8, blur = 15, max = 0.05
+)
+```
+- 来自扩展包 **`leaflet.extras`**
+- 适合展示犯罪密度高发区
+
+### 7. 图层控制（多图层切换）
+```r
+addLayersControl(
+  baseGroups = c("暗色底图", "卫星图"),
+  overlayGroups = c("犯罪点", "热力图"),
+  options = layersControlOptions(collapsed = FALSE)
+)
+```
+- 用户可在右上角勾选要显示的图层
+- 在 `addCircleMarkers()` 等里加 `group="犯罪点"` 关联分组
+
+## 四、核心函数速查表
+
+| 函数 | 作用 |
+|------|------|
+| `leaflet()` | 创建地图 |
+| `addTiles()` / `addProviderTiles()` | 添加底图 |
+| `addMarkers()` | 默认图钉标记 |
+| `addCircleMarkers()` | 圆点标记（可调大小/颜色） |
+| `addCircles()` | 真实地理半径的圆 |
+| `addPolygons()` | 多边形（行政区划） |
+| `addPolylines()` | 线（路径） |
+| `addHeatmap()` | 热力图（需 leaflet.extras） |
+| `addPopups()` | 永久弹窗 |
+| `addLegend()` | 图例 |
+| `addLayersControl()` | 图层切换控件 |
+| `setView()` / `fitBounds()` | 视角控制 |
+| `colorFactor/Numeric/Bin()` | 配色函数 |
+
+## 五、保存输出
+```r
+htmlwidgets::saveWidget(map, "crime_map.html", selfcontained = TRUE)
+```
+
+---
+# 第 16 章: 时间序列预测：`forecast` 包
+
+## 16.1 forecast 包简介
+- R 中最经典、最常用的**时间序列预测**包，作者为 Rob J. Hyndman（《Forecasting: Principles and Practice》一书作者）
+- 提供完整的工作流：**数据探索 → 模型拟合 → 预测 → 评估 → 可视化**
+- 与 R 内置 `ts` 对象天然兼容，并支持 `ggplot2` 风格的 `autoplot()`
+- 广泛应用于销售预测、经济指标、气象数据、流量预测等领域
+
+安装与加载：
+```r
+install.packages("forecast")
+library(forecast)
+```
+
+---
+
+## 16.2 时间序列对象（ts）
+
+`forecast` 的输入通常是 `ts` 对象。
+
+```r
+# 月度数据，从 2015 年 1 月开始
+y <- ts(c(120, 135, 148, 162, 170, 180, 195, 210, 205, 220, 230, 245),
+        start = c(2015, 1), frequency = 12)
+
+# frequency 含义：
+# 12 = 月度数据
+#  4 = 季度数据
+#  7 = 周度（按天）
+#  1 = 年度
+```
+
+---
+
+## 16.3 数据探索
+
+### 16.3.1 可视化
+```r
+autoplot(y) + 
+  ggtitle("时间序列趋势图") + 
+  xlab("年份") + ylab("数值")
+```
+
+### 16.3.2 分解（趋势 / 季节 / 残差）
+```r
+decomp <- stl(y, s.window = "periodic")
+autoplot(decomp)
+```
+
+### 16.3.3 自相关图
+```r
+ggAcf(y)    # 自相关
+ggPacf(y)   # 偏自相关
+```
+
+---
+
+## 16.4 常用预测模型
+
+| 函数 | 模型 | 适用场景 |
+|------|------|----------|
+| `meanf()` | 均值法 | 基线模型 |
+| `naive()` | 朴素法 | 无趋势数据 |
+| `snaive()` | 季节朴素法 | 强季节性 |
+| `rwf()` | 随机游走（可加 drift） | 有趋势 |
+| `ets()` | 指数平滑 | 趋势+季节 |
+| `auto.arima()` | 自动 ARIMA | 通用强模型 |
+| `tbats()` | 复杂季节性 | 多重季节 |
+| `nnetar()` | 神经网络 | 非线性 |
+
+---
+
+## 16.5 指数平滑（ETS）
+
+```r
+fit_ets <- ets(y)
+summary(fit_ets)
+
+fc_ets <- forecast(fit_ets, h = 12)   # 预测未来 12 期
+autoplot(fc_ets)
+```
+
+- `ets()` 自动选择 **Error / Trend / Seasonal** 三要素组合（如 ETS(A,A,A)）
+- `h` 表示预测步长
+
+---
+
+## 16.6 自动 ARIMA
+
+```r
+fit_arima <- auto.arima(y, seasonal = TRUE)
+summary(fit_arima)
+
+fc_arima <- forecast(fit_arima, h = 12)
+autoplot(fc_arima)
+```
+
+- `auto.arima()` 自动搜索最优 (p,d,q)(P,D,Q) 参数
+- 输出包含 AIC、BIC 等模型选择指标
+
+---
+
+## 16.7 预测结果对象
+
+`forecast()` 返回的对象包含：
+
+```r
+fc_arima$mean      # 点预测
+fc_arima$lower     # 置信下界（默认 80% 和 95%）
+fc_arima$upper     # 置信上界
+fc_arima$fitted    # 拟合值
+fc_arima$residuals # 残差
+```
+
+可视化置信区间：
+```r
+autoplot(fc_arima) +
+  ggtitle("ARIMA 预测结果") +
+  xlab("时间") + ylab("预测值")
+```
+
+---
+
+## 16.8 模型评估
+
+### 16.8.1 残差诊断
+```r
+checkresiduals(fit_arima)
+```
+- 残差应近似**白噪声**（零均值、无自相关、近似正态）
+- 输出 Ljung-Box 检验 p 值，> 0.05 表示残差独立
+
+### 16.8.2 精度指标
+```r
+accuracy(fc_arima)
+```
+输出 ME、RMSE、MAE、MAPE、MASE 等指标。
+
+### 16.8.3 训练 / 测试集划分
+```r
+train <- window(y, end = c(2015, 9))
+test  <- window(y, start = c(2015, 10))
+
+fit  <- auto.arima(train)
+fc   <- forecast(fit, h = length(test))
+
+accuracy(fc, test)
+```
+
+---
+
+## 16.9 多模型比较
+
+```r
+fc1 <- forecast(ets(train),         h = length(test))
+fc2 <- forecast(auto.arima(train),  h = length(test))
+fc3 <- snaive(train,                h = length(test))
+
+accuracy(fc1, test)
+accuracy(fc2, test)
+accuracy(fc3, test)
+```
+通常选择 **RMSE 或 MAPE 最小** 的模型。
+
+---
+
+## 16.10 进阶：复杂季节性与外部变量
+
+### 16.10.1 TBATS（多重季节）
+```r
+fit_tbats <- tbats(y)
+forecast(fit_tbats, h = 24) %>% autoplot()
+```
+
+### 16.10.2 带回归项的 ARIMA
+```r
+xreg_train <- matrix(rnorm(length(train)), ncol = 1)
+xreg_test  <- matrix(rnorm(length(test)),  ncol = 1)
+
+fit <- auto.arima(train, xreg = xreg_train)
+fc  <- forecast(fit, xreg = xreg_test)
+```
+
+---
+
+## 16.11 小结
+
+- **基线模型**：`naive()`、`snaive()` —— 永远先跑一个作为对比
+- **主力模型**：`ets()` 与 `auto.arima()` —— 覆盖大多数实际场景
+- **诊断必做**：`checkresiduals()` + `accuracy()`
+- **可视化**：`autoplot()` 一行出图，含置信区间
+- 进阶推荐学习 Hyndman 的 **`fable`** 包（`forecast` 的"tidy"版后继者），语法更现代，支持 `tsibble` 与多序列建模
+
+> 工作流口诀：**画图 → 分解 → 建模 → 诊断 → 预测 → 评估**
+---
+# 第 17 章　日期时间处理：`lubridate` 包
+
+## 17.1 lubridate 简介
+- **tidyverse** 家族成员，由 Hadley Wickham 等人开发
+- 专门用于**日期与时间的解析、提取、运算**
+- 相比 base R 的 `as.Date()`、`strptime()`，语法更直观、容错性更强
+- 与 `dplyr`、`ggplot2` 无缝衔接
+
+安装与加载：
+```r
+install.packages("lubridate")
+library(lubridate)
+```
+
+---
+
+## 17.2 日期解析（Parsing）
+
+### 17.2.1 智能解析函数
+根据字符串中**年(y)、月(m)、日(d)** 的顺序选择函数：
+
+```r
+ymd("2026-05-24")        # "2026-05-24"
+mdy("05/24/2026")        # "2026-05-24"
+dmy("24-05-2026")        # "2026-05-24"
+ymd("20260524")          # 也能识别
+ymd("2026年5月24日")      # 中文也能识别
+```
+
+### 17.2.2 带时间的解析
+```r
+ymd_hms("2026-05-24 14:30:00")
+mdy_hm("05/24/2026 14:30")
+ymd_h("2026-05-24 14")
+```
+
+### 17.2.3 指定时区
+```r
+ymd_hms("2026-05-24 14:30:00", tz = "Asia/Shanghai")
+with_tz(x, tzone = "UTC")     # 转换时区
+force_tz(x, tzone = "UTC")    # 强制改时区（不换算）
+```
+
+---
+
+## 17.3 提取与修改组件
+
+```r
+x <- ymd_hms("2026-05-24 14:30:45")
+
+year(x)       # 2026
+month(x)      # 5
+month(x, label = TRUE)  # May
+day(x)        # 24
+wday(x, label = TRUE)   # 星期几
+hour(x); minute(x); second(x)
+week(x)       # 一年中的第几周
+yday(x)       # 一年中的第几天
+quarter(x)    # 第几季度
+```
+
+修改组件（赋值即可）：
+```r
+year(x)  <- 2030
+month(x) <- 12
+```
+
+---
+
+## 17.4 日期运算
+
+### 17.4.1 三种时间间隔类型
+
+| 类型 | 构造函数 | 含义 |
+|------|----------|------|
+| **Duration** | `dseconds()`, `ddays()`, `dyears()` | 精确秒数 |
+| **Period** | `seconds()`, `days()`, `years()` | 人类视角（考虑闰年/夏令时） |
+| **Interval** | `interval(a, b)` 或 `a %--% b` | 两点间区间 |
+
+### 17.4.2 加减
+```r
+ymd("2026-01-31") + months(1)   # "2026-02-28"  Period
+ymd("2026-01-31") + dmonths(1)  # 按 30.44 天加  Duration
+```
+
+### 17.4.3 区间
+```r
+int <- ymd("2026-01-01") %--% ymd("2026-05-24")
+int / days(1)      # 间隔多少天
+int / months(1)    # 间隔多少月
+as.period(int)
+```
+
+---
+
+## 17.5 取整与对齐
+
+```r
+x <- ymd_hms("2026-05-24 14:37:00")
+floor_date(x, "hour")    # 14:00:00
+ceiling_date(x, "day")   # 次日 00:00:00
+round_date(x, "month")   # 最近月初
+```
+
+按月汇总常用：
+```r
+df %>%
+  mutate(Month = floor_date(date, "month")) %>%
+  group_by(Month) %>%
+  summarise(total = sum(value))
+```
+
+---
+
+## 17.6 实用小工具
+
+```r
+today()        # 当前日期
+now()          # 当前时间
+leap_year(2024)# TRUE
+am(now()); pm(now())
+days_in_month(ymd("2026-02-01"))   # 28
+```
+
+---
+
+## 17.7 小结
+
+- 解析：`ymd()` / `mdy()` / `dmy()` 系列
+- 提取：`year()`、`month()`、`wday()` 等
+- 运算：区分 **Period**（人类逻辑） 与 **Duration**（精确秒数）
+- 对齐：`floor_date()` 是时间序列汇总的利器
+
+---
+
+# 第 18 章　不规则时间序列：`zoo` 包
+
+## 18.1 zoo 简介
+- **Z**'s **O**rdered **O**bservations，由 Achim Zeileis 等开发
+- 解决 base R 中 `ts` 对象的两个痛点：
+  1. `ts` 只能处理**等间隔**数据
+  2. `ts` 的时间索引必须是数值
+- `zoo` 允许**任意类型的索引**（Date、POSIXct、整数等）
+- 是 `xts`、`forecast`、`PerformanceAnalytics` 等包的基础
+
+安装与加载：
+```r
+install.packages("zoo")
+library(zoo)
+```
+
+---
+
+## 18.2 创建 zoo 对象
+
+```r
+dates  <- as.Date("2026-01-01") + c(0, 1, 3, 7, 10)
+values <- c(100, 102, 99, 105, 110)
+
+z <- zoo(values, order.by = dates)
+z
+#> 2026-01-01 2026-01-02 2026-01-04 2026-01-08 2026-01-11
+#>        100        102         99        105        110
+```
+
+多列数据：
+```r
+mat <- cbind(A = rnorm(5), B = rnorm(5))
+z2  <- zoo(mat, order.by = dates)
+```
+
+---
+
+## 18.3 索引与子集
+
+```r
+index(z)         # 提取时间索引
+coredata(z)      # 提取数值部分
+
+z["2026-01-04"]                          # 按日期取
+window(z, start = "2026-01-02", end = "2026-01-08")
+z[index(z) > as.Date("2026-01-03")]
+```
+
+---
+
+## 18.4 缺失值处理
+
+zoo 提供**多种插补**方法：
+
+```r
+z_na <- zoo(c(1, NA, NA, 4, 5, NA, 7), order.by = 1:7)
+
+na.locf(z_na)            # 用前值填充（last obs carried forward）
+na.locf(z_na, fromLast = TRUE)   # 用后值填充
+na.approx(z_na)          # 线性插值
+na.spline(z_na)          # 样条插值
+na.fill(z_na, fill = 0)  # 用常数填充
+```
+
+> 这是 zoo 最常被使用的功能之一。
+
+---
+
+## 18.5 滚动窗口函数（Rolling）
+
+```r
+z <- zoo(1:10, order.by = as.Date("2026-01-01") + 0:9)
+
+rollmean(z, k = 3)                       # 3 期滚动均值（默认居中）
+rollmean(z, k = 3, align = "right")      # 右对齐
+rollsum(z,  k = 3)
+rollmax(z,  k = 3)
+
+# 自定义函数
+rollapply(z, width = 3, FUN = sd, align = "right")
+```
+
+应用场景：
+- 移动平均线（金融）
+- 平滑噪声
+- 滚动波动率
+
+---
+
+## 18.6 合并与对齐
+
+不同时间索引的序列合并时，zoo 会**自动按时间对齐**：
+
+```r
+z1 <- zoo(1:3, as.Date("2026-01-01") + 0:2)
+z2 <- zoo(4:6, as.Date("2026-01-02") + 0:2)
+
+merge(z1, z2)              # 外连接，缺失补 NA
+merge(z1, z2, all = FALSE) # 内连接（仅交集）
+```
+
+---
+
+## 18.7 差分、滞后与变化率
+
+```r
+diff(z)              # 一阶差分
+diff(z, lag = 2)     # 二阶滞后差分
+lag(z, k = -1)       # 滞后一期
+diff(log(z))         # 对数收益率
+```
+
+---
+
+## 18.8 与 ts、xts 互转
+
+```r
+as.ts(z)             # zoo → ts（需等间隔）
+zoo(ts_obj)          # ts → zoo
+
+library(xts)
+xts_obj <- as.xts(z) # zoo → xts
+```
+
+---
+
+## 18.9 可视化
+
+```r
+plot(z, main = "zoo 时间序列")
+plot(z2, plot.type = "single", col = 1:2)  # 多列叠在一张图
+
+# 配合 ggplot2
+library(ggplot2)
+autoplot(z)
+```
+
+---
+
+## 18.10 zoo vs xts vs ts
+
+| 特性 | `ts` | `zoo` | `xts` |
+|------|------|-------|-------|
+| 等间隔要求 | ✅ 必须 | ❌ 不需要 | ❌ 不需要 |
+| 索引类型 | 数值 | 任意 | 基于时间类（更严格） |
+| 子集语法 | 一般 | 较好 | 最强（`"2026/2027"`） |
+| 速度 | 快 | 中等 | 快 |
+| 生态 | base R | 基础包 | 金融领域主流 |
+
+> 经验法则：**数据规则用 ts；不规则或需要插补用 zoo；金融高频数据用 xts。**
+
+---
+
+## 18.11 小结
+
+- `zoo` 解决**非等间隔**时间序列问题
+- 核心三件套：
+  - **缺失值插补**：`na.locf()`、`na.approx()`
+  - **滚动窗口**：`rollmean()`、`rollapply()`
+  - **时间对齐合并**：`merge()`
+- 与 `lubridate` 搭配：`lubridate` 生成/操作时间索引，`zoo` 管理带索引的数据
