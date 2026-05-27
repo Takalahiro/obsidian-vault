@@ -20,9 +20,6 @@ No , we do not know how many times we need get in code , we can use `__iter__` o
 `r` : raw string
 `f`: f string
 `{{{mid}}}`means output is {mid}
-我先读一下你上传的文件，然后分析里面**全部**的知识点。
-
-读完了！这是一个 **Image Finder** 程序。我帮你把**全部知识点**分析出来，**简单术语保留英文**，按代码顺序讲解。👇
 
 ---
 
