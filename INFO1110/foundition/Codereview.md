@@ -259,7 +259,7 @@ def view_gallery():
 **② early return（提前返回）**
 - 文件不存在就 `return`，**guard clause**（守卫语句）
 
-**③ list comprehension（列表推导式）⭐**
+**③ list comprehension（列表推导式）⭐**  
 ```python
 lines = [line.rstrip("\n") for line in f]
 ```
