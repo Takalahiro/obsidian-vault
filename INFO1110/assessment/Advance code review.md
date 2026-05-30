@@ -1158,7 +1158,7 @@ remove_set = set(id(p) for p in to_remove)
 
 ---
 
-## 四、完整执行流程演示 🎬
+## 四、完整执行流程演示 
 
 假设 `descendants_of` 返回了：
 ```python
@@ -1272,4 +1272,233 @@ logger.info(f"Post {p.post_id} removed: incident {_removal_counts[p.post_id]}")
 ---
 
 
+# 讲解：给 `descendants_of` 添加 `@solution_remover` 装饰器 🎀
+
+这次代码变化不大，但**多了一个非常 Pythonic 的概念：装饰器（decorator）**。
+
+我们来逐步拆解这次的改动，并讲清楚装饰器到底在干嘛。
+
+---
+
+## 一、改动了什么？
+
+```python
+from solution_remover import solution_remover  # ⭐ 新增导入
+
+@solution_remover  # ⭐ 新增装饰器
+def descendants_of(*, post_id, posts):
+    ...
+```
+
+**两个新增**：
+1. 从某个工具模块 `solution_remover` 里导入了一个叫 `solution_remover` 的东西
+2. 在函数定义上面加了一行 `@solution_remover`
+
+函数体本身**完全没变** ✅
+
+---
+
+## 二、`@xxx` 到底是什么？
+
+### 装饰器的本质
+
+`@solution_remover` 是 Python 的"语法糖"，它**等价于**：
+
+```python
+def descendants_of(*, post_id, posts):
+    ...
+
+descendants_of = solution_remover(descendants_of)  # ⭐ 关键！
+```
+
+换句话说：
+1. 先正常定义函数 `descendants_of`
+2. 然后把**函数本身**当作参数传给 `solution_remover`
+3. `solution_remover` 返回一个**新的函数**，覆盖原来的 `descendants_of`
+
+之后所有调用 `descendants_of(...)` 的地方，实际上调用的是**被装饰过的版本**。
+
+---
+
+### 一张图理解装饰器 
+
+```
+原始函数 descendants_of
+        │
+        ▼
+   ┌─────────────────┐
+   │ solution_remover │  ← 装饰器（包装工厂）
+   └─────────────────┘
+        │
+        ▼
+   新的 descendants_of  ← 外面包了一层壳
+```
+
+---
+
+## 三、`solution_remover` 大概是干嘛的？
+
+虽然我看不到 `solution_remover` 的实现，但从**名字推测**它应该是个**教学场景**用的工具：
+
+> **"solution remover" = "答案移除器"**
+
+很可能用于**教学/练习场景**：
+- 学生写好完整答案（参考代码）
+- 用 `@solution_remover` 装饰后，**把函数体替换成空壳**（比如只剩 `pass` 或 `raise NotImplementedError`）
+- 这样可以**自动生成"练习题版本"**给学生填空
+
+### 典型实现可能长这样：
+
+```python
+def solution_remover(func):
+    """把函数体替换成 raise NotImplementedError 的装饰器"""
+    def wrapper(*args, **kwargs):
+        raise NotImplementedError(
+            f"请实现 {func.__name__} 函数"
+        )
+    return wrapper
+```
+
+或者更"教学化"的版本：
+
+```python
+def solution_remover(func):
+    """在教学模式下隐藏答案，在评分模式下保留答案"""
+    import os
+    if os.getenv("HIDE_SOLUTIONS") == "1":
+        def wrapper(*args, **kwargs):
+            raise NotImplementedError("TODO: 学生需要实现这个函数")
+        return wrapper
+    return func   # 否则原样返回，不影响功能
+```
+
+**核心猜测**：这是老师/课程发布作业时使用的工具 —— **一份源码，既可作为参考答案，也可一键导出成"空白作业版"**。
+
+---
+
+## 四、装饰器的通用模板 
+
+如果你以后想自己写装饰器，标准模板长这样：
+
+```python
+import functools
+
+def my_decorator(func):
+    @functools.wraps(func)            # ⭐ 保留原函数的元信息（名字、docstring）
+    def wrapper(*args, **kwargs):
+        # 调用前可以做点事
+        print(f"调用 {func.__name__} 之前")
+        
+        result = func(*args, **kwargs)   # 调用原函数
+        
+        # 调用后可以做点事
+        print(f"调用 {func.__name__} 之后")
+        
+        return result
+    return wrapper
+
+
+@my_decorator
+def hello(name):
+    print(f"Hi, {name}")
+
+hello("Alice")
+# 输出:
+# 调用 hello 之前
+# Hi, Alice
+# 调用 hello 之后
+```
+
+---
+
+## 五、装饰器有什么用？常见场景 
+
+| 场景 | 用途 |
+|---|---|
+| **日志** | 记录函数被调用的时间、参数 |
+| **计时** | 测量函数执行多久 |
+| **缓存** | `@functools.lru_cache` 缓存返回值 |
+| **权限检查** | 调用前检查用户登录 |
+| **重试** | 失败时自动重试 N 次 |
+| **教学** | ⭐ 像这里的 `solution_remover`，隐藏答案 |
+| **注册** | 把函数自动注册到某个表里（Flask 路由就这么干的） |
+
+---
+
+## 六、回到本题 —— 这次改动的实际效果 
+
+### 在"教学模式"下（隐藏答案）
+学生看到的可能是：
+```python
+@solution_remover
+def descendants_of(*, post_id, posts):
+    # 学生需要自己实现这里
+    ...   # ← 函数体被装饰器替换或屏蔽
+```
+调用时会抛出 `NotImplementedError`，提示学生去填代码。
+
+### 在"答案模式"下（保留答案）
+装饰器原样返回函数，行为和之前**完全一致**：
+```python
+descendants_of(post_id="A", posts=posts)
+# → [Post对象, Post对象, ...]
+```
+
+---
+
+## 七、⚠️ 一个小语法提醒
+
+你的代码：
+```python
+@solution_remover  # Add decorator here
+
+def descendants_of(*, post_id, posts):
+```
+
+注意 `@solution_remover` 和 `def` **中间隔了一个空行**。
+
+- ✅ **Python 语法上允许**（PEP 8 没明确禁止，解释器能正确解析）
+- ⚠️ 但 **PEP 8 风格建议**：装饰器和函数定义**紧贴**，不要空行
+
+#### 推荐写法：
+```python
+@solution_remover
+def descendants_of(*, post_id, posts):
+    ...
+```
+
+---
+
+## 八、一个完整的"装饰器知识点小卡片"
+
+```python
+# === 语法糖 ===
+@decorator
+def f(): ...
+# 等价于:
+def f(): ...
+f = decorator(f)
+
+# === 带参数的装饰器 ===
+@decorator(arg1, arg2)
+def f(): ...
+# 等价于:
+def f(): ...
+f = decorator(arg1, arg2)(f)   # 多一层调用！
+
+# === 多个装饰器（从下往上叠）===
+@A
+@B
+@C
+def f(): ...
+# 等价于:
+f = A(B(C(f)))
+```
+
+---
+
+## 九、一句话总结 
+
+> 这次改动**没有改变函数逻辑**，而是用 `@solution_remover` **装饰**了 `descendants_of`，让它在不同模式下表现不同（可能用于"隐藏答案/暴露答案"的教学切换）。  
+> 装饰器的本质就是：**把函数当参数传给另一个函数，得到一个新函数**。
 
