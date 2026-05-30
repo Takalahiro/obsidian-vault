@@ -126,12 +126,4 @@ if isinstance(other_post, StoryPost):
 
 ---
 
-## 五、设计上你做对的几件事 ✅
-
-1. **构造时严格校验**：保证对象状态永远合法。
-2. **`list(children)` 做防御性拷贝**：避免外部引用污染。
-3. **`add_child` 的幂等设计**：重复加同一个 id 不会报错也不会重复。
-4. **子类用 `super()` 复用父类**：`StoryPost.merge_in` 调 `super().merge_in()` 是教科书式写法。
-5. **用 `post_type` 字段标识类型**：方便序列化和打印。
-
----
+`isinstance` 是对象类型的检查内置函数
