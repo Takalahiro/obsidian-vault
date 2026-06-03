@@ -24,13 +24,13 @@ Post  (基类，通用帖子)
 
 构造函数接收 6 个参数，并对每一个做了**类型和取值合法性**检查：
 
-| 参数 | 规则 |
-|---|---|
-| `post_id` | 必须是字符串、长度恰好 10、且全部是数字 |
-| `author` | 字符串、长度 1–20、且全部是字母 |
-| `text` | 字符串即可 |
-| `post_type` | 字符串，用来标识类型（默认 `"Post"`）|
-| `likes` | 非负整数 |
+| 参数          | 规则                         |
+| ----------- | -------------------------- |
+| `post_id`   | 必须是字符串、长度恰好 10、且全部是数字      |
+| `author`    | 字符串、长度 1–20、且全部是字母         |
+| `text`      | 字符串即可                      |
+| `post_type` | 字符串，用来标识类型（默认 `"Post"`）    |
+| `likes`     | 非负整数                       |
 | `timestamp` | int 或 float，存进去时统一转成 float |
 
 校验全部通过后，才把这些值赋给 `self.xxx` 成为实例属性。
@@ -130,6 +130,8 @@ if isinstance(other_post, StoryPost):
 `raise` 是关键字，主动抛出exception
 `__str__` 不写就默认`print`内存地址`<class_type object at ram`
 `super().` 在子类方法中调用父类方法
+
+
 ```python
 def load_raw_records(filepath): #yeild  
     with open(filepath, "r", encoding="utf-8") as f:  
