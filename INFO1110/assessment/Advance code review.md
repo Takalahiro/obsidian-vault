@@ -702,10 +702,10 @@ count("A")
 
 任何递归函数都必须满足这两点，这个函数也不例外：
 
-| 要素 | 在本函数中的体现 |
-|---|---|
-| **递归出口（base case）** | `TextPost` 没有 children，不进入 if 分支，直接 return |
-| **递归推进（recursive case）** | 每次往**更深一层**的 child 调用 |
+| 要素                       | 在本函数中的体现                                   |
+| ------------------------ | ------------------------------------------ |
+| **递归出口（base case）**      | `TextPost` 没有 children，不进入 if 分支，直接 return |
+| **递归推进（recursive case）** | 每次往**更深一层**的 child 调用                      |
 
 如果没有出口，就会**无限递归** → `RecursionError: maximum recursion depth exceeded` 
 
@@ -831,6 +831,8 @@ if child.likes > 0 and child not in result:
 | `child not in result` | **去重**，避免同一个帖子被加两次 |
 
 >  `child not in result` 的判断依赖 `Post.__eq__` 方法 —— 决定"两个 Post 是否相等"
+
+
 
 ---
 
