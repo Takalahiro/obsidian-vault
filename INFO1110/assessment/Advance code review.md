@@ -1506,3 +1506,335 @@ f = A(B(C(f)))
 > 这次改动**没有改变函数逻辑**，而是用 `@solution_remover` **装饰**了 `descendants_of`，让它在不同模式下表现不同（可能用于"隐藏答案/暴露答案"的教学切换）。  
 > 装饰器的本质就是：**把函数当参数传给另一个函数，得到一个新函数**。
 
+# 🔑 代码关键术语双语对照表
+
+---
+
+## 📦 **File I/O & Text Processing 文件操作与文本处理**
+
+### 1. **`encoding` 编码**
+字符编码格式（如 `utf-8` 支持 Unicode）
+
+### 2. **`readlines()` 读取所有行**
+从文件读取所有行，返回字符串列表
+
+### 3. **`strip()` 去除空白**
+移除字符串首尾的空白字符
+
+### 4. **`startswith()` 以...开头**
+检查字符串是否以指定前缀开始
+
+### 5. **`split()` 分割**
+按分隔符将字符串拆分成列表
+
+### 6. **`maxsplit` 最大分割次数**
+限制分割次数（如 `split("=", 1)` 最多分割一次）
+
+---
+
+## 🎭 **Decorators & Functions 装饰器与函数**
+
+### 7. **`decorator` 装饰器**
+修改其他函数行为的函数
+
+### 8. **`@wraps` 保留元数据**
+保留原函数的元数据（`__name__`、`__doc__`）
+
+### 9. **`wrapper function` 包装函数**
+装饰器中包装原函数的内层函数
+
+### 10. **`*args, **kwargs` 可变参数**
+- `*args` = 位置参数（元组）
+- `**kwargs` = 关键字参数（字典）
+
+### 11. **`keyword-only arguments` 强制关键字参数**
+`*` 后的参数必须用名称传递
+```python
+def func(*, post_id, posts):  # 必须用 func(post_id=..., posts=...)
+```
+
+---
+
+## 🔍 **Regular Expressions 正则表达式**
+
+### 12. **`re.compile()` 编译正则**
+预编译正则表达式模式以提高效率
+
+### 13. **`pattern.match()` 匹配**
+从字符串**开头**匹配正则（不是搜索整个字符串）
+
+### 14. **`^` (caret) 行首锚点**
+匹配字符串开头
+
+### 15. **`[A-Z]` (character class) 字符类**
+匹配任意大写字母
+
+### 16. **`{4}` (quantifier) 量词**
+匹配恰好 4 次
+
+### 17. **`\d` (digit) 数字**
+匹配任意数字 (0-9)
+
+---
+
+## 🗂️ **Data Structures 数据结构**
+
+### 18. **`list comprehension` 列表推导式**
+简洁创建列表：`[x for x in items if condition]`
+
+### 19. **`dict` (dictionary) 字典**
+键值对映射：`{"key": "value"}`
+
+### 20. **`set` 集合**
+无序的唯一元素集合
+
+### 21. **`id(obj)` 对象标识**
+对象在内存中的唯一地址（身份）
+
+### 22. **`lambda` 匿名函数**
+匿名函数：`lambda x: x.post_id`
+
+### 23. **`key function` 键函数**
+用于排序的函数：`sort(key=lambda p: p.post_id)`
+
+---
+
+## 🌳 **Recursion 递归**
+
+### 24. **`recursion` 递归**
+函数调用自身
+
+### 25. **`base case` 递归基/终止条件**
+递归的终止条件
+
+### 26. **`recursive case` 递归步**
+函数调用自身的步骤
+
+### 27. **`DFS` (Depth-First Search) 深度优先搜索**
+先深入探索再广度扩展的遍历算法
+
+---
+
+## 🔤 **String & Character Operations 字符串与字符操作**
+
+### 28. **`ord()` 获取字符码**
+获取字符的 ASCII/Unicode 码：`ord('A')` → `65`
+
+### 29. **`chr()` 获取字符**
+从码点获取字符：`chr(65)` → `'A'`
+
+### 30. **`modulo operator (%)` 取模运算符**
+求余数：`code % 2 == 0` 检查是否为偶数
+
+---
+
+## 🏗️ **Object-Oriented Programming (OOP) 面向对象编程**
+
+### 31. **`isinstance()` 类型检查**
+检查对象是否是某类的实例（包括子类）
+
+### 32. **`in-place operation` 就地操作**
+直接修改对象（如 `merge_in()`）
+
+### 33. **`immutable operation` 不可变操作**
+返回新对象而不修改原对象
+
+### 34. **`object identity` 对象标识**
+对象在内存中的唯一标识符
+
+### 35. **`object equality` 对象相等性**
+使用 `==` 运算符的值比较
+
+---
+
+## 🛡️ **Exception Handling 异常处理**
+
+### 36. **`try-except` block 异常捕获块**
+优雅地处理错误
+
+### 37. **`FileNotFoundError` 文件未找到异常**
+文件不存在时抛出的异常
+
+### 38. **`ValueError` 值错误异常**
+值无效时抛出的异常
+
+### 39. **`KeyError` 键错误异常**
+字典键不存在时抛出的异常
+
+### 40. **`TypeError` 类型错误异常**
+类型错误时抛出的异常
+
+### 41. **`SyntaxError` 语法错误异常**
+Python 语法无效时抛出的异常
+
+### 42. **`raise` 抛出异常**
+手动抛出异常
+
+### 43. **`continue` 继续**
+跳过当前循环，进入下一次迭代
+
+---
+
+## 📊 **Parsing & Data Transformation 解析与数据转换**
+
+### 44. **`parsing` 解析**
+将文本格式转换为结构化数据
+
+### 45. **`ast.literal_eval()` 安全求值**
+安全地解析 Python 字面量字符串
+
+### 46. **`type casting` 类型转换**
+在数据类型间转换：`int()`, `float()`, `str()`
+
+### 47. **`unpacking` 解包**
+赋值多个值：`key, value = item.split("=")`
+
+---
+
+## 🎯 **Design Patterns 设计模式**
+
+### 48. **`Factory Pattern` 工厂模式**
+根据类型/条件创建对象
+```python
+if post_type == "TextPost":
+    post = TextPost(...)
+```
+
+### 49. **`Decorator Pattern` 装饰器模式**
+不修改原代码即可添加功能
+
+### 50. **`Accumulator Pattern` 累加器模式**
+逐步构建结果（如 `total += value`）
+
+---
+
+## 🔢 **Functional Programming Concepts 函数式编程概念**
+
+### 51. **`closure` 闭包**
+捕获外层作用域变量的函数
+
+### 52. **`higher-order function` 高阶函数**
+接受或返回其他函数的函数
+
+### 53. **`filter` 过滤**
+筛选满足条件的项
+
+### 54. **`map` 映射**
+转换集合中的每个项
+
+---
+
+## 🧩 **Python-Specific Terms Python 特定术语**
+
+### 55. **`f-string` (formatted string literal) 格式化字符串字面量**
+`f"Post {id} removed"` 在字符串中嵌入变量
+
+### 56. **`with statement` (context manager) 上下文管理器**
+`with open(...) as f:` 确保文件被关闭
+
+### 57. **`global variable` 全局变量**
+整个模块可访问的变量
+
+### 58. **`module-level variable` 模块级变量**
+在文件顶层定义的变量（函数外）
+
+---
+
+## 📝 **Naming Conventions 命名约定**
+
+### 59. **`snake_case` 蛇形命名法**
+小写加下划线：`load_raw_records`
+
+### 60. **`PascalCase` 帕斯卡命名法**
+每个单词首字母大写：`StoryPost`
+
+### 61. **`SCREAMING_SNAKE_CASE` 全大写蛇形命名法**
+常量用全大写：`_SOLUTION_PATTERN`
+
+### 62. **`_leading_underscore` 前导下划线**
+表示内部/私有（约定，非强制）
+
+---
+
+## 🎮 **Control Flow 控制流**
+
+### 63. **`short-circuit evaluation` 短路求值**
+一旦确定结果就停止求值
+
+### 64. **`truthiness` 真值性**
+非零/非空值求值为 `True`
+
+### 65. **`early return` 提前返回**
+在到达函数末尾前退出
+
+### 66. **`guard clause` 守卫子句**
+在开始处检查条件以提前退出
+
+---
+
+## 🔍 **Lookup & Search 查找与搜索**
+
+### 67. **`O(1)` time complexity O(1) 时间复杂度**
+常数时间（如字典/集合查找）
+
+### 68. **`O(n)` time complexity O(n) 时间复杂度**
+线性时间（如列表迭代）
+
+### 69. **`membership test` 成员测试**
+检查项是否在集合中：`if x in list`
+
+### 70. **`existence check` 存在性检查**
+验证键是否存在：`if "key" in dict`
+
+---
+
+## 🎯 **Core Algorithm Terms 核心算法术语**
+
+### 71. **`traversal` 遍历**
+访问数据结构中的所有节点
+
+### 72. **`nested iteration` 嵌套迭代**
+循环内的循环
+
+### 73. **`deduplication` 去重**
+移除重复项：`if item not in result`
+
+### 74. **`filtering` 过滤**
+选择符合条件的子集
+
+### 75. **`accumulation` 累积**
+逐步收集/求和值
+
+---
+
+## 🧪 **Debugging & Logging 调试与日志**
+
+### 76. **`logging` 日志记录**
+记录执行过程中的事件
+
+### 77. **`state tracking` 状态跟踪**
+监控变量值随时间的变化
+
+### 78. **`side effect` 副作用**
+函数修改其作用域外的内容
+
+---
+
+## 📚 **Important Concepts Summary 重要概念总结**
+
+| 英文术语 | 中文术语 | 代码示例 |
+|---------|---------|---------|
+| **decorator** 装饰器 | 包装函数修改行为 | `@solution_remover` |
+| **keyword-only** 强制关键字参数 | 必须用名称传参 | `*, post_id` |
+| **regex** 正则表达式 | 文本模式匹配 | `r'^[A-Z]{4}\d{4}'` |
+| **recursion** 递归 | 函数调用自身 | `count_embedded_likes` |
+| **DFS** 深度优先搜索 | 深度优先遍历 | `descendants_of` |
+| **isinstance** 类型检查 | 检查对象类型 | `isinstance(post, StoryPost)` |
+| **list comprehension** 列表推导式 | 简洁创建列表 | `[p for p in result if ...]` |
+| **closure** 闭包 | 函数捕获外层变量 | 装饰器中的 `wrapper` |
+| **Factory Pattern** 工厂模式 | 根据类型创建对象 | `if post_type == "TextPost"` |
+| **dict.get()** 字典安全取值 | 带默认值的键查找 | `_removal_counts.get(id, 0)` |
+
+---
+
+需要我详细解释某个术语吗？🎓
