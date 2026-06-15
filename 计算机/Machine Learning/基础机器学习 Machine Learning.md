@@ -1,6 +1,6 @@
 [[Python 技术文档#**第19章：数据分析与扩展库入门 (Data Analysis and Extension Libraries)**]][[COMPUTER SCIENCE 2nd]]
 [[TensorBoard]][[TensorFlow-Serving]][[TorchServe]][[ONNX-Runtime]][[LlamaIndex]][[Transformers]][[YOLO]][[OpenCV]][[CatBoost]][[Scikit-Learn]][[Scikit-Learn]][[TensorFlow]][[Keras]][[JAX]][[PyTorch]]
-## **第一章 机器学习导论  Introduction**
+## **第一章 机器学习导论 Introduction**
 ### 1. What is Machine Learning
 #### 定义
 - Arthur Samuel (1959)：让计算机在没有被明确编程的情况下学习
@@ -13,35 +13,35 @@
 
 ```mermaid
 flowchart LR
-    A[ 输入数据<br/>Data] --> C{ 程序/规则<br/>Rules}
-    B[ 人工编写规则<br/>Hand-coded Rules] --> C
-    C --> D[ 输出结果<br/>Output]
-    
-    style A fill:#e3f2fd,stroke:#1976d2
-    style B fill:#fff3e0,stroke:#f57c00
-    style C fill:#f3e5f5,stroke:#7b1fa2
-    style D fill:#e8f5e9,stroke:#388e3c
+ A[ 输入数据<br/>Data] --> C{ 程序/规则<br/>Rules}
+ B[ 人工编写规则<br/>Hand-coded Rules] --> C
+ C --> D[ 输出结果<br/>Output]
+
+ style A fill:#e3f2fd,stroke:#1976d2
+ style B fill:#fff3e0,stroke:#f57c00
+ style C fill:#f3e5f5,stroke:#7b1fa2
+ style D fill:#e8f5e9,stroke:#388e3c
 ```
 
 ##### 2. 机器学习 (Machine Learning)
 
 ```mermaid
 flowchart LR
-    A[ 输入数据<br/>Data] --> C{ 机器学习算法<br/>ML Algorithm}
-    B[ 已知答案/标签<br/>Labels/Answers] --> C
-    C --> D[ 学习到的模型/规则<br/>Learned Model]
-    E[ 新数据<br/>New Data] --> D
-    D --> F[ 预测结果<br/>Prediction]
-    
-    style A fill:#e3f2fd,stroke:#1976d2
-    style B fill:#fff3e0,stroke:#f57c00
-    style C fill:#f3e5f5,stroke:#7b1fa2
-    style D fill:#fce4ec,stroke:#c2185b
-    style E fill:#e3f2fd,stroke:#1976d2
-    style F fill:#e8f5e9,stroke:#388e3c
+ A[ 输入数据<br/>Data] --> C{ 机器学习算法<br/>ML Algorithm}
+ B[ 已知答案/标签<br/>Labels/Answers] --> C
+ C --> D[ 学习到的模型/规则<br/>Learned Model]
+ E[ 新数据<br/>New Data] --> D
+ D --> F[ 预测结果<br/>Prediction]
+
+ style A fill:#e3f2fd,stroke:#1976d2
+ style B fill:#fff3e0,stroke:#f57c00
+ style C fill:#f3e5f5,stroke:#7b1fa2
+ style D fill:#fce4ec,stroke:#c2185b
+ style E fill:#e3f2fd,stroke:#1976d2
+ style F fill:#e8f5e9,stroke:#388e3c
 ```
 
-| 对比维度 |  传统编程 (Traditional Programming) |  机器学习 (Machine Learning) |
+| 对比维度 | 传统编程 (Traditional Programming) | 机器学习 (Machine Learning) |
 |---------|------------------------------------|-------------------------------|
 | **核心思想** | 人类编写规则，计算机执行 | 计算机从数据中自动学习规则 |
 | **输入** | 数据 + 规则 (Rules) | 数据 + 标签 (Labels) |
@@ -68,62 +68,62 @@ flowchart LR
 ---
 ### 3. Types of ML
 1. **监督学习 (Supervised Learning)**
-    - 有标签数据
-    - 分类 (Classification) / 回归 (Regression)
+ - 有标签数据
+ - 分类 (Classification) / 回归 (Regression)
 2. **无监督学习 (Unsupervised Learning)**
-    - 无标签数据
-    - 聚类 (Clustering) / 降维 (Dimensionality Reduction)
+ - 无标签数据
+ - 聚类 (Clustering) / 降维 (Dimensionality Reduction)
 3. **半监督学习 (Semi-supervised Learning)**
 4. **强化学习 (Reinforcement Learning)**
-    - Agent、Environment、Reward
+ - Agent、Environment、Reward
 
 
 ---
-### 4.  Three Key Elements of Machine Learning
+### 4. Three Key Elements of Machine Learning
 
 机器学习的本质可以用一句话概括：
 
 > **机器学习 = 数据 (Data) + 模型 (Model) + 算法 (Algorithm)**
 
-也有学者表述为：**数据、模型、策略 + 算法**（李航《统计学习方法》中的"三要素"）。下面我会两种说法都讲清楚 
+也有学者表述为：**数据、模型、策略 + 算法**（李航《统计学习方法》中的"三要素"）。下面我会两种说法都讲清楚
 
 ---
 
-####  一、Mermaid 总览图
+#### 一、Mermaid 总览图
 
 ```mermaid
 flowchart TB
-    ML(( 机器学习<br/>Machine Learning))
-    ML --> A[ 数据 Data<br/>学习的原材料]
-    ML --> B[ 模型 Model<br/>学习的对象/假设空间]
-    ML --> C[ 算法 Algorithm<br/>学习的方法]
-    
-    A --> A1[训练集]
-    A --> A2[验证集]
-    A --> A3[测试集]
-    
-    B --> B1[线性模型]
-    B --> B2[树模型]
-    B --> B3[神经网络]
-    
-    C --> C1[梯度下降]
-    C --> C2[最小二乘]
-    C --> C3[反向传播]
-    
-    style ML fill:#ffeb3b,stroke:#f57f17,stroke-width:3px
-    style A fill:#e3f2fd,stroke:#1976d2,stroke-width:2px
-    style B fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px
-    style C fill:#e8f5e9,stroke:#388e3c,stroke-width:2px
+ ML(( 机器学习<br/>Machine Learning))
+ ML --> A[ 数据 Data<br/>学习的原材料]
+ ML --> B[ 模型 Model<br/>学习的对象/假设空间]
+ ML --> C[ 算法 Algorithm<br/>学习的方法]
+
+ A --> A1[训练集]
+ A --> A2[验证集]
+ A --> A3[测试集]
+
+ B --> B1[线性模型]
+ B --> B2[树模型]
+ B --> B3[神经网络]
+
+ C --> C1[梯度下降]
+ C --> C2[最小二乘]
+ C --> C3[反向传播]
+
+ style ML fill:#ffeb3b,stroke:#f57f17,stroke-width:3px
+ style A fill:#e3f2fd,stroke:#1976d2,stroke-width:2px
+ style B fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px
+ style C fill:#e8f5e9,stroke:#388e3c,stroke-width:2px
 ```
 
 ---
 
-#### 1️.数据 (Data) — 学习的"原材料"
+#### 1.数据 (Data) — 学习的"原材料"
 
-#####  定义
+##### 定义
 数据是机器学习的**基础**，模型从数据中学习规律。没有数据，就没有机器学习。
 
-#####  数据的组成
+##### 数据的组成
 | 概念 | 含义 | 示例 |
 |------|------|------|
 | 样本 (Sample) | 一条数据记录 | 一封邮件 |
@@ -131,12 +131,12 @@ flowchart TB
 | 标签 (Label) | 目标输出 | 是否为垃圾邮件 |
 | 数据集 (Dataset) | 样本的集合 | 10000 封邮件 |
 
-#####  数据的划分
+##### 数据的划分
 - **训练集 (Training Set)**：用于训练模型 (~60-80%)
 - **验证集 (Validation Set)**：用于调参 (~10-20%)
 - **测试集 (Test Set)**：用于最终评估 (~10-20%)
 
-#####  数据质量决定上限
+##### 数据质量决定上限
 > **"Garbage in, garbage out"**（垃圾进，垃圾出）
 > 数据决定了模型的天花板，算法只是逼近这个上限。
 
@@ -147,10 +147,10 @@ flowchart TB
 ##### 定义
 模型是从输入到输出的**映射函数** $f: X \rightarrow Y$，也称作**假设 (Hypothesis)**。
 
-#####  假设空间 (Hypothesis Space)
+##### 假设空间 (Hypothesis Space)
 所有可能模型的集合，记作 $\mathcal{H}$。机器学习的过程就是在 $\mathcal{H}$ 中找到最优的 $f$。
 
-#####  常见模型分类
+##### 常见模型分类
 | 类别 | 代表模型 | 应用 |
 |------|---------|------|
 | 线性模型 | 线性回归、逻辑回归 | 简单分类/回归 |
@@ -159,7 +159,7 @@ flowchart TB
 | 核方法 | SVM | 中小数据集 |
 | 神经网络 | CNN、RNN、Transformer | 图像、语音、NLP |
 
-#####  数学表示
+##### 数学表示
 $$
 y = f(x; \theta)
 $$
@@ -167,12 +167,12 @@ $$
 
 ---
 
-#### 3️.算法 (Algorithm) — 学习的"方法"
+#### 3.算法 (Algorithm) — 学习的"方法"
 
-#####  定义
+##### 定义
 算法是**如何从数据中学到模型参数 $\theta$** 的具体方法，即**优化求解过程**。
 
-#####  常见优化算法
+##### 常见优化算法
 | 算法 | 用途 |
 |------|------|
 | 梯度下降 (Gradient Descent) | 最常用的通用优化方法 |
@@ -182,27 +182,27 @@ $$
 | 反向传播 (Backpropagation) | 神经网络专用 |
 | EM 算法 | 含隐变量的概率模型 |
 
-#####  算法要解决的问题
+##### 算法要解决的问题
 - 如何**快速**找到最优解？
 - 如何**避免**陷入局部最优？
 - 如何在**大数据**下高效计算？
 
 ---
 
-####  二、李航《统计学习方法》版本：模型 + 策略 + 算法
+#### 二、李航《统计学习方法》版本：模型 + 策略 + 算法
 
 如果你看的是统计学习方法相关教材，三要素表述略有不同：
 
 ```mermaid
 flowchart LR
-    A[ 模型 Model<br/>学什么] --> D[ 学习结果]
-    B[ 策略 Strategy<br/>怎么学得好] --> D
-    C[ 算法 Algorithm<br/>怎么学得到] --> D
-    
-    style A fill:#f3e5f5,stroke:#7b1fa2
-    style B fill:#fff3e0,stroke:#f57c00
-    style C fill:#e8f5e9,stroke:#388e3c
-    style D fill:#ffeb3b,stroke:#f57f17
+ A[ 模型 Model<br/>学什么] --> D[ 学习结果]
+ B[ 策略 Strategy<br/>怎么学得好] --> D
+ C[ 算法 Algorithm<br/>怎么学得到] --> D
+
+ style A fill:#f3e5f5,stroke:#7b1fa2
+ style B fill:#fff3e0,stroke:#f57c00
+ style C fill:#e8f5e9,stroke:#388e3c
+ style D fill:#ffeb3b,stroke:#f57f17
 ```
 
 | 要素 | 含义 | 举例 |
@@ -213,24 +213,24 @@ flowchart LR
 
 ---
 
-####  三、三要素之间的关系
+#### 三、三要素之间的关系
 
 ```mermaid
 flowchart LR
-    A[ 数据] -->|输入| B[ 模型]
-    B -->|定义| C[ 损失函数/策略]
-    C -->|指导| D[ 算法]
-    D -->|更新| B
-    B -->|输出| E[ 训练好的模型]
-    
-    style A fill:#e3f2fd,stroke:#1976d2
-    style B fill:#f3e5f5,stroke:#7b1fa2
-    style C fill:#fff3e0,stroke:#f57c00
-    style D fill:#e8f5e9,stroke:#388e3c
-    style E fill:#ffeb3b,stroke:#f57f17
+ A[ 数据] -->|输入| B[ 模型]
+ B -->|定义| C[ 损失函数/策略]
+ C -->|指导| D[ 算法]
+ D -->|更新| B
+ B -->|输出| E[ 训练好的模型]
+
+ style A fill:#e3f2fd,stroke:#1976d2
+ style B fill:#f3e5f5,stroke:#7b1fa2
+ style C fill:#fff3e0,stroke:#f57c00
+ style D fill:#e8f5e9,stroke:#388e3c
+ style E fill:#ffeb3b,stroke:#f57f17
 ```
 
-#####  用"做菜"比喻理解：
+##### 用"做菜"比喻理解：
 | 三要素 | 做菜类比 |
 |--------|---------|
 | 数据 | 食材 |
@@ -240,7 +240,7 @@ flowchart LR
 
 ---
 
-> **"数据是燃料，模型是引擎，算法是驾驶技术"** 
+> **"数据是燃料，模型是引擎，算法是驾驶技术"**
 
 或者：
 
@@ -257,7 +257,7 @@ flowchart LR
 4. 三者**缺一不可**，相互配合才能完成机器学习任务。
 ---
 
-### 5. How Machine Learning Works 
+### 5. How Machine Learning Works
 
 机器学习的工作过程，本质上是一个 **"从数据中学习规律 → 用规律做预测"** 的循环过程。下面从**整体流程、核心机制、数学原理、形象比喻**四个角度来讲解。
 ![[Pasted image 20260510023018.png]]
@@ -267,24 +267,24 @@ flowchart LR
 
 ```mermaid
 flowchart TB
-    A[1.收集数据<br/>Collect Data] --> B[2.数据预处理<br/>Preprocessing]
-    B --> C[3.选择模型<br/>Choose Model]
-    C --> D[4.训练模型<br/>Training]
-    D --> E[5.评估模型<br/>Evaluation]
-    E -->|效果不好| F[6.调参/换模型<br/>Tuning]
-    F --> D
-    E -->|效果好| G[7.部署应用<br/>Deployment]
-    G --> H[8.持续监控<br/>Monitoring]
-    H -->|数据漂移| A
-    
-    style A fill:#e3f2fd,stroke:#1976d2
-    style B fill:#e3f2fd,stroke:#1976d2
-    style C fill:#f3e5f5,stroke:#7b1fa2
-    style D fill:#fff3e0,stroke:#f57c00,stroke-width:3px
-    style E fill:#fce4ec,stroke:#c2185b
-    style F fill:#fff3e0,stroke:#f57c00
-    style G fill:#e8f5e9,stroke:#388e3c
-    style H fill:#e8f5e9,stroke:#388e3c
+ A[1.收集数据<br/>Collect Data] --> B[2.数据预处理<br/>Preprocessing]
+ B --> C[3.选择模型<br/>Choose Model]
+ C --> D[4.训练模型<br/>Training]
+ D --> E[5.评估模型<br/>Evaluation]
+ E -->|效果不好| F[6.调参/换模型<br/>Tuning]
+ F --> D
+ E -->|效果好| G[7.部署应用<br/>Deployment]
+ G --> H[8.持续监控<br/>Monitoring]
+ H -->|数据漂移| A
+
+ style A fill:#e3f2fd,stroke:#1976d2
+ style B fill:#e3f2fd,stroke:#1976d2
+ style C fill:#f3e5f5,stroke:#7b1fa2
+ style D fill:#fff3e0,stroke:#f57c00,stroke-width:3px
+ style E fill:#fce4ec,stroke:#c2185b
+ style F fill:#fff3e0,stroke:#f57c00
+ style G fill:#e8f5e9,stroke:#388e3c
+ style H fill:#e8f5e9,stroke:#388e3c
 ```
 ![[Pasted image 20260510023037.png]]
 
@@ -296,24 +296,24 @@ flowchart TB
 
 ```mermaid
 flowchart LR
-    subgraph TRAIN["训练阶段 Training Phase"]
-        direction LR
-        A1[训练数据<br/>X, y] --> B1[模型 f]
-        B1 --> C1[预测 ŷ]
-        C1 --> D1[损失函数<br/>Loss]
-        D1 -->|反馈调整参数| B1
-    end
-    
-    subgraph PREDICT["预测阶段 Prediction Phase"]
-        direction LR
-        A2[新数据 X_new] --> B2[训练好的模型]
-        B2 --> C2[预测结果 ŷ]
-    end
-    
-    TRAIN -.训练好的参数.-> PREDICT
-    
-    style TRAIN fill:#fff3e0,stroke:#f57c00,stroke-width:2px
-    style PREDICT fill:#e8f5e9,stroke:#388e3c,stroke-width:2px
+ subgraph TRAIN["训练阶段 Training Phase"]
+ direction LR
+ A1[训练数据<br/>X, y] --> B1[模型 f]
+ B1 --> C1[预测 ŷ]
+ C1 --> D1[损失函数<br/>Loss]
+ D1 -->|反馈调整参数| B1
+ end
+
+ subgraph PREDICT["预测阶段 Prediction Phase"]
+ direction LR
+ A2[新数据 X_new] --> B2[训练好的模型]
+ B2 --> C2[预测结果 ŷ]
+ end
+
+ TRAIN -.训练好的参数.-> PREDICT
+
+ style TRAIN fill:#fff3e0,stroke:#f57c00,stroke-width:2px
+ style PREDICT fill:#e8f5e9,stroke:#388e3c,stroke-width:2px
 ```
 
 ---
@@ -326,19 +326,19 @@ flowchart LR
 
 ```mermaid
 flowchart TB
-    A[输入训练数据 X] --> B[模型预测 ŷ = f X, θ]
-    B --> C[计算损失 L = Loss y, ŷ]
-    C --> D[计算梯度 ∂L/∂θ]
-    D --> E[更新参数 θ = θ - η·∂L/∂θ]
-    E -->|继续迭代| A
-    E -->|损失收敛| F[训练完成]
-    
-    style A fill:#e3f2fd,stroke:#1976d2
-    style B fill:#f3e5f5,stroke:#7b1fa2
-    style C fill:#fff3e0,stroke:#f57c00
-    style D fill:#fce4ec,stroke:#c2185b
-    style E fill:#e8f5e9,stroke:#388e3c
-    style F fill:#ffeb3b,stroke:#f57f17
+ A[输入训练数据 X] --> B[模型预测 ŷ = f X, θ]
+ B --> C[计算损失 L = Loss y, ŷ]
+ C --> D[计算梯度 ∂L/∂θ]
+ D --> E[更新参数 θ = θ - η·∂L/∂θ]
+ E -->|继续迭代| A
+ E -->|损失收敛| F[训练完成]
+
+ style A fill:#e3f2fd,stroke:#1976d2
+ style B fill:#f3e5f5,stroke:#7b1fa2
+ style C fill:#fff3e0,stroke:#f57c00
+ style D fill:#fce4ec,stroke:#c2185b
+ style E fill:#e8f5e9,stroke:#388e3c
+ style F fill:#ffeb3b,stroke:#f57f17
 ```
 
 ##### 四个关键步骤
@@ -384,14 +384,14 @@ $$
 
 ```mermaid
 flowchart LR
-    A[初始: w=0, b=0<br/>损失=很大] --> B[迭代1: w=1.5, b=10<br/>损失=较大]
-    B --> C[迭代10: w=2.8, b=5<br/>损失=中等]
-    C --> D[迭代100: w=3.0, b=0<br/>损失=很小]
-    
-    style A fill:#ffcdd2,stroke:#c62828
-    style B fill:#ffe0b2,stroke:#ef6c00
-    style C fill:#fff9c4,stroke:#f9a825
-    style D fill:#c8e6c9,stroke:#2e7d32
+ A[初始: w=0, b=0<br/>损失=很大] --> B[迭代1: w=1.5, b=10<br/>损失=较大]
+ B --> C[迭代10: w=2.8, b=5<br/>损失=中等]
+ C --> D[迭代100: w=3.0, b=0<br/>损失=很小]
+
+ style A fill:#ffcdd2,stroke:#c62828
+ style B fill:#ffe0b2,stroke:#ef6c00
+ style C fill:#fff9c4,stroke:#f9a825
+ style D fill:#c8e6c9,stroke:#2e7d32
 ```
 
 最终学到：$\hat{y} = 3.0 \cdot x$，即每平米 3 万元。
@@ -407,12 +407,12 @@ flowchart LR
 
 ```mermaid
 flowchart TB
-    A[山顶<br/>损失很大<br/>初始参数] -->|梯度下降| B[半山腰<br/>损失中等]
-    B -->|继续下降| C[山谷<br/>损失最小<br/>最优参数]
-    
-    style A fill:#ffcdd2,stroke:#c62828
-    style B fill:#fff9c4,stroke:#f9a825
-    style C fill:#c8e6c9,stroke:#2e7d32
+ A[山顶<br/>损失很大<br/>初始参数] -->|梯度下降| B[半山腰<br/>损失中等]
+ B -->|继续下降| C[山谷<br/>损失最小<br/>最优参数]
+
+ style A fill:#ffcdd2,stroke:#c62828
+ style B fill:#fff9c4,stroke:#f9a825
+ style C fill:#c8e6c9,stroke:#2e7d32
 ```
 
 - **山的高度** = 损失值 (Loss)
@@ -478,27 +478,27 @@ flowchart TB
 
 ```mermaid
 flowchart TB
-    ML[机器学习<br/>Machine Learning] --> A[1.监督学习<br/>Supervised Learning]
-    ML --> B[2.无监督学习<br/>Unsupervised Learning]
-    ML --> C[3.半监督学习<br/>Semi-Supervised Learning]
-    ML --> D[4.强化学习<br/>Reinforcement Learning]
-    
-    A --> A1[分类 Classification]
-    A --> A2[回归 Regression]
-    
-    B --> B1[聚类 Clustering]
-    B --> B2[降维 Dimensionality Reduction]
-    B --> B3[关联规则 Association]
-    
-    C --> C1[少量标注+大量未标注]
-    
-    D --> D1[智能体与环境交互]
-    
-    style ML fill:#ffeb3b,stroke:#f57f17,stroke-width:3px
-    style A fill:#e3f2fd,stroke:#1976d2,stroke-width:2px
-    style B fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px
-    style C fill:#fff3e0,stroke:#f57c00,stroke-width:2px
-    style D fill:#e8f5e9,stroke:#388e3c,stroke-width:2px
+ ML[机器学习<br/>Machine Learning] --> A[1.监督学习<br/>Supervised Learning]
+ ML --> B[2.无监督学习<br/>Unsupervised Learning]
+ ML --> C[3.半监督学习<br/>Semi-Supervised Learning]
+ ML --> D[4.强化学习<br/>Reinforcement Learning]
+
+ A --> A1[分类 Classification]
+ A --> A2[回归 Regression]
+
+ B --> B1[聚类 Clustering]
+ B --> B2[降维 Dimensionality Reduction]
+ B --> B3[关联规则 Association]
+
+ C --> C1[少量标注+大量未标注]
+
+ D --> D1[智能体与环境交互]
+
+ style ML fill:#ffeb3b,stroke:#f57f17,stroke-width:3px
+ style A fill:#e3f2fd,stroke:#1976d2,stroke-width:2px
+ style B fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px
+ style C fill:#fff3e0,stroke:#f57c00,stroke-width:2px
+ style D fill:#e8f5e9,stroke:#388e3c,stroke-width:2px
 ```
 
 ##### 快速对比表
@@ -521,15 +521,15 @@ flowchart TB
 
 ```mermaid
 flowchart LR
-    A[带标签数据<br/>X, y] --> B[训练模型]
-    B --> C[学习映射 f]
-    C --> D[新输入 X_new]
-    D --> E[预测输出 ŷ]
-    
-    style A fill:#e3f2fd,stroke:#1976d2
-    style B fill:#fff3e0,stroke:#f57c00
-    style C fill:#f3e5f5,stroke:#7b1fa2
-    style E fill:#e8f5e9,stroke:#388e3c
+ A[带标签数据<br/>X, y] --> B[训练模型]
+ B --> C[学习映射 f]
+ C --> D[新输入 X_new]
+ D --> E[预测输出 ŷ]
+
+ style A fill:#e3f2fd,stroke:#1976d2
+ style B fill:#fff3e0,stroke:#f57c00
+ style C fill:#f3e5f5,stroke:#7b1fa2
+ style E fill:#e8f5e9,stroke:#388e3c
 ```
 
 ##### 两大子类
@@ -573,18 +573,18 @@ flowchart LR
 
 ```mermaid
 flowchart LR
-    A[监督学习] --> B[分类<br/>输出是离散类别]
-    A --> C[回归<br/>输出是连续数值]
-    
-    B --> B1[猫 / 狗 / 鸟]
-    B --> B2[垃圾邮件 / 正常邮件]
-    
-    C --> C1[房价 = 280.5万]
-    C --> C2[温度 = 23.7℃]
-    
-    style A fill:#ffeb3b,stroke:#f57f17
-    style B fill:#e3f2fd,stroke:#1976d2
-    style C fill:#f3e5f5,stroke:#7b1fa2
+ A[监督学习] --> B[分类<br/>输出是离散类别]
+ A --> C[回归<br/>输出是连续数值]
+
+ B --> B1[猫 / 狗 / 鸟]
+ B --> B2[垃圾邮件 / 正常邮件]
+
+ C --> C1[房价 = 280.5万]
+ C --> C2[温度 = 23.7℃]
+
+ style A fill:#ffeb3b,stroke:#f57f17
+ style B fill:#e3f2fd,stroke:#1976d2
+ style C fill:#f3e5f5,stroke:#7b1fa2
 ```
 
 ##### 优缺点
@@ -606,15 +606,15 @@ flowchart LR
 
 ```mermaid
 flowchart LR
-    A[无标签数据<br/>只有 X] --> B[训练模型]
-    B --> C[发现内在结构]
-    C --> D1[聚类: 数据分组]
-    C --> D2[降维: 提取关键特征]
-    C --> D3[异常检测]
-    
-    style A fill:#f3e5f5,stroke:#7b1fa2
-    style B fill:#fff3e0,stroke:#f57c00
-    style C fill:#e3f2fd,stroke:#1976d2
+ A[无标签数据<br/>只有 X] --> B[训练模型]
+ B --> C[发现内在结构]
+ C --> D1[聚类: 数据分组]
+ C --> D2[降维: 提取关键特征]
+ C --> D3[异常检测]
+
+ style A fill:#f3e5f5,stroke:#7b1fa2
+ style B fill:#fff3e0,stroke:#f57c00
+ style C fill:#e3f2fd,stroke:#1976d2
 ```
 
 ##### 三大子类
@@ -681,17 +681,17 @@ flowchart LR
 
 ```mermaid
 flowchart TB
-    A[少量有标签数据<br/>例如 1000 条] --> C[半监督学习模型]
-    B[大量无标签数据<br/>例如 100000 条] --> C
-    C --> D[利用无标签数据<br/>发现数据分布]
-    C --> E[利用有标签数据<br/>校准预测方向]
-    D --> F[最终模型]
-    E --> F
-    
-    style A fill:#e3f2fd,stroke:#1976d2
-    style B fill:#f3e5f5,stroke:#7b1fa2
-    style C fill:#fff3e0,stroke:#f57c00
-    style F fill:#e8f5e9,stroke:#388e3c
+ A[少量有标签数据<br/>例如 1000 条] --> C[半监督学习模型]
+ B[大量无标签数据<br/>例如 100000 条] --> C
+ C --> D[利用无标签数据<br/>发现数据分布]
+ C --> E[利用有标签数据<br/>校准预测方向]
+ D --> F[最终模型]
+ E --> F
+
+ style A fill:#e3f2fd,stroke:#1976d2
+ style B fill:#f3e5f5,stroke:#7b1fa2
+ style C fill:#fff3e0,stroke:#f57c00
+ style F fill:#e8f5e9,stroke:#388e3c
 ```
 
 ##### 常见方法
@@ -722,15 +722,15 @@ flowchart TB
 
 ```mermaid
 flowchart LR
-    A[智能体 Agent] -->|动作 Action| B[环境 Environment]
-    B -->|状态 State| A
-    B -->|奖励 Reward| A
-    A -->|学习更新| C[策略 Policy]
-    C --> A
-    
-    style A fill:#e3f2fd,stroke:#1976d2,stroke-width:3px
-    style B fill:#f3e5f5,stroke:#7b1fa2,stroke-width:3px
-    style C fill:#fff3e0,stroke:#f57c00
+ A[智能体 Agent] -->|动作 Action| B[环境 Environment]
+ B -->|状态 State| A
+ B -->|奖励 Reward| A
+ A -->|学习更新| C[策略 Policy]
+ C --> A
+
+ style A fill:#e3f2fd,stroke:#1976d2,stroke-width:3px
+ style B fill:#f3e5f5,stroke:#7b1fa2,stroke-width:3px
+ style C fill:#fff3e0,stroke:#f57c00
 ```
 
 | 要素 | 含义 | 游戏类比 |
@@ -746,15 +746,15 @@ flowchart LR
 
 ```mermaid
 flowchart TB
-    A[1.观察当前状态 s_t] --> B[2.根据策略选择动作 a_t]
-    B --> C[3.环境反馈新状态 s_t+1 和奖励 r_t]
-    C --> D[4.更新策略，让累计奖励最大化]
-    D -->|继续探索| A
-    
-    style A fill:#e3f2fd,stroke:#1976d2
-    style B fill:#f3e5f5,stroke:#7b1fa2
-    style C fill:#fff3e0,stroke:#f57c00
-    style D fill:#e8f5e9,stroke:#388e3c
+ A[1.观察当前状态 s_t] --> B[2.根据策略选择动作 a_t]
+ B --> C[3.环境反馈新状态 s_t+1 和奖励 r_t]
+ C --> D[4.更新策略，让累计奖励最大化]
+ D -->|继续探索| A
+
+ style A fill:#e3f2fd,stroke:#1976d2
+ style B fill:#f3e5f5,stroke:#7b1fa2
+ style C fill:#fff3e0,stroke:#f57c00
+ style D fill:#e8f5e9,stroke:#388e3c
 ```
 
 ##### 典型应用
@@ -800,23 +800,23 @@ flowchart TB
 
 ```mermaid
 flowchart TB
-    subgraph SUP[监督学习]
-        S1[输入: X, y<br/>目标: 学习映射]
-    end
-    subgraph UNSUP[无监督学习]
-        U1[输入: 仅 X<br/>目标: 发现结构]
-    end
-    subgraph SEMI[半监督学习]
-        SS1[输入: 少量 X,y + 大量 X<br/>目标: 综合两者]
-    end
-    subgraph RL[强化学习]
-        R1[输入: 状态+奖励<br/>目标: 学习策略]
-    end
-    
-    style SUP fill:#e3f2fd,stroke:#1976d2,stroke-width:2px
-    style UNSUP fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px
-    style SEMI fill:#fff3e0,stroke:#f57c00,stroke-width:2px
-    style RL fill:#e8f5e9,stroke:#388e3c,stroke-width:2px
+ subgraph SUP[监督学习]
+ S1[输入: X, y<br/>目标: 学习映射]
+ end
+ subgraph UNSUP[无监督学习]
+ U1[输入: 仅 X<br/>目标: 发现结构]
+ end
+ subgraph SEMI[半监督学习]
+ SS1[输入: 少量 X,y + 大量 X<br/>目标: 综合两者]
+ end
+ subgraph RL[强化学习]
+ R1[输入: 状态+奖励<br/>目标: 学习策略]
+ end
+
+ style SUP fill:#e3f2fd,stroke:#1976d2,stroke-width:2px
+ style UNSUP fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px
+ style SEMI fill:#fff3e0,stroke:#f57c00,stroke-width:2px
+ style RL fill:#e8f5e9,stroke:#388e3c,stroke-width:2px
 ```
 
 ##### 全方位对比表
@@ -851,26 +851,26 @@ flowchart TB
 
 ```mermaid
 flowchart TB
-    Q[我有什么数据?] --> A{有标签吗?}
-    A -->|全部有标签| B[监督学习]
-    A -->|完全没有| C[无监督学习]
-    A -->|少部分有| D[半监督学习]
-    A -->|是交互奖励数据| E[强化学习]
-    
-    B --> B1{预测什么?}
-    B1 -->|类别| B2[分类]
-    B1 -->|数值| B3[回归]
-    
-    C --> C1{目标是?}
-    C1 -->|分组| C2[聚类]
-    C1 -->|压缩| C3[降维]
-    C1 -->|找关联| C4[关联规则]
-    
-    style Q fill:#ffeb3b,stroke:#f57f17,stroke-width:3px
-    style B fill:#e3f2fd,stroke:#1976d2
-    style C fill:#f3e5f5,stroke:#7b1fa2
-    style D fill:#fff3e0,stroke:#f57c00
-    style E fill:#e8f5e9,stroke:#388e3c
+ Q[我有什么数据?] --> A{有标签吗?}
+ A -->|全部有标签| B[监督学习]
+ A -->|完全没有| C[无监督学习]
+ A -->|少部分有| D[半监督学习]
+ A -->|是交互奖励数据| E[强化学习]
+
+ B --> B1{预测什么?}
+ B1 -->|类别| B2[分类]
+ B1 -->|数值| B3[回归]
+
+ C --> C1{目标是?}
+ C1 -->|分组| C2[聚类]
+ C1 -->|压缩| C3[降维]
+ C1 -->|找关联| C4[关联规则]
+
+ style Q fill:#ffeb3b,stroke:#f57f17,stroke-width:3px
+ style B fill:#e3f2fd,stroke:#1976d2
+ style C fill:#f3e5f5,stroke:#7b1fa2
+ style D fill:#fff3e0,stroke:#f57c00
+ style E fill:#e8f5e9,stroke:#388e3c
 ```
 
 ---
@@ -896,34 +896,34 @@ flowchart TB
 随着研究的深入，机器学习衍生出许多重要的扩展领域。这些领域有的是**学习范式的创新**（如自监督学习），有的是**模型结构的革命**（如深度学习），有的是**应用场景的特化**（如联邦学习）。下面逐一详细讲解。
 
 ---
-### 7.  Future
+### 7. Future
 
 #### 1. 扩展领域全景图
 
 ```mermaid
 flowchart TB
-    ML[机器学习<br/>Machine Learning] --> A[学习范式扩展]
-    ML --> B[模型结构扩展]
-    ML --> C[应用场景扩展]
-    
-    A --> A1[强化学习 RL]
-    A --> A2[自监督学习 SSL]
-    A --> A3[迁移学习]
-    A --> A4[元学习]
-    A --> A5[主动学习]
-    
-    B --> B1[深度学习 DL]
-    B --> B2[图神经网络 GNN]
-    B --> B3[生成模型]
-    
-    C --> C1[联邦学习]
-    C --> C2[在线学习]
-    C --> C3[多模态学习]
-    
-    style ML fill:#ffeb3b,stroke:#f57f17,stroke-width:3px
-    style A fill:#e3f2fd,stroke:#1976d2,stroke-width:2px
-    style B fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px
-    style C fill:#e8f5e9,stroke:#388e3c,stroke-width:2px
+ ML[机器学习<br/>Machine Learning] --> A[学习范式扩展]
+ ML --> B[模型结构扩展]
+ ML --> C[应用场景扩展]
+
+ A --> A1[强化学习 RL]
+ A --> A2[自监督学习 SSL]
+ A --> A3[迁移学习]
+ A --> A4[元学习]
+ A --> A5[主动学习]
+
+ B --> B1[深度学习 DL]
+ B --> B2[图神经网络 GNN]
+ B --> B3[生成模型]
+
+ C --> C1[联邦学习]
+ C --> C2[在线学习]
+ C --> C3[多模态学习]
+
+ style ML fill:#ffeb3b,stroke:#f57f17,stroke-width:3px
+ style A fill:#e3f2fd,stroke:#1976d2,stroke-width:2px
+ style B fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px
+ style C fill:#e8f5e9,stroke:#388e3c,stroke-width:2px
 ```
 
 ---
@@ -939,70 +939,70 @@ flowchart TB
 
 ```mermaid
 flowchart LR
-    subgraph TRAD[传统机器学习]
-        A1[原始数据] --> A2[人工特征工程]
-        A2 --> A3[简单模型]
-        A3 --> A4[预测]
-    end
-    
-    subgraph DL[深度学习]
-        B1[原始数据] --> B2[神经网络<br/>自动学习特征]
-        B2 --> B3[预测]
-    end
-    
-    style TRAD fill:#e3f2fd,stroke:#1976d2,stroke-width:2px
-    style DL fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px
+ subgraph TRAD[传统机器学习]
+ A1[原始数据] --> A2[人工特征工程]
+ A2 --> A3[简单模型]
+ A3 --> A4[预测]
+ end
+
+ subgraph DL[深度学习]
+ B1[原始数据] --> B2[神经网络<br/>自动学习特征]
+ B2 --> B3[预测]
+ end
+
+ style TRAD fill:#e3f2fd,stroke:#1976d2,stroke-width:2px
+ style DL fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px
 ```
 
 ##### 神经网络基本结构
 
 ```mermaid
 flowchart LR
-    subgraph IN[输入层]
-        I1[x1]
-        I2[x2]
-        I3[x3]
-    end
-    subgraph HID1[隐藏层1]
-        H1[h1]
-        H2[h2]
-        H3[h3]
-        H4[h4]
-    end
-    subgraph HID2[隐藏层2]
-        H5[h1]
-        H6[h2]
-        H7[h3]
-    end
-    subgraph OUT[输出层]
-        O1[y1]
-        O2[y2]
-    end
-    
-    I1 --> H1 & H2 & H3 & H4
-    I2 --> H1 & H2 & H3 & H4
-    I3 --> H1 & H2 & H3 & H4
-    H1 & H2 & H3 & H4 --> H5 & H6 & H7
-    H5 & H6 & H7 --> O1 & O2
-    
-    style IN fill:#e3f2fd,stroke:#1976d2
-    style HID1 fill:#fff3e0,stroke:#f57c00
-    style HID2 fill:#fff3e0,stroke:#f57c00
-    style OUT fill:#e8f5e9,stroke:#388e3c
+ subgraph IN[输入层]
+ I1[x1]
+ I2[x2]
+ I3[x3]
+ end
+ subgraph HID1[隐藏层1]
+ H1[h1]
+ H2[h2]
+ H3[h3]
+ H4[h4]
+ end
+ subgraph HID2[隐藏层2]
+ H5[h1]
+ H6[h2]
+ H7[h3]
+ end
+ subgraph OUT[输出层]
+ O1[y1]
+ O2[y2]
+ end
+
+ I1 --> H1 & H2 & H3 & H4
+ I2 --> H1 & H2 & H3 & H4
+ I3 --> H1 & H2 & H3 & H4
+ H1 & H2 & H3 & H4 --> H5 & H6 & H7
+ H5 & H6 & H7 --> O1 & O2
+
+ style IN fill:#e3f2fd,stroke:#1976d2
+ style HID1 fill:#fff3e0,stroke:#f57c00
+ style HID2 fill:#fff3e0,stroke:#f57c00
+ style OUT fill:#e8f5e9,stroke:#388e3c
 ```
 
 ##### 层次化特征学习（以图像识别为例）
 
 ```mermaid
 flowchart LR
-    A[原始像素] --> B[第1层<br/>边缘、线条]
-    B --> C[第2层<br/>纹理、角点]
-    C --> D[第3层<br/>局部形状<br/>眼睛、鼻子]
-    D --> E[第4层<br/>整体物体<br/>人脸]
-    E --> F[输出: 这是张三]
-    
-    style A fill:#e3f2fd,stroke:#1976d2
-    style F fill:#e8f5e9,stroke:#388e3c
+ A[原始像素] --> B[第1层<br/>边缘、线条]
+ B --> C[第2层<br/>纹理、角点]
+ C --> D[第3层<br/>局部形状<br/>眼睛、鼻子]
+ D --> E[第4层<br/>整体物体<br/>人脸]
+ E --> F[输出: 这是张三]
+
+ style A fill:#e3f2fd,stroke:#1976d2
+ style F fill:#e8f5e9,stroke:#388e3c
 ```
 
 ##### 主要的深度学习架构
@@ -1021,15 +1021,15 @@ flowchart LR
 
 ```mermaid
 flowchart LR
-    A[输入] -->|前向传播| B[预测]
-    B --> C[计算损失]
-    C -->|反向传播<br/>逐层求梯度| D[更新所有层参数]
-    D -.下一轮.-> A
-    
-    style A fill:#e3f2fd,stroke:#1976d2
-    style B fill:#fff3e0,stroke:#f57c00
-    style C fill:#fce4ec,stroke:#c2185b
-    style D fill:#e8f5e9,stroke:#388e3c
+ A[输入] -->|前向传播| B[预测]
+ B --> C[计算损失]
+ C -->|反向传播<br/>逐层求梯度| D[更新所有层参数]
+ D -.下一轮.-> A
+
+ style A fill:#e3f2fd,stroke:#1976d2
+ style B fill:#fff3e0,stroke:#f57c00
+ style C fill:#fce4ec,stroke:#c2185b
+ style D fill:#e8f5e9,stroke:#388e3c
 ```
 
 ##### 优缺点
@@ -1069,30 +1069,30 @@ $$
 
 ```mermaid
 flowchart TB
-    RL[强化学习] --> A[基于价值<br/>Value-Based]
-    RL --> B[基于策略<br/>Policy-Based]
-    RL --> C[Actor-Critic<br/>结合两者]
-    RL --> D[基于模型<br/>Model-Based]
-    
-    A --> A1[Q-Learning]
-    A --> A2[DQN 深度Q网络]
-    A --> A3[Double DQN]
-    
-    B --> B1[REINFORCE]
-    B --> B2[Policy Gradient]
-    
-    C --> C1[A2C / A3C]
-    C --> C2[PPO 近端策略优化]
-    C --> C3[SAC]
-    
-    D --> D1[Dyna-Q]
-    D --> D2[MuZero]
-    
-    style RL fill:#ffeb3b,stroke:#f57f17,stroke-width:3px
-    style A fill:#e3f2fd,stroke:#1976d2
-    style B fill:#f3e5f5,stroke:#7b1fa2
-    style C fill:#fff3e0,stroke:#f57c00
-    style D fill:#e8f5e9,stroke:#388e3c
+ RL[强化学习] --> A[基于价值<br/>Value-Based]
+ RL --> B[基于策略<br/>Policy-Based]
+ RL --> C[Actor-Critic<br/>结合两者]
+ RL --> D[基于模型<br/>Model-Based]
+
+ A --> A1[Q-Learning]
+ A --> A2[DQN 深度Q网络]
+ A --> A3[Double DQN]
+
+ B --> B1[REINFORCE]
+ B --> B2[Policy Gradient]
+
+ C --> C1[A2C / A3C]
+ C --> C2[PPO 近端策略优化]
+ C --> C3[SAC]
+
+ D --> D1[Dyna-Q]
+ D --> D2[MuZero]
+
+ style RL fill:#ffeb3b,stroke:#f57f17,stroke-width:3px
+ style A fill:#e3f2fd,stroke:#1976d2
+ style B fill:#f3e5f5,stroke:#7b1fa2
+ style C fill:#fff3e0,stroke:#f57c00
+ style D fill:#e8f5e9,stroke:#388e3c
 ```
 
 ##### Q-Learning 核心公式
@@ -1126,14 +1126,14 @@ ChatGPT 等大模型对齐的关键技术：
 
 ```mermaid
 flowchart TB
-    A[1.预训练大模型<br/>SFT 监督微调] --> B[2.训练奖励模型<br/>用人类偏好数据]
-    B --> C[3.PPO 强化学习<br/>用奖励模型优化输出]
-    C --> D[对齐人类偏好的模型]
-    
-    style A fill:#e3f2fd,stroke:#1976d2
-    style B fill:#f3e5f5,stroke:#7b1fa2
-    style C fill:#fff3e0,stroke:#f57c00
-    style D fill:#e8f5e9,stroke:#388e3c,stroke-width:3px
+ A[1.预训练大模型<br/>SFT 监督微调] --> B[2.训练奖励模型<br/>用人类偏好数据]
+ B --> C[3.PPO 强化学习<br/>用奖励模型优化输出]
+ C --> D[对齐人类偏好的模型]
+
+ style A fill:#e3f2fd,stroke:#1976d2
+ style B fill:#f3e5f5,stroke:#7b1fa2
+ style C fill:#fff3e0,stroke:#f57c00
+ style D fill:#e8f5e9,stroke:#388e3c,stroke-width:3px
 ```
 
 ---
@@ -1149,14 +1149,14 @@ flowchart TB
 
 ```mermaid
 flowchart LR
-    A[原始数据] --> B[人为构造任务<br/>遮挡、打乱、预测下一个]
-    B --> C[模型学习恢复原数据]
-    C --> D[过程中学到有用表示]
-    
-    style A fill:#e3f2fd,stroke:#1976d2
-    style B fill:#fff3e0,stroke:#f57c00
-    style C fill:#f3e5f5,stroke:#7b1fa2
-    style D fill:#e8f5e9,stroke:#388e3c
+ A[原始数据] --> B[人为构造任务<br/>遮挡、打乱、预测下一个]
+ B --> C[模型学习恢复原数据]
+ C --> D[过程中学到有用表示]
+
+ style A fill:#e3f2fd,stroke:#1976d2
+ style B fill:#fff3e0,stroke:#f57c00
+ style C fill:#f3e5f5,stroke:#7b1fa2
+ style D fill:#e8f5e9,stroke:#388e3c
 ```
 
 ##### 经典任务范式
@@ -1191,19 +1191,19 @@ flowchart LR
 
 ```mermaid
 flowchart TB
-    A[海量无标签数据] --> B[预训练阶段<br/>自监督任务]
-    B --> C[学到通用特征表示]
-    C --> D{下游任务}
-    D --> D1[少量标签微调<br/>Fine-tuning]
-    D --> D2[零样本应用<br/>Zero-shot]
-    D --> D3[小样本学习<br/>Few-shot]
-    
-    style A fill:#e3f2fd,stroke:#1976d2
-    style B fill:#fff3e0,stroke:#f57c00,stroke-width:3px
-    style C fill:#f3e5f5,stroke:#7b1fa2
-    style D1 fill:#e8f5e9,stroke:#388e3c
-    style D2 fill:#e8f5e9,stroke:#388e3c
-    style D3 fill:#e8f5e9,stroke:#388e3c
+ A[海量无标签数据] --> B[预训练阶段<br/>自监督任务]
+ B --> C[学到通用特征表示]
+ C --> D{下游任务}
+ D --> D1[少量标签微调<br/>Fine-tuning]
+ D --> D2[零样本应用<br/>Zero-shot]
+ D --> D3[小样本学习<br/>Few-shot]
+
+ style A fill:#e3f2fd,stroke:#1976d2
+ style B fill:#fff3e0,stroke:#f57c00,stroke-width:3px
+ style C fill:#f3e5f5,stroke:#7b1fa2
+ style D1 fill:#e8f5e9,stroke:#388e3c
+ style D2 fill:#e8f5e9,stroke:#388e3c
+ style D3 fill:#e8f5e9,stroke:#388e3c
 ```
 
 ##### 与其他学习方式的关系
@@ -1234,15 +1234,15 @@ flowchart TB
 
 ```mermaid
 flowchart LR
-    A[源任务<br/>大数据集] --> B[预训练模型]
-    B --> C[迁移参数]
-    C --> D[目标任务<br/>小数据集]
-    D --> E[微调 Fine-tune]
-    E --> F[高性能模型]
-    
-    style A fill:#e3f2fd,stroke:#1976d2
-    style B fill:#fff3e0,stroke:#f57c00
-    style F fill:#e8f5e9,stroke:#388e3c
+ A[源任务<br/>大数据集] --> B[预训练模型]
+ B --> C[迁移参数]
+ C --> D[目标任务<br/>小数据集]
+ D --> E[微调 Fine-tune]
+ E --> F[高性能模型]
+
+ style A fill:#e3f2fd,stroke:#1976d2
+ style B fill:#fff3e0,stroke:#f57c00
+ style F fill:#e8f5e9,stroke:#388e3c
 ```
 
 **应用**：用 ImageNet 预训练模型 → 迁移到医学影像分类
@@ -1265,22 +1265,22 @@ flowchart LR
 
 ```mermaid
 flowchart TB
-    S[中央服务器<br/>聚合模型]
-    C1[客户端A<br/>本地数据]
-    C2[客户端B<br/>本地数据]
-    C3[客户端C<br/>本地数据]
-    
-    C1 -->|上传模型参数| S
-    C2 -->|上传模型参数| S
-    C3 -->|上传模型参数| S
-    S -->|下发全局模型| C1
-    S -->|下发全局模型| C2
-    S -->|下发全局模型| C3
-    
-    style S fill:#ffeb3b,stroke:#f57f17,stroke-width:3px
-    style C1 fill:#e3f2fd,stroke:#1976d2
-    style C2 fill:#f3e5f5,stroke:#7b1fa2
-    style C3 fill:#e8f5e9,stroke:#388e3c
+ S[中央服务器<br/>聚合模型]
+ C1[客户端A<br/>本地数据]
+ C2[客户端B<br/>本地数据]
+ C3[客户端C<br/>本地数据]
+
+ C1 -->|上传模型参数| S
+ C2 -->|上传模型参数| S
+ C3 -->|上传模型参数| S
+ S -->|下发全局模型| C1
+ S -->|下发全局模型| C2
+ S -->|下发全局模型| C3
+
+ style S fill:#ffeb3b,stroke:#f57f17,stroke-width:3px
+ style C1 fill:#e3f2fd,stroke:#1976d2
+ style C2 fill:#f3e5f5,stroke:#7b1fa2
+ style C3 fill:#e8f5e9,stroke:#388e3c
 ```
 
 **应用**：手机输入法预测、医院间联合建模（保护隐私）
@@ -1321,16 +1321,16 @@ flowchart TB
 
 ```mermaid
 flowchart LR
-    A[未标注数据池] --> B[模型选择<br/>最不确定的样本]
-    B --> C[人工标注]
-    C --> D[加入训练集]
-    D --> E[重新训练模型]
-    E -.循环.-> B
-    
-    style A fill:#e3f2fd,stroke:#1976d2
-    style B fill:#fff3e0,stroke:#f57c00
-    style C fill:#fce4ec,stroke:#c2185b
-    style E fill:#e8f5e9,stroke:#388e3c
+ A[未标注数据池] --> B[模型选择<br/>最不确定的样本]
+ B --> C[人工标注]
+ C --> D[加入训练集]
+ D --> E[重新训练模型]
+ E -.循环.-> B
+
+ style A fill:#e3f2fd,stroke:#1976d2
+ style B fill:#fff3e0,stroke:#f57c00
+ style C fill:#fce4ec,stroke:#c2185b
+ style E fill:#e8f5e9,stroke:#388e3c
 ```
 
 ---
@@ -1339,22 +1339,22 @@ flowchart LR
 
 ```mermaid
 flowchart TB
-    DL[深度学习<br/>提供强大模型] --> SSL[自监督学习<br/>预训练大模型]
-    SSL --> LLM[大语言模型<br/>GPT/BERT]
-    DL --> RL[深度强化学习]
-    LLM --> RLHF[RLHF<br/>对齐人类偏好]
-    RL --> RLHF
-    DL --> MM[多模态学习]
-    SSL --> MM
-    MM --> AGI[通用人工智能<br/>AGI 探索方向]
-    DL --> GEN[生成式AI<br/>AIGC]
-    SSL --> GEN
-    
-    style DL fill:#e3f2fd,stroke:#1976d2,stroke-width:2px
-    style SSL fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px
-    style RL fill:#fff3e0,stroke:#f57c00,stroke-width:2px
-    style LLM fill:#e8f5e9,stroke:#388e3c,stroke-width:3px
-    style AGI fill:#ffeb3b,stroke:#f57f17,stroke-width:3px
+ DL[深度学习<br/>提供强大模型] --> SSL[自监督学习<br/>预训练大模型]
+ SSL --> LLM[大语言模型<br/>GPT/BERT]
+ DL --> RL[深度强化学习]
+ LLM --> RLHF[RLHF<br/>对齐人类偏好]
+ RL --> RLHF
+ DL --> MM[多模态学习]
+ SSL --> MM
+ MM --> AGI[通用人工智能<br/>AGI 探索方向]
+ DL --> GEN[生成式AI<br/>AIGC]
+ SSL --> GEN
+
+ style DL fill:#e3f2fd,stroke:#1976d2,stroke-width:2px
+ style SSL fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px
+ style RL fill:#fff3e0,stroke:#f57c00,stroke-width:2px
+ style LLM fill:#e8f5e9,stroke:#388e3c,stroke-width:3px
+ style AGI fill:#ffeb3b,stroke:#f57f17,stroke-width:3px
 ```
 
 **关键洞察**：
@@ -1386,20 +1386,20 @@ flowchart TB
 
 ```mermaid
 flowchart LR
-    A[当前阶段] --> B[未来方向]
-    
-    A --> A1[大模型<br/>LLM]
-    A --> A2[多模态<br/>融合]
-    A --> A3[AI Agent<br/>自主智能体]
-    
-    B --> B1[更强的<br/>推理能力]
-    B --> B2[具身智能<br/>Embodied AI]
-    B --> B3[世界模型<br/>World Model]
-    B --> B4[AGI<br/>通用人工智能]
-    
-    style A fill:#e3f2fd,stroke:#1976d2
-    style B fill:#e8f5e9,stroke:#388e3c
-    style B4 fill:#ffeb3b,stroke:#f57f17,stroke-width:3px
+ A[当前阶段] --> B[未来方向]
+
+ A --> A1[大模型<br/>LLM]
+ A --> A2[多模态<br/>融合]
+ A --> A3[AI Agent<br/>自主智能体]
+
+ B --> B1[更强的<br/>推理能力]
+ B --> B2[具身智能<br/>Embodied AI]
+ B --> B3[世界模型<br/>World Model]
+ B --> B4[AGI<br/>通用人工智能]
+
+ style A fill:#e3f2fd,stroke:#1976d2
+ style B fill:#e8f5e9,stroke:#388e3c
+ style B4 fill:#ffeb3b,stroke:#f57f17,stroke-width:3px
 ```
 
 **关键趋势**：
@@ -1429,16 +1429,16 @@ flowchart LR
 
 ```mermaid
 flowchart LR
-    A[机器学习基础] --> B[深度学习]
-    B --> C{选择方向}
-    C --> D1[计算机视觉<br/>CNN, Diffusion]
-    C --> D2[自然语言处理<br/>Transformer, LLM]
-    C --> D3[强化学习<br/>DQN, PPO]
-    C --> D4[多模态<br/>CLIP, GPT-4V]
-    
-    style A fill:#e3f2fd,stroke:#1976d2
-    style B fill:#f3e5f5,stroke:#7b1fa2,stroke-width:3px
-    style C fill:#fff3e0,stroke:#f57c00
+ A[机器学习基础] --> B[深度学习]
+ B --> C{选择方向}
+ C --> D1[计算机视觉<br/>CNN, Diffusion]
+ C --> D2[自然语言处理<br/>Transformer, LLM]
+ C --> D3[强化学习<br/>DQN, PPO]
+ C --> D4[多模态<br/>CLIP, GPT-4V]
+
+ style A fill:#e3f2fd,stroke:#1976d2
+ style B fill:#f3e5f5,stroke:#7b1fa2,stroke-width:3px
+ style C fill:#fff3e0,stroke:#f57c00
 ```
 
 ---
@@ -1453,31 +1453,31 @@ Python 之所以成为机器学习的主流语言，很大程度上得益于其�
 
 ```mermaid
 flowchart TB
-    PY[Python 机器学习生态] --> A[Scikit-learn<br/>传统机器学习]
-    PY --> B[TensorFlow<br/>深度学习/工业级]
-    PY --> C[PyTorch<br/>深度学习/研究级]
-    PY --> D[Keras<br/>高层封装/易用]
-    
-    A --> A1[分类、回归、聚类<br/>经典算法]
-    B --> B1[Google出品<br/>生产部署强]
-    C --> C1[Meta出品<br/>研究界主流]
-    D --> D1[简洁易学<br/>已并入TF]
-    
-    style PY fill:#ffeb3b,stroke:#f57f17,stroke-width:3px
-    style A fill:#e3f2fd,stroke:#1976d2,stroke-width:2px
-    style B fill:#fff3e0,stroke:#f57c00,stroke-width:2px
-    style C fill:#fce4ec,stroke:#c2185b,stroke-width:2px
-    style D fill:#e8f5e9,stroke:#388e3c,stroke-width:2px
+ PY[Python 机器学习生态] --> A[Scikit-learn<br/>传统机器学习]
+ PY --> B[TensorFlow<br/>深度学习/工业级]
+ PY --> C[PyTorch<br/>深度学习/研究级]
+ PY --> D[Keras<br/>高层封装/易用]
+
+ A --> A1[分类、回归、聚类<br/>经典算法]
+ B --> B1[Google出品<br/>生产部署强]
+ C --> C1[Meta出品<br/>研究界主流]
+ D --> D1[简洁易学<br/>已并入TF]
+
+ style PY fill:#ffeb3b,stroke:#f57f17,stroke-width:3px
+ style A fill:#e3f2fd,stroke:#1976d2,stroke-width:2px
+ style B fill:#fff3e0,stroke:#f57c00,stroke-width:2px
+ style C fill:#fce4ec,stroke:#c2185b,stroke-width:2px
+ style D fill:#e8f5e9,stroke:#388e3c,stroke-width:2px
 ```
 
 ##### 快速对比表
 
 | 库 | 出品方 | 定位 | 难度 | 主要用途 |
 |----|-------|------|------|---------|
-| Scikit-learn | 社区 | 传统机器学习 | ★★ | 经典算法、数据挖掘 |
-| TensorFlow | Google | 深度学习框架 | ★★★★ | 工业部署、移动端 |
-| PyTorch | Meta (Facebook) | 深度学习框架 | ★★★ | 学术研究、快速开发 |
-| Keras | 社区 / Google | 高层 API | ★ | 快速原型、入门 |
+| Scikit-learn | 社区 | 传统机器学习 | | 经典算法、数据挖掘 |
+| TensorFlow | Google | 深度学习框架 | | 工业部署、移动端 |
+| PyTorch | Meta (Facebook) | 深度学习框架 | | 学术研究、快速开发 |
+| Keras | 社区 / Google | 高层 API | | 快速原型、入门 |
 
 ---
 
@@ -1502,32 +1502,32 @@ flowchart TB
 
 ```mermaid
 flowchart TB
-    SK[Scikit-learn] --> A[监督学习]
-    SK --> B[无监督学习]
-    SK --> C[模型选择]
-    SK --> D[预处理]
-    SK --> E[特征工程]
-    SK --> F[评估指标]
-    
-    A --> A1[分类: SVM, RF, KNN]
-    A --> A2[回归: Linear, Ridge, Lasso]
-    
-    B --> B1[聚类: KMeans, DBSCAN]
-    B --> B2[降维: PCA, t-SNE]
-    
-    C --> C1[交叉验证]
-    C --> C2[网格搜索]
-    
-    D --> D1[标准化、归一化]
-    D --> D2[缺失值处理]
-    
-    E --> E1[特征选择]
-    E --> E2[特征提取]
-    
-    F --> F1[准确率、F1、AUC]
-    F --> F2[MSE、R²]
-    
-    style SK fill:#e3f2fd,stroke:#1976d2,stroke-width:3px
+ SK[Scikit-learn] --> A[监督学习]
+ SK --> B[无监督学习]
+ SK --> C[模型选择]
+ SK --> D[预处理]
+ SK --> E[特征工程]
+ SK --> F[评估指标]
+
+ A --> A1[分类: SVM, RF, KNN]
+ A --> A2[回归: Linear, Ridge, Lasso]
+
+ B --> B1[聚类: KMeans, DBSCAN]
+ B --> B2[降维: PCA, t-SNE]
+
+ C --> C1[交叉验证]
+ C --> C2[网格搜索]
+
+ D --> D1[标准化、归一化]
+ D --> D2[缺失值处理]
+
+ E --> E1[特征选择]
+ E --> E2[特征提取]
+
+ F --> F1[准确率、F1、AUC]
+ F --> F2[MSE、R²]
+
+ style SK fill:#e3f2fd,stroke:#1976d2,stroke-width:3px
 ```
 
 ##### 典型代码示例：鸢尾花分类
@@ -1544,7 +1544,7 @@ X, y = iris.data, iris.target
 
 # 2. 划分训练集和测试集
 X_train, X_test, y_train, y_test = train_test_split(
-    X, y, test_size=0.2, random_state=42
+ X, y, test_size=0.2, random_state=42
 )
 
 # 3. 创建并训练模型
@@ -1601,24 +1601,24 @@ print(classification_report(y_test, y_pred, target_names=iris.target_names))
 
 ```mermaid
 flowchart TB
-    TF[TensorFlow 核心] --> A[训练]
-    TF --> B[部署]
-    TF --> C[扩展]
-    
-    A --> A1[Keras<br/>高层API]
-    A --> A2[tf.data<br/>数据管道]
-    A --> A3[tf.distribute<br/>分布式训练]
-    
-    B --> B1[TF Serving<br/>服务器部署]
-    B --> B2[TF Lite<br/>移动端]
-    B --> B3[TF.js<br/>浏览器]
-    B --> B4[TFX<br/>生产管道]
-    
-    C --> C1[TF Hub<br/>预训练模型]
-    C --> C2[TF Probability<br/>概率编程]
-    C --> C3[TF Agents<br/>强化学习]
-    
-    style TF fill:#fff3e0,stroke:#f57c00,stroke-width:3px
+ TF[TensorFlow 核心] --> A[训练]
+ TF --> B[部署]
+ TF --> C[扩展]
+
+ A --> A1[Keras<br/>高层API]
+ A --> A2[tf.data<br/>数据管道]
+ A --> A3[tf.distribute<br/>分布式训练]
+
+ B --> B1[TF Serving<br/>服务器部署]
+ B --> B2[TF Lite<br/>移动端]
+ B --> B3[TF.js<br/>浏览器]
+ B --> B4[TFX<br/>生产管道]
+
+ C --> C1[TF Hub<br/>预训练模型]
+ C --> C2[TF Probability<br/>概率编程]
+ C --> C3[TF Agents<br/>强化学习]
+
+ style TF fill:#fff3e0,stroke:#f57c00,stroke-width:3px
 ```
 
 ##### 典型代码示例：MNIST 手写数字识别
@@ -1629,21 +1629,21 @@ from tensorflow.keras import layers, models
 
 # 1. 加载数据
 (X_train, y_train), (X_test, y_test) = tf.keras.datasets.mnist.load_data()
-X_train, X_test = X_train / 255.0, X_test / 255.0  # 归一化
+X_train, X_test = X_train / 255.0, X_test / 255.0 # 归一化
 
 # 2. 构建模型
 model = models.Sequential([
-    layers.Flatten(input_shape=(28, 28)),
-    layers.Dense(128, activation='relu'),
-    layers.Dropout(0.2),
-    layers.Dense(10, activation='softmax')
+ layers.Flatten(input_shape=(28, 28)),
+ layers.Dense(128, activation='relu'),
+ layers.Dropout(0.2),
+ layers.Dense(10, activation='softmax')
 ])
 
 # 3. 编译模型
 model.compile(
-    optimizer='adam',
-    loss='sparse_categorical_crossentropy',
-    metrics=['accuracy']
+ optimizer='adam',
+ loss='sparse_categorical_crossentropy',
+ metrics=['accuracy']
 )
 
 # 4. 训练
@@ -1699,24 +1699,24 @@ model.save('mnist_model.h5')
 
 ```mermaid
 flowchart TB
-    PT[PyTorch 核心] --> A[基础组件]
-    PT --> B[领域库]
-    PT --> C[生态工具]
-    
-    A --> A1[torch.nn<br/>神经网络]
-    A --> A2[torch.optim<br/>优化器]
-    A --> A3[torch.autograd<br/>自动求导]
-    A --> A4[DataLoader<br/>数据加载]
-    
-    B --> B1[torchvision<br/>视觉]
-    B --> B2[torchaudio<br/>音频]
-    B --> B3[torchtext<br/>文本]
-    
-    C --> C1[HuggingFace<br/>预训练模型]
-    C --> C2[PyTorch Lightning<br/>训练框架]
-    C --> C3[TorchServe<br/>部署]
-    
-    style PT fill:#fce4ec,stroke:#c2185b,stroke-width:3px
+ PT[PyTorch 核心] --> A[基础组件]
+ PT --> B[领域库]
+ PT --> C[生态工具]
+
+ A --> A1[torch.nn<br/>神经网络]
+ A --> A2[torch.optim<br/>优化器]
+ A --> A3[torch.autograd<br/>自动求导]
+ A --> A4[DataLoader<br/>数据加载]
+
+ B --> B1[torchvision<br/>视觉]
+ B --> B2[torchaudio<br/>音频]
+ B --> B3[torchtext<br/>文本]
+
+ C --> C1[HuggingFace<br/>预训练模型]
+ C --> C2[PyTorch Lightning<br/>训练框架]
+ C --> C3[TorchServe<br/>部署]
+
+ style PT fill:#fce4ec,stroke:#c2185b,stroke-width:3px
 ```
 
 ##### 典型代码示例：MNIST 手写数字识别
@@ -1730,8 +1730,8 @@ from torchvision import datasets, transforms
 
 # 1. 数据准备
 transform = transforms.Compose([
-    transforms.ToTensor(),
-    transforms.Normalize((0.1307,), (0.3081,))
+ transforms.ToTensor(),
+ transforms.Normalize((0.1307,), (0.3081,))
 ])
 
 train_dataset = datasets.MNIST('./data', train=True, download=True, transform=transform)
@@ -1739,18 +1739,18 @@ train_loader = DataLoader(train_dataset, batch_size=64, shuffle=True)
 
 # 2. 定义模型
 class Net(nn.Module):
-    def __init__(self):
-        super().__init__()
-        self.fc1 = nn.Linear(28*28, 128)
-        self.fc2 = nn.Linear(128, 10)
-        self.dropout = nn.Dropout(0.2)
-    
-    def forward(self, x):
-        x = x.view(-1, 28*28)
-        x = torch.relu(self.fc1(x))
-        x = self.dropout(x)
-        x = self.fc2(x)
-        return x
+ def __init__(self):
+ super().__init__()
+ self.fc1 = nn.Linear(28*28, 128)
+ self.fc2 = nn.Linear(128, 10)
+ self.dropout = nn.Dropout(0.2)
+
+ def forward(self, x):
+ x = x.view(-1, 28*28)
+ x = torch.relu(self.fc1(x))
+ x = self.dropout(x)
+ x = self.fc2(x)
+ return x
 
 # 3. 初始化模型、损失函数、优化器
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
@@ -1760,14 +1760,14 @@ optimizer = optim.Adam(model.parameters(), lr=0.001)
 
 # 4. 训练循环
 for epoch in range(5):
-    for batch_idx, (data, target) in enumerate(train_loader):
-        data, target = data.to(device), target.to(device)
-        optimizer.zero_grad()
-        output = model(data)
-        loss = criterion(output, target)
-        loss.backward()
-        optimizer.step()
-    print(f'Epoch {epoch+1}, Loss: {loss.item():.4f}')
+ for batch_idx, (data, target) in enumerate(train_loader):
+ data, target = data.to(device), target.to(device)
+ optimizer.zero_grad()
+ output = model(data)
+ loss = criterion(output, target)
+ loss.backward()
+ optimizer.step()
+ print(f'Epoch {epoch+1}, Loss: {loss.item():.4f}')
 
 # 5. 保存模型
 torch.save(model.state_dict(), 'mnist_pytorch.pth')
@@ -1814,15 +1814,15 @@ torch.save(model.state_dict(), 'mnist_pytorch.pth')
 
 ```mermaid
 flowchart TB
-    K[Keras] --> A[Sequential API<br/>顺序模型]
-    K --> B[Functional API<br/>函数式模型]
-    K --> C[Subclassing API<br/>自定义模型]
-    
-    A --> A1[简单线性堆叠<br/>最易用]
-    B --> B1[多输入/多输出<br/>共享层]
-    C --> C1[完全自定义<br/>类似 PyTorch]
-    
-    style K fill:#e8f5e9,stroke:#388e3c,stroke-width:3px
+ K[Keras] --> A[Sequential API<br/>顺序模型]
+ K --> B[Functional API<br/>函数式模型]
+ K --> C[Subclassing API<br/>自定义模型]
+
+ A --> A1[简单线性堆叠<br/>最易用]
+ B --> B1[多输入/多输出<br/>共享层]
+ C --> C1[完全自定义<br/>类似 PyTorch]
+
+ style K fill:#e8f5e9,stroke:#388e3c,stroke-width:3px
 ```
 
 ##### 典型代码示例：三种 API 对比
@@ -1834,9 +1834,9 @@ from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Dropout
 
 model = Sequential([
-    Dense(128, activation='relu', input_shape=(784,)),
-    Dropout(0.2),
-    Dense(10, activation='softmax')
+ Dense(128, activation='relu', input_shape=(784,)),
+ Dropout(0.2),
+ Dense(10, activation='softmax')
 ])
 ```
 
@@ -1860,16 +1860,16 @@ from tensorflow.keras import Model
 from tensorflow.keras.layers import Dense, Dropout
 
 class MyModel(Model):
-    def __init__(self):
-        super().__init__()
-        self.dense1 = Dense(128, activation='relu')
-        self.dropout = Dropout(0.2)
-        self.dense2 = Dense(10, activation='softmax')
-    
-    def call(self, inputs):
-        x = self.dense1(inputs)
-        x = self.dropout(x)
-        return self.dense2(x)
+ def __init__(self):
+ super().__init__()
+ self.dense1 = Dense(128, activation='relu')
+ self.dropout = Dropout(0.2)
+ self.dense2 = Dense(10, activation='softmax')
+
+ def call(self, inputs):
+ x = self.dense1(inputs)
+ x = self.dropout(x)
+ return self.dense2(x)
 
 model = MyModel()
 ```
@@ -1900,7 +1900,7 @@ model = MyModel()
 | 维度 | Scikit-learn | TensorFlow | PyTorch | Keras |
 |------|-------------|-----------|---------|-------|
 | **类型** | 传统ML | 深度学习 | 深度学习 | 高层API |
-| **难度** | ★★ | ★★★★ | ★★★ | ★ |
+| **难度** | | | | |
 | **GPU 支持** | 不支持 | 优秀 | 优秀 | 通过后端 |
 | **动态图** | — | 支持(2.x) | 原生支持 | 通过后端 |
 | **部署能力** | 一般 | 极强 | 良好 | 通过后端 |
@@ -1915,14 +1915,14 @@ model = MyModel()
 
 ```mermaid
 flowchart LR
-    A[Keras<br/>~20 行] --> B[Scikit-learn<br/>~10 行]
-    B --> C[PyTorch<br/>~40 行]
-    C --> D[TensorFlow原生<br/>~50 行]
-    
-    style A fill:#e8f5e9,stroke:#388e3c
-    style B fill:#e3f2fd,stroke:#1976d2
-    style C fill:#fce4ec,stroke:#c2185b
-    style D fill:#fff3e0,stroke:#f57c00
+ A[Keras<br/>~20 行] --> B[Scikit-learn<br/>~10 行]
+ B --> C[PyTorch<br/>~40 行]
+ C --> D[TensorFlow原生<br/>~50 行]
+
+ style A fill:#e8f5e9,stroke:#388e3c
+ style B fill:#e3f2fd,stroke:#1976d2
+ style C fill:#fce4ec,stroke:#c2185b
+ style D fill:#fff3e0,stroke:#f57c00
 ```
 
 ---
@@ -1931,26 +1931,26 @@ flowchart LR
 
 ```mermaid
 flowchart TB
-    Q[我要做什么?] --> A{任务类型?}
-    
-    A -->|表格数据/<br/>传统机器学习| B[Scikit-learn]
-    A -->|深度学习| C{使用目的?}
-    
-    C -->|学习入门| D[Keras]
-    C -->|学术研究| E[PyTorch]
-    C -->|工业部署| F[TensorFlow]
-    C -->|快速原型| D
-    
-    B --> B1[随机森林、SVM<br/>聚类、降维]
-    D --> D1[简单CNN/RNN<br/>标准任务]
-    E --> E1[复杂模型<br/>论文复现<br/>HuggingFace]
-    F --> F1[移动端部署<br/>大规模分布式<br/>TPU 训练]
-    
-    style Q fill:#ffeb3b,stroke:#f57f17,stroke-width:3px
-    style B fill:#e3f2fd,stroke:#1976d2
-    style D fill:#e8f5e9,stroke:#388e3c
-    style E fill:#fce4ec,stroke:#c2185b
-    style F fill:#fff3e0,stroke:#f57c00
+ Q[我要做什么?] --> A{任务类型?}
+
+ A -->|表格数据/<br/>传统机器学习| B[Scikit-learn]
+ A -->|深度学习| C{使用目的?}
+
+ C -->|学习入门| D[Keras]
+ C -->|学术研究| E[PyTorch]
+ C -->|工业部署| F[TensorFlow]
+ C -->|快速原型| D
+
+ B --> B1[随机森林、SVM<br/>聚类、降维]
+ D --> D1[简单CNN/RNN<br/>标准任务]
+ E --> E1[复杂模型<br/>论文复现<br/>HuggingFace]
+ F --> F1[移动端部署<br/>大规模分布式<br/>TPU 训练]
+
+ style Q fill:#ffeb3b,stroke:#f57f17,stroke-width:3px
+ style B fill:#e3f2fd,stroke:#1976d2
+ style D fill:#e8f5e9,stroke:#388e3c
+ style E fill:#fce4ec,stroke:#c2185b
+ style F fill:#fff3e0,stroke:#f57c00
 ```
 
 ##### 选择决策表
@@ -1975,19 +1975,19 @@ flowchart TB
 
 ```mermaid
 flowchart LR
-    A[NumPy/Pandas<br/>数据处理] --> B[Scikit-learn<br/>预处理/基线模型]
-    B --> C{是否需要<br/>深度学习?}
-    C -->|否| D[Scikit-learn<br/>训练评估]
-    C -->|是| E[Keras/TF/PyTorch<br/>构建训练]
-    E --> F[部署平台]
-    F --> F1[TF Serving]
-    F --> F2[TorchServe]
-    F --> F3[ONNX 跨框架]
-    
-    style A fill:#fff9c4,stroke:#f9a825
-    style B fill:#e3f2fd,stroke:#1976d2
-    style E fill:#fce4ec,stroke:#c2185b
-    style F fill:#e8f5e9,stroke:#388e3c
+ A[NumPy/Pandas<br/>数据处理] --> B[Scikit-learn<br/>预处理/基线模型]
+ B --> C{是否需要<br/>深度学习?}
+ C -->|否| D[Scikit-learn<br/>训练评估]
+ C -->|是| E[Keras/TF/PyTorch<br/>构建训练]
+ E --> F[部署平台]
+ F --> F1[TF Serving]
+ F --> F2[TorchServe]
+ F --> F3[ONNX 跨框架]
+
+ style A fill:#fff9c4,stroke:#f9a825
+ style B fill:#e3f2fd,stroke:#1976d2
+ style E fill:#fce4ec,stroke:#c2185b
+ style F fill:#e8f5e9,stroke:#388e3c
 ```
 
 ##### 典型工作流
@@ -2031,9 +2031,9 @@ conda create -n ml python=3.10
 conda activate ml
 
 # 安装四大库
-pip install scikit-learn        # Scikit-learn
-pip install tensorflow          # TensorFlow（自带 Keras）
-pip install torch torchvision   # PyTorch（CPU版）
+pip install scikit-learn # Scikit-learn
+pip install tensorflow # TensorFlow（自带 Keras）
+pip install torch torchvision # PyTorch（CPU版）
 
 # GPU 版 PyTorch（CUDA 11.8）
 pip install torch torchvision --index-url https://download.pytorch.org/whl/cu118
@@ -2061,17 +2061,17 @@ pip install numpy pandas matplotlib seaborn jupyter
 
 ```mermaid
 flowchart LR
-    A[第1阶段<br/>NumPy/Pandas] --> B[第2阶段<br/>Scikit-learn]
-    B --> C[第3阶段<br/>Keras 入门DL]
-    C --> D{选择方向}
-    D --> E[研究方向<br/>PyTorch + HuggingFace]
-    D --> F[工业方向<br/>TensorFlow + TF Lite]
-    
-    style A fill:#fff9c4,stroke:#f9a825
-    style B fill:#e3f2fd,stroke:#1976d2
-    style C fill:#e8f5e9,stroke:#388e3c
-    style E fill:#fce4ec,stroke:#c2185b
-    style F fill:#fff3e0,stroke:#f57c00
+ A[第1阶段<br/>NumPy/Pandas] --> B[第2阶段<br/>Scikit-learn]
+ B --> C[第3阶段<br/>Keras 入门DL]
+ C --> D{选择方向}
+ D --> E[研究方向<br/>PyTorch + HuggingFace]
+ D --> F[工业方向<br/>TensorFlow + TF Lite]
+
+ style A fill:#fff9c4,stroke:#f9a825
+ style B fill:#e3f2fd,stroke:#1976d2
+ style C fill:#e8f5e9,stroke:#388e3c
+ style E fill:#fce4ec,stroke:#c2185b
+ style F fill:#fff3e0,stroke:#f57c00
 ```
 
 ---
@@ -2101,17 +2101,17 @@ arr1 = np.array([1, 2, 3, 4, 5])
 print(f"从列表创建：{arr1}")
 
 # 创建等差数组
-arr2 = np.arange(0, 10, 2)  # 0到10，步长为2
+arr2 = np.arange(0, 10, 2) # 0到10，步长为2
 print(f"等差数组：{arr2}")
 
 # 创建等间隔数组
-arr3 = np.linspace(0, 1, 5)  # 0到1，5个点
+arr3 = np.linspace(0, 1, 5) # 0到1，5个点
 print(f"等间隔数组：{arr3}")
 
 # 创建特殊数组
-zeros_arr = np.zeros((2, 3))  # 2行3列的零数组
-ones_arr = np.ones((2, 3))    # 2行3列的一数组
-identity_arr = np.eye(3)      # 3x3单位矩阵
+zeros_arr = np.zeros((2, 3)) # 2行3列的零数组
+ones_arr = np.ones((2, 3)) # 2行3列的一数组
+identity_arr = np.eye(3) # 3x3单位矩阵
 
 print(f"零数组：\n{zeros_arr}")
 print(f"一数组：\n{ones_arr}")
@@ -2155,30 +2155,30 @@ print(f"中位数：{np.median(data)}")
 ```python
 # NumPy 实际应用：简单线性回归
 def numpy_linear_regression():
-    """使用 NumPy 实现简单线性回归"""
-    
-    # 生成示例数据
-    np.random.seed(42)
-    X = 2 * np.random.rand(100, 1)  # 特征
-    y = 4 + 3 * X + np.random.randn(100, 1)  # 标签 + 噪声
-    
-    # 添加 x0 = 1 到 X
-    X_b = np.c_[np.ones((100, 1)), X]  # 添加偏置项
-    
-    # 使用正规方程求解：θ = (X^T * X)^(-1) * X^T * y
-    theta_best = np.linalg.inv(X_b.T.dot(X_b)).dot(X_b.T).dot(y)
-    
-    print("=== NumPy 线性回归示例 ===")
-    print(f"学习到的参数：截距={theta_best[0][0]:.2f}, 斜率={theta_best[1][0]:.2f}")
-    
-    # 预测
-    X_new = np.array([[0], [2]])
-    X_new_b = np.c_[np.ones((2, 1)), X_new]
-    y_predict = X_new_b.dot(theta_best)
-    
-    print(f"预测结果：X=0 时 y={y_predict[0][0]:.2f}, X=2 时 y={y_predict[1][0]:.2f}")
-    
-    return theta_best, X, y
+ """使用 NumPy 实现简单线性回归"""
+
+ # 生成示例数据
+ np.random.seed(42)
+ X = 2 * np.random.rand(100, 1) # 特征
+ y = 4 + 3 * X + np.random.randn(100, 1) # 标签 + 噪声
+
+ # 添加 x0 = 1 到 X
+ X_b = np.c_[np.ones((100, 1)), X] # 添加偏置项
+
+ # 使用正规方程求解：θ = (X^T * X)^(-1) * X^T * y
+ theta_best = np.linalg.inv(X_b.T.dot(X_b)).dot(X_b.T).dot(y)
+
+ print("=== NumPy 线性回归示例 ===")
+ print(f"学习到的参数：截距={theta_best[0][0]:.2f}, 斜率={theta_best[1][0]:.2f}")
+
+ # 预测
+ X_new = np.array([[0], [2]])
+ X_new_b = np.c_[np.ones((2, 1)), X_new]
+ y_predict = X_new_b.dot(theta_best)
+
+ print(f"预测结果：X=0 时 y={y_predict[0][0]:.2f}, X=2 时 y={y_predict[1][0]:.2f}")
+
+ return theta_best, X, y
 
 # 运行示例
 theta, X, y = numpy_linear_regression()
@@ -2221,10 +2221,10 @@ print("\n=== Pandas DataFrame ===")
 
 # 创建 DataFrame
 data = {
-    '姓名': ['张三', '李四', '王五', '赵六'],
-    '年龄': [25, 30, 35, 28],
-    '城市': ['北京', '上海', '广州', '深圳'],
-    '薪资': [15000, 20000, 18000, 22000]
+ '姓名': ['张三', '李四', '王五', '赵六'],
+ '年龄': [25, 30, 35, 28],
+ '城市': ['北京', '上海', '广州', '深圳'],
+ '薪资': [15000, 20000, 18000, 22000]
 }
 
 df = pd.DataFrame(data)
@@ -2252,91 +2252,91 @@ print(f"\n添加年薪列后：\n{df}")
 ```python
 # Pandas 数据处理完整示例
 def pandas_data_processing():
-    """演示 Pandas 数据处理的完整流程"""
-    
-    print("=== Pandas 数据处理示例 ===")
-    
-    # 1. 创建示例数据
-    np.random.seed(42)
-    n_samples = 1000
-    
-    data = {
-        '学生ID': range(1, n_samples + 1),
-        '姓名': [f'学生{i}' for i in range(1, n_samples + 1)],
-        '年龄': np.random.randint(18, 25, n_samples),
-        '性别': np.random.choice(['男', '女'], n_samples),
-        '数学成绩': np.random.normal(75, 15, n_samples),
-        '英语成绩': np.random.normal(80, 12, n_samples),
-        '物理成绩': np.random.normal(72, 18, n_samples),
-        '班级': np.random.choice(['一班', '二班', '三班'], n_samples)
-    }
-    
-    df = pd.DataFrame(data)
-    
-    # 2. 数据清洗
-    print("原始数据形状：", df.shape)
-    
-    # 处理异常值（成绩应在 0-100 之间）
-    score_columns = ['数学成绩', '英语成绩', '物理成绩']
-    for col in score_columns:
-        df[col] = df[col].clip(0, 100)
-    
-    # 3. 特征工程
-    # 计算总分和平均分
-    df['总分'] = df[score_columns].sum(axis=1)
-    df['平均分'] = df[score_columns].mean(axis=1)
-    
-    # 添加等级
-    def get_grade(score):
-        if score >= 90:
-            return 'A'
-        elif score >= 80:
-            return 'B'
-        elif score >= 70:
-            return 'C'
-        elif score >= 60:
-            return 'D'
-        else:
-            return 'F'
-    
-    df['等级'] = df['平均分'].apply(get_grade)
-    
-    # 4. 数据分析
-    print("\n=== 数据分析结果 ===")
-    
-    # 基本统计
-    print("各科平均分：")
-    print(df[score_columns].mean())
-    
-    # 按班级分析
-    print("\n各班级平均分：")
-    class_avg = df.groupby('班级')['平均分'].mean()
-    print(class_avg)
-    
-    # 按性别分析
-    print("\n性别分布：")
-    gender_count = df['性别'].value_counts()
-    print(gender_count)
-    
-    # 等级分布
-    print("\n等级分布：")
-    grade_dist = df['等级'].value_counts().sort_index()
-    print(grade_dist)
-    
-    # 5. 数据筛选
-    print("\n=== 特定数据筛选 ===")
-    
-    # 优秀学生（平均分 > 85）
-    excellent_students = df[df['平均分'] > 85].head(5)
-    print("优秀学生（前5名）：")
-    print(excellent_students[['姓名', '平均分', '等级']])
-    
-    # 各班级最高分学生
-    print("\n各班级最高分学生：")
-    top_students = df.loc[df.groupby('班级')['平均分'].idxmax()]
-    print(top_students[['班级', '姓名', '平均分']])
-    
-    return df
+ """演示 Pandas 数据处理的完整流程"""
+
+ print("=== Pandas 数据处理示例 ===")
+
+ # 1. 创建示例数据
+ np.random.seed(42)
+ n_samples = 1000
+
+ data = {
+ '学生ID': range(1, n_samples + 1),
+ '姓名': [f'学生{i}' for i in range(1, n_samples + 1)],
+ '年龄': np.random.randint(18, 25, n_samples),
+ '性别': np.random.choice(['男', '女'], n_samples),
+ '数学成绩': np.random.normal(75, 15, n_samples),
+ '英语成绩': np.random.normal(80, 12, n_samples),
+ '物理成绩': np.random.normal(72, 18, n_samples),
+ '班级': np.random.choice(['一班', '二班', '三班'], n_samples)
+ }
+
+ df = pd.DataFrame(data)
+
+ # 2. 数据清洗
+ print("原始数据形状：", df.shape)
+
+ # 处理异常值（成绩应在 0-100 之间）
+ score_columns = ['数学成绩', '英语成绩', '物理成绩']
+ for col in score_columns:
+ df[col] = df[col].clip(0, 100)
+
+ # 3. 特征工程
+ # 计算总分和平均分
+ df['总分'] = df[score_columns].sum(axis=1)
+ df['平均分'] = df[score_columns].mean(axis=1)
+
+ # 添加等级
+ def get_grade(score):
+ if score >= 90:
+ return 'A'
+ elif score >= 80:
+ return 'B'
+ elif score >= 70:
+ return 'C'
+ elif score >= 60:
+ return 'D'
+ else:
+ return 'F'
+
+ df['等级'] = df['平均分'].apply(get_grade)
+
+ # 4. 数据分析
+ print("\n=== 数据分析结果 ===")
+
+ # 基本统计
+ print("各科平均分：")
+ print(df[score_columns].mean())
+
+ # 按班级分析
+ print("\n各班级平均分：")
+ class_avg = df.groupby('班级')['平均分'].mean()
+ print(class_avg)
+
+ # 按性别分析
+ print("\n性别分布：")
+ gender_count = df['性别'].value_counts()
+ print(gender_count)
+
+ # 等级分布
+ print("\n等级分布：")
+ grade_dist = df['等级'].value_counts().sort_index()
+ print(grade_dist)
+
+ # 5. 数据筛选
+ print("\n=== 特定数据筛选 ===")
+
+ # 优秀学生（平均分 > 85）
+ excellent_students = df[df['平均分'] > 85].head(5)
+ print("优秀学生（前5名）：")
+ print(excellent_students[['姓名', '平均分', '等级']])
+
+ # 各班级最高分学生
+ print("\n各班级最高分学生：")
+ top_students = df.loc[df.groupby('班级')['平均分'].idxmax()]
+ print(top_students[['班级', '姓名', '平均分']])
+
+ return df
 
 # 运行示例
 student_df = pandas_data_processing()
@@ -2358,73 +2358,73 @@ plt.rcParams['font.sans-serif'] = ['SimHei', 'Arial Unicode MS']
 plt.rcParams['axes.unicode_minus'] = False
 
 def matplotlib_basic_charts():
-    """演示 Matplotlib 基础图表"""
-    
-    print("=== Matplotlib 基础图表示例 ===")
-    
-    # 1. 折线图
-    plt.figure(figsize=(12, 8))
-    
-    plt.subplot(2, 3, 1)
-    x = np.linspace(0, 10, 100)
-    y1 = np.sin(x)
-    y2 = np.cos(x)
-    plt.plot(x, y1, label='sin(x)')
-    plt.plot(x, y2, label='cos(x)')
-    plt.title('三角函数')
-    plt.xlabel('x')
-    plt.ylabel('y')
-    plt.legend()
-    plt.grid(True)
-    
-    # 2. 散点图
-    plt.subplot(2, 3, 2)
-    np.random.seed(42)
-    x = np.random.randn(100)
-    y = 2 * x + np.random.randn(100) * 0.5
-    plt.scatter(x, y, alpha=0.6, c='blue')
-    plt.title('散点图')
-    plt.xlabel('X')
-    plt.ylabel('Y')
-    
-    # 3. 柱状图
-    plt.subplot(2, 3, 3)
-    categories = ['A', 'B', 'C', 'D', 'E']
-    values = [23, 45, 56, 78, 32]
-    plt.bar(categories, values, color=['red', 'green', 'blue', 'orange', 'purple'])
-    plt.title('柱状图')
-    plt.xlabel('类别')
-    plt.ylabel('数值')
-    
-    # 4. 直方图
-    plt.subplot(2, 3, 4)
-    data = np.random.normal(100, 15, 1000)
-    plt.hist(data, bins=30, alpha=0.7, color='skyblue', edgecolor='black')
-    plt.title('直方图')
-    plt.xlabel('数值')
-    plt.ylabel('频数')
-    
-    # 5. 饼图
-    plt.subplot(2, 3, 5)
-    sizes = [30, 25, 20, 15, 10]
-    labels = ['A', 'B', 'C', 'D', 'E']
-    colors = ['gold', 'lightcoral', 'lightskyblue', 'lightgreen', 'plum']
-    plt.pie(sizes, labels=labels, colors=colors, autopct='%1.1f%%', startangle=90)
-    plt.title('饼图')
-    
-    # 6. 箱线图
-    plt.subplot(2, 3, 6)
-    data1 = np.random.normal(0, 1, 100)
-    data2 = np.random.normal(2, 1, 100)
-    data3 = np.random.normal(-2, 1, 100)
-    plt.boxplot([data1, data2, data3], labels=['组1', '组2', '组3'])
-    plt.title('箱线图')
-    plt.ylabel('数值')
-    
-    plt.tight_layout()
-    plt.show()
-    
-    print("图表已显示！")
+ """演示 Matplotlib 基础图表"""
+
+ print("=== Matplotlib 基础图表示例 ===")
+
+ # 1. 折线图
+ plt.figure(figsize=(12, 8))
+
+ plt.subplot(2, 3, 1)
+ x = np.linspace(0, 10, 100)
+ y1 = np.sin(x)
+ y2 = np.cos(x)
+ plt.plot(x, y1, label='sin(x)')
+ plt.plot(x, y2, label='cos(x)')
+ plt.title('三角函数')
+ plt.xlabel('x')
+ plt.ylabel('y')
+ plt.legend()
+ plt.grid(True)
+
+ # 2. 散点图
+ plt.subplot(2, 3, 2)
+ np.random.seed(42)
+ x = np.random.randn(100)
+ y = 2 * x + np.random.randn(100) * 0.5
+ plt.scatter(x, y, alpha=0.6, c='blue')
+ plt.title('散点图')
+ plt.xlabel('X')
+ plt.ylabel('Y')
+
+ # 3. 柱状图
+ plt.subplot(2, 3, 3)
+ categories = ['A', 'B', 'C', 'D', 'E']
+ values = [23, 45, 56, 78, 32]
+ plt.bar(categories, values, color=['red', 'green', 'blue', 'orange', 'purple'])
+ plt.title('柱状图')
+ plt.xlabel('类别')
+ plt.ylabel('数值')
+
+ # 4. 直方图
+ plt.subplot(2, 3, 4)
+ data = np.random.normal(100, 15, 1000)
+ plt.hist(data, bins=30, alpha=0.7, color='skyblue', edgecolor='black')
+ plt.title('直方图')
+ plt.xlabel('数值')
+ plt.ylabel('频数')
+
+ # 5. 饼图
+ plt.subplot(2, 3, 5)
+ sizes = [30, 25, 20, 15, 10]
+ labels = ['A', 'B', 'C', 'D', 'E']
+ colors = ['gold', 'lightcoral', 'lightskyblue', 'lightgreen', 'plum']
+ plt.pie(sizes, labels=labels, colors=colors, autopct='%1.1f%%', startangle=90)
+ plt.title('饼图')
+
+ # 6. 箱线图
+ plt.subplot(2, 3, 6)
+ data1 = np.random.normal(0, 1, 100)
+ data2 = np.random.normal(2, 1, 100)
+ data3 = np.random.normal(-2, 1, 100)
+ plt.boxplot([data1, data2, data3], labels=['组1', '组2', '组3'])
+ plt.title('箱线图')
+ plt.ylabel('数值')
+
+ plt.tight_layout()
+ plt.show()
+
+ print("图表已显示！")
 
 # 运行示例
 matplotlib_basic_charts()
@@ -2433,68 +2433,68 @@ matplotlib_basic_charts()
 ```python
 # 高级可视化示例
 def advanced_visualization():
-    """演示高级可视化技巧"""
-    
-    print("=== 高级可视化示例 ===")
-    
-    # 创建更复杂的数据
-    np.random.seed(42)
-    n_points = 200
-    
-    # 生成相关数据
-    x = np.random.randn(n_points)
-    y = 2 * x + np.random.randn(n_points) * 0.5
-    colors = np.random.rand(n_points)
-    sizes = 1000 * np.random.rand(n_points)
-    
-    # 1. 气泡图
-    plt.figure(figsize=(15, 5))
-    
-    plt.subplot(1, 3, 1)
-    scatter = plt.scatter(x, y, c=colors, s=sizes, alpha=0.6, cmap='viridis')
-    plt.colorbar(scatter, label='颜色值')
-    plt.title('气泡图')
-    plt.xlabel('X')
-    plt.ylabel('Y')
-    
-    # 2. 热力图
-    plt.subplot(1, 3, 2)
-    data = np.random.randn(10, 10)
-    im = plt.imshow(data, cmap='coolwarm', aspect='auto')
-    plt.colorbar(im, label='数值')
-    plt.title('热力图')
-    
-    # 3. 子图组合
-    plt.subplot(1, 3, 3)
-    
-    # 创建子图
-    gs = plt.GridSpec(2, 2, subplot_kw={'projection': 'polar'})
-    
-    ax1 = plt.subplot(gs[0, 0])
-    theta = np.linspace(0, 2*np.pi, 100)
-    r = np.sin(3*theta)
-    ax1.plot(theta, r)
-    ax1.set_title('极坐标图')
-    
-    ax2 = plt.subplot(gs[0, 1])
-    categories = ['A', 'B', 'C', 'D']
-    values = [15, 30, 45, 10]
-    ax2.bar(categories, values)
-    ax2.set_title('柱状图')
-    
-    ax3 = plt.subplot(gs[1, :])
-    x_line = np.linspace(0, 10, 100)
-    y_line1 = np.sin(x_line)
-    y_line2 = np.cos(x_line)
-    ax3.plot(x_line, y_line1, label='sin')
-    ax3.plot(x_line, y_line2, label='cos')
-    ax3.set_title('组合图')
-    ax3.legend()
-    
-    plt.tight_layout()
-    plt.show()
-    
-    print("高级图表已显示！")
+ """演示高级可视化技巧"""
+
+ print("=== 高级可视化示例 ===")
+
+ # 创建更复杂的数据
+ np.random.seed(42)
+ n_points = 200
+
+ # 生成相关数据
+ x = np.random.randn(n_points)
+ y = 2 * x + np.random.randn(n_points) * 0.5
+ colors = np.random.rand(n_points)
+ sizes = 1000 * np.random.rand(n_points)
+
+ # 1. 气泡图
+ plt.figure(figsize=(15, 5))
+
+ plt.subplot(1, 3, 1)
+ scatter = plt.scatter(x, y, c=colors, s=sizes, alpha=0.6, cmap='viridis')
+ plt.colorbar(scatter, label='颜色值')
+ plt.title('气泡图')
+ plt.xlabel('X')
+ plt.ylabel('Y')
+
+ # 2. 热力图
+ plt.subplot(1, 3, 2)
+ data = np.random.randn(10, 10)
+ im = plt.imshow(data, cmap='coolwarm', aspect='auto')
+ plt.colorbar(im, label='数值')
+ plt.title('热力图')
+
+ # 3. 子图组合
+ plt.subplot(1, 3, 3)
+
+ # 创建子图
+ gs = plt.GridSpec(2, 2, subplot_kw={'projection': 'polar'})
+
+ ax1 = plt.subplot(gs[0, 0])
+ theta = np.linspace(0, 2*np.pi, 100)
+ r = np.sin(3*theta)
+ ax1.plot(theta, r)
+ ax1.set_title('极坐标图')
+
+ ax2 = plt.subplot(gs[0, 1])
+ categories = ['A', 'B', 'C', 'D']
+ values = [15, 30, 45, 10]
+ ax2.bar(categories, values)
+ ax2.set_title('柱状图')
+
+ ax3 = plt.subplot(gs[1, :])
+ x_line = np.linspace(0, 10, 100)
+ y_line1 = np.sin(x_line)
+ y_line2 = np.cos(x_line)
+ ax3.plot(x_line, y_line1, label='sin')
+ ax3.plot(x_line, y_line2, label='cos')
+ ax3.set_title('组合图')
+ ax3.legend()
+
+ plt.tight_layout()
+ plt.show()
+
+ print("高级图表已显示！")
 
 # 运行示例
 advanced_visualization()
@@ -2517,71 +2517,71 @@ from sklearn.svm import SVC
 from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
 
 def scikit_learn_basics():
-    """演示 Scikit-learn 的核心功能"""
-    
-    print("=== Scikit-learn 核心功能示例 ===")
-    
-    # 1. 数据生成
-    X, y = make_classification(
-        n_samples=1000, 
-        n_features=20, 
-        n_classes=3, 
-        n_informative=15,
-        random_state=42
-    )
-    
-    print(f"数据形状：X={X.shape}, y={y.shape}")
-    print(f"类别分布：{np.bincount(y)}")
-    
-    # 2. 数据划分
-    X_train, X_test, y_train, y_test = train_test_split(
-        X, y, test_size=0.2, random_state=42, stratify=y
-    )
-    
-    print(f"训练集大小：{X_train.shape[0]}")
-    print(f"测试集大小：{X_test.shape[0]}")
-    
-    # 3. 数据预处理
-    scaler = StandardScaler()
-    X_train_scaled = scaler.fit_transform(X_train)
-    X_test_scaled = scaler.transform(X_test)
-    
-    print("数据标准化完成")
-    
-    # 4. 模型训练和比较
-    models = {
-        '逻辑回归': LogisticRegression(random_state=42),
-        '随机森林': RandomForestClassifier(n_estimators=100, random_state=42),
-        '支持向量机': SVC(random_state=42)
-    }
-    
-    results = {}
-    
-    for name, model in models.items():
-        print(f"\n训练 {name}...")
-        
-        # 训练模型
-        model.fit(X_train_scaled, y_train)
-        
-        # 预测
-        y_pred = model.predict(X_test_scaled)
-        
-        # 评估
-        accuracy = accuracy_score(y_test, y_pred)
-        results[name] = accuracy
-        
-        print(f"{name} 准确率：{accuracy:.4f}")
-        print(f"分类报告：\n{classification_report(y_test, y_pred)}")
-    
-    # 5. 结果比较
-    print("\n=== 模型比较 ===")
-    for name, accuracy in results.items():
-        print(f"{name}: {accuracy:.4f}")
-    
-    best_model = max(results, key=results.get)
-    print(f"\n最佳模型：{best_model}")
-    
-    return models[best_model]
+ """演示 Scikit-learn 的核心功能"""
+
+ print("=== Scikit-learn 核心功能示例 ===")
+
+ # 1. 数据生成
+ X, y = make_classification(
+ n_samples=1000,
+ n_features=20,
+ n_classes=3,
+ n_informative=15,
+ random_state=42
+ )
+
+ print(f"数据形状：X={X.shape}, y={y.shape}")
+ print(f"类别分布：{np.bincount(y)}")
+
+ # 2. 数据划分
+ X_train, X_test, y_train, y_test = train_test_split(
+ X, y, test_size=0.2, random_state=42, stratify=y
+ )
+
+ print(f"训练集大小：{X_train.shape[0]}")
+ print(f"测试集大小：{X_test.shape[0]}")
+
+ # 3. 数据预处理
+ scaler = StandardScaler()
+ X_train_scaled = scaler.fit_transform(X_train)
+ X_test_scaled = scaler.transform(X_test)
+
+ print("数据标准化完成")
+
+ # 4. 模型训练和比较
+ models = {
+ '逻辑回归': LogisticRegression(random_state=42),
+ '随机森林': RandomForestClassifier(n_estimators=100, random_state=42),
+ '支持向量机': SVC(random_state=42)
+ }
+
+ results = {}
+
+ for name, model in models.items():
+ print(f"\n训练 {name}...")
+
+ # 训练模型
+ model.fit(X_train_scaled, y_train)
+
+ # 预测
+ y_pred = model.predict(X_test_scaled)
+
+ # 评估
+ accuracy = accuracy_score(y_test, y_pred)
+ results[name] = accuracy
+
+ print(f"{name} 准确率：{accuracy:.4f}")
+ print(f"分类报告：\n{classification_report(y_test, y_pred)}")
+
+ # 5. 结果比较
+ print("\n=== 模型比较 ===")
+ for name, accuracy in results.items():
+ print(f"{name}: {accuracy:.4f}")
+
+ best_model = max(results, key=results.get)
+ print(f"\n最佳模型：{best_model}")
+
+ return models[best_model]
 
 # 运行示例
 best_model = scikit_learn_basics()
@@ -2590,102 +2590,102 @@ best_model = scikit_learn_basics()
 ```python
 # 完整的机器学习流程示例
 def complete_ml_pipeline():
-    """演示完整的机器学习流程"""
-    
-    print("=== 完整机器学习流程 ===")
-    
-    # 1. 加载数据
-    iris = load_iris()
-    X = iris.data
-    y = iris.target
-    feature_names = iris.feature_names
-    target_names = iris.target_names
-    
-    print(f"数据集：{iris.DESCR.split('\n')[0]}")
-    print(f"特征数量：{len(feature_names)}")
-    print(f"类别数量：{len(target_names)}")
-    
-    # 2. 数据探索
-    df = pd.DataFrame(X, columns=feature_names)
-    df['target'] = y
-    
-    print("\n数据预览：")
-    print(df.head())
-    
-    print("\n数据统计：")
-    print(df.describe())
-    
-    # 3. 数据可视化
-    plt.figure(figsize=(12, 4))
-    
-    plt.subplot(1, 2, 1)
-    for i, target_name in enumerate(target_names):
-        plt.scatter(
-            df[df['target'] == i]['sepal length (cm)'],
-            df[df['target'] == i]['sepal width (cm)'],
-            label=target_name
-        )
-    plt.xlabel('花萼长度')
-    plt.ylabel('花萼宽度')
-    plt.title('花萼尺寸分布')
-    plt.legend()
-    
-    plt.subplot(1, 2, 2)
-    for i, target_name in enumerate(target_names):
-        plt.scatter(
-            df[df['target'] == i]['petal length (cm)'],
-            df[df['target'] == i]['petal width (cm)'],
-            label=target_name
-        )
-    plt.xlabel('花瓣长度')
-    plt.ylabel('花瓣宽度')
-    plt.title('花瓣尺寸分布')
-    plt.legend()
-    
-    plt.tight_layout()
-    plt.show()
-    
-    # 4. 数据准备
-    X_train, X_test, y_train, y_test = train_test_split(
-        X, y, test_size=0.3, random_state=42, stratify=y
-    )
-    
-    # 5. 模型训练
-    from sklearn.ensemble import RandomForestClassifier
-    model = RandomForestClassifier(n_estimators=100, random_state=42)
-    model.fit(X_train, y_train)
-    
-    # 6. 模型评估
-    y_pred = model.predict(X_test)
-    accuracy = accuracy_score(y_test, y_pred)
-    
-    print(f"\n模型准确率：{accuracy:.4f}")
-    print("\n混淆矩阵：")
-    print(confusion_matrix(y_test, y_pred))
-    print("\n分类报告：")
-    print(classification_report(y_test, y_pred, target_names=target_names))
-    
-    # 7. 特征重要性
-    feature_importance = model.feature_importances_
-    feature_df = pd.DataFrame({
-        '特征': feature_names,
-        '重要性': feature_importance
-    }).sort_values('重要性', ascending=False)
-    
-    print("\n特征重要性：")
-    print(feature_df)
-    
-    # 8. 特征重要性可视化
-    plt.figure(figsize=(8, 4))
-    plt.bar(feature_df['特征'], feature_df['重要性'])
-    plt.title('特征重要性')
-    plt.xlabel('特征')
-    plt.ylabel('重要性')
-    plt.xticks(rotation=45)
-    plt.tight_layout()
-    plt.show()
-    
-    return model, feature_df
+ """演示完整的机器学习流程"""
+
+ print("=== 完整机器学习流程 ===")
+
+ # 1. 加载数据
+ iris = load_iris()
+ X = iris.data
+ y = iris.target
+ feature_names = iris.feature_names
+ target_names = iris.target_names
+
+ print(f"数据集：{iris.DESCR.split('\n')[0]}")
+ print(f"特征数量：{len(feature_names)}")
+ print(f"类别数量：{len(target_names)}")
+
+ # 2. 数据探索
+ df = pd.DataFrame(X, columns=feature_names)
+ df['target'] = y
+
+ print("\n数据预览：")
+ print(df.head())
+
+ print("\n数据统计：")
+ print(df.describe())
+
+ # 3. 数据可视化
+ plt.figure(figsize=(12, 4))
+
+ plt.subplot(1, 2, 1)
+ for i, target_name in enumerate(target_names):
+ plt.scatter(
+ df[df['target'] == i]['sepal length (cm)'],
+ df[df['target'] == i]['sepal width (cm)'],
+ label=target_name
+ )
+ plt.xlabel('花萼长度')
+ plt.ylabel('花萼宽度')
+ plt.title('花萼尺寸分布')
+ plt.legend()
+
+ plt.subplot(1, 2, 2)
+ for i, target_name in enumerate(target_names):
+ plt.scatter(
+ df[df['target'] == i]['petal length (cm)'],
+ df[df['target'] == i]['petal width (cm)'],
+ label=target_name
+ )
+ plt.xlabel('花瓣长度')
+ plt.ylabel('花瓣宽度')
+ plt.title('花瓣尺寸分布')
+ plt.legend()
+
+ plt.tight_layout()
+ plt.show()
+
+ # 4. 数据准备
+ X_train, X_test, y_train, y_test = train_test_split(
+ X, y, test_size=0.3, random_state=42, stratify=y
+ )
+
+ # 5. 模型训练
+ from sklearn.ensemble import RandomForestClassifier
+ model = RandomForestClassifier(n_estimators=100, random_state=42)
+ model.fit(X_train, y_train)
+
+ # 6. 模型评估
+ y_pred = model.predict(X_test)
+ accuracy = accuracy_score(y_test, y_pred)
+
+ print(f"\n模型准确率：{accuracy:.4f}")
+ print("\n混淆矩阵：")
+ print(confusion_matrix(y_test, y_pred))
+ print("\n分类报告：")
+ print(classification_report(y_test, y_pred, target_names=target_names))
+
+ # 7. 特征重要性
+ feature_importance = model.feature_importances_
+ feature_df = pd.DataFrame({
+ '特征': feature_names,
+ '重要性': feature_importance
+ }).sort_values('重要性', ascending=False)
+
+ print("\n特征重要性：")
+ print(feature_df)
+
+ # 8. 特征重要性可视化
+ plt.figure(figsize=(8, 4))
+ plt.bar(feature_df['特征'], feature_df['重要性'])
+ plt.title('特征重要性')
+ plt.xlabel('特征')
+ plt.ylabel('重要性')
+ plt.xticks(rotation=45)
+ plt.tight_layout()
+ plt.show()
+
+ return model, feature_df
 
 # 运行示例
 trained_model, feature_importance = complete_ml_pipeline()
@@ -2694,163 +2694,163 @@ trained_model, feature_importance = complete_ml_pipeline()
 ```python
 # 四库协同工作：完整的机器学习项目
 def four_libraries_integration():
-    """演示 NumPy、Pandas、Matplotlib、Scikit-learn 的协同工作"""
-    
-    print("=== 四库协同工作示例 ===")
-    
-    # 1. NumPy：生成模拟数据
-    np.random.seed(42)
-    n_samples = 500
-    
-    # 生成特征
-    study_hours = np.random.uniform(1, 10, n_samples)  # 学习时间
-    sleep_hours = np.random.uniform(5, 9, n_samples)   # 睡眠时间
-    practice_tests = np.random.randint(0, 20, n_samples) # 练习题数量
-    
-    # 生成标签（考试成绩），基于特征的线性组合加噪声
-    exam_scores = (
-        5 * study_hours + 
-        3 * sleep_hours + 
-        2 * practice_tests + 
-        np.random.normal(0, 10, n_samples)
-    )
-    
-    # 确保分数在 0-100 范围内
-    exam_scores = np.clip(exam_scores, 0, 100)
-    
-    # 2. Pandas：创建数据框并进行数据处理
-    df = pd.DataFrame({
-        '学习时间': study_hours,
-        '睡眠时间': sleep_hours,
-        '练习题数': practice_tests,
-        '考试成绩': exam_scores
-    })
-    
-    # 添加等级列
-    df['等级'] = pd.cut(df['考试成绩'], 
-                       bins=[0, 60, 70, 80, 90, 100], 
-                       labels=['F', 'D', 'C', 'B', 'A'])
-    
-    print("数据预览：")
-    print(df.head())
-    print(f"\n数据形状：{df.shape}")
-    print(f"\n等级分布：")
-    print(df['等级'].value_counts().sort_index())
-    
-    # 3. Matplotlib：数据可视化
-    plt.figure(figsize=(15, 10))
-    
-    # 子图1：特征分布
-    plt.subplot(2, 3, 1)
-    df[['学习时间', '睡眠时间', '练习题数']].hist(bins=20, ax=plt.gca())
-    plt.title('特征分布')
-    
-    # 子图2：成绩分布
-    plt.subplot(2, 3, 2)
-    plt.hist(df['考试成绩'], bins=20, alpha=0.7, color='skyblue')
-    plt.title('考试成绩分布')
-    plt.xlabel('分数')
-    plt.ylabel('频数')
-    
-    # 子图3：学习时间 vs 成绩
-    plt.subplot(2, 3, 3)
-    plt.scatter(df['学习时间'], df['考试成绩'], alpha=0.6)
-    plt.xlabel('学习时间')
-    plt.ylabel('考试成绩')
-    plt.title('学习时间与成绩关系')
-    
-    # 子图4：睡眠时间 vs 成绩
-    plt.subplot(2, 3, 4)
-    plt.scatter(df['睡眠时间'], df['考试成绩'], alpha=0.6, color='orange')
-    plt.xlabel('睡眠时间')
-    plt.ylabel('考试成绩')
-    plt.title('睡眠时间与成绩关系')
-    
-    # 子图5：练习题数 vs 成绩
-    plt.subplot(2, 3, 5)
-    plt.scatter(df['练习题数'], df['考试成绩'], alpha=0.6, color='green')
-    plt.xlabel('练习题数')
-    plt.ylabel('考试成绩')
-    plt.title('练习题数与成绩关系')
-    
-    # 子图6：等级分布饼图
-    plt.subplot(2, 3, 6)
-    grade_counts = df['等级'].value_counts()
-    plt.pie(grade_counts.values, labels=grade_counts.index, autopct='%1.1f%%')
-    plt.title('等级分布')
-    
-    plt.tight_layout()
-    plt.show()
-    
-    # 4. Scikit-learn：机器学习建模
-    from sklearn.linear_model import LinearRegression
-    from sklearn.ensemble import RandomForestRegressor
-    from sklearn.metrics import mean_squared_error, r2_score
-    
-    # 准备数据
-    X = df[['学习时间', '睡眠时间', '练习题数']]
-    y = df['考试成绩']
-    
-    X_train, X_test, y_train, y_test = train_test_split(
-        X, y, test_size=0.2, random_state=42
-    )
-    
-    # 训练线性回归模型
-    lr_model = LinearRegression()
-    lr_model.fit(X_train, y_train)
-    lr_pred = lr_model.predict(X_test)
-    lr_mse = mean_squared_error(y_test, lr_pred)
-    lr_r2 = r2_score(y_test, lr_pred)
-    
-    # 训练随机森林模型
-    rf_model = RandomForestRegressor(n_estimators=100, random_state=42)
-    rf_model.fit(X_train, y_train)
-    rf_pred = rf_model.predict(X_test)
-    rf_mse = mean_squared_error(y_test, rf_pred)
-    rf_r2 = r2_score(y_test, rf_pred)
-    
-    # 模型比较
-    print("\n=== 模型比较 ===")
-    print(f"线性回归：MSE={lr_mse:.2f}, R²={lr_r2:.4f}")
-    print(f"随机森林：MSE={rf_mse:.2f}, R²={rf_r2:.4f}")
-    
-    # 线性回归系数
-    print(f"\n线性回归系数：")
-    for feature, coef in zip(X.columns, lr_model.coef_):
-        print(f"{feature}: {coef:.2f}")
-    
-    # 随机森林特征重要性
-    print(f"\n随机森林特征重要性：")
-    for feature, importance in zip(X.columns, rf_model.feature_importances_):
-        print(f"{feature}: {importance:.4f}")
-    
-    # 预测结果可视化
-    plt.figure(figsize=(12, 5))
-    
-    plt.subplot(1, 2, 1)
-    plt.scatter(y_test, lr_pred, alpha=0.6)
-    plt.plot([y_test.min(), y_test.max()], [y_test.min(), y_test.max()], 'r--')
-    plt.xlabel('真实成绩')
-    plt.ylabel('预测成绩')
-    plt.title('线性回归预测结果')
-    
-    plt.subplot(1, 2, 2)
-    plt.scatter(y_test, rf_pred, alpha=0.6)
-    plt.plot([y_test.min(), y_test.max()], [y_test.min(), y_test.max()], 'r--')
-    plt.xlabel('真实成绩')
-    plt.ylabel('预测成绩')
-    plt.title('随机森林预测结果')
-    
-    plt.tight_layout()
-    plt.show()
-    
-    return {
-        'data': df,
-        'linear_model': lr_model,
-        'rf_model': rf_model,
-        'linear_metrics': {'mse': lr_mse, 'r2': lr_r2},
-        'rf_metrics': {'mse': rf_mse, 'r2': rf_r2}
-    }
+ """演示 NumPy、Pandas、Matplotlib、Scikit-learn 的协同工作"""
+
+ print("=== 四库协同工作示例 ===")
+
+ # 1. NumPy：生成模拟数据
+ np.random.seed(42)
+ n_samples = 500
+
+ # 生成特征
+ study_hours = np.random.uniform(1, 10, n_samples) # 学习时间
+ sleep_hours = np.random.uniform(5, 9, n_samples) # 睡眠时间
+ practice_tests = np.random.randint(0, 20, n_samples) # 练习题数量
+
+ # 生成标签（考试成绩），基于特征的线性组合加噪声
+ exam_scores = (
+ 5 * study_hours +
+ 3 * sleep_hours +
+ 2 * practice_tests +
+ np.random.normal(0, 10, n_samples)
+ )
+
+ # 确保分数在 0-100 范围内
+ exam_scores = np.clip(exam_scores, 0, 100)
+
+ # 2. Pandas：创建数据框并进行数据处理
+ df = pd.DataFrame({
+ '学习时间': study_hours,
+ '睡眠时间': sleep_hours,
+ '练习题数': practice_tests,
+ '考试成绩': exam_scores
+ })
+
+ # 添加等级列
+ df['等级'] = pd.cut(df['考试成绩'],
+ bins=[0, 60, 70, 80, 90, 100],
+ labels=['F', 'D', 'C', 'B', 'A'])
+
+ print("数据预览：")
+ print(df.head())
+ print(f"\n数据形状：{df.shape}")
+ print(f"\n等级分布：")
+ print(df['等级'].value_counts().sort_index())
+
+ # 3. Matplotlib：数据可视化
+ plt.figure(figsize=(15, 10))
+
+ # 子图1：特征分布
+ plt.subplot(2, 3, 1)
+ df[['学习时间', '睡眠时间', '练习题数']].hist(bins=20, ax=plt.gca())
+ plt.title('特征分布')
+
+ # 子图2：成绩分布
+ plt.subplot(2, 3, 2)
+ plt.hist(df['考试成绩'], bins=20, alpha=0.7, color='skyblue')
+ plt.title('考试成绩分布')
+ plt.xlabel('分数')
+ plt.ylabel('频数')
+
+ # 子图3：学习时间 vs 成绩
+ plt.subplot(2, 3, 3)
+ plt.scatter(df['学习时间'], df['考试成绩'], alpha=0.6)
+ plt.xlabel('学习时间')
+ plt.ylabel('考试成绩')
+ plt.title('学习时间与成绩关系')
+
+ # 子图4：睡眠时间 vs 成绩
+ plt.subplot(2, 3, 4)
+ plt.scatter(df['睡眠时间'], df['考试成绩'], alpha=0.6, color='orange')
+ plt.xlabel('睡眠时间')
+ plt.ylabel('考试成绩')
+ plt.title('睡眠时间与成绩关系')
+
+ # 子图5：练习题数 vs 成绩
+ plt.subplot(2, 3, 5)
+ plt.scatter(df['练习题数'], df['考试成绩'], alpha=0.6, color='green')
+ plt.xlabel('练习题数')
+ plt.ylabel('考试成绩')
+ plt.title('练习题数与成绩关系')
+
+ # 子图6：等级分布饼图
+ plt.subplot(2, 3, 6)
+ grade_counts = df['等级'].value_counts()
+ plt.pie(grade_counts.values, labels=grade_counts.index, autopct='%1.1f%%')
+ plt.title('等级分布')
+
+ plt.tight_layout()
+ plt.show()
+
+ # 4. Scikit-learn：机器学习建模
+ from sklearn.linear_model import LinearRegression
+ from sklearn.ensemble import RandomForestRegressor
+ from sklearn.metrics import mean_squared_error, r2_score
+
+ # 准备数据
+ X = df[['学习时间', '睡眠时间', '练习题数']]
+ y = df['考试成绩']
+
+ X_train, X_test, y_train, y_test = train_test_split(
+ X, y, test_size=0.2, random_state=42
+ )
+
+ # 训练线性回归模型
+ lr_model = LinearRegression()
+ lr_model.fit(X_train, y_train)
+ lr_pred = lr_model.predict(X_test)
+ lr_mse = mean_squared_error(y_test, lr_pred)
+ lr_r2 = r2_score(y_test, lr_pred)
+
+ # 训练随机森林模型
+ rf_model = RandomForestRegressor(n_estimators=100, random_state=42)
+ rf_model.fit(X_train, y_train)
+ rf_pred = rf_model.predict(X_test)
+ rf_mse = mean_squared_error(y_test, rf_pred)
+ rf_r2 = r2_score(y_test, rf_pred)
+
+ # 模型比较
+ print("\n=== 模型比较 ===")
+ print(f"线性回归：MSE={lr_mse:.2f}, R²={lr_r2:.4f}")
+ print(f"随机森林：MSE={rf_mse:.2f}, R²={rf_r2:.4f}")
+
+ # 线性回归系数
+ print(f"\n线性回归系数：")
+ for feature, coef in zip(X.columns, lr_model.coef_):
+ print(f"{feature}: {coef:.2f}")
+
+ # 随机森林特征重要性
+ print(f"\n随机森林特征重要性：")
+ for feature, importance in zip(X.columns, rf_model.feature_importances_):
+ print(f"{feature}: {importance:.4f}")
+
+ # 预测结果可视化
+ plt.figure(figsize=(12, 5))
+
+ plt.subplot(1, 2, 1)
+ plt.scatter(y_test, lr_pred, alpha=0.6)
+ plt.plot([y_test.min(), y_test.max()], [y_test.min(), y_test.max()], 'r--')
+ plt.xlabel('真实成绩')
+ plt.ylabel('预测成绩')
+ plt.title('线性回归预测结果')
+
+ plt.subplot(1, 2, 2)
+ plt.scatter(y_test, rf_pred, alpha=0.6)
+ plt.plot([y_test.min(), y_test.max()], [y_test.min(), y_test.max()], 'r--')
+ plt.xlabel('真实成绩')
+ plt.ylabel('预测成绩')
+ plt.title('随机森林预测结果')
+
+ plt.tight_layout()
+ plt.show()
+
+ return {
+ 'data': df,
+ 'linear_model': lr_model,
+ 'rf_model': rf_model,
+ 'linear_metrics': {'mse': lr_mse, 'r2': lr_r2},
+ 'rf_metrics': {'mse': rf_mse, 'r2': rf_r2}
+ }
 
 # 运行完整示例
 results = four_libraries_integration()
@@ -2866,45 +2866,45 @@ results = four_libraries_integration()
 
 ```mermaid
 flowchart TB
-    A[数据类型] --> B[数值型数据]
-    A --> C[文本型数据]
-    A --> D[图像型数据]
-    A --> E[类别型数据]
-    
-    B --> B1["连续型<br/>身高、体重、温度"]
-    B --> B2["离散型<br/>计数、评分"]
-    
-    C --> C1["结构化文本<br/>邮件、评论"]
-    C --> C2["非结构化文本<br/>文章、聊天记录"]
-    
-    D --> D1["灰度图像"]
-    D --> D2["彩色图像"]
-    D --> D3["视频序列"]
-    
-    E --> E1["名义型<br/>性别、血型"]
-    E --> E2["有序型<br/>等级、评级"]
-    
-    style A fill:#fff59d,stroke:#f57f17,stroke-width:3px
-    style B fill:#aed581
-    style C fill:#aed581
-    style D fill:#aed581
-    style E fill:#aed581
-    style B1 fill:#c5e1a5
-    style B2 fill:#c5e1a5
-    style C1 fill:#c5e1a5
-    style C2 fill:#c5e1a5
-    style D1 fill:#c5e1a5
-    style D2 fill:#c5e1a5
-    style D3 fill:#c5e1a5
-    style E1 fill:#c5e1a5
-    style E2 fill:#c5e1a5
+ A[数据类型] --> B[数值型数据]
+ A --> C[文本型数据]
+ A --> D[图像型数据]
+ A --> E[类别型数据]
+
+ B --> B1["连续型<br/>身高、体重、温度"]
+ B --> B2["离散型<br/>计数、评分"]
+
+ C --> C1["结构化文本<br/>邮件、评论"]
+ C --> C2["非结构化文本<br/>文章、聊天记录"]
+
+ D --> D1["灰度图像"]
+ D --> D2["彩色图像"]
+ D --> D3["视频序列"]
+
+ E --> E1["名义型<br/>性别、血型"]
+ E --> E2["有序型<br/>等级、评级"]
+
+ style A fill:#fff59d,stroke:#f57f17,stroke-width:3px
+ style B fill:#aed581
+ style C fill:#aed581
+ style D fill:#aed581
+ style E fill:#aed581
+ style B1 fill:#c5e1a5
+ style B2 fill:#c5e1a5
+ style C1 fill:#c5e1a5
+ style C2 fill:#c5e1a5
+ style D1 fill:#c5e1a5
+ style D2 fill:#c5e1a5
+ style D3 fill:#c5e1a5
+ style E1 fill:#c5e1a5
+ style E2 fill:#c5e1a5
 ```
 
 ---
 
 #### 1. 四大数据类型详解
 
-##### 1️ 数值型数据（Numerical Data）
+##### 1 数值型数据（Numerical Data）
 
 > **可以做数学运算的数字**
 
@@ -2928,7 +2928,7 @@ scores = np.array([1, 2, 3, 4, 5])
 
 ---
 
-##### 2️ 文本型数据（Text Data）
+##### 2 文本型数据（Text Data）
 
 > **由文字组成的数据**
 
@@ -2950,7 +2950,7 @@ features = vectorizer.fit_transform(texts)
 
 ---
 
-##### 3️ 图像型数据（Image Data）
+##### 3 图像型数据（Image Data）
 
 > **由像素点组成的视觉数据**
 
@@ -2966,25 +2966,25 @@ features = vectorizer.fit_transform(texts)
 import numpy as np
 
 # 灰度图：二维数组
-gray_img = np.zeros((28, 28))           # 28x28 像素
+gray_img = np.zeros((28, 28)) # 28x28 像素
 
 # 彩色图：三维数组（RGB）
-color_img = np.zeros((256, 256, 3))     # 256x256，3通道
+color_img = np.zeros((256, 256, 3)) # 256x256，3通道
 
 # 视频：四维数组
-video = np.zeros((30, 256, 256, 3))     # 30帧
+video = np.zeros((30, 256, 256, 3)) # 30帧
 ```
 
 ---
 
-##### 4️ 类别型数据（Categorical Data）
+##### 4 类别型数据（Categorical Data）
 
 > **表示"种类/标签"的数据**
 
 | 子类 | 特点 | 例子 |
 |------|------|------|
 | **名义型** | 无大小顺序 | 性别（男/女）、血型（A/B/O）、颜色（红/蓝） |
-| **有序型** | 有大小顺序 | 等级（高/中/低）、评级（★★★★★） |
+| **有序型** | 有大小顺序 | 等级（高/中/低）、评级（） |
 
 ##### 处理方式
 
@@ -2997,7 +2997,7 @@ gender = pd.get_dummies(['男', '女', '男', '女'])
 # 有序型：标签编码 Label Encoding
 rating_map = {'低': 1, '中': 2, '高': 3}
 ratings = ['高', '低', '中']
-encoded = [rating_map[r] for r in ratings]    # [3, 1, 2]
+encoded = [rating_map[r] for r in ratings] # [3, 1, 2]
 ```
 
 ---
@@ -3006,28 +3006,28 @@ encoded = [rating_map[r] for r in ratings]    # [3, 1, 2]
 
 ```mermaid
 flowchart LR
-    A[类别型数据] --> B{有顺序大小吗?}
-    
-    B -->|❌ 没有顺序| C[名义型]
-    B -->|✅ 有顺序| D[有序型]
-    
-    C --> C1["性别: 男/女<br/>(男 ≠ 大于 女)"]
-    C --> C2["血型: A/B/O/AB"]
-    C --> C3["颜色: 红/绿/蓝"]
-    C --> C4["编码: One-Hot"]
-    
-    D --> D1["评级: 优/良/中/差<br/>(优 > 良 > 中 > 差)"]
-    D --> D2["学历: 博士>硕士>本科"]
-    D --> D3["满意度: 1星~5星"]
-    D --> D4["编码: Label Encoding"]
-    
-    style C fill:#bbdefb
-    style D fill:#f8bbd0
+ A[类别型数据] --> B{有顺序大小吗?}
+
+ B -->| 没有顺序| C[名义型]
+ B -->| 有顺序| D[有序型]
+
+ C --> C1["性别: 男/女<br/>(男 ≠ 大于 女)"]
+ C --> C2["血型: A/B/O/AB"]
+ C --> C3["颜色: 红/绿/蓝"]
+ C --> C4["编码: One-Hot"]
+
+ D --> D1["评级: 优/良/中/差<br/>(优 > 良 > 中 > 差)"]
+ D --> D2["学历: 博士>硕士>本科"]
+ D --> D3["满意度: 1星~5星"]
+ D --> D4["编码: Label Encoding"]
+
+ style C fill:#bbdefb
+ style D fill:#f8bbd0
 ```
 
-#####  重要区别
+##### 重要区别
 
-> **名义型不能比较大小**！男 ≠ 大于女  
+> **名义型不能比较大小**！男 ≠ 大于女
 > **有序型可以比较**！优秀 > 良好 > 及格
 
 ---
@@ -3036,24 +3036,24 @@ flowchart LR
 
 ```mermaid
 flowchart TB
-    A[原始数据] --> B{什么类型?}
-    
-    B -->|数值型| C[标准化/归一化<br/>StandardScaler]
-    B -->|文本型| D[向量化<br/>TF-IDF / Word2Vec]
-    B -->|图像型| E[像素归一化<br/>除以255]
-    B -->|类别型| F{名义还是有序?}
-    
-    F -->|名义型| G[One-Hot 编码]
-    F -->|有序型| H[Label 编码]
-    
-    C --> Z[输入模型]
-    D --> Z
-    E --> Z
-    G --> Z
-    H --> Z
-    
-    style A fill:#fff59d
-    style Z fill:#c8e6c9,stroke:#2e7d32,stroke-width:3px
+ A[原始数据] --> B{什么类型?}
+
+ B -->|数值型| C[标准化/归一化<br/>StandardScaler]
+ B -->|文本型| D[向量化<br/>TF-IDF / Word2Vec]
+ B -->|图像型| E[像素归一化<br/>除以255]
+ B -->|类别型| F{名义还是有序?}
+
+ F -->|名义型| G[One-Hot 编码]
+ F -->|有序型| H[Label 编码]
+
+ C --> Z[输入模型]
+ D --> Z
+ E --> Z
+ G --> Z
+ H --> Z
+
+ style A fill:#fff59d
+ style Z fill:#c8e6c9,stroke:#2e7d32,stroke-width:3px
 ```
 
 ---
@@ -3077,11 +3077,11 @@ flowchart TB
 import pandas as pd
 
 data = pd.DataFrame({
-    '年龄': [25, 30, 35],                              # 连续型
-    '购买次数': [3, 7, 12],                            # 离散型
-    '评论': ['好', '一般', '很棒'],                    # 文本型
-    '性别': ['男', '女', '男'],                        # 名义型
-    'VIP等级': ['金', '银', '钻'],                     # 有序型
+ '年龄': [25, 30, 35], # 连续型
+ '购买次数': [3, 7, 12], # 离散型
+ '评论': ['好', '一般', '很棒'], # 文本型
+ '性别': ['男', '女', '男'], # 名义型
+ 'VIP等级': ['金', '银', '钻'], # 有序型
 })
 
 print(data)
@@ -3095,20 +3095,20 @@ print(data)
 
 ```mermaid
 mindmap
-  root((数据类型))
-    数值型
-      连续型 身高
-      离散型 评分
-    文本型
-      结构化 邮件
-      非结构化 文章
-    图像型
-      灰度图
-      彩色图
-      视频
-    类别型
-      名义型 性别
-      有序型 等级
+ root((数据类型))
+ 数值型
+ 连续型 身高
+ 离散型 评分
+ 文本型
+ 结构化 邮件
+ 非结构化 文章
+ 图像型
+ 灰度图
+ 彩色图
+ 视频
+ 类别型
+ 名义型 性别
+ 有序型 等级
 ```
 
 ##### 核心要点
@@ -3183,9 +3183,9 @@ print(f"共有 {df.shape[0]} 条样本， {df.shape[1]} 个特征。")
 
 - `df.head()`：像翻阅一本书的目录一样，快速查看数据的前几行，了解数据长什么样。
 - `df.info()`：这是数据的"体检报告"。它会告诉你：
-    - 每列的名称（`Column`）
-    - 非空值的数量（`Non-Null Count`），可以立刻发现是否有数据缺失
-    - 数据类型（`Dtype`），如 `int64`（整数）， `float64`（小数）， `object`（文本或混合类型）
+ - 每列的名称（`Column`）
+ - 非空值的数量（`Non-Null Count`），可以立刻发现是否有数据缺失
+ - 数据类型（`Dtype`），如 `int64`（整数）， `float64`（小数）， `object`（文本或混合类型）
 - `df.shape`：直接获取数据表的维度。
 
 ##### 步骤二：质量检查——发现缺失与异常
@@ -3210,13 +3210,13 @@ print(df.describe())
 
 - `df.isnull().sum()`：计算每一列中空值（`NaN`）的总数。
 - `df.describe()`：生成数值列的统计摘要，包括：
-    - `count`：数量（可用于再次确认缺失）
-    - `mean`：平均值
-    - `std`：标准差（数据波动大小）
-    - `min`：最小值
-    - `25%`, `50%`（中位数）, `75%`：四分位数
-    - `max`：最大值
-    - **通过观察 `min` 和 `max`，你可以初步判断是否有异常值**（例如，年龄列出现 200 岁）。
+ - `count`：数量（可用于再次确认缺失）
+ - `mean`：平均值
+ - `std`：标准差（数据波动大小）
+ - `min`：最小值
+ - `25%`, `50%`（中位数）, `75%`：四分位数
+ - `max`：最大值
+ - **通过观察 `min` 和 `max`，你可以初步判断是否有异常值**（例如，年龄列出现 200 岁）。
 ##### 步骤三：深入洞察——分布与关系可视化
 文字和数字是抽象的，而图表能让我们直观地"看到"数据。这是数据理解中最有趣的部分。
 ```python
@@ -3229,11 +3229,11 @@ features = ['sepal_length'， 'sepal_width'， 'petal_length'， 'petal_width']
 colors = ['skyblue'， 'lightgreen'， 'salmon'， 'gold']
 
 for i, (ax, feature, color) in enumerate(zip(axes.flat, features, colors)):
-    # 绘制直方图（分布）与核密度估计曲线
-    sns.histplot(df[feature], kde=True, ax=ax, color=color, bins=20)
-    ax.set_title(f'{feature} 的分布'， fontsize=14)
-    ax.set_xlabel(feature)
-    ax.set_ylabel('频数')
+ # 绘制直方图（分布）与核密度估计曲线
+ sns.histplot(df[feature], kde=True, ax=ax, color=color, bins=20)
+ ax.set_title(f'{feature} 的分布'， fontsize=14)
+ ax.set_xlabel(feature)
+ ax.set_ylabel('频数')
 
 plt.tight_layout()
 plt.show()
@@ -3267,15 +3267,15 @@ plt.show()
 
 - **直方图**：展示了某个特征（如花瓣长度）的值是如何分布的。是集中在某个区间，还是分散的？
 - **箱线图**：
-    - 箱子中间的线代表**中位数**。
-    - 箱子的上下边界代表**第25%（Q1）和75%（Q3）分位数**。
-    - 上下延伸的"须"通常代表合理范围（Q1-1.5IQR 到 Q3+1.5IQR）。
-    - **单独的点**很可能就是**异常值**！
+ - 箱子中间的线代表**中位数**。
+ - 箱子的上下边界代表**第25%（Q1）和75%（Q3）分位数**。
+ - 上下延伸的"须"通常代表合理范围（Q1-1.5IQR 到 Q3+1.5IQR）。
+ - **单独的点**很可能就是**异常值**！
 - **散点图矩阵**：同时查看任意两个特征之间的关系。点呈带状分布说明可能相关。
 - **相关性热力图**：用颜色和数字（-1 到 1）精确表示两个特征的线性相关程度。
-    - **1**：完全正相关（一个变大，另一个也变大）
-    - **-1**：完全负相关（一个变大，另一个变小）
-    - **0**：没有线性关系
+ - **1**：完全正相关（一个变大，另一个也变大）
+ - **-1**：完全负相关（一个变大，另一个变小）
+ - **0**：没有线性关系
 
 ## 数据清洗 Data Cleaning
 在机器学习中，我们常常听到一句话："垃圾进，垃圾出"，这句话生动地比喻了数据质量对于模型性能的决定性影响。
@@ -3284,7 +3284,7 @@ plt.show()
 
 在机器学习中，**原始数据**就是我们的"食材"，而**数据清洗**就是那个至关重要的"备菜"过程。它旨在识别、纠正或移除数据中的错误、不一致、重复和不完整的部分，为后续的模型"烹饪"准备好干净、高质量的"食材"。
 
-### 1.  数据清洗为何如此重要？
+### 1. 数据清洗为何如此重要？
 
 在深入技术细节之前，让我们先理解为什么数据清洗是机器学习流程中不可或缺的一环。
 
@@ -3308,34 +3308,34 @@ plt.show()
 
 ```mermaid
 flowchart TB
-    A[原始数据收集] --> B[数据清洗]
-    B --> C[特征工程]
-    C --> D[模型训练]
-    D --> E[模型评估]
-    E --> F{性能达标?}
-    F -->|No| B
-    F -->|Yes| G[模型部署]
-    
-    style A fill:#aed581,stroke:#558b2f,stroke-width:2px
-    style B fill:#aed581,stroke:#558b2f,stroke-width:2px
-    style C fill:#aed581,stroke:#558b2f,stroke-width:2px
-    style D fill:#aed581,stroke:#558b2f,stroke-width:2px
-    style E fill:#aed581,stroke:#558b2f,stroke-width:2px
-    style F fill:#aed581,stroke:#558b2f,stroke-width:2px
-    style G fill:#aed581,stroke:#558b2f,stroke-width:2px
+ A[原始数据收集] --> B[数据清洗]
+ B --> C[特征工程]
+ C --> D[模型训练]
+ D --> E[模型评估]
+ E --> F{性能达标?}
+ F -->|No| B
+ F -->|Yes| G[模型部署]
+
+ style A fill:#aed581,stroke:#558b2f,stroke-width:2px
+ style B fill:#aed581,stroke:#558b2f,stroke-width:2px
+ style C fill:#aed581,stroke:#558b2f,stroke-width:2px
+ style D fill:#aed581,stroke:#558b2f,stroke-width:2px
+ style E fill:#aed581,stroke:#558b2f,stroke-width:2px
+ style F fill:#aed581,stroke:#558b2f,stroke-width:2px
+ style G fill:#aed581,stroke:#558b2f,stroke-width:2px
 ```
 
 ### 2. 常见的数据问题与清洗策略
 
 数据清洗通常针对以下几类常见问题展开。我们可以通过一个简单的表格来快速了解：
 
-| 问题类型     | 描述                              | 可能的影响               | 常用清洗策略                 |
+| 问题类型 | 描述 | 可能的影响 | 常用清洗策略 |
 | :------- | :------------------------------ | :------------------ | :--------------------- |
-| **缺失值 missing value**  | 数据记录中某些字段的值为空（NaN, NULL）。       | 导致样本被丢弃，信息损失，计算错误。  | 删除、填充（均值/中位数/众数/预测）。   |
-| **异常值 outlier**  | 与大多数数据明显偏离的极端值。                 | 扭曲统计结果，影响模型性能。      | 识别（IQR、Z-Score）后删除或修正。 |
-| **重复值 duplicate value**  | 数据集中存在完全相同的记录。                  | 使模型过度偏向重复样本，影响泛化能力。 | 识别并删除重复项。              |
-| **不一致性 inconsistency** | 数据格式、单位或编码不统一（如"男"、"Male"、"M"）。 | 导致分组和分析错误。          | 标准化、规范化、映射转换。          |
-| **错误值 Error value**  | 明显不合逻辑的值（如年龄为-1或300岁）。          | 产生毫无意义的分析结果。        | 根据业务逻辑进行修正或设为缺失。       |
+| **缺失值 missing value** | 数据记录中某些字段的值为空（NaN, NULL）。 | 导致样本被丢弃，信息损失，计算错误。 | 删除、填充（均值/中位数/众数/预测）。 |
+| **异常值 outlier** | 与大多数数据明显偏离的极端值。 | 扭曲统计结果，影响模型性能。 | 识别（IQR、Z-Score）后删除或修正。 |
+| **重复值 duplicate value** | 数据集中存在完全相同的记录。 | 使模型过度偏向重复样本，影响泛化能力。 | 识别并删除重复项。 |
+| **不一致性 inconsistency** | 数据格式、单位或编码不统一（如"男"、"Male"、"M"）。 | 导致分组和分析错误。 | 标准化、规范化、映射转换。 |
+| **错误值 Error value** | 明显不合逻辑的值（如年龄为-1或300岁）。 | 产生毫无意义的分析结果。 | 根据业务逻辑进行修正或设为缺失。 |
 
 接下来，我们将使用 Python 的 `pandas` 和 `numpy` 库，通过具体代码来演示如何解决这些问题。
 ### 3. 动手实践：使用 Python 进行数据清洗
@@ -3376,15 +3376,15 @@ df_filled = df.copy()
 
 # 对于数值型列（如'年龄'），用中位数填充（比均值更抗异常值影响）
 if '年龄' in df_filled.columns:
-    df_filled['年龄'].fillna(df_filled['年龄'].median(), inplace=True)
+ df_filled['年龄'].fillna(df_filled['年龄'].median(), inplace=True)
 
 # 对于分类列（如'城市'），用众数（最频繁出现的值）填充
 if '城市' in df_filled.columns:
-    df_filled['城市'].fillna(df_filled['城市'].mode()[0], inplace=True)
+ df_filled['城市'].fillna(df_filled['城市'].mode()[0], inplace=True)
 
 # 对于可能随时间变化的列（如'上次消费金额'），有时用0填充更有业务意义
 if '上次消费金额' in df_filled.columns:
-    df_filled['上次消费金额'].fillna(0, inplace=True)
+ df_filled['上次消费金额'].fillna(0, inplace=True)
 
 print("\n填充缺失值后，各列缺失值数量：")
 print(df_filled.isnull().sum())
@@ -3394,22 +3394,22 @@ print(df_filled.isnull().sum())
 ```python
 # 我们以'年收入'为例，假设它应该是一个合理的正值
 if '年收入' in df_filled.columns:
-    # 方法一：使用四分位距（IQR）法识别
-    Q1 = df_filled['年收入'].quantile(0.25)
-    Q3 = df_filled['年收入'].quantile(0.75)
-    IQR = Q3 - Q1
-    lower_bound = Q1 - 1.5 * IQR
-    upper_bound = Q3 + 1.5 * IQR
+ # 方法一：使用四分位距（IQR）法识别
+ Q1 = df_filled['年收入'].quantile(0.25)
+ Q3 = df_filled['年收入'].quantile(0.75)
+ IQR = Q3 - Q1
+ lower_bound = Q1 - 1.5 * IQR
+ upper_bound = Q3 + 1.5 * IQR
 
-    # 找出异常值
-    outliers = df_filled[(df_filled['年收入'] < lower_bound) | (df_filled['年收入'] > upper_bound)]
-    print(f"\n使用IQR法发现的'年收入'异常值数量: {len(outliers)}")
+ # 找出异常值
+ outliers = df_filled[(df_filled['年收入'] < lower_bound) | (df_filled['年收入'] > upper_bound)]
+ print(f"\n使用IQR法发现的'年收入'异常值数量: {len(outliers)}")
 
-    # 处理异常值：这里选择用上下边界值进行截断（Winsorization）
-    df_filled['年收入'] = np.where(df_filled['年收入'] > upper_bound, upper_bound,
-                                   np.where(df_filled['年收入'] < lower_bound, lower_bound, df_filled['年收入']))
+ # 处理异常值：这里选择用上下边界值进行截断（Winsorization）
+ df_filled['年收入'] = np.where(df_filled['年收入'] > upper_bound, upper_bound,
+ np.where(df_filled['年收入'] < lower_bound, lower_bound, df_filled['年收入']))
 
-    print("已对'年收入'的异常值进行截断处理。")
+ print("已对'年收入'的异常值进行截断处理。")
 ```
 #### 3.4 处理重复值
 重复的记录会增加计算负担并可能带来偏差。
@@ -3427,19 +3427,19 @@ print(f"删除重复值后，数据形状: {df_cleaned.shape}")
 ```python
 # 1. 标准化文本格式：例如，将'城市'列统一为首字母大写
 if '城市' in df_cleaned.columns:
-    df_cleaned['城市'] = df_cleaned['城市'].str.title()
+ df_cleaned['城市'] = df_cleaned['城市'].str.title()
 
 # 2. 映射统一值：例如，将性别信息统一为'男'和'女'
 if '性别' in df_cleaned.columns:
-    gender_mapping = {'male': '男', 'female': '女', 'M': '男', 'F': '女'}
-    df_cleaned['性别'] = df_cleaned['性别'].replace(gender_mapping)
-    # 也可以使用 .map() 函数，但 .replace() 更灵活，未指定的值保持不变
+ gender_mapping = {'male': '男', 'female': '女', 'M': '男', 'F': '女'}
+ df_cleaned['性别'] = df_cleaned['性别'].replace(gender_mapping)
+ # 也可以使用 .map() 函数，但 .replace() 更灵活，未指定的值保持不变
 
 # 3. 转换数据类型：确保数值列是数字类型
 if '年龄' in df_cleaned.columns:
-    df_cleaned['年龄'] = pd.to_numeric(df_cleaned['年龄'], errors='coerce') # errors='coerce'将错误转换为NaN
-    # 转换后，可以再次用中位数填充因转换产生的新NaN
-    df_cleaned['年龄'].fillna(df_cleaned['年龄'].median(), inplace=True)
+ df_cleaned['年龄'] = pd.to_numeric(df_cleaned['年龄'], errors='coerce') # errors='coerce'将错误转换为NaN
+ # 转换后，可以再次用中位数填充因转换产生的新NaN
+ df_cleaned['年龄'].fillna(df_cleaned['年龄'].median(), inplace=True)
 
 print("\n数据清洗完成！查看清洗后的数据前5行：")
 print(df_cleaned.head())
@@ -3465,10 +3465,10 @@ print(df_cleaned.head())
 **数据和特征决定了机器学习的上限，模型和算法只是逼近这个上限。**
 ```mermaid
 pie title Data Science 项目时间分配
-    "特征工程+数据处理" : 70
-    "模型训练" : 15
-    "调参优化" : 10
-    "部署上线" : 5
+ "特征工程+数据处理" : 70
+ "模型训练" : 15
+ "调参优化" : 10
+ "部署上线" : 5
 
 ```
 ### 3. 特征工程的核心操作
@@ -3482,12 +3482,12 @@ pie title Data Science 项目时间分配
 
 数据中经常存在缺失值（如 `NaN`, `NULL`），需要合理处理。
 
-| 处理方法                 | 说明                            | 适用场景            |
+| 处理方法 | 说明 | 适用场景 |
 | :------------------- | :---------------------------- | :-------------- |
-| **删除 Delete**        | 直接删除缺失值所在的行或列                 | 缺失数据极少，或该特征不重要时 |
-| **填充 Fill **         | 用某个值填充，如均值、中位数、众数或一个特殊值（如 -1） | 最常用的方法，适用于各种情况  |
-| **插值 interpolation** | 用时间序列或相邻数据点进行插值计算             | 时间序列数据          |
-|                      |                               |                 |
+| **删除 Delete** | 直接删除缺失值所在的行或列 | 缺失数据极少，或该特征不重要时 |
+| **填充 Fill ** | 用某个值填充，如均值、中位数、众数或一个特殊值（如 -1） | 最常用的方法，适用于各种情况 |
+| **插值 interpolation** | 用时间序列或相邻数据点进行插值计算 | 时间序列数据 |
+| | | |
 
 **代码示例（使用 Python 的 pandas 库）：**
 ```python
@@ -3496,8 +3496,8 @@ import numpy as np
 
 # 创建一个包含缺失值的示例 DataFrame
 data = {'年龄': [25, np.nan, 30, 35, np.nan],
-        '工资': [50000, 54000, np.nan, 62000, 58000],
-        '城市': ['北京', '上海', '广州', np.nan, '北京']}
+ '工资': [50000, 54000, np.nan, 62000, 58000],
+ '城市': ['北京', '上海', '广州', np.nan, '北京']}
 df = pd.DataFrame(data)
 print("原始数据：")
 print(df)
@@ -3545,32 +3545,32 @@ $$
 ###### 如何选择？
 ```mermaid
 flowchart TD
-    A[要做特征缩放] --> B{数据特点?}
-    B -->|有明显异常值<br/>已被处理| C[StandardScaler<br/>标准化]
-    B -->|需要 0-1 范围<br/>比如神经网络| D[MinMaxScaler<br/>归一化]
-    B -->|异常值多| E[RobustScaler<br/>抗异常值]
-    
-    style C fill:#c8e6c9
-    style D fill:#bbdefb
-    style E fill:#fff59d
+ A[要做特征缩放] --> B{数据特点?}
+ B -->|有明显异常值<br/>已被处理| C[StandardScaler<br/>标准化]
+ B -->|需要 0-1 范围<br/>比如神经网络| D[MinMaxScaler<br/>归一化]
+ B -->|异常值多| E[RobustScaler<br/>抗异常值]
+
+ style C fill:#c8e6c9
+ style D fill:#bbdefb
+ style E fill:#fff59d
 ```
 ```mermaid
 flowchart TD
-    A[df 所有列] --> B[num_cols<br/>所有数值列]
-    A --> C[cat_cols<br/>所有类别列]
-    
-    B --> D[survived<br/>标签 y]
-    B --> E[feature_num_cols<br/>数值特征 X]
-    
-    E --> F[pclass]
-    E --> G[age]
-    E --> H[sibsp]
-    E --> I[parch]
-    E --> J[fare]
-    
-    style D fill:#ffcdd2
-    style E fill:#c8e6c9
-    style B fill:#fff59d
+ A[df 所有列] --> B[num_cols<br/>所有数值列]
+ A --> C[cat_cols<br/>所有类别列]
+
+ B --> D[survived<br/>标签 y]
+ B --> E[feature_num_cols<br/>数值特征 X]
+
+ E --> F[pclass]
+ E --> G[age]
+ E --> H[sibsp]
+ E --> I[parch]
+ E --> J[fare]
+
+ style D fill:#ffcdd2
+ style E fill:#c8e6c9
+ style B fill:#fff59d
 
 ```
 **代码示例（使用 scikit-learn 库）：**
@@ -3580,9 +3580,9 @@ import numpy as np
 
 # 示例数据
 data = np.array([[1000, 25],
-                 [1500, 30],
-                 [800, 20],
-                 [1200, 28]])
+ [1500, 30],
+ [800, 20],
+ [1200, 28]])
 
 # 标准化
 scaler_standard = StandardScaler()
@@ -3613,15 +3613,15 @@ print(data_normalized)
 机器学习模型无法直接处理"北京"、"上海"这样的文本。需要将其转换为数字。
 ```mermaid
 flowchart TD
-    A[类别特征] --> B{有几个类别?}
-    B -->|2 个| C[Label Encoding<br/>0/1 即可]
-    B -->|3 个以上| D{类别有顺序吗?}
-    D -->|有顺序<br/>如:小/中/大| E[Label Encoding<br/>0,1,2]
-    D -->|无顺序<br/>如:红/绿/蓝| F[One-Hot Encoding]
-    
-    style C fill:#c8e6c9
-    style E fill:#fff59d
-    style F fill:#bbdefb
+ A[类别特征] --> B{有几个类别?}
+ B -->|2 个| C[Label Encoding<br/>0/1 即可]
+ B -->|3 个以上| D{类别有顺序吗?}
+ D -->|有顺序<br/>如:小/中/大| E[Label Encoding<br/>0,1,2]
+ D -->|无顺序<br/>如:红/绿/蓝| F[One-Hot Encoding]
+
+ style C fill:#c8e6c9
+ style E fill:#fff59d
+ style F fill:#bbdefb
 
 ```
 |方法|说明|特点|
@@ -3684,8 +3684,8 @@ model.fit(X, y)
 # 获取特征重要性
 importances = model.feature_importances_
 feature_importance_df = pd.DataFrame({
-    '特征': data.feature_names,
-    '重要性': importances
+ '特征': data.feature_names,
+ '重要性': importances
 }).sort_values('重要性', ascending=False)
 
 print("特征重要性排序：")
@@ -3705,51 +3705,51 @@ print(f"\n筛选出的特征： {selected_features}")
 ```
 #### 代码示例详解
 ```python
-import pandas as pd  
-import matplotlib.pyplot as plt  
-import seaborn as sns  
-from sklearn.datasets import load_breast_cancer  
-from sklearn.ensemble import RandomForestClassifier  
-import pandas as pd  
-import matplotlib.pyplot as plt  
-from sklearn.preprocessing import StandardScaler, MinMaxScaler, LabelEncoder  
-from seaborn import load_dataset  
-import numpy as np  
-  
-  
-df = load_dataset('titanic')  
-print(df.head())  
-  
-# 选出所有数值列，批量填充均值 select dtypes .columns return keys#num_cols = df.select_dtypes(include=['int64', 'float64']).columns  
-#df[num_cols] = df[num_cols].fillna(df[num_cols].mean())  
-#df[] = 子集 fillna(mean)# 选出所有类别列，批量填充众数 select object#cat_cols = df.select_dtypes(include=['object' , 'category']).columns  
-#df[cat_cols] = df[cat_cols].fillna(df[cat_cols].mode().iloc[0])  
-#mode return a lot of (serise) .iloc[0] return idex 0  
-num_cols = df.select_dtypes(include=np.number).columns         # 所有数值  
-cat_cols = df.select_dtypes(exclude=np.number).columns         # 所有非数值  
-# 分离特征和标签  
-target = 'survived'  
-feature_num_cols = [c for c in num_cols if c != target]   # 排除标签  
-print("\n要缩放的列：", feature_num_cols)  
-#nomalize  
-scaler = StandardScaler()  
-df[feature_num_cols] = scaler.fit_transform(df[feature_num_cols])  
-# .fit 是学习然后计算min/max（观察数据）  scaler.transform是应用变换套到数据身上（应用数据）  
-print("\n各列均值（应≈0）：")  
-print(df[feature_num_cols].mean().round(4))# round(n) 中的 n = 保留几位小数  
-print("\n各列标准差（应≈1）：")  
-print(df[feature_num_cols].std().round(4))  
-print("\n处理后的数据：")  
-print(df.head())  
-# 编码  
-le = LabelEncoder()  
-df['sex'] = df['sex'].map({'male': 1, 'female': 0})# Label Encoding  
-# df['sex'] = le.fit_transform(df['sex'])  
-df = pd.get_dummies(df, columns=['embarked']) #One-Hot Encoding get_dummies = dummy variable  
-  
-# 计算特征系数选择对预测有帮助的系数  
-correlations = df.corr(numeric_only=True)['survived'].abs().sort_values(ascending=False)# 算每个特征和目标的相关系数  
-# 算出每个特征和'survived'的相关程度，abs（）取绝对值后，从大到小排序/df.corr（）算相关系数矩阵 numeric_only只计算数值列  
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+from sklearn.datasets import load_breast_cancer
+from sklearn.ensemble import RandomForestClassifier
+import pandas as pd
+import matplotlib.pyplot as plt
+from sklearn.preprocessing import StandardScaler, MinMaxScaler, LabelEncoder
+from seaborn import load_dataset
+import numpy as np
+
+
+df = load_dataset('titanic')
+print(df.head())
+
+# 选出所有数值列，批量填充均值 select dtypes .columns return keys#num_cols = df.select_dtypes(include=['int64', 'float64']).columns
+#df[num_cols] = df[num_cols].fillna(df[num_cols].mean())
+#df[] = 子集 fillna(mean)# 选出所有类别列，批量填充众数 select object#cat_cols = df.select_dtypes(include=['object' , 'category']).columns
+#df[cat_cols] = df[cat_cols].fillna(df[cat_cols].mode().iloc[0])
+#mode return a lot of (serise) .iloc[0] return idex 0
+num_cols = df.select_dtypes(include=np.number).columns # 所有数值
+cat_cols = df.select_dtypes(exclude=np.number).columns # 所有非数值
+# 分离特征和标签
+target = 'survived'
+feature_num_cols = [c for c in num_cols if c != target] # 排除标签
+print("\n要缩放的列：", feature_num_cols)
+#nomalize
+scaler = StandardScaler()
+df[feature_num_cols] = scaler.fit_transform(df[feature_num_cols])
+# .fit 是学习然后计算min/max（观察数据） scaler.transform是应用变换套到数据身上（应用数据）
+print("\n各列均值（应≈0）：")
+print(df[feature_num_cols].mean().round(4))# round(n) 中的 n = 保留几位小数
+print("\n各列标准差（应≈1）：")
+print(df[feature_num_cols].std().round(4))
+print("\n处理后的数据：")
+print(df.head())
+# 编码
+le = LabelEncoder()
+df['sex'] = df['sex'].map({'male': 1, 'female': 0})# Label Encoding
+# df['sex'] = le.fit_transform(df['sex'])
+df = pd.get_dummies(df, columns=['embarked']) #One-Hot Encoding get_dummies = dummy variable
+
+# 计算特征系数选择对预测有帮助的系数
+correlations = df.corr(numeric_only=True)['survived'].abs().sort_values(ascending=False)# 算每个特征和目标的相关系数
+# 算出每个特征和'survived'的相关程度，abs（）取绝对值后，从大到小排序/df.corr（）算相关系数矩阵 numeric_only只计算数值列
 print(correlations)
 ```
 ---
@@ -3791,12 +3791,12 @@ import seaborn as sns
 sns.set_style("whitegrid")
 # -------------------------- 设置中文字体 start --------------------------
 plt.rcParams['font.sans-serif'] = [
-    # Windows 优先
-    'SimHei', 'Microsoft YaHei',
-    # macOS 优先
-    'PingFang SC', 'Heiti TC',
-    # Linux 优先
-    'WenQuanYi Micro Hei', 'DejaVu Sans'
+ # Windows 优先
+ 'SimHei', 'Microsoft YaHei',
+ # macOS 优先
+ 'PingFang SC', 'Heiti TC',
+ # Linux 优先
+ 'WenQuanYi Micro Hei', 'DejaVu Sans'
 ]
 # 修复负号显示为方块的问题
 plt.rcParams['axes.unicode_minus'] = False
@@ -3844,12 +3844,12 @@ import seaborn as sns
 sns.set_style("whitegrid")
 # -------------------------- 设置中文字体 start --------------------------
 plt.rcParams['font.sans-serif'] = [
-    # Windows 优先
-    'SimHei', 'Microsoft YaHei',
-    # macOS 优先
-    'PingFang SC', 'Heiti TC',
-    # Linux 优先
-    'WenQuanYi Micro Hei', 'DejaVu Sans'
+ # Windows 优先
+ 'SimHei', 'Microsoft YaHei',
+ # macOS 优先
+ 'PingFang SC', 'Heiti TC',
+ # Linux 优先
+ 'WenQuanYi Micro Hei', 'DejaVu Sans'
 ]
 # 修复负号显示为方块的问题
 plt.rcParams['axes.unicode_minus'] = False
@@ -3970,10 +3970,10 @@ plt.show()
 
 我们可以在散点图的基础上，用颜色或形状区分第三个（类别型）变量。
 ```python
-# 在年龄-票价散点图中，用颜色区分是否幸存  
-plt.figure(figsize=(12, 8))  
-sns.scatterplot(x='age', y='fare', hue='survived', style='survived', data=df, alpha=0.7)  
-plt.title('年龄 vs 票价（按生存情况着色）')  
+# 在年龄-票价散点图中，用颜色区分是否幸存
+plt.figure(figsize=(12, 8))
+sns.scatterplot(x='age', y='fare', hue='survived', style='survived', data=df, alpha=0.7)
+plt.title('年龄 vs 票价（按生存情况着色）')
 plt.show()
 ```
 ![[Pasted image 20260510092233.png]]
@@ -4120,14 +4120,14 @@ print(f"训练集：{len(X_train)}， 验证集：{len(X_val)}， 测试集：{l
 其流程如下，可以有效利用有限的数据：
 ```mermaid
 flowchart TD
-    A[原始数据集] --> B[随机打乱并均匀分为K份]
-    B --> C{进行K轮循环}
-    C --> D[第i轮: 将第i份作为验证集]
-    D --> E[其余K-1份合并作为训练集]
-    E --> F[在该轮训练集上训练模型]
-    F --> G[在该轮验证集上评估得分Si]
-    G --> C
-    C -- K轮完成后 --> H[计算K个得分的平均值作为最终评估]
+ A[原始数据集] --> B[随机打乱并均匀分为K份]
+ B --> C{进行K轮循环}
+ C --> D[第i轮: 将第i份作为验证集]
+ D --> E[其余K-1份合并作为训练集]
+ E --> F[在该轮训练集上训练模型]
+ F --> G[在该轮验证集上评估得分Si]
+ G --> C
+ C -- K轮完成后 --> H[计算K个得分的平均值作为最终评估]
 ```
 ```python
 # 示例：使用5折交叉验证评估模型
@@ -4150,13 +4150,13 @@ print(f"平均得分：{scores.mean():.4f} (+/- {scores.std()*2:.4f})") # 输出
 - **核心目的**：划分训练集和测试集是为了**评估模型的泛化能力**，防止过拟合，确保模型能处理新数据。
 - **黄金法则**：**测试集必须在整个训练过程中完全保密**，仅用于最终评估。
 - **划分方法**：
-    - **随机划分**：最通用。
-    - **分层划分**：适用于分类问题中的不均衡数据。
-    - **顺序划分**：适用于时间序列数据。
+ - **随机划分**：最通用。
+ - **分层划分**：适用于分类问题中的不均衡数据。
+ - **顺序划分**：适用于时间序列数据。
 - **划分比例**：没有绝对标准，需在"足够训练"和"可靠评估"间权衡。80:20 或 70:30 是常见起点。
 - **进阶工具**：
-    - **验证集**：用于模型调参，保护测试集的纯洁性。
-    - **K折交叉验证**：中小数据集的评估和调参利器，结果更稳健。
+ - **验证集**：用于模型调参，保护测试集的纯洁性。
+ - **K折交叉验证**：中小数据集的评估和调参利器，结果更稳健。
 
 ---
 
@@ -4184,9 +4184,9 @@ print(f"平均得分：{scores.mean():.4f} (+/- {scores.std()*2:.4f})") # 输出
 
 |指标|解释（比喻）|计算公式（简述）|特点与用途|
 |:--|:--|:--|:--|
-|**均值**|所有数据的算术平均值。  <br>好比"平均工资"。|`总和 / 数据个数`|**最常用**，但对极端值（如亿万富翁）非常敏感，容易"被平均"。|
-|**中位数**|将数据从小到大排序后，**正中间**的那个值。  <br>好比"工资中位数"。|排序后取中间位置的值|**稳健**，不受极端值影响，能更好地反映普通情况。|
-|**众数**|数据中出现**次数最多**的值。  <br>好比店里最畅销的鞋码。|出现频率最高的值|适用于分类数据，或寻找最普遍的类别。|
+|**均值**|所有数据的算术平均值。 <br>好比"平均工资"。|`总和 / 数据个数`|**最常用**，但对极端值（如亿万富翁）非常敏感，容易"被平均"。|
+|**中位数**|将数据从小到大排序后，**正中间**的那个值。 <br>好比"工资中位数"。|排序后取中间位置的值|**稳健**，不受极端值影响，能更好地反映普通情况。|
+|**众数**|数据中出现**次数最多**的值。 <br>好比店里最畅销的鞋码。|出现频率最高的值|适用于分类数据，或寻找最普遍的类别。|
 
 **示例**：一个部门5名员工的月薪（单位：千元）为：`[30, 35, 40, 45, 200]`（老板也在其中）。
 
@@ -4197,8 +4197,8 @@ $$
 = (30+35+40+45+200)/5 = **70**。这个值因为老板的200而虚高，不能代表员工收入。
 - **中位数 median** 
 $$
-\text{Median} = 
-\begin{cases} 
+\text{Median} =
+\begin{cases}
 x_{\frac{n+1}{2}}, & n \text{ 为奇数} \\[6pt]
 \dfrac{1}{2}\left(x_{\frac{n}{2}} + x_{\frac{n}{2}+1}\right), & n \text{ 为偶数}
 \end{cases}
@@ -4217,8 +4217,8 @@ $$
 |指标|解释（比喻）|计算公式（简述）|特点与用途|
 |:--|:--|:--|:--|
 |**方差**|每个数据点与均值距离的**平方**的平均值。|`Σ(每个值 - 均值)² / (n-1)`|衡量总体离散程度，单位是原单位的平方。|
-|**标准差**|**方差的正平方根**。  <br>好比"平均波动幅度"。|`√方差`|**最常用**，单位与原数据一致，直观反映波动大小。值越大，数据越分散。|
-|**极差**|最大值与最小值的差。  <br>"工资跨度"。|`最大值 - 最小值`|计算简单，但只由两个极端值决定，容易受异常值影响。|
+|**标准差**|**方差的正平方根**。 <br>好比"平均波动幅度"。|`√方差`|**最常用**，单位与原数据一致，直观反映波动大小。值越大，数据越分散。|
+|**极差**|最大值与最小值的差。 <br>"工资跨度"。|`最大值 - 最小值`|计算简单，但只由两个极端值决定，容易受异常值影响。|
 
 **接上例**：计算员工薪资的标准差（均值用40估算更合理）。
 
@@ -4258,9 +4258,9 @@ plt.grid(axis='y', linestyle='--', alpha=0.7)
 
 # 标注出异常值对应的点
 for i, (name, salary) in enumerate(zip(employee_names, salaries)):
-    if salary > 45 + 1.5 * (45-35): # 简单异常值判断规则
-        plt.annotate(f'{name}: {salary}', xy=(0, salary), xytext=(0.2, salary),
-                     arrowprops=dict(facecolor='red', shrink=0.05))
+ if salary > 45 + 1.5 * (45-35): # 简单异常值判断规则
+ plt.annotate(f'{name}: {salary}', xy=(0, salary), xytext=(0.2, salary),
+ arrowprops=dict(facecolor='red', shrink=0.05))
 plt.show()
 ```
 ![[Pasted image 20260510100648.png]]
@@ -4289,7 +4289,7 @@ $$P(\Omega) = 1, \quad P(\varnothing) = 0$$
 | $\varnothing$ | 空集（**不可能事件**）|
 
 ---
-#### 2. 古典概型 
+#### 2. 古典概型
 - 古典概型是最简单的概率模型，本质上就是"数数"——数一下满足条件的情况有几种，再数一下总共有多少种情况。只要每种情况出现的可能性都一样（等可能），用前者除以后者就是概率。
 ##### 公式
 
@@ -4298,7 +4298,7 @@ $$P(A) = \frac{A \text{ 包含的样本点数}}{\Omega \text{ 中样本点总数
 ##### 适用条件
 
 
-##### 例子 
+##### 例子
 
 > 掷一枚骰子，求出现偶数的概率
 
@@ -4306,7 +4306,7 @@ $$P(\text{偶数}) = \frac{3}{6} = \frac{1}{2}$$
 
 ---
 
-#### 3. 对立事件 
+#### 3. 对立事件
 - 对立事件就是"A 不发生"这件事，它和 A 的概率加起来一定等于 1。当题目里出现"至少"两个字时，正面计算往往很复杂，但算它的对立面（一次都不发生）通常很简单。
 ##### 公式
 
@@ -4318,11 +4318,11 @@ $$P(\bar{A}) = 1 - P(A)$$
 |------|------|
 | $\bar{A}$ 或 $A^c$ | A 的**对立事件**（A 不发生）|
 
-##### 用途 
+##### 用途
 
 > "**至少有一个**" 类问题，通常算对立事件更简单
 
-##### 例子 
+##### 例子
 
 > 抛 3 次硬币，求**至少有一次正面**的概率
 
@@ -4330,7 +4330,7 @@ $$P(\text{至少一正}) = 1 - P(\text{全反}) = 1 - \left(\frac{1}{2}\right)^3
 
 ---
 
-#### 4. 加法公式 
+#### 4. 加法公式
 - 加法公式用来计算"A 或 B 发生"的概率，但直接相加会把 A 和 B 同时发生的部分**算两次**，所以要减掉一次重叠部分。如果 A 和 B 不可能同时发生（互斥），就没有重叠，直接相加即可。
 ##### 1. 一般加法公式（两个事件）
 
@@ -4344,22 +4344,22 @@ $$P(A \cup B) = P(A) + P(B)$$
 
 $$P(A \cup B \cup C) = P(A) + P(B) + P(C) - P(AB) - P(AC) - P(BC) + P(ABC)$$
 
-##### 图示 
+##### 图示
 
 ```
-   ┌────────┐
-   │   A    │
-   │   ┌────┼─────┐
-   │   │ A∩B│  B  │
-   └───┼────┘     │
-       └──────────┘
+ ┌────────┐
+ │ A │
+ │ ┌────┼─────┐
+ │ │ A∩B│ B │
+ └───┼────┘ │
+ └──────────┘
 
 P(A∪B) = A 面积 + B 面积 - 重叠面积
 ```
 
 ---
 
-#### 5. 减法公式 
+#### 5. 减法公式
 - 减法公式计算"A 发生但 B 不发生"的概率，相当于从 A 的范围里把"A 和 B 同时发生"的部分挖掉。当 B 完全包含在 A 里面时，挖掉的就正好是 B 本身。
 ##### 公式
 
@@ -4370,11 +4370,11 @@ $$P(A - B) = P(A) - P(A \cap B)$$
 
 $$P(A - B) = P(A) - P(B)$$
 
->  含义：A 发生但 B 不发生的概率
+> 含义：A 发生但 B 不发生的概率
 
 ---
 
-#### 6. 乘法公式 
+#### 6. 乘法公式
 - 乘法公式计算"A 和 B 同时发生"的概率，思路是先算 A 发生的概率，再乘以"A 已经发生时 B 发生的概率"。如果 A 和 B 互不影响（独立），那条件概率就等于普通概率，直接两个概率相乘即可。
 ##### 1. 一般乘法公式
 
@@ -4393,7 +4393,7 @@ $$P(A_1 A_2 \cdots A_n) = P(A_1) P(A_2 \mid A_1) \cdots P(A_n \mid A_1 \cdots A_
 
 ---
 
-#### 7. 条件概率 
+#### 7. 条件概率
 - 条件概率是"在已知 B 发生的前提下，A 发生的概率"，相当于把样本空间从 Ω **缩小**到 B。用 A 和 B 同时发生的概率除以 B 发生的概率，就得到这个缩小空间里 A 占的比例。
 ##### 公式
 
@@ -4403,7 +4403,7 @@ $$P(A \mid B) = \frac{P(A \cap B)}{P(B)}, \quad P(B) > 0$$
 
 ---
 
-#### 8. 全概率公式 
+#### 8. 全概率公式
 -全概率公式适用于"结果 A 可能由多种原因 $B_i$ 引起"的情况，把每种原因发生的概率乘以"该原因下 A 发生的概率"，再全部加起来。它的核心思想是**分类讨论**——把复杂事件按原因拆成几条互不重叠的路径分别计算。
 ##### 当 $B_1, B_2, \dots, B_n$ 是 $\Omega$ 的一个**划分**
 
@@ -4412,25 +4412,25 @@ $$P(A) = \sum_{i=1}^{n} P(B_i) \cdot P(A \mid B_i)$$
 
 ##### 划分的条件
 
-##### 用途 
+##### 用途
 
 > "由因求果"——已知**各种原因**的概率，求**结果**的概率
 
 ---
 
-#### 9. 贝叶斯公式 
+#### 9. 贝叶斯公式
 - 贝叶斯公式是全概率公式的"逆向版本"——已知结果 A 已经发生，反推它是由原因 $B_k$ 引起的概率。分子是"原因 $B_k$ 导致 A"这条路径的概率，分母是"所有原因导致 A"的总概率，两者相除就是 $B_k$ 在所有可能原因中的占比。
 ##### 公式
 
 $$P(B_k \mid A) = \frac{P(B_k) \cdot P(A \mid B_k)}{\sum_{i=1}^{n} P(B_i) \cdot P(A \mid B_i)}$$
 
-##### 用途 
+##### 用途
 
 > "由果溯因"——已知**结果**已发生，反推是某种**原因**的概率
 
 ---
 
-#### 10. 独立性 
+#### 10. 独立性
 - 独立是指 A 是否发生**完全不影响** B 发生的概率，反之亦然。判断独立性的标准就是：两者同时发生的概率是否等于各自概率的乘积。
 ##### 1. 两个事件独立
 
@@ -4449,7 +4449,7 @@ $$P(AC) = P(A)P(C)$$
 $$P(BC) = P(B)P(C)$$
 $$P(ABC) = P(A)P(B)P(C)$$
 
->  **注意**：两两独立 ≠ 相互独立
+> **注意**：两两独立 ≠ 相互独立
 
 ---
 
@@ -4468,7 +4468,7 @@ $$P(X = k) = \binom{n}{k} p^k (1-p)^{n-k}$$
 | $p$ | 单次试验成功概率 |
 | $\binom{n}{k}$ | 组合数 $\dfrac{n!}{k!(n-k)!}$ |
 
-##### 例子 
+##### 例子
 
 > 抛硬币 5 次，求恰好出现 3 次正面的概率
 
@@ -4478,29 +4478,29 @@ $$P(X=3) = \binom{5}{3} \left(\frac{1}{2}\right)^3 \left(\frac{1}{2}\right)^2 = 
 ### 2. 概率分布
 ```mermaid
 graph TD
-    A[概率分布] --> B[离散型分布]
-    A --> C[连续型分布]
+ A[概率分布] --> B[离散型分布]
+ A --> C[连续型分布]
 
-    B --> B1[伯努利分布]
-    B --> B2[二项分布]
-    B --> B3[泊松分布]
-    B --> B4[几何分布]
+ B --> B1[伯努利分布]
+ B --> B2[二项分布]
+ B --> B3[泊松分布]
+ B --> B4[几何分布]
 
-    C --> C1[均匀分布]
-    C --> C2[正态分布]
-    C --> C3[指数分布]
-    C --> C4[t分布]
+ C --> C1[均匀分布]
+ C --> C2[正态分布]
+ C --> C3[指数分布]
+ C --> C4[t分布]
 	C --> C5[柯西分布]
-    B1 --> D1[取值只有0和1]
-    B2 --> D2[重复试验中的成功次数]
-    B3 --> D3[单位时间或区域内事件次数]
-    B4 --> D4[第一次成功前的试验次数]
+ B1 --> D1[取值只有0和1]
+ B2 --> D2[重复试验中的成功次数]
+ B3 --> D3[单位时间或区域内事件次数]
+ B4 --> D4[第一次成功前的试验次数]
 
-    C1 --> E1[区间内取值等可能]
-    C2 --> E2[钟形曲线]
-    C3 --> E3[描述等待时间]
-    C4 --> E4[常用于小样本推断]
-    C5 --> E5[异常值建模]
+ C1 --> E1[区间内取值等可能]
+ C2 --> E2[钟形曲线]
+ C3 --> E3[描述等待时间]
+ C4 --> E4[常用于小样本推断]
+ C5 --> E5[异常值建模]
 ```
 
 描述一个随机变量取各种可能值的概率规律。机器学习中最重要的是：
@@ -4518,18 +4518,18 @@ f(x) = \frac{1}{\sigma \sqrt{2\pi}} \, e^{-\frac{(x-\mu)^2}{2\sigma^2}}
 		$$
  ###### 符号说明
 
-| 符号       | 含义                     |
+| 符号 | 含义 |
 | ---------- | ------------------------ |
-| $\mu$      | **均值**（决定中心位置） |
-| $\sigma$   | **标准差**（决定胖瘦）   |
-| $\sigma^2$ | 方差                     |
-| $\pi$      | 圆周率 ≈ 3.14159         |
-| $e$        | 自然常数 ≈ 2.71828       |
+| $\mu$ | **均值**（决定中心位置） |
+| $\sigma$ | **标准差**（决定胖瘦） |
+| $\sigma^2$ | 方差 |
+| $\pi$ | 圆周率 ≈ 3.14159 |
+| $e$ | 自然常数 ≈ 2.71828 |
  ###### 简记
 
 > $X \sim N(\mu, \sigma^2)$ 读作 "X 服从均值为 $\mu$，方差为 $\sigma^2$ 的正态分布"
-    
-##### 二、标准正态分布 
+
+##### 二、标准正态分布
 
 ###### 当 $\mu = 0, \sigma = 1$
 
@@ -4546,17 +4546,17 @@ $$F(x) = \int_{-\infty}^{x} \frac{1}{\sigma \sqrt{2\pi}} \, e^{-\frac{(t-\mu)^2}
 
 ---
 
-##### 四、3σ 原则 
+##### 四、3σ 原则
 
 $$\begin{aligned} P(\mu - \sigma < X < \mu + \sigma) &\approx 68.27\% \\ P(\mu - 2\sigma < X < \mu + 2\sigma) &\approx 95.45\% \\ P(\mu - 3\sigma < X < \mu + 3\sigma) &\approx 99.73\% \end{aligned}$$
 
 ---
 #### 柯西分布 Cauchy Distribution（洛伦兹分布）
 
-**形状**：整体也是类似"钟形曲线"的对称分布，中心最高、两侧逐渐下降，但相比正态分布，它的尾部更厚，出现极端值的概率更大。  
-**参数**：由**位置参数（$x_0$）**决定分布中心，由**尺度参数（$\gamma$）**决定曲线的宽窄。  
-**重要性**：柯西分布经常被当作统计学里的一个经典反例，因为它看起来像正态分布，但很多正态分布下成立的结论在这里都会失效。  
-**特殊性**：柯西分布**没有均值，也没有方差**。这意味着样本均值不会像正态分布那样随着样本量增加而稳定下来。  
+**形状**：整体也是类似"钟形曲线"的对称分布，中心最高、两侧逐渐下降，但相比正态分布，它的尾部更厚，出现极端值的概率更大。
+**参数**：由**位置参数（$x_0$）**决定分布中心，由**尺度参数（$\gamma$）**决定曲线的宽窄。
+**重要性**：柯西分布经常被当作统计学里的一个经典反例，因为它看起来像正态分布，但很多正态分布下成立的结论在这里都会失效。
+**特殊性**：柯西分布**没有均值，也没有方差**。这意味着样本均值不会像正态分布那样随着样本量增加而稳定下来。
 **与中心极限定理的关系**：它是中心极限定理的典型反例之一。即使从柯西分布中抽取大量独立样本，样本均值的分布也不会趋近于正态分布，而仍然保持柯西型的重尾特征。
 ![[Pasted image 20260510115639.png]]
 ##### 柯西分布的概率密度函数（PDF）
@@ -4585,9 +4585,9 @@ $$
 
 #### 伯努利分布 Bernoulli Distribution
 
-**形状**：最简单的离散分布，只有两个可能取值（通常记作 0 和 1）。  
-**参数**：由**成功概率（$p$）**决定，失败概率自动等于 $1-p$。  
-**重要性**：它是最基础的离散分布，二项分布、几何分布等都建立在它的基础上。任何"是/否"、"成功/失败"、"正面/反面"问题都可以用它建模。  
+**形状**：最简单的离散分布，只有两个可能取值（通常记作 0 和 1）。
+**参数**：由**成功概率（$p$）**决定，失败概率自动等于 $1-p$。
+**重要性**：它是最基础的离散分布，二项分布、几何分布等都建立在它的基础上。任何"是/否"、"成功/失败"、"正面/反面"问题都可以用它建模。
 **应用场景**：抛一次硬币、一次产品是否合格、一次点击是否发生。
 ![[Pasted image 20260510115723.png]]
 ##### 伯努利分布的概率质量函数（PMF）
@@ -4614,9 +4614,9 @@ $$
 
 #### 二项分布 Binomial Distribution
 
-**形状**：离散分布，取值范围为 $0,1,2,\dots,n$，整体形态接近钟形（当 $n$ 较大时）。  
-**参数**：由**试验次数（$n$）**和**单次成功概率（$p$）**决定。  
-**重要性**：描述 $n$ 次独立重复的伯努利试验中成功次数的分布。当 $n$ 很大时，二项分布可以用正态分布近似。  
+**形状**：离散分布，取值范围为 $0,1,2,\dots,n$，整体形态接近钟形（当 $n$ 较大时）。
+**参数**：由**试验次数（$n$）**和**单次成功概率（$p$）**决定。
+**重要性**：描述 $n$ 次独立重复的伯努利试验中成功次数的分布。当 $n$ 很大时，二项分布可以用正态分布近似。
 **应用场景**：抛 10 次硬币正面出现的次数、100 个产品中次品的数量、一批用户中点击广告的人数。
 ![[Pasted image 20260510115705.png]]
 ##### 图像
@@ -4647,9 +4647,9 @@ $$
 
 #### 泊松分布 Poisson Distribution
 
-**形状**：离散分布，取值范围为 $0,1,2,\dots$，呈右偏形态，当 $\lambda$ 较大时也趋近钟形。  
-**参数**：只由一个**强度参数（$\lambda$）**决定，它同时是分布的均值和方差。  
-**重要性**：用来描述单位时间、单位面积或单位区域内某类稀有事件发生次数的分布。可以看作二项分布在 $n$ 很大、$p$ 很小情况下的极限形式。  
+**形状**：离散分布，取值范围为 $0,1,2,\dots$，呈右偏形态，当 $\lambda$ 较大时也趋近钟形。
+**参数**：只由一个**强度参数（$\lambda$）**决定，它同时是分布的均值和方差。
+**重要性**：用来描述单位时间、单位面积或单位区域内某类稀有事件发生次数的分布。可以看作二项分布在 $n$ 很大、$p$ 很小情况下的极限形式。
 **应用场景**：一分钟内呼叫中心的来电次数、一天内某网站的访问量、一段路上的事故数。
 ![[Pasted image 20260510115459.png]]
 ##### 泊松分布的概率质量函数（PMF）
@@ -4677,9 +4677,9 @@ $$
 
 #### 均匀分布 Uniform Distribution
 
-**形状**：连续分布的图形是一条水平直线段，在区间 $[a,b]$ 内每个点的概率密度都相等。  
-**参数**：由**下界（$a$）**和**上界（$b$）**决定。  
-**重要性**：体现"完全随机、无偏好"的思想，是最简单的连续分布。计算机随机数生成、蒙特卡洛模拟通常以均匀分布为起点。  
+**形状**：连续分布的图形是一条水平直线段，在区间 $[a,b]$ 内每个点的概率密度都相等。
+**参数**：由**下界（$a$）**和**上界（$b$）**决定。
+**重要性**：体现"完全随机、无偏好"的思想，是最简单的连续分布。计算机随机数生成、蒙特卡洛模拟通常以均匀分布为起点。
 **应用场景**：随机选取一个 $[0,1]$ 内的小数、公平的抽奖、模拟实验中的随机扰动。
 ![[Pasted image 20260510115520.png]]
 ##### 均匀分布的概率密度函数（PDF）
@@ -4710,9 +4710,9 @@ $$
 
 #### 指数分布 Exponential Distribution
 
-**形状**：连续分布，从 $x=0$ 处达到最高，向右单调递减，呈典型的"右偏长尾"形态。  
-**参数**：由**速率参数（$\lambda$）**决定，$\lambda$ 越大，事件发生越频繁，分布下降越快。  
-**重要性**：描述泊松过程中**两次事件之间的等待时间**，与泊松分布一一对应。它具有著名的**无记忆性**：已经等了多久，对未来等待时间的分布没有影响。  
+**形状**：连续分布，从 $x=0$ 处达到最高，向右单调递减，呈典型的"右偏长尾"形态。
+**参数**：由**速率参数（$\lambda$）**决定，$\lambda$ 越大，事件发生越频繁，分布下降越快。
+**重要性**：描述泊松过程中**两次事件之间的等待时间**，与泊松分布一一对应。它具有著名的**无记忆性**：已经等了多久，对未来等待时间的分布没有影响。
 **应用场景**：顾客到达前的等待时间、电子元件的寿命、网站两次请求之间的间隔。
 ![[Pasted image 20260510115622.png]]
 ##### 指数分布的概率密度函数（PDF）
@@ -4739,9 +4739,9 @@ $$
 
 #### t 分布 Student's t-Distribution
 
-**形状**：钟形、左右对称，中心和正态分布很像，但**尾部更厚**，自由度越大越接近正态分布。  
-**参数**：由**自由度（$\nu$ 或 df）**决定，自由度通常等于样本量减 1。  
-**重要性**：在样本量较小、总体标准差未知的情况下，用来代替正态分布做推断，是 **t 检验** 和小样本均值置信区间的核心工具。  
+**形状**：钟形、左右对称，中心和正态分布很像，但**尾部更厚**，自由度越大越接近正态分布。
+**参数**：由**自由度（$\nu$ 或 df）**决定，自由度通常等于样本量减 1。
+**重要性**：在样本量较小、总体标准差未知的情况下，用来代替正态分布做推断，是 **t 检验** 和小样本均值置信区间的核心工具。
 **应用场景**：小样本下的均值检验、两组小样本均值差异比较、回归系数显著性检验。
 ![[Pasted image 20260510115513.png]]
 ##### t 分布的概率密度函数（PDF）
@@ -4770,9 +4770,9 @@ $$
 
 #### 卡方分布 Chi-square Distribution
 
-**形状**：连续分布，取值非负，整体右偏，自由度越大越接近对称的钟形。  
-**参数**：由**自由度（$k$ 或 df）**决定，自由度也等于其均值。  
-**重要性**：本质是若干个独立标准正态变量的平方和，在方差推断和分类数据分析中非常重要，是**卡方检验**的核心分布。  
+**形状**：连续分布，取值非负，整体右偏，自由度越大越接近对称的钟形。
+**参数**：由**自由度（$k$ 或 df）**决定，自由度也等于其均值。
+**重要性**：本质是若干个独立标准正态变量的平方和，在方差推断和分类数据分析中非常重要，是**卡方检验**的核心分布。
 **应用场景**：拟合优度检验、独立性检验、总体方差的区间估计。
 ![[Pasted image 20260510115629.png]]
 ##### 卡方分布的概率密度函数（PDF）
@@ -4801,9 +4801,9 @@ $$
 
 #### F 分布 F-Distribution
 
-**形状**：连续分布，取值非负，右偏形态，由两个自由度共同决定具体形状。  
-**参数**：由**分子自由度（$d_1$）**和**分母自由度（$d_2$）**两个参数决定。  
-**重要性**：本质是两个独立卡方分布按自由度归一化后的比值，是**方差分析（ANOVA）**和**方差齐性检验**的核心分布。  
+**形状**：连续分布，取值非负，右偏形态，由两个自由度共同决定具体形状。
+**参数**：由**分子自由度（$d_1$）**和**分母自由度（$d_2$）**两个参数决定。
+**重要性**：本质是两个独立卡方分布按自由度归一化后的比值，是**方差分析（ANOVA）**和**方差齐性检验**的核心分布。
 **应用场景**：比较两个总体方差是否相等、ANOVA 中检验多组均值差异、回归模型整体显著性检验。
 ![[Pasted image 20260510115530.png]]
 ##### F 分布的概率密度函数（PDF）
@@ -4835,26 +4835,26 @@ $$
 
 这是统计学的"升级版"，目标是从**样本**数据推断**总体**的性质。机器学习中，我们总在用有限的数据（样本）训练模型，希望它能在无限的真实世界（总体）中表现良好。
 ```
-总体 (Population)  →  研究对象的全体          参数：μ, σ, p
-   ↓ 抽样
-样本 (Sample)      →  从总体中抽出的一部分    统计量：x̄, s, p̂
+总体 (Population) → 研究对象的全体 参数：μ, σ, p
+ ↓ 抽样
+样本 (Sample) → 从总体中抽出的一部分 统计量：x̄, s, p̂
 ```
 
-| 含义   | 总体参数   | 样本统计量 |
+| 含义 | 总体参数 | 样本统计量 |
 | ------ | ---------- | ---------- |
-| 均值   | $\mu$      | $\bar{x}$  |
-| 方差   | $\sigma^2$ | $s^2$      |
-| 标准差 | $\sigma$   | $s$        |
-| 比例   | $p$        | $\hat{p}$  |
-| 容量   | $N$        | $n$        |
->  **记忆口诀**：希腊字母管总体，英文字母管样本
+| 均值 | $\mu$ | $\bar{x}$ |
+| 方差 | $\sigma^2$ | $s^2$ |
+| 标准差 | $\sigma$ | $s$ |
+| 比例 | $p$ | $\hat{p}$ |
+| 容量 | $N$ | $n$ |
+> **记忆口诀**：希腊字母管总体，英文字母管样本
 
 ### 1. 中心极限定理 Central Limit Theorem (CLT)
 
 **核心思想**：无论总体是什么分布，当我们从总体中抽取大量**独立**的随机样本，并计算每个样本的**均值**，这些样本均值的分布会趋近于一个**正态分布**。
-**公式**: $$ 
+**公式**: $$
 \bar{X} \sim N\left(\mu, \frac{\sigma^2}{n}\right) \quad (n \text{ 足够大})
-         $$
+ $$
 
 **对机器学习的意义**：这为我们利用正态分布的性质来对模型参数（如均值）进行**假设检验**和构建**置信区间**提供了理论依据。即使我们不知道总体的真实分布，也能对基于样本得到的估计值进行可靠性分析。
 
@@ -4865,17 +4865,17 @@ $$
 ### 3. 假设检验 Hypothesis Testing
 ```mermaid
 graph LR
-    A[1.建立假设<br/>H₀ vs H₁] --> B[2.选检验统计量]
-    B --> C[3.确定显著性<br/>水平 α]
-    C --> D[4.计算 p 值<br/>或临界值]
-    D --> E[5.做出决策<br/>拒绝/不拒绝 H₀]
+ A[1.建立假设<br/>H₀ vs H₁] --> B[2.选检验统计量]
+ B --> C[3.确定显著性<br/>水平 α]
+ C --> D[4.计算 p 值<br/>或临界值]
+ D --> E[5.做出决策<br/>拒绝/不拒绝 H₀]
 ```
 用于判断一个关于总体的假设（如"新药无效"）是否被样本数据所支持。
 
 - **零假设（H0）**：通常表示"没有效果"、"没有差异"（默认立场）。
 - **备择假设（H1）**：我们希望证实的假设（如"新药有效"）。
 - **P 值**：在零假设成立的前提下，观察到当前样本数据（或更极端数据）的概率。
-    - **如何判断**：如果 P 值很小（通常 < 0.05），意味着在 H0 下当前情况极难发生，于是我们有足够证据**拒绝 H0**，接受 H1。
+ - **如何判断**：如果 P 值很小（通常 < 0.05），意味着在 H0 下当前情况极难发生，于是我们有足够证据**拒绝 H0**，接受 H1。
 - **显著性水平（α）**：判断 P 值是否"足够小"的阈值，常设为 0.05。
 #### 两种假设
 
@@ -4884,11 +4884,11 @@ graph LR
 | **原假设** | $H_0$ | 想要**推翻**的假设（默认成立）|
 | **备择假设** | $H_1$ | 想要**证明**的假设 |
 
->  **记忆**：$H_0$ 像"无罪推定"——除非证据充分，否则不拒绝它
+> **记忆**：$H_0$ 像"无罪推定"——除非证据充分，否则不拒绝它
 
 ---
 
-#### 两类错误 
+#### 两类错误
 
 | 错误类型 | 定义 | 概率 |
 |---------|------|------|
@@ -4896,7 +4896,7 @@ graph LR
 | **第二类错误**（取伪）| $H_0$ 假，却没拒绝 | $\beta$ |
 
  **文字解释**：两类错误此消彼长，不能同时减小——降低 $\alpha$（更严格）会让 $\beta$ 升高（容易漏掉真问题）。增大样本量是同时减小两者的唯一方法。
- 
+
 **机器学习中的应用**：用于特征选择，判断某个特征与目标变量之间是否存在统计上显著的相关性，而非偶然关联。
 
 ### 4. 相关性与因果性 Correlation and causality
@@ -4904,12 +4904,12 @@ graph LR
 这是数据分析中最容易混淆，也最重要的概念之一。
 
 - **相关性**：衡量两个变量**同时变化**的趋势。常用**相关系数（-1 到 1）**表示。
-    - **1**：完全正相关（同增同减）。
-    - **-1**：完全负相关（一增一减）。
-    - **0**：无线性相关。
+ - **1**：完全正相关（同增同减）。
+ - **-1**：完全负相关（一增一减）。
+ - **0**：无线性相关。
 - **因果性**：指一个变量（因）的**变化直接导致**另一个变量（果）的变化。
 
-### 5. p 值法 
+### 5. p 值法
 
 #####决策规则
 
@@ -4917,14 +4917,14 @@ $$p < \alpha \;\Rightarrow\; \text{拒绝 } H_0$$
 
 > **文字解释**：p 值是"假设 $H_0$ 成立的前提下，观察到当前数据（或更极端情况）的概率"。p 值越小，说明数据越"打脸" $H_0$——小到一定程度（小于 $\alpha$）我们就拒绝 $H_0$。
 
-#### 直观理解 
+#### 直观理解
 
 ```
-p 值很小 (如 0.01)  →  数据说："H₀ 不太可能对"  →  拒绝 H₀
-p 值很大 (如 0.40)  →  数据说："H₀ 还能解释"    →  不拒绝 H₀
+p 值很小 (如 0.01) → 数据说："H₀ 不太可能对" → 拒绝 H₀
+p 值很大 (如 0.40) → 数据说："H₀ 还能解释" → 不拒绝 H₀
 ```
 
-### 6. 常见的检验方法 
+### 6. 常见的检验方法
 
 #### 1. Z 检验（$\sigma$ 已知 或 大样本）Z-test
 
@@ -4944,7 +4944,7 @@ $$t = \frac{\bar{x} - \mu_0}{s / \sqrt{n}}$$
 
 > 用于比较**两个或多个**总体方差（方差分析 ANOVA 的核心）
 
-#### 检验方法选择速查表 
+#### 检验方法选择速查表
 
 | 场景 | 数据类型 | 检验方法 |
 |------|---------|---------|
@@ -5029,7 +5029,7 @@ axes[1, 1].set_ylabel("Average Total Bill")
 
 # 给柱状图加数值标签
 for i, value in enumerate(bill_by_smoker["total_bill"]):
-    axes[1, 1].text(i, value + 0.3, f"{value:.1f}", ha="center")
+ axes[1, 1].text(i, value + 0.3, f"{value:.1f}", ha="center")
 
 plt.tight_layout()
 plt.show()
@@ -5078,7 +5078,7 @@ $$
 - $P(A)$：**先验概率（prior）**——在没看到 $B$ 之前，对 $A$ 的初始判断
 	- _例如：在收到邮件前，我们认为任何邮件是垃圾邮件的概率是 30%。_
 - $P(B \mid A)$：**似然（likelihood）**——假设 $A$ 成立，观察到 $B$ 的可能性
-  - _例如：如果一封邮件确实是垃圾邮件，那么它里面出现"免费"、"获奖"这些词的概率有多高。_
+ - _例如：如果一封邮件确实是垃圾邮件，那么它里面出现"免费"、"获奖"这些词的概率有多高。_
 - $P(B)$：**证据（evidence）**——观察到 $B$ 的总概率
 - $P(A \mid B)$：**后验概率（posterior）**——看到 $B$ 之后，对 $A$ 的更新判断(最终目标)
 	 - _例如：在看到了邮件中包含"免费"、"获奖"这些词后，这封邮件是垃圾邮件的更新概率是 95%。_
@@ -5160,31 +5160,31 @@ $$
 ## 概率在机器学习中的三大角色 The three major roles of probability in machine learning
 ```mermaid
 graph TB
-    Title["概率在机器学习中的三大角色"]
-    
-    Title --> R1["角色1️⃣<br/>🎯 建模工具"]
-    Title --> R2["角色2️⃣<br/>🎲 不确定性量化"]
-    Title --> R3["角色3️⃣<br/>📊 学习准则"]
-    
-    R1 --> E1["做什么？<br/>把问题转化为概率分布"]
-    R1 --> E2["举例<br/>垃圾邮件分类 → P(垃圾|邮件内容)"]
-    
-    R2 --> E3["做什么？<br/>告诉你预测有多可靠"]
-    R2 --> E4["举例<br/>天气预测: 明天下雨概率60%<br/>vs 确定性预测: 明天下雨"]
-    
-    R3 --> E5["做什么？<br/>定义如何从数据中学习"]
-    R3 --> E6["举例<br/>调整模型参数，让训练数据<br/>出现的概率最大"]
-    
-    style Title fill:#e1f5ff,stroke:#01579b,stroke-width:3px
-    style R1 fill:#bbdefb
-    style R2 fill:#ffe0b2
-    style R3 fill:#f8bbd0
-    style E1 fill:#e3f2fd
-    style E2 fill:#e3f2fd
-    style E3 fill:#fff3e0
-    style E4 fill:#fff3e0
-    style E5 fill:#fce4ec
-    style E6 fill:#fce4ec
+ Title["概率在机器学习中的三大角色"]
+
+ Title --> R1["角色<br/> 建模工具"]
+ Title --> R2["角色<br/> 不确定性量化"]
+ Title --> R3["角色<br/> 学习准则"]
+
+ R1 --> E1["做什么？<br/>把问题转化为概率分布"]
+ R1 --> E2["举例<br/>垃圾邮件分类 → P(垃圾|邮件内容)"]
+
+ R2 --> E3["做什么？<br/>告诉你预测有多可靠"]
+ R2 --> E4["举例<br/>天气预测: 明天下雨概率60%<br/>vs 确定性预测: 明天下雨"]
+
+ R3 --> E5["做什么？<br/>定义如何从数据中学习"]
+ R3 --> E6["举例<br/>调整模型参数，让训练数据<br/>出现的概率最大"]
+
+ style Title fill:#e1f5ff,stroke:#01579b,stroke-width:3px
+ style R1 fill:#bbdefb
+ style R2 fill:#ffe0b2
+ style R3 fill:#f8bbd0
+ style E1 fill:#e3f2fd
+ style E2 fill:#e3f2fd
+ style E3 fill:#fff3e0
+ style E4 fill:#fff3e0
+ style E5 fill:#fce4ec
+ style E6 fill:#fce4ec
 ```
 ### 角色一：模型构建 —— 用概率描述世界
 许多机器学习模型本质上是一个**概率模型**。我们假设观测到的数据是由某个潜在的概率分布生成的。
@@ -5195,10 +5195,10 @@ graph TB
 ```
 # 一个简化的思想示例：计算后验概率（非完整代码）
 # 假设我们已从数据中统计出以下概率（似然和先验）
-P_单词_给定_垃圾 = {"免费": 0.8, "会议": 0.1}  # 在垃圾邮件中，"免费"出现的概率
-P_单词_给定_正常 = {"免费": 0.1, "会议": 0.9}  # 在正常邮件中，"会议"出现的概率
-P_垃圾 = 0.3  # 先验概率：任意邮件是垃圾邮件的概率
-P_正常 = 0.7  # 先验概率：任意邮件是正常的概率
+P_单词_给定_垃圾 = {"免费": 0.8, "会议": 0.1} # 在垃圾邮件中，"免费"出现的概率
+P_单词_给定_正常 = {"免费": 0.1, "会议": 0.9} # 在正常邮件中，"会议"出现的概率
+P_垃圾 = 0.3 # 先验概率：任意邮件是垃圾邮件的概率
+P_正常 = 0.7 # 先验概率：任意邮件是正常的概率
 
 # 对于一封包含"免费"和"会议"的邮件，计算它是垃圾邮件的后验概率（简化计算）
 # 根据贝叶斯公式（忽略证据分母，因为比较时抵消）
@@ -5209,9 +5209,9 @@ print(f"属于垃圾邮件的得分: {score_垃圾:.4f}")
 print(f"属于正常邮件的得分: {score_正常:.4f}")
 
 if score_垃圾 > score_正常:
-    print("预测：这是一封垃圾邮件。")
+ print("预测：这是一封垃圾邮件。")
 else:
-    print("预测：这是一封正常邮件。")
+ print("预测：这是一封正常邮件。")
 ```
 ### 角色二：模型推断与学习 —— 寻找最可能的解释
 如何从数据中找到那个最有可能生成这些数据的概率模型（即学习模型参数）？这里有两个核心思想：
@@ -5240,13 +5240,13 @@ else:
 - **问题**：如果一个人检测结果是阳性，他真正患病的概率 `P(病|阳)` 是多少？
 ```
 # 定义已知概率
-P_disease = 0.001          # P(病)
-P_positive_given_disease = 0.99   # P(阳|病)
-P_negative_given_healthy = 0.99   # P(阴|健康)
+P_disease = 0.001 # P(病)
+P_positive_given_disease = 0.99 # P(阳|病)
+P_negative_given_healthy = 0.99 # P(阴|健康)
 
 # 计算派生概率
-P_healthy = 1 - P_disease          # P(健康)
-P_positive_given_healthy = 1 - P_negative_given_healthy  # P(阳|健康) = 1 - 特异度
+P_healthy = 1 - P_disease # P(健康)
+P_positive_given_healthy = 1 - P_negative_given_healthy # P(阳|健康) = 1 - 特异度
 
 # 计算全概率 P(阳)
 # P(阳) = P(阳|病)*P(病) + P(阳|健康)*P(健康)
@@ -5511,8 +5511,8 @@ $$L_{VAE} = \underbrace{-\mathbb{E}_{q(z|x)}[\log p(x|z)]}_{\text{重构损失}}
 - **梯度** 就是损失函数对**每个参数**的**偏导数**所构成的向量。
 - **数学表示**：`∇L = [∂L/∂w1, ∂L/∂w2, ..., ∂L/∂wn]`
 - **核心意义**：
-    1. **方向**：梯度向量所指的方向，是损失函数在该点**上升最快**的方向。
-    2. **大小**：每个偏导数的绝对值大小，表示损失函数对该参数变化的**敏感度**。
+ 1. **方向**：梯度向量所指的方向，是损失函数在该点**上升最快**的方向。
+ 2. **大小**：每个偏导数的绝对值大小，表示损失函数对该参数变化的**敏感度**。
 好的，我按照这个格式来写梯度相关的内容：
 
 ---
@@ -5531,8 +5531,8 @@ $$\nabla L = \begin{bmatrix}
 \end{bmatrix}$$
 
 - **核心意义**：
-    1. **方向**：梯度向量所指的方向，是损失函数在该点**上升最快**的方向。
-    2. **大小**：每个偏导数的绝对值大小，表示损失函数对该参数变化的**敏感度**。
+ 1. **方向**：梯度向量所指的方向，是损失函数在该点**上升最快**的方向。
+ 2. **大小**：每个偏导数的绝对值大小，表示损失函数对该参数变化的**敏感度**。
 
 ---
 
@@ -5541,18 +5541,18 @@ $$\nabla L = \begin{bmatrix}
 既然梯度指向损失函数**上升最快**的方向，那么梯度的**负方向**就是**下降最快**的方向。
 ```mermaid
 graph TD
-    A[开始训练] --> B[初始化参数 w]
-    B --> C[前向传播: 计算预测值 ŷ]
-    C --> D[计算损失 L]
-    D --> E[反向传播: 计算梯度 ∇L]
-    E --> F[更新参数: w = w - η∇L]
-    F --> G{损失是否收敛?}
-    G -->|否| C
-    G -->|是| H[训练完成]
-    
-    style A fill:#e1f5e1
-    style H fill:#ffe1e1
-    style G fill:#fff4e1
+ A[开始训练] --> B[初始化参数 w]
+ B --> C[前向传播: 计算预测值 ŷ]
+ C --> D[计算损失 L]
+ D --> E[反向传播: 计算梯度 ∇L]
+ E --> F[更新参数: w = w - η∇L]
+ F --> G{损失是否收敛?}
+ G -->|否| C
+ G -->|是| H[训练完成]
+
+ style A fill:#e1f5e1
+ style H fill:#ffe1e1
+ style G fill:#fff4e1
 ```
 - **梯度下降** 就是沿着梯度的负方向，一步步调整参数，使损失函数逐渐减小。
 - **更新公式**：
@@ -5565,9 +5565,9 @@ $$w_{new} = w_{old} - \eta \cdot \nabla L$$
 - $\nabla L$：损失函数在当前参数处的梯度
 
 - **核心思想**：
-    1. 计算当前参数下的损失函数梯度
-    2. 沿着梯度的负方向移动一小步
-    3. 重复这个过程，直到损失函数收敛到最小值
+ 1. 计算当前参数下的损失函数梯度
+ 2. 沿着梯度的负方向移动一小步
+ 3. 重复这个过程，直到损失函数收敛到最小值
 
 ---
 
@@ -5576,26 +5576,26 @@ $$w_{new} = w_{old} - \eta \cdot \nabla L$$
 学习率 $\eta$ 是梯度下降中最重要的**超参数**之一，它决定了每次参数更新的幅度。
 
 - **学习率过大**：
-    - 参数更新步长太大，可能**跨过**最优点
-    - 导致损失函数震荡，甚至**发散**（越来越大）
-    - 训练不稳定，无法收敛
+ - 参数更新步长太大，可能**跨过**最优点
+ - 导致损失函数震荡，甚至**发散**（越来越大）
+ - 训练不稳定，无法收敛
 
 - **学习率过小**：
-    - 参数更新步长太小，收敛速度**极慢**
-    - 可能陷入**局部最小值**，难以跳出
-    - 训练时间过长，效率低下
+ - 参数更新步长太小，收敛速度**极慢**
+ - 可能陷入**局部最小值**，难以跳出
+ - 训练时间过长，效率低下
 
 - **合适的学习率**：
-    - 能够稳定地降低损失函数
-    - 收敛速度适中
-    - 通常需要通过实验调整，常见取值范围：0.001 ~ 0.1
+ - 能够稳定地降低损失函数
+ - 收敛速度适中
+ - 通常需要通过实验调整，常见取值范围：0.001 ~ 0.1
 
 - **学习率调度**：在训练过程中动态调整学习率
-    - **学习率衰减**：随着训练进行逐渐减小学习率
-    - **常见策略**：
-        - 指数衰减：$\eta_t = \eta_0 \cdot \gamma^t$
-        - 阶梯衰减：每隔固定轮数将学习率乘以衰减因子
-        - 余弦退火：$\eta_t = \eta_{min} + \frac{1}{2}(\eta_{max} - \eta_{min})(1 + \cos(\frac{t\pi}{T}))$
+ - **学习率衰减**：随着训练进行逐渐减小学习率
+ - **常见策略**：
+ - 指数衰减：$\eta_t = \eta_0 \cdot \gamma^t$
+ - 阶梯衰减：每隔固定轮数将学习率乘以衰减因子
+ - 余弦退火：$\eta_t = \eta_{min} + \frac{1}{2}(\eta_{max} - \eta_{min})(1 + \cos(\frac{t\pi}{T}))$
 
 ---
 
@@ -5604,24 +5604,24 @@ $$w_{new} = w_{old} - \eta \cdot \nabla L$$
 批量梯度下降使用**全部训练数据**来计算梯度，然后更新参数。
 
 - **计算过程**：
-    1. 对所有 $n$ 个训练样本计算损失
-    2. 计算损失函数对参数的梯度：
-    $$\nabla L = \frac{1}{n}\sum_{i=1}^{n}\nabla L_i$$
-    3. 使用这个梯度更新参数
+ 1. 对所有 $n$ 个训练样本计算损失
+ 2. 计算损失函数对参数的梯度：
+ $$\nabla L = \frac{1}{n}\sum_{i=1}^{n}\nabla L_i$$
+ 3. 使用这个梯度更新参数
 
 - **更新公式**：
 $$w = w - \eta \cdot \frac{1}{n}\sum_{i=1}^{n}\nabla L_i(w)$$
 
 - **优点**：
-    - 梯度计算**准确**，更新方向稳定
-    - 理论上能找到全局最优解（对于凸函数）
-    - 适合小数据集
+ - 梯度计算**准确**，更新方向稳定
+ - 理论上能找到全局最优解（对于凸函数）
+ - 适合小数据集
 
 - **缺点**：
-    - 每次更新都要遍历**所有数据**，计算量大
-    - 对于大数据集，速度**极慢**
-    - 内存占用大，可能无法一次性加载所有数据
-    - 更新频率低，收敛慢
+ - 每次更新都要遍历**所有数据**，计算量大
+ - 对于大数据集，速度**极慢**
+ - 内存占用大，可能无法一次性加载所有数据
+ - 更新频率低，收敛慢
 
 ---
 
@@ -5630,24 +5630,24 @@ $$w = w - \eta \cdot \frac{1}{n}\sum_{i=1}^{n}\nabla L_i(w)$$
 随机梯度下降每次只使用**一个样本**来计算梯度并更新参数。
 
 - **计算过程**：
-    1. 随机选择一个训练样本 $i$
-    2. 计算该样本的损失梯度：$\nabla L_i$
-    3. 立即使用这个梯度更新参数
+ 1. 随机选择一个训练样本 $i$
+ 2. 计算该样本的损失梯度：$\nabla L_i$
+ 3. 立即使用这个梯度更新参数
 
 - **更新公式**：
 $$w = w - \eta \cdot \nabla L_i(w)$$
 
 - **优点**：
-    - 更新**频繁**，收敛速度快
-    - 计算量小，适合**大数据集**
-    - 内存占用低，每次只需加载一个样本
-    - 梯度的随机性有助于**跳出局部最优**
+ - 更新**频繁**，收敛速度快
+ - 计算量小，适合**大数据集**
+ - 内存占用低，每次只需加载一个样本
+ - 梯度的随机性有助于**跳出局部最优**
 
 - **缺点**：
-    - 梯度估计**不准确**，有很大噪声
-    - 更新方向**不稳定**，损失函数曲线震荡剧烈
-    - 难以收敛到精确的最优点
-    - 不能充分利用向量化计算的优势
+ - 梯度估计**不准确**，有很大噪声
+ - 更新方向**不稳定**，损失函数曲线震荡剧烈
+ - 难以收敛到精确的最优点
+ - 不能充分利用向量化计算的优势
 
 ---
 
@@ -5656,50 +5656,50 @@ $$w = w - \eta \cdot \nabla L_i(w)$$
 小批量梯度下降是批量梯度下降和随机梯度下降的**折中方案**，每次使用一小批样本计算梯度。
 
 - **计算过程**：
-    1. 将训练数据分成若干个小批量（batch），每批包含 $m$ 个样本
-    2. 对当前批次的 $m$ 个样本计算平均梯度：
-    $$\nabla L_{batch} = \frac{1}{m}\sum_{i=1}^{m}\nabla L_i$$
-    3. 使用这个平均梯度更新参数
+ 1. 将训练数据分成若干个小批量（batch），每批包含 $m$ 个样本
+ 2. 对当前批次的 $m$ 个样本计算平均梯度：
+ $$\nabla L_{batch} = \frac{1}{m}\sum_{i=1}^{m}\nabla L_i$$
+ 3. 使用这个平均梯度更新参数
 
 - **更新公式**：
 $$w = w - \eta \cdot \frac{1}{m}\sum_{i=1}^{m}\nabla L_i(w)$$
 
 - **批量大小的选择**：
-    - 常见取值：32, 64, 128, 256, 512
-    - 需要根据数据集大小和硬件条件调整
+ - 常见取值：32, 64, 128, 256, 512
+ - 需要根据数据集大小和硬件条件调整
 
 - **优点**：
-    - **平衡**了计算效率和梯度准确性
-    - 梯度估计比 SGD **更稳定**，比 Batch GD **更快**
-    - 能够充分利用**向量化计算**和 GPU 并行加速
-    - 更新频率适中，收敛速度快
-    - 是目前**最常用**的梯度下降方法
+ - **平衡**了计算效率和梯度准确性
+ - 梯度估计比 SGD **更稳定**，比 Batch GD **更快**
+ - 能够充分利用**向量化计算**和 GPU 并行加速
+ - 更新频率适中，收敛速度快
+ - 是目前**最常用**的梯度下降方法
 
 - **缺点**：
-    - 需要调整批量大小这个超参数
-    - 批量太小：接近 SGD，震荡大
-    - 批量太大：接近 Batch GD，收敛慢
+ - 需要调整批量大小这个超参数
+ - 批量太小：接近 SGD，震荡大
+ - 批量太大：接近 Batch GD，收敛慢
 
 ---
 #### 三种梯度下降对比
 ```mermaid
 graph LR
-    A[梯度下降方法] --> B[批量梯度下降<br/>Batch GD]
-    A --> C[随机梯度下降<br/>SGD]
-    A --> D[小批量梯度下降<br/>Mini-batch GD]
-    
-    B --> B1[使用全部数据<br/>n个样本]
-    B1 --> B2[梯度准确<br/>但速度慢]
-    
-    C --> C1[使用1个样本]
-    C1 --> C2[速度快<br/>但震荡大]
-    
-    D --> D1[使用m个样本<br/>如32, 64, 128]
-    D1 --> D2[平衡效率<br/>和稳定性]
-    D2 --> D3[最常用✓]
-    
-    style A fill:#e1f5e1
-    style D3 fill:#ffd700
+ A[梯度下降方法] --> B[批量梯度下降<br/>Batch GD]
+ A --> C[随机梯度下降<br/>SGD]
+ A --> D[小批量梯度下降<br/>Mini-batch GD]
+
+ B --> B1[使用全部数据<br/>n个样本]
+ B1 --> B2[梯度准确<br/>但速度慢]
+
+ C --> C1[使用1个样本]
+ C1 --> C2[速度快<br/>但震荡大]
+
+ D --> D1[使用m个样本<br/>如32, 64, 128]
+ D1 --> D2[平衡效率<br/>和稳定性]
+ D2 --> D3[最常用]
+
+ style A fill:#e1f5e1
+ style D3 fill:#ffd700
 ```
 
 ### 2.8 动量法 (Momentum)
@@ -5720,19 +5720,19 @@ $$w = w - v_t$$
 - $\nabla L$：当前梯度
 
 - **工作原理**：
-    1. 如果连续多步的梯度方向**一致**，速度会不断累积，加速前进
-    2. 如果梯度方向**频繁变化**，速度会相互抵消，减少震荡
-    3. 就像推球下山，即使遇到小坑（局部最优），也能凭借动量冲过去
+ 1. 如果连续多步的梯度方向**一致**，速度会不断累积，加速前进
+ 2. 如果梯度方向**频繁变化**，速度会相互抵消，减少震荡
+ 3. 就像推球下山，即使遇到小坑（局部最优），也能凭借动量冲过去
 
 - **优点**：
-    - **加速收敛**，特别是在梯度方向一致的区域
-    - **减少震荡**，使训练曲线更平滑
-    - 有助于**跳出局部最优**和鞍点
-    - 对学习率不那么敏感
+ - **加速收敛**，特别是在梯度方向一致的区域
+ - **减少震荡**，使训练曲线更平滑
+ - 有助于**跳出局部最优**和鞍点
+ - 对学习率不那么敏感
 
 - **缺点**：
-    - 引入了新的超参数 $\beta$
-    - 可能在最优点附近"冲过头"
+ - 引入了新的超参数 $\beta$
+ - 可能在最优点附近"冲过头"
 
 ---
 
@@ -5742,25 +5742,25 @@ $$w = w - v_t$$
 ** 学习率选择的影响 **
 ```mermaid
 graph TD
-    A[学习率 η] --> B{η 的大小}
-    
-    B -->|过大| C[步长太大]
-    C --> C1[跨过最优点]
-    C1 --> C2[损失震荡]
-    C2 --> C3[无法收敛 ✗]
-    
-    B -->|合适| D[步长适中]
-    D --> D1[稳定下降]
-    D1 --> D2[顺利收敛 ✓]
-    
-    B -->|过小| E[步长太小]
-    E --> E1[收敛极慢]
-    E1 --> E2[易陷入局部最优]
-    E2 --> E3[训练时间长 ✗]
-    
-    style D2 fill:#90EE90
-    style C3 fill:#FFB6C6
-    style E3 fill:#FFB6C6
+ A[学习率 η] --> B{η 的大小}
+
+ B -->|过大| C[步长太大]
+ C --> C1[跨过最优点]
+ C1 --> C2[损失震荡]
+ C2 --> C3[无法收敛 ]
+
+ B -->|合适| D[步长适中]
+ D --> D1[稳定下降]
+ D1 --> D2[顺利收敛 ]
+
+ B -->|过小| E[步长太小]
+ E --> E1[收敛极慢]
+ E1 --> E2[易陷入局部最优]
+ E2 --> E3[训练时间长 ]
+
+ style D2 fill:#90EE90
+ style C3 fill:#FFB6C6
+ style E3 fill:#FFB6C6
 ```
 #### **AdaGrad (Adaptive Gradient)**
 
@@ -5776,14 +5776,14 @@ $$w = w - \frac{\eta}{\sqrt{G_t + \epsilon}} \nabla L$$
 - $(\nabla L)^2$：梯度的逐元素平方
 
 - **优点**：
-    - 自动调整每个参数的学习率
-    - 特别适合**稀疏数据**（如文本、推荐系统）
-    - 不需要手动调整学习率
+ - 自动调整每个参数的学习率
+ - 特别适合**稀疏数据**（如文本、推荐系统）
+ - 不需要手动调整学习率
 
 - **缺点**：
-    - $G_t$ 会不断累积，导致学习率**单调递减**
-    - 训练后期学习率可能变得**极小**，过早停止学习
-    - 在深度学习中表现不如后续改进方法
+ - $G_t$ 会不断累积，导致学习率**单调递减**
+ - 训练后期学习率可能变得**极小**，过早停止学习
+ - 在深度学习中表现不如后续改进方法
 
 ---
 
@@ -5800,13 +5800,13 @@ $$w = w - \frac{\eta}{\sqrt{G_t + \epsilon}} \nabla L$$
 - $G_t$：梯度平方的指数移动平均
 
 - **优点**：
-    - 解决了 AdaGrad 学习率过快衰减的问题
-    - 适合**非平稳**目标（损失函数随时间变化）
-    - 在 RNN 训练中表现良好
+ - 解决了 AdaGrad 学习率过快衰减的问题
+ - 适合**非平稳**目标（损失函数随时间变化）
+ - 在 RNN 训练中表现良好
 
 - **缺点**：
-    - 仍需要手动设置全局学习率 $\eta$
-    - 引入了衰减率 $\beta$ 这个超参数
+ - 仍需要手动设置全局学习率 $\eta$
+ - 引入了衰减率 $\beta$ 这个超参数
 
 ---
 
@@ -5838,15 +5838,15 @@ $$w = w - \frac{\eta}{\sqrt{\hat{v}_t} + \epsilon} \hat{m}_t$$
 - $t$：当前迭代次数
 
 - **优点**：
-    - 结合了动量法和自适应学习率的优点
-    - **收敛速度快**，训练稳定
-    - 对超参数**不敏感**，默认参数通常就很好
-    - 是目前**最常用**的优化器
-    - 适用于大多数深度学习任务
+ - 结合了动量法和自适应学习率的优点
+ - **收敛速度快**，训练稳定
+ - 对超参数**不敏感**，默认参数通常就很好
+ - 是目前**最常用**的优化器
+ - 适用于大多数深度学习任务
 
 - **缺点**：
-    - 计算量稍大（需要维护两个额外的变量）
-    - 在某些情况下可能不如 SGD + Momentum 的泛化性能
+ - 计算量稍大（需要维护两个额外的变量）
+ - 在某些情况下可能不如 SGD + Momentum 的泛化性能
 
 ---
 
@@ -5859,21 +5859,21 @@ $$w = w - \frac{\eta}{\sqrt{\hat{v}_t} + \epsilon} \hat{m}_t$$
 - **现象**：梯度在反向传播过程中逐层**变小**，到达前面的层时接近于零。
 
 - **原因**：
-    1. **激活函数饱和**：Sigmoid 和 Tanh 的导数在输入较大或较小时接近 0
-    2. **链式法则累积**：梯度 = 多个小于 1 的数相乘，结果趋近于 0
-    3. **网络太深**：层数越多，梯度消失越严重
+ 1. **激活函数饱和**：Sigmoid 和 Tanh 的导数在输入较大或较小时接近 0
+ 2. **链式法则累积**：梯度 = 多个小于 1 的数相乘，结果趋近于 0
+ 3. **网络太深**：层数越多，梯度消失越严重
 
 - **后果**：
-    - 前面的层**几乎不更新**，无法学习
-    - 网络退化为浅层网络
-    - 训练停滞，损失不再下降
+ - 前面的层**几乎不更新**，无法学习
+ - 网络退化为浅层网络
+ - 训练停滞，损失不再下降
 
 - **解决方案**：
-    1. 使用 **ReLU** 等激活函数（导数为 0 或 1，不会饱和）
-    2. **批归一化** (Batch Normalization)：规范化每层的输入
-    3. **残差连接** (Residual Connection)：让梯度可以直接跳过某些层
-    4. 使用 **LSTM/GRU**：专门设计来缓解 RNN 中的梯度消失
-    5. 合理的**权重初始化**（如 Xavier、He 初始化）
+ 1. 使用 **ReLU** 等激活函数（导数为 0 或 1，不会饱和）
+ 2. **批归一化** (Batch Normalization)：规范化每层的输入
+ 3. **残差连接** (Residual Connection)：让梯度可以直接跳过某些层
+ 4. 使用 **LSTM/GRU**：专门设计来缓解 RNN 中的梯度消失
+ 5. 合理的**权重初始化**（如 Xavier、He 初始化）
 
 ---
 
@@ -5882,65 +5882,65 @@ $$w = w - \frac{\eta}{\sqrt{\hat{v}_t} + \epsilon} \hat{m}_t$$
 - **现象**：梯度在反向传播过程中逐层**变大**，最终变成无穷大或 NaN。
 
 - **原因**：
-    1. **权重初始化不当**：初始权重过大
-    2. **链式法则累积**：梯度 = 多个大于 1 的数相乘，结果指数增长
-    3. **学习率过大**：放大了梯度的影响
-    4. 在 **RNN** 中特别常见（长序列导致梯度累积）
+ 1. **权重初始化不当**：初始权重过大
+ 2. **链式法则累积**：梯度 = 多个大于 1 的数相乘，结果指数增长
+ 3. **学习率过大**：放大了梯度的影响
+ 4. 在 **RNN** 中特别常见（长序列导致梯度累积）
 
 - **后果**：
-    - 参数更新幅度**过大**
-    - 损失函数值突然变成 **NaN** 或 **Inf**
-    - 训练完全崩溃
+ - 参数更新幅度**过大**
+ - 损失函数值突然变成 **NaN** 或 **Inf**
+ - 训练完全崩溃
 
 - **解决方案**：
-    1. **梯度裁剪** (Gradient Clipping)：限制梯度的最大值
-        - 按值裁剪：$g = \text{clip}(g, -\text{threshold}, \text{threshold})$
-        - 按范数裁剪：如果 $||g|| > \text{threshold}$，则 $g = \frac{\text{threshold}}{||g||} \cdot g$
-    2. 降低**学习率**
-    3. 使用 **Batch Normalization**
-    4. 合理的**权重初始化**
-    5. 使用 **LSTM/GRU** 代替普通 RNN
+ 1. **梯度裁剪** (Gradient Clipping)：限制梯度的最大值
+ - 按值裁剪：$g = \text{clip}(g, -\text{threshold}, \text{threshold})$
+ - 按范数裁剪：如果 $||g|| > \text{threshold}$，则 $g = \frac{\text{threshold}}{||g||} \cdot g$
+ 2. 降低**学习率**
+ 3. 使用 **Batch Normalization**
+ 4. 合理的**权重初始化**
+ 5. 使用 **LSTM/GRU** 代替普通 RNN
 
 ```mermaid
 graph TD
-    A[深度神经网络] --> B{反向传播}
-    
-    B --> C[梯度消失]
-    C --> C1[原因]
-    C1 --> C2[激活函数饱和<br/>Sigmoid/Tanh]
-    C1 --> C3[多个<1的数相乘]
-    C1 --> C4[网络太深]
-    
-    C --> C5[后果]
-    C5 --> C6[前层无法学习]
-    
-    C --> C7[解决方案]
-    C7 --> C8[使用ReLU]
-    C7 --> C9[批归一化]
-    C7 --> C10[残差连接]
-    
-    B --> D[梯度爆炸]
-    D --> D1[原因]
-    D1 --> D2[权重初始化过大]
-    D1 --> D3[多个>1的数相乘]
-    D1 --> D4[学习率过大]
-    
-    D --> D5[后果]
-    D5 --> D6[参数变成NaN/Inf]
-    
-    D --> D7[解决方案]
-    D7 --> D8[梯度裁剪]
-    D7 --> D9[降低学习率]
-    D7 --> D10[批归一化]
-    
-    style C fill:#FFE4B5
-    style D fill:#FFB6C6
-    style C8 fill:#90EE90
-    style C9 fill:#90EE90
-    style C10 fill:#90EE90
-    style D8 fill:#90EE90
-    style D9 fill:#90EE90
-    style D10 fill:#90EE90
+ A[深度神经网络] --> B{反向传播}
+
+ B --> C[梯度消失]
+ C --> C1[原因]
+ C1 --> C2[激活函数饱和<br/>Sigmoid/Tanh]
+ C1 --> C3[多个<1的数相乘]
+ C1 --> C4[网络太深]
+
+ C --> C5[后果]
+ C5 --> C6[前层无法学习]
+
+ C --> C7[解决方案]
+ C7 --> C8[使用ReLU]
+ C7 --> C9[批归一化]
+ C7 --> C10[残差连接]
+
+ B --> D[梯度爆炸]
+ D --> D1[原因]
+ D1 --> D2[权重初始化过大]
+ D1 --> D3[多个>1的数相乘]
+ D1 --> D4[学习率过大]
+
+ D --> D5[后果]
+ D5 --> D6[参数变成NaN/Inf]
+
+ D --> D7[解决方案]
+ D7 --> D8[梯度裁剪]
+ D7 --> D9[降低学习率]
+ D7 --> D10[批归一化]
+
+ style C fill:#FFE4B5
+ style D fill:#FFB6C6
+ style C8 fill:#90EE90
+ style C9 fill:#90EE90
+ style C10 fill:#90EE90
+ style D8 fill:#90EE90
+ style D9 fill:#90EE90
+ style D10 fill:#90EE90
 ```
 ---
 
@@ -5949,33 +5949,33 @@ graph TD
 反向传播是训练神经网络的核心算法，用于高效计算损失函数对每个参数的梯度。
 ```mermaid
 graph TD
-    subgraph 前向传播
-    A[输入 x] --> B[z¹ = W¹x + b¹]
-    B --> C[a¹ = σ z¹]
-    C --> D[z² = W²a¹ + b²]
-    D --> E[ŷ = σ z²]
-    E --> F[损失 L]
-    end
-    
-    subgraph 反向传播
-    F --> G[∂L/∂z² = ŷ - y]
-    G --> H[∂L/∂W² = ∂L/∂z² · a¹ᵀ]
-    G --> I[∂L/∂b² = ∂L/∂z²]
-    G --> J[∂L/∂a¹ = W²ᵀ · ∂L/∂z²]
-    J --> K[∂L/∂z¹ = ∂L/∂a¹ ⊙ σ' z¹]
-    K --> L[∂L/∂W¹ = ∂L/∂z¹ · xᵀ]
-    K --> M[∂L/∂b¹ = ∂L/∂z¹]
-    end
-    
-    subgraph 参数更新
-    H --> N[W² = W² - η·∂L/∂W²]
-    I --> O[b² = b² - η·∂L/∂b²]
-    L --> P[W¹ = W¹ - η·∂L/∂W¹]
-    M --> Q[b¹ = b¹ - η·∂L/∂b¹]
-    end
-    
-    style F fill:#ffe1e1
-    style G fill:#fff4e1
+ subgraph 前向传播
+ A[输入 x] --> B[z¹ = W¹x + b¹]
+ B --> C[a¹ = σ z¹]
+ C --> D[z² = W²a¹ + b²]
+ D --> E[ŷ = σ z²]
+ E --> F[损失 L]
+ end
+
+ subgraph 反向传播
+ F --> G[∂L/∂z² = ŷ - y]
+ G --> H[∂L/∂W² = ∂L/∂z² · a¹ᵀ]
+ G --> I[∂L/∂b² = ∂L/∂z²]
+ G --> J[∂L/∂a¹ = W²ᵀ · ∂L/∂z²]
+ J --> K[∂L/∂z¹ = ∂L/∂a¹ ⊙ σ' z¹]
+ K --> L[∂L/∂W¹ = ∂L/∂z¹ · xᵀ]
+ K --> M[∂L/∂b¹ = ∂L/∂z¹]
+ end
+
+ subgraph 参数更新
+ H --> N[W² = W² - η·∂L/∂W²]
+ I --> O[b² = b² - η·∂L/∂b²]
+ L --> P[W¹ = W¹ - η·∂L/∂W¹]
+ M --> Q[b¹ = b¹ - η·∂L/∂b¹]
+ end
+
+ style F fill:#ffe1e1
+ style G fill:#fff4e1
 ```
 
 - **核心思想**：利用**链式法则**，从输出层开始，逐层向前传递梯度。
@@ -6010,44 +6010,44 @@ $$\frac{\partial L}{\partial b^{[1]}} = \frac{\partial L}{\partial z^{[1]}}$$
 其中 $\odot$ 表示逐元素乘法。
 
 - **优点**：
-    - **高效**：只需一次前向传播和一次反向传播就能计算所有梯度
-    - **通用**：适用于任意结构的神经网络
-    - **自动化**：现代深度学习框架（PyTorch、TensorFlow）自动实现
+ - **高效**：只需一次前向传播和一次反向传播就能计算所有梯度
+ - **通用**：适用于任意结构的神经网络
+ - **自动化**：现代深度学习框架（PyTorch、TensorFlow）自动实现
 
 - **关键点**：
-    - 必须先进行**前向传播**，保存中间结果
-    - 梯度计算顺序与前向传播**相反**
-    - 需要保存前向传播的中间激活值（用于计算梯度）
+ - 必须先进行**前向传播**，保存中间结果
+ - 梯度计算顺序与前向传播**相反**
+ - 需要保存前向传播的中间激活值（用于计算梯度）
 ### 梯度与损失函数的关系
 ```mermaid
 graph TD
-    A[损失函数 L w] --> B[当前位置 w_t]
-    
-    B --> C[计算梯度 ∇L]
-    
-    C --> D{梯度方向}
-    D -->|正| E[损失上升方向 ↗]
-    D -->|负| F[损失下降方向 ↘]
-    
-    E --> G[反方向移动<br/>w = w - η·∇L]
-    F --> G
-    
-    G --> H[新位置 w_t+1]
-    
-    H --> I{梯度大小}
-    I -->|大| J[离最优点远<br/>大步前进]
-    I -->|小| K[接近最优点<br/>小步微调]
-    
-    J --> L[继续迭代]
-    K --> L
-    
-    L --> M{∇L ≈ 0?}
-    M -->|否| C
-    M -->|是| N[到达最优点 ✓]
-    
-    style B fill:#e1f5e1
-    style N fill:#90EE90
-    style G fill:#fff4e1
+ A[损失函数 L w] --> B[当前位置 w_t]
+
+ B --> C[计算梯度 ∇L]
+
+ C --> D{梯度方向}
+ D -->|正| E[损失上升方向 ]
+ D -->|负| F[损失下降方向 ]
+
+ E --> G[反方向移动<br/>w = w - η·∇L]
+ F --> G
+
+ G --> H[新位置 w_t+1]
+
+ H --> I{梯度大小}
+ I -->|大| J[离最优点远<br/>大步前进]
+ I -->|小| K[接近最优点<br/>小步微调]
+
+ J --> L[继续迭代]
+ K --> L
+
+ L --> M{∇L ≈ 0?}
+ M -->|否| C
+ M -->|是| N[到达最优点 ]
+
+ style B fill:#e1f5e1
+ style N fill:#90EE90
+ style G fill:#fff4e1
 ```
 ---
 ### 示例
@@ -6057,25 +6057,25 @@ import matplotlib.pyplot as plt
 
 # 定义损失函数 L(w) = w^2
 def loss(w):
-    return w ** 2
+ return w ** 2
 
 # 定义梯度 dL/dw = 2*w
 def gradient(w):
-    return 2 * w
+ return 2 * w
 
 # 梯度下降算法
 def gradient_descent(start_w, learning_rate, iterations):
-    w = start_w
-    w_history = [w]  # 记录 w 的变化历史
-    loss_history = [loss(w)]  # 记录损失的变化历史
+ w = start_w
+ w_history = [w] # 记录 w 的变化历史
+ loss_history = [loss(w)] # 记录损失的变化历史
 
-    for i in range(iterations):
-        grad = gradient(w)  # 计算当前点的梯度
-        w = w - learning_rate * grad  # 沿负梯度方向更新参数
-        w_history.append(w)
-        loss_history.append(loss(w))
+ for i in range(iterations):
+ grad = gradient(w) # 计算当前点的梯度
+ w = w - learning_rate * grad # 沿负梯度方向更新参数
+ w_history.append(w)
+ loss_history.append(loss(w))
 
-    return w_history, loss_history
+ return w_history, loss_history
 
 # 执行梯度下降：从 w=5 开始，学习率 0.1，迭代 20 次
 w_start = 5.0
@@ -6128,12 +6128,12 @@ import matplotlib.pyplot as plt
 
 
 plt.rcParams['font.sans-serif'] = [
-    # Windows 优先
-    'SimHei', 'Microsoft YaHei',
-    # macOS 优先
-    'PingFang SC', 'Heiti TC',
-    # Linux 优先
-    'WenQuanYi Micro Hei', 'DejaVu Sans'
+ # Windows 优先
+ 'SimHei', 'Microsoft YaHei',
+ # macOS 优先
+ 'PingFang SC', 'Heiti TC',
+ # Linux 优先
+ 'WenQuanYi Micro Hei', 'DejaVu Sans'
 ]
 # 修复负号显示为方块的问题
 plt.rcParams['axes.unicode_minus'] = False
@@ -6141,9 +6141,9 @@ plt.rcParams['axes.unicode_minus'] = False
 # 生成模拟数据：在正弦曲线基础上加入一些随机噪声
 np.random.seed(42)
 X = np.linspace(0, 10, 20)
-y_true = np.sin(X)                     # 真实的潜在规律（我们不知道）
-y_noise = np.random.randn(20) * 0.3   # 随机噪声
-y = y_true + y_noise                  # 我们实际观测到的数据
+y_true = np.sin(X) # 真实的潜在规律（我们不知道）
+y_noise = np.random.randn(20) * 0.3 # 随机噪声
+y = y_true + y_noise # 我们实际观测到的数据
 
 plt.scatter(X, y, label='观测数据 (含噪声)', color='blue', alpha=0.6)
 plt.plot(X, y_true, label='真实规律 (y=sin(x))', color='green', linewidth=2)
@@ -6191,15 +6191,15 @@ print(f"欠拟合模型在训练集上的均方误差 (MSE): {mse_train_under:.4
 ```python
 ## 实例
 
-# 尝试用3阶多项式拟合  
-poly = PolynomialFeatures(degree=3)  
-X_poly3 = poly.fit_transform(X.reshape(-1, 1))  
-model_good = LinearRegression()  
-model_good.fit(X_poly3, y)  
-y_pred_good = model_good.predict(X_poly3)  
-  
-mse_train_good = mean_squared_error(y, y_pred_good)  
-print(f"良好拟合模型在训练集上的均方误差 (MSE): {mse_train_good:.4f}")  
+# 尝试用3阶多项式拟合
+poly = PolynomialFeatures(degree=3)
+X_poly3 = poly.fit_transform(X.reshape(-1, 1))
+model_good = LinearRegression()
+model_good.fit(X_poly3, y)
+y_pred_good = model_good.predict(X_poly3)
+
+mse_train_good = mean_squared_error(y, y_pred_good)
+print(f"良好拟合模型在训练集上的均方误差 (MSE): {mse_train_good:.4f}")
 ```
 ```
 输出：
@@ -6262,12 +6262,12 @@ warnings.filterwarnings('ignore')
 
 # -------------------------- 设置中文字体 start --------------------------
 plt.rcParams['font.sans-serif'] = [
-    # Windows 优先
-    'SimHei', 'Microsoft YaHei',
-    # macOS 优先
-    'PingFang SC', 'Heiti TC',
-    # Linux 优先
-    'WenQuanYi Micro Hei', 'DejaVu Sans'
+ # Windows 优先
+ 'SimHei', 'Microsoft YaHei',
+ # macOS 优先
+ 'PingFang SC', 'Heiti TC',
+ # Linux 优先
+ 'WenQuanYi Micro Hei', 'DejaVu Sans'
 ]
 # 修复负号显示为方块的问题
 plt.rcParams['axes.unicode_minus'] = False
@@ -6281,72 +6281,72 @@ plt.rcParams['grid.alpha'] = 0.3
 data = load_diabetes()
 X, y = data.data, data.target
 # 只使用一个特征（更适合多项式回归演示）
-X = X[:, np.newaxis, 2]  # 选择第三个特征（BMI）
+X = X[:, np.newaxis, 2] # 选择第三个特征（BMI）
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
 # 定义学习曲线绘制函数（优化版）
 def plot_learning_curve(estimator, title, X, y, cv=5, train_sizes=np.linspace(0.1, 1.0, 10)):
-    """
-    绘制学习曲线
-    参数：
-        estimator: 模型估计器
-        title: 图表标题
-        X: 特征数据
-        y: 目标变量
-        cv: 交叉验证折数
-        train_sizes: 训练样本比例
-    """
-    # 获取学习曲线数据
-    train_sizes_abs, train_scores, test_scores = learning_curve(
-        estimator, X, y, cv=cv, scoring='neg_mean_squared_error',
-        train_sizes=train_sizes, random_state=42, n_jobs=-1
-    )
-    
-    # 计算均值和标准差
-    train_scores_mean = -train_scores.mean(axis=1)
-    train_scores_std = train_scores.std(axis=1)
-    test_scores_mean = -test_scores.mean(axis=1)
-    test_scores_std = test_scores.std(axis=1)
-    
-    # 绘制学习曲线
-    plt.figure(figsize=(10, 6))
-    plt.fill_between(train_sizes_abs, 
-                     train_scores_mean - train_scores_std,
-                     train_scores_mean + train_scores_std, 
-                     alpha=0.1, color='r')
-    plt.fill_between(train_sizes_abs,
-                     test_scores_mean - test_scores_std,
-                     test_scores_mean + test_scores_std,
-                     alpha=0.1, color='g')
-    
-    # 绘制均值曲线
-    plt.plot(train_sizes_abs, train_scores_mean, 'o-', color='r', linewidth=2,
-             markersize=8, label='训练集 MSE')
-    plt.plot(train_sizes_abs, test_scores_mean, 'o-', color='g', linewidth=2,
-             markersize=8, label='验证集 MSE')
-    
-    # 设置图表属性
-    plt.xlabel('训练样本数量', fontsize=12)
-    plt.ylabel('均方误差 (MSE)', fontsize=12)
-    plt.title(title, fontsize=14, pad=20)
-    plt.legend(loc='upper right', fontsize=11)
-    plt.tight_layout()
-    plt.show()
-    
-    # 打印模型在测试集上的表现
-    estimator.fit(X_train, y_train)
-    y_pred = estimator.predict(X_test)
-    mse = mean_squared_error(y_test, y_pred)
-    print(f"{title} - 测试集 MSE: {mse:.2f}")
+ """
+ 绘制学习曲线
+ 参数：
+ estimator: 模型估计器
+ title: 图表标题
+ X: 特征数据
+ y: 目标变量
+ cv: 交叉验证折数
+ train_sizes: 训练样本比例
+ """
+ # 获取学习曲线数据
+ train_sizes_abs, train_scores, test_scores = learning_curve(
+ estimator, X, y, cv=cv, scoring='neg_mean_squared_error',
+ train_sizes=train_sizes, random_state=42, n_jobs=-1
+ )
+
+ # 计算均值和标准差
+ train_scores_mean = -train_scores.mean(axis=1)
+ train_scores_std = train_scores.std(axis=1)
+ test_scores_mean = -test_scores.mean(axis=1)
+ test_scores_std = test_scores.std(axis=1)
+
+ # 绘制学习曲线
+ plt.figure(figsize=(10, 6))
+ plt.fill_between(train_sizes_abs,
+ train_scores_mean - train_scores_std,
+ train_scores_mean + train_scores_std,
+ alpha=0.1, color='r')
+ plt.fill_between(train_sizes_abs,
+ test_scores_mean - test_scores_std,
+ test_scores_mean + test_scores_std,
+ alpha=0.1, color='g')
+
+ # 绘制均值曲线
+ plt.plot(train_sizes_abs, train_scores_mean, 'o-', color='r', linewidth=2,
+ markersize=8, label='训练集 MSE')
+ plt.plot(train_sizes_abs, test_scores_mean, 'o-', color='g', linewidth=2,
+ markersize=8, label='验证集 MSE')
+
+ # 设置图表属性
+ plt.xlabel('训练样本数量', fontsize=12)
+ plt.ylabel('均方误差 (MSE)', fontsize=12)
+ plt.title(title, fontsize=14, pad=20)
+ plt.legend(loc='upper right', fontsize=11)
+ plt.tight_layout()
+ plt.show()
+
+ # 打印模型在测试集上的表现
+ estimator.fit(X_train, y_train)
+ y_pred = estimator.predict(X_test)
+ mse = mean_squared_error(y_test, y_pred)
+ print(f"{title} - 测试集 MSE: {mse:.2f}")
 
 # 1. 欠拟合模型（1阶多项式 - 线性回归）
 print("="*60)
 print("欠拟合模型（1阶多项式 - 线性回归）")
 print("="*60)
 plot_learning_curve(
-    make_pipeline(StandardScaler(), PolynomialFeatures(1), LinearRegression()),
-    '欠拟合模型学习曲线（1阶多项式）',
-    X, y
+ make_pipeline(StandardScaler(), PolynomialFeatures(1), LinearRegression()),
+ '欠拟合模型学习曲线（1阶多项式）',
+ X, y
 )
 
 # 2. 良好拟合模型（2阶多项式）
@@ -6354,9 +6354,9 @@ print("\n" + "="*60)
 print("良好拟合模型（2阶多项式）")
 print("="*60)
 plot_learning_curve(
-    make_pipeline(StandardScaler(), PolynomialFeatures(2), LinearRegression()),
-    '良好拟合模型学习曲线（2阶多项式）',
-    X, y
+ make_pipeline(StandardScaler(), PolynomialFeatures(2), LinearRegression()),
+ '良好拟合模型学习曲线（2阶多项式）',
+ X, y
 )
 
 # 3. 过拟合模型（8阶多项式）
@@ -6364,9 +6364,9 @@ print("\n" + "="*60)
 print("过拟合模型（8阶多项式）")
 print("="*60)
 plot_learning_curve(
-    make_pipeline(StandardScaler(), PolynomialFeatures(8), LinearRegression()),
-    '过拟合模型学习曲线（8阶多项式）',
-    X, y
+ make_pipeline(StandardScaler(), PolynomialFeatures(8), LinearRegression()),
+ '过拟合模型学习曲线（8阶多项式）',
+ X, y
 )
 
 # 额外：可视化不同阶数模型的拟合效果
@@ -6383,10 +6383,10 @@ colors = ['red', 'green', 'purple']
 labels = ['1阶（欠拟合）', '2阶（良好拟合）', '8阶（过拟合）']
 
 for i, order in enumerate(orders):
-    model = make_pipeline(StandardScaler(), PolynomialFeatures(order), LinearRegression())
-    model.fit(X_train, y_train)
-    y_plot = model.predict(X_plot)
-    plt.plot(X_plot, y_plot, color=colors[i], linewidth=2, label=labels[i])
+ model = make_pipeline(StandardScaler(), PolynomialFeatures(order), LinearRegression())
+ model.fit(X_train, y_train)
+ y_plot = model.predict(X_plot)
+ plt.plot(X_plot, y_plot, color=colors[i], linewidth=2, label=labels[i])
 
 plt.xlabel('BMI 特征（标准化）', fontsize=12)
 plt.ylabel('糖尿病进展指标', fontsize=12)
@@ -6424,9 +6424,9 @@ plt.show()
 - **降低模型复杂度**：选择更简单的模型（如降低多项式阶数、减少树深度、减少神经网络层数）。
 - **特征选择**：移除不相关或冗余的特征。
 - **增加正则化**：
-    - **L1 正则化 (Lasso)**：倾向于产生稀疏权重，可用于特征选择。
-    - **L2 正则化 (Ridge)**：使权重衰减，倾向于让所有权重都较小。
-    - **Dropout**（用于神经网络）：在训练中随机"丢弃"一部分神经元。
+ - **L1 正则化 (Lasso)**：倾向于产生稀疏权重，可用于特征选择。
+ - **L2 正则化 (Ridge)**：使权重衰减，倾向于让所有权重都较小。
+ - **Dropout**（用于神经网络）：在训练中随机"丢弃"一部分神经元。
 - **早停**（用于迭代模型）：当验证集误差不再下降时停止训练。
 ### 四、实践练习：在真实数据集上体验
 
@@ -6441,12 +6441,12 @@ from sklearn.metrics import mean_squared_error
 
 # -------------------------- 设置中文字体 start --------------------------
 plt.rcParams['font.sans-serif'] = [
-    # Windows 优先
-    'SimHei', 'Microsoft YaHei',
-    # macOS 优先
-    'PingFang SC', 'Heiti TC',
-    # Linux 优先
-    'WenQuanYi Micro Hei', 'DejaVu Sans'
+ # Windows 优先
+ 'SimHei', 'Microsoft YaHei',
+ # macOS 优先
+ 'PingFang SC', 'Heiti TC',
+ # Linux 优先
+ 'WenQuanYi Micro Hei', 'DejaVu Sans'
 ]
 # 修复负号显示为方块的问题
 plt.rcParams['axes.unicode_minus'] = False
@@ -6458,27 +6458,27 @@ X, y = data.data, data.target
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
 # 尝试不同复杂度的决策树
-max_depths = [1, 3, 10, None]  # None 表示不限制深度，树会一直生长直到"纯"
+max_depths = [1, 3, 10, None] # None 表示不限制深度，树会一直生长直到"纯"
 train_errors = []
 test_errors = []
 
 for depth in max_depths:
-    model = DecisionTreeRegressor(max_depth=depth, random_state=42)
-    model.fit(X_train, y_train)
+ model = DecisionTreeRegressor(max_depth=depth, random_state=42)
+ model.fit(X_train, y_train)
 
-    y_train_pred = model.predict(X_train)
-    y_test_pred = model.predict(X_test)
+ y_train_pred = model.predict(X_train)
+ y_test_pred = model.predict(X_test)
 
-    train_error = mean_squared_error(y_train, y_train_pred)
-    test_error = mean_squared_error(y_test, y_test_pred)
+ train_error = mean_squared_error(y_train, y_train_pred)
+ test_error = mean_squared_error(y_test, y_test_pred)
 
-    train_errors.append(train_error)
-    test_errors.append(test_error)
+ train_errors.append(train_error)
+ test_errors.append(test_error)
 
-    print(f"树最大深度: {depth if depth is not None else '无限制'}")
-    print(f"  训练集 MSE: {train_error:.2f}")
-    print(f"  测试集 MSE: {test_error:.2f}")
-    print("-" * 30)
+ print(f"树最大深度: {depth if depth is not None else '无限制'}")
+ print(f" 训练集 MSE: {train_error:.2f}")
+ print(f" 测试集 MSE: {test_error:.2f}")
+ print("-" * 30)
 
 # 可视化
 plt.figure(figsize=(10, 6))
@@ -6533,20 +6533,20 @@ plt.show()
 
 每种算法都有其适用的场景，在实际应用中，可以根据数据的特征（如是否有标签、数据的维度等）来选择最合适的机器学习算法。
 
-| 分类       | 类型     | 核心定义                 | 典型算法                      | 核心优缺点                        | 适用场景              |
+| 分类 | 类型 | 核心定义 | 典型算法 | 核心优缺点 | 适用场景 |
 | -------- | ------ | -------------------- | ------------------------- | ---------------------------- | ----------------- |
-| **学习方式** | 监督学习   | 用带标签数据学习输入到输出的映射     | 逻辑回归、SVM、决策树、CNN、LSTM     | 优点：预测精度高<br>缺点：依赖高质量标注数据     | 分类、回归、图像识别、文本翻译   |
-|          | 无监督学习  | 用无标签数据挖掘数据内在结构       | K-Means、PCA、DBSCAN、自编码器   | 优点：无需标注<br>缺点：结果可解释性弱        | 数据聚类、降维、异常检测、用户分群 |
-|          | 半监督学习  | 结合少量标签数据和大量无标签数据训练   | 半监督SVM、标签传播算法             | 优点：降低标注成本<br>缺点：模型设计复杂       | 医疗影像分析、小众语料NLP    |
-|          | 强化学习   | 模型通过与环境交互，以奖励最大化优化策略 | Q-Learning、DQN、PPO        | 优点：适配动态决策<br>缺点：训练周期长        | 游戏AI、机器人控制、推荐策略优化 |
-| **任务目标** | 分类算法   | 预测离散的类别标签            | 逻辑回归、随机森林、CNN             | 优点：适配分类场景<br>缺点：对类别不平衡敏感     | 垃圾邮件识别、医像分类、疾病诊断  |
-|          | 回归算法   | 预测连续的数值输出            | 线性回归、岭回归、XGBoost          | 优点：输出连续值<br>缺点：对异常值敏感        | 房价预测、销量预测、温室预测    |
-|          | 聚类算法   | 无标签下将相似数据归为一类        | K-Means、层次聚类、DBSCAN       | 优点：自动分群<br>缺点：聚类效果依赖距离度量     | 市场细分、用户画像、异常检测    |
-|          | 降维算法   | 减少特征维度，保留核心信息        | PCA、t-SNE、LDA             | 优点：降低计算成本<br>缺点：可能丢失部分信息     | 高维数据可视化、特征环节处理    |
-| **模型结构** | 线性模型   | 假设输入与输出为线性关系         | 线性回归、逻辑回归、岭回归             | 优点：可解释性强、训练快<br>缺点：难以拟合非线性关系 | 需单分类回归、基线模型选择     |
-|          | 树模型    | 基于决策树构建，处理非线性关系      | 决策树、随机森林、XGBoost、LightGBM | 优点：无需特征归一化<br>缺点：树过深易过拟合     | 工业级分类回归、竞赛级任务     |
-|          | 神经网络模型 | 多层神经元结构，自动提取复杂特征     | ANN、CNN、RNN、Transformer   | 优点：拟合复杂关系<br>缺点：需大量数据和算力     | 图像识别、NLP、语音合成     |
-|          | 概率模型   | 基于概率统计理论，计算联概分布      | 朴素贝叶斯、隐马尔可夫模型             | 优点：理论基础扎实<br>缺点：依赖强假设        | 文本分类、语言片刻、序列标注    |
+| **学习方式** | 监督学习 | 用带标签数据学习输入到输出的映射 | 逻辑回归、SVM、决策树、CNN、LSTM | 优点：预测精度高<br>缺点：依赖高质量标注数据 | 分类、回归、图像识别、文本翻译 |
+| | 无监督学习 | 用无标签数据挖掘数据内在结构 | K-Means、PCA、DBSCAN、自编码器 | 优点：无需标注<br>缺点：结果可解释性弱 | 数据聚类、降维、异常检测、用户分群 |
+| | 半监督学习 | 结合少量标签数据和大量无标签数据训练 | 半监督SVM、标签传播算法 | 优点：降低标注成本<br>缺点：模型设计复杂 | 医疗影像分析、小众语料NLP |
+| | 强化学习 | 模型通过与环境交互，以奖励最大化优化策略 | Q-Learning、DQN、PPO | 优点：适配动态决策<br>缺点：训练周期长 | 游戏AI、机器人控制、推荐策略优化 |
+| **任务目标** | 分类算法 | 预测离散的类别标签 | 逻辑回归、随机森林、CNN | 优点：适配分类场景<br>缺点：对类别不平衡敏感 | 垃圾邮件识别、医像分类、疾病诊断 |
+| | 回归算法 | 预测连续的数值输出 | 线性回归、岭回归、XGBoost | 优点：输出连续值<br>缺点：对异常值敏感 | 房价预测、销量预测、温室预测 |
+| | 聚类算法 | 无标签下将相似数据归为一类 | K-Means、层次聚类、DBSCAN | 优点：自动分群<br>缺点：聚类效果依赖距离度量 | 市场细分、用户画像、异常检测 |
+| | 降维算法 | 减少特征维度，保留核心信息 | PCA、t-SNE、LDA | 优点：降低计算成本<br>缺点：可能丢失部分信息 | 高维数据可视化、特征环节处理 |
+| **模型结构** | 线性模型 | 假设输入与输出为线性关系 | 线性回归、逻辑回归、岭回归 | 优点：可解释性强、训练快<br>缺点：难以拟合非线性关系 | 需单分类回归、基线模型选择 |
+| | 树模型 | 基于决策树构建，处理非线性关系 | 决策树、随机森林、XGBoost、LightGBM | 优点：无需特征归一化<br>缺点：树过深易过拟合 | 工业级分类回归、竞赛级任务 |
+| | 神经网络模型 | 多层神经元结构，自动提取复杂特征 | ANN、CNN、RNN、Transformer | 优点：拟合复杂关系<br>缺点：需大量数据和算力 | 图像识别、NLP、语音合成 |
+| | 概率模型 | 基于概率统计理论，计算联概分布 | 朴素贝叶斯、隐马尔可夫模型 | 优点：理论基础扎实<br>缺点：依赖强假设 | 文本分类、语言片刻、序列标注 |
 
 ## 监督学习算法导论 Supervised learning algorithm Introduction
 ### 线性回归（Linear Regression）
@@ -6556,13 +6556,13 @@ plt.show()
 
 线性回归的目标是找到一个最佳的线性方程：
 $$
-1. 标准形式: 2y = w_1x_1 + w_2x_2 + \cdots + w_nx_n + b 3 4% 
+1. 标准形式: 2y = w_1x_1 + w_2x_2 + \cdots + w_nx_n + b 3 4%
 $$
 $$
 2. 使用求和符号 5y = \sum_{i=1}^{n} w_ix_i + b
 $$
 $$
-3. 简单线性回归:\hat{y} = \beta_0 + \beta_1 x 3 4% 
+3. 简单线性回归:\hat{y} = \beta_0 + \beta_1 x 3 4%
 $$
 $$
 4. 多元线性回归:\hat{y} = \beta_0 + \sum_{i=1}^{n} \beta_i x_i
@@ -6580,8 +6580,8 @@ import pandas as pd
 
 # 假设我们有一个简单的房价数据集
 data = {
-    '面积': [50, 60, 80, 100, 120],
-    '房价': [150, 180, 240, 300, 350]
+ '面积': [50, 60, 80, 100, 120],
+ '房价': [150, 180, 240, 300, 350]
 }
 df = pd.DataFrame(data)
 
@@ -6679,8 +6679,8 @@ $$L(\mathbf{w}, b) = -\frac{1}{m}\sum_{i=1}^{m}\left[y^{(i)}\log(\hat{y}^{(i)}) 
 
 在 n 维空间中，超平面是一个 n-1 维的子空间，用于分隔不同类别的数据点。
 
-**二维空间**：超平面是一条直线  
-**三维空间**：超平面是一个平面  
+**二维空间**：超平面是一条直线
+**三维空间**：超平面是一个平面
 **高维空间**：超平面是一个 n-1 维的"平面"
 
 超平面的数学表达式：
@@ -6763,7 +6763,7 @@ $$y^{(i)}(\mathbf{w}^T\mathbf{x}^{(i)} + b) \geq 1 - \xi_i, \quad \xi_i \geq 0$$
 
 ##### 核函数的作用
 
-原始空间：$\mathbf{x} \in \mathbb{R}^n$  
+原始空间：$\mathbf{x} \in \mathbb{R}^n$
 映射后：$\phi(\mathbf{x}) \in \mathbb{R}^m$ （$m \gg n$）
 
 决策函数变为：
@@ -6808,16 +6808,16 @@ $$f(\mathbf{x}) = \text{sign}\left(\sum_{i=1}^{m}\alpha_i y^{(i)} K(\mathbf{x}^{
 
 ###### 优点
 
- **高维空间表现好**：适合特征数量多的数据  
- **内存效率高**：只需存储支持向量  
- **泛化能力强**：通过最大化间隔避免过拟合  
+ **高维空间表现好**：适合特征数量多的数据
+ **内存效率高**：只需存储支持向量
+ **泛化能力强**：通过最大化间隔避免过拟合
  **灵活性**：通过不同核函数处理非线性问题
 
 ###### 缺点
 
- **训练时间长**：对大规模数据集（>10万样本）效率低  
- **参数敏感**：需要仔细调整 $C$ 和核参数  
- **不直接提供概率**：输出是类别，不是概率（需要额外校准）  
+ **训练时间长**：对大规模数据集（>10万样本）效率低
+ **参数敏感**：需要仔细调整 $C$ 和核参数
+ **不直接提供概率**：输出是类别，不是概率（需要额外校准）
  **对噪声敏感**：异常值可能影响决策边界
 
 ---
@@ -6892,22 +6892,22 @@ $$f(\mathbf{x}) = \text{sign}\left(\sum_{i=1}^{m}\alpha_i y^{(i)} K(\mathbf{x}^{
 
 ```mermaid
 graph TD
-    A["根节点<br/>样本数: 100<br/>类别: [50, 50]"] -->|特征1 ≤ 5| B["节点2<br/>样本数: 60<br/>类别: [45, 15]"]
-    A -->|特征1 > 5| C["节点3<br/>样本数: 40<br/>类别: [5, 35]"]
-    
-    B -->|特征2 ≤ 3| D["叶节点<br/>预测: 类别A<br/>样本数: 50"]
-    B -->|特征2 > 3| E["叶节点<br/>预测: 类别B<br/>样本数: 10"]
-    
-    C -->|特征3 ≤ 7| F["叶节点<br/>预测: 类别B<br/>样本数: 35"]
-    C -->|特征3 > 7| G["叶节点<br/>预测: 类别A<br/>样本数: 5"]
-    
-    style A fill:#FFE4B5
-    style B fill:#FFE4B5
-    style C fill:#FFE4B5
-    style D fill:#90EE90
-    style E fill:#87CEEB
-    style F fill:#87CEEB
-    style G fill:#90EE90
+ A["根节点<br/>样本数: 100<br/>类别: [50, 50]"] -->|特征1 ≤ 5| B["节点2<br/>样本数: 60<br/>类别: [45, 15]"]
+ A -->|特征1 > 5| C["节点3<br/>样本数: 40<br/>类别: [5, 35]"]
+
+ B -->|特征2 ≤ 3| D["叶节点<br/>预测: 类别A<br/>样本数: 50"]
+ B -->|特征2 > 3| E["叶节点<br/>预测: 类别B<br/>样本数: 10"]
+
+ C -->|特征3 ≤ 7| F["叶节点<br/>预测: 类别B<br/>样本数: 35"]
+ C -->|特征3 > 7| G["叶节点<br/>预测: 类别A<br/>样本数: 5"]
+
+ style A fill:#FFE4B5
+ style B fill:#FFE4B5
+ style C fill:#FFE4B5
+ style D fill:#90EE90
+ style E fill:#87CEEB
+ style F fill:#87CEEB
+ style G fill:#90EE90
 
 ```
 
@@ -6986,24 +6986,24 @@ $$\text{Gini}(D, A) = \sum_{v=1}^{V}\frac{|D^v|}{|D|}\text{Gini}(D^v)$$
 
 ```
 function BuildTree(D, A):
-    if D 中所有样本属于同一类别 C:
-        return 叶节点(C)
-    
-    if A 为空 or D 中样本在 A 上取值相同:
-        return 叶节点(D 中样本最多的类别)
-    
-    选择最优特征 a* ∈ A
-    
-    for a* 的每个取值 v:
-        生成分支节点
-        D_v = D 中在 a* 上取值为 v 的样本
-        
-        if D_v 为空:
-            return 叶节点(D 中样本最多的类别)
-        else:
-            递归调用 BuildTree(D_v, A \ {a*})
-    
-    return 决策树
+ if D 中所有样本属于同一类别 C:
+ return 叶节点(C)
+
+ if A 为空 or D 中样本在 A 上取值相同:
+ return 叶节点(D 中样本最多的类别)
+
+ 选择最优特征 a* ∈ A
+
+ for a* 的每个取值 v:
+ 生成分支节点
+ D_v = D 中在 a* 上取值为 v 的样本
+
+ if D_v 为空:
+ return 叶节点(D 中样本最多的类别)
+ else:
+ 递归调用 BuildTree(D_v, A \ {a*})
+
+ return 决策树
 ```
 
 ---
@@ -7059,20 +7059,20 @@ $$c_m = \frac{1}{N_m}\sum_{x_i \in R_m}y_i$$
 
 ##### 优点
 
- **易于理解和解释**：可视化直观，类似人类决策  
- **无需数据预处理**：不需要归一化、标准化  
- **可处理数值和类别特征**  
- **可处理多输出问题**  
- **白盒模型**：决策过程透明  
+ **易于理解和解释**：可视化直观，类似人类决策
+ **无需数据预处理**：不需要归一化、标准化
+ **可处理数值和类别特征**
+ **可处理多输出问题**
+ **白盒模型**：决策过程透明
  **计算复杂度低**：预测时间复杂度 $O(\log n)$
 
 ###33333## 缺点
 
- **容易过拟合**：特别是树很深时  
- **不稳定**：数据微小变化可能导致完全不同的树  
- **贪心算法**：局部最优，不保证全局最优  
- **偏向取值多的特征**（ID3）  
- **难以捕捉特征间的复杂关系**（如 XOR 问题）  
+ **容易过拟合**：特别是树很深时
+ **不稳定**：数据微小变化可能导致完全不同的树
+ **贪心算法**：局部最优，不保证全局最优
+ **偏向取值多的特征**（ID3）
+ **难以捕捉特征间的复杂关系**（如 XOR 问题）
  **对不平衡数据敏感**
 
 ---
@@ -7142,15 +7142,15 @@ from sklearn import tree
 # 加载数据
 iris = load_iris()
 X_train, X_test, y_train, y_test = train_test_split(
-    iris.data, iris.target, test_size=0.3, random_state=42
+ iris.data, iris.target, test_size=0.3, random_state=42
 )
 
 # 训练决策树（分类）
 clf = DecisionTreeClassifier(
-    criterion='gini',      # 'gini' 或 'entropy'
-    max_depth=3,           # 最大深度
-    min_samples_split=2,   # 分裂所需最小样本数
-    min_samples_leaf=1     # 叶节点最小样本数
+ criterion='gini', # 'gini' 或 'entropy'
+ max_depth=3, # 最大深度
+ min_samples_split=2, # 分裂所需最小样本数
+ min_samples_leaf=1 # 叶节点最小样本数
 )
 clf.fit(X_train, y_train)
 
@@ -7160,16 +7160,16 @@ print(f"准确率: {accuracy:.2f}")
 
 # 可视化决策树
 plt.figure(figsize=(15, 10))
-tree.plot_tree(clf, 
-               feature_names=iris.feature_names,
-               class_names=iris.target_names,
-               filled=True)
+tree.plot_tree(clf,
+ feature_names=iris.feature_names,
+ class_names=iris.target_names,
+ filled=True)
 plt.show()
 
 # 特征重要性
 importances = clf.feature_importances_
 for i, imp in enumerate(importances):
-    print(f"{iris.feature_names[i]}: {imp:.3f}")
+ print(f"{iris.feature_names[i]}: {imp:.3f}")
 ```
 
 ---
@@ -7224,53 +7224,53 @@ PCA 是一种降维技术，它通过线性变换将数据转换到新的坐标�
 使用 PCA 降维并可视化高维数据:
 
 ```python
-from sklearn.decomposition import PCA  
-from sklearn.datasets import load_iris  
-import matplotlib.pyplot as plt  
-  
-# 加载鸢尾花数据集  
-iris = load_iris()  
-X = iris.data  
-y = iris.target  
-  
-# 降维到 2 维  
-pca = PCA(n_components=2)  
-X_pca = pca.fit_transform(X)  
-  
-# 可视化结果  
-plt.scatter(X_pca[:, 0], X_pca[:, 1], c=y, cmap='viridis')  
-plt.title('PCA of Iris Dataset')  
+from sklearn.decomposition import PCA
+from sklearn.datasets import load_iris
+import matplotlib.pyplot as plt
+
+# 加载鸢尾花数据集
+iris = load_iris()
+X = iris.data
+y = iris.target
+
+# 降维到 2 维
+pca = PCA(n_components=2)
+X_pca = pca.fit_transform(X)
+
+# 可视化结果
+plt.scatter(X_pca[:, 0], X_pca[:, 1], c=y, cmap='viridis')
+plt.title('PCA of Iris Dataset')
 plt.show()
 ```
 输出的图如下所示：
 ![[Pasted image 20260510162954.png]]
 ## 机器学习算法
 
-| **中文全称**         | **英文全称**                    | **简写**    | **核心适用场景**                                   |
+| **中文全称** | **英文全称** | **简写** | **核心适用场景** |
 | -------------------- | ------------------------------- | ----------- | -------------------------------------------------- |
-| **传统机器学习算法** |                                 |             |                                                    |
-| 决策树               | Decision Tree                   | DT          | 分类、回归、特征重要性分析                         |
-| 随机森林             | Random Forest                   | RF          | 分类、回归、异常检测、特征筛选                     |
-| 逻辑回归             | Logistic Regression             | LR          | 二分类任务、概率预测、信用评分                     |
-| 支持向量机           | Support Vector Machine          | SVM         | 分类、高维小样本数据、文本分类                     |
-| 朴素贝叶斯           | Naive Bayes                     | NB          | 文本分类、垃圾邮件识别、情感分析                   |
-| 梯度提升树           | Gradient Boosting Decision Tree | GBDT        | 分类、回归、排序任务                               |
-| 极端梯度提升         | Extreme Gradient Boosting       | XGBoost     | 高精度分类回归、竞赛级任务、点击率预测             |
-| 轻量级梯度提升机     | Light Gradient Boosting Machine | LightGBM    | 大规模数据分类回归、实时预测、推荐系统             |
-| K近邻算法            | K-Nearest Neighbor              | KNN         | 简单分类回归、推荐系统、异常检测                   |
-| K均值聚类            | K-Means Clustering              | K-Means     | 数据聚类、用户分群、图像分割                       |
-| 主成分分析           | Principal Component Analysis    | PCA         | 数据降维、高维数据可视化、特征去噪                 |
-| **深度学习算法**     |                                 |             |                                                    |
-| 人工神经网络         | Artificial Neural Network       | ANN         | 简单分类回归、基线模型验证                         |
-| 卷积神经网络         | Convolutional Neural Network    | CNN         | 图像识别、目标检测、视频分析、医学影像诊断         |
-| 循环神经网络         | Recurrent Neural Network        | RNN         | 序列数据处理、文本生成、语音识别                   |
-| 长短期记忆网络       | Long Short-Term Memory          | LSTM        | 长序列文本翻译、语音合成、时间序列预测             |
-| 门控循环单元         | Gated Recurrent Unit            | GRU         | 序列分类、情感分析、对话系统                       |
-| 生成对抗网络         | Generative Adversarial Network  | GAN         | 图像生成、风格迁移、数据增强、超分辨率重建         |
-| 变换器               | Transformer                     | Transformer | 自然语言翻译、文本摘要、多模态任务、大模型基础架构 |
-| 自编码器             | Autoencoder                     | AE          | 数据压缩、异常检测、特征提取                       |
-| 变分自编码器         | Variational Autoencoder         | VAE         | 生成式任务、数据降噪、图像生成                     |
-| 图神经网络           | Graph Neural Network            | GNN         | 社交网络分析、分子结构预测、知识图谱推理           |
+| **传统机器学习算法** | | | |
+| 决策树 | Decision Tree | DT | 分类、回归、特征重要性分析 |
+| 随机森林 | Random Forest | RF | 分类、回归、异常检测、特征筛选 |
+| 逻辑回归 | Logistic Regression | LR | 二分类任务、概率预测、信用评分 |
+| 支持向量机 | Support Vector Machine | SVM | 分类、高维小样本数据、文本分类 |
+| 朴素贝叶斯 | Naive Bayes | NB | 文本分类、垃圾邮件识别、情感分析 |
+| 梯度提升树 | Gradient Boosting Decision Tree | GBDT | 分类、回归、排序任务 |
+| 极端梯度提升 | Extreme Gradient Boosting | XGBoost | 高精度分类回归、竞赛级任务、点击率预测 |
+| 轻量级梯度提升机 | Light Gradient Boosting Machine | LightGBM | 大规模数据分类回归、实时预测、推荐系统 |
+| K近邻算法 | K-Nearest Neighbor | KNN | 简单分类回归、推荐系统、异常检测 |
+| K均值聚类 | K-Means Clustering | K-Means | 数据聚类、用户分群、图像分割 |
+| 主成分分析 | Principal Component Analysis | PCA | 数据降维、高维数据可视化、特征去噪 |
+| **深度学习算法** | | | |
+| 人工神经网络 | Artificial Neural Network | ANN | 简单分类回归、基线模型验证 |
+| 卷积神经网络 | Convolutional Neural Network | CNN | 图像识别、目标检测、视频分析、医学影像诊断 |
+| 循环神经网络 | Recurrent Neural Network | RNN | 序列数据处理、文本生成、语音识别 |
+| 长短期记忆网络 | Long Short-Term Memory | LSTM | 长序列文本翻译、语音合成、时间序列预测 |
+| 门控循环单元 | Gated Recurrent Unit | GRU | 序列分类、情感分析、对话系统 |
+| 生成对抗网络 | Generative Adversarial Network | GAN | 图像生成、风格迁移、数据增强、超分辨率重建 |
+| 变换器 | Transformer | Transformer | 自然语言翻译、文本摘要、多模态任务、大模型基础架构 |
+| 自编码器 | Autoencoder | AE | 数据压缩、异常检测、特征提取 |
+| 变分自编码器 | Variational Autoencoder | VAE | 生成式任务、数据降噪、图像生成 |
+| 图神经网络 | Graph Neural Network | GNN | 社交网络分析、分子结构预测、知识图谱推理 |
 
 ---
 # 第七章 线性回归 Linear Regression
@@ -7318,22 +7318,22 @@ $$\text{MSE} = \frac{1}{n}\sum_{i=1}^{n}(y_i - \hat{y}_i)^2$$
 
 ```mermaid
 graph TD
-    A[线性回归求解<br/>Linear Regression Solution] --> B[最小二乘法<br/>Least Squares Method]
-    A --> C[梯度下降法<br/>Gradient Descent]
-    
-    B --> D[闭式解<br/>Closed-form Solution]
-    B --> E[适用于小数据集<br/>Suitable for Small Datasets]
-    
-    C --> F[迭代优化<br/>Iterative Optimization]
-    C --> G[适用于大数据集<br/>Suitable for Large Datasets]
-    
-    style A fill:#FFE4B5
-    style B fill:#90EE90
-    style C fill:#87CEEB
-    style D fill:#FFB6C6
-    style E fill:#FFB6C6
-    style F fill:#B0E0E6
-    style G fill:#B0E0E6
+ A[线性回归求解<br/>Linear Regression Solution] --> B[最小二乘法<br/>Least Squares Method]
+ A --> C[梯度下降法<br/>Gradient Descent]
+
+ B --> D[闭式解<br/>Closed-form Solution]
+ B --> E[适用于小数据集<br/>Suitable for Small Datasets]
+
+ C --> F[迭代优化<br/>Iterative Optimization]
+ C --> G[适用于大数据集<br/>Suitable for Large Datasets]
+
+ style A fill:#FFE4B5
+ style B fill:#90EE90
+ style C fill:#87CEEB
+ style D fill:#FFB6C6
+ style E fill:#FFB6C6
+ style F fill:#B0E0E6
+ style G fill:#B0E0E6
 ```
 
 ---
@@ -7417,11 +7417,11 @@ $$b = \frac{\sum y_i - w\sum x_i}{n} = \bar{y} - w\bar{x}$$
 
 | $i$ | $x_i$ | $y_i$ |
 |-----|-------|-------|
-| 1   | 1     | 2     |
-| 2   | 2     | 4     |
-| 3   | 3     | 5     |
-| 4   | 4     | 4     |
-| 5   | 5     | 5     |
+| 1 | 1 | 2 |
+| 2 | 2 | 4 |
+| 3 | 3 | 5 |
+| 4 | 4 | 4 |
+| 5 | 5 | 5 |
 
 ---
 
@@ -7469,11 +7469,11 @@ $$\boxed{y = 0.6x + 2.2}$$
 
 | $x_i$ | 实际值 $y_i$ | 预测值 $\hat{y}_i$ | 误差 $(y_i - \hat{y}_i)$ | 平方误差 $(y_i - \hat{y}_i)^2$ |
 |-------|-------------|-------------------|------------------------|------------------------------|
-| 1     | 2           | 2.8               | -0.8                   | 0.64                         |
-| 2     | 4           | 3.4               | 0.6                    | 0.36                         |
-| 3     | 5           | 4.0               | 1.0                    | 1.00                         |
-| 4     | 4           | 4.6               | -0.6                   | 0.36                         |
-| 5     | 5           | 5.2               | -0.2                   | 0.04                         |
+| 1 | 2 | 2.8 | -0.8 | 0.64 |
+| 2 | 4 | 3.4 | 0.6 | 0.36 |
+| 3 | 5 | 4.0 | 1.0 | 1.00 |
+| 4 | 4 | 4.6 | -0.6 | 0.36 |
+| 5 | 5 | 5.2 | -0.2 | 0.04 |
 
 $$\text{MSE} = \frac{1}{5}(0.64 + 0.36 + 1.00 + 0.36 + 0.04) = \frac{2.4}{5} = 0.48$$
 
@@ -7483,16 +7483,16 @@ $$\text{MSE} = \frac{1}{5}(0.64 + 0.36 + 1.00 + 0.36 + 0.04) = \frac{2.4}{5} = 0
 
 ```mermaid
 graph LR
-    A["数据点<br/>(x, y)"] --> B["计算统计量<br/>∑x, ∑y, ∑x², ∑xy"]
-    B --> C["应用公式<br/>w = ..., b = ..."]
-    C --> D["得到模型<br/>y = wx + b"]
-    D --> E["预测新值<br/>ŷ = wx_new + b"]
-    
-    style A fill:#FFE4B5
-    style B fill:#87CEEB
-    style C fill:#90EE90
-    style D fill:#FFB6C6
-    style E fill:#98FB98
+ A["数据点<br/>(x, y)"] --> B["计算统计量<br/>∑x, ∑y, ∑x², ∑xy"]
+ B --> C["应用公式<br/>w = ..., b = ..."]
+ C --> D["得到模型<br/>y = wx + b"]
+ D --> E["预测新值<br/>ŷ = wx_new + b"]
+
+ style A fill:#FFE4B5
+ style B fill:#87CEEB
+ style C fill:#90EE90
+ style D fill:#FFB6C6
+ style E fill:#98FB98
 ```
 
 ---
@@ -7544,25 +7544,25 @@ $$b := b - \alpha\frac{\partial J}{\partial b}$$
 
 ```mermaid
 flowchart TD
-    Start([开始<br/>Start]) --> Init["初始化参数<br/>Initialize w=0, b=0<br/>设置学习率 α<br/>Set learning rate α"]
-    Init --> Loop{是否收敛?<br/>Converged?}
-    
-    Loop -->|否 No| Predict["计算预测值<br/>Compute ŷᵢ = wxᵢ + b"]
-    Predict --> Loss["计算损失<br/>Compute J(w,b)"]
-    Loss --> Grad["计算梯度<br/>Compute ∂J/∂w, ∂J/∂b"]
-    Grad --> Update["更新参数<br/>w := w - α(∂J/∂w)<br/>b := b - α(∂J/∂b)"]
-    Update --> Loop
-    
-    Loop -->|是 Yes| End([结束<br/>End])
-    
-    style Start fill:#e1f5ff
-    style Init fill:#FFE4B5
-    style Loop fill:#FFB6C6
-    style Predict fill:#87CEEB
-    style Loss fill:#87CEEB
-    style Grad fill:#87CEEB
-    style Update fill:#90EE90
-    style End fill:#98FB98
+ Start([开始<br/>Start]) --> Init["初始化参数<br/>Initialize w=0, b=0<br/>设置学习率 α<br/>Set learning rate α"]
+ Init --> Loop{是否收敛?<br/>Converged?}
+
+ Loop -->|否 No| Predict["计算预测值<br/>Compute ŷᵢ = wxᵢ + b"]
+ Predict --> Loss["计算损失<br/>Compute J(w,b)"]
+ Loss --> Grad["计算梯度<br/>Compute ∂J/∂w, ∂J/∂b"]
+ Grad --> Update["更新参数<br/>w := w - α(∂J/∂w)<br/>b := b - α(∂J/∂b)"]
+ Update --> Loop
+
+ Loop -->|是 Yes| End([结束<br/>End])
+
+ style Start fill:#e1f5ff
+ style Init fill:#FFE4B5
+ style Loop fill:#FFB6C6
+ style Predict fill:#87CEEB
+ style Loss fill:#87CEEB
+ style Grad fill:#87CEEB
+ style Update fill:#90EE90
+ style End fill:#98FB98
 ```
 
 ---
@@ -7573,11 +7573,11 @@ flowchart TD
 
 | $i$ | $x_i$ | $y_i$ |
 |-----|-------|-------|
-| 1   | 1     | 2     |
-| 2   | 2     | 4     |
-| 3   | 3     | 5     |
-| 4   | 4     | 4     |
-| 5   | 5     | 5     |
+| 1 | 1 | 2 |
+| 2 | 2 | 4 |
+| 3 | 3 | 5 |
+| 4 | 4 | 4 |
+| 5 | 5 | 5 |
 
 **参数设置 / Parameter Settings:**
 - 初始值 / Initial values: $w = 0, b = 0$
@@ -7620,11 +7620,11 @@ $$b := 0 - 0.01 \times (-4) = 0.04$$
 
 | $i$ | $x_i$ | $\hat{y}_i = 0.132x_i + 0.04$ |
 |-----|-------|-------------------------------|
-| 1   | 1     | 0.172                         |
-| 2   | 2     | 0.304                         |
-| 3   | 3     | 0.436                         |
-| 4   | 4     | 0.568                         |
-| 5   | 5     | 0.700                         |
+| 1 | 1 | 0.172 |
+| 2 | 2 | 0.304 |
+| 3 | 3 | 0.436 |
+| 4 | 4 | 0.568 |
+| 5 | 5 | 0.700 |
 
 **步骤 2：计算损失 / Step 2: Calculate Loss**
 
@@ -7666,21 +7666,21 @@ This matches the result from the Least Squares Method!
 
 ```mermaid
 graph TD
-    A[学习率 α<br/>Learning Rate α] --> B[α 太小<br/>Too Small]
-    A --> C[α 适中<br/>Moderate]
-    A --> D[α 太大<br/>Too Large]
-    
-    B --> E[收敛慢<br/>Slow Convergence]
-    C --> F[收敛快且稳定<br/>Fast & Stable]
-    D --> G[不收敛/发散<br/>Divergence]
-    
-    style A fill:#FFE4B5
-    style B fill:#FFB6C6
-    style C fill:#90EE90
-    style D fill:#FFB6C6
-    style E fill:#FFB6C6
-    style F fill:#90EE90
-    style G fill:#FFB6C6
+ A[学习率 α<br/>Learning Rate α] --> B[α 太小<br/>Too Small]
+ A --> C[α 适中<br/>Moderate]
+ A --> D[α 太大<br/>Too Large]
+
+ B --> E[收敛慢<br/>Slow Convergence]
+ C --> F[收敛快且稳定<br/>Fast & Stable]
+ D --> G[不收敛/发散<br/>Divergence]
+
+ style A fill:#FFE4B5
+ style B fill:#FFB6C6
+ style C fill:#90EE90
+ style D fill:#FFB6C6
+ style E fill:#FFB6C6
+ style F fill:#90EE90
+ style G fill:#FFB6C6
 ```
 
 ---
@@ -7774,24 +7774,24 @@ $$\text{MSE} = \frac{1}{m}\sum_{i=1}^{m}(y_i - \hat{y}_i)^2 = \frac{1}{m}\|\math
 
 ```mermaid
 graph TD
-    A[多元线性回归求解<br/>Multiple Linear Regression Solution] --> B[最小二乘法<br/>Least Squares Method]
-    A --> C[梯度下降法<br/>Gradient Descent]
-    
-    B --> D[正规方程<br/>Normal Equation]
-    B --> E[适用于特征数较少<br/>Suitable for Fewer Features]
-    
-    C --> F[批量梯度下降<br/>Batch Gradient Descent]
-    C --> G[随机梯度下降<br/>Stochastic Gradient Descent]
-    C --> H[小批量梯度下降<br/>Mini-batch Gradient Descent]
-    
-    style A fill:#FFE4B5
-    style B fill:#90EE90
-    style C fill:#87CEEB
-    style D fill:#FFB6C6
-    style E fill:#FFB6C6
-    style F fill:#B0E0E6
-    style G fill:#B0E0E6
-    style H fill:#B0E0E6
+ A[多元线性回归求解<br/>Multiple Linear Regression Solution] --> B[最小二乘法<br/>Least Squares Method]
+ A --> C[梯度下降法<br/>Gradient Descent]
+
+ B --> D[正规方程<br/>Normal Equation]
+ B --> E[适用于特征数较少<br/>Suitable for Fewer Features]
+
+ C --> F[批量梯度下降<br/>Batch Gradient Descent]
+ C --> G[随机梯度下降<br/>Stochastic Gradient Descent]
+ C --> H[小批量梯度下降<br/>Mini-batch Gradient Descent]
+
+ style A fill:#FFE4B5
+ style B fill:#90EE90
+ style C fill:#87CEEB
+ style D fill:#FFB6C6
+ style E fill:#FFB6C6
+ style F fill:#B0E0E6
+ style G fill:#B0E0E6
+ style H fill:#B0E0E6
 ```
 
 ---
@@ -7840,11 +7840,11 @@ Suppose we want to predict house price $y$ (unit: 10,000 yuan) based on two feat
 
 | $i$ | $x_1$ (面积) | $x_2$ (房间数) | $y$ (房价) |
 |-----|-------------|---------------|-----------|
-| 1   | 50          | 1             | 150       |
-| 2   | 80          | 2             | 200       |
-| 3   | 100         | 3             | 250       |
-| 4   | 120         | 3             | 300       |
-| 5   | 150         | 4             | 350       |
+| 1 | 50 | 1 | 150 |
+| 2 | 80 | 2 | 200 |
+| 3 | 100 | 3 | 250 |
+| 4 | 120 | 3 | 300 |
+| 5 | 150 | 4 | 350 |
 
 ---
 
@@ -8054,11 +8054,11 @@ $$\boxed{y = 2x_1 + 20x_2 + 50}$$
 
 | $i$ | $x_1$ | $x_2$ | 实际值 $y_i$ | 预测值 $\hat{y}_i$ | 误差 | 平方误差 |
 |-----|-------|-------|-------------|-------------------|------|---------|
-| 1   | 50    | 1     | 150         | $2(50)+20(1)+50=150$ | 0    | 0       |
-| 2   | 80    | 2     | 200         | $2(80)+20(2)+50=250$ | -50  | 2500    |
-| 3   | 100   | 3     | 250         | $2(100)+20(3)+50=310$ | -60  | 3600    |
-| 4   | 120   | 3     | 300         | $2(120)+20(3)+50=350$ | -50  | 2500    |
-| 5   | 150   | 4     | 350         | $2(150)+20(4)+50=430$ | -80  | 6400    |
+| 1 | 50 | 1 | 150 | $2(50)+20(1)+50=150$ | 0 | 0 |
+| 2 | 80 | 2 | 200 | $2(80)+20(2)+50=250$ | -50 | 2500 |
+| 3 | 100 | 3 | 250 | $2(100)+20(3)+50=310$ | -60 | 3600 |
+| 4 | 120 | 3 | 300 | $2(120)+20(3)+50=350$ | -50 | 2500 |
+| 5 | 150 | 4 | 350 | $2(150)+20(4)+50=430$ | -80 | 6400 |
 
 $$\text{MSE} = \frac{1}{5}(0 + 2500 + 3600 + 2500 + 6400) = \frac{15000}{5} = 3000$$
 
@@ -8068,18 +8068,18 @@ $$\text{MSE} = \frac{1}{5}(0 + 2500 + 3600 + 2500 + 6400) = \frac{15000}{5} = 30
 
 ```mermaid
 graph LR
-    A["数据矩阵<br/>X, y"] --> B["计算 X'X<br/>和 X'y"]
-    B --> C["求逆矩阵<br/>(X'X)⁻¹"]
-    C --> D["计算权重<br/>w = (X'X)⁻¹X'y"]
-    D --> E["得到模型<br/>y = Xw"]
-    E --> F["预测新值<br/>ŷ = X_new·w"]
-    
-    style A fill:#FFE4B5
-    style B fill:#87CEEB
-    style C fill:#FFB6C6
-    style D fill:#90EE90
-    style E fill:#98FB98
-    style F fill:#B0E0E6
+ A["数据矩阵<br/>X, y"] --> B["计算 X'X<br/>和 X'y"]
+ B --> C["求逆矩阵<br/>(X'X)⁻¹"]
+ C --> D["计算权重<br/>w = (X'X)⁻¹X'y"]
+ D --> E["得到模型<br/>y = Xw"]
+ E --> F["预测新值<br/>ŷ = X_new·w"]
+
+ style A fill:#FFE4B5
+ style B fill:#87CEEB
+ style C fill:#FFB6C6
+ style D fill:#90EE90
+ style E fill:#98FB98
+ style F fill:#B0E0E6
 ```
 
 ---
@@ -8133,28 +8133,28 @@ $$\mathbf{w} := \mathbf{w} + \frac{\alpha}{m}\mathbf{X}^T(\mathbf{y} - \mathbf{X
 
 ```mermaid
 flowchart TD
-    Start([开始<br/>Start]) --> Init["初始化参数<br/>Initialize w randomly<br/>设置学习率 α<br/>Set learning rate α<br/>设置迭代次数 T<br/>Set iterations T"]
-    Init --> Loop{迭代次数<br/>t < T?}
-    
-    Loop -->|是 Yes| Predict["计算预测值<br/>Compute ŷ = Xw"]
-    Predict --> Loss["计算损失<br/>Compute J(w)"]
-    Loss --> Grad["计算梯度<br/>Compute ∇J = -1/m·X'(y - Xw)"]
-    Grad --> Update["更新参数<br/>w := w - α∇J"]
-    Update --> Check{损失收敛?<br/>Loss converged?}
-    
-    Check -->|否 No| Loop
-    Check -->|是 Yes| End([结束<br/>End])
-    Loop -->|否 No| End
-    
-    style Start fill:#e1f5ff
-    style Init fill:#FFE4B5
-    style Loop fill:#FFB6C6
-    style Predict fill:#87CEEB
-    style Loss fill:#87CEEB
-    style Grad fill:#87CEEB
-    style Update fill:#90EE90
-    style Check fill:#FFB6C6
-    style End fill:#98FB98
+ Start([开始<br/>Start]) --> Init["初始化参数<br/>Initialize w randomly<br/>设置学习率 α<br/>Set learning rate α<br/>设置迭代次数 T<br/>Set iterations T"]
+ Init --> Loop{迭代次数<br/>t < T?}
+
+ Loop -->|是 Yes| Predict["计算预测值<br/>Compute ŷ = Xw"]
+ Predict --> Loss["计算损失<br/>Compute J(w)"]
+ Loss --> Grad["计算梯度<br/>Compute ∇J = -1/m·X'(y - Xw)"]
+ Grad --> Update["更新参数<br/>w := w - α∇J"]
+ Update --> Check{损失收敛?<br/>Loss converged?}
+
+ Check -->|否 No| Loop
+ Check -->|是 Yes| End([结束<br/>End])
+ Loop -->|否 No| End
+
+ style Start fill:#e1f5ff
+ style Init fill:#FFE4B5
+ style Loop fill:#FFB6C6
+ style Predict fill:#87CEEB
+ style Loss fill:#87CEEB
+ style Grad fill:#87CEEB
+ style Update fill:#90EE90
+ style Check fill:#FFB6C6
+ style End fill:#98FB98
 ```
 
 
@@ -8194,14 +8194,14 @@ $$y = w_1x + b$$
 
 ```mermaid
 graph LR
-    A[线性回归<br/>Linear Regression] --> B[y = w₁x + b]
-    B --> C[只能拟合直线关系<br/>Can only fit linear relationships]
-    C --> D[无法处理曲线数据<br/>Cannot handle curved data]
-    
-    style A fill:#FFE4B5
-    style B fill:#87CEEB
-    style C fill:#FFB6C6
-    style D fill:#FFB6C6
+ A[线性回归<br/>Linear Regression] --> B[y = w₁x + b]
+ B --> C[只能拟合直线关系<br/>Can only fit linear relationships]
+ C --> D[无法处理曲线数据<br/>Cannot handle curved data]
+
+ style A fill:#FFE4B5
+ style B fill:#87CEEB
+ style C fill:#FFB6C6
+ style D fill:#FFB6C6
 ```
 
 ---
@@ -8257,35 +8257,35 @@ $$y = \sum_{i=0}^{d}w_ix^i$$
 
 ```mermaid
 graph TD
-    A[多项式回归关键概念<br/>Key Concepts of Polynomial Regression] --> B[阶数/次数<br/>Degree]
-    A --> C[过拟合<br/>Overfitting]
-    A --> D[欠拟合<br/>Underfitting]
-    
-    B --> B1[最高指数<br/>Highest exponent]
-    B --> B2[d=2: 抛物线<br/>d=2: Parabola]
-    B --> B3[d=3: 三次曲线<br/>d=3: Cubic curve]
-    
-    C --> C1[阶数太高<br/>Degree too high]
-    C --> C2[模型过于复杂<br/>Model too complex]
-    C --> C3[泛化能力差<br/>Poor generalization]
-    
-    D --> D1[阶数太低<br/>Degree too low]
-    D --> D2[模型过于简单<br/>Model too simple]
-    D --> D3[无法捕捉模式<br/>Cannot capture patterns]
-    
-    style A fill:#FFE4B5
-    style B fill:#90EE90
-    style C fill:#FFB6C6
-    style D fill:#87CEEB
-    style B1 fill:#E8F5E9
-    style B2 fill:#E8F5E9
-    style B3 fill:#E8F5E9
-    style C1 fill:#FCE4EC
-    style C2 fill:#FCE4EC
-    style C3 fill:#FCE4EC
-    style D1 fill:#E3F2FD
-    style D2 fill:#E3F2FD
-    style D3 fill:#E3F2FD
+ A[多项式回归关键概念<br/>Key Concepts of Polynomial Regression] --> B[阶数/次数<br/>Degree]
+ A --> C[过拟合<br/>Overfitting]
+ A --> D[欠拟合<br/>Underfitting]
+
+ B --> B1[最高指数<br/>Highest exponent]
+ B --> B2[d=2: 抛物线<br/>d=2: Parabola]
+ B --> B3[d=3: 三次曲线<br/>d=3: Cubic curve]
+
+ C --> C1[阶数太高<br/>Degree too high]
+ C --> C2[模型过于复杂<br/>Model too complex]
+ C --> C3[泛化能力差<br/>Poor generalization]
+
+ D --> D1[阶数太低<br/>Degree too low]
+ D --> D2[模型过于简单<br/>Model too simple]
+ D --> D3[无法捕捉模式<br/>Cannot capture patterns]
+
+ style A fill:#FFE4B5
+ style B fill:#90EE90
+ style C fill:#FFB6C6
+ style D fill:#87CEEB
+ style B1 fill:#E8F5E9
+ style B2 fill:#E8F5E9
+ style B3 fill:#E8F5E9
+ style C1 fill:#FCE4EC
+ style C2 fill:#FCE4EC
+ style C3 fill:#FCE4EC
+ style D1 fill:#E3F2FD
+ style D2 fill:#E3F2FD
+ style D3 fill:#E3F2FD
 ```
 
 ---
@@ -8297,10 +8297,10 @@ graph TD
 The highest exponent in the polynomial.
 
 - **阶数为 2** : 二次曲线（抛物线）/ Quadratic curve (parabola)
-  - 例如 / Example: $y = w_1x + w_2x^2 + b$
-  
+ - 例如 / Example: $y = w_1x + w_2x^2 + b$
+
 - **阶数为 3** : 三次曲线 / Cubic curve
-  - 例如 / Example: $y = w_1x + w_2x^2 + w_3x^3 + b$
+ - 例如 / Example: $y = w_1x + w_2x^2 + w_3x^3 + b$
 
 - **阶数为 $d$** : $d$ 次曲线 / Polynomial curve of degree $d$
 
@@ -8348,29 +8348,29 @@ If the degree is too low (e.g., using a straight line to fit obviously curved da
 
 ```mermaid
 graph TD
-    A[模型复杂度<br/>Model Complexity] --> B[欠拟合<br/>Underfitting<br/>d太小]
-    A --> C[恰当拟合<br/>Good Fit<br/>d适中]
-    A --> D[过拟合<br/>Overfitting<br/>d太大]
-    
-    B --> B1[训练误差: 高<br/>Training Error: High]
-    B --> B2[测试误差: 高<br/>Test Error: High]
-    
-    C --> C1[训练误差: 低<br/>Training Error: Low]
-    C --> C2[测试误差: 低<br/>Test Error: Low]
-    
-    D --> D1[训练误差: 极低<br/>Training Error: Very Low]
-    D --> D2[测试误差: 高<br/>Test Error: High]
-    
-    style A fill:#FFE4B5
-    style B fill:#87CEEB
-    style C fill:#90EE90
-    style D fill:#FFB6C6
-    style B1 fill:#E3F2FD
-    style B2 fill:#E3F2FD
-    style C1 fill:#E8F5E9
-    style C2 fill:#E8F5E9
-    style D1 fill:#FCE4EC
-    style D2 fill:#FCE4EC
+ A[模型复杂度<br/>Model Complexity] --> B[欠拟合<br/>Underfitting<br/>d太小]
+ A --> C[恰当拟合<br/>Good Fit<br/>d适中]
+ A --> D[过拟合<br/>Overfitting<br/>d太大]
+
+ B --> B1[训练误差: 高<br/>Training Error: High]
+ B --> B2[测试误差: 高<br/>Test Error: High]
+
+ C --> C1[训练误差: 低<br/>Training Error: Low]
+ C --> C2[测试误差: 低<br/>Test Error: Low]
+
+ D --> D1[训练误差: 极低<br/>Training Error: Very Low]
+ D --> D2[测试误差: 高<br/>Test Error: High]
+
+ style A fill:#FFE4B5
+ style B fill:#87CEEB
+ style C fill:#90EE90
+ style D fill:#FFB6C6
+ style B1 fill:#E3F2FD
+ style B2 fill:#E3F2FD
+ style C1 fill:#E8F5E9
+ style C2 fill:#E8F5E9
+ style D1 fill:#FCE4EC
+ style D2 fill:#FCE4EC
 ```
 
 ---
@@ -8485,11 +8485,11 @@ Suppose we have the following data describing the relationship between height an
 
 | $i$ | 时间 $t$ (秒) | 高度 $h$ (米) |
 |-----|--------------|--------------|
-| 1   | 0            | 100          |
-| 2   | 1            | 95           |
-| 3   | 2            | 80           |
-| 4   | 3            | 55           |
-| 5   | 4            | 20           |
+| 1 | 0 | 100 |
+| 2 | 1 | 95 |
+| 3 | 2 | 80 |
+| 4 | 3 | 55 |
+| 5 | 4 | 20 |
 
 物理公式 / Physics formula: $h = h_0 - \frac{1}{2}gt^2$，其中 $g \approx 10 \, \text{m/s}^2$
 
@@ -8534,7 +8534,7 @@ w_2
 
 ---
 
-###### 步骤 2：计算 
+###### 步骤 2：计算
 $\mathbf{X}^T\mathbf{X}$ / Step 2: Calculate $\mathbf{X}^T\mathbf{X}$
 
 $$\mathbf{X}^T = \begin{bmatrix}
@@ -8588,7 +8588,7 @@ $$0^2 + 1^2 + 4^2 + 9^2 + 16^2 = 0+1+16+81+256 = 354$$
 				$$\mathbf{X}^T\m$$
 ---
 
-#  第八章 逻辑回归 Logistic Regression
+# 第八章 逻辑回归 Logistic Regression
 ## 1. 逻辑回归
 **逻辑回归 Logistic Regression**是一种广泛应用于分类问题的统计学习方法，尽管名字中带有"回归"，但它实际上是一种用于二分类或多分类问题的算法。
 
@@ -8598,18 +8598,18 @@ $$0^2 + 1^2 + 4^2 + 9^2 + 16^2 = 0+1+16+81+256 = 354$$
 
 ```mermaid
 graph LR
-    A[线性回归<br/>Linear Regression] --> B[输出: 连续值<br/>Output: Continuous]
-    C[逻辑回归<br/>Logistic Regression] --> D[输出: 概率 0到1<br/>Output: Probability 0 to 1]
-    
-    B --> E[预测数值<br/>Predict numerical values]
-    D --> F[预测类别<br/>Predict categories]
-    
-    style A fill:#87CEEB
-    style C fill:#FFE4B5
-    style B fill:#E3F2FD
-    style D fill:#FFF9C4
-    style E fill:#E3F2FD
-    style F fill:#FFF9C4
+ A[线性回归<br/>Linear Regression] --> B[输出: 连续值<br/>Output: Continuous]
+ C[逻辑回归<br/>Logistic Regression] --> D[输出: 概率 0到1<br/>Output: Probability 0 to 1]
+
+ B --> E[预测数值<br/>Predict numerical values]
+ D --> F[预测类别<br/>Predict categories]
+
+ style A fill:#87CEEB
+ style C fill:#FFE4B5
+ style B fill:#E3F2FD
+ style D fill:#FFF9C4
+ style E fill:#E3F2FD
+ style F fill:#FFF9C4
 
 ```
 
@@ -8627,7 +8627,7 @@ $$P(y=1|x) = \sigma(w^Tx + b) = \frac{1}{1 + e^{-(w^Tx + b)}} \quad \text{(输�
 
 ---
 
-###  应用场景 / Application Scenarios
+### 应用场景 / Application Scenarios
 
 逻辑回归主要用于**二分类问题**：
 
@@ -8663,47 +8663,47 @@ $$\sigma(z) = \frac{1}{1 + e^{-z}}$$
 
 ```mermaid
 graph TD
-    A[Sigmoid 函数性质<br/>Sigmoid Function Properties] --> B[值域: 0, 1<br/>Range: 0, 1]
-    A --> C[单调递增<br/>Monotonically Increasing]
-    A --> D[对称性<br/>Symmetry]
-    A --> E[导数性质<br/>Derivative Property]
-    
-    B --> B1["σ(0) = 0.5"]
-    B --> B2["z→+∞, σ(z)→1"]
-    B --> B3["z→-∞, σ(z)→0"]
-    
-    D --> D1["σ(-z) = 1 - σ(z)"]
-    
-    E --> E1["σ'(z) = σ(z)(1 - σ(z))"]
-    
-    style A fill:#FFE4B5
-    style B fill:#90EE90
-    style C fill:#87CEEB
-    style D fill:#FFB6C6
-    style E fill:#DDA0DD
-    style B1 fill:#E8F5E9
-    style B2 fill:#E8F5E9
-    style B3 fill:#E8F5E9
-    style D1 fill:#FCE4EC
-    style E1 fill:#E6D5F0
+ A[Sigmoid 函数性质<br/>Sigmoid Function Properties] --> B[值域: 0, 1<br/>Range: 0, 1]
+ A --> C[单调递增<br/>Monotonically Increasing]
+ A --> D[对称性<br/>Symmetry]
+ A --> E[导数性质<br/>Derivative Property]
+
+ B --> B1["σ(0) = 0.5"]
+ B --> B2["z→+∞, σ(z)→1"]
+ B --> B3["z→-∞, σ(z)→0"]
+
+ D --> D1["σ(-z) = 1 - σ(z)"]
+
+ E --> E1["σ'(z) = σ(z)(1 - σ(z))"]
+
+ style A fill:#FFE4B5
+ style B fill:#90EE90
+ style C fill:#87CEEB
+ style D fill:#FFB6C6
+ style E fill:#DDA0DD
+ style B1 fill:#E8F5E9
+ style B2 fill:#E8F5E9
+ style B3 fill:#E8F5E9
+ style D1 fill:#FCE4EC
+ style E1 fill:#E6D5F0
 ```
 
 **关键性质 / Key Properties:**
 
 1. **值域 / Range**: $\sigma(z) \in (0, 1)$
 
-2. **中心点 / Center Point**: 
-   $$\sigma(0) = \frac{1}{1 + e^0} = \frac{1}{2} = 0.5$$
+2. **中心点 / Center Point**:
+ $$\sigma(0) = \frac{1}{1 + e^0} = \frac{1}{2} = 0.5$$
 
 3. **极限 / Limits**:
-   - 当 $z \to +\infty$ 时，$\sigma(z) \to 1$
-   - 当 $z \to -\infty$ 时，$\sigma(z) \to 0$
+ - 当 $z \to +\infty$ 时，$\sigma(z) \to 1$
+ - 当 $z \to -\infty$ 时，$\sigma(z) \to 0$
 
 4. **对称性 / Symmetry**:
-   $$\sigma(-z) = 1 - \sigma(z)$$
+ $$\sigma(-z) = 1 - \sigma(z)$$
 
 5. **导数 / Derivative**:
-   $$\sigma'(z) = \sigma(z)(1 - \sigma(z))$$
+ $$\sigma'(z) = \sigma(z)(1 - \sigma(z))$$
 
 ---
 
@@ -8711,14 +8711,14 @@ graph TD
 
 ```
 σ(z)
-  1 |           ___________
-    |         /
-    |        /
+ 1 | ___________
+ | /
+ | /
 0.5 |-------●--------------
-    |      /
-    |     /
-  0 |____/________________
-        -6  -3  0  3  6   z
+ | /
+ | /
+ 0 |____/________________
+ -6 -3 0 3 6 z
 ```
 
 **特点 / Characteristics:**
@@ -8862,26 +8862,26 @@ $$L = -\log(1-\hat{y})$$
 
 ```mermaid
 graph TD
-    A[对数损失函数<br/>Log Loss Function] --> B[y = 1 时<br/>When y = 1]
-    A --> C[y = 0 时<br/>When y = 0]
-    
-    B --> B1["L = -log(ŷ)"]
-    B1 --> B2["ŷ→1: L→0 ✓"]
-    B1 --> B3["ŷ→0: L→∞ ✗"]
-    
-    C --> C1["L = -log(1-ŷ)"]
-    C1 --> C2["ŷ→0: L→0 ✓"]
-    C1 --> C3["ŷ→1: L→∞ ✗"]
-    
-    style A fill:#FFE4B5
-    style B fill:#90EE90
-    style C fill:#87CEEB
-    style B1 fill:#E8F5E9
-    style B2 fill:#C8E6C9
-    style B3 fill:#FFCDD2
-    style C1 fill:#E3F2FD
-    style C2 fill:#BBDEFB
-    style C3 fill:#FFCDD2
+ A[对数损失函数<br/>Log Loss Function] --> B[y = 1 时<br/>When y = 1]
+ A --> C[y = 0 时<br/>When y = 0]
+
+ B --> B1["L = -log(ŷ)"]
+ B1 --> B2["ŷ→1: L→0 "]
+ B1 --> B3["ŷ→0: L→∞ "]
+
+ C --> C1["L = -log(1-ŷ)"]
+ C1 --> C2["ŷ→0: L→0 "]
+ C1 --> C3["ŷ→1: L→∞ "]
+
+ style A fill:#FFE4B5
+ style B fill:#90EE90
+ style C fill:#87CEEB
+ style B1 fill:#E8F5E9
+ style B2 fill:#C8E6C9
+ style B3 fill:#FFCDD2
+ style C1 fill:#E3F2FD
+ style C2 fill:#BBDEFB
+ style C3 fill:#FFCDD2
 ```
 
 ---
@@ -8907,29 +8907,29 @@ $$J(\mathbf{w}) = -\frac{1}{m}\sum_{i=1}^{m}\left[y_i\log\left(\frac{1}{1+e^{-z_
 
 ```mermaid
 graph TD
-    A[对数损失函数性质<br/>Log Loss Properties] --> B[凸函数<br/>Convex Function]
-    A --> C[可微<br/>Differentiable]
-    A --> D[惩罚错误预测<br/>Penalizes Wrong Predictions]
-    
-    B --> B1[存在唯一全局最优解<br/>Unique global optimum]
-    B --> B2[梯度下降保证收敛<br/>Gradient descent converges]
-    
-    C --> C1[可以求梯度<br/>Can compute gradient]
-    C --> C2[适合优化算法<br/>Suitable for optimization]
-    
-    D --> D1[预测越错损失越大<br/>Larger loss for worse predictions]
-    D --> D2[预测越准损失越小<br/>Smaller loss for better predictions]
-    
-    style A fill:#FFE4B5
-    style B fill:#90EE90
-    style C fill:#87CEEB
-    style D fill:#FFB6C6
-    style B1 fill:#E8F5E9
-    style B2 fill:#E8F5E9
-    style C1 fill:#E3F2FD
-    style C2 fill:#E3F2FD
-    style D1 fill:#FCE4EC
-    style D2 fill:#FCE4EC
+ A[对数损失函数性质<br/>Log Loss Properties] --> B[凸函数<br/>Convex Function]
+ A --> C[可微<br/>Differentiable]
+ A --> D[惩罚错误预测<br/>Penalizes Wrong Predictions]
+
+ B --> B1[存在唯一全局最优解<br/>Unique global optimum]
+ B --> B2[梯度下降保证收敛<br/>Gradient descent converges]
+
+ C --> C1[可以求梯度<br/>Can compute gradient]
+ C --> C2[适合优化算法<br/>Suitable for optimization]
+
+ D --> D1[预测越错损失越大<br/>Larger loss for worse predictions]
+ D --> D2[预测越准损失越小<br/>Smaller loss for better predictions]
+
+ style A fill:#FFE4B5
+ style B fill:#90EE90
+ style C fill:#87CEEB
+ style D fill:#FFB6C6
+ style B1 fill:#E8F5E9
+ style B2 fill:#E8F5E9
+ style C1 fill:#E3F2FD
+ style C2 fill:#E3F2FD
+ style D1 fill:#FCE4EC
+ style D2 fill:#FCE4EC
 ```
 
 ---
@@ -9043,8 +9043,8 @@ from sklearn.metrics import accuracy_score, confusion_matrix, classification_rep
 ```python
 # 加载数据集
 iris = load_iris()
-X = iris.data[:, :2]  # 只使用前两个特征
-y = (iris.target != 0) * 1  # 将目标转化为二分类问题
+X = iris.data[:, :2] # 只使用前两个特征
+y = (iris.target != 0) * 1 # 将目标转化为二分类问题
 
 # 划分训练集和测试集
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
@@ -9069,8 +9069,8 @@ from sklearn.metrics import accuracy_score, confusion_matrix, classification_rep
 
 # 加载数据集
 iris = load_iris()
-X = iris.data[:, :2]  # 只使用前两个特征
-y = (iris.target != 0) * 1  # 将目标转化为二分类问题
+X = iris.data[:, :2] # 只使用前两个特征
+y = (iris.target != 0) * 1 # 将目标转化为二分类问题
 
 # 划分训练集和测试集
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
@@ -9103,17 +9103,17 @@ Output:
 ```
 模型准确率: 1.00
 混淆矩阵:
-[[19  0]
+[[19 0]
  [ 0 26]]
 分类报告:
-              precision    recall  f1-score   support
+ precision recall f1-score support
 
-           0       1.00      1.00      1.00        19
-           1       1.00      1.00      1.00        26
+ 0 1.00 1.00 1.00 19
+ 1 1.00 1.00 1.00 26
 
-    accuracy                           1.00        45
-   macro avg       1.00      1.00      1.00        45
-weighted avg       1.00      1.00      1.00        45
+ accuracy 1.00 45
+ macro avg 1.00 1.00 1.00 45
+weighted avg 1.00 1.00 1.00 45
 ```
 #### 5、可视化决策边
 ```python
@@ -9126,8 +9126,8 @@ from sklearn.metrics import accuracy_score, confusion_matrix, classification_rep
 
 # 加载数据集
 iris = load_iris()
-X = iris.data[:, :2]  # 只使用前两个特征
-y = (iris.target != 0) * 1  # 将目标转化为二分类问题
+X = iris.data[:, :2] # 只使用前两个特征
+y = (iris.target != 0) * 1 # 将目标转化为二分类问题
 
 # 划分训练集和测试集
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
@@ -9146,7 +9146,7 @@ y_pred = model.predict(X_test)
 x_min, x_max = X[:, 0].min() - 1, X[:, 0].max() + 1
 y_min, y_max = X[:, 1].min() - 1, X[:, 1].max() + 1
 xx, yy = np.meshgrid(np.arange(x_min, x_max, 0.01),
-                     np.arange(y_min, y_max, 0.01))
+ np.arange(y_min, y_max, 0.01))
 
 Z = model.predict(np.c_[xx.ravel(), yy.ravel()])
 Z = Z.reshape(xx.shape)
@@ -9277,9 +9277,9 @@ plt.show()
 **特点**：
 
 - **范围**：理论上，R² 的范围是 `(-∞, 1]`。
-    - `R² = 1`：完美预测。
-    - `R² = 0`：模型和直接用平均值预测的效果一样。
-    - `R² < 0`：模型比直接用平均值预测还要差（说明模型完全不适合数据）。
+ - `R² = 1`：完美预测。
+ - `R² = 0`：模型和直接用平均值预测的效果一样。
+ - `R² < 0`：模型比直接用平均值预测还要差（说明模型完全不适合数据）。
 - **优点**：无量纲，易于比较不同数据集上的模型性能。
 - **缺点**：随着模型特征增加，R² 会自然增大，即使增加的特征没有用，这可能导致过拟合。
 
@@ -9347,8 +9347,8 @@ print(f"均方误差 (MSE): {mse:.4f}")
 print(f"均方根误差 (RMSE): {rmse:.4f}")
 print(f"决定系数 (R² Score): {r2:.4f}")
 print("\n模型系数：")
-print(f"   截距 (Intercept): {model.intercept_[0]:.4f}")
-print(f"   斜率 (Coefficient for X): {model.coef_[0][0]:.4f}")
+print(f" 截距 (Intercept): {model.intercept_[0]:.4f}")
+print(f" 斜率 (Coefficient for X): {model.coef_[0][0]:.4f}")
 
 # 7. 可视化结果
 plt.figure(figsize=(10, 5))
@@ -9386,11 +9386,11 @@ plt.show()
 5. **计算指标**：使用 Scikit-learn 的 `metrics` 模块中的函数，轻松计算出 MAE, MSE, R²。RMSE 通过对 MSE 开方得到。
 6. **打印结果**：格式化输出所有指标和模型学到的参数。
 7. **可视化**：
-    - **左图**：理想情况下，散点应紧密围绕红色虚线（完美预测线）分布。
-    - **右图**：误差分布直方图应大致以0为中心呈正态分布，这通常是一个好迹象。
+ - **左图**：理想情况下，散点应紧密围绕红色虚线（完美预测线）分布。
+ - **右图**：误差分布直方图应大致以0为中心呈正态分布，这通常是一个好迹象。
 ---
 
-#  第十章 决策树 Decision Tree
+# 第十章 决策树 Decision Tree
 [[Computer science foundation note#**决策树 (Decision Tree)**]]
 
 决策树 Decision Tree 是一种常用的机器学习算法，广泛应用于分类和回归问题。
@@ -9412,7 +9412,7 @@ plt.show()
 2. **分割数据集**：根据选定的特征将数据集分成多个子集。
 3. **递归构建子树**：对每个子集重复上述过程，直到满足停止条件（如所有样本属于同一类别、达到最大深度等）。
 4. **生成叶节点**：当满足停止条件时，生成叶节点并赋予类别或值。
-### 决策树的构建标准  
+### 决策树的构建标准
 在构建决策树时，我们需要选择最佳特征进行分割，常用的标准有：
 
 #### 1. 信息增益 (Information Gain)
@@ -9554,36 +9554,36 @@ Select the feature that maximizes the MSE reduction for splitting.
 
 ```mermaid
 graph TD
-    A[决策树分裂标准<br/>Decision Tree Splitting Criteria] --> B[分类问题<br/>Classification]
-    A --> C[回归问题<br/>Regression]
-    
-    B --> B1[信息增益<br/>Information Gain]
-    B --> B2[基尼指数<br/>Gini Index]
-    
-    C --> C1[均方误差<br/>MSE]
-    
-    B1 --> B1A[基于熵<br/>Based on Entropy]
-    B1 --> B1B[ID3, C4.5算法<br/>ID3, C4.5 Algorithms]
-    
-    B2 --> B2A[基于概率平方和<br/>Based on Sum of Squared Probabilities]
-    B2 --> B2B[CART算法<br/>CART Algorithm]
-    
-    C1 --> C1A[基于方差<br/>Based on Variance]
-    C1 --> C1B[回归树<br/>Regression Tree]
-    
-    style A fill:#FFE4B5
-    style B fill:#90EE90
-    style C fill:#87CEEB
-    style B1 fill:#E8F5E9
-    style B2 fill:#E8F5E9
-    style C1 fill:#E3F2FD
-    style B1A fill:#C8E6C9
-    style B1B fill:#C8E6C9
-    style B2A fill:#C8E6C9
-    style B2B fill:#C8E6C9
-    style C1A fill:#BBDEFB
-    style C1B fill:#BBDEFB
-```   
+ A[决策树分裂标准<br/>Decision Tree Splitting Criteria] --> B[分类问题<br/>Classification]
+ A --> C[回归问题<br/>Regression]
+
+ B --> B1[信息增益<br/>Information Gain]
+ B --> B2[基尼指数<br/>Gini Index]
+
+ C --> C1[均方误差<br/>MSE]
+
+ B1 --> B1A[基于熵<br/>Based on Entropy]
+ B1 --> B1B[ID3, C4.5算法<br/>ID3, C4.5 Algorithms]
+
+ B2 --> B2A[基于概率平方和<br/>Based on Sum of Squared Probabilities]
+ B2 --> B2B[CART算法<br/>CART Algorithm]
+
+ C1 --> C1A[基于方差<br/>Based on Variance]
+ C1 --> C1B[回归树<br/>Regression Tree]
+
+ style A fill:#FFE4B5
+ style B fill:#90EE90
+ style C fill:#87CEEB
+ style B1 fill:#E8F5E9
+ style B2 fill:#E8F5E9
+ style C1 fill:#E3F2FD
+ style B1A fill:#C8E6C9
+ style B1B fill:#C8E6C9
+ style B2A fill:#C8E6C9
+ style B2B fill:#C8E6C9
+ style C1A fill:#BBDEFB
+ style C1B fill:#BBDEFB
+```
 ---
 ## 决策树的优缺点
 ### 优点
@@ -9695,16 +9695,16 @@ accuracy = accuracy_score(y_test, y_pred)
 print(f"模型准确率: {accuracy:.2f}")
 
 # 导出决策树为dot文件
-dot_data = export_graphviz(clf, out_file=None, 
-                           feature_names=iris.feature_names,  
-                           class_names=iris.target_names,  
-                           filled=True, rounded=True,  
-                           special_characters=True)
+dot_data = export_graphviz(clf, out_file=None,
+ feature_names=iris.feature_names,
+ class_names=iris.target_names,
+ filled=True, rounded=True,
+ special_characters=True)
 
 # 使用graphviz渲染决策树
 graph = graphviz.Source(dot_data)
-graph.render("iris_decision_tree")  # 保存为PDF文件
-graph.view()  # 在浏览器中查看
+graph.render("iris_decision_tree") # 保存为PDF文件
+graph.view() # 在浏览器中查看
 ```
 ![[Pasted image 20260510192758.png]]
 
@@ -9717,60 +9717,60 @@ SVM 的核心思想是找到一个最优的超平面，将不同类别的数据�
 
 ```mermaid
 graph TD
-    A[开始 SVM<br/>Start SVM] --> B[输入训练数据<br/>Input Training Data]
-    B --> C[选择核函数<br/>Select Kernel Function]
-    
-    C --> D1[线性核<br/>Linear Kernel]
-    C --> D2[多项式核<br/>Polynomial Kernel]
-    C --> D3[RBF核<br/>RBF Kernel]
-    C --> D4[Sigmoid核<br/>Sigmoid Kernel]
-    
-    D1 --> E[设置超参数<br/>Set Hyperparameters]
-    D2 --> E
-    D3 --> E
-    D4 --> E
-    
-    E --> F[构建优化问题<br/>Construct Optimization Problem]
-    F --> G[求解对偶问题<br/>Solve Dual Problem]
-    
-    G --> H[计算拉格朗日乘子α<br/>Calculate Lagrange Multipliers α]
-    H --> I[识别支持向量<br/>Identify Support Vectors]
-    
-    I --> J[计算权重w和偏置b<br/>Calculate Weight w and Bias b]
-    J --> K[构建决策函数<br/>Build Decision Function]
-    
-    K --> L[模型训练完成<br/>Model Training Complete]
-    L --> M[输入测试数据<br/>Input Test Data]
-    
-    M --> N[计算决策值<br/>Calculate Decision Value]
-    N --> O{决策值符号<br/>Sign of Decision Value}
-    
-    O -->|正 Positive| P[类别 +1<br/>Class +1]
-    O -->|负 Negative| Q[类别 -1<br/>Class -1]
-    
-    P --> R[输出预测结果<br/>Output Prediction]
-    Q --> R
-    
-    R --> S[评估模型性能<br/>Evaluate Model Performance]
-    S --> T{性能满意?<br/>Performance Satisfactory?}
-    
-    T -->|否 No| U[调整超参数<br/>Tune Hyperparameters]
-    U --> E
-    
-    T -->|是 Yes| V[结束<br/>End]
-    
-    style A fill:#90EE90
-    style C fill:#FFE4B5
-    style D1 fill:#E8F5E9
-    style D2 fill:#E8F5E9
-    style D3 fill:#E8F5E9
-    style D4 fill:#E8F5E9
-    style I fill:#FFB6C6
-    style K fill:#87CEEB
-    style O fill:#DDA0DD
-    style P fill:#C8E6C9
-    style Q fill:#FFCDD2
-    style V fill:#90EE90
+ A[开始 SVM<br/>Start SVM] --> B[输入训练数据<br/>Input Training Data]
+ B --> C[选择核函数<br/>Select Kernel Function]
+
+ C --> D1[线性核<br/>Linear Kernel]
+ C --> D2[多项式核<br/>Polynomial Kernel]
+ C --> D3[RBF核<br/>RBF Kernel]
+ C --> D4[Sigmoid核<br/>Sigmoid Kernel]
+
+ D1 --> E[设置超参数<br/>Set Hyperparameters]
+ D2 --> E
+ D3 --> E
+ D4 --> E
+
+ E --> F[构建优化问题<br/>Construct Optimization Problem]
+ F --> G[求解对偶问题<br/>Solve Dual Problem]
+
+ G --> H[计算拉格朗日乘子α<br/>Calculate Lagrange Multipliers α]
+ H --> I[识别支持向量<br/>Identify Support Vectors]
+
+ I --> J[计算权重w和偏置b<br/>Calculate Weight w and Bias b]
+ J --> K[构建决策函数<br/>Build Decision Function]
+
+ K --> L[模型训练完成<br/>Model Training Complete]
+ L --> M[输入测试数据<br/>Input Test Data]
+
+ M --> N[计算决策值<br/>Calculate Decision Value]
+ N --> O{决策值符号<br/>Sign of Decision Value}
+
+ O -->|正 Positive| P[类别 +1<br/>Class +1]
+ O -->|负 Negative| Q[类别 -1<br/>Class -1]
+
+ P --> R[输出预测结果<br/>Output Prediction]
+ Q --> R
+
+ R --> S[评估模型性能<br/>Evaluate Model Performance]
+ S --> T{性能满意?<br/>Performance Satisfactory?}
+
+ T -->|否 No| U[调整超参数<br/>Tune Hyperparameters]
+ U --> E
+
+ T -->|是 Yes| V[结束<br/>End]
+
+ style A fill:#90EE90
+ style C fill:#FFE4B5
+ style D1 fill:#E8F5E9
+ style D2 fill:#E8F5E9
+ style D3 fill:#E8F5E9
+ style D4 fill:#E8F5E9
+ style I fill:#FFB6C6
+ style K fill:#87CEEB
+ style O fill:#DDA0DD
+ style P fill:#C8E6C9
+ style Q fill:#FFCDD2
+ style V fill:#90EE90
 ```
 
 **超平面**：
@@ -9822,7 +9822,7 @@ from sklearn.metrics import accuracy_score
 ```python
 # 加载鸢尾花数据集
 iris = datasets.load_iris()
-X = iris.data[:, :2]  # 只使用前两个特征
+X = iris.data[:, :2] # 只使用前两个特征
 y = iris.target
 ```
 ### 4. 划分训练集和测试集
@@ -9833,7 +9833,7 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_
 ### 5. 训练 SVM 模型
 ```python'
 # 创建SVM分类器
-clf = svm.SVC(kernel='linear')  # 使用线性核函数
+clf = svm.SVC(kernel='linear') # 使用线性核函数
 
 # 训练模型
 clf.fit(X_train, y_train)
@@ -9857,14 +9857,14 @@ from sklearn.metrics import accuracy_score
 
 # 加载鸢尾花数据集
 iris = datasets.load_iris()
-X = iris.data[:, :2]  # 只使用前两个特征
+X = iris.data[:, :2] # 只使用前两个特征
 y = iris.target
 
 # 将数据集划分为训练集和测试集
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
 
 # 创建SVM分类器
-clf = svm.SVC(kernel='linear')  # 使用线性核函数
+clf = svm.SVC(kernel='linear') # 使用线性核函数
 
 # 训练模型
 clf.fit(X_train, y_train)
@@ -9878,19 +9878,19 @@ print(f"模型准确率: {accuracy:.2f}")
 
 # 绘制决策边界
 def plot_decision_boundary(X, y, model):
-    h = .02  # 网格步长
-    x_min, x_max = X[:, 0].min() - 1, X[:, 0].max() + 1
-    y_min, y_max = X[:, 1].min() - 1, X[:, 1].max() + 1
-    xx, yy = np.meshgrid(np.arange(x_min, x_max, h),
-                         np.arange(y_min, y_max, h))
-    Z = model.predict(np.c_[xx.ravel(), yy.ravel()])
-    Z = Z.reshape(xx.shape)
-    plt.contourf(xx, yy, Z, alpha=0.8)
-    plt.scatter(X[:, 0], X[:, 1], c=y, edgecolors='k', marker='o')
-    plt.xlabel('Sepal length')
-    plt.ylabel('Sepal width')
-    plt.title('SVM Decision Boundary')
-    plt.show()
+ h = .02 # 网格步长
+ x_min, x_max = X[:, 0].min() - 1, X[:, 0].max() + 1
+ y_min, y_max = X[:, 1].min() - 1, X[:, 1].max() + 1
+ xx, yy = np.meshgrid(np.arange(x_min, x_max, h),
+ np.arange(y_min, y_max, h))
+ Z = model.predict(np.c_[xx.ravel(), yy.ravel()])
+ Z = Z.reshape(xx.shape)
+ plt.contourf(xx, yy, Z, alpha=0.8)
+ plt.scatter(X[:, 0], X[:, 1], c=y, edgecolors='k', marker='o')
+ plt.xlabel('Sepal length')
+ plt.ylabel('Sepal width')
+ plt.title('SVM Decision Boundary')
+ plt.show()
 
 plot_decision_boundary(X_train, y_train, clf)
 ```
@@ -9952,7 +9952,7 @@ from sklearn.metrics import accuracy_score
 ```python
 # 加载Iris数据集
 iris = datasets.load_iris()
-X = iris.data[:, :2]  # 只取前两个特征，便于可视化
+X = iris.data[:, :2] # 只取前两个特征，便于可视化
 y = iris.target
 ```
 ### 3. 数据预处理
@@ -10002,7 +10002,7 @@ from sklearn.metrics import accuracy_score
 
 # 加载Iris数据集
 iris = datasets.load_iris()
-X = iris.data[:, :2]  # 只取前两个特征，便于可视化
+X = iris.data[:, :2] # 只取前两个特征，便于可视化
 y = iris.target
 
 # 将数据集拆分为训练集和测试集
@@ -10022,13 +10022,13 @@ accuracy = accuracy_score(y_test, y_pred)
 print(f"KNN模型的准确率: {accuracy:.4f}")
 
 # 绘制决策边界和数据点
-h = .02  # 网格步长
+h = .02 # 网格步长
 x_min, x_max = X[:, 0].min() - 1, X[:, 0].max() + 1
 y_min, y_max = X[:, 1].min() - 1, X[:, 1].max() + 1
 
 # 创建一个二维网格，表示不同的样本空间
 xx, yy = np.meshgrid(np.arange(x_min, x_max, h),
-                     np.arange(y_min, y_max, h))
+ np.arange(y_min, y_max, h))
 
 # 使用KNN模型预测网格中的每个点的类别
 Z = knn.predict(np.c_[xx.ravel(), yy.ravel()])
@@ -10056,11 +10056,11 @@ k_range = range(1, 21)
 accuracies = []
 
 for k in k_range:
-    knn = KNeighborsClassifier(n_neighbors=k)
-    knn.fit(X_train, y_train)
-    y_pred = knn.predict(X_test)
-    accuracy = accuracy_score(y_test, y_pred)
-    accuracies.append(accuracy)
+ knn = KNeighborsClassifier(n_neighbors=k)
+ knn.fit(X_train, y_train)
+ y_pred = knn.predict(X_test)
+ accuracy = accuracy_score(y_test, y_pred)
+ accuracies.append(accuracy)
 
 # 绘制K值与准确率的关系
 plt.plot(k_range, accuracies, marker='o')
@@ -10245,10 +10245,10 @@ X, y = iris.data, iris.target
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
 
 # 使用默认的弱学习器（决策树），并指定使用 SAMME 算法
-ada = AdaBoostClassifier(DecisionTreeClassifier(max_depth=1), 
-                         n_estimators=50, 
-                         random_state=42, 
-                         algorithm='SAMME')
+ada = AdaBoostClassifier(DecisionTreeClassifier(max_depth=1),
+ n_estimators=50,
+ random_state=42,
+ algorithm='SAMME')
 
 # 训练模型
 ada.fit(X_train, y_train)
@@ -10294,8 +10294,8 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_
 
 # 定义基学习器
 estimators = [
-    ('dt', DecisionTreeClassifier(max_depth=1)),
-    ('svc', SVC(kernel='linear', probability=True))
+ ('dt', DecisionTreeClassifier(max_depth=1)),
+ ('svc', SVC(kernel='linear', probability=True))
 ]
 
 # 创建Stacking分类器
@@ -10389,12 +10389,12 @@ P(B1， B2， B3... | A) ≈ P(B1|A) * P(B2|A) * P(B3|A) * ...
 ```python
 # 示例训练数据：每行是一条邮件内容，后面是标签（'spam' 或 'ham'）
 train_data = [
-    ("免费获取 iPhone 大奖！点击链接", "spam"),
-    ("老板，下午三点开会，请准时参加", "ham"),
-    ("恭喜您中奖了！立即领取您的奖金", "spam"),
-    ("项目报告已发到您的邮箱，请查收", "ham"),
-    ("限时特价，全场五折，仅限今天", "spam"),
-    ("周末聚餐定在晚上七点，老地方", "ham")
+ ("免费获取 iPhone 大奖！点击链接", "spam"),
+ ("老板，下午三点开会，请准时参加", "ham"),
+ ("恭喜您中奖了！立即领取您的奖金", "spam"),
+ ("项目报告已发到您的邮箱，请查收", "ham"),
+ ("限时特价，全场五折，仅限今天", "spam"),
+ ("周末聚餐定在晚上七点，老地方", "ham")
 ]
 ```
 ### 2. 代码实现步骤
@@ -10407,16 +10407,16 @@ import numpy as np
 
 # 示例训练数据：每行是一条邮件内容，后面是标签（'spam' 或 'ham'）
 train_data = [
-    ("免费获取 iPhone 大奖！点击链接", "spam"),
-    ("老板，下午三点开会，请准时参加", "ham"),
-    ("恭喜您中奖了！立即领取您的奖金", "spam"),
-    ("项目报告已发到您的邮箱，请查收", "ham"),
-    ("限时特价，全场五折，仅限今天", "spam"),
-    ("周末聚餐定在晚上七点，老地方", "ham")
+ ("免费获取 iPhone 大奖！点击链接", "spam"),
+ ("老板，下午三点开会，请准时参加", "ham"),
+ ("恭喜您中奖了！立即领取您的奖金", "spam"),
+ ("项目报告已发到您的邮箱，请查收", "ham"),
+ ("限时特价，全场五折，仅限今天", "spam"),
+ ("周末聚餐定在晚上七点，老地方", "ham")
 ]
 
 # 1. 准备数据：将文本和标签分开
-texts = [data[0] for data in train_data]  # 邮件文本列表
+texts = [data[0] for data in train_data] # 邮件文本列表
 labels = [data[1] for data in train_data] # 对应标签列表
 
 # 2. 创建并训练模型管道
@@ -10425,8 +10425,8 @@ model.fit(texts, labels)
 
 # 3. 准备新邮件进行预测
 new_emails = [
-    "免费领取优惠券，机会难得！",  # 预期为 spam
-    "明天上午十点电话会议讨论预算"   # 预期为 ham
+ "免费领取优惠券，机会难得！", # 预期为 spam
+ "明天上午十点电话会议讨论预算" # 预期为 ham
 ]
 
 # 4. 进行预测
@@ -10437,13 +10437,13 @@ prediction_proba = model.predict_proba(new_emails) # 获取预测概率
 # 获取模型的类别顺序（避免硬编码索引）
 class_names = model.classes_
 for email, pred, proba in zip(new_emails, predictions, prediction_proba):
-    # 修复引号嵌套问题：内层改用单引号，或外层用单引号
-    print(f'邮件内容: "{email}"')
-    print(f"  预测类别: {pred}")
-    # 动态输出每个类别的概率（更健壮）
-    for cls, prob in zip(class_names, proba):
-        print(f"  属于'{cls}'的概率: {prob:.4f}")
-    print("-" * 40)
+ # 修复引号嵌套问题：内层改用单引号，或外层用单引号
+ print(f'邮件内容: "{email}"')
+ print(f" 预测类别: {pred}")
+ # 动态输出每个类别的概率（更健壮）
+ for cls, prob in zip(class_names, proba):
+ print(f" 属于'{cls}'的概率: {prob:.4f}")
+ print("-" * 40)
 ```
 ### 3. 代码解析
 
@@ -10464,13 +10464,13 @@ for email, pred, proba in zip(new_emails, predictions, prediction_proba):
 
 输出：
 ```python
-  属于'ham'的概率: 0.5000
-  属于'spam'的概率: 0.5000
+ 属于'ham'的概率: 0.5000
+ 属于'spam'的概率: 0.5000
 ----------------------------------------
 邮件内容: "明天上午十点电话会议讨论预算"
-  预测类别: ham
-  属于'ham'的概率: 0.5000
-  属于'spam'的概率: 0.5000
+ 预测类别: ham
+ 属于'ham'的概率: 0.5000
+ 属于'spam'的概率: 0.5000
 ```
 ## 五、 优缺点与注意事项
 
@@ -10511,64 +10511,64 @@ for email, pred, proba in zip(new_emails, predictions, prediction_proba):
 - **Aggregating（聚合）**： 用每个子训练集独立训练一棵决策树，最后将所有树的结果聚合起来（投票或平均）。
 ```mermaid
 graph TD
-    A[原始数据集<br/>Original Dataset] --> B[Bootstrap 采样<br/>Sample with Replacement]
-    
-    B --> C1[子集1<br/>Subset 1]
-    B --> C2[子集2<br/>Subset 2]
-    B --> C3[子集3<br/>Subset 3]
-    B --> C4[...<br/>...]
-    B --> C5[子集n<br/>Subset n]
-    
-    C1 --> D1[随机选择特征<br/>Random Feature Selection]
-    C2 --> D2[随机选择特征<br/>Random Feature Selection]
-    C3 --> D3[随机选择特征<br/>Random Feature Selection]
-    C4 --> D4[随机选择特征<br/>Random Feature Selection]
-    C5 --> D5[随机选择特征<br/>Random Feature Selection]
-    
-    D1 --> E1[决策树1<br/>Decision Tree 1]
-    D2 --> E2[决策树2<br/>Decision Tree 2]
-    D3 --> E3[决策树3<br/>Decision Tree 3]
-    D4 --> E4[决策树...<br/>Decision Tree ...]
-    D5 --> E5[决策树n<br/>Decision Tree n]
-    
-    E1 --> F1[预测1<br/>Prediction 1]
-    E2 --> F2[预测2<br/>Prediction 2]
-    E3 --> F3[预测3<br/>Prediction 3]
-    E4 --> F4[预测...<br/>Prediction ...]
-    E5 --> F5[预测n<br/>Prediction n]
-    
-    F1 --> G[投票/平均<br/>Voting/Averaging]
-    F2 --> G
-    F3 --> G
-    F4 --> G
-    F5 --> G
-    
-    G --> H[最终预测<br/>Final Prediction]
-    
-    style A fill:#90EE90
-    style B fill:#FFE4B5
-    style C1 fill:#E3F2FD
-    style C2 fill:#E3F2FD
-    style C3 fill:#E3F2FD
-    style C4 fill:#E3F2FD
-    style C5 fill:#E3F2FD
-    style D1 fill:#FFF9C4
-    style D2 fill:#FFF9C4
-    style D3 fill:#FFF9C4
-    style D4 fill:#FFF9C4
-    style D5 fill:#FFF9C4
-    style E1 fill:#F3E5F5
-    style E2 fill:#F3E5F5
-    style E3 fill:#F3E5F5
-    style E4 fill:#F3E5F5
-    style E5 fill:#F3E5F5
-    style F1 fill:#FFE0B2
-    style F2 fill:#FFE0B2
-    style F3 fill:#FFE0B2
-    style F4 fill:#FFE0B2
-    style F5 fill:#FFE0B2
-    style G fill:#FFCDD2
-    style H fill:#FF6B6B
+ A[原始数据集<br/>Original Dataset] --> B[Bootstrap 采样<br/>Sample with Replacement]
+
+ B --> C1[子集1<br/>Subset 1]
+ B --> C2[子集2<br/>Subset 2]
+ B --> C3[子集3<br/>Subset 3]
+ B --> C4[...<br/>...]
+ B --> C5[子集n<br/>Subset n]
+
+ C1 --> D1[随机选择特征<br/>Random Feature Selection]
+ C2 --> D2[随机选择特征<br/>Random Feature Selection]
+ C3 --> D3[随机选择特征<br/>Random Feature Selection]
+ C4 --> D4[随机选择特征<br/>Random Feature Selection]
+ C5 --> D5[随机选择特征<br/>Random Feature Selection]
+
+ D1 --> E1[决策树1<br/>Decision Tree 1]
+ D2 --> E2[决策树2<br/>Decision Tree 2]
+ D3 --> E3[决策树3<br/>Decision Tree 3]
+ D4 --> E4[决策树...<br/>Decision Tree ...]
+ D5 --> E5[决策树n<br/>Decision Tree n]
+
+ E1 --> F1[预测1<br/>Prediction 1]
+ E2 --> F2[预测2<br/>Prediction 2]
+ E3 --> F3[预测3<br/>Prediction 3]
+ E4 --> F4[预测...<br/>Prediction ...]
+ E5 --> F5[预测n<br/>Prediction n]
+
+ F1 --> G[投票/平均<br/>Voting/Averaging]
+ F2 --> G
+ F3 --> G
+ F4 --> G
+ F5 --> G
+
+ G --> H[最终预测<br/>Final Prediction]
+
+ style A fill:#90EE90
+ style B fill:#FFE4B5
+ style C1 fill:#E3F2FD
+ style C2 fill:#E3F2FD
+ style C3 fill:#E3F2FD
+ style C4 fill:#E3F2FD
+ style C5 fill:#E3F2FD
+ style D1 fill:#FFF9C4
+ style D2 fill:#FFF9C4
+ style D3 fill:#FFF9C4
+ style D4 fill:#FFF9C4
+ style D5 fill:#FFF9C4
+ style E1 fill:#F3E5F5
+ style E2 fill:#F3E5F5
+ style E3 fill:#F3E5F5
+ style E4 fill:#F3E5F5
+ style E5 fill:#F3E5F5
+ style F1 fill:#FFE0B2
+ style F2 fill:#FFE0B2
+ style F3 fill:#FFE0B2
+ style F4 fill:#FFE0B2
+ style F5 fill:#FFE0B2
+ style G fill:#FFCDD2
+ style H fill:#FF6B6B
 ```
 **特征随机性**：
 
@@ -10583,74 +10583,74 @@ graph TD
 让我们通过一个流程图来清晰地看透它的工作过程：
 ```mermaid
 graph TD
-    subgraph 单棵决策树构建过程
-    T1[当前节点] --> T2{选择最佳分裂特征}
-    T2 --> T3[计算信息增益/基尼指数]
-    T3 --> T4{是否满足停止条件?}
-    T4 -->|否| T5[分裂节点]
-    T4 -->|是| T6[叶节点]
-    T5 --> T7[左子树]
-    T5 --> T8[右子树]
-    T7 --> T2
-    T8 --> T2
-    end
-    
-    style T1 fill:#E8F5E9
-    style T2 fill:#FFF9C4
-    style T3 fill:#E1F5FE
-    style T4 fill:#FCE4EC
-    style T5 fill:#F3E5F5
-    style T6 fill:#90EE90
-    style T7 fill:#BBDEFB
-    style T8 fill:#BBDEFB
+ subgraph 单棵决策树构建过程
+ T1[当前节点] --> T2{选择最佳分裂特征}
+ T2 --> T3[计算信息增益/基尼指数]
+ T3 --> T4{是否满足停止条件?}
+ T4 -->|否| T5[分裂节点]
+ T4 -->|是| T6[叶节点]
+ T5 --> T7[左子树]
+ T5 --> T8[右子树]
+ T7 --> T2
+ T8 --> T2
+ end
+
+ style T1 fill:#E8F5E9
+ style T2 fill:#FFF9C4
+ style T3 fill:#E1F5FE
+ style T4 fill:#FCE4EC
+ style T5 fill:#F3E5F5
+ style T6 fill:#90EE90
+ style T7 fill:#BBDEFB
+ style T8 fill:#BBDEFB
 ```
 ```mermaid
 graph LR
-    subgraph 特征重要性计算
-    I1[特征1] --> I5[重要性得分]
-    I2[特征2] --> I5
-    I3[特征3] --> I5
-    I4[特征...] --> I5
-    
-    I5 --> I6[排序]
-    I6 --> I7[特征选择]
-    end
-    
-    style I1 fill:#E8F5E9
-    style I2 fill:#E8F5E9
-    style I3 fill:#E8F5E9
-    style I4 fill:#E8F5E9
-    style I5 fill:#FFE4B5
-    style I6 fill:#87CEEB
-    style I7 fill:#90EE90
+ subgraph 特征重要性计算
+ I1[特征1] --> I5[重要性得分]
+ I2[特征2] --> I5
+ I3[特征3] --> I5
+ I4[特征...] --> I5
+
+ I5 --> I6[排序]
+ I6 --> I7[特征选择]
+ end
+
+ style I1 fill:#E8F5E9
+ style I2 fill:#E8F5E9
+ style I3 fill:#E8F5E9
+ style I4 fill:#E8F5E9
+ style I5 fill:#FFE4B5
+ style I6 fill:#87CEEB
+ style I7 fill:#90EE90
 ```
 
 ```mermaid
 graph TD
-    subgraph 分类任务
-    CL1[树1: 类别A] --> CL4[多数投票]
-    CL2[树2: 类别B] --> CL4
-    CL3[树3: 类别A] --> CL4
-    CL4 --> CL5[最终类别: A]
-    end
-    
-    subgraph 回归任务
-    RG1[树1: 23.5] --> RG4[平均值]
-    RG2[树2: 25.1] --> RG4
-    RG3[树3: 24.3] --> RG4
-    RG4 --> RG5[最终预测: 24.3]
-    end
-    
-    style CL1 fill:#E3F2FD
-    style CL2 fill:#E3F2FD
-    style CL3 fill:#E3F2FD
-    style CL4 fill:#FFE4B5
-    style CL5 fill:#90EE90
-    style RG1 fill:#F3E5F5
-    style RG2 fill:#F3E5F5
-    style RG3 fill:#F3E5F5
-    style RG4 fill:#FFE4B5
-    style RG5 fill:#90EE90
+ subgraph 分类任务
+ CL1[树1: 类别A] --> CL4[多数投票]
+ CL2[树2: 类别B] --> CL4
+ CL3[树3: 类别A] --> CL4
+ CL4 --> CL5[最终类别: A]
+ end
+
+ subgraph 回归任务
+ RG1[树1: 23.5] --> RG4[平均值]
+ RG2[树2: 25.1] --> RG4
+ RG3[树3: 24.3] --> RG4
+ RG4 --> RG5[最终预测: 24.3]
+ end
+
+ style CL1 fill:#E3F2FD
+ style CL2 fill:#E3F2FD
+ style CL3 fill:#E3F2FD
+ style CL4 fill:#FFE4B5
+ style CL5 fill:#90EE90
+ style RG1 fill:#F3E5F5
+ style RG2 fill:#F3E5F5
+ style RG3 fill:#F3E5F5
+ style RG4 fill:#FFE4B5
+ style RG5 fill:#90EE90
 ```
 ### 关键超参数详解
 
@@ -10681,7 +10681,7 @@ from sklearn.metrics import accuracy_score, classification_report
 
 # 1. 加载数据
 iris = load_iris()
-X = iris.data  # 特征：花萼长度、宽度，花瓣长度、宽度
+X = iris.data # 特征：花萼长度、宽度，花瓣长度、宽度
 y = iris.target # 标签：三种鸢尾花
 
 # 2. 划分训练集和测试集
@@ -10711,13 +10711,13 @@ print(classification_report(y_test, y_pred, target_names=iris.target_names))
 5. **训练模型**： `fit` 方法会构建 100 棵决策树。
 6. **预测与评估**： 用训练好的森林对测试集预测，并计算准确率等指标。
 ```
-      setosa       1.00      1.00      1.00        19
-  versicolor       1.00      1.00      1.00        13
-   virginica       1.00      1.00      1.00        13
+ setosa 1.00 1.00 1.00 19
+ versicolor 1.00 1.00 1.00 13
+ virginica 1.00 1.00 1.00 13
 
-    accuracy                           1.00        45
-   macro avg       1.00      1.00      1.00        45
-weighted avg       1.00      1.00      1.00        45
+ accuracy 1.00 45
+ macro avg 1.00 1.00 1.00 45
+weighted avg 1.00 1.00 1.00 45
 ```
 ### 示例 2：查看特征重要性
 
@@ -10734,12 +10734,12 @@ import matplotlib.pyplot as plt
 
 # -------------------------- 设置中文字体 start --------------------------
 plt.rcParams['font.sans-serif'] = [
-    # Windows 优先
-    'SimHei', 'Microsoft YaHei',
-    # macOS 优先
-    'PingFang SC', 'Heiti TC',
-    # Linux 优先
-    'WenQuanYi Micro Hei', 'DejaVu Sans'
+ # Windows 优先
+ 'SimHei', 'Microsoft YaHei',
+ # macOS 优先
+ 'PingFang SC', 'Heiti TC',
+ # Linux 优先
+ 'WenQuanYi Micro Hei', 'DejaVu Sans'
 ]
 # 修复负号显示为方块的问题
 plt.rcParams['axes.unicode_minus'] = False
@@ -10747,7 +10747,7 @@ plt.rcParams['axes.unicode_minus'] = False
 
 # 1. 加载数据
 iris = load_iris()
-X = iris.data  # 特征：花萼长度、宽度，花瓣长度、宽度
+X = iris.data # 特征：花萼长度、宽度，花瓣长度、宽度
 y = iris.target # 标签：三种鸢尾花
 
 # 2. 划分训练集和测试集
@@ -10774,8 +10774,8 @@ features = iris.feature_names
 
 # 创建 DataFrame 便于查看
 importance_df = pd.DataFrame({
-    '特征': features,
-    '重要性': feature_importances
+ '特征': features,
+ '重要性': feature_importances
 }).sort_values('重要性', ascending=False)
 
 print("特征重要性排序：")
@@ -10846,16 +10846,16 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 
 # 假设我们有真实标签和预测标签
-y_true = [1, 0, 1, 1, 0, 0, 1, 0, 0, 1]  # 1代表垃圾邮件，0代表正常邮件
-y_pred = [1, 0, 0, 1, 0, 0, 1, 1, 0, 1]  # 模型的预测结果
+y_true = [1, 0, 1, 1, 0, 0, 1, 0, 0, 1] # 1代表垃圾邮件，0代表正常邮件
+y_pred = [1, 0, 0, 1, 0, 0, 1, 1, 0, 1] # 模型的预测结果
 
 # 计算混淆矩阵
 cm = confusion_matrix(y_true, y_pred)
 print("混淆矩阵：")
 print(cm)
 # 输出可能为：
-# [[4 1]   # 真实为0（正常），预测为0的有4个（TN），预测为1的有1个（FP）
-#  [1 4]]  # 真实为1（垃圾），预测为0的有1个（FN），预测为1的有4个（TP）
+# [[4 1] # 真实为0（正常），预测为0的有4个（TN），预测为1的有1个（FP）
+# [1 4]] # 真实为1（垃圾），预测为0的有1个（FN），预测为1的有4个（TP）
 ```
 为了更好地理解，我们将其可视化：
 ![[Pasted image 20260510212747.png]]
@@ -10890,7 +10890,7 @@ $$
 from sklearn.metrics import accuracy_score
 
 accuracy = accuracy_score(y_true, y_pred)
-print(f"准确率: {accuracy:.2f}")  # 输出: 0.80 (8/10)
+print(f"准确率: {accuracy:.2f}") # 输出: 0.80 (8/10)
 ```
 **特点与局限**：
 
@@ -10905,7 +10905,7 @@ $$\text{准确率} = \frac{TP} {TP + FP }$$
 from sklearn.metrics import precision_score
 
 precision = precision_score(y_true, y_pred)
-print(f"精确率: {precision:.2f}")  # 输出: 0.80 (TP=4, TP+FP=5)
+print(f"精确率: {precision:.2f}") # 输出: 0.80 (TP=4, TP+FP=5)
 ```
 ### 3. 召回率 - "宁可错杀"的指标
 
@@ -10916,7 +10916,7 @@ $$\text{召回率} = \frac{TP} {TP + FN }$$
 from sklearn.metrics import recall_score
 
 recall = recall_score(y_true, y_pred)
-print(f"召回率: {recall:.2f}")  # 输出: 0.80 (TP=4, TP+FN=5)
+print(f"召回率: {recall:.2f}") # 输出: 0.80 (TP=4, TP+FN=5)
 ```
 ### 4. F1 分数 - 精确率与召回率的调和平均
 
@@ -10927,16 +10927,16 @@ $$\text{F1 分数} = \frac{精确率 \times召回率 } {精确率 + 召回率 }$
 from sklearn.metrics import f1_score
 
 f1 = f1_score(y_true, y_pred)
-print(f"F1分数: {f1:.2f}")  # 输出: 0.80
+print(f"F1分数: {f1:.2f}") # 输出: 0.80
 ```
 ### 指标对比与选择指南
 
-| 指标        | 公式         | 关注点                         | 适用场景举例                                                                  |
+| 指标 | 公式 | 关注点 | 适用场景举例 |
 |:----------- |:------------ |:------------------------------ |:----------------------------------------------------------------------------- |
-| **准确率**  | (TP+TN)/总数 | 整体预测正确率                 | 类别均衡，且 FP 和 FN 代价相似的场景。                                        |
-| **精确率**  | TP/(TP+FP)   | **预测为正**的样本的准确性     | **FP 代价高**：如垃圾邮件过滤（怕误删重要邮件）、推荐系统（怕推荐劣质商品）。 |
-| **召回率**  | TP/(TP+FN)   | **真实为正**的样本被找出的比例 | **FN 代价高**：如疾病筛查（怕漏诊）、欺诈检测（怕漏掉欺诈交易）。             |
-| **F1 分数** | 2_P_R/(P+R)  | 精确率与召回率的平衡           | 需要综合考量，没有明确偏向的场景；类别不平衡时比准确率更好。                  |
+| **准确率** | (TP+TN)/总数 | 整体预测正确率 | 类别均衡，且 FP 和 FN 代价相似的场景。 |
+| **精确率** | TP/(TP+FP) | **预测为正**的样本的准确性 | **FP 代价高**：如垃圾邮件过滤（怕误删重要邮件）、推荐系统（怕推荐劣质商品）。 |
+| **召回率** | TP/(TP+FN) | **真实为正**的样本被找出的比例 | **FN 代价高**：如疾病筛查（怕漏诊）、欺诈检测（怕漏掉欺诈交易）。 |
+| **F1 分数** | 2_P_R/(P+R) | 精确率与召回率的平衡 | 需要综合考量，没有明确偏向的场景；类别不平衡时比准确率更好。 |
 
 ---
 ## 四、 进阶指标：ROC 曲线与 AUC
@@ -10971,7 +10971,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 # 假设我们有一些预测概率（这里用随机数模拟）
 y_true = [1, 0, 1, 0, 1]
-y_scores = [0.9, 0.4, 0.6, 0.3, 0.8]  # 模型预测为正例的概率
+y_scores = [0.9, 0.4, 0.6, 0.3, 0.8] # 模型预测为正例的概率
 
 fpr, tpr, thresholds = roc_curve(y_true, y_scores)
 roc_auc = auc(fpr, tpr)
@@ -11006,10 +11006,10 @@ AUC 值: 1.00
 
 
 ```python
-from sklearn.metrics import precision_score  
-# y_true 和 y_pred 现在是多类标签，例如 [0, 1, 2, 0, 1]  
-  
-precision_macro = precision_score(y_true, y_pred, average='macro') # 宏平均  
+from sklearn.metrics import precision_score
+# y_true 和 y_pred 现在是多类标签，例如 [0, 1, 2, 0, 1]
+
+precision_macro = precision_score(y_true, y_pred, average='macro') # 宏平均
 precision_micro = precision_score(y_true, y_pred, average='micro') # 微平均
 ```
 ## 六、 实践练习：综合评估一个分类模型
@@ -11054,29 +11054,29 @@ print(f"{accuracy_score(y_test, y_pred):.4f}")
 from sklearn.metrics import roc_auc_score
 # 注意：roc_auc_score 在多分类时需要指定 multi_class='ovr' (One-vs-Rest) 和 average
 try:
-    auc_ovr = roc_auc_score(y_test, y_pred_proba, multi_class='ovr', average='macro')
-    print(f"\n=== 宏平均 AUC (OvR) ===")
-    print(f"{auc_ovr:.4f}")
+ auc_ovr = roc_auc_score(y_test, y_pred_proba, multi_class='ovr', average='macro')
+ print(f"\n=== 宏平均 AUC (OvR) ===")
+ print(f"{auc_ovr:.4f}")
 except Exception as e:
-    print(f"\n计算AUC时出错（可能某些类别在测试集中未出现）: {e}")
+ print(f"\n计算AUC时出错（可能某些类别在测试集中未出现）: {e}")
 ```
 运行这段代码，你将看到一个完整的模型评估报告。请尝试修改模型参数或使用不同的模型（如 `sklearn.tree.DecisionTreeClassifier`），观察这些指标如何变化。
 ```
 === 混淆矩阵 ===
-[[19  0  0]
- [ 0 13  0]
- [ 0  0 13]]
+[[19 0 0]
+ [ 0 13 0]
+ [ 0 0 13]]
 
 === 分类报告（包含精确率、召回率、F1）===
-              precision    recall  f1-score   support
+ precision recall f1-score support
 
-      setosa       1.00      1.00      1.00        19
-  versicolor       1.00      1.00      1.00        13
-   virginica       1.00      1.00      1.00        13
+ setosa 1.00 1.00 1.00 19
+ versicolor 1.00 1.00 1.00 13
+ virginica 1.00 1.00 1.00 13
 
-    accuracy                           1.00        45
-   macro avg       1.00      1.00      1.00        45
-weighted avg       1.00      1.00      1.00        45
+ accuracy 1.00 45
+ macro avg 1.00 1.00 1.00 45
+weighted avg 1.00 1.00 1.00 45
 
 
 === 准确率 ===
@@ -11128,12 +11128,12 @@ from sklearn.cluster import KMeans
 
 # -------------------------- 设置中文字体 start --------------------------
 plt.rcParams['font.sans-serif'] = [
-    # Windows 优先
-    'SimHei', 'Microsoft YaHei',
-    # macOS 优先
-    'PingFang SC', 'Heiti TC',
-    # Linux 优先
-    'WenQuanYi Micro Hei', 'DejaVu Sans'
+ # Windows 优先
+ 'SimHei', 'Microsoft YaHei',
+ # macOS 优先
+ 'PingFang SC', 'Heiti TC',
+ # Linux 优先
+ 'WenQuanYi Micro Hei', 'DejaVu Sans'
 ]
 # 修复负号显示为方块的问题
 plt.rcParams['axes.unicode_minus'] = False
@@ -11183,10 +11183,10 @@ print("四个簇的质心坐标:\n", centroids)
 ```
 前10个样本的簇标签: [1 2 0 2 1 1 3 0 2 2]
 四个簇的质心坐标:
- [[ 0.94973532  4.41906906]
- [ 1.98258281  0.86771314]
- [-1.37324398  7.75368871]
- [-1.58438467  2.83081263]]
+ [[ 0.94973532 4.41906906]
+ [ 1.98258281 0.86771314]
+ [-1.37324398 7.75368871]
+ [-1.58438467 2.83081263]]
 ```
 原始未标记数据:
 ![[Pasted image 20260510215755.png]]
@@ -11203,9 +11203,9 @@ inertias = []
 K_range = range(1, 11) # 测试 K 从 1 到 10
 
 for k in K_range:
-    kmeans = KMeans(n_clusters=k, random_state=0, n_init='auto')
-    kmeans.fit(X)
-    inertias.append(kmeans.inertia_) # inertia_ 属性即 SSE
+ kmeans = KMeans(n_clusters=k, random_state=0, n_init='auto')
+ kmeans.fit(X)
+ inertias.append(kmeans.inertia_) # inertia_ 属性即 SSE
 
 # 绘制肘部曲线
 plt.plot(K_range, inertias, 'bo-')
@@ -11277,12 +11277,12 @@ from sklearn.datasets import load_iris
 
 # -------------------------- 设置中文字体 start --------------------------
 plt.rcParams['font.sans-serif'] = [
-    # Windows 优先
-    'SimHei', 'Microsoft YaHei',
-    # macOS 优先
-    'PingFang SC', 'Heiti TC',
-    # Linux 优先
-    'WenQuanYi Micro Hei', 'DejaVu Sans'
+ # Windows 优先
+ 'SimHei', 'Microsoft YaHei',
+ # macOS 优先
+ 'PingFang SC', 'Heiti TC',
+ # Linux 优先
+ 'WenQuanYi Micro Hei', 'DejaVu Sans'
 ]
 # 修复负号显示为方块的问题
 plt.rcParams['axes.unicode_minus'] = False
@@ -11290,10 +11290,10 @@ plt.rcParams['axes.unicode_minus'] = False
 
 # 1. 加载经典的鸢尾花数据集（4个特征）
 iris = load_iris()
-X = iris.data  # 原始数据：150个样本，4个特征
+X = iris.data # 原始数据：150个样本，4个特征
 y = iris.target # 标签，用于可视化着色
 
-print(f"原始数据形状: {X.shape}")  # 输出: (150, 4)
+print(f"原始数据形状: {X.shape}") # 输出: (150, 4)
 
 # 2. 创建PCA模型，指定降维到2维
 pca = PCA(n_components=2)
@@ -11343,12 +11343,12 @@ from sklearn.datasets import make_swiss_roll # 生成瑞士卷数据
 
 # -------------------------- 设置中文字体 start --------------------------
 plt.rcParams['font.sans-serif'] = [
-    # Windows 优先
-    'SimHei', 'Microsoft YaHei',
-    # macOS 优先
-    'PingFang SC', 'Heiti TC',
-    # Linux 优先
-    'WenQuanYi Micro Hei', 'DejaVu Sans'
+ # Windows 优先
+ 'SimHei', 'Microsoft YaHei',
+ # macOS 优先
+ 'PingFang SC', 'Heiti TC',
+ # Linux 优先
+ 'WenQuanYi Micro Hei', 'DejaVu Sans'
 ]
 # 修复负号显示为方块的问题
 plt.rcParams['axes.unicode_minus'] = False
@@ -11413,9 +11413,9 @@ plt.show()
 - 可以设为整数（如2），指定具体维度。
 - 可以设为 `0 < n < 1` 的小数（如0.95），表示保留**累计方差贡献率**达到该阈值所需的最少主成分。
 ```python
-# 保留95%的方差信息  
-pca = PCA(n_components=0.95)  
-pca.fit(X)  
+# 保留95%的方差信息
+pca = PCA(n_components=0.95)
+pca.fit(X)
 print(f"为保留95%方差，需要 {pca.n_components_} 个主成分")
 ```
 **t-SNE: `perplexity`**
@@ -11445,7 +11445,7 @@ X_mnist_tsne = tsne.fit_transform(X_mnist_pca)
 # 4. 可视化
 plt.figure(figsize=(10, 8))
 scatter = plt.scatter(X_mnist_tsne[:, 0], X_mnist_tsne[:, 1],
-                      c=y_mnist.astype(int), cmap='tab10', alpha=0.6, s=5)
+ c=y_mnist.astype(int), cmap='tab10', alpha=0.6, s=5)
 plt.colorbar(scatter, ticks=range(10), label='手写数字')
 plt.title('MNIST手写数字数据集经PCA预处理后的t-SNE可视化')
 plt.xlabel('t-SNE 1')

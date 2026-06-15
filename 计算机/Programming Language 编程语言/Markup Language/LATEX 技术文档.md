@@ -22,7 +22,7 @@ LaTeX 是一个文档排版系统和标记语言，主要用于生成高质量�
 - 对数学公式、参考文献、交叉引用等有出色支持
 - 输出质量高，特别是印刷品质
 - 学习曲线较陡
-**工作方式**  
+**工作方式**
 你用纯文本写带有 LaTeX 命令的源文件（.tex），然后编译生成 PDF 等格式的文档。
 
 比如写数学公式：
@@ -31,12 +31,12 @@ Einstein's equation: $E = mc^2$
 在学术界，特别是数学、物理、计算机科学等领域，LaTeX 是事实上的标准工具。
 ### 完整结构
 ```latex
-\documentclass[12pt,a4paper]{article}  % 文档类
+\documentclass[12pt,a4paper]{article} % 文档类
 
 % 导言区 - 加载宏包
-\usepackage[UTF8]{ctex}      % 中文支持
-\usepackage{amsmath}         % 数学公式
-\usepackage{graphicx}        % 插图
+\usepackage[UTF8]{ctex} % 中文支持
+\usepackage{amsmath} % 数学公式
+\usepackage{graphicx} % 插图
 
 % 标题信息
 \title{文档标题}
@@ -46,8 +46,8 @@ Einstein's equation: $E = mc^2$
 % 正文区
 \begin{document}
 
-\maketitle                   % 生成标题
-\tableofcontents            % 生成目录
+\maketitle % 生成标题
+\tableofcontents % 生成目录
 
 \section{第一章}
 正文内容...
@@ -119,56 +119,56 @@ Einstein's equation: $E = mc^2$
 ### 行间公式（不编号）
 ```latex
 \[
-    \int_{0}^{\infty} e^{-x^2} dx = \frac{\sqrt{\pi}}{2}
+ \int_{0}^{\infty} e^{-x^2} dx = \frac{\sqrt{\pi}}{2}
 \]
 ```
 $$\[
-    \int_{0}^{\infty} e^{-x^2} dx = \frac{\sqrt{\pi}}{2}
+ \int_{0}^{\infty} e^{-x^2} dx = \frac{\sqrt{\pi}}{2}
 \]$$
 ### 行间公式（带编号）
 ```latex
 \begin{equation}
-    \sum_{i=1}^{n} i = \frac{n(n+1)}{2}
-    \label{eq:sum}
+ \sum_{i=1}^{n} i = \frac{n(n+1)}{2}
+ \label{eq:sum}
 \end{equation}
 ```
 $$\begin{equation}
-    \sum_{i=1}^{n} i = \frac{n(n+1)}{2}
-    \label{eq:sum}
+ \sum_{i=1}^{n} i = \frac{n(n+1)}{2}
+ \label{eq:sum}
 \end{equation}$$
 ### 常用数学符号
 
 #### 上下标
 ```latex
-$x^2$           % 上标
-$x_i$           % 下标
-$x^{2y}$        % 多字符上标
-$x_{i,j}$       % 多字符下标
+$x^2$ % 上标
+$x_i$ % 下标
+$x^{2y}$ % 多字符上标
+$x_{i,j}$ % 多字符下标
 ```
-$x^2$         
-$x_i$           
-$x^{2y}$      
+$x^2$
+$x_i$
+$x^{2y}$
 $x_{i,j}$
 #### 分数和根号
 ```latex
-$\frac{a}{b}$           % 分数
-$\sqrt{x}$              % 平方根
-$\sqrt[n]{x}$           % n次方根
+$\frac{a}{b}$ % 分数
+$\sqrt{x}$ % 平方根
+$\sqrt[n]{x}$ % n次方根
 ```
-$\frac{a}{b}$        
-$\sqrt{x}$           
-$\sqrt[n]{x}$    
+$\frac{a}{b}$
+$\sqrt{x}$
+$\sqrt[n]{x}$
 #### 求和、积分、极限
 ```latex
-$\sum_{i=1}^{n} x_i$                    % 求和
-$\int_{a}^{b} f(x) dx$                  % 积分
-$\lim_{x \to \infty} f(x)$              % 极限
-$\prod_{i=1}^{n} x_i$                   % 连乘
+$\sum_{i=1}^{n} x_i$ % 求和
+$\int_{a}^{b} f(x) dx$ % 积分
+$\lim_{x \to \infty} f(x)$ % 极限
+$\prod_{i=1}^{n} x_i$ % 连乘
 ```
-$\sum_{i=1}^{n} x_i$                    % 求和
-$\int_{a}^{b} f(x) dx$                  
-$\lim_{x \to \infty} f(x)$             
-$\prod_{i=1}^{n} x_i$  
+$\sum_{i=1}^{n} x_i$ % 求和
+$\int_{a}^{b} f(x) dx$
+$\lim_{x \to \infty} f(x)$
+$\prod_{i=1}^{n} x_i$
 #### 希腊字母
 ```latex
 $\alpha, \beta, \gamma, \delta$
@@ -184,13 +184,13 @@ $\Gamma, \Delta, \Theta, \Lambda$
 
 #### 关系符号
 ```latex
-$\leq$  $\geq$  $\neq$  $\approx$
-$\equiv$  $\sim$  $\propto$
-$\in$  $\notin$  $\subset$  $\subseteq$
+$\leq$ $\geq$ $\neq$ $\approx$
+$\equiv$ $\sim$ $\propto$
+$\in$ $\notin$ $\subset$ $\subseteq$
 ```
-$\leq$  $\geq$  $\neq$  $\approx$
-$\equiv$  $\sim$  $\propto$
-$\in$  $\notin$  $\subset$  $\subseteq$
+$\leq$ $\geq$ $\neq$ $\approx$
+$\equiv$ $\sim$ $\propto$
+$\in$ $\notin$ $\subset$ $\subseteq$
 #### 矩阵
 ```latex
 \[
@@ -201,14 +201,14 @@ c & d
 \]
 
 \[
-\begin{pmatrix}  % 圆括号
+\begin{pmatrix} % 圆括号
 a & b \\
 c & d
 \end{pmatrix}
 \]
 
 \[
-\begin{bmatrix}  % 方括号
+\begin{bmatrix} % 方括号
 a & b \\
 c & d
 \end{bmatrix}
@@ -222,14 +222,14 @@ c & d
 \]
 
 \[
-\begin{pmatrix}  % 圆括号
+\begin{pmatrix} % 圆括号
 a & b \\
 c & d
 \end{pmatrix}
 \]
 
 \[
-\begin{bmatrix}  % 方括号
+\begin{bmatrix} % 方括号
 a & b \\
 c & d
 \end{bmatrix}
@@ -237,13 +237,13 @@ c & d
 #### 多行公式
 ```latex
 \begin{align}
-    f(x) &= x^2 + 2x + 1 \\
-         &= (x+1)^2
+ f(x) &= x^2 + 2x + 1 \\
+ &= (x+1)^2
 \end{align}
 ```
 $$\begin{align}
-    f(x) &= x^2 + 2x + 1 \\
-         &= (x+1)^2
+ f(x) &= x^2 + 2x + 1 \\
+ &= (x+1)^2
 \end{align}$$
 ---
 
@@ -252,26 +252,26 @@ $$\begin{align}
 ### 无序列表
 ```latex
 \begin{itemize}
-    \item 第一项
-    \item 第二项
-    \item 第三项
+ \item 第一项
+ \item 第二项
+ \item 第三项
 \end{itemize}
 ```
 
 ### 有序列表
 ```latex
 \begin{enumerate}
-    \item 第一步
-    \item 第二步
-    \item 第三步
+ \item 第一步
+ \item 第二步
+ \item 第三步
 \end{enumerate}
 ```
 
 ### 描述列表
 ```latex
 \begin{description}
-    \item[LaTeX] 排版系统
-    \item[Markdown] 轻量级标记语言
+ \item[LaTeX] 排版系统
+ \item[Markdown] 轻量级标记语言
 \end{description}
 ```
 
@@ -304,7 +304,7 @@ $$\begin{align}
 
 ### 插入图片
 ```latex
-\usepackage{graphicx}  % 导言区加载
+\usepackage{graphicx} % 导言区加载
 
 \begin{figure}[h]
 \centering
@@ -322,7 +322,7 @@ $$\begin{align}
 
 ### 插入代码
 ```latex
-\usepackage{listings}  % 导言区加载
+\usepackage{listings} % 导言区加载
 
 % 行内代码
 \verb|print("Hello")|
@@ -330,7 +330,7 @@ $$\begin{align}
 % 代码块
 \begin{lstlisting}[language=Python]
 def hello():
-    print("Hello, World!")
+ print("Hello, World!")
 \end{lstlisting}
 
 % 从文件导入
@@ -367,24 +367,24 @@ $$这是正文\footnote{这是脚注内容}。$$
 
 ### 特殊字符
 ```latex
-\%  \$  \&  \#  \_  \{  \}
-\textbackslash  % 反斜杠
+\% \$ \& \# \_ \{ \}
+\textbackslash % 反斜杠
 ```
 
 ### 空格和换行
 ```latex
-~           % 不可断空格
-\,          % 小空格
-\quad       % 1em 空格
-\qquad      % 2em 空格
-\\[2cm]     % 换行并增加垂直间距
-\newpage    % 新页
+~ % 不可断空格
+\, % 小空格
+\quad % 1em 空格
+\qquad % 2em 空格
+\\[2cm] % 换行并增加垂直间距
+\newpage % 新页
 ```
 $$$$
 ```latex
 % 这是单行注释
 
-\begin{comment}  % 需要 \usepackage{comment}
+\begin{comment} % 需要 \usepackage{comment}
 这是多行注释
 可以注释多行
 \end{comment}

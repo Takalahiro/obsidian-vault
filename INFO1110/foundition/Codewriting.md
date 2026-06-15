@@ -1,8 +1,8 @@
 [[Python 技术文档]]
-## 第1题：输出1–20之间的奇数  
+## 第1题：输出1–20之间的奇数
 **Task:** Print all odd numbers from 1 to 20, separated by spaces.
 
-**示例 / Example Output:**  
+**示例 / Example Output:**
 ```
 1 3 5 7 9 11 13 15 17 19
 ```
@@ -10,16 +10,16 @@
 **答案 / Answer:**
 ```python
 for i in range(1, 21):
-    if i % 2 != 0:
-        print(i, end=" ")
+ if i % 2 != 0:
+ print(i, end=" ")
 ```
 
 ---
 
-## 第2题：输出1–20之间的偶数  
+## 第2题：输出1–20之间的偶数
 **Task:** Print all even numbers from 1 to 20, separated by spaces.
 
-**示例 / Example Output:**  
+**示例 / Example Output:**
 ```
 2 4 6 8 10 12 14 16 18 20
 ```
@@ -27,16 +27,16 @@ for i in range(1, 21):
 **答案 / Answer:**
 ```python
 for i in range(1, 21):
-    if i % 2 == 0:
-        print(i, end=" ")
+ if i % 2 == 0:
+ print(i, end=" ")
 ```
 
 ---
 
-## 第3题：计算列表中所有数字的总和  
+## 第3题：计算列表中所有数字的总和
 **Task:** Create a function `sum_list(nums)` that returns the sum of all elements in a list.
 
-**示例 / Example:**  
+**示例 / Example:**
 ```
 输入 Input: [5, 10, 15]
 输出 Output: 30
@@ -45,20 +45,20 @@ for i in range(1, 21):
 **答案 / Answer:**
 ```python
 def sum_list(nums):
-    total = 0
-    for n in nums:
-        total += n
-    return total
+ total = 0
+ for n in nums:
+ total += n
+ return total
 
 print(sum_list([5, 10, 15]))
 ```
 
 ---
 
-## 第4题：合并两个列表  
+## 第4题：合并两个列表
 **Task:** Combine two lists `[1, 2, 3]` and `[4, 5, 6]` into a new list.
 
-**输出 / Output:**  
+**输出 / Output:**
 ```
 [1, 2, 3, 4, 5, 6]
 ```
@@ -73,10 +73,10 @@ print(combined)
 
 ---
 
-## 第5题：提取列表中的奇数元素  
+## 第5题：提取列表中的奇数元素
 **Task:** Write a function that returns a new list containing only the odd numbers.
 
-**示例 / Example:**  
+**示例 / Example:**
 ```
 输入 Input: [1, 4, 7, 10, 13]
 输出 Output: [1, 7, 13]
@@ -85,21 +85,21 @@ print(combined)
 **答案 / Answer:**
 ```python
 def odd_elements(lst):
-    result = []
-    for n in lst:
-        if n % 2 != 0:
-            result.append(n)
-    return result
+ result = []
+ for n in lst:
+ if n % 2 != 0:
+ result.append(n)
+ return result
 
 print(odd_elements([1, 4, 7, 10, 13]))
 ```
 
 ---
 
-## 第6题：拼接字符串列表  
+## 第6题：拼接字符串列表
 **Task:** Combine the list `["Python", "is", "fun"]` into a single sentence.
 
-**输出 / Output:**  
+**输出 / Output:**
 ```
 Python is fun
 ```
@@ -113,10 +113,10 @@ print(sentence)
 
 ---
 
-## 第7题：反转每个单词  
+## 第7题：反转每个单词
 **Task:** Write a function `reverse_words(words)` that reverses each string in a list.
 
-**示例 / Example:**  
+**示例 / Example:**
 ```
 输入 Input: ["apple", "banana", "orange"]
 输出 Output: ["elppa", "ananab", "egnaro"]
@@ -125,17 +125,17 @@ print(sentence)
 **答案 / Answer:**
 ```python
 def reverse_words(words):
-    return [w[::-1] for w in words]
+ return [w[::-1] for w in words]
 
 print(reverse_words(["apple", "banana", "orange"]))
 ```
 
 ---
 
-## 第8题：计算列表元素总和  
+## 第8题：计算列表元素总和
 **Task:** Given `[4, 7, 11, 3]`, print the total sum of numbers.
 
-**输出 / Output:**  
+**输出 / Output:**
 ```
 Total: 25
 ```
@@ -148,10 +148,10 @@ print("Total:", sum(numbers))
 
 ---
 
-## 第9题：偶数翻倍  
+## 第9题：偶数翻倍
 **Task:** Write a function that doubles all even numbers, keeping odd numbers unchanged.
 
-**示例 / Example:**  
+**示例 / Example:**
 ```
 输入 Input: [2, 5, 8, 3]
 输出 Output: [4, 5, 16, 3]
@@ -160,23 +160,23 @@ print("Total:", sum(numbers))
 **答案 / Answer:**
 ```python
 def double_evens(nums):
-    result = []
-    for n in nums:
-        if n % 2 == 0:
-            result.append(n * 2)
-        else:
-            result.append(n)
-    return result
+ result = []
+ for n in nums:
+ if n % 2 == 0:
+ result.append(n * 2)
+ else:
+ result.append(n)
+ return result
 
 print(double_evens([2, 5, 8, 3]))
 ```
 
 ---
 
-## 第10题：统计每个单词中的元音字母数量  
+## 第10题：统计每个单词中的元音字母数量
 **Task:** Write a function `count_vowels(words)` to count the number of vowels (a, e, i, o, u) in each word.
 
-**示例 / Example:**  
+**示例 / Example:**
 ```
 输入 Input: ["apple", "sky", "orange"]
 输出 Output: [2, 0, 3]
@@ -185,22 +185,22 @@ print(double_evens([2, 5, 8, 3]))
 **答案 / Answer:**
 ```python
 def count_vowels(words):
-    vowels = "aeiou"
-    result = []
-    for w in words:
-        count = sum(1 for c in w if c.lower() in vowels)
-        result.append(count)
-    return result
+ vowels = "aeiou"
+ result = []
+ for w in words:
+ count = sum(1 for c in w if c.lower() in vowels)
+ result.append(count)
+ return result
 
 print(count_vowels(["apple", "sky", "orange"]))
 ```
 
 ---
 
-## 第11题：两个列表按位相加  
+## 第11题：两个列表按位相加
 **Task:** Given two lists of the same length, add corresponding elements.
 
-**示例 / Example:**  
+**示例 / Example:**
 ```
 输入 Input: a = [3, 5, 2], b = [7, 1, 4]
 输出 Output: [10, 6, 6]
@@ -216,10 +216,10 @@ print(result)
 
 ---
 
-## 第12题：筛选短单词  
+## 第12题：筛选短单词
 **Task:** Print all words whose length is less than 5.
 
-**示例 / Example:**  
+**示例 / Example:**
 ```
 输入 Input: ["elephant", "dog", "cat", "bear", "tiger"]
 输出 Output:
@@ -232,16 +232,16 @@ bear
 ```python
 words = ["elephant", "dog", "cat", "bear", "tiger"]
 for w in words:
-    if len(w) < 5:
-        print(w)
+ if len(w) < 5:
+ print(w)
 ```
 
 ---
 
-## 第13题：用索引序号替换字母  
+## 第13题：用索引序号替换字母
 **Task:** Convert each word to a string of index numbers joined by hyphens.
 
-**示例 / Example:**  
+**示例 / Example:**
 ```
 输入 Input: ["hi", "sun"]
 输出 Output: ["0-1", "0-1-2"]
@@ -250,21 +250,21 @@ for w in words:
 **答案 / Answer:**
 ```python
 def replace_with_index(words):
-    result = []
-    for w in words:
-        indices = "-".join(str(i) for i in range(len(w)))
-        result.append(indices)
-    return result
+ result = []
+ for w in words:
+ indices = "-".join(str(i) for i in range(len(w)))
+ result.append(indices)
+ return result
 
 print(replace_with_index(["hi", "sun"]))
 ```
 
 ---
 
-## 第14题：计算平均值  
+## 第14题：计算平均值
 **Task:** Calculate and print the average of numbers in a list.
 
-**示例 / Example:**  
+**示例 / Example:**
 ```
 输入 Input: [10, 15, 25]
 输出 Output: Average: 16.6666667
@@ -279,10 +279,10 @@ print("Average:", average)
 
 ---
 
-## 第15题：判断是否为回文字符串  
+## 第15题：判断是否为回文字符串
 **Task:** Write a function to check if a word reads the same forward and backward.
 
-**示例 / Example:**  
+**示例 / Example:**
 ```
 输入 Input: "level" → True
 输入 Input: "python" → False
@@ -291,7 +291,7 @@ print("Average:", average)
 **答案 / Answer:**
 ```python
 def is_palindrome(word):
-    return word == word[::-1]
+ return word == word[::-1]
 
 print(is_palindrome("level"))
 print(is_palindrome("python"))
@@ -299,10 +299,10 @@ print(is_palindrome("python"))
 
 ---
 
-## 第16题：用连字符连接字符串  
+## 第16题：用连字符连接字符串
 **Task:** Join all strings in a list using hyphens.
 
-**示例 / Example:**  
+**示例 / Example:**
 ```
 输入 Input: ["red", "green", "blue"]
 输出 Output: red-green-blue
@@ -312,17 +312,17 @@ print(is_palindrome("python"))
 
 ```python
 def combine(words):
-    return "-".join(words)
+ return "-".join(words)
 
 print(combine(["red", "green", "blue"]))
 ```
 
 ---
 
-## 第17题：打印奇数并求和  
+## 第17题：打印奇数并求和
 **Task:** Input an integer n. Print all odd numbers from 1 to n and their total sum.
 
-**示例 / Example:**  
+**示例 / Example:**
 ```
 输入 Input: 10
 输出 Output:
@@ -337,43 +337,43 @@ n = int(input("Enter a number: "))
 odd_sum = 0
 print("Odd numbers are:", end=" ")
 for i in range(1, n + 1):
-    if i % 2 != 0:
-        print(i, end=" ")
-        odd_sum += i
+ if i % 2 != 0:
+ print(i, end=" ")
+ odd_sum += i
 print("\nSum of odd numbers:", odd_sum)
 ```
 
 ---
 
-## 第18题：天数换算成几周几天  
+## 第18题：天数换算成几周几天
 
-**Task:**  
+**Task:**
 编写一个函数，将给定的天数转换为“几周几天”。
 
-**示例 / Example:**  
+**示例 / Example:**
 ```
-输入 Input: 10  
+输入 Input: 10
 输出 Output: "1 week(s) and 3 day(s)"
 ```
 
 **答案 / Answer:**
 ```python
 def days_to_weeks(days):
-    weeks = days // 7
-    remaining_days = days % 7
-    return f"{weeks} week(s) and {remaining_days} day(s)"
+ weeks = days // 7
+ remaining_days = days % 7
+ return f"{weeks} week(s) and {remaining_days} day(s)"
 
 print(days_to_weeks(10))
 ```
 
 ---
 
-## 第19题：将列表转换为字典  
+## 第19题：将列表转换为字典
 
-**Task:**  
+**Task:**
 将一个列表 `[key1, value1, key2, value2, ...]` 转换为字典。
 
-**示例 / Example:**  
+**示例 / Example:**
 ```
 输入 Input: ["name", "Tom", "age", "18"]
 输出 Output: {"name": "Tom", "age": "18"}
@@ -382,58 +382,58 @@ print(days_to_weeks(10))
 **答案 / Answer:**
 ```python
 def list_to_dict(lst):
-    result = {}
-    for i in range(0, len(lst), 2):
-        result[lst[i]] = lst[i + 1]
-    return result
+ result = {}
+ for i in range(0, len(lst), 2):
+ result[lst[i]] = lst[i + 1]
+ return result
 
 print(list_to_dict(["name", "Tom", "age", "18"]))
 ```
 
 ---
 
-## 第20题：统计字母出现次数  
+## 第20题：统计字母出现次数
 
-**Task:**  
+**Task:**
 统计字符串中每个字母出现的次数，返回字典。
 
-**示例 / Example:**  
+**示例 / Example:**
 ```
-输入 Input: "banana"  
+输入 Input: "banana"
 输出 Output: {"b": 1, "a": 3, "n": 2}
 ```
 
 **答案 / Answer:**
 ```python
 def count_letters(word):
-    counts = {}
-    for ch in word:
-        counts[ch] = counts.get(ch, 0) + 1
-    return counts
+ counts = {}
+ for ch in word:
+ counts[ch] = counts.get(ch, 0) + 1
+ return counts
 
 print(count_letters("banana"))
 ```
 
 ---
 
-## 第21题：控制台输入多个单词，返回最短的  
+## 第21题：控制台输入多个单词，返回最短的
 
-**Task:**  
-让用户在控制台输入多个单词（用空格分隔），返回最短的单词。  
+**Task:**
+让用户在控制台输入多个单词（用空格分隔），返回最短的单词。
 
-**示例 / Example:**  
+**示例 / Example:**
 
 ```
-输入 Input: (console) hello sun python  
+输入 Input: (console) hello sun python
 输出 Output: sun
 ```
 
 **答案 / Answer:**
 ```python
 def shortest_word():
-    words = input("请输入多个单词（空格分隔）：").split()
-    shortest = min(words, key=len)
-    print(shortest)
+ words = input("请输入多个单词（空格分隔）：").split()
+ shortest = min(words, key=len)
+ print(shortest)
 
 # 示例运行
 # shortest_word()
@@ -441,12 +441,12 @@ def shortest_word():
 
 ---
 
-## 第22题：保留列表中只含 `'a'` 的单词  
+## 第22题：保留列表中只含 `'a'` 的单词
 
-**Task:**  
+**Task:**
 筛选出包含字母 `'a'` 的单词，只保留这些单词。
 
-**示例 / Example:**  
+**示例 / Example:**
 ```
 输入 Input: ["apple", "sun", "banana", "pear"]
 输出 Output: ["apple", "banana", "pear"]
@@ -456,7 +456,7 @@ def shortest_word():
 
 ```python
 def keep_words_with_a(words):
-    return [w for w in words if 'a' in w]
+ return [w for w in words if 'a' in w]
 
 print(keep_words_with_a(["apple", "sun", "banana", "pear"]))
 ```
@@ -464,7 +464,7 @@ print(keep_words_with_a(["apple", "sun", "banana", "pear"]))
 ---
 # Python 基础编程练习（编号 23–55）
 
-> **涵盖知识点：** for/while 循环、条件判断、列表操作、字符串处理、字典、函数定义、`input()`、列表推导式、切片、`range()`、`join()`、`split()`、列表↔字典↔字符串互转
+> **涵盖知识点：** for/while 循环、条件判断、列表操作、字符串处理、字典、函数定义、`input()`、列表推导式、切片、`range()`、`join()`、`split()`、列表字典字符串互转
 
 ---
 
@@ -556,7 +556,7 @@ print(keep_words_with_a(["apple", "sun", "banana", "pear"]))
 
 **示例 / Example:**
 ```
-输入 Input: 7  → True
+输入 Input: 7 → True
 输入 Input: 10 → False
 ```
 
@@ -616,8 +616,8 @@ print(keep_words_with_a(["apple", "sun", "banana", "pear"]))
 
 **示例 / Example:**
 ```
-输入 Input: [1, 3, 5, 7]  → True
-输入 Input: [1, 3, 2, 4]  → False
+输入 Input: [1, 3, 5, 7] → True
+输入 Input: [1, 3, 2, 4] → False
 ```
 
 ---
@@ -749,7 +749,7 @@ print(keep_words_with_a(["apple", "sun", "banana", "pear"]))
 **示例 / Example:**
 ```
 输入 Input: "hello123" → True
-输入 Input: "hello"    → False
+输入 Input: "hello" → False
 ```
 
 ---
@@ -760,7 +760,7 @@ print(keep_words_with_a(["apple", "sun", "banana", "pear"]))
 
 **示例 / Example:**
 ```
-输入 Input: "  hello   world  "
+输入 Input: " hello world "
 输出 Output: "helloworld"
 ```
 
@@ -861,8 +861,8 @@ print(keep_words_with_a(["apple", "sun", "banana", "pear"]))
 ```
 输入 Input: {"a": 1, "b": 2, "c": 3}
 输出 Output:
-  keys   = ["a", "b", "c"]
-  values = [1, 2, 3]
+ keys = ["a", "b", "c"]
+ values = [1, 2, 3]
 ```
 
 ---
@@ -970,11 +970,11 @@ def calculate_grade_stats(names: list, scores: list) -> dict:
 **Requirements:**
 - The two lists will always have the same length
 - Grade letters are assigned as follows:
-  - 90-100: "A"
-  - 80-89: "B"
-  - 70-79: "C"
-  - 60-69: "D"
-  - Below 60: "F"
+ - 90-100: "A"
+ - 80-89: "B"
+ - 70-79: "C"
+ - 60-69: "D"
+ - Below 60: "F"
 - Each student's value should be a dictionary with keys "score" and "grade"
 - If both input lists are empty, return an empty dictionary
 
@@ -985,9 +985,9 @@ scores = [95, 82, 67]
 result = calculate_grade_stats(names, scores)
 print(result)
 # Output: {
-#     'Alice': {'score': 95, 'grade': 'A'},
-#     'Bob': {'score': 82, 'grade': 'B'},
-#     'Charlie': {'score': 67, 'grade': 'D'}
+# 'Alice': {'score': 95, 'grade': 'A'},
+# 'Bob': {'score': 82, 'grade': 'B'},
+# 'Charlie': {'score': 67, 'grade': 'D'}
 # }
 
 names = ["David", "Emma"]
@@ -995,8 +995,8 @@ scores = [78, 55]
 result = calculate_grade_stats(names, scores)
 print(result)
 # Output: {
-#     'David': {'score': 78, 'grade': 'C'},
-#     'Emma': {'score': 55, 'grade': 'F'}
+# 'David': {'score': 78, 'grade': 'C'},
+# 'Emma': {'score': 55, 'grade': 'F'}
 # }
 
 names = []

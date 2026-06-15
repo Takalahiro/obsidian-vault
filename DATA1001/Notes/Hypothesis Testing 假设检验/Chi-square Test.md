@@ -30,11 +30,11 @@
 
 ```mermaid
 graph LR
-    A[观测数据<br/>Observed Data] --> B[计算期望频数<br/>Expected Frequencies]
-    B --> C[计算差异<br/>χ² statistic]
-    C --> D{差异显著吗?<br/>Significant?}
-    D -->|是| E[拒绝原假设<br/>Reject H₀]
-    D -->|否| F[不拒绝原假设<br/>Fail to reject H₀]
+ A[观测数据<br/>Observed Data] --> B[计算期望频数<br/>Expected Frequencies]
+ B --> C[计算差异<br/>χ² statistic]
+ C --> D{差异显著吗?<br/>Significant?}
+ D -->|是| E[拒绝原假设<br/>Reject H₀]
+ D -->|否| F[不拒绝原假设<br/>Fail to reject H₀]
 ```
 
 ### 为什么叫"卡方"？
@@ -49,26 +49,26 @@ graph LR
 
 ```mermaid
 graph TD
-    A[卡方检验<br/>Chi-square Test] --> B[拟合优度检验<br/>Goodness-of-Fit Test]
-    A --> C[独立性检验<br/>Test of Independence]
-    A --> D[同质性检验<br/>Test of Homogeneity]
-    
-    B --> B1[一个分类变量<br/>检验分布是否符合理论]
-    C --> C1[两个分类变量<br/>检验是否相互独立]
-    D --> D1[一个分类变量在多个总体<br/>检验分布是否相同]
-    
-    style B fill:#e1f5ff
-    style C fill:#fff4e1
-    style D fill:#f0e1ff
+ A[卡方检验<br/>Chi-square Test] --> B[拟合优度检验<br/>Goodness-of-Fit Test]
+ A --> C[独立性检验<br/>Test of Independence]
+ A --> D[同质性检验<br/>Test of Homogeneity]
+
+ B --> B1[一个分类变量<br/>检验分布是否符合理论]
+ C --> C1[两个分类变量<br/>检验是否相互独立]
+ D --> D1[一个分类变量在多个总体<br/>检验分布是否相同]
+
+ style B fill:#e1f5ff
+ style C fill:#fff4e1
+ style D fill:#f0e1ff
 ```
 
 ### 对比表
 
-| 类型         | 变量数            | 研究问题          | 例子             |
+| 类型 | 变量数 | 研究问题 | 例子 |
 | ---------- | -------------- | ------------- | -------------- |
-| **拟合优度检验** | 1 个分类变量        | 观测分布是否符合理论分布？ | 骰子是否公平？        |
-| **独立性检验**  | 2 个分类变量        | 两个变量是否相互独立？   | 性别与专业选择是否有关？   |
-| **同质性检验**  | 1 个分类变量 + 多个总体 | 不同总体的分布是否相同？  | 三个城市的政治倾向是否一致？ |
+| **拟合优度检验** | 1 个分类变量 | 观测分布是否符合理论分布？ | 骰子是否公平？ |
+| **独立性检验** | 2 个分类变量 | 两个变量是否相互独立？ | 性别与专业选择是否有关？ |
+| **同质性检验** | 1 个分类变量 + 多个总体 | 不同总体的分布是否相同？ | 三个城市的政治倾向是否一致？ |
 
 ---
 
@@ -88,14 +88,14 @@ $$\chi^2 = \sum_{i=1}^{k} \frac{(O_i - E_i)^2}{E_i}$$
 
 ```mermaid
 graph LR
-    A[观测频数 O] --> B[计算差异<br/>O - E]
-    C[期望频数 E] --> B
-    B --> D[平方<br/>O - E²]
-    D --> E[标准化<br/>O - E²/E]
-    E --> F[求和<br/>Σ]
-    F --> G[χ² 统计量]
-    
-    style G fill:#ffcccc
+ A[观测频数 O] --> B[计算差异<br/>O - E]
+ C[期望频数 E] --> B
+ B --> D[平方<br/>O - E²]
+ D --> E[标准化<br/>O - E²/E]
+ E --> F[求和<br/>Σ]
+ F --> G[χ² 统计量]
+
+ style G fill:#ffcccc
 ```
 
 **为什么要平方？**
@@ -114,25 +114,25 @@ graph LR
 
 ```mermaid
 graph TD
-    A[卡方分布特征] --> B[非负性<br/>χ² ≥ 0]
-    A --> C[右偏分布<br/>Right-skewed]
-    A --> D[由自由度决定形状<br/>Shape depends on df]
-    A --> E[df 增大时趋向正态<br/>Approaches normal as df↑]
-    
-    B --> B1[频数不能为负]
-    C --> C1[大多数值集中在左侧]
-    D --> D1[df = k - 1 或 r-1c-1]
-    E --> E1[df > 30 时近似正态]
+ A[卡方分布特征] --> B[非负性<br/>χ² ≥ 0]
+ A --> C[右偏分布<br/>Right-skewed]
+ A --> D[由自由度决定形状<br/>Shape depends on df]
+ A --> E[df 增大时趋向正态<br/>Approaches normal as df↑]
+
+ B --> B1[频数不能为负]
+ C --> C1[大多数值集中在左侧]
+ D --> D1[df = k - 1 或 r-1c-1]
+ E --> E1[df > 30 时近似正态]
 ```
 
 **自由度的计算**：
 - **拟合优度检验**：df = k - 1 - p
-  - k：类别数
-  - p：估计的参数个数
-  
+ - k：类别数
+ - p：估计的参数个数
+
 - **独立性/同质性检验**：df = (r - 1) × (c - 1)
-  - r：行数 (number of rows)
-  - c：列数 (number of columns)
+ - r：行数 (number of rows)
+ - c：列数 (number of columns)
 
 ---
 
@@ -142,18 +142,18 @@ graph TD
 
 ```
 概率密度
-    |
-0.5 |     df=1
-    |    /\
-0.4 |   /  \___
-    |  /       \___  df=2
-0.3 | /            \___
-    |/                 \___  df=5
-0.2 |                      \___
-    |                          \___  df=10
-0.1 |                              \___
-    |_________________________________________
-    0   2   4   6   8   10  12  14  16  18  χ²
+ |
+0.5 | df=1
+ | /\
+0.4 | / \___
+ | / \___ df=2
+0.3 | / \___
+ |/ \___ df=5
+0.2 | \___
+ | \___ df=10
+0.1 | \___
+ |_________________________________________
+ 0 2 4 6 8 10 12 14 16 18 χ²
 ```
 
 **关键特征**：
@@ -172,12 +172,12 @@ graph TD
 
 ### 适用场景
 
-| 研究问题           | 分类变量      | 理论分布         |
+| 研究问题 | 分类变量 | 理论分布 |
 | -------------- | --------- | ------------ |
-| 骰子是否公平？        | 点数（1-6）   | 均匀分布（各 1/6）  |
-| 遗传比例是否符合孟德尔定律？ | 表型（显性/隐性） | 3:1          |
-| 出生月份是否均匀分布？    | 月份（1-12）  | 均匀分布（各 1/12） |
-| 交通事故是否符合泊松分布？  | 事故次数      | 泊松分布         |
+| 骰子是否公平？ | 点数（1-6） | 均匀分布（各 1/6） |
+| 遗传比例是否符合孟德尔定律？ | 表型（显性/隐性） | 3:1 |
+| 出生月份是否均匀分布？ | 月份（1-12） | 均匀分布（各 1/12） |
+| 交通事故是否符合泊松分布？ | 事故次数 | 泊松分布 |
 
 ---
 
@@ -185,14 +185,14 @@ graph TD
 
 ```mermaid
 graph TD
-    A[Step 1: 建立假设<br/>State Hypotheses] --> B[Step 2: 计算期望频数<br/>Calculate Expected Frequencies]
-    B --> C[Step 3: 计算χ²统计量<br/>Calculate χ² Statistic]
-    C --> D[Step 4: 确定自由度<br/>Determine df]
-    D --> E[Step 5: 查找临界值/p-value<br/>Find Critical Value/p-value]
-    E --> F[Step 6: 做出决策<br/>Make Decision]
-    
-    style A fill:#e1f5ff
-    style F fill:#ffe1e1
+ A[Step 1: 建立假设<br/>State Hypotheses] --> B[Step 2: 计算期望频数<br/>Calculate Expected Frequencies]
+ B --> C[Step 3: 计算χ²统计量<br/>Calculate χ² Statistic]
+ C --> D[Step 4: 确定自由度<br/>Determine df]
+ D --> E[Step 5: 查找临界值/p-value<br/>Find Critical Value/p-value]
+ E --> F[Step 6: 做出决策<br/>Make Decision]
+
+ style A fill:#e1f5ff
+ style F fill:#ffe1e1
 ```
 
 ---
@@ -302,15 +302,15 @@ $$p = P(\chi^2_{(5)} > 2.8) \approx 0.73$$
 
 ```mermaid
 graph LR
-    A[观测频数] --> B[8, 12, 9, 11, 13, 7]
-    C[期望频数] --> D[10, 10, 10, 10, 10, 10]
-    B --> E[计算差异]
-    D --> E
-    E --> F[χ² = 2.8]
-    F --> G{p = 0.73 > 0.05}
-    G --> H[不拒绝H₀<br/>骰子可能是公平的]
-    
-    style H fill:#ccffcc
+ A[观测频数] --> B[8, 12, 9, 11, 13, 7]
+ C[期望频数] --> D[10, 10, 10, 10, 10, 10]
+ B --> E[计算差异]
+ D --> E
+ E --> F[χ² = 2.8]
+ F --> G{p = 0.73 > 0.05}
+ G --> H[不拒绝H₀<br/>骰子可能是公平的]
+
+ style H fill:#ccffcc
 ```
 
 ---
@@ -351,7 +351,7 @@ $$P(A \cap B) = P(A) \times P(B)$$
 
 **2×2 列联表示例**：
 
-|  | 专业 A | 专业 B | 行总计 |
+| | 专业 A | 专业 B | 行总计 |
 |---|--------|--------|--------|
 | **男性** | a | b | a + b |
 | **女性** | c | d | c + d |
@@ -386,7 +386,7 @@ $$E_{ij} = \frac{R_i \times C_j}{n}$$
 
 #### 数据（列联表）
 
-|  | 理工科 | 文科 | 行总计 |
+| | 理工科 | 文科 | 行总计 |
 |---|--------|------|--------|
 | **男性** | 60 | 40 | 100 |
 | **女性** | 30 | 70 | 100 |
@@ -426,7 +426,7 @@ $$E_{22} = \frac{100 \times 110}{200} = 55$$
 
 **期望频数表**：
 
-|  | 理工科 | 文科 | 行总计 |
+| | 理工科 | 文科 | 行总计 |
 |---|--------|------|--------|
 | **男性** | 45 | 55 | 100 |
 | **女性** | 45 | 55 | 100 |
@@ -492,19 +492,19 @@ $$p = P(\chi^2_{(1)} > 18.18) < 0.001$$
 
 ```mermaid
 graph TD
-    A[收集数据] --> B[构建列联表<br/>Contingency Table]
-    B --> C[计算期望频数<br/>Expected Frequencies]
-    C --> D[计算χ²统计量]
-    D --> E[确定自由度<br/>df = r-1 × c-1]
-    E --> F{χ² > 临界值?<br/>或 p < α?}
-    F -->|是| G[拒绝H₀<br/>变量有关联]
-    F -->|否| H[不拒绝H₀<br/>变量可能独立]
-    
-    G --> I[计算效应量<br/>Cramér's V]
-    I --> J[解释关联模式<br/>Interpret Pattern]
-    
-    style G fill:#ffcccc
-    style H fill:#ccffcc
+ A[收集数据] --> B[构建列联表<br/>Contingency Table]
+ B --> C[计算期望频数<br/>Expected Frequencies]
+ C --> D[计算χ²统计量]
+ D --> E[确定自由度<br/>df = r-1 × c-1]
+ E --> F{χ² > 临界值?<br/>或 p < α?}
+ F -->|是| G[拒绝H₀<br/>变量有关联]
+ F -->|否| H[不拒绝H₀<br/>变量可能独立]
+
+ G --> I[计算效应量<br/>Cramér's V]
+ I --> J[解释关联模式<br/>Interpret Pattern]
+
+ style G fill:#ffcccc
+ style H fill:#ccffcc
 ```
 
 ---
@@ -519,19 +519,19 @@ graph TD
 
 ```mermaid
 graph TD
-    A[卡方检验应用] --> B[独立性检验<br/>Test of Independence]
-    A --> C[同质性检验<br/>Test of Homogeneity]
-    
-    B --> B1[一个样本<br/>两个变量]
-    B --> B2[问题: 变量是否独立?]
-    B --> B3[例: 性别与专业选择]
-    
-    C --> C1[多个样本<br/>一个变量]
-    C --> C2[问题: 分布是否相同?]
-    C --> C3[例: 三个城市的政治倾向]
-    
-    style B fill:#e1f5ff
-    style C fill:#ffe1e1
+ A[卡方检验应用] --> B[独立性检验<br/>Test of Independence]
+ A --> C[同质性检验<br/>Test of Homogeneity]
+
+ B --> B1[一个样本<br/>两个变量]
+ B --> B2[问题: 变量是否独立?]
+ B --> B3[例: 性别与专业选择]
+
+ C --> C1[多个样本<br/>一个变量]
+ C --> C2[问题: 分布是否相同?]
+ C --> C3[例: 三个城市的政治倾向]
+
+ style B fill:#e1f5ff
+ style C fill:#ffe1e1
 ```
 
 | 特征 | 独立性检验 | 同质性检验 |
@@ -564,7 +564,7 @@ graph TD
 
 #### 数据（列联表）
 
-|  | 左翼 | 中间 | 右翼 | 行总计 |
+| | 左翼 | 中间 | 右翼 | 行总计 |
 |---|------|------|------|--------|
 | **城市 A** | 35 | 40 | 25 | 100 |
 | **城市 B** | 25 | 50 | 25 | 100 |
@@ -600,7 +600,7 @@ $$E_{13} = \frac{100 \times 75}{300} = 25$$
 
 **同理计算其他单元格**：
 
-|  | 左翼 | 中间 | 右翼 |
+| | 左翼 | 中间 | 右翼 |
 |---|------|------|------|
 | **城市 A** | 35 | 40 | 25 |
 | **城市 B** | 35 | 40 | 25 |
@@ -669,20 +669,20 @@ $$p = P(\chi^2_{(4)} > 10.72) \approx 0.03$$
 
 ```mermaid
 graph TD
-    A[三个独立样本] --> B[城市 A: n=100]
-    A --> C[城市 B: n=100]
-    A --> D[城市 C: n=100]
-    
-    B --> E[观测分布]
-    C --> E
-    D --> E
-    
-    E --> F[计算期望分布<br/>假设三城市相同]
-    F --> G[χ² = 10.72]
-    G --> H{p = 0.03 < 0.05}
-    H --> I[拒绝H₀<br/>分布不同]
-    
-    style I fill:#ffcccc
+ A[三个独立样本] --> B[城市 A: n=100]
+ A --> C[城市 B: n=100]
+ A --> D[城市 C: n=100]
+
+ B --> E[观测分布]
+ C --> E
+ D --> E
+
+ E --> F[计算期望分布<br/>假设三城市相同]
+ F --> G[χ² = 10.72]
+ G --> H{p = 0.03 < 0.05}
+ H --> I[拒绝H₀<br/>分布不同]
+
+ style I fill:#ffcccc
 ```
 
 ---
@@ -693,17 +693,17 @@ graph TD
 
 ```mermaid
 graph TD
-    A[卡方检验的前提假设] --> B[1. 独立性<br/>Independence]
-    A --> C[2. 随机抽样<br/>Random Sampling]
-    A --> D[3. 期望频数要求<br/>Expected Frequency]
-    A --> E[4. 互斥类别<br/>Mutually Exclusive]
-    
-    B --> B1[每个观测独立<br/>不能重复计数]
-    C --> C1[样本代表总体]
-    D --> D1[每个单元格 E ≥ 5<br/>或 80%单元格 E ≥ 5]
-    E --> E1[每个观测只属于<br/>一个类别]
-    
-    style D fill:#ffe1e1
+ A[卡方检验的前提假设] --> B[1. 独立性<br/>Independence]
+ A --> C[2. 随机抽样<br/>Random Sampling]
+ A --> D[3. 期望频数要求<br/>Expected Frequency]
+ A --> E[4. 互斥类别<br/>Mutually Exclusive]
+
+ B --> B1[每个观测独立<br/>不能重复计数]
+ C --> C1[样本代表总体]
+ D --> D1[每个单元格 E ≥ 5<br/>或 80%单元格 E ≥ 5]
+ E --> E1[每个观测只属于<br/>一个类别]
+
+ style D fill:#ffe1e1
 ```
 
 ---
@@ -713,14 +713,14 @@ graph TD
 **要求**：每个观测值必须相互独立。
 
 **违反的例子**：
-- ❌ 同一个人被重复计数
-- ❌ 配对数据（如夫妻、双胞胎）
-- ❌ 聚类数据（如同一班级的学生）
+- 同一个人被重复计数
+- 配对数据（如夫妻、双胞胎）
+- 聚类数据（如同一班级的学生）
 
 **正确做法**：
-- ✅ 每个个体只计数一次
-- ✅ 使用随机抽样
-- ✅ 对于配对数据，使用 **McNemar 检验 (McNemar's Test)**
+- 每个个体只计数一次
+- 使用随机抽样
+- 对于配对数据，使用 **McNemar 检验 (McNemar's Test)**
 
 ---
 
@@ -746,19 +746,19 @@ graph TD
 
 ```mermaid
 graph TD
-    A[期望频数 < 5] --> B[解决方案]
-    B --> C[1. 增加样本量<br/>Increase Sample Size]
-    B --> D[2. 合并类别<br/>Combine Categories]
-    B --> E[3. Fisher精确检验<br/>Fisher's Exact Test]
-    B --> F[4. 蒙特卡洛模拟<br/>Monte Carlo Simulation]
-    
-    C --> C1[最理想的方法]
-    D --> D1[合并相似类别<br/>但要有实际意义]
-    E --> E1[适用于2×2表<br/>小样本]
-    F --> F1[计算精确p-value<br/>适用于任意表]
-    
-    style C fill:#ccffcc
-    style E fill:#e1f5ff
+ A[期望频数 < 5] --> B[解决方案]
+ B --> C[1. 增加样本量<br/>Increase Sample Size]
+ B --> D[2. 合并类别<br/>Combine Categories]
+ B --> E[3. Fisher精确检验<br/>Fisher's Exact Test]
+ B --> F[4. 蒙特卡洛模拟<br/>Monte Carlo Simulation]
+
+ C --> C1[最理想的方法]
+ D --> D1[合并相似类别<br/>但要有实际意义]
+ E --> E1[适用于2×2表<br/>小样本]
+ F --> F1[计算精确p-value<br/>适用于任意表]
+
+ style C fill:#ccffcc
+ style E fill:#e1f5ff
 ```
 
 ---
@@ -776,7 +776,7 @@ graph TD
 
 **例子**：
 
-|  | 治愈 | 未治愈 | 总计 |
+| | 治愈 | 未治愈 | 总计 |
 |---|------|--------|------|
 | **治疗组** | 8 | 2 | 10 |
 | **对照组** | 3 | 7 | 10 |
@@ -812,26 +812,26 @@ graph TD
 ### 4. 数据类型要求
 
 **适用数据**：
-- ✅ **频数数据 (frequency data / count data)**
-- ✅ 分类变量 (categorical variables)
-- ✅ 名义变量 (nominal variables)
-- ✅ 有序变量 (ordinal variables)
+- **频数数据 (frequency data / count data)**
+- 分类变量 (categorical variables)
+- 名义变量 (nominal variables)
+- 有序变量 (ordinal variables)
 
 **不适用数据**：
-- ❌ **比例数据 (proportion data)**
-- ❌ 连续变量 (continuous variables)
-- ❌ 百分比 (percentages)
+- **比例数据 (proportion data)**
+- 连续变量 (continuous variables)
+- 百分比 (percentages)
 
 **常见错误**：
 
-❌ **错误示例**：
-|  | 治愈率 |
+ **错误示例**：
+| | 治愈率 |
 |---|--------|
 | **治疗组** | 80% |
 | **对照组** | 60% |
 
-✅ **正确示例**：
-|  | 治愈 | 未治愈 |
+ **正确示例**：
+| | 治愈 | 未治愈 |
 |---|------|--------|
 | **治疗组** | 8 | 2 |
 | **对照组** | 6 | 4 |
@@ -854,16 +854,16 @@ graph TD
 
 ```mermaid
 graph LR
-    A[统计显著性<br/>Statistical Significance] --> B[p-value]
-    C[实际意义<br/>Practical Significance] --> D[效应量<br/>Effect Size]
-    
-    B --> E[差异是否真实存在?]
-    D --> F[差异有多大?<br/>重要吗?]
-    
-    E --> G[完整结论]
-    F --> G
-    
-    style G fill:#ccffcc
+ A[统计显著性<br/>Statistical Significance] --> B[p-value]
+ C[实际意义<br/>Practical Significance] --> D[效应量<br/>Effect Size]
+
+ B --> E[差异是否真实存在?]
+ D --> F[差异有多大?<br/>重要吗?]
+
+ E --> G[完整结论]
+ F --> G
+
+ style G fill:#ccffcc
 ```
 
 ---
@@ -965,22 +965,22 @@ $$V = \sqrt{\frac{10.72}{300 \times \min(2, 2)}} = \sqrt{\frac{10.72}{600}} = \s
 
 ```mermaid
 graph TD
-    A[效应量大小] --> B[小效应<br/>Small Effect]
-    A --> C[中等效应<br/>Medium Effect]
-    A --> D[大效应<br/>Large Effect]
-    
-    B --> B1[V ≈ 0.10<br/>关联较弱]
-    B --> B2[实际意义有限]
-    
-    C --> C1[V ≈ 0.30<br/>关联中等]
-    C --> C2[有实际意义]
-    
-    D --> D1[V ≈ 0.50<br/>关联强]
-    D --> D2[实际意义重大]
-    
-    style B fill:#e1f5ff
-    style C fill:#fff4e1
-    style D fill:#ffe1e1
+ A[效应量大小] --> B[小效应<br/>Small Effect]
+ A --> C[中等效应<br/>Medium Effect]
+ A --> D[大效应<br/>Large Effect]
+
+ B --> B1[V ≈ 0.10<br/>关联较弱]
+ B --> B2[实际意义有限]
+
+ C --> C1[V ≈ 0.30<br/>关联中等]
+ C --> C2[有实际意义]
+
+ D --> D1[V ≈ 0.50<br/>关联强]
+ D --> D2[实际意义重大]
+
+ style B fill:#e1f5ff
+ style C fill:#fff4e1
+ style D fill:#ffe1e1
 ```
 
 ---
@@ -996,18 +996,18 @@ graph TD
 ```
 频数
  14 |
- 12 |     ■
- 10 | ■   ■   ■   ■   ■
-  8 | ■   ■   ■   ■   ■   ■
-  6 | ■   ■   ■   ■   ■   ■
-  4 | ■   ■   ■   ■   ■   ■
-  2 | ■   ■   ■   ■   ■   ■
-  0 |_________________________
-      1   2   3   4   5   6
-           骰子点数
+ 12 | ■
+ 10 | ■ ■ ■ ■ ■
+ 8 | ■ ■ ■ ■ ■ ■
+ 6 | ■ ■ ■ ■ ■ ■
+ 4 | ■ ■ ■ ■ ■ ■
+ 2 | ■ ■ ■ ■ ■ ■
+ 0 |_________________________
+ 1 2 3 4 5 6
+ 骰子点数
 
-  ■ 观测频数 (Observed)
-  --- 期望频数 (Expected = 10)
+ ■ 观测频数 (Observed)
+ --- 期望频数 (Expected = 10)
 ```
 
 ---
@@ -1021,17 +1021,17 @@ graph TD
 ```
 频数
  70 |
- 60 |     ■■■
- 50 |     ■■■
- 40 |     ■■■  □□□
- 30 |     ■■■  □□□  ■■■
- 20 |     ■■■  □□□  ■■■  □□□
- 10 |     ■■■  □□□  ■■■  □□□
-  0 |_________________________________
-         理工科      文科
-         
-  ■■■ 男性 (Male)
-  □□□ 女性 (Female)
+ 60 | ■■■
+ 50 | ■■■
+ 40 | ■■■ □□□
+ 30 | ■■■ □□□ ■■■
+ 20 | ■■■ □□□ ■■■ □□□
+ 10 | ■■■ □□□ ■■■ □□□
+ 0 |_________________________________
+ 理工科 文科
+
+ ■■■ 男性 (Male)
+ □□□ 女性 (Female)
 ```
 
 ---
@@ -1042,20 +1042,20 @@ graph TD
 
 ```
 100%|
-    |  □□□□□□□□□□□□□□□□□□□□
- 80%|  □□□□□□□□□□□□□□□□□□□□
-    |  □□□□□□□□□□□□□□□□□□□□
- 60%|  ■■■■■■■■■■■■■■■■■■■■
-    |  ■■■■■■■■■■■■■■■■■■■■
- 40%|  ■■■■■■■■■■■■■■■■■■■■
-    |  ■■■■■■■■■■■■■■■■■■■■
- 20%|  ■■■■■■■■■■■■■■■■■■■■
-    |  ■■■■■■■■■■■■■■■■■■■■
-  0%|_________________________________
-         男性              女性
-         
-  ■■■ 理工科 (60%)    □□□ 文科 (40%)
-  ■■■ 理工科 (30%)    □□□ 文科 (70%)
+ | □□□□□□□□□□□□□□□□□□□□
+ 80%| □□□□□□□□□□□□□□□□□□□□
+ | □□□□□□□□□□□□□□□□□□□□
+ 60%| ■■■■■■■■■■■■■■■■■■■■
+ | ■■■■■■■■■■■■■■■■■■■■
+ 40%| ■■■■■■■■■■■■■■■■■■■■
+ | ■■■■■■■■■■■■■■■■■■■■
+ 20%| ■■■■■■■■■■■■■■■■■■■■
+ | ■■■■■■■■■■■■■■■■■■■■
+ 0%|_________________________________
+ 男性 女性
+
+ ■■■ 理工科 (60%) □□□ 文科 (40%)
+ ■■■ 理工科 (30%) □□□ 文科 (70%)
 ```
 
 ---
@@ -1071,25 +1071,25 @@ graph TD
 - 颜色 = 残差 (residuals)
 
 ```
-        理工科              文科
-    |-------------|---------------------|
-    |             |                     |
-    |   男性-理工  |      男性-文科       |  男性
-    |   (60)      |       (40)          |  50%
-    |   +残差     |       -残差         |
-    |-------------|---------------------|
-    |             |                     |
-    | 女性-理工    |      女性-文科       |  女性
-    |   (30)      |       (70)          |  50%
-    |   -残差     |       +残差         |
-    |-------------|---------------------|
-       45%              55%
+ 理工科 文科
+ |-------------|---------------------|
+ | | |
+ | 男性-理工 | 男性-文科 | 男性
+ | (60) | (40) | 50%
+ | +残差 | -残差 |
+ |-------------|---------------------|
+ | | |
+ | 女性-理工 | 女性-文科 | 女性
+ | (30) | (70) | 50%
+ | -残差 | +残差 |
+ |-------------|---------------------|
+ 45% 55%
 ```
 
 **颜色编码**：
-- 🔴 红色：观测频数 > 期望频数（正残差）
-- 🔵 蓝色：观测频数 < 期望频数（负残差）
-- ⚪ 白色：观测频数 ≈ 期望频数
+- 红色：观测频数 > 期望频数（正残差）
+- 蓝色：观测频数 < 期望频数（负残差）
+- 白色：观测频数 ≈ 期望频数
 
 ---
 
@@ -1098,15 +1098,15 @@ graph TD
 **适用**：大型列联表
 
 ```
-         左翼    中间    右翼
-城市A    35     40     25     颜色深浅
-         ■■     ■■■    ■      代表频数
-                              
-城市B    25     50     25     ■ = 低频数
-         ■      ■■■■   ■      ■■ = 中频数
-                              ■■■ = 高频数
-城市C    45     30     25
-         ■■■    ■■     ■
+ 左翼 中间 右翼
+城市A 35 40 25 颜色深浅
+ ■■ ■■■ ■ 代表频数
+
+城市B 25 50 25 ■ = 低频数
+ ■ ■■■■ ■ ■■ = 中频数
+ ■■■ = 高频数
+城市C 45 30 25
+ ■■■ ■■ ■
 ```
 
 ---
@@ -1129,21 +1129,21 @@ $$r_{ij}^{adj} = \frac{O_{ij} - E_{ij}}{\sqrt{E_{ij}(1 - p_{i.})(1 - p_{.j})}}$$
 
 ```
 调整残差
-  +3 |              ●
-     |
-  +2 |        ●
-     |
-  +1 |
-     |___●_________●________
-   0 |
-     |
-  -1 |
-     |        ●
-  -2 |
-     |              ●
-  -3 |
-     |_________________________
-       男-理工 男-文科 女-理工 女-文科
+ +3 | ●
+ |
+ +2 | ●
+ |
+ +1 |
+ |___●_________●________
+ 0 |
+ |
+ -1 |
+ | ●
+ -2 |
+ | ●
+ -3 |
+ |_________________________
+ 男-理工 男-文科 女-理工 女-文科
 ```
 
 ---
@@ -1154,18 +1154,18 @@ $$r_{ij}^{adj} = \frac{O_{ij} - E_{ij}}{\sqrt{E_{ij}(1 - p_{i.})(1 - p_{.j})}}$$
 
 ```mermaid
 graph TD
-    A[选择检验方法] --> B{因变量类型?}
-    B -->|连续变量| C[t检验 / ANOVA]
-    B -->|分类变量| D[卡方检验]
-    
-    C --> C1[比较均值<br/>Mean Comparison]
-    D --> D1[比较频数/比例<br/>Frequency/Proportion]
-    
-    C --> C2[假设正态分布<br/>Normality]
-    D --> D2[无分布假设<br/>Distribution-free]
-    
-    style C fill:#e1f5ff
-    style D fill:#ffe1e1
+ A[选择检验方法] --> B{因变量类型?}
+ B -->|连续变量| C[t检验 / ANOVA]
+ B -->|分类变量| D[卡方检验]
+
+ C --> C1[比较均值<br/>Mean Comparison]
+ D --> D1[比较频数/比例<br/>Frequency/Proportion]
+
+ C --> C2[假设正态分布<br/>Normality]
+ D --> D2[无分布假设<br/>Distribution-free]
+
+ style C fill:#e1f5ff
+ style D fill:#ffe1e1
 ```
 
 | 特征 | t 检验 | 卡方检验 |
@@ -1183,18 +1183,18 @@ graph TD
 
 ```mermaid
 graph TD
-    A[2×2列联表] --> B{样本量大小?}
-    B -->|大样本<br/>所有E≥5| C[卡方检验<br/>Chi-square Test]
-    B -->|小样本<br/>任意E<5| D[Fisher精确检验<br/>Fisher's Exact Test]
-    
-    C --> C1[基于卡方近似<br/>计算快速]
-    D --> D1[精确概率<br/>计算密集]
-    
-    C --> C2[p-value近似]
-    D --> D2[p-value精确]
-    
-    style C fill:#ccffcc
-    style D fill:#ffe1e1
+ A[2×2列联表] --> B{样本量大小?}
+ B -->|大样本<br/>所有E≥5| C[卡方检验<br/>Chi-square Test]
+ B -->|小样本<br/>任意E<5| D[Fisher精确检验<br/>Fisher's Exact Test]
+
+ C --> C1[基于卡方近似<br/>计算快速]
+ D --> D1[精确概率<br/>计算密集]
+
+ C --> C2[p-value近似]
+ D --> D2[p-value精确]
+
+ style C fill:#ccffcc
+ style D fill:#ffe1e1
 ```
 
 | 特征 | 卡方检验 | Fisher 精确检验 |
@@ -1212,15 +1212,15 @@ graph TD
 
 ```mermaid
 graph TD
-    A[2×2列联表] --> B{数据类型?}
-    B -->|独立样本| C[卡方检验<br/>Chi-square Test]
-    B -->|配对样本| D[McNemar检验<br/>McNemar's Test]
-    
-    C --> C1[例: 男性vs女性<br/>的治疗效果]
-    D --> D1[例: 同一患者<br/>治疗前vs治疗后]
-    
-    style C fill:#e1f5ff
-    style D fill:#fff4e1
+ A[2×2列联表] --> B{数据类型?}
+ B -->|独立样本| C[卡方检验<br/>Chi-square Test]
+ B -->|配对样本| D[McNemar检验<br/>McNemar's Test]
+
+ C --> C1[例: 男性vs女性<br/>的治疗效果]
+ D --> D1[例: 同一患者<br/>治疗前vs治疗后]
+
+ style C fill:#e1f5ff
+ style D fill:#fff4e1
 ```
 
 **McNemar 检验适用场景**：
@@ -1230,7 +1230,7 @@ graph TD
 
 **例子**：
 
-|  | 治疗后改善 | 治疗后未改善 |
+| | 治疗后改善 | 治疗后未改善 |
 |---|-----------|-------------|
 | **治疗前改善** | a | b |
 | **治疗前未改善** | c | d |
@@ -1255,20 +1255,20 @@ $$\chi^2 = \frac{(b - c)^2}{b + c}$$
 
 ```mermaid
 graph TD
-    A[吸烟 vs 肺癌] --> B[简单卡方检验<br/>忽略年龄]
-    A --> C[CMH检验<br/>控制年龄]
-    
-    B --> B1[可能有混淆<br/>Confounding]
-    C --> C1[年轻组: 吸烟vs肺癌]
-    C --> C2[中年组: 吸烟vs肺癌]
-    C --> C3[老年组: 吸烟vs肺癌]
-    
-    C1 --> D[综合分析<br/>控制年龄后的关联]
-    C2 --> D
-    C3 --> D
-    
-    style B1 fill:#ffe1e1
-    style D fill:#ccffcc
+ A[吸烟 vs 肺癌] --> B[简单卡方检验<br/>忽略年龄]
+ A --> C[CMH检验<br/>控制年龄]
+
+ B --> B1[可能有混淆<br/>Confounding]
+ C --> C1[年轻组: 吸烟vs肺癌]
+ C --> C2[中年组: 吸烟vs肺癌]
+ C --> C3[老年组: 吸烟vs肺癌]
+
+ C1 --> D[综合分析<br/>控制年龄后的关联]
+ C2 --> D
+ C3 --> D
+
+ style B1 fill:#ffe1e1
+ style D fill:#ccffcc
 ```
 
 ---
@@ -1277,18 +1277,18 @@ graph TD
 
 ```mermaid
 graph LR
-    A[分类因变量] --> B[卡方检验<br/>Chi-square]
-    A --> C[逻辑回归<br/>Logistic Regression]
-    
-    B --> B1[单变量分析<br/>Univariate]
-    B --> B2[不能控制混淆<br/>No adjustment]
-    
-    C --> C1[多变量分析<br/>Multivariate]
-    C --> C2[控制混淆变量<br/>Adjust for confounders]
-    C --> C3[估计OR/RR<br/>Odds Ratio]
-    
-    style B fill:#e1f5ff
-    style C fill:#ccffcc
+ A[分类因变量] --> B[卡方检验<br/>Chi-square]
+ A --> C[逻辑回归<br/>Logistic Regression]
+
+ B --> B1[单变量分析<br/>Univariate]
+ B --> B2[不能控制混淆<br/>No adjustment]
+
+ C --> C1[多变量分析<br/>Multivariate]
+ C --> C2[控制混淆变量<br/>Adjust for confounders]
+ C --> C3[估计OR/RR<br/>Odds Ratio]
+
+ style B fill:#e1f5ff
+ style C fill:#ccffcc
 ```
 
 | 特征 | 卡方检验 | 逻辑回归 |
@@ -1320,10 +1320,10 @@ graph LR
 
 **表格**：
 
-**表 1**  
+**表 1**
 *性别与专业选择的列联表*
 
-|  | 理工科 | 文科 | 总计 |
+| | 理工科 | 文科 | 总计 |
 |---|--------|------|------|
 | 男性 | 60 (60%) | 40 (40%) | 100 |
 | 女性 | 30 (30%) | 70 (70%) | 100 |
@@ -1347,25 +1347,25 @@ graph LR
 
 ```mermaid
 graph TD
-    A[研究报告结构] --> B[1. 引言<br/>Introduction]
-    A --> C[2. 方法<br/>Methods]
-    A --> D[3. 结果<br/>Results]
-    A --> E[4. 讨论<br/>Discussion]
-    
-    B --> B1[研究背景<br/>研究问题<br/>假设]
-    
-    C --> C1[参与者<br/>Participants]
-    C --> C2[测量工具<br/>Measures]
-    C --> C3[统计分析<br/>Statistical Analysis]
-    
-    D --> D1[描述性统计<br/>Descriptive Statistics]
-    D --> D2[卡方检验结果<br/>Chi-square Results]
-    D --> D3[效应量<br/>Effect Size]
-    D --> D4[图表<br/>Tables/Figures]
-    
-    E --> E1[结果解释<br/>Interpretation]
-    E --> E2[局限性<br/>Limitations]
-    E --> E3[未来研究<br/>Future Research]
+ A[研究报告结构] --> B[1. 引言<br/>Introduction]
+ A --> C[2. 方法<br/>Methods]
+ A --> D[3. 结果<br/>Results]
+ A --> E[4. 讨论<br/>Discussion]
+
+ B --> B1[研究背景<br/>研究问题<br/>假设]
+
+ C --> C1[参与者<br/>Participants]
+ C --> C2[测量工具<br/>Measures]
+ C --> C3[统计分析<br/>Statistical Analysis]
+
+ D --> D1[描述性统计<br/>Descriptive Statistics]
+ D --> D2[卡方检验结果<br/>Chi-square Results]
+ D --> D3[效应量<br/>Effect Size]
+ D --> D4[图表<br/>Tables/Figures]
+
+ E --> E1[结果解释<br/>Interpretation]
+ E --> E2[局限性<br/>Limitations]
+ E --> E3[未来研究<br/>Future Research]
 ```
 
 ---
@@ -1416,16 +1416,16 @@ graph TD
 
 ### 错误 1：使用比例而非频数
 
-❌ **错误做法**：
+ **错误做法**：
 
-|  | 治愈率 |
+| | 治愈率 |
 |---|--------|
 | 治疗组 | 80% |
 | 对照组 | 60% |
 
-✅ **正确做法**：
+ **正确做法**：
 
-|  | 治愈 | 未治愈 | 总计 |
+| | 治愈 | 未治愈 | 总计 |
 |---|------|--------|------|
 | 治疗组 | 8 | 2 | 10 |
 | 对照组 | 6 | 4 | 10 |
@@ -1436,9 +1436,9 @@ graph TD
 
 ### 错误 2：期望频数过小时仍使用卡方检验
 
-❌ **错误做法**：
+ **错误做法**：
 
-|  | 是 | 否 | 总计 |
+| | 是 | 否 | 总计 |
 |---|----|----|------|
 | 组 A | 2 | 8 | 10 |
 | 组 B | 1 | 9 | 10 |
@@ -1447,7 +1447,7 @@ graph TD
 
 仍然使用卡方检验 → **不准确**
 
-✅ **正确做法**：
+ **正确做法**：
 - 使用 **Fisher 精确检验**
 - 或增加样本量
 - 或合并类别（如果合理）
@@ -1458,7 +1458,7 @@ graph TD
 
 **场景**：对同一数据集进行多次卡方检验
 
-❌ **错误做法**：
+ **错误做法**：
 - 检验 1：性别 vs 专业 A（p = .04）
 - 检验 2：性别 vs 专业 B（p = .03）
 - 检验 3：性别 vs 专业 C（p = .02）
@@ -1466,9 +1466,9 @@ graph TD
 
 **问题**：**Type I error 膨胀 (inflation)**
 
-✅ **正确做法**：
+ **正确做法**：
 - 使用 **Bonferroni 校正**：α_adjusted = α / k
-  - 例如：α = .05, k = 3 → α_adjusted = .05/3 = .017
+ - 例如：α = .05, k = 3 → α_adjusted = .05/3 = .017
 - 或使用 **FDR 校正 (False Discovery Rate)**
 - 或使用**多分类变量的卡方检验**（一次性检验）
 
@@ -1489,10 +1489,10 @@ graph TD
 
 ### 错误 5：忽略效应量
 
-❌ **错误报告**：
+ **错误报告**：
 > "卡方检验显著，χ²(1) = 4.2, p = .04，因此性别与专业选择有关。"
 
-✅ **正确报告**：
+ **正确报告**：
 > "卡方检验显著，χ²(1) = 4.2, p = .04, V = 0.15，但效应量较小，表明关联较弱。"
 
 **原因**：
@@ -1503,10 +1503,10 @@ graph TD
 
 ### 错误 6：因果推断
 
-❌ **错误结论**：
+ **错误结论**：
 > "性别导致专业选择差异。"
 
-✅ **正确结论**：
+ **正确结论**：
 > "性别与专业选择存在关联。"
 
 **原因**：
@@ -1516,23 +1516,23 @@ graph TD
 
 ```mermaid
 graph LR
-    A[性别] -.关联.-> B[专业选择]
-    C[第三变量<br/>如：社会期望] --> A
-    C --> B
-    
-    style C fill:#ffe1e1
+ A[性别] -.关联.-> B[专业选择]
+ C[第三变量<br/>如：社会期望] --> A
+ C --> B
+
+ style C fill:#ffe1e1
 ```
 
 ---
 
 ### 错误 7：违反独立性假设
 
-❌ **错误场景**：
+ **错误场景**：
 - 同一个人被计数多次
 - 配对数据（如夫妻）
 - 聚类数据（如同一班级的学生）
 
-✅ **正确做法**：
+ **正确做法**：
 - 确保每个观测独立
 - 配对数据使用 **McNemar 检验**
 - 聚类数据使用**多层模型 (multilevel models)**
@@ -1543,7 +1543,7 @@ graph LR
 
 **问题**：只看总体 χ² 值，不分析哪些单元格贡献最大
 
-✅ **正确做法**：
+ **正确做法**：
 - 计算**标准化残差 (standardized residuals)**
 - 识别哪些单元格偏离期望最大
 - 解释具体的关联模式
@@ -1596,17 +1596,17 @@ $$\chi^2_{trend} = \frac{n \left( \sum_{i} s_i p_i - \bar{s} \right)^2}{\bar{p}(
 
 ```mermaid
 graph TD
-    A[总体关联] --> B[年轻组<br/>吸烟 vs 肺癌]
-    A --> C[中年组<br/>吸烟 vs 肺癌]
-    A --> D[老年组<br/>吸烟 vs 肺癌]
-    
-    B --> E[CMH统计量<br/>综合各层的关联]
-    C --> E
-    D --> E
-    
-    E --> F{控制年龄后<br/>关联仍显著?}
-    
-    style E fill:#ccffcc
+ A[总体关联] --> B[年轻组<br/>吸烟 vs 肺癌]
+ A --> C[中年组<br/>吸烟 vs 肺癌]
+ A --> D[老年组<br/>吸烟 vs 肺癌]
+
+ B --> E[CMH统计量<br/>综合各层的关联]
+ C --> E
+ D --> E
+
+ E --> F{控制年龄后<br/>关联仍显著?}
+
+ style E fill:#ccffcc
 ```
 
 **CMH 统计量**：
@@ -1660,13 +1660,13 @@ $$\chi^2 = \sum \frac{(O - E)^2}{E}$$
 
 ```mermaid
 graph TD
-    A[卡方检验] --> B[拟合优度检验<br/>Goodness-of-Fit]
-    A --> C[独立性检验<br/>Test of Independence]
-    A --> D[同质性检验<br/>Test of Homogeneity]
-    
-    B --> B1[1个变量<br/>检验分布是否符合理论]
-    C --> C1[2个变量<br/>检验是否相互独立]
-    D --> D1[多个总体<br/>检验分布是否相同]
+ A[卡方检验] --> B[拟合优度检验<br/>Goodness-of-Fit]
+ A --> C[独立性检验<br/>Test of Independence]
+ A --> D[同质性检验<br/>Test of Homogeneity]
+
+ B --> B1[1个变量<br/>检验分布是否符合理论]
+ C --> C1[2个变量<br/>检验是否相互独立]
+ D --> D1[多个总体<br/>检验分布是否相同]
 ```
 
 | 类型 | 变量 | 研究问题 | 例子 |
@@ -1681,11 +1681,11 @@ graph TD
 
 ```mermaid
 graph LR
-    A[1.建立假设] --> B[2.计算期望频数]
-    B --> C[3.计算χ²统计量]
-    C --> D[4.确定自由度]
-    D --> E[5.查找p-value]
-    E --> F[6.做出决策]
+ A[1.建立假设] --> B[2.计算期望频数]
+ B --> C[3.计算χ²统计量]
+ C --> D[4.确定自由度]
+ D --> E[5.查找p-value]
+ E --> F[6.做出决策]
 ```
 
 ### 自由度计算
@@ -1730,12 +1730,12 @@ $$V = \sqrt{\frac{\chi^2}{n \times \min(r-1, c-1)}}$$
 
 ## **常见错误**
 
-❌ **使用比例而非频数**  
-❌ **期望频数<5时仍用卡方检验**  
-❌ **多重比较未校正**  
-❌ **忽略效应量**  
-❌ **推断因果关系**（只能说明关联）  
-❌ **违反独立性假设**
+ **使用比例而非频数**
+ **期望频数<5时仍用卡方检验**
+ **多重比较未校正**
+ **忽略效应量**
+ **推断因果关系**（只能说明关联）
+ **违反独立性假设**
 
 ---
 
@@ -1743,18 +1743,18 @@ $$V = \sqrt{\frac{\chi^2}{n \times \min(r-1, c-1)}}$$
 
 ```mermaid
 graph TD
-    A{数据类型?} --> B[连续变量]
-    A --> C[分类变量]
-    
-    B --> D[t检验/ANOVA]
-    
-    C --> E{样本量?}
-    E -->|大样本<br/>E≥5| F[卡方检验]
-    E -->|小样本<br/>E<5| G[Fisher精确检验]
-    
-    C --> H{数据结构?}
-    H -->|独立样本| F
-    H -->|配对样本| I[McNemar检验]
+ A{数据类型?} --> B[连续变量]
+ A --> C[分类变量]
+
+ B --> D[t检验/ANOVA]
+
+ C --> E{样本量?}
+ E -->|大样本<br/>E≥5| F[卡方检验]
+ E -->|小样本<br/>E<5| G[Fisher精确检验]
+
+ C --> H{数据结构?}
+ H -->|独立样本| F
+ H -->|配对样本| I[McNemar检验]
 ```
 
 ---
@@ -1782,22 +1782,22 @@ graph TD
 
 ```mermaid
 graph TD
-    A[开始] --> B{变量类型?}
-    B -->|连续| C[用t检验/ANOVA]
-    B -->|分类| D{几个变量?}
-    
-    D -->|1个| E[拟合优度检验]
-    D -->|2个| F{独立样本?}
-    
-    F -->|是| G{期望频数≥5?}
-    F -->|否| H[McNemar检验]
-    
-    G -->|是| I[卡方独立性检验]
-    G -->|否| J[Fisher精确检验]
-    
-    style I fill:#ccffcc
-    style J fill:#ffe1e1
-    style H fill:#fff4e1
+ A[开始] --> B{变量类型?}
+ B -->|连续| C[用t检验/ANOVA]
+ B -->|分类| D{几个变量?}
+
+ D -->|1个| E[拟合优度检验]
+ D -->|2个| F{独立样本?}
+
+ F -->|是| G{期望频数≥5?}
+ F -->|否| H[McNemar检验]
+
+ G -->|是| I[卡方独立性检验]
+ G -->|否| J[Fisher精确检验]
+
+ style I fill:#ccffcc
+ style J fill:#ffe1e1
+ style H fill:#fff4e1
 ```
 
 ---

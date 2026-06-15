@@ -17,19 +17,19 @@
 
 **举例理解**：
 
-| 场景     | 数据结构          | 算法            | 程序功能    |
+| 场景 | 数据结构 | 算法 | 程序功能 |
 | ------ | ------------- | ------------- | ------- |
-| 学生成绩管理 | 列表/数组存储成绩     | 遍历求平均值        | 计算班级平均分 |
-| 图书检索   | 哈希表存储书名→位置    | 哈希查找          | 快速定位图书  |
-| 社交网络   | 图（节点=用户，边=关系） | BFS/DFS       | 推荐好友    |
-| 导航系统   | 图（节点=地点，边=道路） | Dijkstra 最短路径 | 路线规划    |
+| 学生成绩管理 | 列表/数组存储成绩 | 遍历求平均值 | 计算班级平均分 |
+| 图书检索 | 哈希表存储书名→位置 | 哈希查找 | 快速定位图书 |
+| 社交网络 | 图（节点=用户，边=关系） | BFS/DFS | 推荐好友 |
+| 导航系统 | 图（节点=地点，边=道路） | Dijkstra 最短路径 | 路线规划 |
 
 **深层含义**：
 - 选择合适的数据结构，算法才能高效运行
 - 同样的问题，不同的数据结构 + 算法组合，性能可能相差数千倍
 - 例：在有序数组中查找
-  - 数据结构：有序数组 → 算法：二分查找 → 时间复杂度 O(log n)
-  - 数据结构：无序数组 → 算法：顺序查找 → 时间复杂度 O(n)
+ - 数据结构：有序数组 → 算法：二分查找 → 时间复杂度 O(log n)
+ - 数据结构：无序数组 → 算法：顺序查找 → 时间复杂度 O(n)
 
 **扩展理解**：
 
@@ -59,47 +59,47 @@
 **图灵机的组成**：
 ```mermaid
 flowchart TD
-    subgraph Tape[" 无限长的纸带"]
-        direction LR
-        C1["□"] --- C2["□"] --- C3["1"] --- C4["□"] --- C5["0"] --- C6["□"] --- C7["1"] --- C8["□"] --- C9["..."]
-    end
-    
-    Head[" 读写头"]
-    
-    subgraph Operations["操作"]
-        Read["读取符号"]
-        Write["写入符号"]
-        MoveL["← 左移"]
-        MoveR["右移 →"]
-    end
-    
-    State["⚙️ 状态机<br/>(当前状态 + 读取符号)"]
-    Decision["决策<br/>下一步动作"]
-    
-    C4 -.->|指向| Head
-    Head --> Read
-    Read --> State
-    State --> Decision
-    Decision --> Write
-    Decision --> MoveL
-    Decision --> MoveR
-    
-    style C4 fill:#4caf50,color:#fff,stroke:#2e7d32,stroke-width:3px
-    style C3 fill:#ffeb3b
-    style C5 fill:#ffeb3b
-    style C7 fill:#ffeb3b
-    style Head fill:#2196f3,color:#fff
-    style State fill:#ff9800,color:#fff
-    style Decision fill:#9c27b0,color:#fff
+ subgraph Tape[" 无限长的纸带"]
+ direction LR
+ C1["□"] --- C2["□"] --- C3["1"] --- C4["□"] --- C5["0"] --- C6["□"] --- C7["1"] --- C8["□"] --- C9["..."]
+ end
+
+ Head[" 读写头"]
+
+ subgraph Operations["操作"]
+ Read["读取符号"]
+ Write["写入符号"]
+ MoveL["← 左移"]
+ MoveR["右移 →"]
+ end
+
+ State[" 状态机<br/>(当前状态 + 读取符号)"]
+ Decision["决策<br/>下一步动作"]
+
+ C4 -.->|指向| Head
+ Head --> Read
+ Read --> State
+ State --> Decision
+ Decision --> Write
+ Decision --> MoveL
+ Decision --> MoveR
+
+ style C4 fill:#4caf50,color:#fff,stroke:#2e7d32,stroke-width:3px
+ style C3 fill:#ffeb3b
+ style C5 fill:#ffeb3b
+ style C7 fill:#ffeb3b
+ style Head fill:#2196f3,color:#fff
+ style State fill:#ff9800,color:#fff
+ style Decision fill:#9c27b0,color:#fff
 
 ```
 
 **工作原理**：
 1. 读写头读取当前格子的符号
 2. 根据**当前状态**和**读到的符号**，查表决定：
-   - 写入什么符号
-   - 向左还是向右移动
-   - 切换到什么状态
+ - 写入什么符号
+ - 向左还是向右移动
+ - 切换到什么状态
 3. 重复直到进入"停机状态"
 
 **示例：图灵机实现"加 1"**
@@ -107,24 +107,24 @@ flowchart TD
 假设纸带上是二进制数 `101`（十进制 5），要计算 `101 + 1 = 110`（十进制 6）
 
 ```
-初始：  □ 1 0 1 □
-              ↑
+初始： □ 1 0 1 □
+ ↑
 规则：从右往左，遇到 1 变 0 继续，遇到 0 变 1 停止
 
-步骤 1：□ 1 0 1 □  读到 1 → 写 0，左移
-            ↑
-步骤 2：□ 1 0 0 □  读到 0 → 写 1，停止
-          ↑
-结果：  □ 1 1 0 □  （二进制 110 = 十进制 6）
+步骤 1：□ 1 0 1 □ 读到 1 → 写 0，左移
+ ↑
+步骤 2：□ 1 0 0 □ 读到 0 → 写 1，停止
+ ↑
+结果： □ 1 1 0 □ （二进制 110 = 十进制 6）
 ```
 
 **图灵机的转换表示例**：
 
 | 当前状态 | 读到符号 | 写入符号 | 移动方向 | 新状态 |
 | -------- | -------- | -------- | -------- | ------ |
-| q0       | 1        | 0        | L        | q0     |
-| q0       | 0        | 1        | -        | qHalt  |
-| q0       | □        | 1        | -        | qHalt  |
+| q0 | 1 | 0 | L | q0 |
+| q0 | 0 | 1 | - | qHalt |
+| q0 | □ | 1 | - | qHalt |
 
 **图灵机的意义**：
 
@@ -176,21 +176,21 @@ flowchart TD
 
 ```mermaid
 flowchart TD
-    A[" 源代码<br/>Source Code<br/><small>人类可读（main.c, app.py）</small>"]
-    B[" 预处理<br/>Preprocessing<br/><small>处理 #include、#define</small>"]
-    C[" 编译<br/>Compilation<br/><small>翻译成汇编语言</small>"]
-    D[" 汇编<br/>Assembly<br/><small>翻译成机器码（二进制）</small>"]
-    E[" 链接<br/>Linking<br/><small>合并多个目标文件 + 库</small>"]
-    F[" 可执行文件<br/>Executable<br/><small>CPU 可直接运行（.exe, .out）</small>"]
-    
-    A --> B --> C --> D --> E --> F
-    
-    style A fill:#e3f2fd,stroke:#1976d2,stroke-width:2px
-    style B fill:#fff3e0,stroke:#f57c00,stroke-width:2px
-    style C fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px
-    style D fill:#e8f5e9,stroke:#388e3c,stroke-width:2px
-    style E fill:#fce4ec,stroke:#c2185b,stroke-width:2px
-    style F fill:#fff9c4,stroke:#f57f17,stroke-width:2px,stroke-dasharray: 5 5
+ A[" 源代码<br/>Source Code<br/><small>人类可读（main.c, app.py）</small>"]
+ B[" 预处理<br/>Preprocessing<br/><small>处理 #include、#define</small>"]
+ C[" 编译<br/>Compilation<br/><small>翻译成汇编语言</small>"]
+ D[" 汇编<br/>Assembly<br/><small>翻译成机器码（二进制）</small>"]
+ E[" 链接<br/>Linking<br/><small>合并多个目标文件 + 库</small>"]
+ F[" 可执行文件<br/>Executable<br/><small>CPU 可直接运行（.exe, .out）</small>"]
+
+ A --> B --> C --> D --> E --> F
+
+ style A fill:#e3f2fd,stroke:#1976d2,stroke-width:2px
+ style B fill:#fff3e0,stroke:#f57c00,stroke-width:2px
+ style C fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px
+ style D fill:#e8f5e9,stroke:#388e3c,stroke-width:2px
+ style E fill:#fce4ec,stroke:#c2185b,stroke-width:2px
+ style F fill:#fff9c4,stroke:#f57f17,stroke-width:2px,stroke-dasharray: 5 5
 
 ```
 
@@ -215,10 +215,10 @@ flowchart TD
 #define SQUARE(x) ((x) * (x))
 
 int main() {
-    double radius = 5.0;
-    double area = PI * SQUARE(radius);
-    printf("Area: %f\n", area);
-    return 0;
+ double radius = 5.0;
+ double area = PI * SQUARE(radius);
+ printf("Area: %f\n", area);
+ return 0;
 }
 ```
 
@@ -229,16 +229,16 @@ int main() {
 // ... 省略 stdio.h 内容 ...
 
 int main() {
-    double radius = 5.0;
-    double area = 3.14159 * ((radius) * (radius));  // 宏已展开
-    printf("Area: %f\n", area);
-    return 0;
+ double radius = 5.0;
+ double area = 3.14159 * ((radius) * (radius)); // 宏已展开
+ printf("Area: %f\n", area);
+ return 0;
 }
 ```
 
 **命令**：
 ```bash
-gcc -E main.c -o main.i  # 只进行预处理
+gcc -E main.c -o main.i # 只进行预处理
 ```
 
 #### 2. 编译（Compilation）
@@ -258,7 +258,7 @@ gcc -E main.c -o main.i  # 只进行预处理
 ```c
 // C 代码
 int sum(int a, int b) {
-    return a + b;
+ return a + b;
 }
 ```
 
@@ -266,31 +266,31 @@ int sum(int a, int b) {
 
 ```asm
 sum:
-    push    rbp
-    mov     rbp, rsp
-    mov     DWORD PTR [rbp-4], edi   ; 参数 a
-    mov     DWORD PTR [rbp-8], esi   ; 参数 b
-    mov     edx, DWORD PTR [rbp-4]
-    mov     eax, DWORD PTR [rbp-8]
-    add     eax, edx                 ; a + b
-    pop     rbp
-    ret
+ push rbp
+ mov rbp, rsp
+ mov DWORD PTR [rbp-4], edi ; 参数 a
+ mov DWORD PTR [rbp-8], esi ; 参数 b
+ mov edx, DWORD PTR [rbp-4]
+ mov eax, DWORD PTR [rbp-8]
+ add eax, edx ; a + b
+ pop rbp
+ ret
 ```
 
 **命令**：
 ```bash
-gcc -S main.c -o main.s  # 生成汇编代码
+gcc -S main.c -o main.s # 生成汇编代码
 ```
 
 **编译器优化级别**：
 
-| 级别 | 说明     | 速度 | 体积     | 调试 |
+| 级别 | 说明 | 速度 | 体积 | 调试 |
 | ---- | -------- | ---- | -------- | ---- |
-| -O0  | 无优化   | 慢   | 大       | 易   |
-| -O1  | 基本优化 | 中   | 中       | 中   |
-| -O2  | 推荐优化 | 快   | 小       | 难   |
-| -O3  | 激进优化 | 很快 | 可能更大 | 很难 |
-| -Os  | 优化体积 | 中   | 最小     | 难   |
+| -O0 | 无优化 | 慢 | 大 | 易 |
+| -O1 | 基本优化 | 中 | 中 | 中 |
+| -O2 | 推荐优化 | 快 | 小 | 难 |
+| -O3 | 激进优化 | 很快 | 可能更大 | 很难 |
+| -Os | 优化体积 | 中 | 最小 | 难 |
 
 #### 3. 汇编（Assembly）
 
@@ -308,13 +308,13 @@ add eax, 3
 
 **机器码（十六进制）**：
 ```
-B8 05 00 00 00    ; mov eax, 5
-83 C0 03          ; add eax, 3
+B8 05 00 00 00 ; mov eax, 5
+83 C0 03 ; add eax, 3
 ```
 
 **命令**：
 ```bash
-gcc -c main.s -o main.o  # 生成目标文件
+gcc -c main.s -o main.o # 生成目标文件
 ```
 
 **目标文件内容**：
@@ -336,45 +336,45 @@ gcc -c main.s -o main.o  # 生成目标文件
 **示例**：
 
 ```
-main.o  ──┐
-          ├─→ 链接器 ─→ program.exe
+main.o ──┐
+ ├─→ 链接器 ─→ program.exe
 utils.o ──┤
-          │
-libc.a  ──┘  （标准库：printf、malloc 等）
+ │
+libc.a ──┘ （标准库：printf、malloc 等）
 ```
 
 **命令**：
 ```bash
-gcc main.o utils.o -o program  # 链接生成可执行文件
+gcc main.o utils.o -o program # 链接生成可执行文件
 ```
 
 **静态链接 vs 动态链接**：
 
-| 类型     | 时机   | 文件大小             | 依赖          | 更新       |
+| 类型 | 时机 | 文件大小 | 依赖 | 更新 |
 | -------- | ------ | -------------------- | ------------- | ---------- |
-| 静态链接 | 编译时 | 大（包含所有库代码） | 无外部依赖    | 需重新编译 |
-| 动态链接 | 运行时 | 小（只包含引用）     | 需要 .dll/.so | 更新库即可 |
+| 静态链接 | 编译时 | 大（包含所有库代码） | 无外部依赖 | 需重新编译 |
+| 动态链接 | 运行时 | 小（只包含引用） | 需要 .dll/.so | 更新库即可 |
 
 **静态链接示例**：
 ```bash
-gcc main.c -static -o program  # 生成独立可执行文件
+gcc main.c -static -o program # 生成独立可执行文件
 ```
 
 **动态链接示例**：
 ```bash
-gcc main.c -o program  # 默认动态链接
-ldd program            # 查看依赖的动态库
+gcc main.c -o program # 默认动态链接
+ldd program # 查看依赖的动态库
 ```
 
 **链接错误示例**：
 
 ```c
 // main.c
-extern int add(int, int);  // 声明但未定义
+extern int add(int, int); // 声明但未定义
 
 int main() {
-    int result = add(3, 5);  // 调用 add
-    return 0;
+ int result = add(3, 5); // 调用 add
+ return 0;
 }
 ```
 
@@ -398,7 +398,7 @@ undefined reference to `add'
 **执行流程**：
 ```
 源代码 ──编译器──→ 可执行文件 ──CPU──→ 运行
-  .c              program.exe
+ .c program.exe
 ```
 
 **代表语言**：C、C++、Rust、Go、Fortran
@@ -422,8 +422,8 @@ undefined reference to `add'
 #include <stdio.h>
 
 int main() {
-    printf("Hello, World!\n");
-    return 0;
+ printf("Hello, World!\n");
+ return 0;
 }
 ```
 
@@ -440,10 +440,10 @@ gcc hello.c -o hello
 **跨平台问题**：
 ```bash
 # 在 Windows 上编译
-gcc hello.c -o hello.exe  # 生成 Windows 可执行文件
+gcc hello.c -o hello.exe # 生成 Windows 可执行文件
 
 # 在 Linux 上编译
-gcc hello.c -o hello      # 生成 Linux 可执行文件
+gcc hello.c -o hello # 生成 Linux 可执行文件
 
 # Windows 的 hello.exe 无法在 Linux 运行
 # Linux 的 hello 无法在 Windows 运行
@@ -458,7 +458,7 @@ gcc hello.c -o hello      # 生成 Linux 可执行文件
 **执行流程**：
 ```
 源代码 ──解释器──→ 逐行翻译并执行
-  .py     Python
+ .py Python
 ```
 
 **代表语言**：Python、JavaScript、Ruby、PHP、Perl
@@ -516,15 +516,15 @@ print(x + y)
 **解释器执行过程**：
 ```
 1. 读取第 1 行：x = 10
-   - 词法分析：识别 x、=、10
-   - 语法分析：赋值语句
-   - 执行：在内存中创建变量 x，值为 10
+ - 词法分析：识别 x、=、10
+ - 语法分析：赋值语句
+ - 执行：在内存中创建变量 x，值为 10
 
 2. 读取第 2 行：y = 20
-   - 执行：创建变量 y，值为 20
+ - 执行：创建变量 y，值为 20
 
 3. 读取第 3 行：print(x + y)
-   - 执行：计算 x + y = 30，调用 print 输出
+ - 执行：计算 x + y = 30，调用 print 输出
 ```
 
 每次运行都重复这个过程，所以慢。
@@ -538,7 +538,7 @@ print(x + y)
 **执行流程**：
 ```
 源代码 ──编译──→ 字节码 ──JIT编译──→ 机器码 ──CPU──→ 运行
- .java          .class      (运行时)
+ .java .class (运行时)
 ```
 
 **代表语言**：Java、C#、Python（PyPy）、JavaScript（V8）、Lua（LuaJIT）
@@ -548,16 +548,16 @@ print(x + y)
 ```java
 // Hello.java
 public class Hello {
-    public static void main(String[] args) {
-        System.out.println("Hello, World!");
-    }
+ public static void main(String[] args) {
+ System.out.println("Hello, World!");
+ }
 }
 ```
 
 **编译和运行**：
 ```bash
 # 第 1 步：编译成字节码
-javac Hello.java  # 生成 Hello.class
+javac Hello.java # 生成 Hello.class
 
 # 第 2 步：JVM 执行字节码
 java Hello
@@ -568,10 +568,10 @@ java Hello
 1. 加载 Hello.class（字节码）
 2. 解释执行字节码（慢）
 3. 监控代码执行：
-   - 发现 main 方法被频繁调用（热点代码）
+ - 发现 main 方法被频繁调用（热点代码）
 4. JIT 编译器介入：
-   - 将 main 方法的字节码编译成机器码
-   - 缓存机器码
+ - 将 main 方法的字节码编译成机器码
+ - 缓存机器码
 5. 后续调用直接执行机器码（快）
 ```
 
@@ -584,10 +584,10 @@ int sum = a + b;
 
 **编译成字节码**：
 ```
-iload_1      // 加载变量 a
-iload_2      // 加载变量 b
-iadd         // 相加
-istore_3     // 存入 sum
+iload_1 // 加载变量 a
+iload_2 // 加载变量 b
+iadd // 相加
+istore_3 // 存入 sum
 ```
 
 **字节码特点**：
@@ -598,19 +598,19 @@ istore_3     // 存入 sum
 **JIT 优化策略**：
 
 1. **热点检测（Hotspot Detection）**
-   - 统计方法调用次数
-   - 统计循环执行次数
-   - 超过阈值触发 JIT 编译
+ - 统计方法调用次数
+ - 统计循环执行次数
+ - 超过阈值触发 JIT 编译
 
 2. **分层编译（Tiered Compilation）**
-   - C1 编译器：快速编译，基本优化
-   - C2 编译器：慢速编译，深度优化
+ - C1 编译器：快速编译，基本优化
+ - C2 编译器：慢速编译，深度优化
 
 3. **运行时优化**
-   - 内联（Inlining）：将小函数直接嵌入调用处
-   - 逃逸分析（Escape Analysis）：栈上分配对象
-   - 循环展开（Loop Unrolling）
-   - 死代码消除（Dead Code Elimination）
+ - 内联（Inlining）：将小函数直接嵌入调用处
+ - 逃逸分析（Escape Analysis）：栈上分配对象
+ - 循环展开（Loop Unrolling）
+ - 死代码消除（Dead Code Elimination）
 
 **优点**：
 - 兼顾速度和跨平台（接近编译型的速度 + 解释型的可移植性）
@@ -629,52 +629,52 @@ istore_3     // 存入 sum
 ```java
 // 计算斐波那契数列第 40 项
 public class Fib {
-    static int fib(int n) {
-        if (n <= 1) return n;
-        return fib(n - 1) + fib(n - 2);
-    }
-    
-    public static void main(String[] args) {
-        // 预热（让 JIT 编译）
-        for (int i = 0; i < 10; i++) {
-            fib(40);
-        }
-        
-        // 测试
-        long start = System.nanoTime();
-        int result = fib(40);
-        long end = System.nanoTime();
-        
-        System.out.println("Result: " + result);
-        System.out.println("Time: " + (end - start) / 1_000_000 + " ms");
-    }
+ static int fib(int n) {
+ if (n <= 1) return n;
+ return fib(n - 1) + fib(n - 2);
+ }
+
+ public static void main(String[] args) {
+ // 预热（让 JIT 编译）
+ for (int i = 0; i < 10; i++) {
+ fib(40);
+ }
+
+ // 测试
+ long start = System.nanoTime();
+ int result = fib(40);
+ long end = System.nanoTime();
+
+ System.out.println("Result: " + result);
+ System.out.println("Time: " + (end - start) / 1_000_000 + " ms");
+ }
 }
 ```
 
 **性能对比**（计算 fib(40)）：
 
-| 语言/模式        | 时间     | 说明               |
+| 语言/模式 | 时间 | 说明 |
 | ---------------- | -------- | ------------------ |
-| C（gcc -O3）     | 300 ms   | 编译型，最快       |
-| Java（预热后）   | 350 ms   | JIT 优化后接近 C   |
-| Java（首次运行） | 2000 ms  | 解释执行，慢       |
-| Python           | 30000 ms | 纯解释，最慢       |
-| PyPy（预热后）   | 500 ms   | Python 的 JIT 实现 |
+| C（gcc -O3） | 300 ms | 编译型，最快 |
+| Java（预热后） | 350 ms | JIT 优化后接近 C |
+| Java（首次运行） | 2000 ms | 解释执行，慢 |
+| Python | 30000 ms | 纯解释，最慢 |
+| PyPy（预热后） | 500 ms | Python 的 JIT 实现 |
 
 ---
 
 #### **三者对比总结**
 
-| 维度         | 编译型              | 解释型             | 混合型（JIT）          |
+| 维度 | 编译型 | 解释型 | 混合型（JIT） |
 | ------------ | ------------------- | ------------------ | ---------------------- |
-| **执行速度** | 最快（直接机器码）  | 最慢（逐行翻译）   | 快（预热后接近编译型） |
-| **启动速度** | 慢（需编译）        | 最快（直接运行）   | 中等（加载虚拟机）     |
-| **跨平台性** | 差（需重新编译）    | 最好（源代码通用） | 好（字节码通用）       |
-| **开发效率** | 低（编译-测试循环） | 最高（即改即测）   | 高（接近解释型）       |
-| **错误发现** | 编译时              | 运行时             | 编译时+运行时          |
-| **内存占用** | 小                  | 中                 | 大（需虚拟机）         |
-| **代码保护** | 好（机器码难逆向）  | 差（源代码暴露）   | 中（字节码可反编译）   |
-| **典型应用** | 系统软件、游戏引擎  | 脚本、Web 后端     | 企业应用、移动端       |
+| **执行速度** | 最快（直接机器码） | 最慢（逐行翻译） | 快（预热后接近编译型） |
+| **启动速度** | 慢（需编译） | 最快（直接运行） | 中等（加载虚拟机） |
+| **跨平台性** | 差（需重新编译） | 最好（源代码通用） | 好（字节码通用） |
+| **开发效率** | 低（编译-测试循环） | 最高（即改即测） | 高（接近解释型） |
+| **错误发现** | 编译时 | 运行时 | 编译时+运行时 |
+| **内存占用** | 小 | 中 | 大（需虚拟机） |
+| **代码保护** | 好（机器码难逆向） | 差（源代码暴露） | 中（字节码可反编译） |
+| **典型应用** | 系统软件、游戏引擎 | 脚本、Web 后端 | 企业应用、移动端 |
 
 ---
 
@@ -713,13 +713,13 @@ public class Fib {
 
 ```
 抽象程度
-   ↑
-   │  Python、JavaScript、Ruby      ← 超高级语言
-   │  Java、C#、Go                  ← 高级语言
-   │  C、C++                        ← 中级语言（可操作内存）
-   │  汇编语言（Assembly）           ← 低级语言
-   │  机器码（Machine Code）         ← 最低级
-   └──────────────────────────────→ 接近硬件
+ ↑
+ │ Python、JavaScript、Ruby ← 超高级语言
+ │ Java、C#、Go ← 高级语言
+ │ C、C++ ← 中级语言（可操作内存）
+ │ 汇编语言（Assembly） ← 低级语言
+ │ 机器码（Machine Code） ← 最低级
+ └──────────────────────────────→ 接近硬件
 ```
 
 ---
@@ -749,22 +749,22 @@ public class Fib {
 ```asm
 ; 计算 a + b，结果存入 sum
 section .data
-    a dd 10          ; 定义变量 a = 10
-    b dd 20          ; 定义变量 b = 20
-    sum dd 0         ; 定义变量 sum = 0
+ a dd 10 ; 定义变量 a = 10
+ b dd 20 ; 定义变量 b = 20
+ sum dd 0 ; 定义变量 sum = 0
 
 section .text
-    global _start
+ global _start
 
 _start:
-    mov eax, [a]     ; 将 a 的值加载到 eax 寄存器
-    add eax, [b]     ; eax = eax + b
-    mov [sum], eax   ; 将结果存入 sum
-    
-    ; 退出程序
-    mov eax, 1       ; 系统调用号（exit）
-    xor ebx, ebx     ; 返回值 0
-    int 0x80         ; 调用内核
+ mov eax, [a] ; 将 a 的值加载到 eax 寄存器
+ add eax, [b] ; eax = eax + b
+ mov [sum], eax ; 将结果存入 sum
+
+ ; 退出程序
+ mov eax, 1 ; 系统调用号（exit）
+ xor ebx, ebx ; 返回值 0
+ int 0x80 ; 调用内核
 ```
 
 **同样功能的高级语言**：
@@ -835,9 +835,9 @@ addi a0, a0, 3
 
 **机器码（x86）**：
 ```
-8B 45 FC    ; mov eax, [ebp-4]
-03 45 F8    ; add eax, [ebp-8]
-89 45 F4    ; mov [ebp-12], eax
+8B 45 FC ; mov eax, [ebp-4]
+03 45 F8 ; add eax, [ebp-8]
+89 45 F4 ; mov [ebp-12], eax
 ```
 
 **汇编（x86）**：
@@ -859,12 +859,12 @@ sum = a + b
 
 **抽象层次对比**：
 
-| 层次   | 代码量 | 可读性 | 可移植性 | 性能 |
+| 层次 | 代码量 | 可读性 | 可移植性 | 性能 |
 | ------ | ------ | ------ | -------- | ---- |
-| 机器码 | 最多   | 最差   | 最差     | 最快 |
-| 汇编   | 很多   | 差     | 差       | 很快 |
-| C      | 中等   | 中等   | 好       | 快   |
-| Python | 最少   | 最好   | 最好     | 慢   |
+| 机器码 | 最多 | 最差 | 最差 | 最快 |
+| 汇编 | 很多 | 差 | 差 | 很快 |
+| C | 中等 | 中等 | 好 | 快 |
+| Python | 最少 | 最好 | 最好 | 慢 |
 
 **高级语言的优点**：
 - 开发效率高（表达力强，代码简洁）
@@ -891,10 +891,10 @@ sum = a + b
 **汇编（x86）**：
 ```asm
 ; 交换 a 和 b
-mov eax, [a]     ; eax = a
-mov ebx, [b]     ; ebx = b
-mov [b], eax     ; b = eax (原来的 a)
-mov [a], ebx     ; a = ebx (原来的 b)
+mov eax, [a] ; eax = a
+mov ebx, [b] ; ebx = b
+mov [b], eax ; b = eax (原来的 a)
+mov [a], ebx ; a = ebx (原来的 b)
 ```
 
 **C**：
@@ -906,7 +906,7 @@ b = temp;
 
 **Python**：
 ```python
-a, b = b, a  # 元组解包，一行搞定
+a, b = b, a # 元组解包，一行搞定
 ```
 
 **代码行数**：汇编 4 行 → C 3 行 → Python 1 行
@@ -918,28 +918,28 @@ a, b = b, a  # 元组解包，一行搞定
 **汇编（x86）**：
 ```asm
 section .data
-    array dd 1, 2, 3, 4, 5    ; 数组
-    length equ 5              ; 长度
-    sum dd 0                  ; 结果
+ array dd 1, 2, 3, 4, 5 ; 数组
+ length equ 5 ; 长度
+ sum dd 0 ; 结果
 
 section .text
-    global _start
+ global _start
 
 _start:
-    xor eax, eax              ; eax = 0（累加器）
-    xor ecx, ecx              ; ecx = 0（索引）
-    
+ xor eax, eax ; eax = 0（累加器）
+ xor ecx, ecx ; ecx = 0（索引）
+
 loop_start:
-    cmp ecx, length           ; 比较 ecx 和 length
-    jge loop_end              ; 如果 ecx >= length，跳出循环
-    
-    mov ebx, [array + ecx*4]  ; ebx = array[ecx]
-    add eax, ebx              ; eax += ebx
-    inc ecx                   ; ecx++
-    jmp loop_start            ; 继续循环
-    
+ cmp ecx, length ; 比较 ecx 和 length
+ jge loop_end ; 如果 ecx >= length，跳出循环
+
+ mov ebx, [array + ecx*4] ; ebx = array[ecx]
+ add eax, ebx ; eax += ebx
+ inc ecx ; ecx++
+ jmp loop_start ; 继续循环
+
 loop_end:
-    mov [sum], eax            ; 保存结果
+ mov [sum], eax ; 保存结果
 ```
 
 **C**：
@@ -949,7 +949,7 @@ int length = 5;
 int sum = 0;
 
 for (int i = 0; i < length; i++) {
-    sum += array[i];
+ sum += array[i];
 }
 ```
 
@@ -975,18 +975,18 @@ C/C++ 被称为"中级语言"，因为它们：
 ```c
 // 结构化编程
 for (int i = 0; i < 10; i++) {
-    printf("%d\n", i);
+ printf("%d\n", i);
 }
 
 // 函数抽象
 int add(int a, int b) {
-    return a + b;
+ return a + b;
 }
 
 // 结构体
 struct Point {
-    int x;
-    int y;
+ int x;
+ int y;
 };
 ```
 
@@ -1002,11 +1002,11 @@ free(arr);
 
 // 位运算
 unsigned int flags = 0x0F;
-flags |= (1 << 3);  // 设置第 3 位
+flags |= (1 << 3); // 设置第 3 位
 
 // 类型转换
 int x = 10;
-char *p = (char*)&x;  // 将 int 的地址当作 char* 使用
+char *p = (char*)&x; // 将 int 的地址当作 char* 使用
 
 // 内联汇编
 asm("mov eax, 5");
@@ -1100,22 +1100,22 @@ asm("mov eax, 5");
 **汇编（x86 Linux）**：
 ```asm
 section .data
-    msg db 'Hello, World!', 0xA
-    len equ $ - msg
+ msg db 'Hello, World!', 0xA
+ len equ $ - msg
 
 section .text
-    global _start
+ global _start
 
 _start:
-    mov eax, 4          ; sys_write
-    mov ebx, 1          ; stdout
-    mov ecx, msg        ; 消息地址
-    mov edx, len        ; 消息长度
-    int 0x80            ; 系统调用
-    
-    mov eax, 1          ; sys_exit
-    xor ebx, ebx        ; 返回 0
-    int 0x80
+ mov eax, 4 ; sys_write
+ mov ebx, 1 ; stdout
+ mov ecx, msg ; 消息地址
+ mov edx, len ; 消息长度
+ int 0x80 ; 系统调用
+
+ mov eax, 1 ; sys_exit
+ xor ebx, ebx ; 返回 0
+ int 0x80
 ```
 
 **C**：
@@ -1123,8 +1123,8 @@ _start:
 #include <stdio.h>
 
 int main() {
-    printf("Hello, World!\n");
-    return 0;
+ printf("Hello, World!\n");
+ return 0;
 }
 ```
 
@@ -1135,10 +1135,10 @@ print("Hello, World!")
 
 **性能对比**（执行 100 万次）：
 
-| 语言   | 时间    | 可执行文件大小              |
+| 语言 | 时间 | 可执行文件大小 |
 | ------ | ------- | --------------------------- |
-| 汇编   | 50 ms   | 1 KB                        |
-| C      | 60 ms   | 8 KB                        |
+| 汇编 | 50 ms | 1 KB |
+| C | 60 ms | 8 KB |
 | Python | 5000 ms | 需要 Python 解释器（30 MB） |
 
 **结论**：
@@ -1158,21 +1158,21 @@ print("Hello, World!")
 # Python
 s = ""
 for i in range(10000):
-    s += str(i)  # 每次都创建新字符串，O(n²)
+ s += str(i) # 每次都创建新字符串，O(n²)
 ```
 
 看起来简单，实际上很慢，因为字符串不可变。
 
 **正确做法**：
 ```python
-s = "".join(str(i) for i in range(10000))  # O(n)
+s = "".join(str(i) for i in range(10000)) # O(n)
 ```
 
 **示例 2：浮点数精度**
 
 ```python
 # Python
-0.1 + 0.2 == 0.3  # False！
+0.1 + 0.2 == 0.3 # False！
 ```
 
 高级语言无法隐藏浮点数的底层表示问题。
@@ -1209,7 +1209,7 @@ s = "".join(str(i) for i in range(10000))  # O(n)
 - Python：自动化脚本，数据处理 [[Python 技术文档]]
 - Shell/Bash：系统管理，命令行自动化 [[Shell 技术文档]]
 - Ruby：Web 开发（Rails），脚本编写
-- PHP:  Web 开发 [[PHP 技术文档]]
+- PHP: Web 开发 [[PHP 技术文档]]
 
 1.1.4 统计与科学计算
 - R：统计分析，数据可视化，学术研究 [[R技术文档]]
@@ -1256,8 +1256,8 @@ s = "".join(str(i) for i in range(10000))  # O(n)
 - HTML：网页标记 [[HyperText Markup Language (HTML) 技术文档]]
 
 ####### 5.4.3 配置格式
-- JSON：轻量级数据交换 [[JSON  技术文档]]
-- YAML：人类可读配置 
+- JSON：轻量级数据交换 [[JSON 技术文档]]
+- YAML：人类可读配置
 - TOML：配置文件
 
 ###### 1.5 文档与发布系统
@@ -1318,47 +1318,47 @@ s = "".join(str(i) for i in range(10000))  # O(n)
 - iOS：Swift
 - 跨平台：React Native (JavaScript), Flutter (Dart)
 ---
-### 1.7  计算机科学学科分支概述
-#####  计算机科学学科分支概述
+### 1.7 计算机科学学科分支概述
+##### 计算机科学学科分支概述
 
 ###### 1.1 学科分支总览
 
-| 一级分支        | 二级分支                        | 核心内容                     |
+| 一级分支 | 二级分支 | 核心内容 |
 | ----------- | --------------------------- | ------------------------ |
-| **理论计算机科学** | 计算理论                        | 可计算性、复杂性理论、自动机           |
-|             | 算法与数据结构                     | 算法设计、算法分析、数据结构           |
-|             | 形式语言与编译                     | 形式文法、编译器、语法分析            |
-|             | 密码学理论                       | 加密算法、信息论、安全协议            |
-| **计算机系统**   | 计算机体系结构                     | CPU 设计、存储层次、并行架构         |
-|             | 操作系统                        | 进程/内存/文件管理、I/O 系统        |
-|             | 计算机网络                       | 协议栈、路由交换、网络安全            |
-|             | 分布式系统                       | 分布式计算、云计算、区块链            |
-|             | 嵌入式系统                       | 实时系统、物联网、嵌入式开发           |
-| **软件工程**    | 开发方法论                       | 瀑布/敏捷/DevOps             |
-|             | 软件设计                        | 设计模式、架构设计、OOP            |
-|             | 测试与质量                       | 单元/集成测试、CI/CD            |
-|             | 项目管理                        | 需求分析、版本控制、项目规划           |
-| **人工智能**    | [[基础机器学习 Machine Learning]] | 监督/无监督/强化学习              |
-|             | 深度学习                        | 神经网络、CNN/RNN、Transformer |
-|             | 自然语言处理                      | 文本分析、机器翻译、LLM            |
-|             | 计算机视觉                       | 图像识别、目标检测、图像生成           |
-|             | 知识工程                        | 知识图谱、专家系统、推理             |
-| **数据科学**    | 数据挖掘                        | 关联规则、聚类、分类预测             |
-|             | 大数据技术                       | HDFS、Spark、流式处理          |
-|             | 数据库系统                       | 关系型/NoSQL、数据仓库           |
-|             | 数据可视化                       | 可视化原理、工具、交互设计            |
-| **人机交互**    | 用户界面设计                      | UI/UX、可用性测试、交互设计         |
-|             | 图形学                         | 计算机图形学、3D 渲染、VR/AR       |
-|             | 多媒体技术                       | 图像/音频/视频处理               |
-| **信息安全**    | 网络安全                        | 防火墙、入侵检测、渗透测试            |
-|             | 应用安全                        | Web/移动安全、安全编码            |
-|             | 密码学应用                       | PKI、数字签名、安全协议            |
-| **计算科学**    | 科学计算                        | 数值分析、模拟、高性能计算            |
-|             | 计算X学                        | 计算物理/化学/生物               |
-|             | 量子计算                        | 量子算法、量子编程                |
-| **交叉领域**    | 生物信息学                       | 基因分析、蛋白质预测               |
-|             | 计算社会科学                      | 社交网络、计算经济学               |
-|             | 边缘计算                        | 边缘智能、边缘-云协同              |
+| **理论计算机科学** | 计算理论 | 可计算性、复杂性理论、自动机 |
+| | 算法与数据结构 | 算法设计、算法分析、数据结构 |
+| | 形式语言与编译 | 形式文法、编译器、语法分析 |
+| | 密码学理论 | 加密算法、信息论、安全协议 |
+| **计算机系统** | 计算机体系结构 | CPU 设计、存储层次、并行架构 |
+| | 操作系统 | 进程/内存/文件管理、I/O 系统 |
+| | 计算机网络 | 协议栈、路由交换、网络安全 |
+| | 分布式系统 | 分布式计算、云计算、区块链 |
+| | 嵌入式系统 | 实时系统、物联网、嵌入式开发 |
+| **软件工程** | 开发方法论 | 瀑布/敏捷/DevOps |
+| | 软件设计 | 设计模式、架构设计、OOP |
+| | 测试与质量 | 单元/集成测试、CI/CD |
+| | 项目管理 | 需求分析、版本控制、项目规划 |
+| **人工智能** | [[基础机器学习 Machine Learning]] | 监督/无监督/强化学习 |
+| | 深度学习 | 神经网络、CNN/RNN、Transformer |
+| | 自然语言处理 | 文本分析、机器翻译、LLM |
+| | 计算机视觉 | 图像识别、目标检测、图像生成 |
+| | 知识工程 | 知识图谱、专家系统、推理 |
+| **数据科学** | 数据挖掘 | 关联规则、聚类、分类预测 |
+| | 大数据技术 | HDFS、Spark、流式处理 |
+| | 数据库系统 | 关系型/NoSQL、数据仓库 |
+| | 数据可视化 | 可视化原理、工具、交互设计 |
+| **人机交互** | 用户界面设计 | UI/UX、可用性测试、交互设计 |
+| | 图形学 | 计算机图形学、3D 渲染、VR/AR |
+| | 多媒体技术 | 图像/音频/视频处理 |
+| **信息安全** | 网络安全 | 防火墙、入侵检测、渗透测试 |
+| | 应用安全 | Web/移动安全、安全编码 |
+| | 密码学应用 | PKI、数字签名、安全协议 |
+| **计算科学** | 科学计算 | 数值分析、模拟、高性能计算 |
+| | 计算X学 | 计算物理/化学/生物 |
+| | 量子计算 | 量子算法、量子编程 |
+| **交叉领域** | 生物信息学 | 基因分析、蛋白质预测 |
+| | 计算社会科学 | 社交网络、计算经济学 |
+| | 边缘计算 | 边缘智能、边缘-云协同 |
 
 1.2 学科关系与学习路径
 
@@ -1369,15 +1369,15 @@ s = "".join(str(i) for i in range(10000))  # O(n)
 
 1.2.2 专业方向选择
 
-| 职业方向     | 重点学科       | 推荐技能栈           |
+| 职业方向 | 重点学科 | 推荐技能栈 |
 | -------- | ---------- | --------------- |
-| 软件开发工程师  | 软件工程、计算机系统 | 编程语言、框架、数据库     |
-| 算法工程师    | 理论CS、人工智能  | 算法、机器学习、数学      |
-| 数据科学家    | 数据科学、人工智能  | 统计、ML、数据处理      |
-| 系统架构师    | 计算机系统、软件工程 | 分布式、云计算、架构设计    |
-| 安全工程师    | 信息安全、计算机网络 | 网络安全、密码学、渗透测试   |
-| 前端/全栈工程师 | 软件工程、人机交互  | Web 技术、UI/UX、后端 |
-| 研究科学家    | 理论CS、计算科学  | 数学、算法、科研方法      |
+| 软件开发工程师 | 软件工程、计算机系统 | 编程语言、框架、数据库 |
+| 算法工程师 | 理论CS、人工智能 | 算法、机器学习、数学 |
+| 数据科学家 | 数据科学、人工智能 | 统计、ML、数据处理 |
+| 系统架构师 | 计算机系统、软件工程 | 分布式、云计算、架构设计 |
+| 安全工程师 | 信息安全、计算机网络 | 网络安全、密码学、渗透测试 |
+| 前端/全栈工程师 | 软件工程、人机交互 | Web 技术、UI/UX、后端 |
+| 研究科学家 | 理论CS、计算科学 | 数学、算法、科研方法 |
 
 1.2.3 学科交叉趋势
 - AI + 医疗 = 医疗影像分析、药物研发
@@ -1403,14 +1403,14 @@ s = "".join(str(i) for i in range(10000))  # O(n)
 
 #### 1.8.2 主要技术领域概览
 
-| 技术领域        | 核心技术                                        | 主要用途              | 应用场景                      | 详细笔记                       |
+| 技术领域 | 核心技术 | 主要用途 | 应用场景 | 详细笔记 |
 | ----------- | ------------------------------------------- | ----------------- | ------------------------- | -------------------------- |
-| **并行计算与加速** | CUDA, OpenMP, MPI, OpenCL                   | 利用多核 CPU/GPU 加速计算 | 机器学习训练、图像处理、科学计算、大数据分析    | [[CUDA  技术文档]]             |
-| **查询语言**    | SQL, GraphQL, XPath, JSONPath               | 数据查询与检索           | 数据库操作、API 查询、文档解析、数据提取    | [[SQL]]                    |
-| **容器与构建**   | Docker, Kubernetes, Maven, Gradle           | 应用打包、部署与编排        | 微服务部署、CI/CD 流水线、环境隔离、依赖管理 | [[Docker  技术文档]]           |
-| **时间与编码**   | UTF-8, ISO 8601, Unicode, Base64            | 字符编码与时间标准         | 国际化应用、时区处理、文本编码、数据传输      | [[ISO 8601  技术文档]]         |
-| **数据格式**    | JSON, YAML, XML, CSV, Parquet               | 数据存储与交换           | 配置文件、API 数据传输、数据持久化、日志记录  | [[JSON  技术文档]]             |
-| **序列化协议**   | Protocol Buffers, Avro, Thrift, MessagePack | 高效数据序列化           | 微服务通信、RPC 调用、消息队列、数据存储    | [[Protocol Buffers  技术文档]] |
+| **并行计算与加速** | CUDA, OpenMP, MPI, OpenCL | 利用多核 CPU/GPU 加速计算 | 机器学习训练、图像处理、科学计算、大数据分析 | [[CUDA 技术文档]] |
+| **查询语言** | SQL, GraphQL, XPath, JSONPath | 数据查询与检索 | 数据库操作、API 查询、文档解析、数据提取 | [[SQL]] |
+| **容器与构建** | Docker, Kubernetes, Maven, Gradle | 应用打包、部署与编排 | 微服务部署、CI/CD 流水线、环境隔离、依赖管理 | [[Docker 技术文档]] |
+| **时间与编码** | UTF-8, ISO 8601, Unicode, Base64 | 字符编码与时间标准 | 国际化应用、时区处理、文本编码、数据传输 | [[ISO 8601 技术文档]] |
+| **数据格式** | JSON, YAML, XML, CSV, Parquet | 数据存储与交换 | 配置文件、API 数据传输、数据持久化、日志记录 | [[JSON 技术文档]] |
+| **序列化协议** | Protocol Buffers, Avro, Thrift, MessagePack | 高效数据序列化 | 微服务通信、RPC 调用、消息队列、数据存储 | [[Protocol Buffers 技术文档]] |
 
 #### 1.8.3 技术选型指南
 
@@ -1427,23 +1427,23 @@ s = "".join(str(i) for i in range(10000))  # O(n)
 
 | 格式 | 可读性 | 性能 | 体积 | 适用场景 |
 |-----|--------|------|------|---------|
-| **JSON** | ⭐⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐ | Web API、配置文件 |
-| **YAML** | ⭐⭐⭐⭐⭐ | ⭐⭐ | ⭐⭐⭐ | 配置文件、CI/CD |
-| **XML** | ⭐⭐⭐ | ⭐⭐ | ⭐⭐ | 企业系统、文档标记 |
-| **Protocol Buffers** | ⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | 微服务通信、RPC |
-| **Parquet** | ⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | 大数据分析、列式存储 |
-| **CSV** | ⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐⭐ | 数据导入导出、表格数据 |
+| **JSON** | | | | Web API、配置文件 |
+| **YAML** | | | | 配置文件、CI/CD |
+| **XML** | | | | 企业系统、文档标记 |
+| **Protocol Buffers** | | | | 微服务通信、RPC |
+| **Parquet** | | | | 大数据分析、列式存储 |
+| **CSV** | | | | 数据导入导出、表格数据 |
 
 ##### 容器与构建工具
 
 | 工具 | 类型 | 主要语言 | 学习曲线 | 企业采用率 |
 |-----|------|---------|---------|-----------|
-| **Docker** | 容器化 | 通用 | ⭐⭐⭐ | ⭐⭐⭐⭐⭐ |
-| **Kubernetes** | 容器编排 | 通用 | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ |
-| **Maven** | 构建工具 | Java | ⭐⭐⭐ | ⭐⭐⭐⭐⭐ |
-| **Gradle** | 构建工具 | Java/Kotlin/Android | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ |
-| **npm** | 包管理 | JavaScript | ⭐⭐ | ⭐⭐⭐⭐⭐ |
-| **pip** | 包管理 | Python | ⭐ | ⭐⭐⭐⭐⭐ |
+| **Docker** | 容器化 | 通用 | | |
+| **Kubernetes** | 容器编排 | 通用 | | |
+| **Maven** | 构建工具 | Java | | |
+| **Gradle** | 构建工具 | Java/Kotlin/Android | | |
+| **npm** | 包管理 | JavaScript | | |
+| **pip** | 包管理 | Python | | |
 
 #### 1.8.4 学习路径建议
 
@@ -1457,14 +1457,14 @@ s = "".join(str(i) for i in range(10000))  # O(n)
 ---
 #### **总结：抽象的权衡**
 
-| 维度         | 低级语言 | 高级语言 |
+| 维度 | 低级语言 | 高级语言 |
 | ------------ | -------- | -------- |
-| **控制力**   | 完全控制 | 有限控制 |
-| **性能**     | 最优     | 较差     |
-| **开发速度** | 慢       | 快       |
-| **可读性**   | 差       | 好       |
-| **可移植性** | 差       | 好       |
-| **学习曲线** | 陡峭     | 平缓     |
+| **控制力** | 完全控制 | 有限控制 |
+| **性能** | 最优 | 较差 |
+| **开发速度** | 慢 | 快 |
+| **可读性** | 差 | 好 |
+| **可移植性** | 差 | 好 |
+| **学习曲线** | 陡峭 | 平缓 |
 | **适用场景** | 系统编程 | 应用开发 |
 
 **Bjarne Stroustrup（C++ 之父）的名言**：
@@ -1499,18 +1499,18 @@ s = "".join(str(i) for i in range(10000))  # O(n)
 
 ```
 ┌─────────────┐
-│   顺序结构   │  语句按顺序执行
-│  Sequence   │  A → B → C
+│ 顺序结构 │ 语句按顺序执行
+│ Sequence │ A → B → C
 └─────────────┘
 
 ┌─────────────┐
-│   选择结构   │  根据条件选择分支
-│  Selection  │  if (条件) then A else B
+│ 选择结构 │ 根据条件选择分支
+│ Selection │ if (条件) then A else B
 └─────────────┘
 
 ┌─────────────┐
-│   循环结构   │  重复执行语句
-│  Iteration  │  while (条件) do A
+│ 循环结构 │ 重复执行语句
+│ Iteration │ while (条件) do A
 └─────────────┘
 ```
 
@@ -1523,21 +1523,21 @@ s = "".join(str(i) for i in range(10000))  # O(n)
 **流程图**：
 
 ```
-    开始
-     ↓
-  ┌─────┐
-  │ 语句1│
-  └──┬──┘
-     ↓
-  ┌─────┐
-  │ 语句2│
-  └──┬──┘
-     ↓
-  ┌─────┐
-  │ 语句3│
-  └──┬──┘
-     ↓
-    结束
+ 开始
+ ↓
+ ┌─────┐
+ │ 语句1│
+ └──┬──┘
+ ↓
+ ┌─────┐
+ │ 语句2│
+ └──┬──┘
+ ↓
+ ┌─────┐
+ │ 语句3│
+ └──┬──┘
+ ↓
+ 结束
 ```
 
 **特点**：
@@ -1553,10 +1553,10 @@ s = "".join(str(i) for i in range(10000))  # O(n)
 **Python**：
 ```python
 # 计算圆的面积
-radius = 5.0                    # 语句1
-pi = 3.14159                    # 语句2
-area = pi * radius * radius     # 语句3（依赖语句1和2）
-print(f"面积: {area}")          # 语句4（依赖语句3）
+radius = 5.0 # 语句1
+pi = 3.14159 # 语句2
+area = pi * radius * radius # 语句3（依赖语句1和2）
+print(f"面积: {area}") # 语句4（依赖语句3）
 ```
 
 **C 语言**：
@@ -1564,11 +1564,11 @@ print(f"面积: {area}")          # 语句4（依赖语句3）
 #include <stdio.h>
 
 int main() {
-    double radius = 5.0;
-    double pi = 3.14159;
-    double area = pi * radius * radius;
-    printf("面积: %.2f\n", area);
-    return 0;
+ double radius = 5.0;
+ double pi = 3.14159;
+ double area = pi * radius * radius;
+ printf("面积: %.2f\n", area);
+ return 0;
 }
 ```
 
@@ -1576,8 +1576,8 @@ int main() {
 ```
 1. radius = 5.0
 2. pi = 3.14159
-3. area = pi * radius * radius  (依赖 radius 和 pi)
-4. print(...)                   (依赖 area)
+3. area = pi * radius * radius (依赖 radius 和 pi)
+4. print(...) (依赖 area)
 ```
 
 ---
@@ -1593,10 +1593,10 @@ int main() {
 a = 10
 b = 20
 
-a = b    # a = 20
-b = a    # b = 20（错误！a 的原值已丢失）
+a = b # a = 20
+b = a # b = 20（错误！a 的原值已丢失）
 
-print(f"a = {a}, b = {b}")  # 输出：a = 20, b = 20
+print(f"a = {a}, b = {b}") # 输出：a = 20, b = 20
 ```
 
 **正确的顺序**：
@@ -1604,26 +1604,26 @@ print(f"a = {a}, b = {b}")  # 输出：a = 20, b = 20
 a = 10
 b = 20
 
-temp = a    # temp = 10（保存 a 的原值）
-a = b       # a = 20
-b = temp    # b = 10
+temp = a # temp = 10（保存 a 的原值）
+a = b # a = 20
+b = temp # b = 10
 
-print(f"a = {a}, b = {b}")  # 输出：a = 20, b = 10
+print(f"a = {a}, b = {b}") # 输出：a = 20, b = 10
 ```
 
 **数据依赖图**：
 ```
 正确版本：
 temp ← a
-  ↓
+ ↓
 a ← b
-  ↓
+ ↓
 b ← temp
 
 错误版本：
 a ← b
-  ↓
-b ← a  (此时 a 已经被修改，原值丢失)
+ ↓
+b ← a (此时 a 已经被修改，原值丢失)
 ```
 
 ---
@@ -1647,9 +1647,9 @@ $$
 
 **示例**：
 ```python
-x = 10    # 状态 σ: {}
+x = 10 # 状态 σ: {}
 y = x + 5 # 状态 σ': {x: 10}
-          # 状态 σ'': {x: 10, y: 15}
+ # 状态 σ'': {x: 10, y: 15}
 ```
 
 **状态转换过程**：
@@ -1679,9 +1679,9 @@ mov DWORD PTR [rbp-4], 10
 mov DWORD PTR [rbp-8], 20
 
 ; int c = a + b;
-mov eax, DWORD PTR [rbp-4]    ; 加载 a 到寄存器 eax
-add eax, DWORD PTR [rbp-8]    ; eax = eax + b
-mov DWORD PTR [rbp-12], eax   ; 存储结果到 c
+mov eax, DWORD PTR [rbp-4] ; 加载 a 到寄存器 eax
+add eax, DWORD PTR [rbp-8] ; eax = eax + b
+mov DWORD PTR [rbp-12], eax ; 存储结果到 c
 ```
 
 **关键点**：
@@ -1698,14 +1698,14 @@ mov DWORD PTR [rbp-12], eax   ; 存储结果到 c
 **无副作用的语句**：
 ```python
 x = 10
-y = x + 5    # 纯计算，无副作用
+y = x + 5 # 纯计算，无副作用
 ```
 
 **有副作用的语句**：
 ```python
 x = 10
-print(x)     # 副作用：输出到屏幕
-x += 1       # 副作用：修改 x 的值
+print(x) # 副作用：输出到屏幕
+x += 1 # 副作用：修改 x 的值
 ```
 
 **副作用的影响**：
@@ -1713,14 +1713,14 @@ x += 1       # 副作用：修改 x 的值
 counter = 0
 
 def increment():
-    global counter
-    counter += 1
-    return counter
+ global counter
+ counter += 1
+ return counter
 
 # 顺序很重要
-a = increment()    # counter = 1, a = 1
-b = increment()    # counter = 2, b = 2
-c = increment()    # counter = 3, c = 3
+a = increment() # counter = 1, a = 1
+b = increment() # counter = 2, b = 2
+c = increment() # counter = 3, c = 3
 
 # 如果改变调用顺序，结果会不同
 ```
@@ -1742,8 +1742,8 @@ int d = 4;
 **编译器可能重排为**：
 ```c
 int a = 1;
-int c = 3;    // 重排
-int b = 2;    // 重排
+int c = 3; // 重排
+int b = 2; // 重排
 int d = 4;
 ```
 
@@ -1752,16 +1752,16 @@ int d = 4;
 **但如果有依赖关系，不能重排**：
 ```c
 int a = 1;
-int b = a + 2;    // 依赖 a，不能重排到 a 之前
-int c = b + 3;    // 依赖 b，不能重排到 b 之前
+int b = a + 2; // 依赖 a，不能重排到 a 之前
+int c = b + 3; // 依赖 b，不能重排到 b 之前
 ```
 
 **依赖关系图**：
 ```
 a = 1
-  ↓
+ ↓
 b = a + 2
-  ↓
+ ↓
 c = b + 3
 ```
 
@@ -1782,21 +1782,21 @@ y = 20
 ```python
 # 错误：顺序影响结果
 x = 0
-y = x        # y = 0
-x = x + 1    # x = 1
+y = x # y = 0
+x = x + 1 # x = 1
 
 # 如果交换顺序
 x = 0
-x = x + 1    # x = 1
-y = x        # y = 1
+x = x + 1 # x = 1
+y = x # y = 1
 # 结果不同！
 ```
 
 **错误3：浮点数精度问题**
 ```python
 # 浮点数运算顺序可能影响精度
-a = 0.1 + 0.2 + 0.3    # 0.6000000000000001
-b = 0.3 + 0.2 + 0.1    # 0.6
+a = 0.1 + 0.2 + 0.3 # 0.6000000000000001
+b = 0.3 + 0.2 + 0.1 # 0.6
 # a != b（由于浮点数表示误差累积）
 ```
 
@@ -1814,9 +1814,9 @@ sum_ab = a + b
 diff_cd = c - d
 sum_ef = e + f
 if sum_ef != 0:
-    result = sum_ab * diff_cd / sum_ef
+ result = sum_ab * diff_cd / sum_ef
 else:
-    result = 0
+ result = 0
 ```
 
 **2. 使用有意义的变量名**
@@ -1849,14 +1849,14 @@ area = PI * radius * radius
 
 顺序结构是最基本的控制结构，具有以下特点：
 
-| 特性         | 说明                           |
+| 特性 | 说明 |
 | ------------ | ------------------------------ |
-| **执行次数** | 每条语句执行且仅执行一次       |
-| **执行顺序** | 严格按照代码书写顺序           |
+| **执行次数** | 每条语句执行且仅执行一次 |
+| **执行顺序** | 严格按照代码书写顺序 |
 | **数据依赖** | 后续语句可能依赖前面语句的结果 |
-| **副作用**   | 某些语句会改变程序状态         |
-| **优化**     | 编译器可能重排独立语句         |
-| **形式化**   | 状态转换：σ → σ' → σ''         |
+| **副作用** | 某些语句会改变程序状态 |
+| **优化** | 编译器可能重排独立语句 |
+| **形式化** | 状态转换：σ → σ' → σ'' |
 
 ### 2.2 选择结构（Selection / Branching）
 
@@ -1865,21 +1865,21 @@ area = PI * radius * radius
 **流程图**：
 
 ```
-       开始
-        ↓
-    ┌───────┐
-    │ 条件？ │
-    └───┬───┘
-        │
-    ┌───┴───┐
-   真│      │假
-    ↓       ↓
-  ┌───┐   ┌───┐
-  │ A │   │ B │
-  └─┬─┘   └─┬─┘
-    └───┬───┘
-        ↓
-       结束
+ 开始
+ ↓
+ ┌───────┐
+ │ 条件？ │
+ └───┬───┘
+ │
+ ┌───┴───┐
+ 真│ │假
+ ↓ ↓
+ ┌───┐ ┌───┐
+ │ A │ │ B │
+ └─┬─┘ └─┬─┘
+ └───┬───┘
+ ↓
+ 结束
 ```
 
 **特点**：
@@ -1895,24 +1895,24 @@ area = PI * radius * radius
 **语法**：
 ```
 if (条件) then
-    语句块
+ 语句块
 end if
 ```
 
 **流程图**：
 ```
-    ┌───────┐
-    │ 条件？ │
-    └───┬───┘
-        │
-       真│
-        ↓
-    ┌───────┐
-    │ 语句块 │
-    └───┬───┘
-        │
-        ↓
-      继续
+ ┌───────┐
+ │ 条件？ │
+ └───┬───┘
+ │
+ 真│
+ ↓
+ ┌───────┐
+ │ 语句块 │
+ └───┬───┘
+ │
+ ↓
+ 继续
 ```
 
 **示例**：
@@ -1921,14 +1921,14 @@ end if
 ```python
 age = 20
 if age >= 18:
-    print("成年人")
+ print("成年人")
 ```
 
 **C**：
 ```c
 int age = 20;
 if (age >= 18) {
-    printf("成年人\n");
+ printf("成年人\n");
 }
 ```
 
@@ -1936,7 +1936,7 @@ if (age >= 18) {
 ```java
 int age = 20;
 if (age >= 18) {
-    System.out.println("成年人");
+ System.out.println("成年人");
 }
 ```
 
@@ -1952,27 +1952,27 @@ if (age >= 18) {
 **语法**：
 ```
 if (条件) then
-    语句块1
+ 语句块1
 else
-    语句块2
+ 语句块2
 end if
 ```
 
 **流程图**：
 ```
-       ┌───────┐
-       │ 条件？ │
-       └───┬───┘
-           │
-       ┌───┴───┐
-      真│      │假
-       ↓       ↓
-   ┌──────┐ ┌──────┐
-   │语句块1│ │语句块2│
-   └───┬──┘ └───┬──┘
-       └────┬───┘
-            ↓
-          继续
+ ┌───────┐
+ │ 条件？ │
+ └───┬───┘
+ │
+ ┌───┴───┐
+ 真│ │假
+ ↓ ↓
+ ┌──────┐ ┌──────┐
+ │语句块1│ │语句块2│
+ └───┬──┘ └───┬──┘
+ └────┬───┘
+ ↓
+ 继续
 ```
 
 **示例**：
@@ -1981,18 +1981,18 @@ end if
 ```python
 age = 15
 if age >= 18:
-    print("成年人")
+ print("成年人")
 else:
-    print("未成年人")
+ print("未成年人")
 ```
 
 **C**：
 ```c
 int age = 15;
 if (age >= 18) {
-    printf("成年人\n");
+ printf("成年人\n");
 } else {
-    printf("未成年人\n");
+ printf("未成年人\n");
 }
 ```
 
@@ -2009,40 +2009,40 @@ if (age >= 18) {
 **语法**：
 ```
 if (条件1) then
-    语句块1
+ 语句块1
 elif (条件2) then
-    语句块2
+ 语句块2
 elif (条件3) then
-    语句块3
+ 语句块3
 else
-    语句块4
+ 语句块4
 end if
 ```
 
 **流程图**：
 ```
-    ┌──────┐
-    │条件1？│
-    └──┬───┘
-       │
-   ┌───┴───┐
-  真│      │假
-   ↓       ↓
- 语句块1  ┌──────┐
-         │条件2？│
-         └──┬───┘
-            │
-        ┌───┴───┐
-       真│      │假
-        ↓       ↓
-      语句块2  ┌──────┐
-              │条件3？│
-              └──┬───┘
-                 │
-             ┌───┴───┐
-            真│      │假
-             ↓       ↓
-           语句块3  语句块4
+ ┌──────┐
+ │条件1？│
+ └──┬───┘
+ │
+ ┌───┴───┐
+ 真│ │假
+ ↓ ↓
+ 语句块1 ┌──────┐
+ │条件2？│
+ └──┬───┘
+ │
+ ┌───┴───┐
+ 真│ │假
+ ↓ ↓
+ 语句块2 ┌──────┐
+ │条件3？│
+ └──┬───┘
+ │
+ ┌───┴───┐
+ 真│ │假
+ ↓ ↓
+ 语句块3 语句块4
 ```
 
 **示例：成绩等级判定**
@@ -2052,15 +2052,15 @@ end if
 score = 85
 
 if score >= 90:
-    grade = 'A'
+ grade = 'A'
 elif score >= 80:
-    grade = 'B'
+ grade = 'B'
 elif score >= 70:
-    grade = 'C'
+ grade = 'C'
 elif score >= 60:
-    grade = 'D'
+ grade = 'D'
 else:
-    grade = 'F'
+ grade = 'F'
 
 print(f"成绩等级: {grade}")
 ```
@@ -2071,15 +2071,15 @@ int score = 85;
 char grade;
 
 if (score >= 90) {
-    grade = 'A';
+ grade = 'A';
 } else if (score >= 80) {
-    grade = 'B';
+ grade = 'B';
 } else if (score >= 70) {
-    grade = 'C';
+ grade = 'C';
 } else if (score >= 60) {
-    grade = 'D';
+ grade = 'D';
 } else {
-    grade = 'F';
+ grade = 'F';
 }
 
 printf("成绩等级: %c\n", grade);
@@ -2097,18 +2097,18 @@ printf("成绩等级: %c\n", grade);
 # 错误示例：条件顺序错误
 score = 85
 
-if score >= 60:      # 85 >= 60 为真
-    grade = 'D'      # 直接执行这里，后面的条件不再检查
+if score >= 60: # 85 >= 60 为真
+ grade = 'D' # 直接执行这里，后面的条件不再检查
 elif score >= 70:
-    grade = 'C'
+ grade = 'C'
 elif score >= 80:
-    grade = 'B'
+ grade = 'B'
 elif score >= 90:
-    grade = 'A'
+ grade = 'A'
 else:
-    grade = 'F'
+ grade = 'F'
 
-print(grade)  # 输出：D（错误！）
+print(grade) # 输出：D（错误！）
 ```
 
 ---
@@ -2118,15 +2118,15 @@ print(grade)  # 输出：D（错误！）
 **语法（C）**：
 ```c
 switch (表达式) {
-    case 值1:
-        语句块1;
-        break;
-    case 值2:
-        语句块2;
-        break;
-    ...
-    default:
-        默认语句块;
+ case 值1:
+ 语句块1;
+ break;
+ case 值2:
+ 语句块2;
+ break;
+ ...
+ default:
+ 默认语句块;
 }
 ```
 
@@ -2137,27 +2137,27 @@ switch (表达式) {
 int day = 3;
 
 switch (day) {
-    case 1:
-        printf("星期一\n");
-        break;
-    case 2:
-        printf("星期二\n");
-        break;
-    case 3:
-        printf("星期三\n");
-        break;
-    case 4:
-        printf("星期四\n");
-        break;
-    case 5:
-        printf("星期五\n");
-        break;
-    case 6:
-    case 7:
-        printf("周末\n");
-        break;
-    default:
-        printf("无效日期\n");
+ case 1:
+ printf("星期一\n");
+ break;
+ case 2:
+ printf("星期二\n");
+ break;
+ case 3:
+ printf("星期三\n");
+ break;
+ case 4:
+ printf("星期四\n");
+ break;
+ case 5:
+ printf("星期五\n");
+ break;
+ case 6:
+ case 7:
+ printf("周末\n");
+ break;
+ default:
+ printf("无效日期\n");
 }
 ```
 
@@ -2166,55 +2166,55 @@ switch (day) {
 int day = 3;
 
 switch (day) {
-    case 1:
-        System.out.println("星期一");
-        break;
-    case 2:
-        System.out.println("星期二");
-        break;
-    case 3:
-        System.out.println("星期三");
-        break;
-    case 4:
-        System.out.println("星期四");
-        break;
-    case 5:
-        System.out.println("星期五");
-        break;
-    case 6:
-    case 7:
-        System.out.println("周末");
-        break;
-    default:
-        System.out.println("无效日期");
+ case 1:
+ System.out.println("星期一");
+ break;
+ case 2:
+ System.out.println("星期二");
+ break;
+ case 3:
+ System.out.println("星期三");
+ break;
+ case 4:
+ System.out.println("星期四");
+ break;
+ case 5:
+ System.out.println("星期五");
+ break;
+ case 6:
+ case 7:
+ System.out.println("周末");
+ break;
+ default:
+ System.out.println("无效日期");
 }
 ```
 
 **switch-case 的特点**：
 
-| 特性           | 说明                                                    |
+| 特性 | 说明 |
 | -------------- | ------------------------------------------------------- |
-| **适用类型**   | 整数、字符、枚举（C/C++）；字符串（Java 7+）            |
-| **break 语句** | 必须显式使用 break，否则会"穿透"到下一个 case           |
-| **default**    | 可选，处理所有未匹配的情况                              |
-| **性能**       | 编译器可能优化为跳转表（Jump Table），比多个 if-else 快 |
+| **适用类型** | 整数、字符、枚举（C/C++）；字符串（Java 7+） |
+| **break 语句** | 必须显式使用 break，否则会"穿透"到下一个 case |
+| **default** | 可选，处理所有未匹配的情况 |
+| **性能** | 编译器可能优化为跳转表（Jump Table），比多个 if-else 快 |
 
 **穿透（Fall-through）示例**：
 ```c
 int x = 2;
 
 switch (x) {
-    case 1:
-        printf("A\n");
-        // 没有 break，会继续执行下一个 case
-    case 2:
-        printf("B\n");
-        // 没有 break，会继续执行下一个 case
-    case 3:
-        printf("C\n");
-        break;
-    default:
-        printf("D\n");
+ case 1:
+ printf("A\n");
+ // 没有 break，会继续执行下一个 case
+ case 2:
+ printf("B\n");
+ // 没有 break，会继续执行下一个 case
+ case 3:
+ printf("C\n");
+ break;
+ default:
+ printf("D\n");
 }
 
 // 输出：
@@ -2227,20 +2227,20 @@ switch (x) {
 day = 3
 
 match day:
-    case 1:
-        print("星期一")
-    case 2:
-        print("星期二")
-    case 3:
-        print("星期三")
-    case 4:
-        print("星期四")
-    case 5:
-        print("星期五")
-    case 6 | 7:
-        print("周末")
-    case _:
-        print("无效日期")
+ case 1:
+ print("星期一")
+ case 2:
+ print("星期二")
+ case 3:
+ print("星期三")
+ case 4:
+ print("星期四")
+ case 5:
+ print("星期五")
+ case 6 | 7:
+ print("周末")
+ case _:
+ print("无效日期")
 ```
 
 ---
@@ -2257,47 +2257,47 @@ age = 20
 has_license = True
 
 if age >= 18:
-    if has_license:
-        print("可以开车")
-    else:
-        print("需要考驾照")
+ if has_license:
+ print("可以开车")
+ else:
+ print("需要考驾照")
 else:
-    print("未成年，不能开车")
+ print("未成年，不能开车")
 ```
 
 **流程图**：
 ```
-    ┌──────────┐
-    │ age>=18? │
-    └────┬─────┘
-         │
-    ┌────┴────┐
-   真│        │假
-    ↓         ↓
-┌──────────┐  "未成年"
+ ┌──────────┐
+ │ age>=18? │
+ └────┬─────┘
+ │
+ ┌────┴────┐
+ 真│ │假
+ ↓ ↓
+┌──────────┐ "未成年"
 │has_license│
-│   ?      │
+│ ? │
 └────┬─────┘
-     │
+ │
  ┌───┴───┐
-真│      │假
- ↓       ↓
-"可以"  "考驾照"
+真│ │假
+ ↓ ↓
+"可以" "考驾照"
 ```
 
 **C**：
 ```c
 int age = 20;
-int has_license = 1;  // 1 表示 true
+int has_license = 1; // 1 表示 true
 
 if (age >= 18) {
-    if (has_license) {
-        printf("可以开车\n");
-    } else {
-        printf("需要考驾照\n");
-    }
+ if (has_license) {
+ printf("可以开车\n");
+ } else {
+ printf("需要考驾照\n");
+ }
 } else {
-    printf("未成年，不能开车\n");
+ printf("未成年，不能开车\n");
 }
 ```
 
@@ -2315,28 +2315,28 @@ if (age >= 18) {
 **嵌套版本**：
 ```python
 def process(data):
-    if data is not None:
-        if len(data) > 0:
-            if data[0] > 0:
-                return data[0] * 2
-            else:
-                return 0
-        else:
-            return -1
-    else:
-        return -2
+ if data is not None:
+ if len(data) > 0:
+ if data[0] > 0:
+ return data[0] * 2
+ else:
+ return 0
+ else:
+ return -1
+ else:
+ return -2
 ```
 
 **扁平化版本（提前返回）**：
 ```python
 def process(data):
-    if data is None:
-        return -2
-    if len(data) == 0:
-        return -1
-    if data[0] <= 0:
-        return 0
-    return data[0] * 2
+ if data is None:
+ return -2
+ if len(data) == 0:
+ return -1
+ if data[0] <= 0:
+ return 0
+ return data[0] * 2
 ```
 
 **使用逻辑运算符扁平化**：
@@ -2346,12 +2346,12 @@ has_license = True
 
 # 嵌套版本
 if age >= 18:
-    if has_license:
-        print("可以开车")
+ if has_license:
+ print("可以开车")
 
 # 扁平化版本
 if age >= 18 and has_license:
-    print("可以开车")
+ print("可以开车")
 ```
 
 ---
@@ -2364,26 +2364,26 @@ if age >= 18 and has_license:
 ```python
 # 如果第一个条件为假，不会执行第二个条件
 x = 0
-if x != 0 and 10 / x > 5:  # x != 0 为假，不会执行 10 / x
-    print("满足条件")
+if x != 0 and 10 / x > 5: # x != 0 为假，不会执行 10 / x
+ print("满足条件")
 ```
 
 **or 短路**：
 ```python
 # 如果第一个条件为真，不会执行第二个条件
 x = 10
-if x > 5 or 10 / 0 > 5:  # x > 5 为真，不会执行 10 / 0
-    print("满足条件")
+if x > 5 or 10 / 0 > 5: # x > 5 为真，不会执行 10 / 0
+ print("满足条件")
 ```
 
 **真值表**：
 
-| A     | B     | A and B | A or B |
+| A | B | A and B | A or B |
 | ----- | ----- | ------- | ------ |
-| False | False | False   | False  |
-| False | True  | False   | True   |
-| True  | False | False   | True   |
-| True  | True  | True    | True   |
+| False | False | False | False |
+| False | True | False | True |
+| True | False | False | True |
+| True | True | True | True |
 
 **短路规则**：
 - `A and B`：如果 A 为假，直接返回假，不计算 B
@@ -2393,7 +2393,7 @@ if x > 5 or 10 / 0 > 5:  # x > 5 为真，不会执行 10 / 0
 ```python
 # 安全检查
 if user is not None and user.is_admin():
-    print("管理员")
+ print("管理员")
 
 # 默认值
 name = input_name or "匿名用户"
@@ -2431,9 +2431,9 @@ String status = (age >= 18) ? "成年人" : "未成年人";
 **等价于**：
 ```
 if 条件:
-    结果 = 表达式1
+ 结果 = 表达式1
 else:
-    结果 = 表达式2
+ 结果 = 表达式2
 ```
 
 **示例：求最大值**
@@ -2443,14 +2443,14 @@ else:
 a = 10
 b = 20
 max_value = a if a > b else b
-print(max_value)  # 输出：20
+print(max_value) # 输出：20
 ```
 
 **C**：
 ```c
 int a = 10, b = 20;
 int max_value = (a > b) ? a : b;
-printf("%d\n", max_value);  // 输出：20
+printf("%d\n", max_value); // 输出：20
 ```
 
 **嵌套三元运算符（不推荐）**：
@@ -2461,13 +2461,13 @@ grade = 'A' if score >= 90 else ('B' if score >= 80 else ('C' if score >= 70 els
 
 # 推荐：使用 if-elif-else
 if score >= 90:
-    grade = 'A'
+ grade = 'A'
 elif score >= 80:
-    grade = 'B'
+ grade = 'B'
 elif score >= 70:
-    grade = 'C'
+ grade = 'C'
 else:
-    grade = 'D'
+ grade = 'D'
 ```
 
 **使用场景**：
@@ -2515,9 +2515,9 @@ $$
 ```python
 x = 10
 if x > 5:
-    y = 1
+ y = 1
 else:
-    y = 0
+ y = 0
 ```
 
 **状态转换**：
@@ -2538,9 +2538,9 @@ int x = 10;
 int y;
 
 if (x > 5) {
-    y = 1;
+ y = 1;
 } else {
-    y = 0;
+ y = 0;
 }
 ```
 
@@ -2550,13 +2550,13 @@ if (x > 5) {
 mov DWORD PTR [rbp-4], 10
 
 ; if (x > 5)
-mov eax, DWORD PTR [rbp-4]    ; 加载 x 到 eax
-cmp eax, 5                     ; 比较 eax 和 5
-jle .L2                        ; 如果 x <= 5，跳转到 .L2（else 分支）
+mov eax, DWORD PTR [rbp-4] ; 加载 x 到 eax
+cmp eax, 5 ; 比较 eax 和 5
+jle .L2 ; 如果 x <= 5，跳转到 .L2（else 分支）
 
 ; then 分支：y = 1
 mov DWORD PTR [rbp-8], 1
-jmp .L3                        ; 跳过 else 分支
+jmp .L3 ; 跳过 else 分支
 
 .L2:
 ; else 分支：y = 0
@@ -2573,14 +2573,14 @@ mov DWORD PTR [rbp-8], 0
 
 **跳转指令表**：
 
-| 指令  | 含义                     | 条件              |
+| 指令 | 含义 | 条件 |
 | ----- | ------------------------ | ----------------- |
-| `je`  | Jump if Equal            | ZF = 1            |
-| `jne` | Jump if Not Equal        | ZF = 0            |
-| `jg`  | Jump if Greater          | ZF = 0 且 SF = OF |
-| `jge` | Jump if Greater or Equal | SF = OF           |
-| `jl`  | Jump if Less             | SF ≠ OF           |
-| `jle` | Jump if Less or Equal    | ZF = 1 或 SF ≠ OF |
+| `je` | Jump if Equal | ZF = 1 |
+| `jne` | Jump if Not Equal | ZF = 0 |
+| `jg` | Jump if Greater | ZF = 0 且 SF = OF |
+| `jge` | Jump if Greater or Equal | SF = OF |
+| `jl` | Jump if Less | SF ≠ OF |
+| `jle` | Jump if Less or Equal | ZF = 1 或 SF ≠ OF |
 
 ---
 
@@ -2588,22 +2588,22 @@ mov DWORD PTR [rbp-8], 0
 
 **关系运算符（Relational Operators）**：
 
-| 运算符 | 含义     | 示例     |
+| 运算符 | 含义 | 示例 |
 | ------ | -------- | -------- |
-| `==`   | 等于     | `x == 5` |
-| `!=`   | 不等于   | `x != 5` |
-| `>`    | 大于     | `x > 5`  |
-| `>=`   | 大于等于 | `x >= 5` |
-| `<`    | 小于     | `x < 5`  |
-| `<=`   | 小于等于 | `x <= 5` |
+| `==` | 等于 | `x == 5` |
+| `!=` | 不等于 | `x != 5` |
+| `>` | 大于 | `x > 5` |
+| `>=` | 大于等于 | `x >= 5` |
+| `<` | 小于 | `x < 5` |
+| `<=` | 小于等于 | `x <= 5` |
 
 **逻辑运算符（Logical Operators）**：
 
-| 运算符        | 含义   | 示例               |
+| 运算符 | 含义 | 示例 |
 | ------------- | ------ | ------------------ |
-| `and` / `&&`  | 逻辑与 | `x > 0 and x < 10` |
-| `or` / `\|\|` | 逻辑或 | `x < 0 or x > 10`  |
-| `not` / `!`   | 逻辑非 | `not (x > 5)`      |
+| `and` / `&&` | 逻辑与 | `x > 0 and x < 10` |
+| `or` / `\|\|` | 逻辑或 | `x < 0 or x > 10` |
+| `not` / `!` | 逻辑非 | `not (x > 5)` |
 
 **运算符优先级**：
 ```
@@ -2621,11 +2621,11 @@ y = 20
 
 # 复合条件
 if x > 5 and y < 30:
-    print("满足条件")
+ print("满足条件")
 
 # 等价于
 if (x > 5) and (y < 30):
-    print("满足条件")
+ print("满足条件")
 ```
 
 ---
@@ -2650,23 +2650,23 @@ $$
 ```python
 # 原始表达式
 if not (x > 5 and y < 10):
-    print("不满足条件")
+ print("不满足条件")
 
 # 应用 De Morgan 定律
 if x <= 5 or y >= 10:
-    print("不满足条件")
+ print("不满足条件")
 ```
 
 **C**：
 ```c
 // 原始表达式
 if (!(x > 5 && y < 10)) {
-    printf("不满足条件\n");
+ printf("不满足条件\n");
 }
 
 // 应用 De Morgan 定律
 if (x <= 5 || y >= 10) {
-    printf("不满足条件\n");
+ printf("不满足条件\n");
 }
 ```
 
@@ -2679,21 +2679,21 @@ if (x <= 5 || y >= 10) {
 ```c
 // 歧义：else 属于哪个 if？
 if (x > 0)
-    if (y > 0)
-        printf("x 和 y 都大于 0\n");
+ if (y > 0)
+ printf("x 和 y 都大于 0\n");
 else
-    printf("x 小于等于 0\n");  // 错误！实际上属于内层 if
+ printf("x 小于等于 0\n"); // 错误！实际上属于内层 if
 ```
 
 **正确写法**：
 ```c
 // 使用花括号明确范围
 if (x > 0) {
-    if (y > 0) {
-        printf("x 和 y 都大于 0\n");
-    }
+ if (y > 0) {
+ printf("x 和 y 都大于 0\n");
+ }
 } else {
-    printf("x 小于等于 0\n");
+ printf("x 小于等于 0\n");
 }
 ```
 
@@ -2707,14 +2707,14 @@ if (x > 0) {
 # 错误：浮点数精度问题
 x = 0.1 + 0.2
 if x == 0.3:
-    print("相等")
+ print("相等")
 else:
-    print("不相等")  # 输出：不相等
+ print("不相等") # 输出：不相等
 
 # 正确：使用误差范围
 epsilon = 1e-9
 if abs(x - 0.3) < epsilon:
-    print("相等")
+ print("相等")
 ```
 
 ---
@@ -2724,21 +2724,21 @@ if abs(x - 0.3) < epsilon:
 ```c
 // 错误：使用赋值而非比较
 int x = 10;
-if (x = 5) {  // 赋值，x 变为 5，条件为真
-    printf("x 等于 5\n");
+if (x = 5) { // 赋值，x 变为 5，条件为真
+ printf("x 等于 5\n");
 }
 
 // 正确：使用比较运算符
 if (x == 5) {
-    printf("x 等于 5\n");
+ printf("x 等于 5\n");
 }
 ```
 
 **防御性编程（Yoda Conditions）**：
 ```c
 // 将常量放在左边，避免误写赋值
-if (5 == x) {  // 如果误写为 5 = x，编译器会报错
-    printf("x 等于 5\n");
+if (5 == x) { // 如果误写为 5 = x，编译器会报错
+ printf("x 等于 5\n");
 }
 ```
 
@@ -2750,15 +2750,15 @@ if (5 == x) {  // 如果误写为 5 = x，编译器会报错
 int x = 2;
 
 switch (x) {
-    case 1:
-        printf("A\n");
-    case 2:
-        printf("B\n");  // 输出
-    case 3:
-        printf("C\n");  // 也会输出（穿透）
-        break;
-    default:
-        printf("D\n");
+ case 1:
+ printf("A\n");
+ case 2:
+ printf("B\n"); // 输出
+ case 3:
+ printf("C\n"); // 也会输出（穿透）
+ break;
+ default:
+ printf("D\n");
 }
 
 // 输出：
@@ -2769,17 +2769,17 @@ switch (x) {
 **正确写法**：
 ```c
 switch (x) {
-    case 1:
-        printf("A\n");
-        break;
-    case 2:
-        printf("B\n");
-        break;  // 添加 break
-    case 3:
-        printf("C\n");
-        break;
-    default:
-        printf("D\n");
+ case 1:
+ printf("A\n");
+ break;
+ case 2:
+ printf("B\n");
+ break; // 添加 break
+ case 3:
+ printf("C\n");
+ break;
+ default:
+ printf("D\n");
 }
 ```
 
@@ -2791,11 +2791,11 @@ switch (x) {
 ```c
 // 不好：省略花括号
 if (x > 0)
-    printf("正数\n");
+ printf("正数\n");
 
 // 好：始终使用花括号
 if (x > 0) {
-    printf("正数\n");
+ printf("正数\n");
 }
 ```
 
@@ -2803,20 +2803,20 @@ if (x > 0) {
 ```python
 # 不好：嵌套过深
 if condition1:
-    if condition2:
-        if condition3:
-            if condition4:
-                do_something()
+ if condition2:
+ if condition3:
+ if condition4:
+ do_something()
 
 # 好：提前返回
 if not condition1:
-    return
+ return
 if not condition2:
-    return
+ return
 if not condition3:
-    return
+ return
 if not condition4:
-    return
+ return
 do_something()
 ```
 
@@ -2824,18 +2824,18 @@ do_something()
 ```python
 # 将最可能的情况放在前面
 if common_case:
-    handle_common()
+ handle_common()
 elif rare_case1:
-    handle_rare1()
+ handle_rare1()
 elif rare_case2:
-    handle_rare2()
+ handle_rare2()
 ```
 
 **4. 使用有意义的条件变量**
 ```python
 # 不好
 if x > 18 and y == 1 and z < 100:
-    do_something()
+ do_something()
 
 # 好
 is_adult = x > 18
@@ -2843,7 +2843,7 @@ has_permission = y == 1
 within_limit = z < 100
 
 if is_adult and has_permission and within_limit:
-    do_something()
+ do_something()
 ```
 
 ---
@@ -2852,13 +2852,13 @@ if is_adult and has_permission and within_limit:
 
 选择结构的核心特点：
 
-| 特性         | 说明                            |
+| 特性 | 说明 |
 | ------------ | ------------------------------- |
-| **分支类型** | 单分支、双分支、多分支          |
-| **执行规则** | 根据条件选择唯一路径            |
-| **条件求值** | 布尔表达式，支持短路求值        |
-| **嵌套**     | 可嵌套，但应避免过深            |
-| **扁平化**   | 提前返回、逻辑运算符简化        |
+| **分支类型** | 单分支、双分支、多分支 |
+| **执行规则** | 根据条件选择唯一路径 |
+| **条件求值** | 布尔表达式，支持短路求值 |
+| **嵌套** | 可嵌套，但应避免过深 |
+| **扁平化** | 提前返回、逻辑运算符简化 |
 | **汇编实现** | 条件跳转指令（jmp, je, jne 等） |
 
 **核心原则**：
@@ -2880,11 +2880,11 @@ if is_adult and has_permission and within_limit:
 
 **变量的三要素**：
 
-| 要素             | 说明                             | 示例                    |
+| 要素 | 说明 | 示例 |
 | ---------------- | -------------------------------- | ----------------------- |
-| **名称（Name）** | 标识符，用于引用变量             | `age`, `userName`       |
-| **类型（Type）** | 数据类型，决定内存大小和解释方式 | `int`, `float`, `str`   |
-| **值（Value）**  | 存储在内存中的数据               | `25`, `3.14`, `"Alice"` |
+| **名称（Name）** | 标识符，用于引用变量 | `age`, `userName` |
+| **类型（Type）** | 数据类型，决定内存大小和解释方式 | `int`, `float`, `str` |
+| **值（Value）** | 存储在内存中的数据 | `25`, `3.14`, `"Alice"` |
 
 ---
 
@@ -2898,13 +2898,13 @@ int x = 42;
 **内存布局**：
 ```
 变量名：x
-类型：  int（4 字节）
-地址：  0x7ffeefbff5ac
-值：    42
+类型： int（4 字节）
+地址： 0x7ffeefbff5ac
+值： 42
 
 内存视图：
-地址              内容（十六进制）  内容（十进制）
-0x7ffeefbff5ac   2A 00 00 00      42
+地址 内容（十六进制） 内容（十进制）
+0x7ffeefbff5ac 2A 00 00 00 42
 ```
 
 **关键概念**：
@@ -2919,20 +2919,20 @@ int x = 42;
 **声明（Declaration）**：告诉编译器变量的名称和类型，不分配内存。
 
 ```c
-extern int x;  // 声明：x 在其他地方定义
+extern int x; // 声明：x 在其他地方定义
 ```
 
 **定义（Definition）**：分配内存并可选地初始化。
 
 ```c
-int x;         // 定义：分配内存，未初始化
-int y = 42;    // 定义并初始化
+int x; // 定义：分配内存，未初始化
+int y = 42; // 定义并初始化
 ```
 
 **Python 的特殊性**：
 ```python
 # Python 没有声明，只有定义
-x = 42  # 定义并初始化
+x = 42 # 定义并初始化
 ```
 
 ---
@@ -2944,11 +2944,11 @@ x = 42  # 定义并初始化
 #include <stdio.h>
 
 int main() {
-    int x = 42;
-    printf("变量 x 的值：%d\n", x);
-    printf("变量 x 的地址：%p\n", (void*)&x);  // & 取地址运算符
-    printf("变量 x 的大小：%zu 字节\n", sizeof(x));
-    return 0;
+ int x = 42;
+ printf("变量 x 的值：%d\n", x);
+ printf("变量 x 的地址：%p\n", (void*)&x); // & 取地址运算符
+ printf("变量 x 的大小：%zu 字节\n", sizeof(x));
+ return 0;
 }
 ```
 
@@ -2983,31 +2983,31 @@ print(f"变量 x 的类型：{type(x)}")
 **C 语言（指针）**：
 ```c
 int x = 42;
-int *p = &x;  // p 是 x 的别名
+int *p = &x; // p 是 x 的别名
 
-printf("x = %d\n", x);      // 输出：42
-printf("*p = %d\n", *p);    // 输出：42
+printf("x = %d\n", x); // 输出：42
+printf("*p = %d\n", *p); // 输出：42
 
-*p = 100;  // 通过 p 修改 x
-printf("x = %d\n", x);      // 输出：100
+*p = 100; // 通过 p 修改 x
+printf("x = %d\n", x); // 输出：100
 ```
 
 **Python（引用）**：
 ```python
 x = [1, 2, 3]
-y = x  # y 是 x 的别名
+y = x # y 是 x 的别名
 
-print(x)  # 输出：[1, 2, 3]
-print(y)  # 输出：[1, 2, 3]
+print(x) # 输出：[1, 2, 3]
+print(y) # 输出：[1, 2, 3]
 
-y.append(4)  # 通过 y 修改
-print(x)     # 输出：[1, 2, 3, 4]
+y.append(4) # 通过 y 修改
+print(x) # 输出：[1, 2, 3, 4]
 ```
 
 **内存视图**：
 ```
 x ──┐
-    ├──> [1, 2, 3, 4]
+ ├──> [1, 2, 3, 4]
 y ──┘
 ```
 
@@ -3020,13 +3020,13 @@ y ──┘
 ```c
 // C 语言
 int x = 42;
-x = "hello";  // 错误：类型不匹配
+x = "hello"; // 错误：类型不匹配
 ```
 
 ```java
 // Java
 int x = 42;
-x = "hello";  // 编译错误
+x = "hello"; // 编译错误
 ```
 
 **动态类型（Dynamic Typing）**：运行时确定类型，可以改变。
@@ -3034,19 +3034,19 @@ x = "hello";  // 编译错误
 ```python
 # Python
 x = 42
-print(type(x))  # <class 'int'>
+print(type(x)) # <class 'int'>
 
 x = "hello"
-print(type(x))  # <class 'str'>
+print(type(x)) # <class 'str'>
 ```
 
 ```javascript
 // JavaScript
 let x = 42;
-console.log(typeof x);  // number
+console.log(typeof x); // number
 
 x = "hello";
-console.log(typeof x);  // string
+console.log(typeof x); // string
 ```
 
 ---
@@ -3055,29 +3055,29 @@ console.log(typeof x);  // string
 
 **C 语言**：
 
-| 类型      | 大小（字节）  | 范围                                                   |
+| 类型 | 大小（字节） | 范围 |
 | --------- | ------------- | ------------------------------------------------------ |
-| `char`    | 1             | -128 ~ 127                                             |
-| `short`   | 2             | -32,768 ~ 32,767                                       |
-| `int`     | 4             | -2,147,483,648 ~ 2,147,483,647                         |
-| `long`    | 8             | -9,223,372,036,854,775,808 ~ 9,223,372,036,854,775,807 |
-| `float`   | 4             | ±3.4E-38 ~ ±3.4E+38                                    |
-| `double`  | 8             | ±1.7E-308 ~ ±1.7E+308                                  |
-| `pointer` | 8（64位系统） | 地址范围                                               |
+| `char` | 1 | -128 ~ 127 |
+| `short` | 2 | -32,768 ~ 32,767 |
+| `int` | 4 | -2,147,483,648 ~ 2,147,483,647 |
+| `long` | 8 | -9,223,372,036,854,775,808 ~ 9,223,372,036,854,775,807 |
+| `float` | 4 | ±3.4E-38 ~ ±3.4E+38 |
+| `double` | 8 | ±1.7E-308 ~ ±1.7E+308 |
+| `pointer` | 8（64位系统） | 地址范围 |
 
 **示例**：
 ```c
 #include <stdio.h>
 
 int main() {
-    printf("char:    %zu 字节\n", sizeof(char));
-    printf("short:   %zu 字节\n", sizeof(short));
-    printf("int:     %zu 字节\n", sizeof(int));
-    printf("long:    %zu 字节\n", sizeof(long));
-    printf("float:   %zu 字节\n", sizeof(float));
-    printf("double:  %zu 字节\n", sizeof(double));
-    printf("pointer: %zu 字节\n", sizeof(void*));
-    return 0;
+ printf("char: %zu 字节\n", sizeof(char));
+ printf("short: %zu 字节\n", sizeof(short));
+ printf("int: %zu 字节\n", sizeof(int));
+ printf("long: %zu 字节\n", sizeof(long));
+ printf("float: %zu 字节\n", sizeof(float));
+ printf("double: %zu 字节\n", sizeof(double));
+ printf("pointer: %zu 字节\n", sizeof(void*));
+ return 0;
 }
 ```
 
@@ -3103,25 +3103,25 @@ print(f"list 对象大小：{sys.getsizeof(lst)} 字节")
 
 **未初始化的变量（C 语言）**：
 ```c
-int x;  // 未初始化，值不确定（垃圾值）
-printf("%d\n", x);  // 未定义行为（Undefined Behavior）
+int x; // 未初始化，值不确定（垃圾值）
+printf("%d\n", x); // 未定义行为（Undefined Behavior）
 ```
 
 **初始化**：
 ```c
-int x = 0;     // 显式初始化
-int y = {0};   // 聚合初始化
+int x = 0; // 显式初始化
+int y = {0}; // 聚合初始化
 int z;
-z = 0;         // 赋值
+z = 0; // 赋值
 ```
 
 **Python 的自动初始化**：
 ```python
 # Python 变量必须先赋值才能使用
-print(x)  # NameError: name 'x' is not defined
+print(x) # NameError: name 'x' is not defined
 
 x = 0
-print(x)  # 输出：0
+print(x) # 输出：0
 ```
 
 ---
@@ -3130,23 +3130,23 @@ print(x)  # 输出：0
 
 **C 语言**：
 ```c
-const int MAX = 100;  // 常量，不可修改
-MAX = 200;            // 错误：赋值给只读变量
+const int MAX = 100; // 常量，不可修改
+MAX = 200; // 错误：赋值给只读变量
 
-#define PI 3.14159    // 宏定义（预处理器替换）
+#define PI 3.14159 // 宏定义（预处理器替换）
 ```
 
 **Python**：
 ```python
 # Python 没有真正的常量，约定使用大写命名
 MAX = 100
-MAX = 200  # 可以修改，但不推荐
+MAX = 200 # 可以修改，但不推荐
 ```
 
 **Java**：
 ```java
-final int MAX = 100;  // 常量
-MAX = 200;            // 编译错误
+final int MAX = 100; // 常量
+MAX = 200; // 编译错误
 ```
 
 ---
@@ -3158,21 +3158,21 @@ MAX = 200;            // 编译错误
 ```
 高地址
 ┌─────────────────┐
-│   命令行参数     │
-│   环境变量       │
+│ 命令行参数 │
+│ 环境变量 │
 ├─────────────────┤
-│   栈（Stack）    │  ← 向下增长
-│       ↓         │
-│                 │
-│                 │
-│       ↑         │
-│   堆（Heap）     │  ← 向上增长
+│ 栈（Stack） │ ← 向下增长
+│ ↓ │
+│ │
+│ │
+│ ↑ │
+│ 堆（Heap） │ ← 向上增长
 ├─────────────────┤
-│   BSS 段        │  未初始化的全局变量
+│ BSS 段 │ 未初始化的全局变量
 ├─────────────────┤
-│   数据段（Data） │  已初始化的全局变量
+│ 数据段（Data） │ 已初始化的全局变量
 ├─────────────────┤
-│   代码段（Text） │  程序指令
+│ 代码段（Text） │ 程序指令
 └─────────────────┘
 低地址
 ```
@@ -3183,21 +3183,21 @@ MAX = 200;            // 编译错误
 
 **特点**：
 
-| 特性         | 说明                         |
+| 特性 | 说明 |
 | ------------ | ---------------------------- |
-| **分配方式** | 自动分配和释放               |
-| **生命周期** | 函数调用期间                 |
-| **大小**     | 有限（通常 1-8 MB）          |
-| **速度**     | 快（连续内存，CPU 缓存友好） |
-| **管理**     | 编译器自动管理               |
-| **数据结构** | 后进先出（LIFO）             |
+| **分配方式** | 自动分配和释放 |
+| **生命周期** | 函数调用期间 |
+| **大小** | 有限（通常 1-8 MB） |
+| **速度** | 快（连续内存，CPU 缓存友好） |
+| **管理** | 编译器自动管理 |
+| **数据结构** | 后进先出（LIFO） |
 
 **示例**：
 ```c
 void func() {
-    int x = 10;      // 在栈上分配
-    int arr[100];    // 在栈上分配
-}  // 函数返回时自动释放
+ int x = 10; // 在栈上分配
+ int arr[100]; // 在栈上分配
+} // 函数返回时自动释放
 ```
 
 **栈帧（Stack Frame）**：
@@ -3206,15 +3206,15 @@ void func() {
 
 高地址
 ┌─────────────────┐
-│   返回地址       │
+│ 返回地址 │
 ├─────────────────┤
-│   旧的 rbp      │  ← rbp（栈帧基址）
+│ 旧的 rbp │ ← rbp（栈帧基址）
 ├─────────────────┤
-│   局部变量 x     │
+│ 局部变量 x │
 ├─────────────────┤
-│   局部变量 y     │
+│ 局部变量 y │
 ├─────────────────┤
-│   ...           │  ← rsp（栈顶指针）
+│ ... │ ← rsp（栈顶指针）
 └─────────────────┘
 低地址
 ```
@@ -3222,8 +3222,8 @@ void func() {
 **栈溢出（Stack Overflow）**：
 ```c
 void recursive() {
-    int arr[10000];  // 大数组
-    recursive();     // 无限递归
+ int arr[10000]; // 大数组
+ recursive(); // 无限递归
 }
 // 栈空间耗尽，程序崩溃
 ```
@@ -3234,41 +3234,41 @@ void recursive() {
 
 **特点**：
 
-| 特性         | 说明                                         |
+| 特性 | 说明 |
 | ------------ | -------------------------------------------- |
 | **分配方式** | 手动分配和释放（C）或自动回收（Python/Java） |
-| **生命周期** | 程序员控制或 GC 回收                         |
-| **大小**     | 大（受系统内存限制）                         |
-| **速度**     | 慢（需要查找空闲块，可能碎片化）             |
-| **管理**     | 程序员或 GC 管理                             |
-| **数据结构** | 自由分配                                     |
+| **生命周期** | 程序员控制或 GC 回收 |
+| **大小** | 大（受系统内存限制） |
+| **速度** | 慢（需要查找空闲块，可能碎片化） |
+| **管理** | 程序员或 GC 管理 |
+| **数据结构** | 自由分配 |
 
 **C 语言（手动管理）**：
 ```c
 #include <stdlib.h>
 
 int main() {
-    // 在堆上分配内存
-    int *p = (int*)malloc(sizeof(int) * 100);
-    if (p == NULL) {
-        // 分配失败
-        return 1;
-    }
-    
-    // 使用内存
-    p[0] = 42;
-    
-    // 释放内存
-    free(p);
-    
-    return 0;
+ // 在堆上分配内存
+ int *p = (int*)malloc(sizeof(int) * 100);
+ if (p == NULL) {
+ // 分配失败
+ return 1;
+ }
+
+ // 使用内存
+ p[0] = 42;
+
+ // 释放内存
+ free(p);
+
+ return 0;
 }
 ```
 
 **Python（自动管理）**：
 ```python
 # 在堆上分配
-lst = [1, 2, 3]  # 列表对象在堆上
+lst = [1, 2, 3] # 列表对象在堆上
 # 不需要手动释放，GC 自动回收
 ```
 
@@ -3288,22 +3288,22 @@ int[] arr = new int[100];
 #include <stdlib.h>
 
 int main() {
-    // 栈上分配
-    int stack_var = 10;
-    int stack_arr[100];
-    
-    // 堆上分配
-    int *heap_var = (int*)malloc(sizeof(int));
-    int *heap_arr = (int*)malloc(sizeof(int) * 100);
-    
-    *heap_var = 20;
-    
-    // 栈变量自动释放
-    // 堆变量需要手动释放
-    free(heap_var);
-    free(heap_arr);
-    
-    return 0;
+ // 栈上分配
+ int stack_var = 10;
+ int stack_arr[100];
+
+ // 堆上分配
+ int *heap_var = (int*)malloc(sizeof(int));
+ int *heap_arr = (int*)malloc(sizeof(int) * 100);
+
+ *heap_var = 20;
+
+ // 栈变量自动释放
+ // 堆变量需要手动释放
+ free(heap_var);
+ free(heap_arr);
+
+ return 0;
 }
 ```
 
@@ -3311,16 +3311,16 @@ int main() {
 ```
 栈：
 ┌─────────────────┐
-│ stack_var = 10  │
-│ stack_arr[100]  │
-│ heap_var = 0x... │  ← 指针本身在栈上
-│ heap_arr = 0x... │  ← 指针本身在栈上
+│ stack_var = 10 │
+│ stack_arr[100] │
+│ heap_var = 0x... │ ← 指针本身在栈上
+│ heap_arr = 0x... │ ← 指针本身在栈上
 └─────────────────┘
 
 堆：
 ┌─────────────────┐
-│ *heap_var = 20  │  ← 指针指向的数据在堆上
-│ heap_arr[100]   │  ← 数组数据在堆上
+│ *heap_var = 20 │ ← 指针指向的数据在堆上
+│ heap_arr[100] │ ← 数组数据在堆上
 └─────────────────┘
 ```
 
@@ -3333,15 +3333,15 @@ int main() {
 **C 语言示例**：
 ```c
 void leak() {
-    int *p = (int*)malloc(sizeof(int) * 100);
-    // 忘记 free(p)
-}  // p 指针被销毁，但堆上的内存无法释放
+ int *p = (int*)malloc(sizeof(int) * 100);
+ // 忘记 free(p)
+} // p 指针被销毁，但堆上的内存无法释放
 
 int main() {
-    for (int i = 0; i < 1000000; i++) {
-        leak();  // 每次调用泄漏 400 字节
-    }
-    return 0;
+ for (int i = 0; i < 1000000; i++) {
+ leak(); // 每次调用泄漏 400 字节
+ }
+ return 0;
 }
 ```
 
@@ -3359,81 +3359,81 @@ int main() {
 **Python**：
 ```python
 def modify_list(lst):
-    lst.append(4)  # 修改列表内容
-    print(f"函数内：{lst}")
+ lst.append(4) # 修改列表内容
+ print(f"函数内：{lst}")
 
 def reassign_list(lst):
-    lst = [99, 99]  # 重新赋值（不影响外部）
-    print(f"函数内：{lst}")
+ lst = [99, 99] # 重新赋值（不影响外部）
+ print(f"函数内：{lst}")
 
 # 测试1：修改内容
 my_list = [1, 2, 3]
 modify_list(my_list)
-print(f"函数外：{my_list}")  # 输出：[1, 2, 3, 4]
+print(f"函数外：{my_list}") # 输出：[1, 2, 3, 4]
 
 # 测试2：重新赋值
 my_list = [1, 2, 3]
 reassign_list(my_list)
-print(f"函数外：{my_list}")  # 输出：[1, 2, 3]
+print(f"函数外：{my_list}") # 输出：[1, 2, 3]
 ```
 
 **输出**：
 ```
 函数内：[1, 2, 3, 4]
-函数外：[1, 2, 3, 4]  ← 内容被修改
+函数外：[1, 2, 3, 4] ← 内容被修改
 
 函数内：[99, 99]
-函数外：[1, 2, 3]     ← 未受影响
+函数外：[1, 2, 3] ← 未受影响
 ```
 
 **内存视图**：
 ```
 修改内容：
 my_list ──┐
-          ├──> [1, 2, 3, 4]
+ ├──> [1, 2, 3, 4]
 lst ──────┘
 
 重新赋值：
 my_list ────> [1, 2, 3]
-lst ────────> [99, 99]  ← 指向新对象
+lst ────────> [99, 99] ← 指向新对象
 ```
 
 **Java**：
 ```java
 void modifyArray(int[] arr) {
-    arr[0] = 99;  // 修改数组内容
+ arr[0] = 99; // 修改数组内容
 }
 
 void reassignArray(int[] arr) {
-    arr = new int[]{99, 99};  // 重新赋值（不影响外部）
+ arr = new int[]{99, 99}; // 重新赋值（不影响外部）
 }
 
 int[] myArray = {1, 2, 3};
 modifyArray(myArray);
-System.out.println(Arrays.toString(myArray));  // 输出：[99, 2, 3]
+System.out.println(Arrays.toString(myArray)); // 输出：[99, 2, 3]
 
 myArray = new int[]{1, 2, 3};
 reassignArray(myArray);
-System.out.println(Arrays.toString(myArray));  // 输出：[1, 2, 3]
+System.out.println(Arrays.toString(myArray)); // 输出：[1, 2, 3]
 ```
 
 **JavaScript**：
 ```javascript
 function modifyObject(obj) {
-    obj.x = 99;  // 修改对象属性
+ obj.x = 99; // 修改对象属性
 }
 
 function reassignObject(obj) {
-    obj = {x: 99};  // 重新赋值（不影响外部）
+ obj = {x: 99}; // 重新赋值（不影响外部）
 }
 
 let myObj = {x: 10};
 modifyObject(myObj);
-console.log(myObj.x);  // 输出：99
+console.log(myObj.x); // 输出：99
 
 myObj = {x: 10};
 reassignObject(myObj);
-console.log(myObj.x);  // 输出：10
+console.log(myObj.x); // 输出：10
 ```
 
 ---
@@ -3447,19 +3447,19 @@ console.log(myObj.x);  // 输出：10
 # 整数（不可变）
 x = 10
 y = x
-x = 20  # 创建新对象，y 不受影响
-print(y)  # 输出：10
+x = 20 # 创建新对象，y 不受影响
+print(y) # 输出：10
 
 # 字符串（不可变）
 s1 = "hello"
 s2 = s1
-s1 = s1 + " world"  # 创建新字符串
-print(s2)  # 输出：hello
+s1 = s1 + " world" # 创建新字符串
+print(s2) # 输出：hello
 
 # 元组（不可变）
 t1 = (1, 2, 3)
 t2 = t1
-# t1[0] = 99  # 错误：元组不可修改
+# t1[0] = 99 # 错误：元组不可修改
 ```
 
 **内存视图**：
@@ -3469,7 +3469,7 @@ x ────> 10
 
 x = 20:
 x ────> 20
-y ────> 10  ← 仍然指向原对象
+y ────> 10 ← 仍然指向原对象
 ```
 
 **可变对象（Mutable Objects）**：
@@ -3478,13 +3478,13 @@ y ────> 10  ← 仍然指向原对象
 lst1 = [1, 2, 3]
 lst2 = lst1
 lst1.append(4)
-print(lst2)  # 输出：[1, 2, 3, 4]
+print(lst2) # 输出：[1, 2, 3, 4]
 
 # 字典（可变）
 dict1 = {'a': 1}
 dict2 = dict1
 dict1['b'] = 2
-print(dict2)  # 输出：{'a': 1, 'b': 2}
+print(dict2) # 输出：{'a': 1, 'b': 2}
 ```
 
 ---
@@ -3502,16 +3502,16 @@ original = [[1, 2], [3, 4]]
 shallow = copy.copy(original)
 
 shallow[0][0] = 99
-print(original)  # 输出：[[99, 2], [3, 4]]  ← 受影响
-print(shallow)   # 输出：[[99, 2], [3, 4]]
+print(original) # 输出：[[99, 2], [3, 4]] ← 受影响
+print(shallow) # 输出：[[99, 2], [3, 4]]
 ```
 
 **内存视图**：
 ```
 original ──┐
-           ├──> [指针1, 指针2]
-shallow ───┘         ↓       ↓
-                  [1, 2]  [3, 4]  ← 共享
+ ├──> [指针1, 指针2]
+shallow ───┘ ↓ ↓
+ [1, 2] [3, 4] ← 共享
 ```
 
 **深拷贝（Deep Copy）**：递归复制所有层级。
@@ -3525,38 +3525,38 @@ original = [[1, 2], [3, 4]]
 deep = copy.deepcopy(original)
 
 deep[0][0] = 99
-print(original)  # 输出：[[1, 2], [3, 4]]  ← 未受影响
-print(deep)      # 输出：[[99, 2], [3, 4]]
+print(original) # 输出：[[1, 2], [3, 4]] ← 未受影响
+print(deep) # 输出：[[99, 2], [3, 4]]
 ```
 
 **内存视图**：
 ```
 original ────> [指针1, 指针2]
-                   ↓       ↓
-                [1, 2]  [3, 4]
+ ↓ ↓
+ [1, 2] [3, 4]
 
 deep ────────> [指针3, 指针4]
-                   ↓       ↓
-                [99, 2] [3, 4]  ← 独立副本
+ ↓ ↓
+ [99, 2] [3, 4] ← 独立副本
 ```
 
 **Java**：
 ```java
 // 浅拷贝
 int[][] original = {{1, 2}, {3, 4}};
-int[][] shallow = original.clone();  // 只复制第一层
+int[][] shallow = original.clone(); // 只复制第一层
 
 shallow[0][0] = 99;
-System.out.println(original[0][0]);  // 输出：99
+System.out.println(original[0][0]); // 输出：99
 
 // 深拷贝
 int[][] deep = new int[original.length][];
 for (int i = 0; i < original.length; i++) {
-    deep[i] = original[i].clone();
+ deep[i] = original[i].clone();
 }
 
 deep[0][0] = 99;
-System.out.println(original[0][0]);  // 输出：1
+System.out.println(original[0][0]); // 输出：1
 ```
 
 ---
@@ -3565,51 +3565,51 @@ System.out.println(original[0][0]);  // 输出：1
 
 **对比表**：
 
-| 传递方式     | 机制     | 修改形参   | 修改对象内容 | 语言                     |
+| 传递方式 | 机制 | 修改形参 | 修改对象内容 | 语言 |
 | ------------ | -------- | ---------- | ------------ | ------------------------ |
-| **值传递**   | 复制值   | 不影响实参 | N/A          | C, Go                    |
-| **引用传递** | 传递别名 | 影响实参   | 影响实参     | C++（&）, C#（ref）      |
-| **共享传递** | 复制引用 | 不影响实参 | 影响实参     | Python, Java, JavaScript |
+| **值传递** | 复制值 | 不影响实参 | N/A | C, Go |
+| **引用传递** | 传递别名 | 影响实参 | 影响实参 | C++（&）, C#（ref） |
+| **共享传递** | 复制引用 | 不影响实参 | 影响实参 | Python, Java, JavaScript |
 
 **示例对比**：
 
 **C（值传递）**：
 ```c
 void func(int x) {
-    x = 99;  // 不影响外部
+ x = 99; // 不影响外部
 }
 
 int a = 10;
 func(a);
-printf("%d\n", a);  // 输出：10
+printf("%d\n", a); // 输出：10
 ```
 
 **C++（引用传递）**：
 ```cpp
 void func(int &x) {
-    x = 99;  // 影响外部
+ x = 99; // 影响外部
 }
 
 int a = 10;
 func(a);
-cout << a << endl;  // 输出：99
+cout << a << endl; // 输出：99
 ```
 
 **Python（共享传递）**：
 ```python
 def func(x):
-    x = 99  # 不影响外部（重新赋值）
+ x = 99 # 不影响外部（重新赋值）
 
 a = 10
 func(a)
-print(a)  # 输出：10
+print(a) # 输出：10
 
 def func2(lst):
-    lst.append(99)  # 影响外部（修改内容）
+ lst.append(99) # 影响外部（修改内容）
 
 b = [1, 2]
 func2(b)
-print(b)  # 输出：[1, 2, 99]
+print(b) # 输出：[1, 2, 99]
 ```
 
 ---
@@ -3620,12 +3620,12 @@ print(b)  # 输出：[1, 2, 99]
 
 **作用域类型**：
 
-| 类型           | 说明             | 生命周期     |
+| 类型 | 说明 | 生命周期 |
 | -------------- | ---------------- | ------------ |
-| **块级作用域** | 代码块内（`{}`） | 块执行期间   |
-| **函数作用域** | 函数内           | 函数调用期间 |
-| **全局作用域** | 整个程序         | 程序运行期间 |
-| **模块作用域** | 模块/文件内      | 模块加载期间 |
+| **块级作用域** | 代码块内（`{}`） | 块执行期间 |
+| **函数作用域** | 函数内 | 函数调用期间 |
+| **全局作用域** | 整个程序 | 程序运行期间 |
+| **模块作用域** | 模块/文件内 | 模块加载期间 |
 
 ---
 
@@ -3634,33 +3634,33 @@ print(b)  # 输出：[1, 2, 99]
 **C 语言（C99+）**：
 ```c
 int main() {
-    int x = 10;  // 外层作用域
-    
-    {
-        int x = 20;  // 内层作用域（遮蔽外层）
-        printf("内层 x = %d\n", x);  // 输出：20
-    }
-    
-    printf("外层 x = %d\n", x);  // 输出：10
-    return 0;
+ int x = 10; // 外层作用域
+
+ {
+ int x = 20; // 内层作用域（遮蔽外层）
+ printf("内层 x = %d\n", x); // 输出：20
+ }
+
+ printf("外层 x = %d\n", x); // 输出：10
+ return 0;
 }
 ```
 
 **JavaScript（let/const）**：
 ```javascript
 {
-    let x = 10;
-    console.log(x);  // 输出：10
+ let x = 10;
+ console.log(x); // 输出：10
 }
-console.log(x);  // 错误：x is not defined
+console.log(x); // 错误：x is not defined
 ```
 
 **Python（无块级作用域）**：
 ```python
 if True:
-    x = 10  # 在 if 块内定义
+ x = 10 # 在 if 块内定义
 
-print(x)  # 输出：10（Python 无块级作用域）
+print(x) # 输出：10（Python 无块级作用域）
 ```
 
 ---
@@ -3669,27 +3669,27 @@ print(x)  # 输出：10（Python 无块级作用域）
 
 **Python**：
 ```python
-x = 10  # 全局变量
+x = 10 # 全局变量
 
 def func():
-    x = 20  # 局部变量（遮蔽全局变量）
-    print(f"函数内 x = {x}")
+ x = 20 # 局部变量（遮蔽全局变量）
+ print(f"函数内 x = {x}")
 
-func()  # 输出：函数内 x = 20
-print(f"全局 x = {x}")  # 输出：全局 x = 10
+func() # 输出：函数内 x = 20
+print(f"全局 x = {x}") # 输出：全局 x = 10
 ```
 
 **JavaScript（var）**：
 ```javascript
-var x = 10;  // 全局变量
+var x = 10; // 全局变量
 
 function func() {
-    var x = 20;  // 局部变量
-    console.log(`函数内 x = ${x}`);
+ var x = 20; // 局部变量
+ console.log(`函数内 x = ${x}`);
 }
 
-func();  // 输出：函数内 x = 20
-console.log(`全局 x = ${x}`);  // 输出：全局 x = 10
+func(); // 输出：函数内 x = 20
+console.log(`全局 x = ${x}`); // 输出：全局 x = 10
 ```
 
 ---
@@ -3698,16 +3698,16 @@ console.log(`全局 x = ${x}`);  // 输出：全局 x = 10
 
 **C 语言**：
 ```c
-int global_var = 100;  // 全局变量
+int global_var = 100; // 全局变量
 
 void func() {
-    printf("%d\n", global_var);  // 可以访问
+ printf("%d\n", global_var); // 可以访问
 }
 
 int main() {
-    printf("%d\n", global_var);  // 可以访问
-    func();
-    return 0;
+ printf("%d\n", global_var); // 可以访问
+ func();
+ return 0;
 }
 ```
 
@@ -3716,9 +3716,9 @@ int main() {
 global_var = 100
 
 def func():
-    print(global_var)  # 可以读取
+ print(global_var) # 可以读取
 
-func()  # 输出：100
+func() # 输出：100
 ```
 
 **修改全局变量**：
@@ -3728,11 +3728,11 @@ func()  # 输出：100
 x = 10
 
 def modify():
-    global x  # 声明使用全局变量
-    x = 20
+ global x # 声明使用全局变量
+ x = 20
 
 modify()
-print(x)  # 输出：20
+print(x) # 输出：20
 ```
 
 **C 语言（直接修改）**：
@@ -3740,13 +3740,13 @@ print(x)  # 输出：20
 int x = 10;
 
 void modify() {
-    x = 20;  // 直接修改全局变量
+ x = 20; // 直接修改全局变量
 }
 
 int main() {
-    modify();
-    printf("%d\n", x);  // 输出：20
-    return 0;
+ modify();
+ printf("%d\n", x); // 输出：20
+ return 0;
 }
 ```
 
@@ -3758,36 +3758,36 @@ int main() {
 
 **Python**：
 ```python
-x = 10  # 全局
+x = 10 # 全局
 
 def outer():
-    x = 20  # 外层函数
-    
-    def inner():
-        x = 30  # 内层函数（遮蔽外层）
-        print(f"inner x = {x}")
-    
-    inner()  # 输出：inner x = 30
-    print(f"outer x = {x}")  # 输出：outer x = 20
+ x = 20 # 外层函数
+
+ def inner():
+ x = 30 # 内层函数（遮蔽外层）
+ print(f"inner x = {x}")
+
+ inner() # 输出：inner x = 30
+ print(f"outer x = {x}") # 输出：outer x = 20
 
 outer()
-print(f"global x = {x}")  # 输出：global x = 10
+print(f"global x = {x}") # 输出：global x = 10
 ```
 
 **C 语言**：
 
 ```c
-int x = 10;  // 全局
+int x = 10; // 全局
 
 void func() {
-    int x = 20;  // 局部（遮蔽全局）
-    printf("func x = %d\n", x);  // 输出：20
+ int x = 20; // 局部（遮蔽全局）
+ printf("func x = %d\n", x); // 输出：20
 }
 
 int main() {
-    printf("global x = %d\n", x);  // 输出：10
-    func();
-    return 0;
+ printf("global x = %d\n", x); // 输出：10
+ func();
+ return 0;
 }
 ```
 
@@ -3802,73 +3802,73 @@ int main() {
 **Python**：
 ```python
 def outer(x):
-    def inner(y):
-        return x + y  # 捕获外层的 x
-    return inner
+ def inner(y):
+ return x + y # 捕获外层的 x
+ return inner
 
 add_5 = outer(5)
-print(add_5(3))  # 输出：8
-print(add_5(10))  # 输出：15
+print(add_5(3)) # 输出：8
+print(add_5(10)) # 输出：15
 ```
 
 **内存视图**：
 ```
 outer(5) 调用后：
 ┌─────────────────┐
-│ inner 函数对象   │
-│ 捕获：x = 5     │  ← 闭包
+│ inner 函数对象 │
+│ 捕获：x = 5 │ ← 闭包
 └─────────────────┘
-     ↑
-     │
-  add_5
+ ↑
+ │
+ add_5
 ```
 
 **JavaScript**：
 ```javascript
 function outer(x) {
-    return function inner(y) {
-        return x + y;  // 捕获外层的 x
-    };
+ return function inner(y) {
+ return x + y; // 捕获外层的 x
+ };
 }
 
 const add5 = outer(5);
-console.log(add5(3));   // 输出：8
-console.log(add5(10));  // 输出：15
+console.log(add5(3)); // 输出：8
+console.log(add5(10)); // 输出：15
 ```
 
 **闭包的应用：计数器**：
 ```python
 def make_counter():
-    count = 0
-    
-    def increment():
-        nonlocal count  # 修改外层变量
-        count += 1
-        return count
-    
-    return increment
+ count = 0
+
+ def increment():
+ nonlocal count # 修改外层变量
+ count += 1
+ return count
+
+ return increment
 
 counter = make_counter()
-print(counter())  # 输出：1
-print(counter())  # 输出：2
-print(counter())  # 输出：3
+print(counter()) # 输出：1
+print(counter()) # 输出：2
+print(counter()) # 输出：3
 ```
 
 **JavaScript**：
 ```javascript
 function makeCounter() {
-    let count = 0;
-    
-    return function() {
-        count++;
-        return count;
-    };
+ let count = 0;
+
+ return function() {
+ count++;
+ return count;
+ };
 }
 
 const counter = makeCounter();
-console.log(counter());  // 输出：1
-console.log(counter());  // 输出：2
-console.log(counter());  // 输出：3
+console.log(counter()); // 输出：1
+console.log(counter()); // 输出：2
+console.log(counter()); // 输出：3
 ```
 
 ---
@@ -3878,66 +3878,66 @@ console.log(counter());  // 输出：3
 **Python**：
 ```python
 def create_account(initial_balance):
-    balance = initial_balance  # 私有变量
-    
-    def deposit(amount):
-        nonlocal balance
-        balance += amount
-        return balance
-    
-    def withdraw(amount):
-        nonlocal balance
-        if amount <= balance:
-            balance -= amount
-            return balance
-        else:
-            return "余额不足"
-    
-    def get_balance():
-        return balance
-    
-    return {
-        'deposit': deposit,
-        'withdraw': withdraw,
-        'get_balance': get_balance
-    }
+ balance = initial_balance # 私有变量
+
+ def deposit(amount):
+ nonlocal balance
+ balance += amount
+ return balance
+
+ def withdraw(amount):
+ nonlocal balance
+ if amount <= balance:
+ balance -= amount
+ return balance
+ else:
+ return "余额不足"
+
+ def get_balance():
+ return balance
+
+ return {
+ 'deposit': deposit,
+ 'withdraw': withdraw,
+ 'get_balance': get_balance
+ }
 
 account = create_account(1000)
-print(account['get_balance']())  # 输出：1000
-print(account['deposit'](500))   # 输出：1500
-print(account['withdraw'](200))  # 输出：1300
-# print(balance)  # 错误：无法直接访问 balance
+print(account['get_balance']()) # 输出：1000
+print(account['deposit'](500)) # 输出：1500
+print(account['withdraw'](200)) # 输出：1300
+# print(balance) # 错误：无法直接访问 balance
 ```
 
 **JavaScript（模块模式）**：
 ```javascript
 function createAccount(initialBalance) {
-    let balance = initialBalance;  // 私有变量
-    
-    return {
-        deposit(amount) {
-            balance += amount;
-            return balance;
-        },
-        withdraw(amount) {
-            if (amount <= balance) {
-                balance -= amount;
-                return balance;
-            } else {
-                return "余额不足";
-            }
-        },
-        getBalance() {
-            return balance;
-        }
-    };
+ let balance = initialBalance; // 私有变量
+
+ return {
+ deposit(amount) {
+ balance += amount;
+ return balance;
+ },
+ withdraw(amount) {
+ if (amount <= balance) {
+ balance -= amount;
+ return balance;
+ } else {
+ return "余额不足";
+ }
+ },
+ getBalance() {
+ return balance;
+ }
+ };
 }
 
 const account = createAccount(1000);
-console.log(account.getBalance());  // 输出：1000
-console.log(account.deposit(500));  // 输出：1500
+console.log(account.getBalance()); // 输出：1000
+console.log(account.deposit(500)); // 输出：1500
 console.log(account.withdraw(200)); // 输出：1300
-// console.log(balance);  // 错误：balance 不可访问
+// console.log(balance); // 错误：balance 不可访问
 ```
 
 ---
@@ -3949,14 +3949,14 @@ console.log(account.withdraw(200)); // 输出：1300
 // 错误：所有函数共享同一个 i
 var funcs = [];
 for (var i = 0; i < 3; i++) {
-    funcs.push(function() {
-        console.log(i);
-    });
+ funcs.push(function() {
+ console.log(i);
+ });
 }
 
-funcs[0]();  // 输出：3（而非 0）
-funcs[1]();  // 输出：3（而非 1）
-funcs[2]();  // 输出：3（而非 2）
+funcs[0](); // 输出：3（而非 0）
+funcs[1](); // 输出：3（而非 1）
+funcs[2](); // 输出：3（而非 2）
 ```
 
 **原因**：`var` 是函数作用域，所有闭包共享同一个 `i`。
@@ -3964,31 +3964,31 @@ funcs[2]();  // 输出：3（而非 2）
 **解决方案1：使用 let（块级作用域）**：
 ```javascript
 const funcs = [];
-for (let i = 0; i < 3; i++) {  // 使用 let
-    funcs.push(function() {
-        console.log(i);
-    });
+for (let i = 0; i < 3; i++) { // 使用 let
+ funcs.push(function() {
+ console.log(i);
+ });
 }
 
-funcs[0]();  // 输出：0
-funcs[1]();  // 输出：1
-funcs[2]();  // 输出：2
+funcs[0](); // 输出：0
+funcs[1](); // 输出：1
+funcs[2](); // 输出：2
 ```
 
 **解决方案2：立即执行函数（IIFE）**：
 ```javascript
 var funcs = [];
 for (var i = 0; i < 3; i++) {
-    funcs.push((function(j) {  // 立即执行，捕获当前 i
-        return function() {
-            console.log(j);
-        };
-    })(i));
+ funcs.push((function(j) { // 立即执行，捕获当前 i
+ return function() {
+ console.log(j);
+ };
+ })(i));
 }
 
-funcs[0]();  // 输出：0
-funcs[1]();  // 输出：1
-funcs[2]();  // 输出：2
+funcs[0](); // 输出：0
+funcs[1](); // 输出：1
+funcs[2](); // 输出：2
 ```
 
 **Python 的类似问题**：
@@ -3996,22 +3996,22 @@ funcs[2]();  // 输出：2
 # 错误：所有 lambda 共享同一个 i
 funcs = []
 for i in range(3):
-    funcs.append(lambda: print(i))
+ funcs.append(lambda: print(i))
 
-funcs[0]()  # 输出：2（而非 0）
-funcs[1]()  # 输出：2（而非 1）
-funcs[2]()  # 输出：2（而非 2）
+funcs[0]() # 输出：2（而非 0）
+funcs[1]() # 输出：2（而非 1）
+funcs[2]() # 输出：2（而非 2）
 ```
 
 **解决方案：使用默认参数**：
 ```python
 funcs = []
 for i in range(3):
-    funcs.append(lambda x=i: print(x))  # 捕获当前 i
+ funcs.append(lambda x=i: print(x)) # 捕获当前 i
 
-funcs[0]()  # 输出：0
-funcs[1]()  # 输出：1
-funcs[2]()  # 输出：2
+funcs[0]() # 输出：0
+funcs[1]() # 输出：1
+funcs[2]() # 输出：2
 ```
 
 ---
@@ -4022,20 +4022,20 @@ funcs[2]()  # 输出：2
 
 **Python**：
 ```python
-x = 10  # 全局
+x = 10 # 全局
 
 def outer():
-    x = 20  # 外层函数
-    
-    def middle():
-        x = 30  # 中层函数
-        
-        def inner():
-            print(x)  # 查找顺序：inner → middle → outer → global
-        
-        inner()  # 输出：30
-    
-    middle()
+ x = 20 # 外层函数
+
+ def middle():
+ x = 30 # 中层函数
+
+ def inner():
+ print(x) # 查找顺序：inner → middle → outer → global
+
+ inner() # 输出：30
+
+ middle()
 
 outer()
 ```
@@ -4043,21 +4043,21 @@ outer()
 **查找顺序**：
 ```
 1. inner 作用域：无 x
-2. middle 作用域：找到 x = 30 ✓
+2. middle 作用域：找到 x = 30
 ```
 
 **JavaScript**：
 ```javascript
-let x = 10;  // 全局
+let x = 10; // 全局
 
 function outer() {
-    let x = 20;  // 外层
-    
-    function inner() {
-        console.log(x);  // 查找：inner → outer → global
-    }
-    
-    inner();  // 输出：20
+ let x = 20; // 外层
+
+ function inner() {
+ console.log(x); // 查找：inner → outer → global
+ }
+
+ inner(); // 输出：20
 }
 
 outer();
@@ -4078,13 +4078,13 @@ outer();
 x = "global"
 
 def outer():
-    x = "enclosing"
-    
-    def inner():
-        x = "local"
-        print(x)  # 输出：local
-    
-    inner()
+ x = "enclosing"
+
+ def inner():
+ x = "local"
+ print(x) # 输出：local
+
+ inner()
 
 outer()
 ```
@@ -4092,13 +4092,13 @@ outer()
 **内置作用域**：
 ```python
 # len 是内置函数
-print(len([1, 2, 3]))  # 输出：3
+print(len([1, 2, 3])) # 输出：3
 
 # 遮蔽内置函数（不推荐）
 def outer():
-    len = 10  # 局部变量遮蔽内置函数
-    print(len)  # 输出：10
-    # print(len([1, 2, 3]))  # 错误：int 不可调用
+ len = 10 # 局部变量遮蔽内置函数
+ print(len) # 输出：10
+ # print(len([1, 2, 3])) # 错误：int 不可调用
 
 outer()
 ```
@@ -4113,52 +4113,52 @@ outer()
 x = 10
 
 def func():
-    global x
-    x = 20  # 修改全局变量
+ global x
+ x = 20 # 修改全局变量
 
 func()
-print(x)  # 输出：20
+print(x) # 输出：20
 ```
 
 **nonlocal**：修改外层函数的变量。
 
 ```python
 def outer():
-    x = 10
-    
-    def inner():
-        nonlocal x
-        x = 20  # 修改外层的 x
-    
-    inner()
-    print(x)  # 输出：20
+ x = 10
+
+ def inner():
+ nonlocal x
+ x = 20 # 修改外层的 x
+
+ inner()
+ print(x) # 输出：20
 
 outer()
 ```
 
 **对比**：
 ```python
-x = 10  # 全局
+x = 10 # 全局
 
 def outer():
-    x = 20  # 外层
-    
-    def inner1():
-        global x
-        x = 30  # 修改全局 x
-    
-    def inner2():
-        nonlocal x
-        x = 40  # 修改外层 x
-    
-    print(f"调用前：外层 x = {x}")  # 输出：20
-    inner1()
-    print(f"调用 inner1 后：外层 x = {x}")  # 输出：20（未改变）
-    inner2()
-    print(f"调用 inner2 后：外层 x = {x}")  # 输出：40
+ x = 20 # 外层
+
+ def inner1():
+ global x
+ x = 30 # 修改全局 x
+
+ def inner2():
+ nonlocal x
+ x = 40 # 修改外层 x
+
+ print(f"调用前：外层 x = {x}") # 输出：20
+ inner1()
+ print(f"调用 inner1 后：外层 x = {x}") # 输出：20（未改变）
+ inner2()
+ print(f"调用 inner2 后：外层 x = {x}") # 输出：40
 
 outer()
-print(f"全局 x = {x}")  # 输出：30
+print(f"全局 x = {x}") # 输出：30
 ```
 
 ---
@@ -4169,11 +4169,11 @@ print(f"全局 x = {x}")  # 输出：30
 
 **生命周期类型**：
 
-| 类型             | 说明         | 存储位置 | 示例               |
+| 类型 | 说明 | 存储位置 | 示例 |
 | ---------------- | ------------ | -------- | ------------------ |
-| **自动生命周期** | 函数调用期间 | 栈       | 局部变量           |
-| **静态生命周期** | 程序运行期间 | 数据段   | 全局变量、静态变量 |
-| **动态生命周期** | 手动控制     | 堆       | malloc/new 分配    |
+| **自动生命周期** | 函数调用期间 | 栈 | 局部变量 |
+| **静态生命周期** | 程序运行期间 | 数据段 | 全局变量、静态变量 |
+| **动态生命周期** | 手动控制 | 堆 | malloc/new 分配 |
 
 ---
 
@@ -4182,14 +4182,14 @@ print(f"全局 x = {x}")  # 输出：30
 **C 语言**：
 ```c
 void func() {
-    int x = 10;  // 自动变量
-    printf("%d\n", x);
-}  // x 被销毁
+ int x = 10; // 自动变量
+ printf("%d\n", x);
+} // x 被销毁
 
 int main() {
-    func();
-    // x 不存在
-    return 0;
+ func();
+ // x 不存在
+ return 0;
 }
 ```
 
@@ -4198,13 +4198,13 @@ int main() {
 func 调用时：
 栈：
 ┌─────────────┐
-│ x = 10      │
+│ x = 10 │
 └─────────────┘
 
 func 返回后：
 栈：
 ┌─────────────┐
-│ (已释放)     │
+│ (已释放) │
 └─────────────┘
 ```
 
@@ -4215,16 +4215,16 @@ func 返回后：
 **C 语言（静态局部变量）**：
 ```c
 void func() {
-    static int count = 0;  // 静态局部变量
-    count++;
-    printf("count = %d\n", count);
+ static int count = 0; // 静态局部变量
+ count++;
+ printf("count = %d\n", count);
 }
 
 int main() {
-    func();  // 输出：count = 1
-    func();  // 输出：count = 2
-    func();  // 输出：count = 3
-    return 0;
+ func(); // 输出：count = 1
+ func(); // 输出：count = 2
+ func(); // 输出：count = 3
+ return 0;
 }
 ```
 
@@ -4235,15 +4235,15 @@ int main() {
 
 **全局变量**：
 ```c
-int global_var = 100;  // 全局变量（静态生命周期）
+int global_var = 100; // 全局变量（静态生命周期）
 
 void func() {
-    printf("%d\n", global_var);
+ printf("%d\n", global_var);
 }
 
 int main() {
-    func();
-    return 0;
+ func();
+ return 0;
 }
 ```
 
@@ -4254,23 +4254,23 @@ int main() {
 **C 语言**：
 ```c
 int main() {
-    int *p = (int*)malloc(sizeof(int));  // 动态分配
-    *p = 42;
-    printf("%d\n", *p);
-    free(p);  // 手动释放
-    return 0;
+ int *p = (int*)malloc(sizeof(int)); // 动态分配
+ *p = 42;
+ printf("%d\n", *p);
+ free(p); // 手动释放
+ return 0;
 }
 ```
 
 **Python（自动管理）**：
 ```python
 def func():
-    lst = [1, 2, 3]  # 动态分配（堆上）
-    return lst
+ lst = [1, 2, 3] # 动态分配（堆上）
+ return lst
 
 result = func()
 # lst 对象仍然存在（被 result 引用）
-print(result)  # 输出：[1, 2, 3]
+print(result) # 输出：[1, 2, 3]
 ```
 
 ---
@@ -4280,27 +4280,27 @@ print(result)  # 输出：[1, 2, 3]
 **示例**：
 ```c
 void func() {
-    static int x = 10;  // 静态局部变量
-    x++;
-    printf("%d\n", x);
+ static int x = 10; // 静态局部变量
+ x++;
+ printf("%d\n", x);
 }
 
 int main() {
-    func();  // 输出：11
-    func();  // 输出：12
-    // printf("%d\n", x);  // 错误：x 不在作用域内
-    return 0;
+ func(); // 输出：11
+ func(); // 输出：12
+ // printf("%d\n", x); // 错误：x 不在作用域内
+ return 0;
 }
 ```
 
 **对比**：
 
-| 特性              | 作用域（Scope）        | 生命周期（Lifetime）           |
+| 特性 | 作用域（Scope） | 生命周期（Lifetime） |
 | ----------------- | ---------------------- | ------------------------------ |
-| **定义**          | 变量的可见性范围       | 变量的存在时间                 |
-| **决定因素**      | 代码结构（块、函数）   | 存储位置（栈、堆、数据段）     |
-| **编译时/运行时** | 编译时确定             | 运行时体现                     |
-| **示例**          | 局部变量只在函数内可见 | 静态变量在程序运行期间一直存在 |
+| **定义** | 变量的可见性范围 | 变量的存在时间 |
+| **决定因素** | 代码结构（块、函数） | 存储位置（栈、堆、数据段） |
+| **编译时/运行时** | 编译时确定 | 运行时体现 |
+| **示例** | 局部变量只在函数内可见 | 静态变量在程序运行期间一直存在 |
 
 **关键区别**：
 - **作用域**：回答"在哪里可以访问变量？"
@@ -4308,23 +4308,23 @@ int main() {
 
 **示例对比**：
 ```c
-int global = 100;  // 作用域：全局，生命周期：静态
+int global = 100; // 作用域：全局，生命周期：静态
 
 void func() {
-    int local = 10;         // 作用域：函数内，生命周期：自动
-    static int stat = 20;   // 作用域：函数内，生命周期：静态
-    
-    printf("local = %d\n", local);
-    printf("stat = %d\n", stat);
-    printf("global = %d\n", global);
+ int local = 10; // 作用域：函数内，生命周期：自动
+ static int stat = 20; // 作用域：函数内，生命周期：静态
+
+ printf("local = %d\n", local);
+ printf("stat = %d\n", stat);
+ printf("global = %d\n", global);
 }
 
 int main() {
-    func();
-    // printf("%d\n", local);  // 错误：不在作用域内
-    // printf("%d\n", stat);   // 错误：不在作用域内
-    printf("%d\n", global);    // 正确：全局作用域
-    return 0;
+ func();
+ // printf("%d\n", local); // 错误：不在作用域内
+ // printf("%d\n", stat); // 错误：不在作用域内
+ printf("%d\n", global); // 正确：全局作用域
+ return 0;
 }
 ```
 
@@ -4337,29 +4337,29 @@ int main() {
 import sys
 
 x = [1, 2, 3]
-print(sys.getrefcount(x))  # 输出：2（x + getrefcount 的临时引用）
+print(sys.getrefcount(x)) # 输出：2（x + getrefcount 的临时引用）
 
-y = x  # 增加引用
-print(sys.getrefcount(x))  # 输出：3
+y = x # 增加引用
+print(sys.getrefcount(x)) # 输出：3
 
-del y  # 减少引用
-print(sys.getrefcount(x))  # 输出：2
+del y # 减少引用
+print(sys.getrefcount(x)) # 输出：2
 
-del x  # 引用计数为 0，对象被回收
+del x # 引用计数为 0，对象被回收
 ```
 
 **循环引用**：
 ```python
 class Node:
-    def __init__(self, value):
-        self.value = value
-        self.next = None
+ def __init__(self, value):
+ self.value = value
+ self.next = None
 
 # 创建循环引用
 a = Node(1)
 b = Node(2)
 a.next = b
-b.next = a  # 循环引用
+b.next = a # 循环引用
 
 del a
 del b
@@ -4379,16 +4379,16 @@ del b
 #include <iostream>
 
 void read_file() {
-    std::ifstream file("data.txt");  // 构造时打开文件
-    
-    if (file.is_open()) {
-        std::string line;
-        while (std::getline(file, line)) {
-            std::cout << line << std::endl;
-        }
-    }
-    
-    // 析构时自动关闭文件（无需手动 close）
+ std::ifstream file("data.txt"); // 构造时打开文件
+
+ if (file.is_open()) {
+ std::string line;
+ while (std::getline(file, line)) {
+ std::cout << line << std::endl;
+ }
+ }
+
+ // 析构时自动关闭文件（无需手动 close）
 }
 ```
 
@@ -4397,9 +4397,9 @@ void read_file() {
 #include <memory>
 
 void func() {
-    std::unique_ptr<int> p(new int(42));  // 自动管理内存
-    std::cout << *p << std::endl;
-    // 函数返回时自动释放内存
+ std::unique_ptr<int> p(new int(42)); // 自动管理内存
+ std::cout << *p << std::endl;
+ // 函数返回时自动释放内存
 }
 ```
 
@@ -4407,33 +4407,33 @@ void func() {
 ```python
 # 自动管理文件生命周期
 with open('data.txt', 'r') as file:
-    content = file.read()
-    print(content)
+ content = file.read()
+ print(content)
 # 离开 with 块时自动关闭文件
 
 # 等价于：
 file = open('data.txt', 'r')
 try:
-    content = file.read()
-    print(content)
+ content = file.read()
+ print(content)
 finally:
-    file.close()
+ file.close()
 ```
 
 **自定义上下文管理器**：
 ```python
 class DatabaseConnection:
-    def __enter__(self):
-        print("打开数据库连接")
-        self.conn = "数据库连接对象"
-        return self.conn
-    
-    def __exit__(self, exc_type, exc_val, exc_tb):
-        print("关闭数据库连接")
-        # 清理资源
+ def __enter__(self):
+ print("打开数据库连接")
+ self.conn = "数据库连接对象"
+ return self.conn
+
+ def __exit__(self, exc_type, exc_val, exc_tb):
+ print("关闭数据库连接")
+ # 清理资源
 
 with DatabaseConnection() as conn:
-    print(f"使用连接：{conn}")
+ print(f"使用连接：{conn}")
 # 自动调用 __exit__
 ```
 
@@ -4452,12 +4452,12 @@ with DatabaseConnection() as conn:
 
 **垃圾回收策略**：
 
-| 策略          | 说明                             | 优点         | 缺点                | 语言             |
+| 策略 | 说明 | 优点 | 缺点 | 语言 |
 | ------------- | -------------------------------- | ------------ | ------------------- | ---------------- |
-| **引用计数**  | 记录对象被引用的次数             | 实时回收     | 无法处理循环引用    | Python, Swift    |
-| **标记-清除** | 标记可达对象，清除不可达对象     | 处理循环引用 | 需要暂停程序（STW） | Python, Java     |
-| **分代回收**  | 按对象年龄分代，年轻对象频繁回收 | 提高效率     | 实现复杂            | Python, Java, C# |
-| **复制算法**  | 将存活对象复制到新区域           | 无碎片       | 浪费空间            | Java（新生代）   |
+| **引用计数** | 记录对象被引用的次数 | 实时回收 | 无法处理循环引用 | Python, Swift |
+| **标记-清除** | 标记可达对象，清除不可达对象 | 处理循环引用 | 需要暂停程序（STW） | Python, Java |
+| **分代回收** | 按对象年龄分代，年轻对象频繁回收 | 提高效率 | 实现复杂 | Python, Java, C# |
+| **复制算法** | 将存活对象复制到新区域 | 无碎片 | 浪费空间 | Java（新生代） |
 
 ---
 
@@ -4471,19 +4471,19 @@ import sys
 
 # 创建对象
 x = [1, 2, 3]
-print(sys.getrefcount(x))  # 输出：2
+print(sys.getrefcount(x)) # 输出：2
 
 # 增加引用
 y = x
 z = x
-print(sys.getrefcount(x))  # 输出：4
+print(sys.getrefcount(x)) # 输出：4
 
 # 减少引用
 del y
-print(sys.getrefcount(x))  # 输出：3
+print(sys.getrefcount(x)) # 输出：3
 
 del z
-print(sys.getrefcount(x))  # 输出：2
+print(sys.getrefcount(x)) # 输出：2
 
 del x
 # 引用计数为 0，对象被回收
@@ -4521,12 +4521,12 @@ x ────> [1, 2, 3] (refcount=1)
 **示例**：
 ```python
 class Node:
-    def __init__(self, value):
-        self.value = value
-        self.next = None
-    
-    def __del__(self):
-        print(f"Node {self.value} 被回收")
+ def __init__(self, value):
+ self.value = value
+ self.next = None
+
+ def __del__(self):
+ print(f"Node {self.value} 被回收")
 
 # 创建循环引用
 a = Node(1)
@@ -4541,7 +4541,7 @@ print("删除引用后")
 
 # 对象不会被立即回收（循环引用）
 import gc
-gc.collect()  # 手动触发垃圾回收
+gc.collect() # 手动触发垃圾回收
 print("手动 GC 后")
 ```
 
@@ -4558,14 +4558,14 @@ Node 2 被回收
 ```
 循环引用：
 a ────> Node(1) ──┐
-         ↑        │
-         │        ↓
+ ↑ │
+ │ ↓
 b ────> Node(2) <─┘
 
 删除 a 和 b 后：
 Node(1) ──┐
-  ↑       │
-  │       ↓
+ ↑ │
+ │ ↓
 Node(2) <─┘
 (引用计数不为 0，但外部无法访问)
 ```
@@ -4582,22 +4582,22 @@ Node(2) <─┘
 ```
 初始状态：
 根 ────> A ────> B
-         │
-         └────> C
+ │
+ └────> C
 
-D ────> E  (不可达)
+D ────> E (不可达)
 
 标记阶段：
 根 ────> A* ───> B*
-         │
-         └────> C*
+ │
+ └────> C*
 
-D ────> E  (未标记)
+D ────> E (未标记)
 
 清除阶段：
 根 ────> A ────> B
-         │
-         └────> C
+ │
+ └────> C
 
 D 和 E 被回收
 ```
@@ -4611,9 +4611,9 @@ gc.disable()
 
 # 创建循环引用
 class Node:
-    def __init__(self, value):
-        self.value = value
-        self.next = None
+ def __init__(self, value):
+ self.value = value
+ self.next = None
 
 a = Node(1)
 b = Node(2)
@@ -4645,37 +4645,37 @@ gc.enable()
 
 **Python 的三代回收**：
 
-| 代          | 说明                 | 回收频率 |
+| 代 | 说明 | 回收频率 |
 | ----------- | -------------------- | -------- |
-| **第 0 代** | 新创建的对象         | 高       |
-| **第 1 代** | 经历过一次回收的对象 | 中       |
-| **第 2 代** | 经历过多次回收的对象 | 低       |
+| **第 0 代** | 新创建的对象 | 高 |
+| **第 1 代** | 经历过一次回收的对象 | 中 |
+| **第 2 代** | 经历过多次回收的对象 | 低 |
 
 **示例**：
 ```python
 import gc
 
 # 查看 GC 阈值
-print(gc.get_threshold())  # 输出：(700, 10, 10)
+print(gc.get_threshold()) # 输出：(700, 10, 10)
 # 第 0 代：700 个对象后触发
 # 第 1 代：10 次第 0 代回收后触发
 # 第 2 代：10 次第 1 代回收后触发
 
 # 查看各代对象数量
-print(gc.get_count())  # 输出：(421, 3, 2)
+print(gc.get_count()) # 输出：(421, 3, 2)
 ```
 
 **工作流程**：
 ```
 新对象 ────> 第 0 代
-              │
-              │ 存活
-              ↓
-            第 1 代
-              │
-              │ 存活
-              ↓
-            第 2 代
+ │
+ │ 存活
+ ↓
+ 第 1 代
+ │
+ │ 存活
+ ↓
+ 第 2 代
 ```
 
 **手动控制**：
@@ -4687,7 +4687,7 @@ gc.disable()
 
 # 创建大量对象
 for i in range(1000):
-    x = [i] * 100
+ x = [i] * 100
 
 # 手动触发回收
 collected = gc.collect()
@@ -4704,15 +4704,15 @@ gc.enable()
 **堆内存结构**：
 ```
 ┌─────────────────────────────────┐
-│         新生代（Young Gen）       │
-│  ┌──────┬──────────────────────┐ │
-│  │ Eden │ Survivor 0 │ Survivor 1│ │
-│  └──────┴──────────────────────┘ │
+│ 新生代（Young Gen） │
+│ ┌──────┬──────────────────────┐ │
+│ │ Eden │ Survivor 0 │ Survivor 1│ │
+│ └──────┴──────────────────────┘ │
 ├─────────────────────────────────┤
-│         老年代（Old Gen）         │
+│ 老年代（Old Gen） │
 ├─────────────────────────────────┤
-│         永久代（Perm Gen）        │
-│      或元空间（Metaspace）        │
+│ 永久代（Perm Gen） │
+│ 或元空间（Metaspace） │
 └─────────────────────────────────┘
 ```
 
@@ -4723,29 +4723,29 @@ gc.enable()
 **示例**：
 ```java
 public class GCDemo {
-    public static void main(String[] args) {
-        // 创建大量对象
-        for (int i = 0; i < 1000000; i++) {
-            String s = new String("test" + i);
-        }
-        
-        // 建议 JVM 执行 GC（不保证立即执行）
-        System.gc();
-        
-        System.out.println("GC 完成");
-    }
+ public static void main(String[] args) {
+ // 创建大量对象
+ for (int i = 0; i < 1000000; i++) {
+ String s = new String("test" + i);
+ }
+
+ // 建议 JVM 执行 GC（不保证立即执行）
+ System.gc();
+
+ System.out.println("GC 完成");
+ }
 }
 ```
 
 **GC 算法**：
 
-| 算法            | 说明         | 适用场景   |
+| 算法 | 说明 | 适用场景 |
 | --------------- | ------------ | ---------- |
-| **Serial GC**   | 单线程回收   | 小型应用   |
-| **Parallel GC** | 多线程回收   | 吞吐量优先 |
-| **CMS**         | 并发标记清除 | 低延迟     |
-| **G1 GC**       | 分区回收     | 大堆内存   |
-| **ZGC**         | 超低延迟     | 实时应用   |
+| **Serial GC** | 单线程回收 | 小型应用 |
+| **Parallel GC** | 多线程回收 | 吞吐量优先 |
+| **CMS** | 并发标记清除 | 低延迟 |
+| **G1 GC** | 分区回收 | 大堆内存 |
+| **ZGC** | 超低延迟 | 实时应用 |
 
 ---
 
@@ -4759,11 +4759,11 @@ import weakref
 import gc
 
 class MyClass:
-    def __init__(self, value):
-        self.value = value
-    
-    def __del__(self):
-        print(f"MyClass({self.value}) 被回收")
+ def __init__(self, value):
+ self.value = value
+
+ def __del__(self):
+ print(f"MyClass({self.value}) 被回收")
 
 # 强引用
 obj = MyClass(42)
@@ -4771,15 +4771,15 @@ print(f"对象值：{obj.value}")
 
 # 创建弱引用
 weak_ref = weakref.ref(obj)
-print(f"弱引用对象：{weak_ref()}")  # 输出：<__main__.MyClass object at 0x...>
+print(f"弱引用对象：{weak_ref()}") # 输出：<__main__.MyClass object at 0x...>
 
 # 删除强引用
 del obj
-gc.collect()  # 触发垃圾回收
+gc.collect() # 触发垃圾回收
 # 输出：MyClass(42) 被回收
 
 # 弱引用失效
-print(f"弱引用对象：{weak_ref()}")  # 输出：None
+print(f"弱引用对象：{weak_ref()}") # 输出：None
 ```
 
 **应用场景：缓存**：
@@ -4787,34 +4787,34 @@ print(f"弱引用对象：{weak_ref()}")  # 输出：None
 import weakref
 
 class DataCache:
-    def __init__(self):
-        self._cache = weakref.WeakValueDictionary()
-    
-    def get(self, key):
-        return self._cache.get(key)
-    
-    def set(self, key, value):
-        self._cache[key] = value
+ def __init__(self):
+ self._cache = weakref.WeakValueDictionary()
+
+ def get(self, key):
+ return self._cache.get(key)
+
+ def set(self, key, value):
+ self._cache[key] = value
 
 # 使用缓存
 cache = DataCache()
 
 class LargeObject:
-    def __init__(self, data):
-        self.data = data
+ def __init__(self, data):
+ self.data = data
 
 # 添加到缓存
 obj = LargeObject("大量数据")
 cache.set("key1", obj)
 
-print(cache.get("key1"))  # 输出：<__main__.LargeObject object at 0x...>
+print(cache.get("key1")) # 输出：<__main__.LargeObject object at 0x...>
 
 # 删除强引用
 del obj
 gc.collect()
 
 # 缓存中的对象被自动回收
-print(cache.get("key1"))  # 输出：None
+print(cache.get("key1")) # 输出：None
 ```
 
 **Java**：
@@ -4822,24 +4822,24 @@ print(cache.get("key1"))  # 输出：None
 import java.lang.ref.WeakReference;
 
 public class WeakRefDemo {
-    public static void main(String[] args) {
-        // 强引用
-        String str = new String("Hello");
-        
-        // 创建弱引用
-        WeakReference<String> weakRef = new WeakReference<>(str);
-        
-        System.out.println("强引用存在：" + weakRef.get());  // 输出：Hello
-        
-        // 删除强引用
-        str = null;
-        
-        // 触发 GC
-        System.gc();
-        
-        // 弱引用失效
-        System.out.println("强引用删除后：" + weakRef.get());  // 输出：null
-    }
+ public static void main(String[] args) {
+ // 强引用
+ String str = new String("Hello");
+
+ // 创建弱引用
+ WeakReference<String> weakRef = new WeakReference<>(str);
+
+ System.out.println("强引用存在：" + weakRef.get()); // 输出：Hello
+
+ // 删除强引用
+ str = null;
+
+ // 触发 GC
+ System.gc();
+
+ // 弱引用失效
+ System.out.println("强引用删除后：" + weakRef.get()); // 输出：null
+ }
 }
 ```
 
@@ -4847,34 +4847,34 @@ public class WeakRefDemo {
 
 #### **引用类型对比（Java）**
 
-| 引用类型              | 说明           | GC 行为        | 应用场景 |
+| 引用类型 | 说明 | GC 行为 | 应用场景 |
 | --------------------- | -------------- | -------------- | -------- |
-| **强引用（Strong）**  | 普通引用       | 不回收         | 正常对象 |
-| **软引用（Soft）**    | 内存不足时回收 | 内存紧张时回收 | 缓存     |
-| **弱引用（Weak）**    | GC 时回收      | 下次 GC 必回收 | 临时缓存 |
-| **虚引用（Phantom）** | 无法访问对象   | 回收前通知     | 资源清理 |
+| **强引用（Strong）** | 普通引用 | 不回收 | 正常对象 |
+| **软引用（Soft）** | 内存不足时回收 | 内存紧张时回收 | 缓存 |
+| **弱引用（Weak）** | GC 时回收 | 下次 GC 必回收 | 临时缓存 |
+| **虚引用（Phantom）** | 无法访问对象 | 回收前通知 | 资源清理 |
 
 **软引用示例（Java）**：
 ```java
 import java.lang.ref.SoftReference;
 
 public class SoftRefDemo {
-    public static void main(String[] args) {
-        // 创建软引用
-        SoftReference<byte[]> softRef = new SoftReference<>(new byte[1024 * 1024]);
-        
-        System.out.println("内存充足：" + (softRef.get() != null));  // 输出：true
-        
-        // 分配大量内存，触发 GC
-        try {
-            byte[] huge = new byte[100 * 1024 * 1024];
-        } catch (OutOfMemoryError e) {
-            System.out.println("内存不足");
-        }
-        
-        // 软引用可能被回收
-        System.out.println("内存紧张：" + (softRef.get() != null));
-    }
+ public static void main(String[] args) {
+ // 创建软引用
+ SoftReference<byte[]> softRef = new SoftReference<>(new byte[1024 * 1024]);
+
+ System.out.println("内存充足：" + (softRef.get() != null)); // 输出：true
+
+ // 分配大量内存，触发 GC
+ try {
+ byte[] huge = new byte[100 * 1024 * 1024];
+ } catch (OutOfMemoryError e) {
+ System.out.println("内存不足");
+ }
+
+ // 软引用可能被回收
+ System.out.println("内存紧张：" + (softRef.get() != null));
+ }
 }
 ```
 
@@ -4886,13 +4886,13 @@ public class SoftRefDemo {
 
 **常见原因**：
 
-| 原因           | 说明                 | 示例                |
+| 原因 | 说明 | 示例 |
 | -------------- | -------------------- | ------------------- |
-| **忘记释放**   | 手动分配内存后未释放 | C/C++ 的 malloc/new |
-| **循环引用**   | 对象相互引用         | Python, JavaScript  |
-| **全局变量**   | 全局变量持有大对象   | 所有语言            |
-| **事件监听器** | 未移除的监听器       | JavaScript, Java    |
-| **缓存**       | 无限增长的缓存       | 所有语言            |
+| **忘记释放** | 手动分配内存后未释放 | C/C++ 的 malloc/new |
+| **循环引用** | 对象相互引用 | Python, JavaScript |
+| **全局变量** | 全局变量持有大对象 | 所有语言 |
+| **事件监听器** | 未移除的监听器 | JavaScript, Java |
+| **缓存** | 无限增长的缓存 | 所有语言 |
 
 ---
 
@@ -4901,45 +4901,45 @@ public class SoftRefDemo {
 **示例1：忘记释放**：
 ```c
 void memory_leak() {
-    int *p = (int*)malloc(sizeof(int) * 1000);
-    *p = 42;
-    // 忘记 free(p)
+ int *p = (int*)malloc(sizeof(int) * 1000);
+ *p = 42;
+ // 忘记 free(p)
 }
 
 int main() {
-    for (int i = 0; i < 10000; i++) {
-        memory_leak();  // 每次调用泄漏 4KB
-    }
-    return 0;
+ for (int i = 0; i < 10000; i++) {
+ memory_leak(); // 每次调用泄漏 4KB
+ }
+ return 0;
 }
 ```
 
 **示例2：提前返回**：
 ```c
 void process_data(int condition) {
-    int *data = (int*)malloc(sizeof(int) * 100);
-    
-    if (condition) {
-        return;  // 提前返回，忘记释放
-    }
-    
-    // 处理数据
-    free(data);
+ int *data = (int*)malloc(sizeof(int) * 100);
+
+ if (condition) {
+ return; // 提前返回，忘记释放
+ }
+
+ // 处理数据
+ free(data);
 }
 ```
 
 **修复**：
 ```c
 void process_data(int condition) {
-    int *data = (int*)malloc(sizeof(int) * 100);
-    
-    if (condition) {
-        free(data);  // 释放后返回
-        return;
-    }
-    
-    // 处理数据
-    free(data);
+ int *data = (int*)malloc(sizeof(int) * 100);
+
+ if (condition) {
+ free(data); // 释放后返回
+ return;
+ }
+
+ // 处理数据
+ free(data);
 }
 ```
 
@@ -4950,14 +4950,14 @@ void process_data(int condition) {
 **示例1：循环引用**：
 ```python
 class Node:
-    def __init__(self, value):
-        self.value = value
-        self.parent = None
-        self.children = []
-    
-    def add_child(self, child):
-        self.children.append(child)
-        child.parent = self  # 循环引用
+ def __init__(self, value):
+ self.value = value
+ self.parent = None
+ self.children = []
+
+ def add_child(self, child):
+ self.children.append(child)
+ child.parent = self # 循环引用
 
 # 创建树结构
 root = Node(1)
@@ -4977,14 +4977,14 @@ del root, child1, child2
 import weakref
 
 class Node:
-    def __init__(self, value):
-        self.value = value
-        self.parent = None  # 使用弱引用
-        self.children = []
-    
-    def add_child(self, child):
-        self.children.append(child)
-        child.parent = weakref.ref(self)  # 弱引用
+ def __init__(self, value):
+ self.value = value
+ self.parent = None # 使用弱引用
+ self.children = []
+
+ def add_child(self, child):
+ self.children.append(child)
+ child.parent = weakref.ref(self) # 弱引用
 
 root = Node(1)
 child1 = Node(2)
@@ -5000,19 +5000,19 @@ del root, child1
 cache = []
 
 def process_data(data):
-    result = expensive_computation(data)
-    cache.append(result)  # 无限增长
-    return result
+ result = expensive_computation(data)
+ cache.append(result) # 无限增长
+ return result
 
 # 修复：限制缓存大小
 from collections import deque
 
-cache = deque(maxlen=1000)  # 最多保存 1000 个元素
+cache = deque(maxlen=1000) # 最多保存 1000 个元素
 
 def process_data(data):
-    result = expensive_computation(data)
-    cache.append(result)  # 自动删除旧元素
-    return result
+ result = expensive_computation(data)
+ cache.append(result) # 自动删除旧元素
+ return result
 ```
 
 ---
@@ -5023,12 +5023,12 @@ def process_data(data):
 ```javascript
 // 错误：未移除监听器
 function setupButton() {
-    const button = document.getElementById('myButton');
-    const data = new Array(1000000).fill('leak');  // 大对象
-    
-    button.addEventListener('click', function() {
-        console.log(data.length);  // 闭包捕获 data
-    });
+ const button = document.getElementById('myButton');
+ const data = new Array(1000000).fill('leak'); // 大对象
+
+ button.addEventListener('click', function() {
+ console.log(data.length); // 闭包捕获 data
+ });
 }
 
 // 每次调用都会泄漏内存
@@ -5038,19 +5038,19 @@ setupButton();
 **修复**：
 ```javascript
 function setupButton() {
-    const button = document.getElementById('myButton');
-    const data = new Array(1000000).fill('leak');
-    
-    function handleClick() {
-        console.log(data.length);
-    }
-    
-    button.addEventListener('click', handleClick);
-    
-    // 清理函数
-    return function cleanup() {
-        button.removeEventListener('click', handleClick);
-    };
+ const button = document.getElementById('myButton');
+ const data = new Array(1000000).fill('leak');
+
+ function handleClick() {
+ console.log(data.length);
+ }
+
+ button.addEventListener('click', handleClick);
+
+ // 清理函数
+ return function cleanup() {
+ button.removeEventListener('click', handleClick);
+ };
 }
 
 const cleanup = setupButton();
@@ -5062,11 +5062,11 @@ cleanup();
 ```javascript
 // 错误：未清除定时器
 function startTimer() {
-    const data = new Array(1000000).fill('leak');
-    
-    setInterval(function() {
-        console.log(data.length);
-    }, 1000);
+ const data = new Array(1000000).fill('leak');
+
+ setInterval(function() {
+ console.log(data.length);
+ }, 1000);
 }
 
 startTimer();
@@ -5075,16 +5075,16 @@ startTimer();
 **修复**：
 ```javascript
 function startTimer() {
-    const data = new Array(1000000).fill('leak');
-    
-    const timerId = setInterval(function() {
-        console.log(data.length);
-    }, 1000);
-    
-    // 返回清理函数
-    return function stopTimer() {
-        clearInterval(timerId);
-    };
+ const data = new Array(1000000).fill('leak');
+
+ const timerId = setInterval(function() {
+ console.log(data.length);
+ }, 1000);
+
+ // 返回清理函数
+ return function stopTimer() {
+ clearInterval(timerId);
+ };
 }
 
 const stopTimer = startTimer();
@@ -5098,15 +5098,15 @@ stopTimer();
 const elements = [];
 
 function addElement() {
-    const div = document.createElement('div');
-    document.body.appendChild(div);
-    elements.push(div);  // 保存引用
+ const div = document.createElement('div');
+ document.body.appendChild(div);
+ elements.push(div); // 保存引用
 }
 
 function removeElement() {
-    const div = elements.pop();
-    document.body.removeChild(div);
-    // div 仍然被 elements 数组引用（如果 pop 前数组很大）
+ const div = elements.pop();
+ document.body.removeChild(div);
+ // div 仍然被 elements 数组引用（如果 pop 前数组很大）
 }
 ```
 
@@ -5115,14 +5115,14 @@ function removeElement() {
 const elements = new WeakMap();
 
 function addElement() {
-    const div = document.createElement('div');
-    document.body.appendChild(div);
-    elements.set(div, {data: 'some data'});  // 弱引用
+ const div = document.createElement('div');
+ document.body.appendChild(div);
+ elements.set(div, {data: 'some data'}); // 弱引用
 }
 
 function removeElement(div) {
-    document.body.removeChild(div);
-    // div 被移除后，WeakMap 中的条目会自动清理
+ document.body.removeChild(div);
+ // div 被移除后，WeakMap 中的条目会自动清理
 }
 ```
 
@@ -5161,31 +5161,31 @@ function removeElement(div) {
 
 **类型的作用**：
 
-| 作用         | 说明               |
+| 作用 | 说明 |
 | ------------ | ------------------ |
 | **约束值域** | 限制变量可存储的值 |
-| **定义操作** | 规定可执行的操作   |
+| **定义操作** | 规定可执行的操作 |
 | **内存布局** | 确定存储方式和大小 |
-| **类型安全** | 防止非法操作       |
+| **类型安全** | 防止非法操作 |
 
 **类型检查（Type Checking）**：
 
 ```c
 int x = 10;
-int y = x + 5;      // 合法：int + int
-// int z = x + "hello";  // 错误：类型不匹配
+int y = x + 5; // 合法：int + int
+// int z = x + "hello"; // 错误：类型不匹配
 ```
 
 **类型系统的分类**：
 
-| 分类维度     | 类型     | 说明         | 语言               |
+| 分类维度 | 类型 | 说明 | 语言 |
 | ------------ | -------- | ------------ | ------------------ |
-| **检查时机** | 静态类型 | 编译时检查   | C, Java, Rust      |
-|              | 动态类型 | 运行时检查   | Python, JavaScript |
-| **类型强度** | 强类型   | 严格类型检查 | Python, Java       |
-|              | 弱类型   | 允许隐式转换 | C, JavaScript      |
-| **类型推导** | 显式类型 | 必须声明类型 | C, Java            |
-|              | 隐式类型 | 自动推导类型 | Python, Haskell    |
+| **检查时机** | 静态类型 | 编译时检查 | C, Java, Rust |
+| | 动态类型 | 运行时检查 | Python, JavaScript |
+| **类型强度** | 强类型 | 严格类型检查 | Python, Java |
+| | 弱类型 | 允许隐式转换 | C, JavaScript |
+| **类型推导** | 显式类型 | 必须声明类型 | C, Java |
+| | 隐式类型 | 自动推导类型 | Python, Haskell |
 
 ---
 
@@ -5197,30 +5197,30 @@ int y = x + 5;      // 合法：int + int
 
 **常见原始类型**：
 
-| 类型       | C             | Java          | Python | JavaScript      |
+| 类型 | C | Java | Python | JavaScript |
 | ---------- | ------------- | ------------- | ------ | --------------- |
-| **整数**   | int, long     | int, long     | int    | Number          |
-| **浮点数** | float, double | float, double | float  | Number          |
-| **字符**   | char          | char          | -      | -               |
-| **布尔**   | _Bool (C99)   | boolean       | bool   | Boolean         |
-| **空**     | void          | void          | None   | null, undefined |
+| **整数** | int, long | int, long | int | Number |
+| **浮点数** | float, double | float, double | float | Number |
+| **字符** | char | char | - | - |
+| **布尔** | _Bool (C99) | boolean | bool | Boolean |
+| **空** | void | void | None | null, undefined |
 
 **C 语言原始类型**：
 
 ```c
 // 整数类型
-char c = 'A';           // 1 字节
-short s = 100;          // 2 字节
-int i = 1000;           // 4 字节
-long l = 100000L;       // 4/8 字节（平台相关）
+char c = 'A'; // 1 字节
+short s = 100; // 2 字节
+int i = 1000; // 4 字节
+long l = 100000L; // 4/8 字节（平台相关）
 long long ll = 1000000LL; // 8 字节
 
 // 浮点类型
-float f = 3.14f;        // 4 字节
-double d = 3.14159;     // 8 字节
+float f = 3.14f; // 4 字节
+double d = 3.14159; // 8 字节
 
 // 布尔类型（C99）
-_Bool b = 1;            // 1 字节
+_Bool b = 1; // 1 字节
 
 // 无符号类型
 unsigned int ui = 100;
@@ -5229,16 +5229,16 @@ unsigned int ui = 100;
 **Java 原始类型**：
 
 ```java
-byte b = 127;           // 1 字节，-128 到 127
-short s = 32767;        // 2 字节
-int i = 2147483647;     // 4 字节
+byte b = 127; // 1 字节，-128 到 127
+short s = 32767; // 2 字节
+int i = 2147483647; // 4 字节
 long l = 9223372036854775807L; // 8 字节
 
-float f = 3.14f;        // 4 字节
-double d = 3.14159;     // 8 字节
+float f = 3.14f; // 4 字节
+double d = 3.14159; // 8 字节
 
-char c = 'A';           // 2 字节（Unicode）
-boolean flag = true;    // 1 位（实现相关）
+char c = 'A'; // 2 字节（Unicode）
+boolean flag = true; // 1 位（实现相关）
 ```
 
 **特点**：
@@ -5255,21 +5255,21 @@ boolean flag = true;    // 1 位（实现相关）
 
 **常见复合类型**：
 
-| 类型                 | 说明               | 示例                         |
+| 类型 | 说明 | 示例 |
 | -------------------- | ------------------ | ---------------------------- |
-| **数组（Array）**    | 相同类型元素的序列 | int arr[10]                  |
-| **结构体（Struct）** | 不同类型字段的集合 | struct Point {int x, y;}     |
-| **联合体（Union）**  | 共享内存的多个字段 | union Data {int i; float f;} |
-| **枚举（Enum）**     | 命名的整数常量集合 | enum Color {RED, GREEN}      |
-| **指针（Pointer）**  | 存储内存地址       | int *p                       |
-| **类（Class）**      | 数据和方法的封装   | class Person {...}           |
+| **数组（Array）** | 相同类型元素的序列 | int arr[10] |
+| **结构体（Struct）** | 不同类型字段的集合 | struct Point {int x, y;} |
+| **联合体（Union）** | 共享内存的多个字段 | union Data {int i; float f;} |
+| **枚举（Enum）** | 命名的整数常量集合 | enum Color {RED, GREEN} |
+| **指针（Pointer）** | 存储内存地址 | int *p |
+| **类（Class）** | 数据和方法的封装 | class Person {...} |
 
 **数组（Array）**：
 
 ```c
 // C 语言
 int arr[5] = {1, 2, 3, 4, 5};
-int matrix[3][3];  // 二维数组
+int matrix[3][3]; // 二维数组
 
 // Java
 int[] arr = {1, 2, 3, 4, 5};
@@ -5280,8 +5280,8 @@ int[][] matrix = new int[3][3];
 
 ```c
 struct Point {
-    int x;
-    int y;
+ int x;
+ int y;
 };
 
 struct Point p = {10, 20};
@@ -5292,23 +5292,23 @@ printf("x=%d, y=%d\n", p.x, p.y);
 
 ```c
 union Data {
-    int i;
-    float f;
-    char str[20];
+ int i;
+ float f;
+ char str[20];
 };
 
 union Data data;
-data.i = 10;        // 使用整数
-data.f = 3.14;      // 覆盖整数（共享内存）
+data.i = 10; // 使用整数
+data.f = 3.14; // 覆盖整数（共享内存）
 ```
 
 **枚举（Enum）**：
 
 ```c
 enum Color {
-    RED,      // 0
-    GREEN,    // 1
-    BLUE      // 2
+ RED, // 0
+ GREEN, // 1
+ BLUE // 2
 };
 
 enum Color c = RED;
@@ -5318,7 +5318,7 @@ enum Color c = RED;
 
 ```c
 int x = 10;
-int *p = &x;        // p 存储 x 的地址
+int *p = &x; // p 存储 x 的地址
 printf("%d\n", *p); // 解引用，输出 10
 ```
 
@@ -5326,13 +5326,13 @@ printf("%d\n", *p); // 解引用，输出 10
 
 #### **原始类型 vs 复合类型对比**
 
-| 特性     | 原始类型 | 复合类型       |
+| 特性 | 原始类型 | 复合类型 |
 | -------- | -------- | -------------- |
 | **组成** | 不可再分 | 由其他类型组成 |
-| **大小** | 固定     | 可变或固定     |
-| **存储** | 通常在栈 | 可能在堆       |
-| **赋值** | 值拷贝   | 可能是引用拷贝 |
-| **效率** | 高       | 相对较低       |
+| **大小** | 固定 | 可变或固定 |
+| **存储** | 通常在栈 | 可能在堆 |
+| **赋值** | 值拷贝 | 可能是引用拷贝 |
+| **效率** | 高 | 相对较低 |
 
 ---
 
@@ -5351,15 +5351,15 @@ printf("%d\n", *p); // 解引用，输出 10
 #include <stdio.h>
 
 int main() {
-    printf("char:      %zu 字节\n", sizeof(char));      // 1
-    printf("short:     %zu 字节\n", sizeof(short));     // 2
-    printf("int:       %zu 字节\n", sizeof(int));       // 4
-    printf("long:      %zu 字节\n", sizeof(long));      // 4/8
-    printf("long long: %zu 字节\n", sizeof(long long)); // 8
-    printf("float:     %zu 字节\n", sizeof(float));     // 4
-    printf("double:    %zu 字节\n", sizeof(double));    // 8
-    printf("pointer:   %zu 字节\n", sizeof(void*));     // 4/8
-    return 0;
+ printf("char: %zu 字节\n", sizeof(char)); // 1
+ printf("short: %zu 字节\n", sizeof(short)); // 2
+ printf("int: %zu 字节\n", sizeof(int)); // 4
+ printf("long: %zu 字节\n", sizeof(long)); // 4/8
+ printf("long long: %zu 字节\n", sizeof(long long)); // 8
+ printf("float: %zu 字节\n", sizeof(float)); // 4
+ printf("double: %zu 字节\n", sizeof(double)); // 8
+ printf("pointer: %zu 字节\n", sizeof(void*)); // 4/8
+ return 0;
 }
 ```
 
@@ -5380,20 +5380,20 @@ int main() {
 ```
 8 位有符号整数（-128 到 127）：
 正数：0xxxxxxx（最高位为 0）
-  例：01111111 = 127
+ 例：01111111 = 127
 
 负数：1xxxxxxx（最高位为 1，补码表示）
-  例：10000000 = -128
-      11111111 = -1
+ 例：10000000 = -128
+ 11111111 = -1
 ```
 
 **补码计算**：
 
 ```
 -5 的补码（8 位）：
-1. 5 的原码：  00000101
-2. 按位取反：  11111010
-3. 加 1：      11111011（-5 的补码）
+1. 5 的原码： 00000101
+2. 按位取反： 11111010
+3. 加 1： 11111011（-5 的补码）
 ```
 
 ---
@@ -5404,7 +5404,7 @@ int main() {
 
 ```
 符号位(1) | 指数(8) | 尾数(23)
-   S     |   E     |    M
+ S | E | M
 
 值 = (-1)^S × 1.M × 2^(E-127)
 ```
@@ -5413,7 +5413,7 @@ int main() {
 
 ```
 3.14 = 11.001000111101011100001...（二进制）
-     = 1.1001000111101011100001 × 2^1
+ = 1.1001000111101011100001 × 2^1
 
 S = 0（正数）
 E = 1 + 127 = 128 = 10000000
@@ -5430,11 +5430,11 @@ IEEE 754：0 10000000 10010001111010111000010
 
 **特殊值**：
 
-| 值       | 指数 | 尾数 | 示例       |
+| 值 | 指数 | 尾数 | 示例 |
 | -------- | ---- | ---- | ---------- |
-| **零**   | 全 0 | 全 0 | +0.0, -0.0 |
-| **无穷** | 全 1 | 全 0 | +∞, -∞     |
-| **NaN**  | 全 1 | 非 0 | 0/0, √-1   |
+| **零** | 全 0 | 全 0 | +0.0, -0.0 |
+| **无穷** | 全 1 | 全 0 | +∞, -∞ |
+| **NaN** | 全 1 | 非 0 | 0/0, √-1 |
 
 ---
 
@@ -5444,27 +5444,27 @@ IEEE 754：0 10000000 10010001111010111000010
 
 **对齐规则**：
 
-| 类型   | 大小     | 对齐要求     |
+| 类型 | 大小 | 对齐要求 |
 | ------ | -------- | ------------ |
-| char   | 1 字节   | 1 字节对齐   |
-| short  | 2 字节   | 2 字节对齐   |
-| int    | 4 字节   | 4 字节对齐   |
-| long   | 4/8 字节 | 4/8 字节对齐 |
-| double | 8 字节   | 8 字节对齐   |
-| 指针   | 4/8 字节 | 4/8 字节对齐 |
+| char | 1 字节 | 1 字节对齐 |
+| short | 2 字节 | 2 字节对齐 |
+| int | 4 字节 | 4 字节对齐 |
+| long | 4/8 字节 | 4/8 字节对齐 |
+| double | 8 字节 | 8 字节对齐 |
+| 指针 | 4/8 字节 | 4/8 字节对齐 |
 
 **未对齐的结构体**：
 
 ```c
 struct Unaligned {
-    char c;    // 1 字节
-    int i;     // 4 字节
-    short s;   // 2 字节
+ char c; // 1 字节
+ int i; // 4 字节
+ short s; // 2 字节
 };
 
 // 内存布局（假设 32 位系统）：
-// 地址：  0    1    2    3    4    5    6    7    8    9   10   11
-// 内容：  c   pad  pad  pad   i    i    i    i    s    s   pad  pad
+// 地址： 0 1 2 3 4 5 6 7 8 9 10 11
+// 内容： c pad pad pad i i i i s s pad pad
 // 大小：12 字节（包含填充）
 ```
 
@@ -5472,14 +5472,14 @@ struct Unaligned {
 
 ```c
 struct Aligned {
-    char c;    // 1 字节
-    short s;   // 2 字节
-    int i;     // 4 字节
+ char c; // 1 字节
+ short s; // 2 字节
+ int i; // 4 字节
 };
 
 // 内存布局：
-// 地址：  0    1    2    3    4    5    6    7
-// 内容：  c   pad   s    s    i    i    i    i
+// 地址： 0 1 2 3 4 5 6 7
+// 内容： c pad s s i i i i
 // 大小：8 字节
 ```
 
@@ -5489,17 +5489,17 @@ struct Aligned {
 #include <stdio.h>
 
 struct Example {
-    char c;
-    int i;
-    short s;
+ char c;
+ int i;
+ short s;
 };
 
 int main() {
-    printf("sizeof(struct Example) = %zu\n", sizeof(struct Example));
-    printf("offsetof(c) = %zu\n", offsetof(struct Example, c));
-    printf("offsetof(i) = %zu\n", offsetof(struct Example, i));
-    printf("offsetof(s) = %zu\n", offsetof(struct Example, s));
-    return 0;
+ printf("sizeof(struct Example) = %zu\n", sizeof(struct Example));
+ printf("offsetof(c) = %zu\n", offsetof(struct Example, c));
+ printf("offsetof(i) = %zu\n", offsetof(struct Example, i));
+ printf("offsetof(s) = %zu\n", offsetof(struct Example, s));
+ return 0;
 }
 ```
 
@@ -5508,17 +5508,17 @@ int main() {
 ```c
 // GCC/Clang
 struct __attribute__((packed)) Packed {
-    char c;
-    int i;
-    short s;
-};  // 大小：7 字节（无填充）
+ char c;
+ int i;
+ short s;
+}; // 大小：7 字节（无填充）
 
 // MSVC
 #pragma pack(push, 1)
 struct Packed {
-    char c;
-    int i;
-    short s;
+ char c;
+ int i;
+ short s;
 };
 #pragma pack(pop)
 ```
@@ -5533,9 +5533,9 @@ struct Packed {
 
 ```c
 struct Wasteful {
-    char a;     // 1 字节
-    double b;   // 8 字节（需要 8 字节对齐）
-    char c;     // 1 字节
+ char a; // 1 字节
+ double b; // 8 字节（需要 8 字节对齐）
+ char c; // 1 字节
 };
 
 // 内存布局（64 位系统）：
@@ -5547,10 +5547,10 @@ struct Wasteful {
 
 ```c
 struct Optimized {
-    double b;   // 8 字节
-    char a;     // 1 字节
-    char c;     // 1 字节
-    // padding(6)
+ double b; // 8 字节
+ char a; // 1 字节
+ char c; // 1 字节
+ // padding(6)
 };
 
 // 内存布局：
@@ -5566,23 +5566,23 @@ struct Optimized {
 
 **字节序（Byte Order）**：
 
-| 类型                      | 说明                 | 高位字节地址 | 示例架构                 |
+| 类型 | 说明 | 高位字节地址 | 示例架构 |
 | ------------------------- | -------------------- | ------------ | ------------------------ |
-| **大端（Big-Endian）**    | 高位字节存储在低地址 | 低地址       | SPARC, PowerPC, 网络协议 |
-| **小端（Little-Endian）** | 低位字节存储在低地址 | 高地址       | x86, x86-64, ARM（默认） |
+| **大端（Big-Endian）** | 高位字节存储在低地址 | 低地址 | SPARC, PowerPC, 网络协议 |
+| **小端（Little-Endian）** | 低位字节存储在低地址 | 高地址 | x86, x86-64, ARM（默认） |
 
 **示例：整数 0x12345678**
 
 ```
-内存地址：  0x1000  0x1001  0x1002  0x1003
+内存地址： 0x1000 0x1001 0x1002 0x1003
 
-大端存储：    12      34      56      78
-             ↑                       ↑
-           高位                    低位
+大端存储： 12 34 56 78
+ ↑ ↑
+ 高位 低位
 
-小端存储：    78      56      34      12
-             ↑                       ↑
-           低位                    高位
+小端存储： 78 56 34 12
+ ↑ ↑
+ 低位 高位
 ```
 
 **C 语言检测字节序**：
@@ -5591,21 +5591,21 @@ struct Optimized {
 #include <stdio.h>
 
 int main() {
-    unsigned int x = 0x12345678;
-    unsigned char *p = (unsigned char*)&x;
-    
-    printf("地址 %p: 0x%02x\n", p, p[0]);
-    printf("地址 %p: 0x%02x\n", p+1, p[1]);
-    printf("地址 %p: 0x%02x\n", p+2, p[2]);
-    printf("地址 %p: 0x%02x\n", p+3, p[3]);
-    
-    if (p[0] == 0x78) {
-        printf("小端系统\n");
-    } else if (p[0] == 0x12) {
-        printf("大端系统\n");
-    }
-    
-    return 0;
+ unsigned int x = 0x12345678;
+ unsigned char *p = (unsigned char*)&x;
+
+ printf("地址 %p: 0x%02x\n", p, p[0]);
+ printf("地址 %p: 0x%02x\n", p+1, p[1]);
+ printf("地址 %p: 0x%02x\n", p+2, p[2]);
+ printf("地址 %p: 0x%02x\n", p+3, p[3]);
+
+ if (p[0] == 0x78) {
+ printf("小端系统\n");
+ } else if (p[0] == 0x12) {
+ printf("大端系统\n");
+ }
+
+ return 0;
 }
 ```
 
@@ -5625,21 +5625,21 @@ int main() {
 #include <stdio.h>
 
 int is_little_endian() {
-    union {
-        unsigned int i;
-        unsigned char c[4];
-    } test = {0x01020304};
-    
-    return test.c[0] == 0x04;
+ union {
+ unsigned int i;
+ unsigned char c[4];
+ } test = {0x01020304};
+
+ return test.c[0] == 0x04;
 }
 
 int main() {
-    if (is_little_endian()) {
-        printf("小端系统\n");
-    } else {
-        printf("大端系统\n");
-    }
-    return 0;
+ if (is_little_endian()) {
+ printf("小端系统\n");
+ } else {
+ printf("大端系统\n");
+ }
+ return 0;
 }
 ```
 
@@ -5655,12 +5655,12 @@ int main() {
 #include <arpa/inet.h>
 
 // 主机字节序 → 网络字节序
-uint16_t htons(uint16_t hostshort);   // Host TO Network Short
-uint32_t htonl(uint32_t hostlong);    // Host TO Network Long
+uint16_t htons(uint16_t hostshort); // Host TO Network Short
+uint32_t htonl(uint32_t hostlong); // Host TO Network Long
 
 // 网络字节序 → 主机字节序
-uint16_t ntohs(uint16_t netshort);    // Network TO Host Short
-uint32_t ntohl(uint32_t netlong);     // Network TO Host Long
+uint16_t ntohs(uint16_t netshort); // Network TO Host Short
+uint32_t ntohl(uint32_t netlong); // Network TO Host Long
 ```
 
 **示例**：
@@ -5670,16 +5670,16 @@ uint32_t ntohl(uint32_t netlong);     // Network TO Host Long
 #include <arpa/inet.h>
 
 int main() {
-    uint32_t host_value = 0x12345678;
-    uint32_t net_value = htonl(host_value);
-    
-    printf("主机字节序：0x%08x\n", host_value);
-    printf("网络字节序：0x%08x\n", net_value);
-    
-    uint32_t back = ntohl(net_value);
-    printf("转换回来：  0x%08x\n", back);
-    
-    return 0;
+ uint32_t host_value = 0x12345678;
+ uint32_t net_value = htonl(host_value);
+
+ printf("主机字节序：0x%08x\n", host_value);
+ printf("网络字节序：0x%08x\n", net_value);
+
+ uint32_t back = ntohl(net_value);
+ printf("转换回来： 0x%08x\n", back);
+
+ return 0;
 }
 ```
 
@@ -5688,7 +5688,7 @@ int main() {
 ```
 主机字节序：0x12345678
 网络字节序：0x78563412
-转换回来：  0x12345678
+转换回来： 0x12345678
 ```
 
 **手动转换**：
@@ -5696,27 +5696,27 @@ int main() {
 ```c
 // 16 位字节序转换
 uint16_t swap16(uint16_t x) {
-    return (x >> 8) | (x << 8);
+ return (x >> 8) | (x << 8);
 }
 
 // 32 位字节序转换
 uint32_t swap32(uint32_t x) {
-    return ((x >> 24) & 0x000000FF) |
-           ((x >> 8)  & 0x0000FF00) |
-           ((x << 8)  & 0x00FF0000) |
-           ((x << 24) & 0xFF000000);
+ return ((x >> 24) & 0x000000FF) |
+ ((x >> 8) & 0x0000FF00) |
+ ((x << 8) & 0x00FF0000) |
+ ((x << 24) & 0xFF000000);
 }
 
 // 64 位字节序转换
 uint64_t swap64(uint64_t x) {
-    return ((x >> 56) & 0x00000000000000FFULL) |
-           ((x >> 40) & 0x000000000000FF00ULL) |
-           ((x >> 24) & 0x0000000000FF0000ULL) |
-           ((x >> 8)  & 0x00000000FF000000ULL) |
-           ((x << 8)  & 0x000000FF00000000ULL) |
-           ((x << 24) & 0x0000FF0000000000ULL) |
-           ((x << 40) & 0x00FF000000000000ULL) |
-           ((x << 56) & 0xFF00000000000000ULL);
+ return ((x >> 56) & 0x00000000000000FFULL) |
+ ((x >> 40) & 0x000000000000FF00ULL) |
+ ((x >> 24) & 0x0000000000FF0000ULL) |
+ ((x >> 8) & 0x00000000FF000000ULL) |
+ ((x << 8) & 0x000000FF00000000ULL) |
+ ((x << 24) & 0x0000FF0000000000ULL) |
+ ((x << 40) & 0x00FF000000000000ULL) |
+ ((x << 56) & 0xFF00000000000000ULL);
 }
 ```
 
@@ -5750,29 +5750,29 @@ send(socket, &net_data, sizeof(net_data), 0);
 // 接收端（大端系统）
 uint32_t received;
 recv(socket, &received, sizeof(received), 0);
-uint32_t host_data = ntohl(received);  // 转换为主机字节序
+uint32_t host_data = ntohl(received); // 转换为主机字节序
 ```
 
 **跨平台数据结构**：
 
 ```c
 struct NetworkPacket {
-    uint32_t id;        // 需要转换
-    uint16_t length;    // 需要转换
-    uint8_t type;       // 单字节，无需转换
-    uint8_t flags;      // 单字节，无需转换
+ uint32_t id; // 需要转换
+ uint16_t length; // 需要转换
+ uint8_t type; // 单字节，无需转换
+ uint8_t flags; // 单字节，无需转换
 };
 
 // 发送前转换
 void prepare_packet(struct NetworkPacket *pkt) {
-    pkt->id = htonl(pkt->id);
-    pkt->length = htons(pkt->length);
+ pkt->id = htonl(pkt->id);
+ pkt->length = htons(pkt->length);
 }
 
 // 接收后转换
 void parse_packet(struct NetworkPacket *pkt) {
-    pkt->id = ntohl(pkt->id);
-    pkt->length = ntohs(pkt->length);
+ pkt->id = ntohl(pkt->id);
+ pkt->length = ntohs(pkt->length);
 }
 ```
 
@@ -5786,12 +5786,12 @@ void parse_packet(struct NetworkPacket *pkt) {
 
 ```c
 struct BitField {
-    unsigned int flag1 : 1;   // 1 位
-    unsigned int flag2 : 1;   // 1 位
-    unsigned int value : 6;   // 6 位
-    unsigned int type  : 4;   // 4 位
-    unsigned int reserved : 20; // 20 位
-};  // 总共 32 位（4 字节）
+ unsigned int flag1 : 1; // 1 位
+ unsigned int flag2 : 1; // 1 位
+ unsigned int value : 6; // 6 位
+ unsigned int type : 4; // 4 位
+ unsigned int reserved : 20; // 20 位
+}; // 总共 32 位（4 字节）
 ```
 
 **示例**：
@@ -5800,22 +5800,22 @@ struct BitField {
 #include <stdio.h>
 
 struct Flags {
-    unsigned int read  : 1;
-    unsigned int write : 1;
-    unsigned int exec  : 1;
-    unsigned int unused : 29;
+ unsigned int read : 1;
+ unsigned int write : 1;
+ unsigned int exec : 1;
+ unsigned int unused : 29;
 };
 
 int main() {
-    struct Flags f = {0};
-    f.read = 1;
-    f.write = 1;
-    f.exec = 0;
-    
-    printf("sizeof(struct Flags) = %zu\n", sizeof(struct Flags));
-    printf("read=%u, write=%u, exec=%u\n", f.read, f.write, f.exec);
-    
-    return 0;
+ struct Flags f = {0};
+ f.read = 1;
+ f.write = 1;
+ f.exec = 0;
+
+ printf("sizeof(struct Flags) = %zu\n", sizeof(struct Flags));
+ printf("read=%u, write=%u, exec=%u\n", f.read, f.write, f.exec);
+
+ return 0;
 }
 ```
 
@@ -5830,24 +5830,24 @@ int main() {
 ```c
 // 网络协议头
 struct TCPHeader {
-    unsigned int src_port : 16;
-    unsigned int dst_port : 16;
-    unsigned int seq_num : 32;
-    unsigned int ack_num : 32;
-    unsigned int data_offset : 4;
-    unsigned int reserved : 6;
-    unsigned int flags : 6;
-    unsigned int window : 16;
-    unsigned int checksum : 16;
-    unsigned int urgent_ptr : 16;
+ unsigned int src_port : 16;
+ unsigned int dst_port : 16;
+ unsigned int seq_num : 32;
+ unsigned int ack_num : 32;
+ unsigned int data_offset : 4;
+ unsigned int reserved : 6;
+ unsigned int flags : 6;
+ unsigned int window : 16;
+ unsigned int checksum : 16;
+ unsigned int urgent_ptr : 16;
 };
 
 // 硬件寄存器
 struct StatusRegister {
-    unsigned int ready : 1;
-    unsigned int error : 1;
-    unsigned int busy : 1;
-    unsigned int reserved : 29;
+ unsigned int ready : 1;
+ unsigned int error : 1;
+ unsigned int busy : 1;
+ unsigned int reserved : 29;
 };
 ```
 
@@ -5859,12 +5859,12 @@ struct StatusRegister {
 
 ```c
 struct Default {
-    char a;      // 1 字节
-    // padding: 3 字节
-    int b;       // 4 字节
-    char c;      // 1 字节
-    // padding: 3 字节
-};  // 总共 12 字节
+ char a; // 1 字节
+ // padding: 3 字节
+ int b; // 4 字节
+ char c; // 1 字节
+ // padding: 3 字节
+}; // 总共 12 字节
 ```
 
 **紧凑打包**：
@@ -5872,17 +5872,17 @@ struct Default {
 ```c
 #pragma pack(push, 1)
 struct Packed {
-    char a;      // 1 字节
-    int b;       // 4 字节
-    char c;      // 1 字节
-};  // 总共 6 字节
+ char a; // 1 字节
+ int b; // 4 字节
+ char c; // 1 字节
+}; // 总共 6 字节
 #pragma pack(pop)
 
 // 或使用 GCC 属性
 struct Packed {
-    char a;
-    int b;
-    char c;
+ char a;
+ int b;
+ char c;
 } __attribute__((packed));
 ```
 
@@ -5892,23 +5892,23 @@ struct Packed {
 #include <stdio.h>
 
 struct Default {
-    char a;
-    int b;
-    char c;
+ char a;
+ int b;
+ char c;
 };
 
 #pragma pack(push, 1)
 struct Packed {
-    char a;
-    int b;
-    char c;
+ char a;
+ int b;
+ char c;
 };
 #pragma pack(pop)
 
 int main() {
-    printf("Default: %zu 字节\n", sizeof(struct Default));  // 12
-    printf("Packed:  %zu 字节\n", sizeof(struct Packed));   // 6
-    return 0;
+ printf("Default: %zu 字节\n", sizeof(struct Default)); // 12
+ printf("Packed: %zu 字节\n", sizeof(struct Packed)); // 6
+ return 0;
 }
 ```
 
@@ -5917,12 +5917,12 @@ int main() {
 ```c
 // 未对齐访问可能导致性能下降
 struct Packed {
-    char a;
-    int b;  // 未对齐（地址不是 4 的倍数）
+ char a;
+ int b; // 未对齐（地址不是 4 的倍数）
 } __attribute__((packed));
 
 struct Packed p;
-p.b = 100;  // 可能需要多次内存访问
+p.b = 100; // 可能需要多次内存访问
 ```
 
 ---
@@ -5957,16 +5957,16 @@ p.b = 100;  // 可能需要多次内存访问
 #include <stdio.h>
 
 int main() {
-    printf("char:      %zu 字节\n", sizeof(char));
-    printf("short:     %zu 字节\n", sizeof(short));
-    printf("int:       %zu 字节\n", sizeof(int));
-    printf("long:      %zu 字节\n", sizeof(long));
-    printf("long long: %zu 字节\n", sizeof(long long));
-    printf("float:     %zu 字节\n", sizeof(float));
-    printf("double:    %zu 字节\n", sizeof(double));
-    printf("pointer:   %zu 字节\n", sizeof(void*));
-    printf("size_t:    %zu 字节\n", sizeof(size_t));
-    return 0;
+ printf("char: %zu 字节\n", sizeof(char));
+ printf("short: %zu 字节\n", sizeof(short));
+ printf("int: %zu 字节\n", sizeof(int));
+ printf("long: %zu 字节\n", sizeof(long));
+ printf("long long: %zu 字节\n", sizeof(long long));
+ printf("float: %zu 字节\n", sizeof(float));
+ printf("double: %zu 字节\n", sizeof(double));
+ printf("pointer: %zu 字节\n", sizeof(void*));
+ printf("size_t: %zu 字节\n", sizeof(size_t));
+ return 0;
 }
 ```
 
@@ -5980,34 +5980,34 @@ int main() {
 #include <stdint.h>
 
 // 精确宽度整数类型（Exact-width）
-int8_t   i8;     // 恰好 8 位有符号整数
-uint8_t  u8;     // 恰好 8 位无符号整数
-int16_t  i16;    // 恰好 16 位有符号整数
-uint16_t u16;    // 恰好 16 位无符号整数
-int32_t  i32;    // 恰好 32 位有符号整数
-uint32_t u32;    // 恰好 32 位无符号整数
-int64_t  i64;    // 恰好 64 位有符号整数
-uint64_t u64;    // 恰好 64 位无符号整数
+int8_t i8; // 恰好 8 位有符号整数
+uint8_t u8; // 恰好 8 位无符号整数
+int16_t i16; // 恰好 16 位有符号整数
+uint16_t u16; // 恰好 16 位无符号整数
+int32_t i32; // 恰好 32 位有符号整数
+uint32_t u32; // 恰好 32 位无符号整数
+int64_t i64; // 恰好 64 位有符号整数
+uint64_t u64; // 恰好 64 位无符号整数
 
 // 最小宽度整数类型（Minimum-width）
-int_least8_t   il8;   // 至少 8 位有符号整数
-uint_least8_t  ul8;   // 至少 8 位无符号整数
-int_least16_t  il16;  // 至少 16 位有符号整数
-uint_least16_t ul16;  // 至少 16 位无符号整数
+int_least8_t il8; // 至少 8 位有符号整数
+uint_least8_t ul8; // 至少 8 位无符号整数
+int_least16_t il16; // 至少 16 位有符号整数
+uint_least16_t ul16; // 至少 16 位无符号整数
 
 // 最快整数类型（Fastest）
-int_fast8_t   if8;    // 至少 8 位，最快的有符号整数
-uint_fast8_t  uf8;    // 至少 8 位，最快的无符号整数
-int_fast16_t  if16;   // 至少 16 位，最快的有符号整数
-uint_fast16_t uf16;   // 至少 16 位，最快的无符号整数
+int_fast8_t if8; // 至少 8 位，最快的有符号整数
+uint_fast8_t uf8; // 至少 8 位，最快的无符号整数
+int_fast16_t if16; // 至少 16 位，最快的有符号整数
+uint_fast16_t uf16; // 至少 16 位，最快的无符号整数
 
 // 指针相关类型
-intptr_t  iptr;  // 可存储指针的有符号整数
-uintptr_t uptr;  // 可存储指针的无符号整数
+intptr_t iptr; // 可存储指针的有符号整数
+uintptr_t uptr; // 可存储指针的无符号整数
 
 // 最大整数类型
-intmax_t  imax;  // 最大有符号整数类型
-uintmax_t umax;  // 最大无符号整数类型
+intmax_t imax; // 最大有符号整数类型
+uintmax_t umax; // 最大无符号整数类型
 ```
 
 **类型范围宏**：
@@ -6016,24 +6016,24 @@ uintmax_t umax;  // 最大无符号整数类型
 #include <stdint.h>
 
 // int8_t 范围
-INT8_MIN    // -128
-INT8_MAX    // 127
-UINT8_MAX   // 255
+INT8_MIN // -128
+INT8_MAX // 127
+UINT8_MAX // 255
 
 // int16_t 范围
-INT16_MIN   // -32768
-INT16_MAX   // 32767
-UINT16_MAX  // 65535
+INT16_MIN // -32768
+INT16_MAX // 32767
+UINT16_MAX // 65535
 
 // int32_t 范围
-INT32_MIN   // -2147483648
-INT32_MAX   // 2147483647
-UINT32_MAX  // 4294967295
+INT32_MIN // -2147483648
+INT32_MAX // 2147483647
+UINT32_MAX // 4294967295
 
 // int64_t 范围
-INT64_MIN   // -9223372036854775808
-INT64_MAX   // 9223372036854775807
-UINT64_MAX  // 18446744073709551615
+INT64_MIN // -9223372036854775808
+INT64_MAX // 9223372036854775807
+UINT64_MAX // 18446744073709551615
 ```
 
 **示例**：
@@ -6043,15 +6043,15 @@ UINT64_MAX  // 18446744073709551615
 #include <stdint.h>
 
 int main() {
-    int32_t x = 100;
-    uint64_t y = 1000000000000ULL;
-    
-    printf("x = %d\n", x);
-    printf("y = %llu\n", (unsigned long long)y);
-    printf("INT32_MAX = %d\n", INT32_MAX);
-    printf("UINT64_MAX = %llu\n", (unsigned long long)UINT64_MAX);
-    
-    return 0;
+ int32_t x = 100;
+ uint64_t y = 1000000000000ULL;
+
+ printf("x = %d\n", x);
+ printf("y = %llu\n", (unsigned long long)y);
+ printf("INT32_MAX = %d\n", INT32_MAX);
+ printf("UINT64_MAX = %llu\n", (unsigned long long)UINT64_MAX);
+
+ return 0;
 }
 ```
 
@@ -6066,22 +6066,22 @@ int main() {
 #include <limits.h>
 
 int main() {
-    printf("char 范围：%d 到 %d\n", CHAR_MIN, CHAR_MAX);
-    printf("unsigned char 范围：0 到 %u\n", UCHAR_MAX);
-    
-    printf("short 范围：%d 到 %d\n", SHRT_MIN, SHRT_MAX);
-    printf("unsigned short 范围：0 到 %u\n", USHRT_MAX);
-    
-    printf("int 范围：%d 到 %d\n", INT_MIN, INT_MAX);
-    printf("unsigned int 范围：0 到 %u\n", UINT_MAX);
-    
-    printf("long 范围：%ld 到 %ld\n", LONG_MIN, LONG_MAX);
-    printf("unsigned long 范围：0 到 %lu\n", ULONG_MAX);
-    
-    printf("long long 范围：%lld 到 %lld\n", LLONG_MIN, LLONG_MAX);
-    printf("unsigned long long 范围：0 到 %llu\n", ULLONG_MAX);
-    
-    return 0;
+ printf("char 范围：%d 到 %d\n", CHAR_MIN, CHAR_MAX);
+ printf("unsigned char 范围：0 到 %u\n", UCHAR_MAX);
+
+ printf("short 范围：%d 到 %d\n", SHRT_MIN, SHRT_MAX);
+ printf("unsigned short 范围：0 到 %u\n", USHRT_MAX);
+
+ printf("int 范围：%d 到 %d\n", INT_MIN, INT_MAX);
+ printf("unsigned int 范围：0 到 %u\n", UINT_MAX);
+
+ printf("long 范围：%ld 到 %ld\n", LONG_MIN, LONG_MAX);
+ printf("unsigned long 范围：0 到 %lu\n", ULONG_MAX);
+
+ printf("long long 范围：%lld 到 %lld\n", LLONG_MIN, LLONG_MAX);
+ printf("unsigned long long 范围：0 到 %llu\n", ULLONG_MAX);
+
+ return 0;
 }
 ```
 
@@ -6092,18 +6092,18 @@ int main() {
 #include <float.h>
 
 int main() {
-    printf("float 范围：%e 到 %e\n", FLT_MIN, FLT_MAX);
-    printf("float 精度：%d 位\n", FLT_DIG);
-    printf("float epsilon：%e\n", FLT_EPSILON);
-    
-    printf("double 范围：%e 到 %e\n", DBL_MIN, DBL_MAX);
-    printf("double 精度：%d 位\n", DBL_DIG);
-    printf("double epsilon：%e\n", DBL_EPSILON);
-    
-    printf("long double 范围：%Le 到 %Le\n", LDBL_MIN, LDBL_MAX);
-    printf("long double 精度：%d 位\n", LDBL_DIG);
-    
-    return 0;
+ printf("float 范围：%e 到 %e\n", FLT_MIN, FLT_MAX);
+ printf("float 精度：%d 位\n", FLT_DIG);
+ printf("float epsilon：%e\n", FLT_EPSILON);
+
+ printf("double 范围：%e 到 %e\n", DBL_MIN, DBL_MAX);
+ printf("double 精度：%d 位\n", DBL_DIG);
+ printf("double epsilon：%e\n", DBL_EPSILON);
+
+ printf("long double 范围：%Le 到 %Le\n", LDBL_MIN, LDBL_MAX);
+ printf("long double 精度：%d 位\n", LDBL_DIG);
+
+ return 0;
 }
 ```
 
@@ -6135,7 +6135,7 @@ intptr_t ptr_value = (intptr_t)pointer;
 
 ```c
 // 不推荐：硬编码大小
-char buffer[4];  // 假设 int 是 4 字节
+char buffer[4]; // 假设 int 是 4 字节
 
 // 推荐：使用 sizeof
 char buffer[sizeof(int)];
@@ -6188,40 +6188,40 @@ Number y = 20;
 
 // x 和 y 的类型不等价（不同的 typedef）
 // 但可以相互赋值（底层类型相同）
-x = y;  // 合法
+x = y; // 合法
 ```
 
 **结构体的名称等价**：
 
 ```c
 struct Point1 {
-    int x;
-    int y;
+ int x;
+ int y;
 };
 
 struct Point2 {
-    int x;
-    int y;
+ int x;
+ int y;
 };
 
 struct Point1 p1 = {1, 2};
 struct Point2 p2 = {3, 4};
 
-// p1 = p2;  // 错误：类型不等价
+// p1 = p2; // 错误：类型不等价
 ```
 
 **类型别名**：
 
 ```c
 typedef struct {
-    int x;
-    int y;
+ int x;
+ int y;
 } Point;
 
 Point p1 = {1, 2};
 Point p2 = {3, 4};
 
-p1 = p2;  // 合法：相同类型
+p1 = p2; // 合法：相同类型
 ```
 
 ---
@@ -6244,40 +6244,40 @@ p1 = p2;  // 合法：相同类型
 
 ```go
 type Point1 struct {
-    X int
-    Y int
+ X int
+ Y int
 }
 
 type Point2 struct {
-    X int
-    Y int
+ X int
+ Y int
 }
 
 var p1 Point1 = Point1{1, 2}
 var p2 Point2 = Point2{3, 4}
 
-// p1 = p2  // 错误：Go 使用名称等价
+// p1 = p2 // 错误：Go 使用名称等价
 // 但可以转换
-p1 = Point1(p2)  // 合法
+p1 = Point1(p2) // 合法
 ```
 
 **TypeScript（结构等价）**：
 
 ```typescript
 interface Point1 {
-    x: number;
-    y: number;
+ x: number;
+ y: number;
 }
 
 interface Point2 {
-    x: number;
-    y: number;
+ x: number;
+ y: number;
 }
 
 let p1: Point1 = {x: 1, y: 2};
 let p2: Point2 = {x: 3, y: 4};
 
-p1 = p2;  // 合法：结构等价
+p1 = p2; // 合法：结构等价
 ```
 
 ---
@@ -6289,19 +6289,19 @@ p1 = p2;  // 合法：结构等价
 ```c
 // 整数类型兼容
 int x = 10;
-long y = x;      // 合法：隐式转换
-short z = x;     // 合法：可能截断
+long y = x; // 合法：隐式转换
+short z = x; // 合法：可能截断
 
 // 指针类型兼容
 int *p1;
-void *p2 = p1;   // 合法：任何指针可转为 void*
-int *p3 = p2;    // 需要显式转换
+void *p2 = p1; // 合法：任何指针可转为 void*
+int *p3 = p2; // 需要显式转换
 
 // 结构体类型不兼容
 struct A { int x; };
 struct B { int x; };
 struct A a;
-// struct B b = a;  // 错误：类型不兼容
+// struct B b = a; // 错误：类型不兼容
 ```
 
 **函数指针兼容**：
@@ -6313,7 +6313,7 @@ int sub(int a, int b) { return a - b; }
 int (*func1)(int, int) = add;
 int (*func2)(int, int) = sub;
 
-func1 = func2;  // 合法：函数签名相同
+func1 = func2; // 合法：函数签名相同
 ```
 
 ---
@@ -6324,26 +6324,26 @@ func1 = func2;  // 合法：函数签名相同
 
 ```c
 int x = 10;
-double y = x;     // 隐式转换：int → double
+double y = x; // 隐式转换：int → double
 
 char c = 'A';
-int i = c;        // 隐式转换：char → int
+int i = c; // 隐式转换：char → int
 
 float f = 3.14f;
-double d = f;     // 隐式转换：float → double
+double d = f; // 隐式转换：float → double
 ```
 
 **显式转换（Explicit Conversion）**：
 
 ```c
 double d = 3.14;
-int i = (int)d;   // 显式转换：double → int（截断）
+int i = (int)d; // 显式转换：double → int（截断）
 
 void *p = malloc(100);
-int *ip = (int*)p;  // 显式转换：void* → int*
+int *ip = (int*)p; // 显式转换：void* → int*
 
 long l = 1000000L;
-int i2 = (int)l;  // 显式转换：long → int（可能溢出）
+int i2 = (int)l; // 显式转换：long → int（可能溢出）
 ```
 
 **类型提升（Type Promotion）**：
@@ -6351,11 +6351,11 @@ int i2 = (int)l;  // 显式转换：long → int（可能溢出）
 ```c
 char c1 = 10;
 char c2 = 20;
-int result = c1 + c2;  // char 提升为 int
+int result = c1 + c2; // char 提升为 int
 
 short s1 = 100;
 short s2 = 200;
-int result2 = s1 * s2;  // short 提升为 int
+int result2 = s1 * s2; // short 提升为 int
 ```
 #### **算术转换规则（Arithmetic Conversion）**
 
@@ -6364,9 +6364,9 @@ int result2 = s1 * s2;  // short 提升为 int
 **转换优先级（从高到低）**：
 
 ```
-long double > double > float > 
-unsigned long long > long long > 
-unsigned long > long > 
+long double > double > float >
+unsigned long long > long long >
+unsigned long > long >
 unsigned int > int
 ```
 
@@ -6386,15 +6386,15 @@ unsigned int > int
 ```c
 char c1 = 10;
 char c2 = 20;
-int result = c1 + c2;  // c1 和 c2 提升为 int
+int result = c1 + c2; // c1 和 c2 提升为 int
 
 short s1 = 100;
 short s2 = 200;
-int result2 = s1 * s2;  // s1 和 s2 提升为 int
+int result2 = s1 * s2; // s1 和 s2 提升为 int
 
 // 位运算也会提升
 char c = 0xFF;
-int mask = ~c;  // c 提升为 int，结果为 0xFFFFFF00（32 位）
+int mask = ~c; // c 提升为 int，结果为 0xFFFFFF00（32 位）
 ```
 
 **提升的原因**：
@@ -6414,11 +6414,11 @@ int mask = ~c;  // c 提升为 int，结果为 0xFFFFFF00（32 位）
 2. 否则，如果任一操作数是 double → 都转为 double
 3. 否则，如果任一操作数是 float → 都转为 float
 4. 否则，先进行整数提升，然后：
-   a. 如果两个操作数类型相同 → 无需转换
-   b. 如果都是有符号或都是无符号 → 转为较宽的类型
-   c. 如果无符号类型 ≥ 有符号类型 → 都转为无符号类型
-   d. 如果有符号类型能表示无符号类型的所有值 → 都转为有符号类型
-   e. 否则 → 都转为有符号类型对应的无符号类型
+ a. 如果两个操作数类型相同 → 无需转换
+ b. 如果都是有符号或都是无符号 → 转为较宽的类型
+ c. 如果无符号类型 ≥ 有符号类型 → 都转为无符号类型
+ d. 如果有符号类型能表示无符号类型的所有值 → 都转为有符号类型
+ e. 否则 → 都转为有符号类型对应的无符号类型
 ```
 
 **示例 1：浮点转换**
@@ -6429,13 +6429,13 @@ float f = 3.14f;
 double d = 2.5;
 
 // int + float → float
-float r1 = i + f;  // i 转为 float
+float r1 = i + f; // i 转为 float
 
 // float + double → double
-double r2 = f + d;  // f 转为 double
+double r2 = f + d; // f 转为 double
 
 // int + double → double
-double r3 = i + d;  // i 转为 double
+double r3 = i + d; // i 转为 double
 ```
 
 **示例 2：整数转换**
@@ -6446,10 +6446,10 @@ long l = 100L;
 unsigned int ui = 50U;
 
 // int + long → long
-long r1 = i + l;  // i 转为 long
+long r1 = i + l; // i 转为 long
 
 // int + unsigned int → unsigned int
-unsigned int r2 = i + ui;  // i 转为 unsigned int
+unsigned int r2 = i + ui; // i 转为 unsigned int
 
 // long + unsigned int → ?（平台相关）
 // 32 位系统：long(4 字节) == unsigned int(4 字节) → unsigned long
@@ -6464,13 +6464,13 @@ unsigned int ui = 1;
 
 // int + unsigned int → unsigned int
 unsigned int result = i + ui;
-printf("%u\n", result);  // 输出：0（-1 转为 4294967295，加 1 溢出）
+printf("%u\n", result); // 输出：0（-1 转为 4294967295，加 1 溢出）
 
 // 比较运算
 if (i < ui) {
-    printf("i < ui\n");
+ printf("i < ui\n");
 } else {
-    printf("i >= ui\n");  // 实际输出这个（-1 转为 4294967295）
+ printf("i >= ui\n"); // 实际输出这个（-1 转为 4294967295）
 }
 ```
 
@@ -6485,14 +6485,14 @@ int x = -1;
 unsigned int y = 1;
 
 if (x < y) {
-    printf("x < y\n");
+ printf("x < y\n");
 } else {
-    printf("x >= y\n");  // 实际输出（-1 转为 4294967295）
+ printf("x >= y\n"); // 实际输出（-1 转为 4294967295）
 }
 
 // 解决方案：显式转换
 if (x < (int)y) {
-    printf("x < y\n");  // 正确输出
+ printf("x < y\n"); // 正确输出
 }
 ```
 
@@ -6501,39 +6501,39 @@ if (x < (int)y) {
 ```c
 int a = 2000000000;
 int b = 2000000000;
-long long result = a + b;  // 错误：a + b 先以 int 计算，溢出
+long long result = a + b; // 错误：a + b 先以 int 计算，溢出
 
 // 正确做法
-long long result = (long long)a + b;  // a 转为 long long，b 也转为 long long
+long long result = (long long)a + b; // a 转为 long long，b 也转为 long long
 ```
 
 **陷阱 3：浮点精度丢失**
 
 ```c
-int large = 16777217;  // 超过 float 精度
+int large = 16777217; // 超过 float 精度
 float f = large;
 int back = (int)f;
 
-printf("%d\n", back);  // 可能输出 16777216（精度丢失）
+printf("%d\n", back); // 可能输出 16777216（精度丢失）
 ```
 
 **陷阱 4：截断**
 
 ```c
 double d = 3.99;
-int i = d;  // 截断为 3（不是四舍五入）
+int i = d; // 截断为 3（不是四舍五入）
 
 int large = 300;
-char c = large;  // 截断为 44（300 % 256）
+char c = large; // 截断为 44（300 % 256）
 ```
 
 **陷阱 5：负数转无符号**
 
 ```c
 int x = -1;
-unsigned int y = x;  // y = 4294967295（补码解释）
+unsigned int y = x; // y = 4294967295（补码解释）
 
-printf("%u\n", y);  // 输出：4294967295
+printf("%u\n", y); // 输出：4294967295
 ```
 
 ---
@@ -6546,18 +6546,18 @@ printf("%u\n", y);  // 输出：4294967295
 #include <limits.h>
 
 int safe_int_to_short(int value, short *result) {
-    if (value < SHRT_MIN || value > SHRT_MAX) {
-        return -1;  // 超出范围
-    }
-    *result = (short)value;
-    return 0;
+ if (value < SHRT_MIN || value > SHRT_MAX) {
+ return -1; // 超出范围
+ }
+ *result = (short)value;
+ return 0;
 }
 
 // 使用
 int x = 40000;
 short s;
 if (safe_int_to_short(x, &s) != 0) {
-    printf("转换失败\n");
+ printf("转换失败\n");
 }
 ```
 
@@ -6567,14 +6567,14 @@ if (safe_int_to_short(x, &s) != 0) {
 #include <limits.h>
 
 int safe_add(int a, int b, int *result) {
-    if (a > 0 && b > INT_MAX - a) {
-        return -1;  // 正溢出
-    }
-    if (a < 0 && b < INT_MIN - a) {
-        return -1;  // 负溢出
-    }
-    *result = a + b;
-    return 0;
+ if (a > 0 && b > INT_MAX - a) {
+ return -1; // 正溢出
+ }
+ if (a < 0 && b < INT_MIN - a) {
+ return -1; // 负溢出
+ }
+ *result = a + b;
+ return 0;
 }
 ```
 
@@ -6585,10 +6585,10 @@ int safe_add(int a, int b, int *result) {
 
 // 明确类型大小，避免平台差异
 int32_t x = 100;
-int64_t y = x;  // 安全：窄类型转宽类型
+int64_t y = x; // 安全：窄类型转宽类型
 
 int64_t z = 1000000000000LL;
-int32_t w = (int32_t)z;  // 需要检查范围
+int32_t w = (int32_t)z; // 需要检查范围
 ```
 
 ---
@@ -6601,66 +6601,66 @@ int32_t w = (int32_t)z;  // 需要检查范围
 
 ```c
 #define type_name(x) _Generic((x), \
-    int: "int", \
-    float: "float", \
-    double: "double", \
-    char*: "char*", \
-    default: "unknown")
+ int: "int", \
+ float: "float", \
+ double: "double", \
+ char*: "char*", \
+ default: "unknown")
 
 int main() {
-    int x = 10;
-    float f = 3.14f;
-    
-    printf("%s\n", type_name(x));  // 输出：int
-    printf("%s\n", type_name(f));  // 输出：float
-    printf("%s\n", type_name(x + f));  // 输出：float
-    
-    return 0;
+ int x = 10;
+ float f = 3.14f;
+
+ printf("%s\n", type_name(x)); // 输出：int
+ printf("%s\n", type_name(f)); // 输出：float
+ printf("%s\n", type_name(x + f)); // 输出：float
+
+ return 0;
 }
 ```
 
 **C++：`auto`**
 
 ```cpp
-auto x = 10;        // int
-auto f = 3.14f;     // float
-auto d = 3.14;      // double
-auto s = "hello";   // const char*
+auto x = 10; // int
+auto f = 3.14f; // float
+auto d = 3.14; // double
+auto s = "hello"; // const char*
 
-auto result = x + f;  // float
+auto result = x + f; // float
 ```
 
 **C++：`decltype`**
 
 ```cpp
 int x = 10;
-decltype(x) y = 20;  // y 的类型与 x 相同（int）
+decltype(x) y = 20; // y 的类型与 x 相同（int）
 
 int arr[10];
-decltype(arr) arr2;  // arr2 的类型为 int[10]
+decltype(arr) arr2; // arr2 的类型为 int[10]
 
 auto func = [](int a, int b) { return a + b; };
-decltype(func(1, 2)) result;  // result 的类型为 int
+decltype(func(1, 2)) result; // result 的类型为 int
 ```
 
 **Rust：类型推导**
 
 ```rust
-let x = 10;         // i32（默认整数类型）
-let f = 3.14;       // f64（默认浮点类型）
-let s = "hello";    // &str
+let x = 10; // i32（默认整数类型）
+let f = 3.14; // f64（默认浮点类型）
+let s = "hello"; // &str
 
-let result = x + 5;  // i32
+let result = x + 5; // i32
 ```
 
 **Python：动态类型**
 
 ```python
-x = 10          # int
-f = 3.14        # float
-s = "hello"     # str
+x = 10 # int
+f = 3.14 # float
+s = "hello" # str
 
-result = x + f  # float（自动转换）
+result = x + f # float（自动转换）
 ```
 
 ---
@@ -6703,18 +6703,18 @@ int x = 10;
 ```c
 // C 语言必须声明返回类型
 int add(int a, int b) {
-    return a + b;
+ return a + b;
 }
 
 // C++14 可以推导
 auto add(int a, int b) {
-    return a + b;  // 推导为 int
+ return a + b; // 推导为 int
 }
 ```
 
 ---
 
-##  第 5 章 静态类型 vs 动态类型 
+## 第 5 章 静态类型 vs 动态类型
 
 ---
 
@@ -6724,12 +6724,12 @@ auto add(int a, int b) {
 
 **特点**：
 
-| 特性             | 说明             |
+| 特性 | 说明 |
 | ---------------- | ---------------- |
-| **类型检查时机** | 编译期           |
-| **类型绑定**     | 变量与类型绑定   |
-| **类型声明**     | 通常需要显式声明 |
-| **类型错误**     | 编译时报错       |
+| **类型检查时机** | 编译期 |
+| **类型绑定** | 变量与类型绑定 |
+| **类型声明** | 通常需要显式声明 |
+| **类型错误** | 编译时报错 |
 
 **代表语言**：C、C++、Java、Go、Rust、TypeScript
 
@@ -6740,24 +6740,24 @@ auto add(int a, int b) {
 **类型声明**：
 
 ```c
-int x = 10;        // x 的类型是 int，不可改变
-x = 20;            // 合法：赋值相同类型
-// x = "hello";    // 错误：类型不匹配（编译期报错）
+int x = 10; // x 的类型是 int，不可改变
+x = 20; // 合法：赋值相同类型
+// x = "hello"; // 错误：类型不匹配（编译期报错）
 
 double y = 3.14;
-// y = x;          // 错误：类型不匹配（需要显式转换）
-y = (double)x;     // 合法：显式转换
+// y = x; // 错误：类型不匹配（需要显式转换）
+y = (double)x; // 合法：显式转换
 ```
 
 **函数签名**：
 
 ```c
 int add(int a, int b) {
-    return a + b;
+ return a + b;
 }
 
-int result = add(10, 20);        // 合法
-// int result = add(10, "20");   // 错误：参数类型不匹配
+int result = add(10, 20); // 合法
+// int result = add(10, "20"); // 错误：参数类型不匹配
 // double result = add(1.5, 2.5); // 错误：参数类型不匹配
 ```
 
@@ -6765,11 +6765,11 @@ int result = add(10, 20);        // 合法
 
 ```c
 int x = 10;
-int *p = &x;       // p 的类型是 int*
+int *p = &x; // p 的类型是 int*
 
-// char *q = p;    // 错误：类型不匹配
-void *v = p;       // 合法：任何指针可转为 void*
-int *p2 = v;       // 需要显式转换
+// char *q = p; // 错误：类型不匹配
+void *v = p; // 合法：任何指针可转为 void*
+int *p2 = v; // 需要显式转换
 ```
 
 ---
@@ -6782,13 +6782,13 @@ int *p2 = v;       // 需要显式转换
 
 ```c
 int add(int a, int b) {
-    return a + b;  // 编译为直接的 CPU 加法指令
+ return a + b; // 编译为直接的 CPU 加法指令
 }
 
 // 编译后的汇编（x86-64）：
 // add:
-//     lea eax, [rdi + rsi]  ; 直接加法
-//     ret
+// lea eax, [rdi + rsi] ; 直接加法
+// ret
 ```
 
 **2. 早期错误检测**
@@ -6797,8 +6797,8 @@ int add(int a, int b) {
 
 ```c
 int x = 10;
-int y = x + "hello";  // 编译错误：类型不匹配
-                      // 在编译期就被发现，不会进入生产环境
+int y = x + "hello"; // 编译错误：类型不匹配
+ // 在编译期就被发现，不会进入生产环境
 ```
 
 **3. 代码可读性**
@@ -6807,7 +6807,7 @@ int y = x + "hello";  // 编译错误：类型不匹配
 
 ```c
 int calculate_age(int birth_year, int current_year) {
-    return current_year - birth_year;
+ return current_year - birth_year;
 }
 // 从签名就能看出参数和返回值的类型
 ```
@@ -6818,12 +6818,12 @@ int calculate_age(int birth_year, int current_year) {
 
 ```c
 struct Point {
-    int x;
-    int y;
+ int x;
+ int y;
 };
 
 struct Point p;
-p.  // IDE 自动提示 x 和 y
+p. // IDE 自动提示 x 和 y
 ```
 
 **5. 重构安全**
@@ -6833,7 +6833,7 @@ p.  // IDE 自动提示 x 和 y
 ```c
 // 将 int 改为 long
 long calculate_age(long birth_year, long current_year) {
-    return current_year - birth_year;
+ return current_year - birth_year;
 }
 // 所有调用该函数的代码如果类型不匹配，编译器会报错
 ```
@@ -6865,15 +6865,15 @@ result = x + y
 ```c
 // C 语言需要使用联合体或 void* 处理不同类型
 union Data {
-    int i;
-    float f;
-    char *s;
+ int i;
+ float f;
+ char *s;
 };
 
 // 使用时需要记住当前存储的类型
 union Data data;
 data.i = 10;
-// printf("%f\n", data.f);  // 错误：访问了错误的字段
+// printf("%f\n", data.f); // 错误：访问了错误的字段
 ```
 
 **3. 泛型支持有限**
@@ -6883,16 +6883,16 @@ C 语言不支持泛型，需要为每种类型编写重复代码。
 ```c
 // 交换两个整数
 void swap_int(int *a, int *b) {
-    int temp = *a;
-    *a = *b;
-    *b = temp;
+ int temp = *a;
+ *a = *b;
+ *b = temp;
 }
 
 // 交换两个浮点数（重复代码）
 void swap_float(float *a, float *b) {
-    float temp = *a;
-    *a = *b;
-    *b = temp;
+ float temp = *a;
+ *a = *b;
+ *b = temp;
 }
 
 // 或使用宏（失去类型安全）
@@ -6919,12 +6919,12 @@ int ***ppp = &pp;
 
 **特点**：
 
-| 特性             | 说明                     |
+| 特性 | 说明 |
 | ---------------- | ------------------------ |
-| **类型检查时机** | 运行时                   |
-| **类型绑定**     | 值与类型绑定，变量无类型 |
-| **类型声明**     | 无需声明类型             |
-| **类型错误**     | 运行时报错               |
+| **类型检查时机** | 运行时 |
+| **类型绑定** | 值与类型绑定，变量无类型 |
+| **类型声明** | 无需声明类型 |
+| **类型错误** | 运行时报错 |
 
 **代表语言**：Python、JavaScript、Ruby、PHP、Lua
 
@@ -6935,26 +6935,26 @@ int ***ppp = &pp;
 **类型推导**：
 
 ```python
-x = 10          # x 是 int
-print(type(x))  # <class 'int'>
+x = 10 # x 是 int
+print(type(x)) # <class 'int'>
 
-x = "hello"     # x 现在是 str
-print(type(x))  # <class 'str'>
+x = "hello" # x 现在是 str
+print(type(x)) # <class 'str'>
 
-x = [1, 2, 3]   # x 现在是 list
-print(type(x))  # <class 'list'>
+x = [1, 2, 3] # x 现在是 list
+print(type(x)) # <class 'list'>
 ```
 
 **函数参数**：
 
 ```python
 def add(a, b):
-    return a + b
+ return a + b
 
-print(add(10, 20))        # 30（整数加法）
-print(add(1.5, 2.5))      # 4.0（浮点加法）
-print(add("hello", "world"))  # helloworld（字符串连接）
-print(add([1, 2], [3, 4]))    # [1, 2, 3, 4]（列表连接）
+print(add(10, 20)) # 30（整数加法）
+print(add(1.5, 2.5)) # 4.0（浮点加法）
+print(add("hello", "world")) # helloworld（字符串连接）
+print(add([1, 2], [3, 4])) # [1, 2, 3, 4]（列表连接）
 ```
 
 **鸭子类型（Duck Typing）**：
@@ -6962,18 +6962,18 @@ print(add([1, 2], [3, 4]))    # [1, 2, 3, 4]（列表连接）
 ```python
 # "如果它走起来像鸭子，叫起来像鸭子，那它就是鸭子"
 def process(obj):
-    obj.quack()  # 只要 obj 有 quack 方法就可以
+ obj.quack() # 只要 obj 有 quack 方法就可以
 
 class Duck:
-    def quack(self):
-        print("Quack!")
+ def quack(self):
+ print("Quack!")
 
 class Person:
-    def quack(self):
-        print("I'm quacking like a duck!")
+ def quack(self):
+ print("I'm quacking like a duck!")
 
-process(Duck())    # Quack!
-process(Person())  # I'm quacking like a duck!
+process(Duck()) # Quack!
+process(Person()) # I'm quacking like a duck!
 ```
 
 ---
@@ -7014,9 +7014,9 @@ data = {"key": "value"}
 
 ```python
 def process_data(data):
-    # 不关心 data 的类型，只要支持迭代即可
-    for item in data:
-        print(item)
+ # 不关心 data 的类型，只要支持迭代即可
+ for item in data:
+ print(item)
 
 process_data([1, 2, 3])
 process_data("abc")
@@ -7029,11 +7029,11 @@ process_data(range(5))
 
 ```python
 def get_length(obj):
-    return len(obj)
+ return len(obj)
 
-print(get_length("hello"))      # 5
-print(get_length([1, 2, 3]))    # 3
-print(get_length({"a": 1}))     # 1
+print(get_length("hello")) # 5
+print(get_length([1, 2, 3])) # 3
+print(get_length({"a": 1})) # 1
 ```
 
 ---
@@ -7046,10 +7046,10 @@ print(get_length({"a": 1}))     # 1
 
 ```python
 def add(a, b):
-    return a + b
+ return a + b
 
-result = add(10, "20")  # 运行时错误：TypeError
-                        # unsupported operand type(s) for +: 'int' and 'str'
+result = add(10, "20") # 运行时错误：TypeError
+ # unsupported operand type(s) for +: 'int' and 'str'
 ```
 
 **2. 性能开销**
@@ -7059,11 +7059,11 @@ result = add(10, "20")  # 运行时错误：TypeError
 ```python
 # Python 需要在运行时检查 a 和 b 的类型
 def add(a, b):
-    return a + b
+ return a + b
 
 # C 语言在编译期就确定了类型，直接生成加法指令
 # int add(int a, int b) {
-#     return a + b;
+# return a + b;
 # }
 ```
 
@@ -7076,9 +7076,9 @@ import time
 start = time.time()
 total = 0
 for i in range(10000000):
-    total += i
+ total += i
 end = time.time()
-print(f"Python: {end - start:.2f}s")  # 约 0.5-1 秒
+print(f"Python: {end - start:.2f}s") # 约 0.5-1 秒
 ```
 
 ```c
@@ -7087,15 +7087,15 @@ print(f"Python: {end - start:.2f}s")  # 约 0.5-1 秒
 #include <time.h>
 
 int main() {
-    clock_t start = clock();
-    long long total = 0;
-    for (int i = 0; i < 10000000; i++) {
-        total += i;
-    }
-    clock_t end = clock();
-    printf("C: %.2fs\n", (double)(end - start) / CLOCKS_PER_SEC);
-    // 约 0.01-0.02 秒（快 50-100 倍）
-    return 0;
+ clock_t start = clock();
+ long long total = 0;
+ for (int i = 0; i < 10000000; i++) {
+ total += i;
+ }
+ clock_t end = clock();
+ printf("C: %.2fs\n", (double)(end - start) / CLOCKS_PER_SEC);
+ // 约 0.01-0.02 秒（快 50-100 倍）
+ return 0;
 }
 ```
 
@@ -7104,8 +7104,8 @@ int main() {
 编译器不知道类型，难以提供准确的自动补全。
 
 ```python
-x = get_data()  # IDE 不知道 x 的类型
-x.  # 无法准确提示可用的方法
+x = get_data() # IDE 不知道 x 的类型
+x. # 无法准确提示可用的方法
 ```
 
 **4. 重构困难**
@@ -7114,11 +7114,11 @@ x.  # 无法准确提示可用的方法
 
 ```python
 # 修改函数
-def calculate_age(birth_year):  # 删除了 current_year 参数
-    return 2024 - birth_year
+def calculate_age(birth_year): # 删除了 current_year 参数
+ return 2024 - birth_year
 
 # 旧代码仍然可以运行，但会在运行时报错
-age = calculate_age(1990, 2024)  # TypeError: 运行时才发现
+age = calculate_age(1990, 2024) # TypeError: 运行时才发现
 ```
 
 **5. 调试困难**
@@ -7127,11 +7127,11 @@ age = calculate_age(1990, 2024)  # TypeError: 运行时才发现
 
 ```python
 def process(data):
-    # ... 100 行代码
-    result = data.upper()  # 如果 data 不是字符串，这里才报错
-    # ... 更多代码
+ # ... 100 行代码
+ result = data.upper() # 如果 data 不是字符串，这里才报错
+ # ... 更多代码
 
-process(123)  # 运行到 upper() 才发现错误
+process(123) # 运行到 upper() 才发现错误
 ```
 
 ---
@@ -7142,26 +7142,26 @@ process(123)  # 运行到 upper() 才发现错误
 
 **重要概念**：强/弱类型与静态/动态类型是**正交**的（独立的）概念。
 
-| 维度         | 强类型   | 弱类型   |
+| 维度 | 强类型 | 弱类型 |
 | ------------ | -------- | -------- |
 | **隐式转换** | 严格限制 | 宽松允许 |
-| **类型混用** | 报错     | 自动转换 |
-| **类型安全** | 高       | 低       |
+| **类型混用** | 报错 | 自动转换 |
+| **类型安全** | 高 | 低 |
 
 ---
 
 #### **四种组合**
 
-| 组合              | 代表语言            | 特点                           |
+| 组合 | 代表语言 | 特点 |
 | ----------------- | ------------------- | ------------------------------ |
 | **强类型 + 静态** | Java, Rust, Haskell | 最严格，编译期检查，运行时安全 |
-| **强类型 + 动态** | Python, Ruby        | 运行时检查，禁止隐式转换       |
-| **弱类型 + 静态** | C, C++              | 编译期检查，但允许隐式转换     |
-| **弱类型 + 动态** | JavaScript, PHP     | 最宽松，大量隐式转换           |
+| **强类型 + 动态** | Python, Ruby | 运行时检查，禁止隐式转换 |
+| **弱类型 + 静态** | C, C++ | 编译期检查，但允许隐式转换 |
+| **弱类型 + 动态** | JavaScript, PHP | 最宽松，大量隐式转换 |
 
 ---
 
-###  强类型（Strong Typing）
+### 强类型（Strong Typing）
 
 **定义**：严格限制类型之间的隐式转换，类型不匹配时报错。
 
@@ -7175,11 +7175,11 @@ process(123)  # 运行到 upper() 才发现错误
 # 不同类型不能直接运算
 x = 10
 y = "20"
-result = x + y  # TypeError: unsupported operand type(s) for +: 'int' and 'str'
+result = x + y # TypeError: unsupported operand type(s) for +: 'int' and 'str'
 
 # 必须显式转换
-result = x + int(y)      # 30
-result = str(x) + y      # "1020"
+result = x + int(y) # 30
+result = str(x) + y # "1020"
 ```
 
 **类型检查严格**：
@@ -7188,35 +7188,35 @@ result = str(x) + y      # "1020"
 # 字符串和数字不能比较
 x = "10"
 y = 10
-if x > y:  # TypeError: '>' not supported between instances of 'str' and 'int'
-    print("x > y")
+if x > y: # TypeError: '>' not supported between instances of 'str' and 'int'
+ print("x > y")
 
 # 必须显式转换
 if int(x) > y:
-    print("x > y")
+ print("x > y")
 ```
 
 **列表类型一致性**：
 
 ```python
 # Python 允许混合类型（动态），但操作时类型检查严格
-data = [1, 2, "hello", 3.14]  # 合法
+data = [1, 2, "hello", 3.14] # 合法
 
 # 但不能对不兼容类型进行操作
-total = sum(data)  # TypeError: unsupported operand type(s) for +: 'int' and 'str'
+total = sum(data) # TypeError: unsupported operand type(s) for +: 'int' and 'str'
 
 # 必须过滤类型
-total = sum(x for x in data if isinstance(x, (int, float)))  # 6.14
+total = sum(x for x in data if isinstance(x, (int, float))) # 6.14
 ```
 
 **函数参数类型**：
 
 ```python
 def divide(a, b):
-    return a / b
+ return a / b
 
-print(divide(10, 2))      # 5.0
-print(divide(10, "2"))    # TypeError: unsupported operand type(s) for /: 'int' and 'str'
+print(divide(10, 2)) # 5.0
+print(divide(10, "2")) # TypeError: unsupported operand type(s) for /: 'int' and 'str'
 ```
 
 ---
@@ -7228,28 +7228,28 @@ print(divide(10, "2"))    # TypeError: unsupported operand type(s) for /: 'int' 
 ```java
 int x = 10;
 String y = "20";
-// int result = x + y;  // 编译错误：不兼容的类型
+// int result = x + y; // 编译错误：不兼容的类型
 
 // 必须显式转换
-int result = x + Integer.parseInt(y);  // 30
-String result2 = x + y;  // "1020"（字符串连接）
+int result = x + Integer.parseInt(y); // 30
+String result2 = x + y; // "1020"（字符串连接）
 ```
 
 **严格的类型系统**：
 
 ```java
 Object obj = "hello";
-// String str = obj;  // 编译错误：需要显式转换
-String str = (String) obj;  // 合法
+// String str = obj; // 编译错误：需要显式转换
+String str = (String) obj; // 合法
 
 // 如果类型不匹配，运行时抛出 ClassCastException
 Object obj2 = 123;
-String str2 = (String) obj2;  // 运行时错误
+String str2 = (String) obj2; // 运行时错误
 ```
 
 ---
 
-###  弱类型（Weak Typing）
+### 弱类型（Weak Typing）
 
 **定义**：允许大量隐式类型转换，类型不匹配时自动转换。
 
@@ -7262,13 +7262,13 @@ String str2 = (String) obj2;  // 运行时错误
 ```c
 int x = 10;
 double y = 3.14;
-double result = x + y;  // x 自动转为 double
+double result = x + y; // x 自动转为 double
 
 char c = 'A';
-int i = c;  // c 自动转为 int（65）
+int i = c; // c 自动转为 int（65）
 
 int a = 10;
-float f = a;  // a 自动转为 float
+float f = a; // a 自动转为 float
 ```
 
 **指针类型转换**：
@@ -7279,11 +7279,11 @@ int *p = &x;
 
 // void* 可以隐式转换为任何指针类型
 void *vp = p;
-int *p2 = vp;  // 合法（C 语言）
+int *p2 = vp; // 合法（C 语言）
 
 // 不同类型指针可以强制转换（危险）
 char *cp = (char*)p;
-printf("%d\n", *cp);  // 读取 int 的第一个字节
+printf("%d\n", *cp); // 读取 int 的第一个字节
 ```
 
 **整数与指针混用**：
@@ -7293,7 +7293,7 @@ int arr[10];
 int *p = arr;
 
 // 指针可以与整数运算
-p = p + 5;  // 指针算术
+p = p + 5; // 指针算术
 
 // 指针可以转为整数（不推荐）
 long addr = (long)p;
@@ -7304,13 +7304,13 @@ printf("地址：%ld\n", addr);
 
 ```c
 int x = 10;
-if (x) {  // x 自动转为布尔值（非零为真）
-    printf("x 为真\n");
+if (x) { // x 自动转为布尔值（非零为真）
+ printf("x 为真\n");
 }
 
 char *str = NULL;
-if (!str) {  // NULL 自动转为布尔值（假）
-    printf("str 为空\n");
+if (!str) { // NULL 自动转为布尔值（假）
+ printf("str 为空\n");
 }
 ```
 
@@ -7321,16 +7321,16 @@ unsigned int a = 10;
 int b = -1;
 
 if (b < a) {
-    printf("b < a\n");
+ printf("b < a\n");
 } else {
-    printf("b >= a\n");  // 实际输出（b 转为 unsigned，变成很大的数）
+ printf("b >= a\n"); // 实际输出（b 转为 unsigned，变成很大的数）
 }
 
 // 有符号与无符号混用
 unsigned int x = 1;
 int y = -1;
-unsigned int result = x + y;  // y 转为 unsigned（4294967295）
-printf("%u\n", result);  // 0（溢出）
+unsigned int result = x + y; // y 转为 unsigned（4294967295）
+printf("%u\n", result); // 0（溢出）
 ```
 
 ---
@@ -7341,36 +7341,36 @@ printf("%u\n", result);  // 0（溢出）
 
 ```javascript
 // 数字与字符串
-10 + "20"      // "1020"（数字转字符串）
-"10" - 5       // 5（字符串转数字）
-"10" * "2"     // 20（字符串转数字）
-"10" / "2"     // 5（字符串转数字）
+10 + "20" // "1020"（数字转字符串）
+"10" - 5 // 5（字符串转数字）
+"10" * "2" // 20（字符串转数字）
+"10" / "2" // 5（字符串转数字）
 
 // 布尔值转换
-true + 1       // 2（true 转为 1）
-false + 1      // 1（false 转为 0）
-"5" + true     // "5true"（true 转为字符串）
+true + 1 // 2（true 转为 1）
+false + 1 // 1（false 转为 0）
+"5" + true // "5true"（true 转为字符串）
 
 // 奇怪的转换
-[] + []        // ""（空字符串）
-[] + {}        // "[object Object]"
-{} + []        // 0（{} 被解析为代码块）
-[] == false    // true
-"" == 0        // true
-null == undefined  // true
+[] + [] // ""（空字符串）
+[] + {} // "[object Object]"
+{} + [] // 0（{} 被解析为代码块）
+[] == false // true
+"" == 0 // true
+null == undefined // true
 ```
 
 **比较运算的隐式转换**：
 
 ```javascript
-"10" == 10     // true（字符串转数字）
-"10" === 10    // false（严格相等，不转换）
+"10" == 10 // true（字符串转数字）
+"10" === 10 // false（严格相等，不转换）
 
-0 == false     // true
-0 === false    // false
+0 == false // true
+0 === false // false
 
-null == 0      // false（特殊规则）
-null >= 0      // true（null 转为 0）
+null == 0 // false（特殊规则）
+null >= 0 // true（null 转为 0）
 ```
 
 **逻辑运算的隐式转换**：
@@ -7378,34 +7378,34 @@ null >= 0      // true（null 转为 0）
 ```javascript
 // 假值（Falsy）：false, 0, "", null, undefined, NaN
 if ("") {
-    console.log("不会执行");
+ console.log("不会执行");
 }
 
 if ("hello") {
-    console.log("会执行");  // 非空字符串为真
+ console.log("会执行"); // 非空字符串为真
 }
 
 // 短路求值
-let x = null || "default";  // "default"
-let y = "value" || "default";  // "value"
+let x = null || "default"; // "default"
+let y = "value" || "default"; // "value"
 ```
 
 ---
 
 ### 强类型 vs 弱类型对比
 
-| 维度           | 强类型               | 弱类型                 |
+| 维度 | 强类型 | 弱类型 |
 | -------------- | -------------------- | ---------------------- |
-| **隐式转换**   | 严格限制             | 大量允许               |
-| **类型安全**   | 高                   | 低                     |
-| **错误检测**   | 早（编译期或运行时） | 晚（运行时或逻辑错误） |
-| **代码可读性** | 高（类型明确）       | 低（转换规则复杂）     |
-| **灵活性**     | 低                   | 高                     |
-| **调试难度**   | 低                   | 高                     |
+| **隐式转换** | 严格限制 | 大量允许 |
+| **类型安全** | 高 | 低 |
+| **错误检测** | 早（编译期或运行时） | 晚（运行时或逻辑错误） |
+| **代码可读性** | 高（类型明确） | 低（转换规则复杂） |
+| **灵活性** | 低 | 高 |
+| **调试难度** | 低 | 高 |
 
 ---
 
-###  四种组合的实际应用
+### 四种组合的实际应用
 
 **强类型 + 静态（Java, Rust）**：
 
@@ -7413,7 +7413,7 @@ let y = "value" || "default";  // "value"
 // Java
 int x = 10;
 String y = "20";
-// int result = x + y;  // 编译错误
+// int result = x + y; // 编译错误
 
 // 适用场景：大型项目、团队协作、长期维护
 ```
@@ -7424,7 +7424,7 @@ String y = "20";
 # Python
 x = 10
 y = "20"
-# result = x + y  # 运行时错误
+# result = x + y # 运行时错误
 
 # 适用场景：快速开发、数据分析、脚本
 ```
@@ -7435,7 +7435,7 @@ y = "20"
 // C
 int x = 10;
 double y = 3.14;
-double result = x + y;  // 自动转换
+double result = x + y; // 自动转换
 
 // 适用场景：系统编程、性能关键、底层开发
 ```
@@ -7446,14 +7446,14 @@ double result = x + y;  // 自动转换
 // JavaScript
 let x = 10;
 let y = "20";
-let result = x + y;  // "1020"（自动转换）
+let result = x + y; // "1020"（自动转换）
 
 // 适用场景：Web 前端、快速原型、小型脚本
 ```
 
 ---
 
-###  类型系统的选择
+### 类型系统的选择
 
 **选择强类型的理由**：
 
@@ -7471,14 +7471,14 @@ let result = x + y;  // "1020"（自动转换）
 
 **实践建议**：
 
-| 场景         | 推荐                                                  |
+| 场景 | 推荐 |
 | ------------ | ----------------------------------------------------- |
-| **大型项目** | 强类型 + 静态（Java, Rust）                           |
-| **系统编程** | 弱类型 + 静态（C, C++）                               |
-| **数据分析** | 强类型 + 动态（Python）                               |
+| **大型项目** | 强类型 + 静态（Java, Rust） |
+| **系统编程** | 弱类型 + 静态（C, C++） |
+| **数据分析** | 强类型 + 动态（Python） |
 | **Web 前端** | 弱类型 + 动态（JavaScript）或渐进式类型（TypeScript） |
-| **性能关键** | 静态类型（C, Rust）                                   |
-| **快速原型** | 动态类型（Python, JavaScript）                        |
+| **性能关键** | 静态类型（C, Rust） |
+| **快速原型** | 动态类型（Python, JavaScript） |
 
 ---
 
@@ -7492,15 +7492,15 @@ let result = x + y;  // "1020"（自动转换）
 
 #### **类型推导的分类**
 
-| 类型             | 说明                     | 代表语言                 |
+| 类型 | 说明 | 代表语言 |
 | ---------------- | ------------------------ | ------------------------ |
-| **局部类型推导** | 仅推导局部变量类型       | C++（auto）、Java（var） |
-| **全局类型推导** | 推导所有表达式类型       | Haskell、OCaml、Rust     |
-| **部分类型推导** | 推导部分类型，其余需声明 | TypeScript、Kotlin       |
+| **局部类型推导** | 仅推导局部变量类型 | C++（auto）、Java（var） |
+| **全局类型推导** | 推导所有表达式类型 | Haskell、OCaml、Rust |
+| **部分类型推导** | 推导部分类型，其余需声明 | TypeScript、Kotlin |
 
 ---
 
-####  C 语言：无类型推导
+#### C 语言：无类型推导
 
 **必须显式声明**：
 
@@ -7512,7 +7512,7 @@ char *str = "hello";
 
 // 函数必须声明返回类型和参数类型
 int add(int a, int b) {
-    return a + b;
+ return a + b;
 }
 
 // 指针类型必须声明
@@ -7521,8 +7521,8 @@ int *p = arr;
 
 // 结构体必须声明
 struct Point {
-    int x;
-    int y;
+ int x;
+ int y;
 };
 struct Point p1 = {1, 2};
 ```
@@ -7533,40 +7533,40 @@ struct Point p1 = {1, 2};
 #include <stdio.h>
 
 #define print_type(x) _Generic((x), \
-    int: "int", \
-    float: "float", \
-    double: "double", \
-    char*: "char*", \
-    default: "unknown")
+ int: "int", \
+ float: "float", \
+ double: "double", \
+ char*: "char*", \
+ default: "unknown")
 
 int main() {
-    int x = 10;
-    float f = 3.14f;
-    
-    printf("%s\n", print_type(x));  // int
-    printf("%s\n", print_type(f));  // float
-    printf("%s\n", print_type(x + f));  // float（表达式类型）
-    
-    return 0;
+ int x = 10;
+ float f = 3.14f;
+
+ printf("%s\n", print_type(x)); // int
+ printf("%s\n", print_type(f)); // float
+ printf("%s\n", print_type(x + f)); // float（表达式类型）
+
+ return 0;
 }
 ```
 
 ---
 
-####  Python：动态类型推导
+#### Python：动态类型推导
 
 **运行时类型推导**：
 
 ```python
 # 变量类型在运行时推导
-x = 10          # int
-y = 3.14        # float
-s = "hello"     # str
+x = 10 # int
+y = 3.14 # float
+s = "hello" # str
 lst = [1, 2, 3] # list
 
 # 类型可以改变
 x = "now I'm a string"
-print(type(x))  # <class 'str'>
+print(type(x)) # <class 'str'>
 ```
 
 **表达式类型推导**：
@@ -7574,26 +7574,26 @@ print(type(x))  # <class 'str'>
 ```python
 a = 10
 b = 3.14
-result = a + b  # float（自动提升）
+result = a + b # float（自动提升）
 
 s1 = "hello"
 s2 = "world"
-result2 = s1 + s2  # str
+result2 = s1 + s2 # str
 
 lst1 = [1, 2]
 lst2 = [3, 4]
-result3 = lst1 + lst2  # list
+result3 = lst1 + lst2 # list
 ```
 
 **函数返回类型推导**：
 
 ```python
 def add(a, b):
-    return a + b  # 返回类型取决于参数类型
+ return a + b # 返回类型取决于参数类型
 
-print(type(add(10, 20)))        # <class 'int'>
-print(type(add(1.5, 2.5)))      # <class 'float'>
-print(type(add("a", "b")))      # <class 'str'>
+print(type(add(10, 20))) # <class 'int'>
+print(type(add(1.5, 2.5))) # <class 'float'>
+print(type(add("a", "b"))) # <class 'str'>
 ```
 
 **Python 3.5+ 类型提示（Type Hints）**：
@@ -7601,13 +7601,13 @@ print(type(add("a", "b")))      # <class 'str'>
 ```python
 # 类型提示（仅用于静态检查工具，运行时不强制）
 def add(a: int, b: int) -> int:
-    return a + b
+ return a + b
 
 x: int = 10
 y: float = 3.14
 
 # 运行时仍然是动态类型
-result = add(10, "20")  # 类型提示被忽略，运行时报错
+result = add(10, "20") # 类型提示被忽略，运行时报错
 ```
 
 **类型推导的局限**：
@@ -7618,16 +7618,16 @@ from typing import List, Dict
 
 # 需要类型提示才能让 IDE 理解
 def process(data: List[int]) -> Dict[str, int]:
-    return {"sum": sum(data)}
+ return {"sum": sum(data)}
 
 # 否则 IDE 无法推导 data 的类型
 def process2(data):
-    return {"sum": sum(data)}  # IDE 不知道 data 是什么
+ return {"sum": sum(data)} # IDE 不知道 data 是什么
 ```
 
 ---
 
-####  类型推导的优势
+#### 类型推导的优势
 
 **1. 减少冗余代码**
 
@@ -7662,11 +7662,11 @@ average = total / len(data)
 ```python
 # 同一个函数可以处理多种类型
 def get_length(obj):
-    return len(obj)
+ return len(obj)
 
-print(get_length("hello"))      # 5
-print(get_length([1, 2, 3]))    # 3
-print(get_length({"a": 1}))     # 1
+print(get_length("hello")) # 5
+print(get_length([1, 2, 3])) # 3
+print(get_length({"a": 1})) # 1
 ```
 
 **4. 快速原型开发**
@@ -7674,25 +7674,25 @@ print(get_length({"a": 1}))     # 1
 ```python
 # 无需考虑类型细节，专注业务逻辑
 def process_data(data):
-    filtered = [x for x in data if x > 0]
-    squared = [x ** 2 for x in filtered]
-    return sum(squared)
+ filtered = [x for x in data if x > 0]
+ squared = [x ** 2 for x in filtered]
+ return sum(squared)
 
 result = process_data([1, -2, 3, -4, 5])
 ```
 
 ---
 
-####  类型推导的局限
+#### 类型推导的局限
 
 **1. 运行时错误**
 
 ```python
 def divide(a, b):
-    return a / b
+ return a / b
 
 # 类型错误只能在运行时发现
-result = divide(10, "2")  # TypeError: unsupported operand type(s)
+result = divide(10, "2") # TypeError: unsupported operand type(s)
 ```
 
 **2. IDE 支持弱**
@@ -7700,17 +7700,17 @@ result = divide(10, "2")  # TypeError: unsupported operand type(s)
 ```python
 # IDE 无法准确推导类型
 def get_data():
-    return [1, 2, 3]  # IDE 可能推导为 list
+ return [1, 2, 3] # IDE 可能推导为 list
 
 data = get_data()
-data.  # IDE 无法准确提示可用方法
+data. # IDE 无法准确提示可用方法
 
 # 对比类型提示
 def get_data() -> list[int]:
-    return [1, 2, 3]
+ return [1, 2, 3]
 
 data = get_data()
-data.  # IDE 可以准确提示 list 的方法
+data. # IDE 可以准确提示 list 的方法
 ```
 
 **3. 重构困难**
@@ -7718,14 +7718,14 @@ data.  # IDE 可以准确提示 list 的方法
 ```python
 # 修改函数签名后，无法自动检查所有调用点
 def calculate(a, b):
-    return a + b
+ return a + b
 
 # 修改为只接受一个参数
 def calculate(a):
-    return a * 2
+ return a * 2
 
 # 旧代码仍然可以运行，但会在运行时报错
-result = calculate(10, 20)  # TypeError: 运行时才发现
+result = calculate(10, 20) # TypeError: 运行时才发现
 ```
 
 **4. 性能开销**
@@ -7733,17 +7733,17 @@ result = calculate(10, 20)  # TypeError: 运行时才发现
 ```python
 # Python 需要在运行时检查类型
 def add(a, b):
-    return a + b  # 每次调用都需要检查 a 和 b 的类型
+ return a + b # 每次调用都需要检查 a 和 b 的类型
 
 # 对比 C（编译期确定类型）
 # int add(int a, int b) {
-#     return a + b;  // 直接生成加法指令
+# return a + b; // 直接生成加法指令
 # }
 ```
 
 ---
 
-####  类型推导的实践
+#### 类型推导的实践
 
 **Python 类型提示最佳实践**：
 
@@ -7752,24 +7752,24 @@ from typing import List, Dict, Optional, Union
 
 # 函数签名使用类型提示
 def process_users(users: List[Dict[str, str]]) -> Dict[str, int]:
-    """处理用户列表，返回统计信息"""
-    return {
-        "total": len(users),
-        "active": sum(1 for u in users if u.get("status") == "active")
-    }
+ """处理用户列表，返回统计信息"""
+ return {
+ "total": len(users),
+ "active": sum(1 for u in users if u.get("status") == "active")
+ }
 
 # 可选类型
 def find_user(user_id: int) -> Optional[Dict[str, str]]:
-    """查找用户，可能返回 None"""
-    # ...
-    return None
+ """查找用户，可能返回 None"""
+ # ...
+ return None
 
 # 联合类型
 def parse_value(value: Union[int, str]) -> int:
-    """解析整数或字符串"""
-    if isinstance(value, str):
-        return int(value)
-    return value
+ """解析整数或字符串"""
+ if isinstance(value, str):
+ return int(value)
+ return value
 
 # 泛型
 from typing import TypeVar, Generic
@@ -7777,8 +7777,8 @@ from typing import TypeVar, Generic
 T = TypeVar('T')
 
 def first(items: List[T]) -> Optional[T]:
-    """返回列表第一个元素"""
-    return items[0] if items else None
+ """返回列表第一个元素"""
+ return items[0] if items else None
 ```
 
 **使用静态类型检查工具**：
@@ -7789,9 +7789,9 @@ def first(items: List[T]) -> Optional[T]:
 # $ mypy script.py
 
 def add(a: int, b: int) -> int:
-    return a + b
+ return a + b
 
-result = add(10, "20")  # mypy 会报错：Argument 2 has incompatible type "str"
+result = add(10, "20") # mypy 会报错：Argument 2 has incompatible type "str"
 ```
 
 **类型推导与性能**：
@@ -7802,26 +7802,26 @@ result = add(10, "20")  # mypy 会报错：Argument 2 has incompatible type "str
 
 # example.pyx
 def add(int a, int b) -> int:
-    return a + b
+ return a + b
 
 # 编译后性能接近 C 语言
 ```
 
 ---
 
-####  类型推导的未来
+#### 类型推导的未来
 
 **渐进式类型（Gradual Typing）**：
 
 ```python
 # 部分代码使用类型提示，部分不使用
 def legacy_function(data):
-    # 旧代码，无类型提示
-    return data * 2
+ # 旧代码，无类型提示
+ return data * 2
 
 def new_function(data: int) -> int:
-    # 新代码，有类型提示
-    return data * 2
+ # 新代码，有类型提示
+ return data * 2
 
 # 两者可以共存
 result1 = legacy_function(10)
@@ -7845,12 +7845,12 @@ result2 = new_function(10)
 
 **特点**：
 
-| 特性           | 说明                             |
+| 特性 | 说明 |
 | -------------- | -------------------------------- |
-| **关注行为**   | 只要对象有所需的方法/属性即可    |
-| **无需继承**   | 不需要显式的类型关系             |
-| **运行时检查** | 在调用时才检查方法是否存在       |
-| **灵活性高**   | 可以处理任意实现了相同接口的对象 |
+| **关注行为** | 只要对象有所需的方法/属性即可 |
+| **无需继承** | 不需要显式的类型关系 |
+| **运行时检查** | 在调用时才检查方法是否存在 |
+| **灵活性高** | 可以处理任意实现了相同接口的对象 |
 
 **代表语言**：Python、Ruby、JavaScript
 
@@ -7862,41 +7862,41 @@ result2 = new_function(10)
 
 ```python
 class Duck:
-    def quack(self):
-        print("Quack!")
-    
-    def fly(self):
-        print("Duck flying")
+ def quack(self):
+ print("Quack!")
+
+ def fly(self):
+ print("Duck flying")
 
 class Person:
-    def quack(self):
-        print("I'm quacking like a duck!")
-    
-    def fly(self):
-        print("I'm flapping my arms")
+ def quack(self):
+ print("I'm quacking like a duck!")
+
+ def fly(self):
+ print("I'm flapping my arms")
 
 class Airplane:
-    def fly(self):
-        print("Airplane flying")
+ def fly(self):
+ print("Airplane flying")
 
 # 函数不关心对象的类型，只关心是否有 quack 方法
 def make_it_quack(duck):
-    duck.quack()
+ duck.quack()
 
 # 函数不关心对象的类型，只关心是否有 fly 方法
 def make_it_fly(thing):
-    thing.fly()
+ thing.fly()
 
 # 都可以调用
-make_it_quack(Duck())      # Quack!
-make_it_quack(Person())    # I'm quacking like a duck!
+make_it_quack(Duck()) # Quack!
+make_it_quack(Person()) # I'm quacking like a duck!
 
-make_it_fly(Duck())        # Duck flying
-make_it_fly(Person())      # I'm flapping my arms
-make_it_fly(Airplane())    # Airplane flying
+make_it_fly(Duck()) # Duck flying
+make_it_fly(Person()) # I'm flapping my arms
+make_it_fly(Airplane()) # Airplane flying
 
 # 如果对象没有所需方法，运行时报错
-# make_it_quack(Airplane())  # AttributeError: 'Airplane' object has no attribute 'quack'
+# make_it_quack(Airplane()) # AttributeError: 'Airplane' object has no attribute 'quack'
 ```
 
 ---
@@ -7910,70 +7910,70 @@ make_it_fly(Airplane())    # Airplane flying
 
 // 定义接口（函数指针）
 typedef struct {
-    void (*quack)(void);
-    void (*fly)(void);
+ void (*quack)(void);
+ void (*fly)(void);
 } Flyable;
 
 // Duck 实现
 void duck_quack() {
-    printf("Quack!\n");
+ printf("Quack!\n");
 }
 
 void duck_fly() {
-    printf("Duck flying\n");
+ printf("Duck flying\n");
 }
 
 Flyable create_duck() {
-    Flyable duck = {duck_quack, duck_fly};
-    return duck;
+ Flyable duck = {duck_quack, duck_fly};
+ return duck;
 }
 
 // Person 实现
 void person_quack() {
-    printf("I'm quacking like a duck!\n");
+ printf("I'm quacking like a duck!\n");
 }
 
 void person_fly() {
-    printf("I'm flapping my arms\n");
+ printf("I'm flapping my arms\n");
 }
 
 Flyable create_person() {
-    Flyable person = {person_quack, person_fly};
-    return person;
+ Flyable person = {person_quack, person_fly};
+ return person;
 }
 
 // 函数需要显式的接口类型
 void make_it_quack(Flyable *obj) {
-    obj->quack();
+ obj->quack();
 }
 
 void make_it_fly(Flyable *obj) {
-    obj->fly();
+ obj->fly();
 }
 
 int main() {
-    Flyable duck = create_duck();
-    Flyable person = create_person();
-    
-    make_it_quack(&duck);    // Quack!
-    make_it_quack(&person);  // I'm quacking like a duck!
-    
-    make_it_fly(&duck);      // Duck flying
-    make_it_fly(&person);    // I'm flapping my arms
-    
-    return 0;
+ Flyable duck = create_duck();
+ Flyable person = create_person();
+
+ make_it_quack(&duck); // Quack!
+ make_it_quack(&person); // I'm quacking like a duck!
+
+ make_it_fly(&duck); // Duck flying
+ make_it_fly(&person); // I'm flapping my arms
+
+ return 0;
 }
 ```
 
 **对比**：
 
-| 维度         | Python（鸭子类型）           | C（静态类型）      |
+| 维度 | Python（鸭子类型） | C（静态类型） |
 | ------------ | ---------------------------- | ------------------ |
-| **类型声明** | 无需声明                     | 需要显式接口       |
-| **灵活性**   | 高（任意对象只要有方法即可） | 低（必须实现接口） |
-| **类型检查** | 运行时                       | 编译期             |
-| **代码量**   | 少                           | 多                 |
-| **性能**     | 低（运行时查找方法）         | 高（编译期确定）   |
+| **类型声明** | 无需声明 | 需要显式接口 |
+| **灵活性** | 高（任意对象只要有方法即可） | 低（必须实现接口） |
+| **类型检查** | 运行时 | 编译期 |
+| **代码量** | 少 | 多 |
+| **性能** | 低（运行时查找方法） | 高（编译期确定） |
 
 ---
 
@@ -7984,29 +7984,29 @@ int main() {
 ```python
 # Python 的文件对象协议：只要有 read/write 方法即可
 class FileWrapper:
-    def __init__(self, filename):
-        self.file = open(filename, 'r')
-    
-    def read(self):
-        return self.file.read()
-    
-    def close(self):
-        self.file.close()
+ def __init__(self, filename):
+ self.file = open(filename, 'r')
+
+ def read(self):
+ return self.file.read()
+
+ def close(self):
+ self.file.close()
 
 class StringBuffer:
-    def __init__(self):
-        self.buffer = ""
-    
-    def read(self):
-        return self.buffer
-    
-    def write(self, data):
-        self.buffer += data
+ def __init__(self):
+ self.buffer = ""
+
+ def read(self):
+ return self.buffer
+
+ def write(self, data):
+ self.buffer += data
 
 # 函数接受任何有 read 方法的对象
 def process_file(file_like):
-    content = file_like.read()
-    print(content)
+ content = file_like.read()
+ print(content)
 
 # 都可以使用
 process_file(open("test.txt"))
@@ -8019,26 +8019,26 @@ process_file(StringBuffer())
 ```python
 # 只要实现 __iter__ 和 __next__ 方法，就可以被迭代
 class Countdown:
-    def __init__(self, start):
-        self.current = start
-    
-    def __iter__(self):
-        return self
-    
-    def __next__(self):
-        if self.current <= 0:
-            raise StopIteration
-        self.current -= 1
-        return self.current + 1
+ def __init__(self, start):
+ self.current = start
+
+ def __iter__(self):
+ return self
+
+ def __next__(self):
+ if self.current <= 0:
+ raise StopIteration
+ self.current -= 1
+ return self.current + 1
 
 # 可以用 for 循环迭代
 for i in Countdown(5):
-    print(i)  # 5, 4, 3, 2, 1
+ print(i) # 5, 4, 3, 2, 1
 
 # 任何可迭代对象都可以使用
 def print_items(iterable):
-    for item in iterable:
-        print(item)
+ for item in iterable:
+ print(item)
 
 print_items([1, 2, 3])
 print_items("abc")
@@ -8050,23 +8050,23 @@ print_items(Countdown(3))
 ```python
 # 只要实现 __enter__ 和 __exit__ 方法，就可以用 with 语句
 class DatabaseConnection:
-    def __enter__(self):
-        print("Opening database connection")
-        return self
-    
-    def __exit__(self, exc_type, exc_val, exc_tb):
-        print("Closing database connection")
-    
-    def query(self, sql):
-        print(f"Executing: {sql}")
+ def __enter__(self):
+ print("Opening database connection")
+ return self
+
+ def __exit__(self, exc_type, exc_val, exc_tb):
+ print("Closing database connection")
+
+ def query(self, sql):
+ print(f"Executing: {sql}")
 
 # 可以用 with 语句
 with DatabaseConnection() as db:
-    db.query("SELECT * FROM users")
+ db.query("SELECT * FROM users")
 
 # 文件对象也实现了相同协议
 with open("test.txt") as f:
-    content = f.read()
+ content = f.read()
 ```
 
 ---
@@ -8078,19 +8078,19 @@ with open("test.txt") as f:
 ```python
 # 同一个函数可以处理多种类型
 def get_length(obj):
-    return len(obj)
+ return len(obj)
 
-print(get_length("hello"))      # 5
-print(get_length([1, 2, 3]))    # 3
-print(get_length({"a": 1}))     # 1
-print(get_length(range(10)))    # 10
+print(get_length("hello")) # 5
+print(get_length([1, 2, 3])) # 3
+print(get_length({"a": 1})) # 1
+print(get_length(range(10))) # 10
 
 # 只要对象实现了 __len__ 方法即可
 class MyCollection:
-    def __len__(self):
-        return 42
+ def __len__(self):
+ return 42
 
-print(get_length(MyCollection()))  # 42
+print(get_length(MyCollection())) # 42
 ```
 
 **代码复用**：
@@ -8098,22 +8098,22 @@ print(get_length(MyCollection()))  # 42
 ```python
 # 不需要继承，只需要实现相同的方法
 def save_to_storage(storage, data):
-    storage.write(data)
+ storage.write(data)
 
 class FileStorage:
-    def write(self, data):
-        with open("data.txt", "w") as f:
-            f.write(data)
+ def write(self, data):
+ with open("data.txt", "w") as f:
+ f.write(data)
 
 class DatabaseStorage:
-    def write(self, data):
-        # 保存到数据库
-        print(f"Saving to database: {data}")
+ def write(self, data):
+ # 保存到数据库
+ print(f"Saving to database: {data}")
 
 class CloudStorage:
-    def write(self, data):
-        # 上传到云端
-        print(f"Uploading to cloud: {data}")
+ def write(self, data):
+ # 上传到云端
+ print(f"Uploading to cloud: {data}")
 
 # 都可以使用
 save_to_storage(FileStorage(), "hello")
@@ -8126,18 +8126,18 @@ save_to_storage(CloudStorage(), "hello")
 ```python
 # 无需定义复杂的类型层次结构
 class MockAPI:
-    def get(self, url):
-        return {"status": "ok", "data": [1, 2, 3]}
+ def get(self, url):
+ return {"status": "ok", "data": [1, 2, 3]}
 
 class RealAPI:
-    def get(self, url):
-        import requests
-        return requests.get(url).json()
+ def get(self, url):
+ import requests
+ return requests.get(url).json()
 
 # 测试时使用 Mock，生产环境使用真实 API
 def fetch_data(api, url):
-    response = api.get(url)
-    return response["data"]
+ response = api.get(url)
+ return response["data"]
 
 # 无需修改代码即可切换
 data = fetch_data(MockAPI(), "/api/data")
@@ -8152,18 +8152,18 @@ data = fetch_data(MockAPI(), "/api/data")
 
 ```python
 class Bird:
-    def fly(self):
-        print("Bird flying")
+ def fly(self):
+ print("Bird flying")
 
 class Fish:
-    def swim(self):
-        print("Fish swimming")
+ def swim(self):
+ print("Fish swimming")
 
 def make_it_fly(thing):
-    thing.fly()
+ thing.fly()
 
-make_it_fly(Bird())  # 正常
-# make_it_fly(Fish())  # AttributeError: 'Fish' object has no attribute 'fly'
+make_it_fly(Bird()) # 正常
+# make_it_fly(Fish()) # AttributeError: 'Fish' object has no attribute 'fly'
 ```
 
 **调试困难**：
@@ -8171,29 +8171,29 @@ make_it_fly(Bird())  # 正常
 ```python
 # 错误可能在代码深处才暴露
 def process_data(data):
-    # ... 100 行代码
-    result = data.upper()  # 如果 data 不是字符串，这里才报错
-    # ... 更多代码
-    return result
+ # ... 100 行代码
+ result = data.upper() # 如果 data 不是字符串，这里才报错
+ # ... 更多代码
+ return result
 
-# process_data(123)  # AttributeError: 'int' object has no attribute 'upper'
+# process_data(123) # AttributeError: 'int' object has no attribute 'upper'
 ```
 
 **IDE 支持弱**：
 
 ```python
 def get_data():
-    return [1, 2, 3]
+ return [1, 2, 3]
 
 data = get_data()
-data.  # IDE 无法准确提示可用方法
+data. # IDE 无法准确提示可用方法
 
 # 使用类型提示改善
 def get_data() -> list[int]:
-    return [1, 2, 3]
+ return [1, 2, 3]
 
 data = get_data()
-data.  # IDE 可以准确提示 list 的方法
+data. # IDE 可以准确提示 list 的方法
 ```
 
 ---
@@ -8207,25 +8207,25 @@ from abc import ABC, abstractmethod
 
 # 定义抽象接口
 class Flyable(ABC):
-    @abstractmethod
-    def fly(self):
-        pass
+ @abstractmethod
+ def fly(self):
+ pass
 
 class Duck(Flyable):
-    def fly(self):
-        print("Duck flying")
+ def fly(self):
+ print("Duck flying")
 
 class Airplane(Flyable):
-    def fly(self):
-        print("Airplane flying")
+ def fly(self):
+ print("Airplane flying")
 
 # 可以检查对象是否实现了接口
 def make_it_fly(thing: Flyable):
-    thing.fly()
+ thing.fly()
 
 # 运行时检查
 from abc import ABCMeta
-print(isinstance(Duck(), Flyable))  # True
+print(isinstance(Duck(), Flyable)) # True
 ```
 
 **使用类型提示**：
@@ -8235,23 +8235,23 @@ from typing import Protocol
 
 # 定义协议（Python 3.8+）
 class Quackable(Protocol):
-    def quack(self) -> None:
-        ...
+ def quack(self) -> None:
+ ...
 
 class Duck:
-    def quack(self) -> None:
-        print("Quack!")
+ def quack(self) -> None:
+ print("Quack!")
 
 class Person:
-    def quack(self) -> None:
-        print("I'm quacking!")
+ def quack(self) -> None:
+ print("I'm quacking!")
 
 # 类型检查工具（mypy）会验证对象是否符合协议
 def make_it_quack(thing: Quackable) -> None:
-    thing.quack()
+ thing.quack()
 
-make_it_quack(Duck())    # 通过类型检查
-make_it_quack(Person())  # 通过类型检查
+make_it_quack(Duck()) # 通过类型检查
+make_it_quack(Person()) # 通过类型检查
 ```
 
 **防御性编程**：
@@ -8259,10 +8259,10 @@ make_it_quack(Person())  # 通过类型检查
 ```python
 # 检查对象是否有所需方法
 def make_it_fly(thing):
-    if hasattr(thing, 'fly') and callable(thing.fly):
-        thing.fly()
-    else:
-        raise TypeError(f"{type(thing).__n
+ if hasattr(thing, 'fly') and callable(thing.fly):
+ thing.fly()
+ else:
+ raise TypeError(f"{type(thing).__n
 ```
 
 ### 5.6 类型注解 / 渐进类型（Gradual Typing）
@@ -8273,12 +8273,12 @@ def make_it_fly(thing):
 
 **特点**：
 
-| 特性           | 说明                       |
+| 特性 | 说明 |
 | -------------- | -------------------------- |
-| **可选性**     | 可以选择性地添加类型注解   |
-| **静态检查**   | 使用工具进行编译期类型检查 |
-| **运行时忽略** | 类型注解不影响运行时性能   |
-| **渐进迁移**   | 可以逐步为旧代码添加类型   |
+| **可选性** | 可以选择性地添加类型注解 |
+| **静态检查** | 使用工具进行编译期类型检查 |
+| **运行时忽略** | 类型注解不影响运行时性能 |
+| **渐进迁移** | 可以逐步为旧代码添加类型 |
 
 **代表语言**：TypeScript、Python（typing 模块）、PHP（类型声明）
 
@@ -8297,13 +8297,13 @@ items: list = [1, 2, 3]
 
 # 函数注解
 def add(a: int, b: int) -> int:
-    return a + b
+ return a + b
 
 def greet(name: str) -> str:
-    return f"Hello, {name}"
+ return f"Hello, {name}"
 
 # 类型注解不影响运行时
-result = add(10, "20")  # 运行时不报错，但 mypy 会警告
+result = add(10, "20") # 运行时不报错，但 mypy 会警告
 ```
 
 **复杂类型**：
@@ -8325,15 +8325,15 @@ person: Tuple[str, int, str] = ("Alice", 30, "Engineer")
 
 # 可选类型（可能为 None）
 def find_user(user_id: int) -> Optional[Dict[str, str]]:
-    if user_id > 0:
-        return {"name": "Alice"}
-    return None
+ if user_id > 0:
+ return {"name": "Alice"}
+ return None
 
 # 联合类型（多种类型之一）
 def parse_value(value: Union[int, str]) -> int:
-    if isinstance(value, str):
-        return int(value)
-    return value
+ if isinstance(value, str):
+ return int(value)
+ return value
 ```
 
 **类型别名**：
@@ -8347,10 +8347,10 @@ UserName = str
 User = Dict[str, Union[str, int]]
 
 def get_user(user_id: UserId) -> User:
-    return {"id": user_id, "name": "Alice", "age": 30}
+ return {"id": user_id, "name": "Alice", "age": 30}
 
 def get_user_name(user: User) -> UserName:
-    return user["name"]
+ return user["name"]
 ```
 
 **泛型**：
@@ -8362,18 +8362,18 @@ from typing import TypeVar, List, Generic
 T = TypeVar('T')
 
 def first(items: List[T]) -> Optional[T]:
-    return items[0] if items else None
+ return items[0] if items else None
 
 # 泛型类
 class Stack(Generic[T]):
-    def __init__(self) -> None:
-        self.items: List[T] = []
-    
-    def push(self, item: T) -> None:
-        self.items.append(item)
-    
-    def pop(self) -> Optional[T]:
-        return self.items.pop() if self.items else None
+ def __init__(self) -> None:
+ self.items: List[T] = []
+
+ def push(self, item: T) -> None:
+ self.items.append(item)
+
+ def pop(self) -> Optional[T]:
+ return self.items.pop() if self.items else None
 
 # 使用
 int_stack: Stack[int] = Stack()
@@ -8389,16 +8389,16 @@ int_stack.push(10)
 ```c
 // 必须声明所有类型
 int add(int a, int b) {
-    return a + b;
+ return a + b;
 }
 
 // 类型错误在编译期发现
-int result = add(10, "20");  // 编译错误
+int result = add(10, "20"); // 编译错误
 
 // 指针类型必须匹配
 int x = 10;
 int *p = &x;
-// char *q = p;  // 编译错误
+// char *q = p; // 编译错误
 ```
 
 **Python：可选类型注解**：
@@ -8406,15 +8406,15 @@ int *p = &x;
 ```python
 # 无类型注解（动态类型）
 def add(a, b):
-    return a + b
+ return a + b
 
-result = add(10, "20")  # 运行时错误
+result = add(10, "20") # 运行时错误
 
 # 有类型注解（静态检查）
 def add(a: int, b: int) -> int:
-    return a + b
+ return a + b
 
-result = add(10, "20")  # mypy 警告，但运行时仍然执行
+result = add(10, "20") # mypy 警告，但运行时仍然执行
 ```
 
 ---
@@ -8426,9 +8426,9 @@ result = add(10, "20")  # mypy 警告，但运行时仍然执行
 ```python
 # example.py
 def add(a: int, b: int) -> int:
-    return a + b
+ return a + b
 
-result = add(10, "20")  # 类型错误
+result = add(10, "20") # 类型错误
 
 # 运行 mypy 检查
 # $ mypy example.py
@@ -8459,25 +8459,25 @@ ignore_errors = True
 ```python
 # 旧代码（无类型注解）
 def calculate(data):
-    total = 0
-    for item in data:
-        total += item
-    return total
+ total = 0
+ for item in data:
+ total += item
+ return total
 
 # 逐步添加类型注解
 def calculate(data: list) -> int:
-    total = 0
-    for item in data:
-        total += item
-    return total
+ total = 0
+ for item in data:
+ total += item
+ return total
 
 # 完整类型注解
 from typing import List
 def calculate(data: List[int]) -> int:
-    total: int = 0
-    for item in data:
-        total += item
-    return total
+ total: int = 0
+ for item in data:
+ total += item
+ return total
 ```
 
 **兼容性**：
@@ -8485,11 +8485,11 @@ def calculate(data: List[int]) -> int:
 ```python
 # 新代码使用类型注解
 def process_user(user: Dict[str, str]) -> str:
-    return user["name"]
+ return user["name"]
 
 # 旧代码无类型注解
 def get_user():
-    return {"name": "Alice"}
+ return {"name": "Alice"}
 
 # 两者可以共存
 user = get_user()
@@ -8501,17 +8501,17 @@ name = process_user(user)
 ```python
 # 有类型注解，IDE 可以提供准确的自动补全
 def get_users() -> List[Dict[str, str]]:
-    return [{"name": "Alice"}, {"name": "Bob"}]
+ return [{"name": "Alice"}, {"name": "Bob"}]
 
 users = get_users()
-users[0].  # IDE 提示 dict 的方法（keys, values, items 等）
+users[0]. # IDE 提示 dict 的方法（keys, values, items 等）
 
 # 无类型注解，IDE 无法准确推导
 def get_users():
-    return [{"name": "Alice"}, {"name": "Bob"}]
+ return [{"name": "Alice"}, {"name": "Bob"}]
 
 users = get_users()
-users[0].  # IDE 无法准确提示
+users[0]. # IDE 无法准确提示
 ```
 
 ---
@@ -8522,10 +8522,10 @@ users[0].  # IDE 无法准确提示
 
 ```python
 def add(a: int, b: int) -> int:
-    return a + b
+ return a + b
 
 # 类型注解被忽略，运行时不报错
-result = add(10, "20")  # TypeError: unsupported operand type(s)
+result = add(10, "20") # TypeError: unsupported operand type(s)
 ```
 
 **类型系统复杂**：
@@ -8536,10 +8536,10 @@ from typing import List, Dict, Callable, TypeVar, Generic
 # 复杂的类型注解可能难以理解
 T = TypeVar('T')
 def map_values(
-    data: Dict[str, T],
-    func: Callable[[T], T]
+ data: Dict[str, T],
+ func: Callable[[T], T]
 ) -> Dict[str, T]:
-    return {k: func(v) for k, v in data.items()}
+ return {k: func(v) for k, v in data.items()}
 ```
 
 **性能开销**：
@@ -8547,10 +8547,10 @@ def map_values(
 ```python
 # 类型注解增加内存占用（存储注解信息）
 def add(a: int, b: int) -> int:
-    return a + b
+ return a + b
 
 # 可以在运行时访问注解
-print(add.__annotations__)  # {'a': <class 'int'>, 'b': <class 'int'>, 'return': <class 'int'>}
+print(add.__annotations__) # {'a': <class 'int'>, 'b': <class 'int'>, 'return': <class 'int'>}
 ```
 
 ---
@@ -8562,11 +8562,11 @@ print(add.__annotations__)  # {'a': <class 'int'>, 'b': <class 'int'>, 'return':
 ```python
 # 公共函数添加类型注解
 def calculate_total(items: List[Dict[str, float]]) -> float:
-    return sum(item["price"] for item in items)
+ return sum(item["price"] for item in items)
 
 # 内部辅助函数可以不添加
 def _validate(item):
-    return "price" in item
+ return "price" in item
 ```
 
 **使用类型别名简化复杂类型**：
@@ -8579,38 +8579,38 @@ Item = Dict[str, float]
 ItemList = List[Item]
 
 def calculate_total(items: ItemList) -> float:
-    return sum(item["price"] for item in items)
+ return sum(item["price"] for item in items)
 ```
 
 **结合文档字符串**：
 
 ```python
 def process_data(data: List[int], threshold: int = 0) -> List[int]:
-    """
-    过滤并处理数据
-    
-    Args:
-        data: 整数列表
-        threshold: 过滤阈值，默认为 0
-    
-    Returns:
-        处理后的整数列表
-    """
-    return [x for x in data if x > threshold]
+ """
+ 过滤并处理数据
+
+ Args:
+ data: 整数列表
+ threshold: 过滤阈值，默认为 0
+
+ Returns:
+ 处理后的整数列表
+ """
+ return [x for x in data if x > threshold]
 ```
 
 ---
 
 **总结**：
 
-| 维度         | C（静态类型） | Python（动态类型） | Python + 类型注解 |
+| 维度 | C（静态类型） | Python（动态类型） | Python + 类型注解 |
 | ------------ | ------------- | ------------------ | ----------------- |
-| **类型声明** | 强制          | 无需               | 可选              |
-| **类型检查** | 编译期        | 运行时             | 静态工具 + 运行时 |
-| **灵活性**   | 低            | 高                 | 中                |
-| **安全性**   | 高            | 低                 | 中                |
-| **迁移成本** | -             | -                  | 低（渐进式）      |
-| **IDE 支持** | 强            | 弱                 | 强                |
+| **类型声明** | 强制 | 无需 | 可选 |
+| **类型检查** | 编译期 | 运行时 | 静态工具 + 运行时 |
+| **灵活性** | 低 | 高 | 中 |
+| **安全性** | 高 | 低 | 中 |
+| **迁移成本** | - | - | 低（渐进式） |
+| **IDE 支持** | 强 | 弱 | 强 |
 
 **适用场景**：
 
@@ -8625,10 +8625,10 @@ def process_data(data: List[int], threshold: int = 0) -> List[int]:
 
 **分类**：
 
-| 类型         | 说明                  | 安全性             | 代表语言      |
+| 类型 | 说明 | 安全性 | 代表语言 |
 | ------------ | --------------------- | ------------------ | ------------- |
 | **隐式转换** | 编译器/解释器自动转换 | 低（可能丢失精度） | C、JavaScript |
-| **显式转换** | 程序员手动转换        | 高（明确意图）     | Python、Java  |
+| **显式转换** | 程序员手动转换 | 高（明确意图） | Python、Java |
 
 ---
 
@@ -8642,32 +8642,32 @@ def process_data(data: List[int], threshold: int = 0) -> List[int]:
 #include <stdio.h>
 
 int main() {
-    // 整数提升
-    int a = 10;
-    double b = 3.14;
-    double result = a + b;  // a 自动转为 double
-    printf("%f\n", result);  // 13.140000
-    
-    // char 转 int
-    char c = 'A';
-    int i = c;  // c 自动转为 int（65）
-    printf("%d\n", i);  // 65
-    
-    // 整数截断
-    double d = 3.99;
-    int x = d;  // d 自动转为 int（丢失小数部分）
-    printf("%d\n", x);  // 3（精度丢失）
-    
-    // 有符号与无符号混用
-    unsigned int u = 10;
-    int s = -1;
-    if (s < u) {
-        printf("s < u\n");
-    } else {
-        printf("s >= u\n");  // 实际输出（s 转为 unsigned）
-    }
-    
-    return 0;
+ // 整数提升
+ int a = 10;
+ double b = 3.14;
+ double result = a + b; // a 自动转为 double
+ printf("%f\n", result); // 13.140000
+
+ // char 转 int
+ char c = 'A';
+ int i = c; // c 自动转为 int（65）
+ printf("%d\n", i); // 65
+
+ // 整数截断
+ double d = 3.99;
+ int x = d; // d 自动转为 int（丢失小数部分）
+ printf("%d\n", x); // 3（精度丢失）
+
+ // 有符号与无符号混用
+ unsigned int u = 10;
+ int s = -1;
+ if (s < u) {
+ printf("s < u\n");
+ } else {
+ printf("s >= u\n"); // 实际输出（s 转为 unsigned）
+ }
+
+ return 0;
 }
 ```
 
@@ -8679,18 +8679,18 @@ int main() {
 
 int a = 10;
 float f = 3.14f;
-double d = a + f;  // a -> float -> double
+double d = a + f; // a -> float -> double
 
 // 赋值转换
-double x = 10;     // int -> double（安全）
-int y = 3.14;      // double -> int（丢失精度）
+double x = 10; // int -> double（安全）
+int y = 3.14; // double -> int（丢失精度）
 
 // 函数参数转换
 void print_double(double x) {
-    printf("%f\n", x);
+ printf("%f\n", x);
 }
 
-print_double(10);  // int -> double（自动转换）
+print_double(10); // int -> double（自动转换）
 ```
 
 **隐式转换的危险**：
@@ -8699,23 +8699,23 @@ print_double(10);  // int -> double（自动转换）
 // 精度丢失
 float f = 1234567890.0f;
 int i = f;
-printf("%d\n", i);  // 可能溢出或不准确
+printf("%d\n", i); // 可能溢出或不准确
 
 // 符号问题
 unsigned int u = 1;
 int s = -1;
-unsigned int result = u + s;  // s 转为 unsigned（4294967295）
-printf("%u\n", result);  // 0（溢出）
+unsigned int result = u + s; // s 转为 unsigned（4294967295）
+printf("%u\n", result); // 0（溢出）
 
 // 指针转换
 int x = 10;
 int *p = &x;
-long addr = (long)p;  // 指针转整数（危险）
+long addr = (long)p; // 指针转整数（危险）
 
 // 布尔转换
 int x = 10;
-if (x) {  // x 自动转为布尔值（非零为真）
-    printf("x is true\n");
+if (x) { // x 自动转为布尔值（非零为真）
+ printf("x is true\n");
 }
 ```
 
@@ -8731,26 +8731,26 @@ if (x) {  // x 自动转为布尔值（非零为真）
 #include <stdio.h>
 
 int main() {
-    // 强制类型转换
-    double d = 3.14;
-    int i = (int)d;  // 显式转换，明确意图
-    printf("%d\n", i);  // 3
-    
-    // 指针类型转换
-    int x = 10;
-    int *p = &x;
-    void *vp = (void*)p;  // 转为 void*
-    int *p2 = (int*)vp;   // 转回 int*
-    
-    // 不同类型指针转换（危险）
-    int arr[10] = {1, 2, 3};
-    char *cp = (char*)arr;  // 将 int* 转为 char*
-    printf("%d\n", *cp);    // 读取第一个字节
-    
-    // 函数指针转换
-    void (*func_ptr)(void) = (void(*)(void))0x12345678;
-    
-    return 0;
+ // 强制类型转换
+ double d = 3.14;
+ int i = (int)d; // 显式转换，明确意图
+ printf("%d\n", i); // 3
+
+ // 指针类型转换
+ int x = 10;
+ int *p = &x;
+ void *vp = (void*)p; // 转为 void*
+ int *p2 = (int*)vp; // 转回 int*
+
+ // 不同类型指针转换（危险）
+ int arr[10] = {1, 2, 3};
+ char *cp = (char*)arr; // 将 int* 转为 char*
+ printf("%d\n", *cp); // 读取第一个字节
+
+ // 函数指针转换
+ void (*func_ptr)(void) = (void(*)(void))0x12345678;
+
+ return 0;
 }
 ```
 
@@ -8762,20 +8762,20 @@ x = 10
 y = "20"
 
 # 隐式转换会报错
-# result = x + y  # TypeError
+# result = x + y # TypeError
 
 # 显式转换
-result1 = x + int(y)      # 30（字符串转整数）
-result2 = str(x) + y      # "1020"（整数转字符串）
+result1 = x + int(y) # 30（字符串转整数）
+result2 = str(x) + y # "1020"（整数转字符串）
 
 # 类型转换函数
-int("123")       # 123
-float("3.14")    # 3.14
-str(123)         # "123"
-bool(0)          # False
-bool(1)          # True
-list("abc")      # ['a', 'b', 'c']
-tuple([1, 2])    # (1, 2)
+int("123") # 123
+float("3.14") # 3.14
+str(123) # "123"
+bool(0) # False
+bool(1) # True
+list("abc") # ['a', 'b', 'c']
+tuple([1, 2]) # (1, 2)
 ```
 
 **显式转换的安全性**：
@@ -8783,27 +8783,27 @@ tuple([1, 2])    # (1, 2)
 ```python
 # 转换失败会抛出异常
 try:
-    x = int("abc")  # ValueError: invalid literal for int()
+ x = int("abc") # ValueError: invalid literal for int()
 except ValueError as e:
-    print(f"转换失败: {e}")
+ print(f"转换失败: {e}")
 
 # 检查类型后再转换
 value = "123"
 if value.isdigit():
-    x = int(value)
+ x = int(value)
 else:
-    print("不是有效的整数")
+ print("不是有效的整数")
 
 # 使用默认值
 def safe_int(value, default=0):
-    try:
-        return int(value)
-    except (ValueError, TypeError):
-        return default
+ try:
+ return int(value)
+ except (ValueError, TypeError):
+ return default
 
-print(safe_int("123"))    # 123
-print(safe_int("abc"))    # 0
-print(safe_int(None))     # 0
+print(safe_int("123")) # 123
+print(safe_int("abc")) # 0
+print(safe_int(None)) # 0
 ```
 
 ---
@@ -8816,13 +8816,13 @@ print(safe_int(None))     # 0
 // 隐式转换：简洁但危险
 int a = 10;
 double b = 3.14;
-double result = a + b;  // a 自动转为 double
+double result = a + b; // a 自动转为 double
 
 // 可能的问题
 unsigned int u = 10;
 int s = -1;
-if (s < u) {  // s 自动转为 unsigned，结果错误
-    printf("错误的比较\n");
+if (s < u) { // s 自动转为 unsigned，结果错误
+ printf("错误的比较\n");
 }
 ```
 
@@ -8832,13 +8832,13 @@ if (s < u) {  // s 自动转为 unsigned，结果错误
 # 显式转换：冗长但安全
 a = 10
 b = 3.14
-result = float(a) + b  # 必须显式转换
+result = float(a) + b # 必须显式转换
 
 # 类型不匹配会立即报错
 u = 10
 s = -1
-# if s < u:  # 不会自动转换，直接比较
-#     print("正确的比较")
+# if s < u: # 不会自动转换，直接比较
+# print("正确的比较")
 ```
 
 ---
@@ -8853,7 +8853,7 @@ unsigned int u = 10;
 int s = -1;
 // 显式转换，明确意图
 if (s < (int)u) {
-    printf("s < u\n");
+ printf("s < u\n");
 }
 
 // 避免精度丢失
@@ -8863,8 +8863,8 @@ int i = (int)d;
 
 // 使用 const 避免意外修改
 const int *p = &x;
-// int *q = p;  // 编译错误
-int *q = (int*)p;  // 显式转换，明确意图
+// int *q = p; // 编译错误
+int *q = (int*)p; // 显式转换，明确意图
 ```
 
 **Python：使用类型检查**：
@@ -8872,13 +8872,13 @@ int *q = (int*)p;  // 显式转换，明确意图
 ```python
 # 检查类型后再操作
 def add(a, b):
-    if not isinstance(a, (int, float)) or not isinstance(b, (int, float)):
-        raise TypeError("参数必须是数字")
-    return a + b
+ if not isinstance(a, (int, float)) or not isinstance(b, (int, float)):
+ raise TypeError("参数必须是数字")
+ return a + b
 
 # 使用类型注解
 def add(a: int, b: int) -> int:
-    return a + b
+ return a + b
 
 # 使用 mypy 检查
 # $ mypy script.py
@@ -8890,23 +8890,23 @@ def add(a: int, b: int) -> int:
 // C 语言：检查转换是否安全
 double d = 3.14e100;
 if (d > INT_MAX || d < INT_MIN) {
-    printf("转换会溢出\n");
+ printf("转换会溢出\n");
 } else {
-    int i = (int)d;
+ int i = (int)d;
 }
 ```
 
 ```python
 # Python：捕获转换异常
 def safe_convert(value, target_type, default=None):
-    try:
-        return target_type(value)
-    except (ValueError, TypeError):
-        return default
+ try:
+ return target_type(value)
+ except (ValueError, TypeError):
+ return default
 
-x = safe_convert("123", int, 0)      # 123
-y = safe_convert("abc", int, 0)      # 0
-z = safe_convert(None, int, 0)       # 0
+x = safe_convert("123", int, 0) # 123
+y = safe_convert("abc", int, 0) # 0
+z = safe_convert(None, int, 0) # 0
 ```
 
 ---
@@ -8918,10 +8918,10 @@ z = safe_convert(None, int, 0)       # 0
 ```c
 // 隐式转换通常无性能开销（编译期处理）
 int a = 10;
-double b = a;  // 编译为单条指令
+double b = a; // 编译为单条指令
 
 // 显式转换也无额外开销
-double c = (double)a;  // 与隐式转换相同
+double c = (double)a; // 与隐式转换相同
 ```
 
 **Python：运行时开销**：
@@ -8933,7 +8933,7 @@ import time
 # 测试转换性能
 start = time.time()
 for i in range(1000000):
-    x = str(i)  # 整数转字符串
+ x = str(i) # 整数转字符串
 end = time.time()
 print(f"转换耗时: {end - start:.3f}秒")
 
@@ -8954,26 +8954,26 @@ result = "10" + "20"
 ```c
 // C 语言
 int i = 10;
-float f = (float)i;      // int -> float
-double d = (double)i;    // int -> double
-long l = (long)i;        // int -> long
+float f = (float)i; // int -> float
+double d = (double)i; // int -> double
+long l = (long)i; // int -> long
 
 // 截断
 double d2 = 3.99;
-int i2 = (int)d2;        // 3（丢失小数）
+int i2 = (int)d2; // 3（丢失小数）
 ```
 
 ```python
 # Python
 i = 10
-f = float(i)      # int -> float
-s = str(i)        # int -> str
-b = bool(i)       # int -> bool
+f = float(i) # int -> float
+s = str(i) # int -> str
+b = bool(i) # int -> bool
 
 # 字符串转数值
 s = "123"
-i = int(s)        # str -> int
-f = float(s)      # str -> float
+i = int(s) # str -> int
+f = float(s) # str -> float
 ```
 
 **指针转换**：
@@ -8996,29 +8996,29 @@ char *cp = (char*)p;
 ```python
 # Python
 x = 123
-s = str(x)           # "123"
+s = str(x) # "123"
 
 # 格式化转换
-s = f"{x:05d}"       # "00123"
-s = f"{3.14:.2f}"    # "3.14"
+s = f"{x:05d}" # "00123"
+s = f"{3.14:.2f}" # "3.14"
 
 # 解析字符串
 s = "123"
-x = int(s)           # 123
+x = int(s) # 123
 ```
 
 ---
 
 **总结**：
 
-| 维度         | 隐式转换           | 显式转换       |
+| 维度 | 隐式转换 | 显式转换 |
 | ------------ | ------------------ | -------------- |
-| **语法**     | 自动               | 手动           |
-| **安全性**   | 低（可能丢失精度） | 高（明确意图） |
-| **可读性**   | 低（隐藏转换）     | 高（显式声明） |
-| **灵活性**   | 高（简洁）         | 低（冗长）     |
-| **调试**     | 难（隐藏问题）     | 易（明确位置） |
-| **代表语言** | C、JavaScript      | Python、Java   |
+| **语法** | 自动 | 手动 |
+| **安全性** | 低（可能丢失精度） | 高（明确意图） |
+| **可读性** | 低（隐藏转换） | 高（显式声明） |
+| **灵活性** | 高（简洁） | 低（冗长） |
+| **调试** | 难（隐藏问题） | 易（明确位置） |
+| **代表语言** | C、JavaScript | Python、Java |
 
 **选择建议**：
 
@@ -9054,57 +9054,57 @@ x = int(s)           # 123
 
 // 整数栈
 typedef struct {
-    int data[100];
-    int top;
+ int data[100];
+ int top;
 } IntStack;
 
 void int_stack_push(IntStack *s, int value) {
-    s->data[s->top++] = value;
+ s->data[s->top++] = value;
 }
 
 int int_stack_pop(IntStack *s) {
-    return s->data[--s->top];
+ return s->data[--s->top];
 }
 
 // 浮点数栈（重复代码）
 typedef struct {
-    double data[100];
-    int top;
+ double data[100];
+ int top;
 } DoubleStack;
 
 void double_stack_push(DoubleStack *s, double value) {
-    s->data[s->top++] = value;
+ s->data[s->top++] = value;
 }
 
 double double_stack_pop(DoubleStack *s) {
-    return s->data[--s->top];
+ return s->data[--s->top];
 }
 
 // 字符串栈（重复代码）
 typedef struct {
-    char *data[100];
-    int top;
+ char *data[100];
+ int top;
 } StringStack;
 
 void string_stack_push(StringStack *s, char *value) {
-    s->data[s->top++] = value;
+ s->data[s->top++] = value;
 }
 
 char* string_stack_pop(StringStack *s) {
-    return s->data[--s->top];
+ return s->data[--s->top];
 }
 
 int main() {
-    IntStack is = {.top = 0};
-    int_stack_push(&is, 10);
-    int_stack_push(&is, 20);
-    printf("%d\n", int_stack_pop(&is));  // 20
-    
-    DoubleStack ds = {.top = 0};
-    double_stack_push(&ds, 3.14);
-    printf("%f\n", double_stack_pop(&ds));  // 3.14
-    
-    return 0;
+ IntStack is = {.top = 0};
+ int_stack_push(&is, 10);
+ int_stack_push(&is, 20);
+ printf("%d\n", int_stack_pop(&is)); // 20
+
+ DoubleStack ds = {.top = 0};
+ double_stack_push(&ds, 3.14);
+ printf("%f\n", double_stack_pop(&ds)); // 3.14
+
+ return 0;
 }
 ```
 
@@ -9116,35 +9116,35 @@ int main() {
 
 // 通用栈（使用 void*）
 typedef struct {
-    void *data[100];
-    int top;
+ void *data[100];
+ int top;
 } Stack;
 
 void stack_push(Stack *s, void *value) {
-    s->data[s->top++] = value;
+ s->data[s->top++] = value;
 }
 
 void* stack_pop(Stack *s) {
-    return s->data[--s->top];
+ return s->data[--s->top];
 }
 
 int main() {
-    Stack s = {.top = 0};
-    
-    // 使用整数
-    int x = 10, y = 20;
-    stack_push(&s, &x);
-    stack_push(&s, &y);
-    int *p = (int*)stack_pop(&s);
-    printf("%d\n", *p);  // 20
-    
-    // 使用浮点数（类型不安全）
-    double d = 3.14;
-    stack_push(&s, &d);
-    // 错误：将 double* 当作 int* 使用
-    int *wrong = (int*)stack_pop(&s);  // 运行时错误
-    
-    return 0;
+ Stack s = {.top = 0};
+
+ // 使用整数
+ int x = 10, y = 20;
+ stack_push(&s, &x);
+ stack_push(&s, &y);
+ int *p = (int*)stack_pop(&s);
+ printf("%d\n", *p); // 20
+
+ // 使用浮点数（类型不安全）
+ double d = 3.14;
+ stack_push(&s, &d);
+ // 错误：将 double* 当作 int* 使用
+ int *wrong = (int*)stack_pop(&s); // 运行时错误
+
+ return 0;
 }
 ```
 
@@ -9166,18 +9166,18 @@ int main() {
 
 // 定义泛型栈宏
 #define DEFINE_STACK(TYPE, NAME) \
-    typedef struct { \
-        TYPE data[100]; \
-        int top; \
-    } NAME; \
-    \
-    void NAME##_push(NAME *s, TYPE value) { \
-        s->data[s->top++] = value; \
-    } \
-    \
-    TYPE NAME##_pop(NAME *s) { \
-        return s->data[--s->top]; \
-    }
+ typedef struct { \
+ TYPE data[100]; \
+ int top; \
+ } NAME; \
+ \
+ void NAME##_push(NAME *s, TYPE value) { \
+ s->data[s->top++] = value; \
+ } \
+ \
+ TYPE NAME##_pop(NAME *s) { \
+ return s->data[--s->top]; \
+ }
 
 // 生成整数栈
 DEFINE_STACK(int, IntStack)
@@ -9189,32 +9189,32 @@ DEFINE_STACK(double, DoubleStack)
 DEFINE_STACK(char*, StringStack)
 
 int main() {
-    // 使用整数栈
-    IntStack is = {.top = 0};
-    IntStack_push(&is, 10);
-    IntStack_push(&is, 20);
-    printf("%d\n", IntStack_pop(&is));  // 20
-    
-    // 使用浮点数栈
-    DoubleStack ds = {.top = 0};
-    DoubleStack_push(&ds, 3.14);
-    printf("%f\n", DoubleStack_pop(&ds));  // 3.14
-    
-    // 类型安全
-    // IntStack_push(&is, 3.14);  // 编译错误
-    
-    return 0;
+ // 使用整数栈
+ IntStack is = {.top = 0};
+ IntStack_push(&is, 10);
+ IntStack_push(&is, 20);
+ printf("%d\n", IntStack_pop(&is)); // 20
+
+ // 使用浮点数栈
+ DoubleStack ds = {.top = 0};
+ DoubleStack_push(&ds, 3.14);
+ printf("%f\n", DoubleStack_pop(&ds)); // 3.14
+
+ // 类型安全
+ // IntStack_push(&is, 3.14); // 编译错误
+
+ return 0;
 }
 ```
 
 **宏泛型的优缺点**：
 
-| 优点             | 缺点                             |
+| 优点 | 缺点 |
 | ---------------- | -------------------------------- |
-| 类型安全         | 代码膨胀（每种类型生成一份代码） |
-| 无运行时开销     | 调试困难（宏展开后难以阅读）     |
-| 编译期检查       | 错误信息不友好                   |
-| 无需指针间接访问 | 无法在运行时选择类型             |
+| 类型安全 | 代码膨胀（每种类型生成一份代码） |
+| 无运行时开销 | 调试困难（宏展开后难以阅读） |
+| 编译期检查 | 错误信息不友好 |
+| 无需指针间接访问 | 无法在运行时选择类型 |
 
 ---
 
@@ -9225,35 +9225,35 @@ int main() {
 ```python
 # 通用栈（无需泛型语法）
 class Stack:
-    def __init__(self):
-        self.data = []
-    
-    def push(self, value):
-        self.data.append(value)
-    
-    def pop(self):
-        return self.data.pop()
-    
-    def is_empty(self):
-        return len(self.data) == 0
+ def __init__(self):
+ self.data = []
+
+ def push(self, value):
+ self.data.append(value)
+
+ def pop(self):
+ return self.data.pop()
+
+ def is_empty(self):
+ return len(self.data) == 0
 
 # 可以存储任意类型
 int_stack = Stack()
 int_stack.push(10)
 int_stack.push(20)
-print(int_stack.pop())  # 20
+print(int_stack.pop()) # 20
 
 str_stack = Stack()
 str_stack.push("hello")
 str_stack.push("world")
-print(str_stack.pop())  # world
+print(str_stack.pop()) # world
 
 # 甚至可以混合类型
 mixed_stack = Stack()
 mixed_stack.push(10)
 mixed_stack.push("hello")
 mixed_stack.push(3.14)
-print(mixed_stack.pop())  # 3.14
+print(mixed_stack.pop()) # 3.14
 ```
 
 **Python 的类型提示泛型（Python 3.5+）**：
@@ -9266,27 +9266,27 @@ T = TypeVar('T')
 
 # 泛型类
 class Stack(Generic[T]):
-    def __init__(self) -> None:
-        self.data: List[T] = []
-    
-    def push(self, value: T) -> None:
-        self.data.append(value)
-    
-    def pop(self) -> T:
-        return self.data.pop()
-    
-    def is_empty(self) -> bool:
-        return len(self.data) == 0
+ def __init__(self) -> None:
+ self.data: List[T] = []
+
+ def push(self, value: T) -> None:
+ self.data.append(value)
+
+ def pop(self) -> T:
+ return self.data.pop()
+
+ def is_empty(self) -> bool:
+ return len(self.data) == 0
 
 # 使用时指定类型
 int_stack: Stack[int] = Stack()
 int_stack.push(10)
 int_stack.push(20)
-# int_stack.push("hello")  # mypy 会警告类型错误
+# int_stack.push("hello") # mypy 会警告类型错误
 
 str_stack: Stack[str] = Stack()
 str_stack.push("hello")
-# str_stack.push(10)  # mypy 会警告类型错误
+# str_stack.push(10) # mypy 会警告类型错误
 ```
 
 **泛型函数**：
@@ -9298,18 +9298,18 @@ T = TypeVar('T')
 
 # 泛型函数：返回列表第一个元素
 def first(items: List[T]) -> T:
-    return items[0]
+ return items[0]
 
 # 类型推导
-x = first([1, 2, 3])        # x 的类型是 int
-y = first(["a", "b", "c"])  # y 的类型是 str
+x = first([1, 2, 3]) # x 的类型是 int
+y = first(["a", "b", "c"]) # y 的类型是 str
 
 # 泛型函数：交换两个元素
 def swap(a: T, b: T) -> tuple[T, T]:
-    return b, a
+ return b, a
 
-x, y = swap(10, 20)         # (20, 10)
-s1, s2 = swap("a", "b")     # ("b", "a")
+x, y = swap(10, 20) # (20, 10)
+s1, s2 = swap("a", "b") # ("b", "a")
 ```
 
 **多个类型参数**：
@@ -9322,22 +9322,22 @@ V = TypeVar('V')
 
 # 泛型字典包装器
 class MyDict(Generic[K, V]):
-    def __init__(self) -> None:
-        self.data: dict[K, V] = {}
-    
-    def put(self, key: K, value: V) -> None:
-        self.data[key] = value
-    
-    def get(self, key: K) -> V:
-        return self.data[key]
+ def __init__(self) -> None:
+ self.data: dict[K, V] = {}
+
+ def put(self, key: K, value: V) -> None:
+ self.data[key] = value
+
+ def get(self, key: K) -> V:
+ return self.data[key]
 
 # 使用
 user_ages: MyDict[str, int] = MyDict()
 user_ages.put("Alice", 30)
 user_ages.put("Bob", 25)
-# user_ages.put(123, "invalid")  # mypy 警告
+# user_ages.put(123, "invalid") # mypy 警告
 
-print(user_ages.get("Alice"))  # 30
+print(user_ages.get("Alice")) # 30
 ```
 
 ---
@@ -9351,39 +9351,39 @@ from typing import TypeVar, Protocol
 
 # 定义协议（接口）
 class Comparable(Protocol):
-    def __lt__(self, other) -> bool:
-        ...
+ def __lt__(self, other) -> bool:
+ ...
 
 # 约束类型变量必须实现 Comparable
 T = TypeVar('T', bound=Comparable)
 
 def find_min(items: list[T]) -> T:
-    """查找最小值（要求元素可比较）"""
-    if not items:
-        raise ValueError("列表为空")
-    
-    min_item = items[0]
-    for item in items[1:]:
-        if item < min_item:
-            min_item = item
-    return min_item
+ """查找最小值（要求元素可比较）"""
+ if not items:
+ raise ValueError("列表为空")
+
+ min_item = items[0]
+ for item in items[1:]:
+ if item < min_item:
+ min_item = item
+ return min_item
 
 # 可以使用
-print(find_min([3, 1, 4, 1, 5]))      # 1
-print(find_min(["c", "a", "b"]))      # "a"
+print(find_min([3, 1, 4, 1, 5])) # 1
+print(find_min(["c", "a", "b"])) # "a"
 
 # 自定义类实现比较
 class Person:
-    def __init__(self, name: str, age: int):
-        self.name = name
-        self.age = age
-    
-    def __lt__(self, other: 'Person') -> bool:
-        return self.age < other.age
+ def __init__(self, name: str, age: int):
+ self.name = name
+ self.age = age
+
+ def __lt__(self, other: 'Person') -> bool:
+ return self.age < other.age
 
 people = [Person("Alice", 30), Person("Bob", 25)]
 youngest = find_min(people)
-print(youngest.name)  # Bob
+print(youngest.name) # Bob
 ```
 
 **多重约束**：
@@ -9395,14 +9395,14 @@ from typing import TypeVar
 T = TypeVar('T', int, str)
 
 def double(value: T) -> T:
-    if isinstance(value, int):
-        return value * 2
-    else:
-        return value + value
+ if isinstance(value, int):
+ return value * 2
+ else:
+ return value + value
 
-print(double(10))      # 20
-print(double("hi"))    # "hihi"
-# print(double(3.14))  # mypy 警告：float 不在约束范围内
+print(double(10)) # 20
+print(double("hi")) # "hihi"
+# print(double(3.14)) # mypy 警告：float 不在约束范围内
 ```
 
 ---
@@ -9434,26 +9434,26 @@ from typing import Union
 
 # 函数可以接受 int 或 str
 def process(value: Union[int, str]) -> str:
-    if isinstance(value, int):
-        return f"数字: {value}"
-    else:
-        return f"字符串: {value}"
+ if isinstance(value, int):
+ return f"数字: {value}"
+ else:
+ return f"字符串: {value}"
 
-print(process(10))      # "数字: 10"
+print(process(10)) # "数字: 10"
 print(process("hello")) # "字符串: hello"
 
 # Python 3.10+ 简化语法
 def process(value: int | str) -> str:
-    return str(value)
+ return str(value)
 ```
 
 **常见场景**：
 
-| 场景         | 示例                                 | 说明           |
+| 场景 | 示例 | 说明 |
 | ------------ | ------------------------------------ | -------------- |
-| **可选值**   | `Optional[int]` = `Union[int, None]` | 值可能为空     |
-| **多种输入** | `Union[int, float, str]`             | 接受多种类型   |
-| **错误处理** | `Union[Result, Error]`               | 返回结果或错误 |
+| **可选值** | `Optional[int]` = `Union[int, None]` | 值可能为空 |
+| **多种输入** | `Union[int, float, str]` | 接受多种类型 |
+| **错误处理** | `Union[Result, Error]` | 返回结果或错误 |
 
 **实际应用**：
 
@@ -9462,27 +9462,27 @@ from typing import Union, Optional
 
 # 1. 可选参数
 def greet(name: Optional[str] = None) -> str:
-    if name is None:
-        return "Hello, Guest!"
-    return f"Hello, {name}!"
+ if name is None:
+ return "Hello, Guest!"
+ return f"Hello, {name}!"
 
 # 2. 多种输入类型
 def parse_id(user_id: Union[int, str]) -> int:
-    if isinstance(user_id, str):
-        return int(user_id)
-    return user_id
+ if isinstance(user_id, str):
+ return int(user_id)
+ return user_id
 
 # 3. 返回值可能失败
 def divide(a: int, b: int) -> Union[float, str]:
-    if b == 0:
-        return "错误: 除数为零"
-    return a / b
+ if b == 0:
+ return "错误: 除数为零"
+ return a / b
 
 result = divide(10, 2)
 if isinstance(result, str):
-    print(result)  # 错误信息
+ print(result) # 错误信息
 else:
-    print(f"结果: {result}")  # 5.0
+ print(f"结果: {result}") # 5.0
 ```
 
 ---
@@ -9496,22 +9496,22 @@ else:
 
 // C 的 union：同一内存存储不同类型
 union Data {
-    int i;
-    float f;
-    char str[20];
+ int i;
+ float f;
+ char str[20];
 };
 
 int main() {
-    union Data data;
-    
-    data.i = 10;
-    printf("data.i = %d\n", data.i);  // 10
-    
-    data.f = 3.14;  // 覆盖 data.i
-    printf("data.f = %f\n", data.f);  // 3.14
-    printf("data.i = %d\n", data.i);  // 未定义（被覆盖）
-    
-    return 0;
+ union Data data;
+
+ data.i = 10;
+ printf("data.i = %d\n", data.i); // 10
+
+ data.f = 3.14; // 覆盖 data.i
+ printf("data.f = %f\n", data.f); // 3.14
+ printf("data.i = %d\n", data.i); // 未定义（被覆盖）
+
+ return 0;
 }
 ```
 
@@ -9526,56 +9526,56 @@ enum ValueType { TYPE_INT, TYPE_FLOAT, TYPE_STRING };
 
 // 带标签的联合体
 typedef struct {
-    enum ValueType type;
-    union {
-        int i;
-        float f;
-        char str[20];
-    } data;
+ enum ValueType type;
+ union {
+ int i;
+ float f;
+ char str[20];
+ } data;
 } Value;
 
 // 创建不同类型的值
 Value make_int(int i) {
-    Value v = {.type = TYPE_INT, .data.i = i};
-    return v;
+ Value v = {.type = TYPE_INT, .data.i = i};
+ return v;
 }
 
 Value make_float(float f) {
-    Value v = {.type = TYPE_FLOAT, .data.f = f};
-    return v;
+ Value v = {.type = TYPE_FLOAT, .data.f = f};
+ return v;
 }
 
 Value make_string(const char *str) {
-    Value v = {.type = TYPE_STRING};
-    strncpy(v.data.str, str, 19);
-    return v;
+ Value v = {.type = TYPE_STRING};
+ strncpy(v.data.str, str, 19);
+ return v;
 }
 
 // 处理联合类型
 void print_value(Value v) {
-    switch (v.type) {
-        case TYPE_INT:
-            printf("整数: %d\n", v.data.i);
-            break;
-        case TYPE_FLOAT:
-            printf("浮点: %f\n", v.data.f);
-            break;
-        case TYPE_STRING:
-            printf("字符串: %s\n", v.data.str);
-            break;
-    }
+ switch (v.type) {
+ case TYPE_INT:
+ printf("整数: %d\n", v.data.i);
+ break;
+ case TYPE_FLOAT:
+ printf("浮点: %f\n", v.data.f);
+ break;
+ case TYPE_STRING:
+ printf("字符串: %s\n", v.data.str);
+ break;
+ }
 }
 
 int main() {
-    Value v1 = make_int(10);
-    Value v2 = make_float(3.14);
-    Value v3 = make_string("hello");
-    
-    print_value(v1);  // 整数: 10
-    print_value(v2);  // 浮点: 3.140000
-    print_value(v3);  // 字符串: hello
-    
-    return 0;
+ Value v1 = make_int(10);
+ Value v2 = make_float(3.14);
+ Value v3 = make_string("hello");
+
+ print_value(v1); // 整数: 10
+ print_value(v2); // 浮点: 3.140000
+ print_value(v3); // 字符串: hello
+
+ return 0;
 }
 ```
 
@@ -9594,29 +9594,29 @@ from typing import Protocol
 
 # 定义两个协议
 class Flyable(Protocol):
-    def fly(self) -> None: ...
+ def fly(self) -> None: ...
 
 class Swimmable(Protocol):
-    def swim(self) -> None: ...
+ def swim(self) -> None: ...
 
 # 交叉类型：既能飞又能游
 class Duck:
-    def fly(self) -> None:
-        print("Duck flying")
-    
-    def swim(self) -> None:
-        print("Duck swimming")
+ def fly(self) -> None:
+ print("Duck flying")
+
+ def swim(self) -> None:
+ print("Duck swimming")
 
 # 函数要求同时实现两个接口
 def show_abilities(animal: Flyable) -> None:
-    animal.fly()
+ animal.fly()
 
 def show_swimming(animal: Swimmable) -> None:
-    animal.swim()
+ animal.swim()
 
 duck = Duck()
-show_abilities(duck)   # Duck flying
-show_swimming(duck)    # Duck swimming
+show_abilities(duck) # Duck flying
+show_swimming(duck) # Duck swimming
 ```
 
 **TypeScript 的交叉类型**：
@@ -9624,30 +9624,30 @@ show_swimming(duck)    # Duck swimming
 ```typescript
 // TypeScript 原生支持交叉类型
 interface Flyable {
-    fly(): void;
+ fly(): void;
 }
 
 interface Swimmable {
-    swim(): void;
+ swim(): void;
 }
 
 // 交叉类型：必须同时实现两个接口
 type FlyingFish = Flyable & Swimmable;
 
 class Duck implements FlyingFish {
-    fly() {
-        console.log("Duck flying");
-    }
-    
-    swim() {
-        console.log("Duck swimming");
-    }
+ fly() {
+ console.log("Duck flying");
+ }
+
+ swim() {
+ console.log("Duck swimming");
+ }
 }
 
 // 函数要求交叉类型
 function showAbilities(animal: Flyable & Swimmable) {
-    animal.fly();
-    animal.swim();
+ animal.fly();
+ animal.swim();
 }
 
 const duck = new Duck();
@@ -9658,33 +9658,33 @@ showAbilities(duck);
 
 #### **联合 vs 交叉对比**
 
-| 维度                | 联合类型（Union） | 交叉类型（Intersection） |
+| 维度 | 联合类型（Union） | 交叉类型（Intersection） |
 | ------------------- | ----------------- | ------------------------ |
-| **逻辑**            | A **或** B        | A **且** B               |
-| **集合**            | A ∪ B（并集）     | A ∩ B（交集）            |
-| **要求**            | 满足任一类型      | 同时满足所有类型         |
-| **使用场景**        | 多种可能的输入    | 组合多个接口             |
-| **Python 支持**     | ✅ `Union[A, B]`   | ❌ 需要协议模拟           |
-| **TypeScript 支持** | ✅ `A \| B`        | ✅ `A & B`                |
+| **逻辑** | A **或** B | A **且** B |
+| **集合** | A ∪ B（并集） | A ∩ B（交集） |
+| **要求** | 满足任一类型 | 同时满足所有类型 |
+| **使用场景** | 多种可能的输入 | 组合多个接口 |
+| **Python 支持** | `Union[A, B]` | 需要协议模拟 |
+| **TypeScript 支持** | `A \| B` | `A & B` |
 
 **图示**：
 
 ```
 联合类型（Union）:
 ┌─────────┐
-│    A    │
-│  ┌───┐  │
-│  │ ∪ │  │  ← 可以是 A 或 B
-│  └───┘  │
-│    B    │
+│ A │
+│ ┌───┐ │
+│ │ ∪ │ │ ← 可以是 A 或 B
+│ └───┘ │
+│ B │
 └─────────┘
 
 交叉类型（Intersection）:
-    A         B
-  ┌───┐     ┌───┐
-  │   │ ∩   │   │  ← 必须同时是 A 和 B
-  │   └─────┘   │
-  └─────────────┘
+ A B
+ ┌───┐ ┌───┐
+ │ │ ∩ │ │ ← 必须同时是 A 和 B
+ │ └─────┘ │
+ └─────────────┘
 ```
 
 ---
@@ -9699,25 +9699,25 @@ from dataclasses import dataclass
 
 @dataclass
 class Success:
-    data: dict
+ data: dict
 
 @dataclass
 class Error:
-    message: str
-    code: int
+ message: str
+ code: int
 
 # API 返回成功或失败
 def fetch_user(user_id: int) -> Union[Success, Error]:
-    if user_id > 0:
-        return Success(data={"id": user_id, "name": "Alice"})
-    return Error(message="用户不存在", code=404)
+ if user_id > 0:
+ return Success(data={"id": user_id, "name": "Alice"})
+ return Error(message="用户不存在", code=404)
 
 # 处理响应
 response = fetch_user(1)
 if isinstance(response, Success):
-    print(f"用户数据: {response.data}")
+ print(f"用户数据: {response.data}")
 else:
-    print(f"错误: {response.message}")
+ print(f"错误: {response.message}")
 ```
 
 **交叉类型：多重能力组合**：
@@ -9726,33 +9726,33 @@ else:
 from typing import Protocol
 
 class Readable(Protocol):
-    def read(self) -> str: ...
+ def read(self) -> str: ...
 
 class Writable(Protocol):
-    def write(self, data: str) -> None: ...
+ def write(self, data: str) -> None: ...
 
 # 同时可读可写的文件
 class File:
-    def __init__(self, filename: str):
-        self.filename = filename
-        self.content = ""
-    
-    def read(self) -> str:
-        return self.content
-    
-    def write(self, data: str) -> None:
-        self.content = data
+ def __init__(self, filename: str):
+ self.filename = filename
+ self.content = ""
+
+ def read(self) -> str:
+ return self.content
+
+ def write(self, data: str) -> None:
+ self.content = data
 
 # 函数要求同时可读可写
 def copy_data(source: Readable, target: Writable) -> None:
-    data = source.read()
-    target.write(data)
+ data = source.read()
+ target.write(data)
 
 file1 = File("source.txt")
 file2 = File("target.txt")
 file1.write("Hello")
 copy_data(file1, file2)
-print(file2.read())  # "Hello"
+print(file2.read()) # "Hello"
 ```
 
 ---
@@ -9762,42 +9762,42 @@ print(file2.read())  # "Hello"
 **联合类型**：
 
 ```python
-# ✅ 好：明确的类型检查
+# 好：明确的类型检查
 def process(value: int | str) -> str:
-    if isinstance(value, int):
-        return f"数字: {value}"
-    return f"字符串: {value}"
+ if isinstance(value, int):
+ return f"数字: {value}"
+ return f"字符串: {value}"
 
-# ❌ 避免：过多的联合类型
+# 避免：过多的联合类型
 def bad(value: int | str | float | list | dict) -> str:
-    # 难以维护
-    pass
+ # 难以维护
+ pass
 
-# ✅ 好：使用类型别名
+# 好：使用类型别名
 UserId = int | str
 def get_user(user_id: UserId) -> dict:
-    pass
+ pass
 ```
 
 **交叉类型（协议组合）**：
 
 ```python
-# ✅ 好：小而专注的协议
+# 好：小而专注的协议
 class Closable(Protocol):
-    def close(self) -> None: ...
+ def close(self) -> None: ...
 
 class Flushable(Protocol):
-    def flush(self) -> None: ...
+ def flush(self) -> None: ...
 
 # 组合使用
 def cleanup(resource: Closable) -> None:
-    resource.close()
+ resource.close()
 
-# ❌ 避免：过大的协议
+# 避免：过大的协议
 class HugeProtocol(Protocol):
-    def method1(self) -> None: ...
-    def method2(self) -> None: ...
-    # ... 20 个方法
+ def method1(self) -> None: ...
+ def method2(self) -> None: ...
+ # ... 20 个方法
 ```
 
 ---
@@ -9833,27 +9833,27 @@ class HugeProtocol(Protocol):
 
 // 查找用户（可能返回 NULL）
 typedef struct {
-    int id;
-    char name[50];
+ int id;
+ char name[50];
 } User;
 
 User* find_user(int id) {
-    if (id == 1) {
-        User *user = malloc(sizeof(User));
-        user->id = 1;
-        strcpy(user->name, "Alice");
-        return user;
-    }
-    return NULL;  // 未找到
+ if (id == 1) {
+ User *user = malloc(sizeof(User));
+ user->id = 1;
+ strcpy(user->name, "Alice");
+ return user;
+ }
+ return NULL; // 未找到
 }
 
 int main() {
-    User *user = find_user(999);
-    
-    // 危险：未检查 NULL
-    printf("用户名: %s\n", user->name);  // 段错误（Segmentation Fault）
-    
-    return 0;
+ User *user = find_user(999);
+
+ // 危险：未检查 NULL
+ printf("用户名: %s\n", user->name); // 段错误（Segmentation Fault）
+
+ return 0;
 }
 ```
 
@@ -9864,38 +9864,38 @@ int main() {
 #include <stdlib.h>
 
 User* find_user(int id) {
-    if (id == 1) {
-        User *user = malloc(sizeof(User));
-        user->id = 1;
-        strcpy(user->name, "Alice");
-        return user;
-    }
-    return NULL;
+ if (id == 1) {
+ User *user = malloc(sizeof(User));
+ user->id = 1;
+ strcpy(user->name, "Alice");
+ return user;
+ }
+ return NULL;
 }
 
 int main() {
-    User *user = find_user(999);
-    
-    // ✅ 检查 NULL
-    if (user != NULL) {
-        printf("用户名: %s\n", user->name);
-        free(user);
-    } else {
-        printf("用户不存在\n");
-    }
-    
-    return 0;
+ User *user = find_user(999);
+
+ // 检查 NULL
+ if (user != NULL) {
+ printf("用户名: %s\n", user->name);
+ free(user);
+ } else {
+ printf("用户不存在\n");
+ }
+
+ return 0;
 }
 ```
 
 **C 语言的问题**：
 
-| 问题             | 说明                        |
+| 问题 | 说明 |
 | ---------------- | --------------------------- |
-| **无编译期检查** | 忘记检查 NULL 不会报错      |
-| **隐式可空**     | 所有指针都可能为 NULL       |
-| **难以追踪**     | 不知道哪些函数可能返回 NULL |
-| **容易遗漏**     | 代码路径复杂时容易忘记检查  |
+| **无编译期检查** | 忘记检查 NULL 不会报错 |
+| **隐式可空** | 所有指针都可能为 NULL |
+| **难以追踪** | 不知道哪些函数可能返回 NULL |
+| **容易遗漏** | 代码路径复杂时容易忘记检查 |
 
 ---
 
@@ -9906,13 +9906,13 @@ int main() {
 ```python
 # 函数可能返回 None
 def find_user(user_id: int):
-    if user_id == 1:
-        return {"id": 1, "name": "Alice"}
-    return None  # 未找到
+ if user_id == 1:
+ return {"id": 1, "name": "Alice"}
+ return None # 未找到
 
 # 危险：未检查 None
 user = find_user(999)
-print(user["name"])  # TypeError: 'NoneType' object is not subscriptable
+print(user["name"]) # TypeError: 'NoneType' object is not subscriptable
 ```
 
 **使用 Optional 类型注解**：
@@ -9922,18 +9922,18 @@ from typing import Optional
 
 # 明确标注可能返回 None
 def find_user(user_id: int) -> Optional[dict]:
-    if user_id == 1:
-        return {"id": 1, "name": "Alice"}
-    return None
+ if user_id == 1:
+ return {"id": 1, "name": "Alice"}
+ return None
 
-# ✅ 检查 None
+# 检查 None
 user = find_user(999)
 if user is not None:
-    print(f"用户名: {user['name']}")
+ print(f"用户名: {user['name']}")
 else:
-    print("用户不存在")
+ print("用户不存在")
 
-# ✅ 使用默认值
+# 使用默认值
 user = find_user(999)
 name = user["name"] if user else "Guest"
 print(f"欢迎, {name}")
@@ -9946,11 +9946,11 @@ from typing import Union
 
 # Optional[T] 等价于 Union[T, None]
 def find_user(user_id: int) -> Union[dict, None]:
-    pass
+ pass
 
 # 简化写法（Python 3.10+）
 def find_user(user_id: int) -> dict | None:
-    pass
+ pass
 ```
 
 ---
@@ -9962,69 +9962,69 @@ def find_user(user_id: int) -> dict | None:
 ```python
 from typing import Optional
 
-# ✅ 好：明确可能为 None
+# 好：明确可能为 None
 def get_config(key: str) -> Optional[str]:
-    config = {"host": "localhost"}
-    return config.get(key)
+ config = {"host": "localhost"}
+ return config.get(key)
 
-# ❌ 避免：隐式可空
+# 避免：隐式可空
 def get_config(key: str) -> str:
-    config = {"host": "localhost"}
-    return config.get(key)  # 可能返回 None，但类型注解说是 str
+ config = {"host": "localhost"}
+ return config.get(key) # 可能返回 None，但类型注解说是 str
 ```
 
 **2. 提供默认值**：
 
 ```python
-# ✅ 使用 or 提供默认值
+# 使用 or 提供默认值
 def greet(name: Optional[str] = None) -> str:
-    return f"Hello, {name or 'Guest'}!"
+ return f"Hello, {name or 'Guest'}!"
 
-# ✅ 使用字典的 get 方法
+# 使用字典的 get 方法
 config = {"host": "localhost"}
-port = config.get("port", 8080)  # 默认 8080
+port = config.get("port", 8080) # 默认 8080
 
-# ✅ 使用 getattr
+# 使用 getattr
 class User:
-    name = "Alice"
+ name = "Alice"
 
 user = User()
-age = getattr(user, "age", 18)  # 默认 18
+age = getattr(user, "age", 18) # 默认 18
 ```
 
 **3. 提前返回（Early Return）**：
 
 ```python
 def process_user(user_id: int) -> str:
-    user = find_user(user_id)
-    
-    # ✅ 提前返回，避免嵌套
-    if user is None:
-        return "用户不存在"
-    
-    # 后续代码确保 user 不为 None
-    return f"处理用户: {user['name']}"
+ user = find_user(user_id)
 
-# ❌ 避免：深层嵌套
+ # 提前返回，避免嵌套
+ if user is None:
+ return "用户不存在"
+
+ # 后续代码确保 user 不为 None
+ return f"处理用户: {user['name']}"
+
+# 避免：深层嵌套
 def process_user(user_id: int) -> str:
-    user = find_user(user_id)
-    if user is not None:
-        if "name" in user:
-            if len(user["name"]) > 0:
-                return f"处理用户: {user['name']}"
-    return "错误"
+ user = find_user(user_id)
+ if user is not None:
+ if "name" in user:
+ if len(user["name"]) > 0:
+ return f"处理用户: {user['name']}"
+ return "错误"
 ```
 
 **4. 使用断言（开发阶段）**：
 
 ```python
 def process_user(user_id: int) -> str:
-    user = find_user(user_id)
-    
-    # 开发阶段：确保不为 None
-    assert user is not None, f"用户 {user_id} 必须存在"
-    
-    return f"处理用户: {user['name']}"
+ user = find_user(user_id)
+
+ # 开发阶段：确保不为 None
+ assert user is not None, f"用户 {user_id} 必须存在"
+
+ return f"处理用户: {user['name']}"
 ```
 
 ---
@@ -10038,31 +10038,31 @@ def process_user(user_id: int) -> str:
 #include <stdbool.h>
 
 typedef struct {
-    int id;
-    char name[50];
+ int id;
+ char name[50];
 } User;
 
 // 返回 bool 表示成功/失败，通过指针返回结果
 bool find_user(int id, User *out_user) {
-    if (id == 1 && out_user != NULL) {
-        out_user->id = 1;
-        strcpy(out_user->name, "Alice");
-        return true;
-    }
-    return false;
+ if (id == 1 && out_user != NULL) {
+ out_user->id = 1;
+ strcpy(out_user->name, "Alice");
+ return true;
+ }
+ return false;
 }
 
 int main() {
-    User user;
-    
-    // ✅ 检查返回值
-    if (find_user(1, &user)) {
-        printf("用户名: %s\n", user.name);
-    } else {
-        printf("用户不存在\n");
-    }
-    
-    return 0;
+ User user;
+
+ // 检查返回值
+ if (find_user(1, &user)) {
+ printf("用户名: %s\n", user.name);
+ } else {
+ printf("用户不存在\n");
+ }
+
+ return 0;
 }
 ```
 
@@ -10075,34 +10075,34 @@ int main() {
 #define INVALID_ID -1
 
 typedef struct {
-    int id;
-    char name[50];
+ int id;
+ char name[50];
 } User;
 
 // 返回无效 ID 表示失败
 User find_user(int id) {
-    User user;
-    if (id == 1) {
-        user.id = 1;
-        strcpy(user.name, "Alice");
-    } else {
-        user.id = INVALID_ID;  // 哨兵值
-        user.name[0] = '\0';
-    }
-    return user;
+ User user;
+ if (id == 1) {
+ user.id = 1;
+ strcpy(user.name, "Alice");
+ } else {
+ user.id = INVALID_ID; // 哨兵值
+ user.name[0] = '\0';
+ }
+ return user;
 }
 
 int main() {
-    User user = find_user(999);
-    
-    // ✅ 检查哨兵值
-    if (user.id != INVALID_ID) {
-        printf("用户名: %s\n", user.name);
-    } else {
-        printf("用户不存在\n");
-    }
-    
-    return 0;
+ User user = find_user(999);
+
+ // 检查哨兵值
+ if (user.id != INVALID_ID) {
+ printf("用户名: %s\n", user.name);
+ } else {
+ printf("用户不存在\n");
+ }
+
+ return 0;
 }
 ```
 
@@ -10114,49 +10114,49 @@ int main() {
 #include <string.h>
 
 typedef struct {
-    int id;
-    char name[50];
+ int id;
+ char name[50];
 } User;
 
 // Option 类型
 typedef struct {
-    bool has_value;
-    User value;
+ bool has_value;
+ User value;
 } OptionUser;
 
 // 创建 Some(value)
 OptionUser some_user(User user) {
-    OptionUser opt = {.has_value = true, .value = user};
-    return opt;
+ OptionUser opt = {.has_value = true, .value = user};
+ return opt;
 }
 
 // 创建 None
 OptionUser none_user() {
-    OptionUser opt = {.has_value = false};
-    return opt;
+ OptionUser opt = {.has_value = false};
+ return opt;
 }
 
 // 查找用户
 OptionUser find_user(int id) {
-    if (id == 1) {
-        User user = {.id = 1};
-        strcpy(user.name, "Alice");
-        return some_user(user);
-    }
-    return none_user();
+ if (id == 1) {
+ User user = {.id = 1};
+ strcpy(user.name, "Alice");
+ return some_user(user);
+ }
+ return none_user();
 }
 
 int main() {
-    OptionUser opt = find_user(999);
-    
-    // ✅ 检查是否有值
-    if (opt.has_value) {
-        printf("用户名: %s\n", opt.value.name);
-    } else {
-        printf("用户不存在\n");
-    }
-    
-    return 0;
+ OptionUser opt = find_user(999);
+
+ // 检查是否有值
+ if (opt.has_value) {
+ printf("用户名: %s\n", opt.value.name);
+ } else {
+ printf("用户不存在\n");
+ }
+
+ return 0;
 }
 ```
 
@@ -10167,11 +10167,11 @@ int main() {
 **1. 使用 walrus 操作符（Python 3.8+）**：
 
 ```python
-# ✅ 简洁的检查和赋值
+# 简洁的检查和赋值
 if (user := find_user(1)) is not None:
-    print(f"用户名: {user['name']}")
+ print(f"用户名: {user['name']}")
 else:
-    print("用户不存在")
+ print("用户不存在")
 ```
 
 **2. 使用 dataclass 的默认值**：
@@ -10182,12 +10182,12 @@ from typing import Optional
 
 @dataclass
 class User:
-    id: int
-    name: str
-    email: Optional[str] = None  # 可选字段
+ id: int
+ name: str
+ email: Optional[str] = None # 可选字段
 
 user = User(id=1, name="Alice")
-print(user.email or "无邮箱")  # "无邮箱"
+print(user.email or "无邮箱") # "无邮箱"
 ```
 
 **3. 使用 try-except 处理**：
@@ -10195,11 +10195,11 @@ print(user.email or "无邮箱")  # "无邮箱"
 ```python
 # 适用于字典/列表访问
 def get_user_name(user_id: int) -> str:
-    try:
-        user = find_user(user_id)
-        return user["name"]
-    except (TypeError, KeyError):
-        return "未知用户"
+ try:
+ user = find_user(user_id)
+ return user["name"]
+ except (TypeError, KeyError):
+ return "未知用户"
 ```
 
 **4. 使用第三方库（如 returns）**：
@@ -10208,41 +10208,41 @@ def get_user_name(user_id: int) -> str:
 from returns.maybe import Maybe, Some, Nothing
 
 def find_user(user_id: int) -> Maybe[dict]:
-    if user_id == 1:
-        return Some({"id": 1, "name": "Alice"})
-    return Nothing
+ if user_id == 1:
+ return Some({"id": 1, "name": "Alice"})
+ return Nothing
 
 # 链式调用
 result = (
-    find_user(1)
-    .map(lambda u: u["name"])
-    .map(lambda n: n.upper())
-    .value_or("未知")
+ find_user(1)
+ .map(lambda u: u["name"])
+ .map(lambda n: n.upper())
+ .value_or("未知")
 )
-print(result)  # "ALICE"
+print(result) # "ALICE"
 ```
 
 ---
 
 #### **对比总结**
 
-| 语言       | 可空表示    | 编译期检查 | 运行时错误             | 最佳实践                  |
+| 语言 | 可空表示 | 编译期检查 | 运行时错误 | 最佳实践 |
 | ---------- | ----------- | ---------- | ---------------------- | ------------------------- |
-| **C**      | `NULL` 指针 | ❌          | 段错误                 | 手动检查、Option 模式     |
-| **Python** | `None`      | ⚠️ 类型提示 | `TypeError`            | `Optional` 注解、提前返回 |
-| **Rust**   | `Option<T>` | ✅          | 编译错误               | 强制处理                  |
-| **Java**   | `null`      | ❌          | `NullPointerException` | `Optional<T>`             |
+| **C** | `NULL` 指针 | | 段错误 | 手动检查、Option 模式 |
+| **Python** | `None` | 类型提示 | `TypeError` | `Optional` 注解、提前返回 |
+| **Rust** | `Option<T>` | | 编译错误 | 强制处理 |
+| **Java** | `null` | | `NullPointerException` | `Optional<T>` |
 
 **关键原则**：
 
 ```
 ┌─────────────────────────────────────┐
-│  可空类型的黄金法则                    │
+│ 可空类型的黄金法则 │
 ├─────────────────────────────────────┤
-│  1. 明确标注可空性                    │
-│  2. 尽早检查和处理                    │
-│  3. 提供合理的默认值                  │
-│  4. 避免深层嵌套检查                  │
+│ 1. 明确标注可空性 │
+│ 2. 尽早检查和处理 │
+│ 3. 提供合理的默认值 │
+│ 4. 避免深层嵌套检查 │
 └─────────────────────────────────────┘
 ```
 
@@ -10280,17 +10280,17 @@ print(result)  # "ALICE"
 
 # 字符串不可变
 s = "hello"
-s[0] = "H"  # TypeError: 'str' object does not support item assignment
+s[0] = "H" # TypeError: 'str' object does not support item assignment
 
 # 修改返回新对象
 s = "hello"
-s2 = s.upper()  # 返回新字符串
-print(s)   # "hello"（原字符串未变）
-print(s2)  # "HELLO"
+s2 = s.upper() # 返回新字符串
+print(s) # "hello"（原字符串未变）
+print(s2) # "HELLO"
 
 # 元组不可变
 t = (1, 2, 3)
-t[0] = 10  # TypeError: 'tuple' object does not support item assignment
+t[0] = 10 # TypeError: 'tuple' object does not support item assignment
 ```
 
 **可变类型**：
@@ -10300,18 +10300,18 @@ t[0] = 10  # TypeError: 'tuple' object does not support item assignment
 
 # 列表可变
 lst = [1, 2, 3]
-lst[0] = 10  # 原地修改
-print(lst)   # [10, 2, 3]
+lst[0] = 10 # 原地修改
+print(lst) # [10, 2, 3]
 
 # 字典可变
 d = {"a": 1}
-d["a"] = 2   # 原地修改
-print(d)     # {"a": 2}
+d["a"] = 2 # 原地修改
+print(d) # {"a": 2}
 
 # 集合可变
 s = {1, 2, 3}
-s.add(4)     # 原地修改
-print(s)     # {1, 2, 3, 4}
+s.add(4) # 原地修改
+print(s) # {1, 2, 3, 4}
 ```
 
 ---
@@ -10324,38 +10324,38 @@ print(s)     # {1, 2, 3, 4}
 # 不可变对象天然线程安全
 from threading import Thread
 
-counter = 0  # 可变（危险）
+counter = 0 # 可变（危险）
 
 def increment():
-    global counter
-    for _ in range(100000):
-        counter += 1  # 竞态条件
+ global counter
+ for _ in range(100000):
+ counter += 1 # 竞态条件
 
 threads = [Thread(target=increment) for _ in range(2)]
 for t in threads:
-    t.start()
+ t.start()
 for t in threads:
-    t.join()
+ t.join()
 
-print(counter)  # 可能不是 200000
+print(counter) # 可能不是 200000
 
 # 不可变对象无此问题
-message = "hello"  # 不可变（安全）
+message = "hello" # 不可变（安全）
 ```
 
 **2. 可哈希（可作为字典键）**：
 
 ```python
-# ✅ 不可变类型可作为键
+# 不可变类型可作为键
 d = {
-    "name": "Alice",      # str 不可变
-    (1, 2): "point",      # tuple 不可变
-    42: "answer"          # int 不可变
+ "name": "Alice", # str 不可变
+ (1, 2): "point", # tuple 不可变
+ 42: "answer" # int 不可变
 }
 
-# ❌ 可变类型不能作为键
+# 可变类型不能作为键
 d = {
-    [1, 2]: "list"        # TypeError: unhashable type: 'list'
+ [1, 2]: "list" # TypeError: unhashable type: 'list'
 }
 ```
 
@@ -10364,17 +10364,17 @@ d = {
 ```python
 # 不可变：值不会意外改变
 def process(data: tuple) -> int:
-    # 确保 data 不会被修改
-    return sum(data)
+ # 确保 data 不会被修改
+ return sum(data)
 
 # 可变：可能被意外修改
 def process(data: list) -> int:
-    data.append(0)  # 副作用：修改了原列表
-    return sum(data)
+ data.append(0) # 副作用：修改了原列表
+ return sum(data)
 
 lst = [1, 2, 3]
 result = process(lst)
-print(lst)  # [1, 2, 3, 0]（被修改了）
+print(lst) # [1, 2, 3, 0]（被修改了）
 ```
 
 ---
@@ -10384,24 +10384,24 @@ print(lst)  # [1, 2, 3, 0]（被修改了）
 **1. 默认参数陷阱**：
 
 ```python
-# ❌ 危险：可变默认参数
+# 危险：可变默认参数
 def add_item(item, lst=[]):
-    lst.append(item)
-    return lst
+ lst.append(item)
+ return lst
 
-print(add_item(1))  # [1]
-print(add_item(2))  # [1, 2]（共享同一个列表）
-print(add_item(3))  # [1, 2, 3]
+print(add_item(1)) # [1]
+print(add_item(2)) # [1, 2]（共享同一个列表）
+print(add_item(3)) # [1, 2, 3]
 
-# ✅ 正确：使用 None
+# 正确：使用 None
 def add_item(item, lst=None):
-    if lst is None:
-        lst = []
-    lst.append(item)
-    return lst
+ if lst is None:
+ lst = []
+ lst.append(item)
+ return lst
 
-print(add_item(1))  # [1]
-print(add_item(2))  # [2]（新列表）
+print(add_item(1)) # [1]
+print(add_item(2)) # [2]（新列表）
 ```
 
 **2. 浅拷贝问题**：
@@ -10409,34 +10409,34 @@ print(add_item(2))  # [2]（新列表）
 ```python
 # 浅拷贝：只复制引用
 lst1 = [[1, 2], [3, 4]]
-lst2 = lst1.copy()  # 浅拷贝
+lst2 = lst1.copy() # 浅拷贝
 
 lst2[0][0] = 99
-print(lst1)  # [[99, 2], [3, 4]]（被修改）
-print(lst2)  # [[99, 2], [3, 4]]
+print(lst1) # [[99, 2], [3, 4]]（被修改）
+print(lst2) # [[99, 2], [3, 4]]
 
-# ✅ 深拷贝
+# 深拷贝
 import copy
 lst1 = [[1, 2], [3, 4]]
 lst2 = copy.deepcopy(lst1)
 
 lst2[0][0] = 99
-print(lst1)  # [[1, 2], [3, 4]]（未修改）
-print(lst2)  # [[99, 2], [3, 4]]
+print(lst1) # [[1, 2], [3, 4]]（未修改）
+print(lst2) # [[99, 2], [3, 4]]
 ```
 
 **3. 循环中的引用**：
 
 ```python
-# ❌ 错误：所有元素指向同一个列表
+# 错误：所有元素指向同一个列表
 matrix = [[0] * 3] * 3
 matrix[0][0] = 1
-print(matrix)  # [[1, 0, 0], [1, 0, 0], [1, 0, 0]]
+print(matrix) # [[1, 0, 0], [1, 0, 0], [1, 0, 0]]
 
-# ✅ 正确：每行是独立的列表
+# 正确：每行是独立的列表
 matrix = [[0] * 3 for _ in range(3)]
 matrix[0][0] = 1
-print(matrix)  # [[1, 0, 0], [0, 0, 0], [0, 0, 0]]
+print(matrix) # [[1, 0, 0], [0, 0, 0], [0, 0, 0]]
 ```
 
 ---
@@ -10449,24 +10449,24 @@ print(matrix)  # [[1, 0, 0], [0, 0, 0], [0, 0, 0]]
 #include <stdio.h>
 
 int main() {
-    // const 变量不可修改
-    const int x = 10;
-    // x = 20;  // 编译错误
-    
-    // const 指针
-    const int *p1 = &x;      // 指向 const int
-    // *p1 = 20;             // 编译错误
-    
-    int y = 20;
-    int * const p2 = &y;     // const 指针
-    *p2 = 30;                // ✅ 可以修改值
-    // p2 = &x;              // ❌ 不能修改指针
-    
-    const int * const p3 = &x;  // 都是 const
-    // *p3 = 20;             // 编译错误
-    // p3 = &y;              // 编译错误
-    
-    return 0;
+ // const 变量不可修改
+ const int x = 10;
+ // x = 20; // 编译错误
+
+ // const 指针
+ const int *p1 = &x; // 指向 const int
+ // *p1 = 20; // 编译错误
+
+ int y = 20;
+ int * const p2 = &y; // const 指针
+ *p2 = 30; // 可以修改值
+ // p2 = &x; // 不能修改指针
+
+ const int * const p3 = &x; // 都是 const
+ // *p3 = 20; // 编译错误
+ // p3 = &y; // 编译错误
+
+ return 0;
 }
 ```
 
@@ -10477,15 +10477,15 @@ int main() {
 
 // const 只是编译期检查，可以绕过
 int main() {
-    const int x = 10;
-    
-    // 通过指针绕过 const
-    int *p = (int*)&x;
-    *p = 20;  // 未定义行为（但可能成功）
-    
-    printf("%d\n", x);  // 可能输出 20
-    
-    return 0;
+ const int x = 10;
+
+ // 通过指针绕过 const
+ int *p = (int*)&x;
+ *p = 20; // 未定义行为（但可能成功）
+
+ printf("%d\n", x); // 可能输出 20
+
+ return 0;
 }
 ```
 
@@ -10502,14 +10502,14 @@ from collections import namedtuple
 Point = namedtuple('Point', ['x', 'y'])
 
 p = Point(1, 2)
-print(p.x, p.y)  # 1 2
+print(p.x, p.y) # 1 2
 
-# p.x = 10  # AttributeError: can't set attribute
+# p.x = 10 # AttributeError: can't set attribute
 
 # 修改返回新对象
 p2 = p._replace(x=10)
-print(p)   # Point(x=1, y=2)
-print(p2)  # Point(x=10, y=2)
+print(p) # Point(x=1, y=2)
+print(p2) # Point(x=10, y=2)
 ```
 
 **Python：使用 dataclass（frozen）**：
@@ -10519,17 +10519,17 @@ from dataclasses import dataclass
 
 @dataclass(frozen=True)
 class Point:
-    x: int
-    y: int
+ x: int
+ y: int
 
 p = Point(1, 2)
-# p.x = 10  # FrozenInstanceError
+# p.x = 10 # FrozenInstanceError
 
 # 修改返回新对象
 from dataclasses import replace
 p2 = replace(p, x=10)
-print(p)   # Point(x=1, y=2)
-print(p2)  # Point(x=10, y=2)
+print(p) # Point(x=1, y=2)
+print(p2) # Point(x=10, y=2)
 ```
 
 **C 语言：返回新结构体**：
@@ -10538,24 +10538,24 @@ print(p2)  # Point(x=10, y=2)
 #include <stdio.h>
 
 typedef struct {
-    int x;
-    int y;
+ int x;
+ int y;
 } Point;
 
 // 不修改原对象，返回新对象
 Point move(Point p, int dx, int dy) {
-    Point new_p = {p.x + dx, p.y + dy};
-    return new_p;
+ Point new_p = {p.x + dx, p.y + dy};
+ return new_p;
 }
 
 int main() {
-    Point p1 = {1, 2};
-    Point p2 = move(p1, 10, 20);
-    
-    printf("p1: (%d, %d)\n", p1.x, p1.y);  // (1, 2)
-    printf("p2: (%d, %d)\n", p2.x, p2.y);  // (11, 22)
-    
-    return 0;
+ Point p1 = {1, 2};
+ Point p2 = move(p1, 10, 20);
+
+ printf("p1: (%d, %d)\n", p1.x, p1.y); // (1, 2)
+ printf("p2: (%d, %d)\n", p2.x, p2.y); // (11, 22)
+
+ return 0;
 }
 ```
 
@@ -10569,13 +10569,13 @@ int main() {
 # 字符串拼接（低效）
 s = ""
 for i in range(1000):
-    s += str(i)  # 每次创建新字符串
+ s += str(i) # 每次创建新字符串
 
-# ✅ 使用可变容器（高效）
+# 使用可变容器（高效）
 parts = []
 for i in range(1000):
-    parts.append(str(i))
-s = "".join(parts)  # 一次性拼接
+ parts.append(str(i))
+s = "".join(parts) # 一次性拼接
 ```
 
 **C 语言的性能**：
@@ -10583,18 +10583,18 @@ s = "".join(parts)  # 一次性拼接
 ```c
 // 原地修改（高效）
 void increment_array(int *arr, int size) {
-    for (int i = 0; i < size; i++) {
-        arr[i]++;  // 原地修改
-    }
+ for (int i = 0; i < size; i++) {
+ arr[i]++; // 原地修改
+ }
 }
 
 // 返回新数组（低效）
 int* increment_array_immutable(const int *arr, int size) {
-    int *new_arr = malloc(size * sizeof(int));
-    for (int i = 0; i < size; i++) {
-        new_arr[i] = arr[i] + 1;  // 复制并修改
-    }
-    return new_arr;  // 需要手动释放
+ int *new_arr = malloc(size * sizeof(int));
+ for (int i = 0; i < size; i++) {
+ new_arr[i] = arr[i] + 1; // 复制并修改
+ }
+ return new_arr; // 需要手动释放
 }
 ```
 
@@ -10615,23 +10615,23 @@ int* increment_array_immutable(const int *arr, int size) {
 **代码建议**：
 
 ```python
-# ✅ 默认使用不可变类型
+# 默认使用不可变类型
 def calculate(data: tuple) -> int:
-    return sum(data)
+ return sum(data)
 
-# ✅ 需要修改时显式转换
+# 需要修改时显式转换
 def process(data: tuple) -> list:
-    result = list(data)  # 转为可变
-    result.append(0)
-    return result
+ result = list(data) # 转为可变
+ result.append(0)
+ return result
 
-# ✅ 返回新对象而非修改参数
+# 返回新对象而非修改参数
 def add_item(lst: list, item) -> list:
-    return lst + [item]  # 返回新列表
+ return lst + [item] # 返回新列表
 
-# ❌ 避免修改参数
+# 避免修改参数
 def add_item(lst: list, item) -> None:
-    lst.append(item)  # 副作用
+ lst.append(item) # 副作用
 ```
 
 ---
@@ -10640,12 +10640,12 @@ def add_item(lst: list, item) -> None:
 
 ```
 ┌─────────────────────────────────────┐
-│  不可变 vs 可变                       │
+│ 不可变 vs 可变 │
 ├─────────────────────────────────────┤
-│  不可变：安全、可哈希、易推理          │
-│  可变：高效、灵活、有副作用            │
-│                                     │
-│  默认不可变，必要时可变                │
+│ 不可变：安全、可哈希、易推理 │
+│ 可变：高效、灵活、有副作用 │
+│ │
+│ 默认不可变，必要时可变 │
 └─────────────────────────────────────┘
 ```
 
@@ -10668,16 +10668,16 @@ def add_item(lst: list, item) -> None:
 ```python
 # 假设有继承关系
 class Animal:
-    def speak(self) -> str:
-        return "..."
+ def speak(self) -> str:
+ return "..."
 
 class Dog(Animal):
-    def speak(self) -> str:
-        return "Woof"
+ def speak(self) -> str:
+ return "Woof"
 
 class Cat(Animal):
-    def speak(self) -> str:
-        return "Meow"
+ def speak(self) -> str:
+ return "Meow"
 
 # Dog 是 Animal 的子类型
 # Dog <: Animal（<: 表示子类型关系）
@@ -10685,11 +10685,11 @@ class Cat(Animal):
 
 **三种变型**：
 
-| 变型                      | 定义         | 类型关系                                                     | 使用场景 |
+| 变型 | 定义 | 类型关系 | 使用场景 |
 | ------------------------- | ------------ | ------------------------------------------------------------ | -------- |
-| **协变（Covariant）**     | 保持类型方向 | `Dog <: Animal` → `Container[Dog] <: Container[Animal]`      | 只读容器 |
-| **逆变（Contravariant）** | 反转类型方向 | `Dog <: Animal` → `Container[Animal] <: Container[Dog]`      | 只写容器 |
-| **不变（Invariant）**     | 无关系       | `Dog <: Animal` → `Container[Dog]` 与 `Container[Animal]` 无关 | 可读可写 |
+| **协变（Covariant）** | 保持类型方向 | `Dog <: Animal` → `Container[Dog] <: Container[Animal]` | 只读容器 |
+| **逆变（Contravariant）** | 反转类型方向 | `Dog <: Animal` → `Container[Animal] <: Container[Dog]` | 只写容器 |
+| **不变（Invariant）** | 无关系 | `Dog <: Animal` → `Container[Dog]` 与 `Container[Animal]` 无关 | 可读可写 |
 
 ---
 
@@ -10704,12 +10704,12 @@ from typing import List
 
 # 假设 List 是协变的（实际上不是）
 def print_animals(animals: List[Animal]) -> None:
-    for animal in animals:
-        print(animal.speak())  # 只读取
+ for animal in animals:
+ print(animal.speak()) # 只读取
 
 # 如果 List 协变，这应该合法
 dogs: List[Dog] = [Dog(), Dog()]
-print_animals(dogs)  # 安全：只读取 Dog，当作 Animal 使用
+print_animals(dogs) # 安全：只读取 Dog，当作 Animal 使用
 ```
 
 **为什么安全**：
@@ -10717,10 +10717,10 @@ print_animals(dogs)  # 安全：只读取 Dog，当作 Animal 使用
 ```python
 # 只读取操作
 def get_first(animals: List[Animal]) -> Animal:
-    return animals[0]  # 返回 Animal
+ return animals[0] # 返回 Animal
 
 dogs: List[Dog] = [Dog()]
-animal = get_first(dogs)  # Dog 可以当作 Animal 使用 ✅
+animal = get_first(dogs) # Dog 可以当作 Animal 使用
 ```
 
 **Python 的协变示例（Sequence）**：
@@ -10730,11 +10730,11 @@ from typing import Sequence
 
 # Sequence 是协变的（只读）
 def print_animals(animals: Sequence[Animal]) -> None:
-    for animal in animals:
-        print(animal.speak())
+ for animal in animals:
+ print(animal.speak())
 
 dogs: Sequence[Dog] = [Dog(), Dog()]
-print_animals(dogs)  # ✅ 合法
+print_animals(dogs) # 合法
 ```
 
 ---
@@ -10750,15 +10750,15 @@ from typing import Callable
 
 # 函数参数是逆变的
 def train_dog(dog: Dog) -> None:
-    print(f"训练狗: {dog.speak()}")
+ print(f"训练狗: {dog.speak()}")
 
 # 可以用接受 Animal 的函数替代
 def train_animal(animal: Animal) -> None:
-    print(f"训练动物: {animal.speak()}")
+ print(f"训练动物: {animal.speak()}")
 
 # 逆变：Animal 的处理器可以处理 Dog
-handler: Callable[[Dog], None] = train_animal  # ✅ 合法
-handler(Dog())  # 安全：Dog 是 Animal
+handler: Callable[[Dog], None] = train_animal # 合法
+handler(Dog()) # 安全：Dog 是 Animal
 ```
 
 **为什么安全**：
@@ -10766,19 +10766,19 @@ handler(Dog())  # 安全：Dog 是 Animal
 ```python
 # 写入操作
 class AnimalShelter:
-    def add(self, animal: Animal) -> None:
-        print(f"收容 {animal.speak()}")
+ def add(self, animal: Animal) -> None:
+ print(f"收容 {animal.speak()}")
 
 class DogShelter:
-    def add(self, dog: Dog) -> None:
-        print(f"收容狗 {dog.speak()}")
+ def add(self, dog: Dog) -> None:
+ print(f"收容狗 {dog.speak()}")
 
 # 逆变：AnimalShelter 可以当作 DogShelter 使用
 def use_dog_shelter(shelter: DogShelter) -> None:
-    shelter.add(Dog())
+ shelter.add(Dog())
 
 animal_shelter = AnimalShelter()
-# use_dog_shelter(animal_shelter)  # 理论上安全（逆变）
+# use_dog_shelter(animal_shelter) # 理论上安全（逆变）
 ```
 
 ---
@@ -10794,11 +10794,11 @@ from typing import List
 
 # List 是不变的（可读可写）
 def process_animals(animals: List[Animal]) -> None:
-    animals.append(Cat())  # 写入
-    print(animals[0].speak())  # 读取
+ animals.append(Cat()) # 写入
+ print(animals[0].speak()) # 读取
 
 dogs: List[Dog] = [Dog()]
-# process_animals(dogs)  # ❌ 类型错误
+# process_animals(dogs) # 类型错误
 
 # 为什么不安全？
 # 如果允许，会把 Cat 加入 List[Dog]
@@ -10809,10 +10809,10 @@ dogs: List[Dog] = [Dog()]
 ```python
 # 如果 List 协变（错误示例）
 dogs: List[Dog] = [Dog()]
-animals: List[Animal] = dogs  # 假设允许
+animals: List[Animal] = dogs # 假设允许
 
-animals.append(Cat())  # 把 Cat 加入 List[Dog]！
-dog: Dog = dogs[0]  # 可能是 Cat！💥
+animals.append(Cat()) # 把 Cat 加入 List[Dog]！
+dog: Dog = dogs[0] # 可能是 Cat！
 ```
 
 ---
@@ -10828,45 +10828,45 @@ from typing import TypeVar, Generic
 T_co = TypeVar('T_co', covariant=True)
 
 class ReadOnlyBox(Generic[T_co]):
-    def __init__(self, value: T_co):
-        self._value = value
-    
-    def get(self) -> T_co:
-        return self._value  # 只读
+ def __init__(self, value: T_co):
+ self._value = value
+
+ def get(self) -> T_co:
+ return self._value # 只读
 
 # 协变：Dog 的盒子可以当作 Animal 的盒子
 dog_box: ReadOnlyBox[Dog] = ReadOnlyBox(Dog())
-animal_box: ReadOnlyBox[Animal] = dog_box  # ✅ 合法
+animal_box: ReadOnlyBox[Animal] = dog_box # 合法
 print(animal_box.get().speak())
 
 # 逆变
 T_contra = TypeVar('T_contra', contravariant=True)
 
 class WriteOnlyBox(Generic[T_contra]):
-    def put(self, value: T_contra) -> None:
-        print(f"存入: {value}")  # 只写
+ def put(self, value: T_contra) -> None:
+ print(f"存入: {value}") # 只写
 
 # 逆变：Animal 的盒子可以当作 Dog 的盒子
 animal_writer: WriteOnlyBox[Animal] = WriteOnlyBox()
-dog_writer: WriteOnlyBox[Dog] = animal_writer  # ✅ 合法
+dog_writer: WriteOnlyBox[Dog] = animal_writer # 合法
 dog_writer.put(Dog())
 
 # 不变（默认）
 T = TypeVar('T')
 
 class Box(Generic[T]):
-    def __init__(self, value: T):
-        self._value = value
-    
-    def get(self) -> T:
-        return self._value
-    
-    def set(self, value: T) -> None:
-        self._value = value
+ def __init__(self, value: T):
+ self._value = value
+
+ def get(self) -> T:
+ return self._value
+
+ def set(self, value: T) -> None:
+ self._value = value
 
 # 不变：没有子类型关系
 dog_box: Box[Dog] = Box(Dog())
-# animal_box: Box[Animal] = dog_box  # ❌ 类型错误
+# animal_box: Box[Animal] = dog_box # 类型错误
 ```
 
 ---
@@ -10879,38 +10879,38 @@ dog_box: Box[Dog] = Box(Dog())
 #include <stdio.h>
 
 typedef struct {
-    void (*speak)(void);
+ void (*speak)(void);
 } Animal;
 
 typedef struct {
-    void (*speak)(void);
-    void (*bark)(void);
+ void (*speak)(void);
+ void (*bark)(void);
 } Dog;
 
 void animal_speak() {
-    printf("Animal sound\n");
+ printf("Animal sound\n");
 }
 
 void dog_speak() {
-    printf("Woof\n");
+ printf("Woof\n");
 }
 
 void dog_bark() {
-    printf("Bark bark\n");
+ printf("Bark bark\n");
 }
 
 // 协变：Dog* 可以当作 Animal* 使用（向上转型）
 void print_animal(Animal *animal) {
-    animal->speak();  // 只读取
+ animal->speak(); // 只读取
 }
 
 int main() {
-    Dog dog = {.speak = dog_speak, .bark = dog_bark};
-    
-    // ✅ 协变：Dog* → Animal*
-    print_animal((Animal*)&dog);
-    
-    return 0;
+ Dog dog = {.speak = dog_speak, .bark = dog_bark};
+
+ // 协变：Dog* → Animal*
+ print_animal((Animal*)&dog);
+
+ return 0;
 }
 ```
 
@@ -10919,11 +10919,11 @@ int main() {
 ```c
 // 危险：数组指针不是协变的
 void add_cat(Animal **animals) {
-    // 假设添加 Cat
+ // 假设添加 Cat
 }
 
 Dog *dogs[10];
-// add_cat((Animal**)dogs);  // 危险：可能破坏类型安全
+// add_cat((Animal**)dogs); // 危险：可能破坏类型安全
 ```
 
 ---
@@ -10936,12 +10936,12 @@ Dog *dogs[10];
 from typing import Sequence
 
 class AnimalShelter:
-    def get_animals(self) -> Sequence[Animal]:
-        return [Animal(), Animal()]
+ def get_animals(self) -> Sequence[Animal]:
+ return [Animal(), Animal()]
 
 class DogShelter(AnimalShelter):
-    def get_animals(self) -> Sequence[Dog]:  # ✅ 协变
-        return [Dog(), Dog()]
+ def get_animals(self) -> Sequence[Dog]: # 协变
+ return [Dog(), Dog()]
 ```
 
 **逆变：参数类型**：
@@ -10951,12 +10951,12 @@ from typing import Callable
 
 # 函数参数逆变
 def process_dogs(handler: Callable[[Dog], None]) -> None:
-    handler(Dog())
+ handler(Dog())
 
 def handle_animal(animal: Animal) -> None:
-    print(animal.speak())
+ print(animal.speak())
 
-process_dogs(handle_animal)  # ✅ 逆变
+process_dogs(handle_animal) # 逆变
 ```
 
 **不变：可变容器**：
@@ -10966,10 +10966,10 @@ from typing import List
 
 # List 不变
 def modify_animals(animals: List[Animal]) -> None:
-    animals.append(Cat())
+ animals.append(Cat())
 
 dogs: List[Dog] = [Dog()]
-# modify_animals(dogs)  # ❌ 类型错误（保护类型安全）
+# modify_animals(dogs) # 类型错误（保护类型安全）
 ```
 
 ---
@@ -10983,34 +10983,34 @@ from typing import List
 
 # Producer（生产者）：只读取 → 协变（extends）
 def read_animals(animals: Sequence[Animal]) -> None:
-    for animal in animals:  # 生产 Animal
-        print(animal.speak())
+ for animal in animals: # 生产 Animal
+ print(animal.speak())
 
 # Consumer（消费者）：只写入 → 逆变（super）
 def write_animals(add_animal: Callable[[Animal], None]) -> None:
-    add_animal(Dog())  # 消费 Animal
+ add_animal(Dog()) # 消费 Animal
 ```
 
 **图示**：
 
 ```
 协变（Covariance）：
-    Dog <: Animal
-    ↓
-    List[Dog] <: List[Animal]
-    （方向一致）
+ Dog <: Animal
+ ↓
+ List[Dog] <: List[Animal]
+ （方向一致）
 
 逆变（Contravariance）：
-    Dog <: Animal
-    ↓
-    Handler[Animal] <: Handler[Dog]
-    （方向相反）
+ Dog <: Animal
+ ↓
+ Handler[Animal] <: Handler[Dog]
+ （方向相反）
 
 不变（Invariance）：
-    Dog <: Animal
-    ↓
-    Box[Dog] 与 Box[Animal] 无关
-    （无关系）
+ Dog <: Animal
+ ↓
+ Box[Dog] 与 Box[Animal] 无关
+ （无关系）
 ```
 
 ---
@@ -11022,17 +11022,17 @@ def write_animals(add_animal: Callable[[Animal], None]) -> None:
 ```python
 from typing import TypeVar, Generic
 
-T = TypeVar('T')  # 默认不变
+T = TypeVar('T') # 默认不变
 
 class Container(Generic[T]):
-    def __init__(self):
-        self.items: List[T] = []
-    
-    def add(self, item: T) -> None:
-        self.items.append(item)
-    
-    def get(self) -> T:
-        return self.items[0]
+ def __init__(self):
+ self.items: List[T] = []
+
+ def add(self, item: T) -> None:
+ self.items.append(item)
+
+ def get(self) -> T:
+ return self.items[0]
 ```
 
 **2. 只读使用协变**：
@@ -11041,14 +11041,14 @@ class Container(Generic[T]):
 T_co = TypeVar('T_co', covariant=True)
 
 class ReadOnly(Generic[T_co]):
-    def __init__(self, value: T_co):
-        self._value = value
-    
-    def get(self) -> T_co:
-        return self._value
-    
-    # 不能有写入方法
-    # def set(self, value: T_co) -> None:  # ❌ 违反协变
+ def __init__(self, value: T_co):
+ self._value = value
+
+ def get(self) -> T_co:
+ return self._value
+
+ # 不能有写入方法
+ # def set(self, value: T_co) -> None: # 违反协变
 ```
 
 **3. 只写使用逆变**：
@@ -11057,11 +11057,11 @@ class ReadOnly(Generic[T_co]):
 T_contra = TypeVar('T_contra', contravariant=True)
 
 class WriteOnly(Generic[T_contra]):
-    def put(self, value: T_contra) -> None:
-        print(value)
-    
-    # 不能有读取方法
-    # def get(self) -> T_contra:  # ❌ 违反逆变
+ def put(self, value: T_contra) -> None:
+ print(value)
+
+ # 不能有读取方法
+ # def get(self) -> T_contra: # 违反逆变
 ```
 
 ---
@@ -11070,13 +11070,13 @@ class WriteOnly(Generic[T_contra]):
 
 ```
 ┌─────────────────────────────────────┐
-│  协变与逆变速查                       │
+│ 协变与逆变速查 │
 ├─────────────────────────────────────┤
-│  协变：只读 → 方向一致                │
-│  逆变：只写 → 方向相反                │
-│  不变：读写 → 无关系                  │
-│                                     │
-│  记住：PECS 原则      
+│ 协变：只读 → 方向一致 │
+│ 逆变：只写 → 方向相反 │
+│ 不变：读写 → 无关系 │
+│ │
+│ 记住：PECS 原则
 ```
 
 # 第三部分 所有数据结构（Data Structures）
@@ -11106,21 +11106,21 @@ class WriteOnly(Generic[T_contra]):
 
 访问 arr[2]：
 地址 = 基址 + (索引 × 元素大小)
-     = 0x100 + (2 × 4)
-     = 0x108
+ = 0x100 + (2 × 4)
+ = 0x108
 ```
 
 ---
 
 #### 时间复杂度
 
-| 操作               | 时间复杂度 | 说明                 |
+| 操作 | 时间复杂度 | 说明 |
 | ------------------ | ---------- | -------------------- |
-| **访问（Access）** | O(1)       | 直接计算地址         |
-| **搜索（Search）** | O(n)       | 需要遍历             |
-| **插入（Insert）** | O(n)       | 需要移动元素         |
-| **删除（Delete）** | O(n)       | 需要移动元素         |
-| **追加（Append）** | O(1)       | 末尾添加（若有空间） |
+| **访问（Access）** | O(1) | 直接计算地址 |
+| **搜索（Search）** | O(n) | 需要遍历 |
+| **插入（Insert）** | O(n) | 需要移动元素 |
+| **删除（Delete）** | O(n) | 需要移动元素 |
+| **追加（Append）** | O(1) | 末尾添加（若有空间） |
 
 ---
 
@@ -11132,22 +11132,22 @@ class WriteOnly(Generic[T_contra]):
 #include <stdio.h>
 
 int main() {
-    // 声明并初始化
-    int arr[5] = {10, 20, 30, 40, 50};
-    
-    // 访问元素 O(1)
-    printf("arr[2] = %d\n", arr[2]);  // 30
-    
-    // 修改元素 O(1)
-    arr[2] = 99;
-    printf("arr[2] = %d\n", arr[2]);  // 99
-    
-    // 遍历 O(n)
-    for (int i = 0; i < 5; i++) {
-        printf("%d ", arr[i]);
-    }
-    
-    return 0;
+ // 声明并初始化
+ int arr[5] = {10, 20, 30, 40, 50};
+
+ // 访问元素 O(1)
+ printf("arr[2] = %d\n", arr[2]); // 30
+
+ // 修改元素 O(1)
+ arr[2] = 99;
+ printf("arr[2] = %d\n", arr[2]); // 99
+
+ // 遍历 O(n)
+ for (int i = 0; i < 5; i++) {
+ printf("%d ", arr[i]);
+ }
+
+ return 0;
 }
 ```
 
@@ -11157,21 +11157,21 @@ int main() {
 #include <stdio.h>
 
 int main() {
-    int arr[5] = {10, 20, 30, 40, 50};
-    
-    // 数组名是指向首元素的指针
-    printf("arr = %p\n", arr);        // 数组首地址
-    printf("&arr[0] = %p\n", &arr[0]); // 首元素地址
-    
-    // 指针访问
-    printf("*arr = %d\n", *arr);       // 10
-    printf("*(arr + 2) = %d\n", *(arr + 2));  // 30
-    
-    // 等价写法
-    printf("arr[2] = %d\n", arr[2]);   // 30
-    printf("2[arr] = %d\n", 2[arr]);   // 30（不推荐）
-    
-    return 0;
+ int arr[5] = {10, 20, 30, 40, 50};
+
+ // 数组名是指向首元素的指针
+ printf("arr = %p\n", arr); // 数组首地址
+ printf("&arr[0] = %p\n", &arr[0]); // 首元素地址
+
+ // 指针访问
+ printf("*arr = %d\n", *arr); // 10
+ printf("*(arr + 2) = %d\n", *(arr + 2)); // 30
+
+ // 等价写法
+ printf("arr[2] = %d\n", arr[2]); // 30
+ printf("2[arr] = %d\n", 2[arr]); // 30（不推荐）
+
+ return 0;
 }
 ```
 
@@ -11182,27 +11182,27 @@ int main() {
 
 // 数组退化为指针
 void print_array(int arr[], int size) {
-    for (int i = 0; i < size; i++) {
-        printf("%d ", arr[i]);
-    }
-    printf("\n");
+ for (int i = 0; i < size; i++) {
+ printf("%d ", arr[i]);
+ }
+ printf("\n");
 }
 
 // 等价写法
 void print_array2(int *arr, int size) {
-    for (int i = 0; i < size; i++) {
-        printf("%d ", arr[i]);
-    }
-    printf("\n");
+ for (int i = 0; i < size; i++) {
+ printf("%d ", arr[i]);
+ }
+ printf("\n");
 }
 
 int main() {
-    int arr[5] = {10, 20, 30, 40, 50};
-    
-    print_array(arr, 5);
-    print_array2(arr, 5);
-    
-    return 0;
+ int arr[5] = {10, 20, 30, 40, 50};
+
+ print_array(arr, 5);
+ print_array2(arr, 5);
+
+ return 0;
 }
 ```
 
@@ -11217,27 +11217,27 @@ int main() {
 arr = [10, 20, 30, 40, 50]
 
 # 访问 O(1)
-print(arr[2])  # 30
+print(arr[2]) # 30
 
 # 修改 O(1)
 arr[2] = 99
-print(arr[2])  # 99
+print(arr[2]) # 99
 
 # 追加 O(1) 平摊
 arr.append(60)
-print(arr)  # [10, 20, 99, 40, 50, 60]
+print(arr) # [10, 20, 99, 40, 50, 60]
 
 # 插入 O(n)
-arr.insert(2, 100)  # 在索引 2 插入 100
-print(arr)  # [10, 20, 100, 99, 40, 50, 60]
+arr.insert(2, 100) # 在索引 2 插入 100
+print(arr) # [10, 20, 100, 99, 40, 50, 60]
 
 # 删除 O(n)
-arr.remove(100)  # 删除值为 100 的元素
-print(arr)  # [10, 20, 99, 40, 50, 60]
+arr.remove(100) # 删除值为 100 的元素
+print(arr) # [10, 20, 99, 40, 50, 60]
 
 # 遍历 O(n)
 for item in arr:
-    print(item, end=" ")
+ print(item, end=" ")
 ```
 
 **Python 列表的内部实现**：
@@ -11260,27 +11260,27 @@ Python List 是动态数组：
 
 // 在索引 index 插入 value
 void insert(int arr[], int *size, int index, int value) {
-    // 从后往前移动元素
-    for (int i = *size; i > index; i--) {
-        arr[i] = arr[i - 1];
-    }
-    arr[index] = value;
-    (*size)++;
+ // 从后往前移动元素
+ for (int i = *size; i > index; i--) {
+ arr[i] = arr[i - 1];
+ }
+ arr[index] = value;
+ (*size)++;
 }
 
 int main() {
-    int arr[10] = {10, 20, 30, 40, 50};
-    int size = 5;
-    
-    // 在索引 2 插入 99
-    insert(arr, &size, 2, 99);
-    
-    for (int i = 0; i < size; i++) {
-        printf("%d ", arr[i]);
-    }
-    // 输出：10 20 99 30 40 50
-    
-    return 0;
+ int arr[10] = {10, 20, 30, 40, 50};
+ int size = 5;
+
+ // 在索引 2 插入 99
+ insert(arr, &size, 2, 99);
+
+ for (int i = 0; i < size; i++) {
+ printf("%d ", arr[i]);
+ }
+ // 输出：10 20 99 30 40 50
+
+ return 0;
 }
 ```
 
@@ -11291,26 +11291,26 @@ int main() {
 
 // 删除索引 index 的元素
 void delete(int arr[], int *size, int index) {
-    // 从前往后移动元素
-    for (int i = index; i < *size - 1; i++) {
-        arr[i] = arr[i + 1];
-    }
-    (*size)--;
+ // 从前往后移动元素
+ for (int i = index; i < *size - 1; i++) {
+ arr[i] = arr[i + 1];
+ }
+ (*size)--;
 }
 
 int main() {
-    int arr[10] = {10, 20, 30, 40, 50};
-    int size = 5;
-    
-    // 删除索引 2 的元素
-    delete(arr, &size, 2);
-    
-    for (int i = 0; i < size; i++) {
-        printf("%d ", arr[i]);
-    }
-    // 输出：10 20 40 50
-    
-    return 0;
+ int arr[10] = {10, 20, 30, 40, 50};
+ int size = 5;
+
+ // 删除索引 2 的元素
+ delete(arr, &size, 2);
+
+ for (int i = 0; i < size; i++) {
+ printf("%d ", arr[i]);
+ }
+ // 输出：10 20 40 50
+
+ return 0;
 }
 ```
 
@@ -11321,25 +11321,25 @@ int main() {
 
 // 线性搜索 O(n)
 int search(int arr[], int size, int target) {
-    for (int i = 0; i < size; i++) {
-        if (arr[i] == target) {
-            return i;  // 返回索引
-        }
-    }
-    return -1;  // 未找到
+ for (int i = 0; i < size; i++) {
+ if (arr[i] == target) {
+ return i; // 返回索引
+ }
+ }
+ return -1; // 未找到
 }
 
 int main() {
-    int arr[5] = {10, 20, 30, 40, 50};
-    
-    int index = search(arr, 5, 30);
-    if (index != -1) {
-        printf("找到 30，索引为 %d\n", index);
-    } else {
-        printf("未找到\n");
-    }
-    
-    return 0;
+ int arr[5] = {10, 20, 30, 40, 50};
+
+ int index = search(arr, 5, 30);
+ if (index != -1) {
+ printf("找到 30，索引为 %d\n", index);
+ } else {
+ printf("未找到\n");
+ }
+
+ return 0;
 }
 ```
 
@@ -11353,25 +11353,25 @@ int main() {
 #include <stdio.h>
 
 int main() {
-    // 声明 3x4 的二维数组
-    int matrix[3][4] = {
-        {1, 2, 3, 4},
-        {5, 6, 7, 8},
-        {9, 10, 11, 12}
-    };
-    
-    // 访问元素
-    printf("matrix[1][2] = %d\n", matrix[1][2]);  // 7
-    
-    // 遍历
-    for (int i = 0; i < 3; i++) {
-        for (int j = 0; j < 4; j++) {
-            printf("%d ", matrix[i][j]);
-        }
-        printf("\n");
-    }
-    
-    return 0;
+ // 声明 3x4 的二维数组
+ int matrix[3][4] = {
+ {1, 2, 3, 4},
+ {5, 6, 7, 8},
+ {9, 10, 11, 12}
+ };
+
+ // 访问元素
+ printf("matrix[1][2] = %d\n", matrix[1][2]); // 7
+
+ // 遍历
+ for (int i = 0; i < 3; i++) {
+ for (int j = 0; j < 4; j++) {
+ printf("%d ", matrix[i][j]);
+ }
+ printf("\n");
+ }
+
+ return 0;
 }
 ```
 
@@ -11382,11 +11382,11 @@ int main() {
 
 逻辑视图：
 ┌────┬────┬────┬────┐
-│  1 │  2 │  3 │  4 │
+│ 1 │ 2 │ 3 │ 4 │
 ├────┼────┼────┼────┤
-│  5 │  6 │  7 │  8 │
+│ 5 │ 6 │ 7 │ 8 │
 ├────┼────┼────┼────┤
-│  9 │ 10 │ 11 │ 12 │
+│ 9 │ 10 │ 11 │ 12 │
 └────┴────┴────┴────┘
 
 内存布局（连续存储）：
@@ -11403,19 +11403,19 @@ int main() {
 ```python
 # 创建 3x4 的二维列表
 matrix = [
-    [1, 2, 3, 4],
-    [5, 6, 7, 8],
-    [9, 10, 11, 12]
+ [1, 2, 3, 4],
+ [5, 6, 7, 8],
+ [9, 10, 11, 12]
 ]
 
 # 访问元素
-print(matrix[1][2])  # 7
+print(matrix[1][2]) # 7
 
 # 遍历
 for row in matrix:
-    for item in row:
-        print(item, end=" ")
-    print()
+ for item in row:
+ print(item, end=" ")
+ print()
 
 # 列表推导式创建
 matrix = [[0] * 4 for _ in range(3)]
@@ -11432,64 +11432,64 @@ matrix = [[0] * 4 for _ in range(3)]
 #include <stdlib.h>
 
 typedef struct {
-    int *data;      // 数据指针
-    int size;       // 当前元素数量
-    int capacity;   // 容量
+ int *data; // 数据指针
+ int size; // 当前元素数量
+ int capacity; // 容量
 } DynamicArray;
 
 // 创建动态数组
 DynamicArray* create(int capacity) {
-    DynamicArray *arr = malloc(sizeof(DynamicArray));
-    arr->data = malloc(capacity * sizeof(int));
-    arr->size = 0;
-    arr->capacity = capacity;
-    return arr;
+ DynamicArray *arr = malloc(sizeof(DynamicArray));
+ arr->data = malloc(capacity * sizeof(int));
+ arr->size = 0;
+ arr->capacity = capacity;
+ return arr;
 }
 
 // 扩容
 void resize(DynamicArray *arr) {
-    arr->capacity *= 2;
-    arr->data = realloc(arr->data, arr->capacity * sizeof(int));
+ arr->capacity *= 2;
+ arr->data = realloc(arr->data, arr->capacity * sizeof(int));
 }
 
 // 追加元素
 void append(DynamicArray *arr, int value) {
-    if (arr->size == arr->capacity) {
-        resize(arr);
-    }
-    arr->data[arr->size++] = value;
+ if (arr->size == arr->capacity) {
+ resize(arr);
+ }
+ arr->data[arr->size++] = value;
 }
 
 // 访问元素
 int get(DynamicArray *arr, int index) {
-    if (index < 0 || index >= arr->size) {
-        printf("索引越界\n");
-        exit(1);
-    }
-    return arr->data[index];
+ if (index < 0 || index >= arr->size) {
+ printf("索引越界\n");
+ exit(1);
+ }
+ return arr->data[index];
 }
 
 // 释放内存
 void destroy(DynamicArray *arr) {
-    free(arr->data);
-    free(arr);
+ free(arr->data);
+ free(arr);
 }
 
 int main() {
-    DynamicArray *arr = create(2);
-    
-    append(arr, 10);
-    append(arr, 20);
-    append(arr, 30);  // 触发扩容
-    
-    printf("size: %d, capacity: %d\n", arr->size, arr->capacity);
-    
-    for (int i = 0; i < arr->size; i++) {
-        printf("%d ", get(arr, i));
-    }
-    
-    destroy(arr);
-    return 0;
+ DynamicArray *arr = create(2);
+
+ append(arr, 10);
+ append(arr, 20);
+ append(arr, 30); // 触发扩容
+
+ printf("size: %d, capacity: %d\n", arr->size, arr->capacity);
+
+ for (int i = 0; i < arr->size; i++) {
+ printf("%d ", get(arr, i));
+ }
+
+ destroy(arr);
+ return 0;
 }
 ```
 
@@ -11499,21 +11499,21 @@ int main() {
 
 **优点**：
 
-| 优点           | 说明                  |
+| 优点 | 说明 |
 | -------------- | --------------------- |
 | **随机访问快** | O(1) 时间访问任意元素 |
-| **内存连续**   | 缓存友好，访问速度快  |
-| **实现简单**   | 语言原生支持          |
-| **空间效率高** | 无额外指针开销        |
+| **内存连续** | 缓存友好，访问速度快 |
+| **实现简单** | 语言原生支持 |
+| **空间效率高** | 无额外指针开销 |
 
 **缺点**：
 
-| 缺点           | 说明                         |
+| 缺点 | 说明 |
 | -------------- | ---------------------------- |
-| **定长**       | 创建后大小固定（C 语言）     |
-| **插入删除慢** | O(n) 需要移动元素            |
-| **空间浪费**   | 动态数组预分配空间可能未用满 |
-| **类型单一**   | 只能存储相同类型元素         |
+| **定长** | 创建后大小固定（C 语言） |
+| **插入删除慢** | O(n) 需要移动元素 |
+| **空间浪费** | 动态数组预分配空间可能未用满 |
+| **类型单一** | 只能存储相同类型元素 |
 
 ---
 
@@ -11546,12 +11546,12 @@ int main() {
 
 **与静态数组的区别**：
 
-| 特性         | 静态数组   | 动态数组  |
+| 特性 | 静态数组 | 动态数组 |
 | ------------ | ---------- | --------- |
-| **大小**     | 固定       | 可变      |
-| **扩容**     | 不支持     | 自动扩容  |
-| **内存分配** | 栈或静态区 | 堆        |
-| **追加操作** | 不支持     | O(1) 平摊 |
+| **大小** | 固定 | 可变 |
+| **扩容** | 不支持 | 自动扩容 |
+| **内存分配** | 栈或静态区 | 堆 |
+| **追加操作** | 不支持 | O(1) 平摊 |
 
 ---
 
@@ -11569,12 +11569,12 @@ int main() {
 
 **常见增长策略**：
 
-| 语言/库             | 增长因子              | 说明          |
+| 语言/库 | 增长因子 | 说明 |
 | ------------------- | --------------------- | ------------- |
-| **C++ std::vector** | 2.0                   | 容量翻倍      |
-| **Python list**     | ~1.125                | 约 12.5% 增长 |
-| **Java ArrayList**  | 1.5                   | 增长 50%      |
-| **Go slice**        | 2.0（小）/ 1.25（大） | 分段增长      |
+| **C++ std::vector** | 2.0 | 容量翻倍 |
+| **Python list** | ~1.125 | 约 12.5% 增长 |
+| **Java ArrayList** | 1.5 | 增长 50% |
+| **Go slice** | 2.0（小）/ 1.25（大） | 分段增长 |
 
 ---
 
@@ -11586,56 +11586,56 @@ int main() {
 #include <string.h>
 
 typedef struct {
-    int *data;
-    int size;
-    int capacity;
+ int *data;
+ int size;
+ int capacity;
 } Vector;
 
 Vector* create(int capacity) {
-    Vector *v = malloc(sizeof(Vector));
-    v->data = malloc(capacity * sizeof(int));
-    v->size = 0;
-    v->capacity = capacity;
-    return v;
+ Vector *v = malloc(sizeof(Vector));
+ v->data = malloc(capacity * sizeof(int));
+ v->size = 0;
+ v->capacity = capacity;
+ return v;
 }
 
 void resize(Vector *v) {
-    v->capacity *= 2;  // 容量翻倍
-    v->data = realloc(v->data, v->capacity * sizeof(int));
+ v->capacity *= 2; // 容量翻倍
+ v->data = realloc(v->data, v->capacity * sizeof(int));
 }
 
 void push(Vector *v, int value) {
-    if (v->size == v->capacity) {
-        resize(v);
-    }
-    v->data[v->size++] = value;
+ if (v->size == v->capacity) {
+ resize(v);
+ }
+ v->data[v->size++] = value;
 }
 
 int get(Vector *v, int index) {
-    return v->data[index];
+ return v->data[index];
 }
 
 void destroy(Vector *v) {
-    free(v->data);
-    free(v);
+ free(v->data);
+ free(v);
 }
 
 int main() {
-    Vector *v = create(2);
-    
-    push(v, 10);
-    push(v, 20);
-    printf("size: %d, capacity: %d\n", v->size, v->capacity);  // 2, 2
-    
-    push(v, 30);  // 触发扩容
-    printf("size: %d, capacity: %d\n", v->size, v->capacity);  // 3, 4
-    
-    for (int i = 0; i < v->size; i++) {
-        printf("%d ", get(v, i));
-    }
-    
-    destroy(v);
-    return 0;
+ Vector *v = create(2);
+
+ push(v, 10);
+ push(v, 20);
+ printf("size: %d, capacity: %d\n", v->size, v->capacity); // 2, 2
+
+ push(v, 30); // 触发扩容
+ printf("size: %d, capacity: %d\n", v->size, v->capacity); // 3, 4
+
+ for (int i = 0; i < v->size; i++) {
+ printf("%d ", get(v, i));
+ }
+
+ destroy(v);
+ return 0;
 }
 ```
 
@@ -11652,12 +11652,12 @@ lst = []
 prev_capacity = 0
 
 for i in range(20):
-    lst.append(i)
-    capacity = sys.getsizeof(lst)
-    
-    if capacity != prev_capacity:
-        print(f"size: {len(lst)}, capacity: {capacity} bytes")
-        prev_capacity = capacity
+ lst.append(i)
+ capacity = sys.getsizeof(lst)
+
+ if capacity != prev_capacity:
+ print(f"size: {len(lst)}, capacity: {capacity} bytes")
+ prev_capacity = capacity
 
 # 输出示例：
 # size: 1, capacity: 88 bytes
@@ -11709,12 +11709,12 @@ n 次插入，总复制 < 2n 次
 
 **操作复杂度**：
 
-| 操作               | 最坏情况 | 平摊 |
+| 操作 | 最坏情况 | 平摊 |
 | ------------------ | -------- | ---- |
-| **追加（append）** | O(n)     | O(1) |
-| **访问（get）**    | O(1)     | O(1) |
-| **插入（insert）** | O(n)     | O(n) |
-| **删除（delete）** | O(n)     | O(n) |
+| **追加（append）** | O(n) | O(1) |
+| **访问（get）** | O(1) | O(1) |
+| **插入（insert）** | O(n) | O(n) |
+| **删除（delete）** | O(n) | O(n) |
 
 ---
 
@@ -11745,9 +11745,9 @@ n 次插入，总复制 < 2n 次
 new_capacity = size + (size >> 3) + 6
 
 # 示例：
-# size=0  → capacity=4
-# size=4  → capacity=8
-# size=8  → capacity=16
+# size=0 → capacity=4
+# size=4 → capacity=8
+# size=8 → capacity=16
 # size=16 → capacity=25
 ```
 
@@ -11761,17 +11761,17 @@ new_capacity = size + (size >> 3) + 6
 
 ```c
 void shrink(Vector *v) {
-    if (v->size < v->capacity / 4) {
-        v->capacity /= 2;
-        v->data = realloc(v->data, v->capacity * sizeof(int));
-    }
+ if (v->size < v->capacity / 4) {
+ v->capacity /= 2;
+ v->data = realloc(v->data, v->capacity * sizeof(int));
+ }
 }
 
 void pop(Vector *v) {
-    if (v->size > 0) {
-        v->size--;
-        shrink(v);
-    }
+ if (v->size > 0) {
+ v->size--;
+ shrink(v);
+ }
 }
 ```
 
@@ -11790,10 +11790,10 @@ void pop(Vector *v) {
 
 ```c
 // C 语言
-Vector *v = create(1000);  // 预分配 1000 容量
+Vector *v = create(1000); // 预分配 1000 容量
 
 // Python
-lst = [0] * 1000  // 预分配
+lst = [0] * 1000 // 预分配
 
 // 或使用 reserve（如果支持）
 ```
@@ -11807,14 +11807,14 @@ import time
 start = time.time()
 lst1 = []
 for i in range(1000000):
-    lst1.append(i)
+ lst1.append(i)
 print(f"不预分配: {time.time() - start:.3f}s")
 
 # 预分配
 start = time.time()
 lst2 = [0] * 1000000
 for i in range(1000000):
-    lst2[i] = i
+ lst2[i] = i
 print(f"预分配: {time.time() - start:.3f}s")
 ```
 
@@ -11834,20 +11834,20 @@ size=2, capacity=2
 追加 30（触发扩容）：
 
 1. 分配新空间（capacity=4）：
-   ┌────┬────┬────┬────┐
-   │    │    │    │    │
-   └────┴────┴────┴────┘
+ ┌────┬────┬────┬────┐
+ │ │ │ │ │
+ └────┴────┴────┴────┘
 
 2. 复制数据：
-   ┌────┬────┬────┬────┐
-   │ 10 │ 20 │    │    │
-   └────┴────┴────┴────┘
+ ┌────┬────┬────┬────┐
+ │ 10 │ 20 │ │ │
+ └────┴────┴────┴────┘
 
 3. 插入新元素：
-   ┌────┬────┬────┬────┐
-   │ 10 │ 20 │ 30 │    │
-   └────┴────┴────┴────┘
-   size=3, capacity=4
+ ┌────┬────┬────┬────┐
+ │ 10 │ 20 │ 30 │ │
+ └────┴────┴────┴────┘
+ size=3, capacity=4
 
 4. 释放旧空间
 ```
@@ -11922,7 +11922,7 @@ size=2, capacity=2
 ┌──────┬──────┐
 │ data │ next │
 └──────┴──────┘
-  数据    指针
+ 数据 指针
 ```
 
 ---
@@ -11944,99 +11944,99 @@ head → [10|•] → [20|•] → [30|•] → NULL
 #include <stdlib.h>
 
 typedef struct Node {
-    int data;
-    struct Node *next;
+ int data;
+ struct Node *next;
 } Node;
 
 // 创建节点
 Node* create_node(int data) {
-    Node *node = malloc(sizeof(Node));
-    node->data = data;
-    node->next = NULL;
-    return node;
+ Node *node = malloc(sizeof(Node));
+ node->data = data;
+ node->next = NULL;
+ return node;
 }
 
 // 头部插入 O(1)
 void insert_head(Node **head, int data) {
-    Node *new_node = create_node(data);
-    new_node->next = *head;
-    *head = new_node;
+ Node *new_node = create_node(data);
+ new_node->next = *head;
+ *head = new_node;
 }
 
 // 尾部插入 O(n)
 void insert_tail(Node **head, int data) {
-    Node *new_node = create_node(data);
-    
-    if (*head == NULL) {
-        *head = new_node;
-        return;
-    }
-    
-    Node *curr = *head;
-    while (curr->next != NULL) {
-        curr = curr->next;
-    }
-    curr->next = new_node;
+ Node *new_node = create_node(data);
+
+ if (*head == NULL) {
+ *head = new_node;
+ return;
+ }
+
+ Node *curr = *head;
+ while (curr->next != NULL) {
+ curr = curr->next;
+ }
+ curr->next = new_node;
 }
 
 // 删除节点 O(n)
 void delete_node(Node **head, int data) {
-    if (*head == NULL) return;
-    
-    // 删除头节点
-    if ((*head)->data == data) {
-        Node *temp = *head;
-        *head = (*head)->next;
-        free(temp);
-        return;
-    }
-    
-    // 删除其他节点
-    Node *curr = *head;
-    while (curr->next != NULL && curr->next->data != data) {
-        curr = curr->next;
-    }
-    
-    if (curr->next != NULL) {
-        Node *temp = curr->next;
-        curr->next = curr->next->next;
-        free(temp);
-    }
+ if (*head == NULL) return;
+
+ // 删除头节点
+ if ((*head)->data == data) {
+ Node *temp = *head;
+ *head = (*head)->next;
+ free(temp);
+ return;
+ }
+
+ // 删除其他节点
+ Node *curr = *head;
+ while (curr->next != NULL && curr->next->data != data) {
+ curr = curr->next;
+ }
+
+ if (curr->next != NULL) {
+ Node *temp = curr->next;
+ curr->next = curr->next->next;
+ free(temp);
+ }
 }
 
 // 遍历 O(n)
 void print_list(Node *head) {
-    Node *curr = head;
-    while (curr != NULL) {
-        printf("%d -> ", curr->data);
-        curr = curr->next;
-    }
-    printf("NULL\n");
+ Node *curr = head;
+ while (curr != NULL) {
+ printf("%d -> ", curr->data);
+ curr = curr->next;
+ }
+ printf("NULL\n");
 }
 
 // 释放链表
 void free_list(Node *head) {
-    Node *curr = head;
-    while (curr != NULL) {
-        Node *temp = curr;
-        curr = curr->next;
-        free(temp);
-    }
+ Node *curr = head;
+ while (curr != NULL) {
+ Node *temp = curr;
+ curr = curr->next;
+ free(temp);
+ }
 }
 
 int main() {
-    Node *head = NULL;
-    
-    insert_head(&head, 30);
-    insert_head(&head, 20);
-    insert_head(&head, 10);
-    print_list(head);  // 10 -> 20 -> 30 -> NULL
-    
-    delete_node(&head, 20);
-    print_list(head);  // 10 -> 30 -> NULL
-    
-    free_list(head);
-    return 0;
+ Node *head = NULL;
+
+ insert_head(&head, 30);
+ insert_head(&head, 20);
+ insert_head(&head, 10);
+ print_list(head); // 10 -> 20 -> 30 -> NULL
+
+ delete_node(&head, 20);
+ print_list(head); // 10 -> 30 -> NULL
+
+ free_list(head);
+ return 0;
 }
 ```
 
@@ -12044,58 +12044,58 @@ int main() {
 
 ```python
 class Node:
-    def __init__(self, data):
-        self.data = data
-        self.next = None
+ def __init__(self, data):
+ self.data = data
+ self.next = None
 
 class LinkedList:
-    def __init__(self):
-        self.head = None
-    
-    def insert_head(self, data):
-        new_node = Node(data)
-        new_node.next = self.head
-        self.head = new_node
-    
-    def insert_tail(self, data):
-        new_node = Node(data)
-        if not self.head:
-            self.head = new_node
-            return
-        
-        curr = self.head
-        while curr.next:
-            curr = curr.next
-        curr.next = new_node
-    
-    def delete(self, data):
-        if not self.head:
-            return
-        
-        if self.head.data == data:
-            self.head = self.head.next
-            return
-        
-        curr = self.head
-        while curr.next and curr.next.data != data:
-            curr = curr.next
-        
-        if curr.next:
-            curr.next = curr.next.next
-    
-    def print_list(self):
-        curr = self.head
-        while curr:
-            print(curr.data, end=" -> ")
-            curr = curr.next
-        print("None")
+ def __init__(self):
+ self.head = None
+
+ def insert_head(self, data):
+ new_node = Node(data)
+ new_node.next = self.head
+ self.head = new_node
+
+ def insert_tail(self, data):
+ new_node = Node(data)
+ if not self.head:
+ self.head = new_node
+ return
+
+ curr = self.head
+ while curr.next:
+ curr = curr.next
+ curr.next = new_node
+
+ def delete(self, data):
+ if not self.head:
+ return
+
+ if self.head.data == data:
+ self.head = self.head.next
+ return
+
+ curr = self.head
+ while curr.next and curr.next.data != data:
+ curr = curr.next
+
+ if curr.next:
+ curr.next = curr.next.next
+
+ def print_list(self):
+ curr = self.head
+ while curr:
+ print(curr.data, end=" -> ")
+ curr = curr.next
+ print("None")
 
 # 使用
 lst = LinkedList()
 lst.insert_head(30)
 lst.insert_head(20)
 lst.insert_head(10)
-lst.print_list()  # 10 -> 20 -> 30 -> None
+lst.print_list() # 10 -> 20 -> 30 -> None
 ```
 
 ---
@@ -12108,7 +12108,7 @@ lst.print_list()  # 10 -> 20 -> 30 -> None
 
 ```
 NULL ← [•|10|•] ⇄ [•|20|•] ⇄ [•|30|•] → NULL
-       head
+ head
 ```
 
 **C 语言实现**：
@@ -12118,86 +12118,86 @@ NULL ← [•|10|•] ⇄ [•|20|•] ⇄ [•|30|•] → NULL
 #include <stdlib.h>
 
 typedef struct Node {
-    int data;
-    struct Node *prev;
-    struct Node *next;
+ int data;
+ struct Node *prev;
+ struct Node *next;
 } Node;
 
 Node* create_node(int data) {
-    Node *node = malloc(sizeof(Node));
-    node->data = data;
-    node->prev = NULL;
-    node->next = NULL;
-    return node;
+ Node *node = malloc(sizeof(Node));
+ node->data = data;
+ node->prev = NULL;
+ node->next = NULL;
+ return node;
 }
 
 // 头部插入 O(1)
 void insert_head(Node **head, int data) {
-    Node *new_node = create_node(data);
-    
-    if (*head != NULL) {
-        (*head)->prev = new_node;
-    }
-    new_node->next = *head;
-    *head = new_node;
+ Node *new_node = create_node(data);
+
+ if (*head != NULL) {
+ (*head)->prev = new_node;
+ }
+ new_node->next = *head;
+ *head = new_node;
 }
 
 // 删除节点 O(1)（已知节点指针）
 void delete_node(Node **head, Node *node) {
-    if (node == NULL) return;
-    
-    if (node->prev != NULL) {
-        node->prev->next = node->next;
-    } else {
-        *head = node->next;
-    }
-    
-    if (node->next != NULL) {
-        node->next->prev = node->prev;
-    }
-    
-    free(node);
+ if (node == NULL) return;
+
+ if (node->prev != NULL) {
+ node->prev->next = node->next;
+ } else {
+ *head = node->next;
+ }
+
+ if (node->next != NULL) {
+ node->next->prev = node->prev;
+ }
+
+ free(node);
 }
 
 // 正向遍历
 void print_forward(Node *head) {
-    Node *curr = head;
-    while (curr != NULL) {
-        printf("%d <-> ", curr->data);
-        curr = curr->next;
-    }
-    printf("NULL\n");
+ Node *curr = head;
+ while (curr != NULL) {
+ printf("%d <-> ", curr->data);
+ curr = curr->next;
+ }
+ printf("NULL\n");
 }
 
 // 反向遍历
 void print_backward(Node *head) {
-    if (head == NULL) return;
-    
-    // 找到尾节点
-    Node *tail = head;
-    while (tail->next != NULL) {
-        tail = tail->next;
-    }
-    
-    // 反向遍历
-    while (tail != NULL) {
-        printf("%d <-> ", tail->data);
-        tail = tail->prev;
-    }
-    printf("NULL\n");
+ if (head == NULL) return;
+
+ // 找到尾节点
+ Node *tail = head;
+ while (tail->next != NULL) {
+ tail = tail->next;
+ }
+
+ // 反向遍历
+ while (tail != NULL) {
+ printf("%d <-> ", tail->data);
+ tail = tail->prev;
+ }
+ printf("NULL\n");
 }
 
 int main() {
-    Node *head = NULL;
-    
-    insert_head(&head, 30);
-    insert_head(&head, 20);
-    insert_head(&head, 10);
-    
-    print_forward(head);   // 10 <-> 20 <-> 30 <-> NULL
-    print_backward(head);  // 30 <-> 20 <-> 10 <-> NULL
-    
-    return 0;
+ Node *head = NULL;
+
+ insert_head(&head, 30);
+ insert_head(&head, 20);
+ insert_head(&head, 10);
+
+ print_forward(head); // 10 <-> 20 <-> 30 <-> NULL
+ print_backward(head); // 30 <-> 20 <-> 10 <-> NULL
+
+ return 0;
 }
 ```
 
@@ -12221,10 +12221,10 @@ int main() {
 **单向循环链表**：
 
 ```
-     ┌─────────────────┐
-     ↓                 │
-   [10|•] → [20|•] → [30|•]
-   head
+ ┌─────────────────┐
+ ↓ │
+ [10|•] → [20|•] → [30|•]
+ head
 ```
 
 **C 语言实现**：
@@ -12234,69 +12234,69 @@ int main() {
 #include <stdlib.h>
 
 typedef struct Node {
-    int data;
-    struct Node *next;
+ int data;
+ struct Node *next;
 } Node;
 
 Node* create_node(int data) {
-    Node *node = malloc(sizeof(Node));
-    node->data = data;
-    node->next = node;  // 指向自己
-    return node;
+ Node *node = malloc(sizeof(Node));
+ node->data = data;
+ node->next = node; // 指向自己
+ return node;
 }
 
 // 插入节点
 void insert(Node **head, int data) {
-    Node *new_node = create_node(data);
-    
-    if (*head == NULL) {
-        *head = new_node;
-        return;
-    }
-    
-    // 找到尾节点
-    Node *tail = *head;
-    while (tail->next != *head) {
-        tail = tail->next;
-    }
-    
-    tail->next = new_node;
-    new_node->next = *head;
+ Node *new_node = create_node(data);
+
+ if (*head == NULL) {
+ *head = new_node;
+ return;
+ }
+
+ // 找到尾节点
+ Node *tail = *head;
+ while (tail->next != *head) {
+ tail = tail->next;
+ }
+
+ tail->next = new_node;
+ new_node->next = *head;
 }
 
 // 遍历（需要终止条件）
 void print_list(Node *head) {
-    if (head == NULL) return;
-    
-    Node *curr = head;
-    do {
-        printf("%d -> ", curr->data);
-        curr = curr->next;
-    } while (curr != head);
-    printf("(回到头)\n");
+ if (head == NULL) return;
+
+ Node *curr = head;
+ do {
+ printf("%d -> ", curr->data);
+ curr = curr->next;
+ } while (curr != head);
+ printf("(回到头)\n");
 }
 
 int main() {
-    Node *head = NULL;
-    
-    insert(&head, 10);
-    insert(&head, 20);
-    insert(&head, 30);
-    
-    print_list(head);  // 10 -> 20 -> 30 -> (回到头)
-    
-    return 0;
+ Node *head = NULL;
+
+ insert(&head, 10);
+ insert(&head, 20);
+ insert(&head, 30);
+
+ print_list(head); // 10 -> 20 -> 30 -> (回到头)
+
+ return 0;
 }
 ```
 
 **双向循环链表**：
 
 ```
-     ┌──────────────────────┐
-     ↓                      │
-   [•|10|•] ⇄ [•|20|•] ⇄ [•|30|•]
-   head      ↑              │
-     └──────────────────────┘
+ ┌──────────────────────┐
+ ↓ │
+ [•|10|•] ⇄ [•|20|•] ⇄ [•|30|•]
+ head ↑ │
+ └──────────────────────┘
 ```
 
 **应用场景**：
@@ -12309,14 +12309,14 @@ int main() {
 
 #### 时间复杂度对比
 
-| 操作                 | 单向链表 | 双向链表 | 数组 |
+| 操作 | 单向链表 | 双向链表 | 数组 |
 | -------------------- | -------- | -------- | ---- |
-| **访问**             | O(n)     | O(n)     | O(1) |
-| **搜索**             | O(n)     | O(n)     | O(n) |
-| **头部插入**         | O(1)     | O(1)     | O(n) |
-| **尾部插入**         | O(n)     | O(1)*    | O(1) |
-| **中间插入**         | O(n)     | O(n)     | O(n) |
-| **删除（已知位置）** | O(1)     | O(1)     | O(n) |
+| **访问** | O(n) | O(n) | O(1) |
+| **搜索** | O(n) | O(n) | O(n) |
+| **头部插入** | O(1) | O(1) | O(n) |
+| **尾部插入** | O(n) | O(1)* | O(1) |
+| **中间插入** | O(n) | O(n) | O(n) |
+| **删除（已知位置）** | O(1) | O(1) | O(n) |
 
 *需要维护尾指针（tail pointer）
 
@@ -12324,14 +12324,14 @@ int main() {
 
 #### 链表 vs 数组
 
-| 特性         | 链表     | 数组             |
+| 特性 | 链表 | 数组 |
 | ------------ | -------- | ---------------- |
-| **内存**     | 分散     | 连续             |
-| **大小**     | 动态     | 固定（静态数组） |
-| **访问**     | O(n)     | O(1)             |
-| **插入删除** | O(1)*    | O(n)             |
-| **缓存友好** | 差       | 好               |
-| **额外空间** | 指针开销 | 无               |
+| **内存** | 分散 | 连续 |
+| **大小** | 动态 | 固定（静态数组） |
+| **访问** | O(n) | O(1) |
+| **插入删除** | O(1)* | O(n) |
+| **缓存友好** | 差 | 好 |
+| **额外空间** | 指针开销 | 无 |
 
 ---
 
@@ -12347,13 +12347,13 @@ int main() {
 
 **基本操作**：
 
-| 操作         | 英文     | 时间复杂度 | 说明                 |
+| 操作 | 英文 | 时间复杂度 | 说明 |
 | ------------ | -------- | ---------- | -------------------- |
-| **入栈**     | push     | O(1)       | 在栈顶添加元素       |
-| **出栈**     | pop      | O(1)       | 移除栈顶元素         |
-| **查看栈顶** | peek/top | O(1)       | 返回栈顶元素但不移除 |
-| **判空**     | is_empty | O(1)       | 检查栈是否为空       |
-| **获取大小** | size     | O(1)       | 返回栈中元素数量     |
+| **入栈** | push | O(1) | 在栈顶添加元素 |
+| **出栈** | pop | O(1) | 移除栈顶元素 |
+| **查看栈顶** | peek/top | O(1) | 返回栈顶元素但不移除 |
+| **判空** | is_empty | O(1) | 检查栈是否为空 |
+| **获取大小** | size | O(1) | 返回栈中元素数量 |
 
 **栈的可视化**：
 
@@ -12361,32 +12361,32 @@ int main() {
 栈的操作过程：
 
 初始：空栈
-│     │
+│ │
 └─────┘
 
 push(10)：
-│  10 │ ← top
+│ 10 │ ← top
 └─────┘
 
 push(20)：
-│  20 │ ← top
-│  10 │
+│ 20 │ ← top
+│ 10 │
 └─────┘
 
 push(30)：
-│  30 │ ← top
-│  20 │
-│  10 │
+│ 30 │ ← top
+│ 20 │
+│ 10 │
 └─────┘
 
 pop() → 30：
-│  20 │ ← top
-│  10 │
+│ 20 │ ← top
+│ 10 │
 └─────┘
 
 peek() → 20：
-│  20 │ ← top
-│  10 │
+│ 20 │ ← top
+│ 10 │
 └─────┘
 ```
 
@@ -12404,50 +12404,50 @@ peek() → 20：
 #define MAX_SIZE 100
 
 typedef struct {
-    int data[MAX_SIZE];
-    int top;
+ int data[MAX_SIZE];
+ int top;
 } Stack;
 
 Stack* create() {
-    Stack *s = malloc(sizeof(Stack));
-    s->top = -1;
-    return s;
+ Stack *s = malloc(sizeof(Stack));
+ s->top = -1;
+ return s;
 }
 
 bool is_empty(Stack *s) {
-    return s->top == -1;
+ return s->top == -1;
 }
 
 bool is_full(Stack *s) {
-    return s->top == MAX_SIZE - 1;
+ return s->top == MAX_SIZE - 1;
 }
 
 void push(Stack *s, int value) {
-    if (is_full(s)) {
-        printf("栈溢出\n");
-        return;
-    }
-    s->data[++s->top] = value;
+ if (is_full(s)) {
+ printf("栈溢出\n");
+ return;
+ }
+ s->data[++s->top] = value;
 }
 
 int pop(Stack *s) {
-    if (is_empty(s)) {
-        printf("栈为空\n");
-        return -1;
-    }
-    return s->data[s->top--];
+ if (is_empty(s)) {
+ printf("栈为空\n");
+ return -1;
+ }
+ return s->data[s->top--];
 }
 
 int peek(Stack *s) {
-    if (is_empty(s)) {
-        printf("栈为空\n");
-        return -1;
-    }
-    return s->data[s->top];
+ if (is_empty(s)) {
+ printf("栈为空\n");
+ return -1;
+ }
+ return s->data[s->top];
 }
 
 int size(Stack *s) {
-    return s->top + 1;
+ return s->top + 1;
 }
 ```
 
@@ -12455,27 +12455,27 @@ int size(Stack *s) {
 
 ```python
 class Stack:
-    def __init__(self):
-        self.items = []
-    
-    def is_empty(self):
-        return len(self.items) == 0
-    
-    def push(self, item):
-        self.items.append(item)
-    
-    def pop(self):
-        if self.is_empty():
-            raise IndexError("栈为空")
-        return self.items.pop()
-    
-    def peek(self):
-        if self.is_empty():
-            raise IndexError("栈为空")
-        return self.items[-1]
-    
-    def size(self):
-        return len(self.items)
+ def __init__(self):
+ self.items = []
+
+ def is_empty(self):
+ return len(self.items) == 0
+
+ def push(self, item):
+ self.items.append(item)
+
+ def pop(self):
+ if self.is_empty():
+ raise IndexError("栈为空")
+ return self.items.pop()
+
+ def peek(self):
+ if self.is_empty():
+ raise IndexError("栈为空")
+ return self.items[-1]
+
+ def size(self):
+ return len(self.items)
 ```
 
 **特点**：
@@ -12495,54 +12495,54 @@ class Stack:
 #include <stdbool.h>
 
 typedef struct Node {
-    int data;
-    struct Node *next;
+ int data;
+ struct Node *next;
 } Node;
 
 typedef struct {
-    Node *top;
-    int size;
+ Node *top;
+ int size;
 } Stack;
 
 Stack* create() {
-    Stack *s = malloc(sizeof(Stack));
-    s->top = NULL;
-    s->size = 0;
-    return s;
+ Stack *s = malloc(sizeof(Stack));
+ s->top = NULL;
+ s->size = 0;
+ return s;
 }
 
 bool is_empty(Stack *s) {
-    return s->top == NULL;
+ return s->top == NULL;
 }
 
 void push(Stack *s, int value) {
-    Node *new_node = malloc(sizeof(Node));
-    new_node->data = value;
-    new_node->next = s->top;
-    s->top = new_node;
-    s->size++;
+ Node *new_node = malloc(sizeof(Node));
+ new_node->data = value;
+ new_node->next = s->top;
+ s->top = new_node;
+ s->size++;
 }
 
 int pop(Stack *s) {
-    if (is_empty(s)) {
-        printf("栈为空\n");
-        return -1;
-    }
-    
-    Node *temp = s->top;
-    int value = temp->data;
-    s->top = s->top->next;
-    free(temp);
-    s->size--;
-    return value;
+ if (is_empty(s)) {
+ printf("栈为空\n");
+ return -1;
+ }
+
+ Node *temp = s->top;
+ int value = temp->data;
+ s->top = s->top->next;
+ free(temp);
+ s->size--;
+ return value;
 }
 
 int peek(Stack *s) {
-    if (is_empty(s)) {
-        printf("栈为空\n");
-        return -1;
-    }
-    return s->top->data;
+ if (is_empty(s)) {
+ printf("栈为空\n");
+ return -1;
+ }
+ return s->top->data;
 }
 ```
 
@@ -12557,20 +12557,20 @@ int peek(Stack *s) {
 
 **时间复杂度**：
 
-| 操作     | 数组实现 | 链表实现 |
+| 操作 | 数组实现 | 链表实现 |
 | -------- | -------- | -------- |
-| push     | O(1)     | O(1)     |
-| pop      | O(1)     | O(1)     |
-| peek     | O(1)     | O(1)     |
-| is_empty | O(1)     | O(1)     |
-| size     | O(1)     | O(1)     |
+| push | O(1) | O(1) |
+| pop | O(1) | O(1) |
+| peek | O(1) | O(1) |
+| is_empty | O(1) | O(1) |
+| size | O(1) | O(1) |
 
 **空间复杂度**：
 
-| 实现方式 | 空间复杂度 | 说明                   |
+| 实现方式 | 空间复杂度 | 说明 |
 | -------- | ---------- | ---------------------- |
-| **数组** | O(n)       | 固定大小，可能浪费     |
-| **链表** | O(n)       | 动态分配，额外指针开销 |
+| **数组** | O(n) | 固定大小，可能浪费 |
+| **链表** | O(n) | 动态分配，额外指针开销 |
 
 ---
 
@@ -12582,18 +12582,18 @@ int peek(Stack *s) {
 函数调用过程：
 
 main() 调用 foo()：
-│ foo()  │ ← 当前执行
+│ foo() │ ← 当前执行
 │ main() │
 └────────┘
 
 foo() 调用 bar()：
-│ bar()  │ ← 当前执行
-│ foo()  │
+│ bar() │ ← 当前执行
+│ foo() │
 │ main() │
 └────────┘
 
 bar() 返回：
-│ foo()  │ ← 继续执行
+│ foo() │ ← 继续执行
 │ main() │
 └────────┘
 ```
@@ -12617,24 +12617,24 @@ bar() 返回：
 
 ```c
 bool is_valid_parentheses(char *s) {
-    Stack *stack = create();
-    
-    for (int i = 0; s[i] != '\0'; i++) {
-        if (s[i] == '(' || s[i] == '[' || s[i] == '{') {
-            push(stack, s[i]);
-        } else {
-            if (is_empty(stack)) return false;
-            
-            char top = pop(stack);
-            if ((s[i] == ')' && top != '(') ||
-                (s[i] == ']' && top != '[') ||
-                (s[i] == '}' && top != '{')) {
-                return false;
-            }
-        }
-    }
-    
-    return is_empty(stack);
+ Stack *stack = create();
+
+ for (int i = 0; s[i] != '\0'; i++) {
+ if (s[i] == '(' || s[i] == '[' || s[i] == '{') {
+ push(stack, s[i]);
+ } else {
+ if (is_empty(stack)) return false;
+
+ char top = pop(stack);
+ if ((s[i] == ')' && top != '(') ||
+ (s[i] == ']' && top != '[') ||
+ (s[i] == '}' && top != '{')) {
+ return false;
+ }
+ }
+ }
+
+ return is_empty(stack);
 }
 ```
 
@@ -12643,11 +12643,11 @@ bool is_valid_parentheses(char *s) {
 ```
 图的 DFS 遍历：
 
-    1
-   / \
-  2   3
+ 1
  / \
-4   5
+ 2 3
+ / \
+4 5
 
 栈的变化：
 [1] → [3, 2] → [3, 5, 4] → [3, 5] → [3] → []
@@ -12662,9 +12662,9 @@ bool is_valid_parentheses(char *s) {
 操作栈：
 │ 删除 "world" │
 │ 插入 "world" │
-│ 删除 "o"     │
-│ 插入 "o"     │
-│ 插入 "Hell"  │
+│ 删除 "o" │
+│ 插入 "o" │
+│ 插入 "Hell" │
 └──────────────┘
 
 每次撤销弹出栈顶操作并执行逆操作
@@ -12693,10 +12693,10 @@ bool is_valid_parentheses(char *s) {
 
 解决方案：使用辅助栈
 
-主栈：     │ 3 │ 2 │ 5 │ 1 │
-最小栈：   │ 3 │ 2 │ 2 │ 1 │
-                         ↑
-                      当前最小值
+主栈： │ 3 │ 2 │ 5 │ 1 │
+最小栈： │ 3 │ 2 │ 2 │ 1 │
+ ↑
+ 当前最小值
 ```
 
 **栈排序（Stack Sorting）**：
@@ -12704,11 +12704,11 @@ bool is_valid_parentheses(char *s) {
 ```
 使用辅助栈对栈进行排序
 
-原栈：     │ 3 │ 1 │ 4 │ 2 │
-辅助栈：   │   │   │   │   │
+原栈： │ 3 │ 1 │ 4 │ 2 │
+辅助栈： │ │ │ │ │
 
-排序后：   │   │   │   │   │
-辅助栈：   │ 4 │ 3 │ 2 │ 1 │（降序）
+排序后： │ │ │ │ │
+辅助栈： │ 4 │ 3 │ 2 │ 1 │（降序）
 ```
 
 **用栈实现队列（Implement Queue using Stacks）**：
@@ -12716,13 +12716,13 @@ bool is_valid_parentheses(char *s) {
 ```
 使用两个栈：
 
-入队栈：   │ 3 │ 2 │ 1 │
-出队栈：   │   │   │   │
+入队栈： │ 3 │ 2 │ 1 │
+出队栈： │ │ │ │
 
 出队时，将入队栈元素倒入出队栈：
 
-入队栈：   │   │   │   │
-出队栈：   │ 1 │ 2 │ 3 │
+入队栈： │ │ │ │
+出队栈： │ 1 │ 2 │ 3 │
 ```
 
 ---
@@ -12740,13 +12740,13 @@ bool is_valid_parentheses(char *s) {
 ```c
 // 无限递归
 void infinite_recursion() {
-    infinite_recursion();  // 栈溢出
+ infinite_recursion(); // 栈溢出
 }
 
 // 过深递归
 int factorial(int n) {
-    if (n == 0) return 1;
-    return n * factorial(n - 1);  // n 很大时栈溢出
+ if (n == 0) return 1;
+ return n * factorial(n - 1); // n 很大时栈溢出
 }
 ```
 
@@ -12765,26 +12765,26 @@ int factorial(int n) {
 ```c
 // 递归版本
 int factorial(int n) {
-    if (n == 0) return 1;
-    return n * factorial(n - 1);
+ if (n == 0) return 1;
+ return n * factorial(n - 1);
 }
 
 // 等价的栈版本
 int factorial_iterative(int n) {
-    Stack *s = create();
-    
-    // 模拟递归调用
-    while (n > 0) {
-        push(s, n);
-        n--;
-    }
-    
-    int result = 1;
-    while (!is_empty(s)) {
-        result *= pop(s);
-    }
-    
-    return result;
+ Stack *s = create();
+
+ // 模拟递归调用
+ while (n > 0) {
+ push(s, n);
+ n--;
+ }
+
+ int result = 1;
+ while (!is_empty(s)) {
+ result *= pop(s);
+ }
+
+ return result;
 }
 ```
 
@@ -12844,13 +12844,13 @@ int factorial_iterative(int n) {
 
 **基本操作**：
 
-| 操作         | 英文       | 时间复杂度 | 说明                 |
+| 操作 | 英文 | 时间复杂度 | 说明 |
 | ------------ | ---------- | ---------- | -------------------- |
-| **入队**     | enqueue    | O(1)       | 在队尾添加元素       |
-| **出队**     | dequeue    | O(1)       | 移除队首元素         |
-| **查看队首** | peek/front | O(1)       | 返回队首元素但不移除 |
-| **判空**     | is_empty   | O(1)       | 检查队列是否为空     |
-| **获取大小** | size       | O(1)       | 返回队列中元素数量   |
+| **入队** | enqueue | O(1) | 在队尾添加元素 |
+| **出队** | dequeue | O(1) | 移除队首元素 |
+| **查看队首** | peek/front | O(1) | 返回队首元素但不移除 |
+| **判空** | is_empty | O(1) | 检查队列是否为空 |
+| **获取大小** | size | O(1) | 返回队列中元素数量 |
 
 **队列的可视化**：
 
@@ -12858,24 +12858,24 @@ int factorial_iterative(int n) {
 队列的操作过程：
 
 初始：空队列
-front → │     │ ← rear
-        └─────┘
+front → │ │ ← rear
+ └─────┘
 
 enqueue(10)：
 front → │ 10 │ ← rear
-        └────┘
+ └────┘
 
 enqueue(20)：
 front → │ 10 │ 20 │ ← rear
-        └────┴────┘
+ └────┴────┘
 
 enqueue(30)：
 front → │ 10 │ 20 │ 30 │ ← rear
-        └────┴────┴────┘
+ └────┴────┴────┘
 
 dequeue() → 10：
 front → │ 20 │ 30 │ ← rear
-        └────┴────┘
+ └────┴────┘
 ```
 
 ---
@@ -12894,15 +12894,15 @@ front → │ 20 │ 30 │ ← rear
 出队后 front 前移，空间无法重用：
 
 初始：
-front → │ 10 │ 20 │ 30 │     │     │ ← rear
-        └────┴────┴────┴─────┴─────┘
-         0    1    2    3     4
+front → │ 10 │ 20 │ 30 │ │ │ ← rear
+ └────┴────┴────┴─────┴─────┘
+ 0 1 2 3 4
 
 dequeue() 两次后：
-                front → │ 30 │     │     │ ← rear
-        └────┴────┴────┴─────┴─────┘
-         0    1    2    3     4
-         
+ front → │ 30 │ │ │ ← rear
+ └────┴────┴────┴─────┴─────┘
+ 0 1 2 3 4
+
 前面的空间浪费了！
 ```
 
@@ -12921,11 +12921,11 @@ dequeue() 两次后：
 ```
 将数组首尾相连，形成环：
 
-        ┌───┬───┬───┬───┬───┐
-        │ 0 │ 1 │ 2 │ 3 │ 4 │
-        └───┴───┴───┴───┴───┘
-          ↑                 ↓
-          └─────────────────┘
+ ┌───┬───┬───┬───┬───┐
+ │ 0 │ 1 │ 2 │ 3 │ 4 │
+ └───┴───┴───┴───┴───┘
+ ↑ ↓
+ └─────────────────┘
 
 索引计算：(index + 1) % capacity
 ```
@@ -12936,7 +12936,7 @@ dequeue() 两次后：
 初始状态（空）：
 front=0, rear=0, size=0
 ┌───┬───┬───┬───┬───┐
-│   │   │   │   │   │
+│ │ │ │ │ │
 └───┴───┴───┴───┴───┘
  ↑
  front, rear
@@ -12944,19 +12944,19 @@ front=0, rear=0, size=0
 enqueue(10, 20, 30)：
 front=0, rear=3, size=3
 ┌───┬───┬───┬───┬───┐
-│10 │20 │30 │   │   │
+│10 │20 │30 │ │ │
 └───┴───┴───┴───┴───┘
- ↑           ↑
- front       rear
+ ↑ ↑
+ front rear
 
 dequeue() 两次后 enqueue(40, 50, 60)：
 front=2, rear=1, size=4
 ┌───┬───┬───┬───┬───┐
-│60 │   │30 │40 │50 │
+│60 │ │30 │40 │50 │
 └───┴───┴───┴───┴───┘
-     ↑   ↑
-     rear front
-     
+ ↑ ↑
+ rear front
+
 空间得到重用！
 ```
 
@@ -12996,14 +12996,14 @@ front=2, rear=1, size=4
 
 **基本操作**：
 
-| 操作         | 英文                    | 时间复杂度 | 说明           |
+| 操作 | 英文 | 时间复杂度 | 说明 |
 | ------------ | ----------------------- | ---------- | -------------- |
-| **队首插入** | push_front / addFirst   | O(1)       | 在队首添加元素 |
-| **队尾插入** | push_back / addLast     | O(1)       | 在队尾添加元素 |
-| **队首删除** | pop_front / removeFirst | O(1)       | 移除队首元素   |
-| **队尾删除** | pop_back / removeLast   | O(1)       | 移除队尾元素   |
-| **查看队首** | front / peekFirst       | O(1)       | 返回队首元素   |
-| **查看队尾** | back / peekLast         | O(1)       | 返回队尾元素   |
+| **队首插入** | push_front / addFirst | O(1) | 在队首添加元素 |
+| **队尾插入** | push_back / addLast | O(1) | 在队尾添加元素 |
+| **队首删除** | pop_front / removeFirst | O(1) | 移除队首元素 |
+| **队尾删除** | pop_back / removeLast | O(1) | 移除队尾元素 |
+| **查看队首** | front / peekFirst | O(1) | 返回队首元素 |
+| **查看队尾** | back / peekLast | O(1) | 返回队尾元素 |
 
 **双端队列的可视化**：
 
@@ -13011,28 +13011,28 @@ front=2, rear=1, size=4
 双端队列的操作：
 
 初始：空队列
-front ← │     │ → rear
-        └─────┘
+front ← │ │ → rear
+ └─────┘
 
 push_back(10)：
 front ← │ 10 │ → rear
-        └────┘
+ └────┘
 
 push_front(20)：
 front ← │ 20 │ 10 │ → rear
-        └────┴────┘
+ └────┴────┘
 
 push_back(30)：
 front ← │ 20 │ 10 │ 30 │ → rear
-        └────┴────┴────┘
+ └────┴────┴────┘
 
 pop_front() → 20：
 front ← │ 10 │ 30 │ → rear
-        └────┴────┘
+ └────┴────┘
 
 pop_back() → 30：
 front ← │ 10 │ → rear
-        └────┘
+ └────┘
 ```
 
 **实现方式**：
@@ -13066,12 +13066,12 @@ front ← │ 10 │ → rear
 
 **基本操作**：
 
-| 操作              | 英文                  | 时间复杂度 | 说明                 |
+| 操作 | 英文 | 时间复杂度 | 说明 |
 | ----------------- | --------------------- | ---------- | -------------------- |
-| **插入**          | insert / enqueue      | O(log n)   | 插入元素并维护堆性质 |
-| **删除最大/最小** | extract_max / dequeue | O(log n)   | 移除优先级最高的元素 |
-| **查看最大/最小** | peek / top            | O(1)       | 返回优先级最高的元素 |
-| **修改优先级**    | change_priority       | O(log n)   | 更新元素优先级       |
+| **插入** | insert / enqueue | O(log n) | 插入元素并维护堆性质 |
+| **删除最大/最小** | extract_max / dequeue | O(log n) | 移除优先级最高的元素 |
+| **查看最大/最小** | peek / top | O(1) | 返回优先级最高的元素 |
+| **修改优先级** | change_priority | O(log n) | 更新元素优先级 |
 
 **优先队列的可视化**：
 
@@ -13081,11 +13081,11 @@ front ← │ 10 │ → rear
 插入顺序：5, 3, 8, 1, 9
 
 内部堆结构：
-        9
-       / \
-      8   5
-     / \
-    1   3
+ 9
+ / \
+ 8 5
+ / \
+ 1 3
 
 出队顺序：9 → 8 → 5 → 3 → 1
 ```
@@ -13138,11 +13138,11 @@ front ← │ 10 │ → rear
 ```
 完全二叉树：
 
-        1
-       / \
-      2   3
-     / \ /
-    4  5 6
+ 1
+ / \
+ 2 3
+ / \ /
+ 4 5 6
 
 数组表示：[1, 2, 3, 4, 5, 6]
 
@@ -13174,12 +13174,12 @@ front ← │ 10 │ → rear
 ```
 字符串 "Hello" 的存储：
 
-索引：  0   1   2   3   4   5
-      ┌───┬───┬───┬───┬───┬────┐
-      │ H │ e │ l │ l │ o │ \0 │
-      └───┴───┴───┴───┴───┴────┘
-                              ↑
-                          结束标志
+索引： 0 1 2 3 4 5
+ ┌───┬───┬───┬───┬───┬────┐
+ │ H │ e │ l │ l │ o │ \0 │
+ └───┴───┴───┴───┴───┴────┘
+ ↑
+ 结束标志
 ```
 
 **关键点**：
@@ -13192,28 +13192,28 @@ front ← │ 10 │ → rear
 
 #### 字符串的基本操作
 
-| 操作         | 时间复杂度 | 说明           |
+| 操作 | 时间复杂度 | 说明 |
 | ------------ | ---------- | -------------- |
-| **访问字符** | O(1)       | 通过索引访问   |
-| **求长度**   | O(n)       | 遍历到 `\0`    |
-| **拼接**     | O(n+m)     | 连接两个字符串 |
-| **复制**     | O(n)       | 复制字符串     |
-| **比较**     | O(n)       | 逐字符比较     |
-| **查找子串** | O(n·m)     | 朴素算法       |
+| **访问字符** | O(1) | 通过索引访问 |
+| **求长度** | O(n) | 遍历到 `\0` |
+| **拼接** | O(n+m) | 连接两个字符串 |
+| **复制** | O(n) | 复制字符串 |
+| **比较** | O(n) | 逐字符比较 |
+| **查找子串** | O(n·m) | 朴素算法 |
 
 ---
 
 #### 字符串与字符数组的区别
 
-| 特性         | 字符数组 | 字符串       |
+| 特性 | 字符数组 | 字符串 |
 | ------------ | -------- | ------------ |
-| **结束标志** | 不需要   | 必须有 `\0`  |
-| **长度**     | 固定     | 到 `\0` 为止 |
-| **用途**     | 存储字符 | 表示文本     |
+| **结束标志** | 不需要 | 必须有 `\0` |
+| **长度** | 固定 | 到 `\0` 为止 |
+| **用途** | 存储字符 | 表示文本 |
 
 ```
-字符数组：['H', 'e', 'l', 'l', 'o']        // 长度 5
-字符串：  ['H', 'e', 'l', 'l', 'o', '\0']  // 长度 5，数组大小 6
+字符数组：['H', 'e', 'l', 'l', 'o'] // 长度 5
+字符串： ['H', 'e', 'l', 'l', 'o', '\0'] // 长度 5，数组大小 6
 ```
 
 ---
@@ -13366,12 +13366,12 @@ front ← │ 10 │ → rear
 
 #### 基本操作
 
-| 操作                      | 平均时间复杂度 | 最坏时间复杂度 | 说明           |
+| 操作 | 平均时间复杂度 | 最坏时间复杂度 | 说明 |
 | ------------------------- | -------------- | -------------- | -------------- |
-| **插入**（insert/put）    | O(1)           | O(n)           | 添加键值对     |
-| **查找**（search/get）    | O(1)           | O(n)           | 通过键获取值   |
-| **删除**（delete/remove） | O(1)           | O(n)           | 移除键值对     |
-| **更新**（update）        | O(1)           | O(n)           | 修改键对应的值 |
+| **插入**（insert/put） | O(1) | O(n) | 添加键值对 |
+| **查找**（search/get） | O(1) | O(n) | 通过键获取值 |
+| **删除**（delete/remove） | O(1) | O(n) | 移除键值对 |
+| **更新**（update） | O(1) | O(n) | 修改键对应的值 |
 
 ---
 
@@ -13380,18 +13380,18 @@ front ← │ 10 │ → rear
 ```
 哈希表的基本结构：
 
-索引   哈希表
- 0  ┌─────────────┐
-    │  ("cat",1)  │
- 1  ├─────────────┤
-    │             │  ← 空槽
- 2  ├─────────────┤
-    │  ("dog",2)  │
- 3  ├─────────────┤
-    │  ("bird",3) │
- 4  ├─────────────┤
-    │             │
-    └─────────────┘
+索引 哈希表
+ 0 ┌─────────────┐
+ │ ("cat",1) │
+ 1 ├─────────────┤
+ │ │ ← 空槽
+ 2 ├─────────────┤
+ │ ("dog",2) │
+ 3 ├─────────────┤
+ │ ("bird",3) │
+ 4 ├─────────────┤
+ │ │
+ └─────────────┘
 ```
 
 ---
@@ -13409,12 +13409,12 @@ front ← │ 10 │ → rear
 
 **常见哈希方法**：
 
-| 方法           | 公式                     | 说明                 |
+| 方法 | 公式 | 说明 |
 | -------------- | ------------------------ | -------------------- |
-| **除留余数法** | `h(k) = k % m`           | 最常用，m 通常取质数 |
-| **乘法哈希**   | `h(k) = ⌊m·(k·A mod 1)⌋` | A 为常数 (0<A<1)     |
-| **平方取中法** | 取 k² 的中间几位         | 适用于分布不均的键   |
-| **折叠法**     | 将 k 分段相加            | 适用于长整数         |
+| **除留余数法** | `h(k) = k % m` | 最常用，m 通常取质数 |
+| **乘法哈希** | `h(k) = m·(k·A mod 1)` | A 为常数 (0<A<1) |
+| **平方取中法** | 取 k² 的中间几位 | 适用于分布不均的键 |
+| **折叠法** | 将 k 分段相加 | 适用于长整数 |
 
 **示例（除留余数法）**：
 
@@ -13437,7 +13437,7 @@ front ← │ 10 │ → rear
 冲突示例（m = 7）：
 
 键 10：h(10) = 10 % 7 = 3
-键 17：h(17) = 17 % 7 = 3  ← 冲突！
+键 17：h(17) = 17 % 7 = 3 ← 冲突！
 
 两个键都想存储在索引 3 的位置
 ```
@@ -13456,17 +13456,17 @@ front ← │ 10 │ → rear
 链地址法示意：
 
 索引
- 0  ┌────┐
-    │null│
- 1  ├────┤
-    │ ●──┼──► (15, "A") ──► null
- 2  ├────┤
-    │null│
- 3  ├────┤
-    │ ●──┼──► (10, "B") ──► (17, "C") ──► null
- 4  ├────┤        ↑              ↑
-    │null│      原元素        冲突元素
-    └────┘
+ 0 ┌────┐
+ │null│
+ 1 ├────┤
+ │ ●──┼──► (15, "A") ──► null
+ 2 ├────┤
+ │null│
+ 3 ├────┤
+ │ ●──┼──► (10, "B") ──► (17, "C") ──► null
+ 4 ├────┤ ↑ ↑
+ │null│ 原元素 冲突元素
+ └────┘
 ```
 
 **优点**：
@@ -13515,12 +13515,12 @@ front ← │ 10 │ → rear
 
 #### 冲突解决方法对比
 
-| 方法         | 优点                   | 缺点                 |
+| 方法 | 优点 | 缺点 |
 | ------------ | ---------------------- | -------------------- |
 | **链地址法** | 实现简单，装载因子灵活 | 额外内存，缓存不友好 |
-| **线性探测** | 缓存友好               | 易产生**主聚集**     |
-| **二次探测** | 减少主聚集             | 易产生**次聚集**     |
-| **双重哈希** | 分布最均匀             | 计算开销较大         |
+| **线性探测** | 缓存友好 | 易产生**主聚集** |
+| **二次探测** | 减少主聚集 | 易产生**次聚集** |
+| **双重哈希** | 分布最均匀 | 计算开销较大 |
 
 ---
 
@@ -13539,10 +13539,10 @@ front ← │ 10 │ → rear
 
 **经验值**：
 
-| 方法           | 推荐装载因子 |
+| 方法 | 推荐装载因子 |
 | -------------- | ------------ |
-| **链地址法**   | α ≤ 1.0      |
-| **开放地址法** | α ≤ 0.75     |
+| **链地址法** | α ≤ 1.0 |
+| **开放地址法** | α ≤ 0.75 |
 
 ---
 
@@ -13562,12 +13562,12 @@ front ← │ 10 │ → rear
 
 #### 哈希表 vs 其他数据结构
 
-| 操作         | 哈希表 | 数组       | 链表       | 二叉搜索树 |
+| 操作 | 哈希表 | 数组 | 链表 | 二叉搜索树 |
 | ------------ | ------ | ---------- | ---------- | ---------- |
-| **查找**     | O(1)   | O(n)       | O(n)       | O(log n)   |
-| **插入**     | O(1)   | O(n)       | O(1)       | O(log n)   |
-| **删除**     | O(1)   | O(n)       | O(n)       | O(log n)   |
-| **有序遍历** | 不支持 | O(n log n) | O(n log n) | O(n)       |
+| **查找** | O(1) | O(n) | O(n) | O(log n) |
+| **插入** | O(1) | O(n) | O(1) | O(log n) |
+| **删除** | O(1) | O(n) | O(n) | O(log n) |
+| **有序遍历** | 不支持 | O(n log n) | O(n log n) | O(n) |
 
 ---
 
@@ -13613,9 +13613,9 @@ $$h: U \rightarrow \{0, 1, 2, \ldots, m-1\}$$
 
 ```mermaid
 flowchart LR
-    A[任意输入 key] --> B[哈希函数 h]
-    B --> C[索引 0 到 m-1]
-    C --> D[哈希表槽位]
+ A[任意输入 key] --> B[哈希函数 h]
+ B --> C[索引 0 到 m-1]
+ C --> D[哈希表槽位]
 ```
 
 ---
@@ -13626,18 +13626,18 @@ flowchart LR
 ```mermaid
 
 mindmap
-  root((哈希函数<br/>设计要求))
-    确定性
-      相同输入相同输出
-    高效性
-      计算快速
-    均匀性
-      分布均匀
-      减少冲突
-    雪崩效应
-      微小变化大幅输出
-    低冲突率
-      不同键不同索引
+ root((哈希函数<br/>设计要求))
+ 确定性
+ 相同输入相同输出
+ 高效性
+ 计算快速
+ 均匀性
+ 分布均匀
+ 减少冲突
+ 雪崩效应
+ 微小变化大幅输出
+ 低冲突率
+ 不同键不同索引
 ```
 
 ---
@@ -13649,9 +13649,9 @@ mindmap
 $$\forall k \in U, \quad h(k) = \text{常数}$$
 
 ```
-h("apple") = 3  ← 第一次调用
-h("apple") = 3  ← 第二次调用
-h("apple") = 3  ← 任何时候都是 3
+h("apple") = 3 ← 第一次调用
+h("apple") = 3 ← 第二次调用
+h("apple") = 3 ← 任何时候都是 3
 ```
 
 **反例**：不能使用随机数、当前时间等不确定因素。
@@ -13681,16 +13681,16 @@ $$P(h(k) = j) = \frac{1}{m}, \quad \forall j \in \{0, 1, \ldots, m-1\}$$
 
 ```
 不均匀分布（差）：
-索引 0 ████████████████████  20 个元素
-索引 1 ██                     2 个元素
-索引 2                        0 个元素
-索引 3 █                      1 个元素
+索引 0 ████████████████████ 20 个元素
+索引 1 ██ 2 个元素
+索引 2 0 个元素
+索引 3 █ 1 个元素
 
 均匀分布（好）：
-索引 0 ██████                 6 个元素
-索引 1 █████                  5 个元素
-索引 2 ██████                 6 个元素
-索引 3 ██████                 6 个元素
+索引 0 ██████ 6 个元素
+索引 1 █████ 5 个元素
+索引 2 ██████ 6 个元素
+索引 3 ██████ 6 个元素
 ```
 
 **意义**：减少冲突，保证平均 $O(1)$ 性能。
@@ -13705,12 +13705,12 @@ $$P(h(k) = j) = \frac{1}{m}, \quad \forall j \in \{0, 1, \ldots, m-1\}$$
 
 ```
 好的哈希函数：
-h("cat")  = 1834291
-h("car")  = 7263948  ← 只改了一个字母，输出完全不同
+h("cat") = 1834291
+h("car") = 7263948 ← 只改了一个字母，输出完全不同
 
 差的哈希函数：
-h("cat")  = 312
-h("car")  = 313      ← 输出只差 1，太接近了
+h("cat") = 312
+h("car") = 313 ← 输出只差 1，太接近了
 ```
 
 **意义**：防止相似的键聚集在相邻位置。
@@ -13731,16 +13731,16 @@ $$P(h(k_1) = h(k_2) \mid k_1 \neq k_2) \approx \frac{1}{m}$$
 
 ```mermaid
 flowchart TD
-    A[哈希设计方法] --> B[除留余数法]
-    A --> C[乘法哈希法]
-    A --> D[平方取中法]
-    A --> E[折叠法]
-    A --> F[多项式哈希]
-    B --> B1[最常用，简单高效]
-    C --> C1[对表大小不敏感]
-    D --> D1[适合分布不均的键]
-    E --> E1[适合长整数]
-    F --> F1[字符串专用]
+ A[哈希设计方法] --> B[除留余数法]
+ A --> C[乘法哈希法]
+ A --> D[平方取中法]
+ A --> E[折叠法]
+ A --> F[多项式哈希]
+ B --> B1[最常用，简单高效]
+ C --> C1[对表大小不敏感]
+ D --> D1[适合分布不均的键]
+ E --> E1[适合长整数]
+ F --> F1[字符串专用]
 ```
 
 ---
@@ -13856,18 +13856,18 @@ $$31 \cdot x = (x \ll 5) - x$$
 
 ```mermaid
 flowchart TD
-    A[确定键的类型] --> B{键是什么类型?}
-    B -->|整数| C[除留余数法/乘法哈希]
-    B -->|字符串| D[多项式哈希]
-    B -->|复合对象| E[组合各字段哈希]
-    C --> F[选择合适的 m]
-    D --> F
-    E --> F
-    F --> G[测试分布均匀性]
-    G --> H{是否满足要求?}
-    H -->|否| I[调整参数]
-    I --> F
-    H -->|是| J[确定哈希函数]
+ A[确定键的类型] --> B{键是什么类型?}
+ B -->|整数| C[除留余数法/乘法哈希]
+ B -->|字符串| D[多项式哈希]
+ B -->|复合对象| E[组合各字段哈希]
+ C --> F[选择合适的 m]
+ D --> F
+ E --> F
+ F --> G[测试分布均匀性]
+ G --> H{是否满足要求?}
+ H -->|否| I[调整参数]
+ I --> F
+ H -->|是| J[确定哈希函数]
 ```
 
 ---
@@ -13910,7 +13910,7 @@ $$n_i \approx \frac{n}{m}, \quad \sigma^2 \approx 0$$
 **错误一：只使用键的部分信息**
 
 ```
-错误：h("apple") = 'a'           // 只用首字母，冲突严重
+错误：h("apple") = 'a' // 只用首字母，冲突严重
 正确：h("apple") = 综合所有字符
 ```
 
@@ -13940,11 +13940,11 @@ $$h(k) = k \bmod 2 \quad \text{（只有 0 和 1 两个值）}$$
 
 ```java
 public int hashCode() {
-    int h = 0;
-    for (int i = 0; i < length; i++) {
-        h = 31 * h + charAt(i);
-    }
-    return h;
+ int h = 0;
+ for (int i = 0; i < length; i++) {
+ h = 31 * h + charAt(i);
+ }
+ return h;
 }
 ```
 
@@ -13958,15 +13958,15 @@ public int hashCode() {
 
 ```mermaid
 flowchart LR
-    A[输入键 k] --> B[哈希函数 h]
-    B --> C[索引值]
-    
-    D[设计要求] -.-> B
-    D --> D1[确定性]
-    D --> D2[高效性]
-    D --> D3[均匀性]
-    D --> D4[雪崩效应]
-    D --> D5[低冲突率]
+ A[输入键 k] --> B[哈希函数 h]
+ B --> C[索引值]
+
+ D[设计要求] -.-> B
+ D --> D1[确定性]
+ D --> D2[高效性]
+ D --> D3[均匀性]
+ D --> D4[雪崩效应]
+ D --> D5[低冲突率]
 ```
 
 ### 8.3 冲突解决：链地址法 / 开放寻址法
@@ -13977,15 +13977,15 @@ flowchart LR
 
 ```
 h("John") = 3
-h("Jane") = 3  ← 冲突了！两个不同的键映射到同一个槽位
+h("Jane") = 3 ← 冲突了！两个不同的键映射到同一个槽位
 ```
 
 ```mermaid
 flowchart LR
-    A["John"] --> C[h函数]
-    B["Jane"] --> C
-    C --> D[索引 3]
-    D --> E[槽位 3 怎么办?]
+ A["John"] --> C[h函数]
+ B["Jane"] --> C
+ C --> D[索引 3]
+ D --> E[槽位 3 怎么办?]
 ```
 
 **为什么会有冲突**：
@@ -14015,15 +14015,15 @@ flowchart LR
 
 ```mermaid
 flowchart TD
-    A[哈希表数组] --> B[索引 0]
-    A --> C[索引 1]
-    A --> D[索引 2]
-    A --> E[索引 3]
-    
-    B --> B1[Alice] --> B2[Bob]
-    C --> C1[Charlie]
-    D --> D1[空]
-    E --> E1[John] --> E2[Jane] --> E3[Jack]
+ A[哈希表数组] --> B[索引 0]
+ A --> C[索引 1]
+ A --> D[索引 2]
+ A --> E[索引 3]
+
+ B --> B1[Alice] --> B2[Bob]
+ C --> C1[Charlie]
+ D --> D1[空]
+ E --> E1[John] --> E2[Jane] --> E3[Jack]
 ```
 
 #### 操作步骤
@@ -14032,8 +14032,8 @@ flowchart TD
 
 ```mermaid
 flowchart TD
-    A[计算 h key] --> B[找到索引 i]
-    B --> C[在链表头部插入新节点]
+ A[计算 h key] --> B[找到索引 i]
+ B --> C[在链表头部插入新节点]
 ```
 
 ```
@@ -14046,11 +14046,11 @@ flowchart TD
 
 ```mermaid
 flowchart TD
-    A[计算 h key] --> B[找到索引 i]
-    B --> C[遍历链表]
-    C --> D{找到了?}
-    D -->|是| E[返回值]
-    D -->|否| F[返回 null]
+ A[计算 h key] --> B[找到索引 i]
+ B --> C[遍历链表]
+ C --> D{找到了?}
+ D -->|是| E[返回值]
+ D -->|否| F[返回 null]
 ```
 
 ```
@@ -14120,7 +14120,7 @@ m = 10 个槽位
 索引 1: Bob
 索引 2: 空
 索引 3: John
-索引 4: Jane  ← 本来应该在 3，但 3 被占了，放到 4
+索引 4: Jane ← 本来应该在 3，但 3 被占了，放到 4
 索引 5: 空
 ```
 
@@ -14151,8 +14151,8 @@ $$h(k, i) = (h'(k) + i) \bmod m$$
 
 ```
 插入 "Jane"，h'("Jane") = 3：
-尝试 i=0: h(Jane, 0) = (3 + 0) % 7 = 3  ← 被占
-尝试 i=1: h(Jane, 1) = (3 + 1) % 7 = 4  ← 空的，放这里
+尝试 i=0: h(Jane, 0) = (3 + 0) % 7 = 3 ← 被占
+尝试 i=1: h(Jane, 1) = (3 + 1) % 7 = 4 ← 空的，放这里
 ```
 
 **示例**：
@@ -14160,26 +14160,26 @@ $$h(k, i) = (h'(k) + i) \bmod m$$
 ```
 初始：
 [0] [1] [2] [3] [4] [5] [6]
- 空  空  空  空  空  空  空
+ 空 空 空 空 空 空 空
 
 插入 h'(k)=3 的元素 A：
 [0] [1] [2] [3] [4] [5] [6]
- 空  空  空  A   空  空  空
+ 空 空 空 A 空 空 空
 
 插入 h'(k)=3 的元素 B（冲突）：
 [0] [1] [2] [3] [4] [5] [6]
- 空  空  空  A   B   空  空  ← 放到下一个位置
+ 空 空 空 A B 空 空 ← 放到下一个位置
 
 插入 h'(k)=3 的元素 C（冲突）：
 [0] [1] [2] [3] [4] [5] [6]
- 空  空  空  A   B   C   空  ← 继续往后
+ 空 空 空 A B C 空 ← 继续往后
 ```
 
 **问题：一次聚集**（Primary Clustering）
 
 ```
 [0] [1] [2] [3] [4] [5] [6]
- 空  A   B   C   D   E   空  ← 形成一大块连续占用区域
+ 空 A B C D E 空 ← 形成一大块连续占用区域
 ```
 
 一旦形成聚集，后续插入会越来越慢。
@@ -14200,9 +14200,9 @@ $$h(k, i) = (h'(k) + i^2) \bmod m$$
 
 ```
 插入 "Jane"，h'("Jane") = 3：
-尝试 i=0: h(Jane, 0) = (3 + 0²) % 7 = 3  ← 被占
-尝试 i=1: h(Jane, 1) = (3 + 1²) % 7 = 4  ← 被占
-尝试 i=2: h(Jane, 2) = (3 + 4) % 7 = 0   ← 空的，放这里
+尝试 i=0: h(Jane, 0) = (3 + 0²) % 7 = 3 ← 被占
+尝试 i=1: h(Jane, 1) = (3 + 1²) % 7 = 4 ← 被占
+尝试 i=2: h(Jane, 2) = (3 + 4) % 7 = 0 ← 空的，放这里
 ```
 
 **优点**：缓解一次聚集问题
@@ -14262,27 +14262,27 @@ i=3: (3 + 3×5) % 7 = 4
 
 ```mermaid
 flowchart TD
-    A[i = 0] --> B[计算 h k, i]
-    B --> C{位置为空?}
-    C -->|是| D[插入元素]
-    C -->|否| E[i = i + 1]
-    E --> F{i < m?}
-    F -->|是| B
-    F -->|否| G[表满，插入失败]
+ A[i = 0] --> B[计算 h k, i]
+ B --> C{位置为空?}
+ C -->|是| D[插入元素]
+ C -->|否| E[i = i + 1]
+ E --> F{i < m?}
+ F -->|是| B
+ F -->|否| G[表满，插入失败]
 ```
 
 **查找操作**：
 
 ```mermaid
 flowchart TD
-    A[i = 0] --> B[计算 h k, i]
-    B --> C{位置是什么?}
-    C -->|空| D[未找到]
-    C -->|目标元素| E[找到了]
-    C -->|其他元素| F[i = i + 1]
-    F --> G{i < m?}
-    G -->|是| B
-    G -->|否| D
+ A[i = 0] --> B[计算 h k, i]
+ B --> C{位置是什么?}
+ C -->|空| D[未找到]
+ C -->|目标元素| E[找到了]
+ C -->|其他元素| F[i = i + 1]
+ F --> G{i < m?}
+ G -->|是| B
+ G -->|否| D
 ```
 
 **删除操作**：不能直接删除，要标记为"已删除"
@@ -14291,11 +14291,11 @@ flowchart TD
 问题：如果直接删除，会断开探测链
 
 [0] [1] [2] [3] [4] [5]
- 空  A   B   C   空  空
+ 空 A B C 空 空
 
 如果删除 B，直接置空：
 [0] [1] [2] [3] [4] [5]
- 空  A   空  C   空  空
+ 空 A 空 C 空 空
 
 查找 C 时：h'(C)=1，探测 1→2（空了，停止）
 错误地认为 C 不存在！
@@ -14305,7 +14305,7 @@ flowchart TD
 
 ```
 [0] [1] [2] [3] [4] [5]
- 空  A   DEL C   空  空
+ 空 A DEL C 空 空
 
 查找时：遇到 DELETED 继续探测
 插入时：DELETED 位置可以重用
@@ -14333,9 +14333,9 @@ $$\frac{1}{1-\alpha}$$
 
 | $\alpha$ | 成功查找 | 不成功查找 |
 | -------- | -------- | ---------- |
-| 0.5      | 1.4      | 2.0        |
-| 0.75     | 2.5      | 4.0        |
-| 0.9      | 5.5      | 10.0       |
+| 0.5 | 1.4 | 2.0 |
+| 0.75 | 2.5 | 4.0 |
+| 0.9 | 5.5 | 10.0 |
 
 **结论**：$\alpha$ 越大，性能越差。通常保持 $\alpha < 0.7$。
 
@@ -14360,27 +14360,27 @@ $$\frac{1}{1-\alpha}$$
 
 ```mermaid
 flowchart TD
-    A[冲突解决] --> B[链地址法]
-    A --> C[开放寻址法]
-    
-    B --> B1[每个槽位是链表]
-    B --> B2[α 可以 > 1]
-    B --> B3[需要指针空间]
-    
-    C --> C1[所有元素在数组中]
-    C --> C2[α 必须 < 1]
-    C --> C3[缓存友好]
+ A[冲突解决] --> B[链地址法]
+ A --> C[开放寻址法]
+
+ B --> B1[每个槽位是链表]
+ B --> B2[α 可以 > 1]
+ B --> B3[需要指针空间]
+
+ C --> C1[所有元素在数组中]
+ C --> C2[α 必须 < 1]
+ C --> C3[缓存友好]
 ```
 
-| 特性         | 链地址法       | 开放寻址法       |
+| 特性 | 链地址法 | 开放寻址法 |
 | ------------ | -------------- | ---------------- |
-| **存储方式** | 数组 + 链表    | 只用数组         |
-| **装填因子** | 可以 > 1       | 必须 < 1         |
-| **空间开销** | 需要指针       | 无额外开销       |
-| **缓存性能** | 差（链表分散） | 好（数组连续）   |
-| **删除操作** | 简单           | 复杂（需要标记） |
-| **实现难度** | 简单           | 中等             |
-| **适用场景** | 元素数量不确定 | 元素数量可预测   |
+| **存储方式** | 数组 + 链表 | 只用数组 |
+| **装填因子** | 可以 > 1 | 必须 < 1 |
+| **空间开销** | 需要指针 | 无额外开销 |
+| **缓存性能** | 差（链表分散） | 好（数组连续） |
+| **删除操作** | 简单 | 复杂（需要标记） |
+| **实现难度** | 简单 | 中等 |
+| **适用场景** | 元素数量不确定 | 元素数量可预测 |
 
 ---
 
@@ -14415,7 +14415,7 @@ flowchart TD
 
 - 一般情况：链地址法更常用
 
-  
+
 ### 8.4 装载因子与扩容
 
 #### 什么是装载因子（Load Factor）
@@ -14436,9 +14436,9 @@ $$\alpha = \frac{n}{m}$$
 
 ```mermaid
 flowchart LR
-    A[元素个数 n] --> C[装载因子 α]
-    B[表大小 m] --> C
-    C --> D[性能指标]
+ A[元素个数 n] --> C[装载因子 α]
+ B[表大小 m] --> C
+ C --> D[性能指标]
 ```
 
 ---
@@ -14449,10 +14449,10 @@ flowchart LR
 
 | $\alpha$ | 平均链表长度 | 查找性能 |
 |---------|------------|---------|
-| 0.5     | 0.5        | 很快    |
-| 1.0     | 1.0        | 较快    |
-| 2.0     | 2.0        | 一般    |
-| 5.0     | 5.0        | 慢      |
+| 0.5 | 0.5 | 很快 |
+| 1.0 | 1.0 | 较快 |
+| 2.0 | 2.0 | 一般 |
+| 5.0 | 5.0 | 慢 |
 
 ```
 α = 0.5（轻载）：
@@ -14474,10 +14474,10 @@ flowchart LR
 
 | $\alpha$ | 平均探测次数 | 性能 |
 |---------|------------|------|
-| 0.5     | 1.5        | 好   |
-| 0.7     | 2.5        | 可以 |
-| 0.9     | 5.5        | 差   |
-| 1.0     | 无穷大      | 表满 |
+| 0.5 | 1.5 | 好 |
+| 0.7 | 2.5 | 可以 |
+| 0.9 | 5.5 | 差 |
+| 1.0 | 无穷大 | 表满 |
 
 **结论**：$\alpha$ 越大，性能越差。
 
@@ -14489,11 +14489,11 @@ flowchart LR
 
 ```mermaid
 flowchart TD
-    A[不断插入元素] --> B[n 增大]
-    B --> C[α 增大]
-    C --> D[冲突增多]
-    D --> E[性能下降]
-    E --> F[需要扩容]
+ A[不断插入元素] --> B[n 增大]
+ B --> C[α 增大]
+ C --> D[冲突增多]
+ D --> E[性能下降]
+ E --> F[需要扩容]
 ```
 
 **解决方案**：当 $\alpha$ 超过阈值时，**扩容**（rehashing）。
@@ -14506,12 +14506,12 @@ flowchart TD
 
 ```mermaid
 flowchart TD
-    A[检测 α > 阈值] --> B[创建新表]
-    B --> C[新表大小通常是旧表的 2 倍]
-    C --> D[遍历旧表所有元素]
-    D --> E[重新计算哈希值]
-    E --> F[插入新表]
-    F --> G[释放旧表]
+ A[检测 α > 阈值] --> B[创建新表]
+ B --> C[新表大小通常是旧表的 2 倍]
+ C --> D[遍历旧表所有元素]
+ D --> E[重新计算哈希值]
+ E --> F[插入新表]
+ F --> G[释放旧表]
 ```
 
 **示例**：
@@ -14526,9 +14526,9 @@ flowchart TD
 扩容到新表（m=8）：
 1. 创建大小为 8 的新表
 2. 重新计算每个元素的哈希值
-   h(A) = 2  → 新表[2] = A
-   h(B) = 5  → 新表[5] = B
-   h(C) = 7  → 新表[7] = C
+ h(A) = 2 → 新表[2] = A
+ h(B) = 5 → 新表[5] = B
+ h(C) = 7 → 新表[7] = C
 3. 新表（m=8，n=3，α=0.375）
 ```
 
@@ -14553,7 +14553,7 @@ flowchart TD
 ```
 插入元素时检查：
 if (n / m > 阈值) {
-    扩容();
+ 扩容();
 }
 插入元素;
 ```
@@ -14565,8 +14565,8 @@ if (n / m > 阈值) {
 **常见做法**：新表大小 = 旧表大小 × 2
 
 ```
-m = 4  → 扩容 → m = 8
-m = 8  → 扩容 → m = 16
+m = 4 → 扩容 → m = 8
+m = 8 → 扩容 → m = 16
 m = 16 → 扩容 → m = 32
 ```
 
@@ -14578,8 +14578,8 @@ m = 16 → 扩容 → m = 32
 **注意**：扩容后通常调整到**质数**（对除留余数法更友好）
 
 ```
-m = 4  → 扩容 → m = 7（质数）
-m = 7  → 扩容 → m = 13（质数）
+m = 4 → 扩容 → m = 7（质数）
+m = 7 → 扩容 → m = 13（质数）
 m = 13 → 扩容 → m = 29（质数）
 ```
 
@@ -14593,10 +14593,10 @@ m = 13 → 扩容 → m = 29（质数）
 
 ```mermaid
 flowchart LR
-    A[扩容开始] --> B[分配新空间 O m]
-    B --> C[遍历旧表 O n]
-    C --> D[重新插入 O n]
-    D --> E[释放旧表]
+ A[扩容开始] --> B[分配新空间 O m]
+ B --> C[遍历旧表 O n]
+ C --> D[重新插入 O n]
+ D --> E[释放旧表]
 ```
 
 **单次扩容很慢，但平摊下来是 $O(1)$**
@@ -14685,13 +14685,13 @@ m = 100，n = 5，α = 0.05
 // 不好：频繁扩容
 HashMap<String, Integer> map = new HashMap<>();
 for (int i = 0; i < 10000; i++) {
-    map.put("key" + i, i);
+ map.put("key" + i, i);
 }
 
 // 好：预分配
 HashMap<String, Integer> map = new HashMap<>(15000); // 10000/0.75
 for (int i = 0; i < 10000; i++) {
-    map.put("key" + i, i);
+ map.put("key" + i, i);
 }
 ```
 
@@ -14706,14 +14706,14 @@ for (int i = 0; i < 10000; i++) {
 
 ```mermaid
 flowchart TD
-    A[装载因子 α] --> B{α 的大小}
-    B -->|α 太小| C[浪费空间]
-    B -->|α 适中| D[性能好]
-    B -->|α 太大| E[性能差]
-    E --> F[需要扩容]
-    F --> G[重新哈希]
-    G --> H[α 降低]
-    H --> D
+ A[装载因子 α] --> B{α 的大小}
+ B -->|α 太小| C[浪费空间]
+ B -->|α 适中| D[性能好]
+ B -->|α 太大| E[性能差]
+ E --> F[需要扩容]
+ F --> G[重新哈希]
+ G --> H[α 降低]
+ H --> D
 ```
 
 **核心概念**：
@@ -14740,8 +14740,8 @@ $$\alpha = \frac{n}{m} = \frac{\text{元素数}}{\text{表大小}}$$
 **集合**：一种**不允许重复元素**的数据结构。
 
 ```
-数组：[1, 2, 3, 2, 4]  ← 允许重复
-集合：{1, 2, 3, 4}     ← 不允许重复，自动去重
+数组：[1, 2, 3, 2, 4] ← 允许重复
+集合：{1, 2, 3, 4} ← 不允许重复，自动去重
 ```
 
 **核心特点**：
@@ -14751,15 +14751,15 @@ $$\alpha = \frac{n}{m} = \frac{\text{元素数}}{\text{表大小}}$$
 
 ```mermaid
 mindmap
-  root((集合 Set))
-    元素唯一
-      自动去重
-    无序
-      不保证插入顺序
-    快速操作
-      查找 O 1
-      插入 O 1
-      删除 O 1
+ root((集合 Set))
+ 元素唯一
+ 自动去重
+ 无序
+ 不保证插入顺序
+ 快速操作
+ 查找 O 1
+ 插入 O 1
+ 删除 O 1
 ```
 
 ---
@@ -14778,28 +14778,28 @@ HashSet：key → 固定值（如 true）
 ```java
 // Java HashSet 的内部实现（简化版）
 class HashSet<E> {
-    private HashMap<E, Object> map;
-    private static final Object PRESENT = new Object();
-    
-    public boolean add(E e) {
-        return map.put(e, PRESENT) == null;
-    }
-    
-    public boolean contains(E e) {
-        return map.containsKey(e);
-    }
-    
-    public boolean remove(E e) {
-        return map.remove(e) == PRESENT;
-    }
+ private HashMap<E, Object> map;
+ private static final Object PRESENT = new Object();
+
+ public boolean add(E e) {
+ return map.put(e, PRESENT) == null;
+ }
+
+ public boolean contains(E e) {
+ return map.containsKey(e);
+ }
+
+ public boolean remove(E e) {
+ return map.remove(e) == PRESENT;
+ }
 }
 ```
 
 ```mermaid
 flowchart LR
-    A[HashSet] --> B[内部使用 HashMap]
-    B --> C[元素作为 key]
-    B --> D[value 是固定值]
+ A[HashSet] --> B[内部使用 HashMap]
+ B --> C[元素作为 key]
+ B --> D[value 是固定值]
 ```
 
 ---
@@ -14810,9 +14810,9 @@ flowchart LR
 
 ```java
 Set<String> set = new HashSet<>();
-set.add("apple");   // 返回 true（添加成功）
-set.add("banana");  // 返回 true
-set.add("apple");   // 返回 false（已存在，添加失败）
+set.add("apple"); // 返回 true（添加成功）
+set.add("banana"); // 返回 true
+set.add("apple"); // 返回 false（已存在，添加失败）
 ```
 
 **时间复杂度**：$O(1)$（平均）
@@ -14822,8 +14822,8 @@ set.add("apple");   // 返回 false（已存在，添加失败）
 **2. 查找元素（contains）**
 
 ```java
-set.contains("apple");   // true
-set.contains("orange");  // false
+set.contains("apple"); // true
+set.contains("orange"); // false
 ```
 
 **时间复杂度**：$O(1)$（平均）
@@ -14833,8 +14833,8 @@ set.contains("orange");  // false
 **3. 删除元素（remove）**
 
 ```java
-set.remove("apple");   // 返回 true（删除成功）
-set.remove("orange");  // 返回 false（不存在）
+set.remove("apple"); // 返回 true（删除成功）
+set.remove("orange"); // 返回 false（不存在）
 ```
 
 **时间复杂度**：$O(1)$（平均）
@@ -14844,7 +14844,7 @@ set.remove("orange");  // 返回 false（不存在）
 **4. 获取大小（size）**
 
 ```java
-set.size();  // 返回元素个数
+set.size(); // 返回元素个数
 ```
 
 **时间复杂度**：$O(1)$
@@ -14854,7 +14854,7 @@ set.size();  // 返回元素个数
 **5. 判断是否为空（isEmpty）**
 
 ```java
-set.isEmpty();  // true 或 false
+set.isEmpty(); // true 或 false
 ```
 
 **时间复杂度**：$O(1)$
@@ -14864,7 +14864,7 @@ set.isEmpty();  // true 或 false
 **6. 清空集合（clear）**
 
 ```java
-set.clear();  // 删除所有元素
+set.clear(); // 删除所有元素
 ```
 
 **时间复杂度**：$O(n)$
@@ -14882,7 +14882,7 @@ set.add("banana");
 set.add("cherry");
 
 for (String item : set) {
-    System.out.println(item);
+ System.out.println(item);
 }
 ```
 
@@ -14891,8 +14891,8 @@ for (String item : set) {
 ```java
 Iterator<String> it = set.iterator();
 while (it.hasNext()) {
-    String item = it.next();
-    System.out.println(item);
+ String item = it.next();
+ System.out.println(item);
 }
 ```
 
@@ -14921,7 +14921,7 @@ Set<Integer> A = new HashSet<>(Arrays.asList(1, 2, 3));
 Set<Integer> B = new HashSet<>(Arrays.asList(3, 4, 5));
 
 Set<Integer> union = new HashSet<>(A);
-union.addAll(B);  // {1, 2, 3, 4, 5}
+union.addAll(B); // {1, 2, 3, 4, 5}
 ```
 
 $$A \cup B = \{1, 2, 3, 4, 5\}$$
@@ -14935,7 +14935,7 @@ Set<Integer> A = new HashSet<>(Arrays.asList(1, 2, 3));
 Set<Integer> B = new HashSet<>(Arrays.asList(3, 4, 5));
 
 Set<Integer> intersection = new HashSet<>(A);
-intersection.retainAll(B);  // {3}
+intersection.retainAll(B); // {3}
 ```
 
 $$A \cap B = \{3\}$$
@@ -14949,7 +14949,7 @@ Set<Integer> A = new HashSet<>(Arrays.asList(1, 2, 3));
 Set<Integer> B = new HashSet<>(Arrays.asList(3, 4, 5));
 
 Set<Integer> difference = new HashSet<>(A);
-difference.removeAll(B);  // {1, 2}
+difference.removeAll(B); // {1, 2}
 ```
 
 $$A - B = \{1, 2\}$$
@@ -14962,7 +14962,7 @@ $$A - B = \{1, 2\}$$
 Set<Integer> A = new HashSet<>(Arrays.asList(1, 2));
 Set<Integer> B = new HashSet<>(Arrays.asList(1, 2, 3, 4));
 
-boolean isSubset = B.containsAll(A);  // true（A 是 B 的子集）
+boolean isSubset = B.containsAll(A); // true（A 是 B 的子集）
 ```
 
 $$A \subseteq B$$
@@ -14978,7 +14978,7 @@ $$A \subseteq B$$
 int[] arr = {1, 2, 3, 2, 4, 1, 5};
 Set<Integer> set = new HashSet<>();
 for (int num : arr) {
-    set.add(num);
+ set.add(num);
 }
 // set = {1, 2, 3, 4, 5}
 ```
@@ -14994,7 +14994,7 @@ visited.add("page1");
 visited.add("page2");
 
 if (visited.contains("page1")) {
-    System.out.println("已访问过");
+ System.out.println("已访问过");
 }
 ```
 
@@ -15008,9 +15008,9 @@ Set<Integer> seen = new HashSet<>();
 Set<Integer> duplicates = new HashSet<>();
 
 for (int num : arr) {
-    if (!seen.add(num)) {  // add 返回 false 说明已存在
-        duplicates.add(num);
-    }
+ if (!seen.add(num)) { // add 返回 false 说明已存在
+ duplicates.add(num);
+ }
 }
 // duplicates = {1, 2}
 ```
@@ -15025,14 +15025,14 @@ int[] nums2 = {2, 2};
 
 Set<Integer> set1 = new HashSet<>();
 for (int num : nums1) {
-    set1.add(num);
+ set1.add(num);
 }
 
 Set<Integer> result = new HashSet<>();
 for (int num : nums2) {
-    if (set1.contains(num)) {
-        result.add(num);
-    }
+ if (set1.contains(num)) {
+ result.add(num);
+ }
 }
 // result = {2}
 ```
@@ -15043,28 +15043,28 @@ for (int num : nums2) {
 
 ```mermaid
 flowchart TD
-    A[Set 接口] --> B[HashSet]
-    A --> C[TreeSet]
-    A --> D[LinkedHashSet]
-    
-    B --> B1[基于哈希表]
-    B --> B2[无序]
-    B --> B3[O 1 操作]
-    
-    C --> C1[基于红黑树]
-    C --> C2[有序 排序]
-    C --> C3[O log n 操作]
-    
-    D --> D1[哈希表 + 链表]
-    D --> D2[保持插入顺序]
-    D --> D3[O 1 操作]
+ A[Set 接口] --> B[HashSet]
+ A --> C[TreeSet]
+ A --> D[LinkedHashSet]
+
+ B --> B1[基于哈希表]
+ B --> B2[无序]
+ B --> B3[O 1 操作]
+
+ C --> C1[基于红黑树]
+ C --> C2[有序 排序]
+ C --> C3[O log n 操作]
+
+ D --> D1[哈希表 + 链表]
+ D --> D2[保持插入顺序]
+ D --> D3[O 1 操作]
 ```
 
-| 类型              | 底层实现      | 顺序     | 时间复杂度  |
+| 类型 | 底层实现 | 顺序 | 时间复杂度 |
 | ----------------- | ------------- | -------- | ----------- |
-| **HashSet**       | 哈希表        | 无序     | $O(1)$      |
-| **TreeSet**       | 红黑树        | 排序     | $O(\log n)$ |
-| **LinkedHashSet** | 哈希表 + 链表 | 插入顺序 | $O(1)$      |
+| **HashSet** | 哈希表 | 无序 | $O(1)$ |
+| **TreeSet** | 红黑树 | 排序 | $O(\log n)$ |
+| **LinkedHashSet** | 哈希表 + 链表 | 插入顺序 | $O(1)$ |
 
 **示例**：
 
@@ -15074,21 +15074,21 @@ Set<Integer> hashSet = new HashSet<>();
 hashSet.add(3);
 hashSet.add(1);
 hashSet.add(2);
-System.out.println(hashSet);  // 可能输出 [1, 2, 3] 或 [3, 1, 2]
+System.out.println(hashSet); // 可能输出 [1, 2, 3] 或 [3, 1, 2]
 
 // TreeSet：排序
 Set<Integer> treeSet = new TreeSet<>();
 treeSet.add(3);
 treeSet.add(1);
 treeSet.add(2);
-System.out.println(treeSet);  // 输出 [1, 2, 3]
+System.out.println(treeSet); // 输出 [1, 2, 3]
 
 // LinkedHashSet：插入顺序
 Set<Integer> linkedSet = new LinkedHashSet<>();
 linkedSet.add(3);
 linkedSet.add(1);
 linkedSet.add(2);
-System.out.println(linkedSet);  // 输出 [3, 1, 2]
+System.out.println(linkedSet); // 输出 [3, 1, 2]
 ```
 
 ---
@@ -15097,19 +15097,19 @@ System.out.println(linkedSet);  // 输出 [3, 1, 2]
 
 **HashSet**（基于哈希表）：
 
-| 操作     | 平均   | 最坏   |
+| 操作 | 平均 | 最坏 |
 | -------- | ------ | ------ |
-| add      | $O(1)$ | $O(n)$ |
+| add | $O(1)$ | $O(n)$ |
 | contains | $O(1)$ | $O(n)$ |
-| remove   | $O(1)$ | $O(n)$ |
+| remove | $O(1)$ | $O(n)$ |
 
 **TreeSet**（基于红黑树）：
 
-| 操作     | 时间复杂度  |
+| 操作 | 时间复杂度 |
 | -------- | ----------- |
-| add      | $O(\log n)$ |
+| add | $O(\log n)$ |
 | contains | $O(\log n)$ |
-| remove   | $O(\log n)$ |
+| remove | $O(\log n)$ |
 
 ---
 
@@ -15119,21 +15119,21 @@ System.out.println(linkedSet);  // 输出 [3, 1, 2]
 
 ```java
 class Person {
-    String name;
-    int age;
-    
-    @Override
-    public int hashCode() {
-        return Objects.hash(name, age);
-    }
-    
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (obj == null || getClass() != obj.getClass()) return false;
-        Person person = (Person) obj;
-        return age == person.age && Objects.equals(name, person.name);
-    }
+ String name;
+ int age;
+
+ @Override
+ public int hashCode() {
+ return Objects.hash(name, age);
+ }
+
+ @Override
+ public boolean equals(Object obj) {
+ if (this == obj) return true;
+ if (obj == null || getClass() != obj.getClass()) return false;
+ Person person = (Person) obj;
+ return age == person.age && Objects.equals(name, person.name);
+ }
 }
 ```
 
@@ -15142,7 +15142,7 @@ class Person {
 ```java
 Set<Person> set = new HashSet<>();
 set.add(new Person("Alice", 20));
-set.add(new Person("Alice", 20));  // 应该被认为是重复，但可能不会
+set.add(new Person("Alice", 20)); // 应该被认为是重复，但可能不会
 ```
 
 ---
@@ -15152,18 +15152,18 @@ set.add(new Person("Alice", 20));  // 应该被认为是重复，但可能不会
 ```java
 // 错误：会抛出 ConcurrentModificationException
 for (String item : set) {
-    if (item.equals("apple")) {
-        set.remove(item);  // 错误！
-    }
+ if (item.equals("apple")) {
+ set.remove(item); // 错误！
+ }
 }
 
 // 正确：使用迭代器
 Iterator<String> it = set.iterator();
 while (it.hasNext()) {
-    String item = it.next();
-    if (item.equals("apple")) {
-        it.remove();  // 正确
-    }
+ String item = it.next();
+ if (item.equals("apple")) {
+ it.remove(); // 正确
+ }
 }
 ```
 
@@ -15188,16 +15188,16 @@ Set<String> set = ConcurrentHashMap.newKeySet();
 ```java
 // 给定数组和目标值，找出两个数的和等于目标值
 public int[] twoSum(int[] nums, int target) {
-    Set<Integer> seen = new HashSet<>();
-    for (int i = 0; i < nums.length; i++) {
-        int complement = target - nums[i];
-        if (seen.contains(complement)) {
-            // 找到了
-            return new int[]{complement, nums[i]};
-        }
-        seen.add(nums[i]);
-    }
-    return null;
+ Set<Integer> seen = new HashSet<>();
+ for (int i = 0; i < nums.length; i++) {
+ int complement = target - nums[i];
+ if (seen.contains(complement)) {
+ // 找到了
+ return new int[]{complement, nums[i]};
+ }
+ seen.add(nums[i]);
+ }
+ return null;
 }
 ```
 
@@ -15207,14 +15207,14 @@ public int[] twoSum(int[] nums, int target) {
 
 ```mermaid
 flowchart TD
-    A[HashSet] --> B[基于哈希表]
-    B --> C[元素唯一]
-    B --> D[无序]
-    B --> E[O 1 操作]
-    
-    F[常见用途] --> G[去重]
-    F --> H[快速查找]
-    F --> I[集合运算]
+ A[HashSet] --> B[基于哈希表]
+ B --> C[元素唯一]
+ B --> D[无序]
+ B --> E[O 1 操作]
+
+ F[常见用途] --> G[去重]
+ F --> H[快速查找]
+ F --> I[集合运算]
 ```
 
 **核心特点**：
@@ -15241,20 +15241,20 @@ flowchart TD
 **树**：一种**层次结构**的数据结构，像倒过来的树。
 
 ```
-        A          ← 根在上面
-       / \
-      B   C        ← 分支
-     / \   \
-    D   E   F      ← 叶子在下面
+ A ← 根在上面
+ / \
+ B C ← 分支
+ / \ \
+ D E F ← 叶子在下面
 ```
 
 ```mermaid
 graph TD
-    A((A)) --> B((B))
-    A --> C((C))
-    B --> D((D))
-    B --> E((E))
-    C --> F((F))
+ A((A)) --> B((B))
+ A --> C((C))
+ B --> D((D))
+ B --> E((E))
+ C --> F((F))
 ```
 
 **特点**：
@@ -15281,9 +15281,9 @@ A, B, C, D, E, F 都是节点
 最顶层的节点，没有父节点。
 
 ```
-        A          ← 根节点
-       / \
-      B   C
+ A ← 根节点
+ / \
+ B C
 ```
 
 ---
@@ -15293,11 +15293,11 @@ A, B, C, D, E, F 都是节点
 没有子节点的节点。
 
 ```
-        A
-       / \
-      B   C
-     / \   \
-    D   E   F      ← D, E, F 是叶子节点
+ A
+ / \
+ B C
+ / \ \
+ D E F ← D, E, F 是叶子节点
 ```
 
 ---
@@ -15305,9 +15305,9 @@ A, B, C, D, E, F 都是节点
 **4. 父节点（Parent）和子节点（Child）**
 
 ```
-        A          ← A 是 B 和 C 的父节点
-       / \
-      B   C        ← B 和 C 是 A 的子节点
+ A ← A 是 B 和 C 的父节点
+ / \
+ B C ← B 和 C 是 A 的子节点
 ```
 
 ---
@@ -15317,11 +15317,11 @@ A, B, C, D, E, F 都是节点
 有相同父节点的节点。
 
 ```
-        A
-       / \
-      B   C        ← B 和 C 是兄弟节点
-     / \
-    D   E          ← D 和 E 是兄弟节点
+ A
+ / \
+ B C ← B 和 C 是兄弟节点
+ / \
+ D E ← D 和 E 是兄弟节点
 ```
 
 ---
@@ -15329,11 +15329,11 @@ A, B, C, D, E, F 都是节点
 **6. 祖先（Ancestor）和后代（Descendant）**
 
 ```
-        A          ← A 是 D 的祖先
-       / \
-      B   C        ← B 是 D 的祖先
-     / \
-    D   E          ← D 是 A 的后代
+ A ← A 是 D 的祖先
+ / \
+ B C ← B 是 D 的祖先
+ / \
+ D E ← D 是 A 的后代
 ```
 
 ---
@@ -15345,11 +15345,11 @@ A, B, C, D, E, F 都是节点
 **节点的度**：该节点有多少个子节点。
 
 ```
-        A          度 = 2（有 B 和 C 两个子节点）
-       / \
-      B   C        B 的度 = 2，C 的度 = 1
-     / \   \
-    D   E   F      D, E, F 的度 = 0（叶子节点）
+ A 度 = 2（有 B 和 C 两个子节点）
+ / \
+ B C B 的度 = 2，C 的度 = 1
+ / \ \
+ D E F D, E, F 的度 = 0（叶子节点）
 ```
 
 **树的度**：所有节点中最大的度。
@@ -15365,11 +15365,11 @@ A, B, C, D, E, F 都是节点
 从根节点开始，根节点是第 0 层（或第 1 层，看定义）。
 
 ```
-        A          ← 第 0 层
-       / \
-      B   C        ← 第 1 层
-     / \   \
-    D   E   F      ← 第 2 层
+ A ← 第 0 层
+ / \
+ B C ← 第 1 层
+ / \ \
+ D E F ← 第 2 层
 ```
 
 ---
@@ -15379,11 +15379,11 @@ A, B, C, D, E, F 都是节点
 **节点的深度**：从根节点到该节点的**边数**。
 
 ```
-        A          深度 = 0
-       / \
-      B   C        深度 = 1
-     / \   \
-    D   E   F      深度 = 2
+ A 深度 = 0
+ / \
+ B C 深度 = 1
+ / \ \
+ D E F 深度 = 2
 ```
 
 **计算方式**：从上往下数。
@@ -15397,11 +15397,11 @@ $$\text{深度}(D) = 2 \quad \text{（从 A 到 D 经过 2 条边）}$$
 **节点的高度**：从该节点到**最远叶子节点**的边数。
 
 ```
-        A          高度 = 2（到 D/E/F 最远）
-       / \
-      B   C        B 的高度 = 1，C 的高度 = 1
-     / \   \
-    D   E   F      D, E, F 的高度 = 0（叶子节点）
+ A 高度 = 2（到 D/E/F 最远）
+ / \
+ B C B 的高度 = 1，C 的高度 = 1
+ / \ \
+ D E F D, E, F 的高度 = 0（叶子节点）
 ```
 
 **计算方式**：从下往上数。
@@ -15416,11 +15416,11 @@ $$\text{树的高度} = 2$$
 
 ```mermaid
 graph TD
-    A((A<br/>深度0 高度2)) --> B((B<br/>深度1 高度1))
-    A --> C((C<br/>深度1 高度1))
-    B --> D((D<br/>深度2 高度0))
-    B --> E((E<br/>深度2 高度0))
-    C --> F((F<br/>深度2 高度0))
+ A((A<br/>深度0 高度2)) --> B((B<br/>深度1 高度1))
+ A --> C((C<br/>深度1 高度1))
+ B --> D((D<br/>深度2 高度0))
+ B --> E((E<br/>深度2 高度0))
+ C --> F((F<br/>深度2 高度0))
 ```
 
 | 概念 | 方向 | 说明 |
@@ -15439,11 +15439,11 @@ graph TD
 从一个节点到另一个节点经过的节点序列。
 
 ```
-        A
-       / \
-      B   C
-     / \
-    D   E
+ A
+ / \
+ B C
+ / \
+ D E
 
 从 A 到 D 的路径：A → B → D
 路径长度 = 2（经过 2 条边）
@@ -15456,16 +15456,16 @@ graph TD
 树中任意节点及其所有后代组成的树。
 
 ```
-        A
-       / \
-      B   C        ← 以 B 为根的子树
-     / \   \
-    D   E   F
-    
+ A
+ / \
+ B C ← 以 B 为根的子树
+ / \ \
+ D E F
+
 以 B 为根的子树：
-      B
-     / \
-    D   E
+ B
+ / \
+ D E
 ```
 
 ---
@@ -15476,31 +15476,31 @@ graph TD
 
 ```mermaid
 flowchart TD
-    A[树的分类] --> B[二叉树]
-    A --> C[多叉树]
-    
-    B --> B1[每个节点最多 2 个子节点]
-    C --> C1[每个节点可以有多个子节点]
+ A[树的分类] --> B[二叉树]
+ A --> C[多叉树]
+
+ B --> B1[每个节点最多 2 个子节点]
+ C --> C1[每个节点可以有多个子节点]
 ```
 
 **二叉树**：每个节点最多 2 个子节点
 
 ```
-        A
-       / \
-      B   C
-     /
-    D
+ A
+ / \
+ B C
+ /
+ D
 ```
 
 **多叉树**：每个节点可以有多个子节点
 
 ```
-        A
-      / | \
-     B  C  D
-    /|\
-   E F G
+ A
+ / | \
+ B C D
+ /|\
+ E F G
 ```
 
 ---
@@ -15521,12 +15521,12 @@ flowchart TD
 #### 快速记忆
 
 ```
-        A          根（最上面）
-       / \         度（分叉数）
-      B   C        层次（第几层）
-     / \   \       深度（往下数）
-    D   E   F      叶子（最下面）
-                   高度（往上数）
+ A 根（最上面）
+ / \ 度（分叉数）
+ B C 层次（第几层）
+ / \ \ 深度（往下数）
+ D E F 叶子（最下面）
+ 高度（往上数）
 ```
 
 **口诀**：
@@ -15547,11 +15547,11 @@ flowchart TD
 
 
 ```
-        A (根, 深度0, 高度2, 度2)
-       / \
-      B   C (深度1, 高度1)
-     / \   \
-    D   E   F (叶子, 深度2, 高度0, 度0)
+ A (根, 深度0, 高度2, 度2)
+ / \
+ B C (深度1, 高度1)
+ / \ \
+ D E F (叶子, 深度2, 高度0, 度0)
 ```
 
 ### 9.2 二叉树（Binary Tree）
@@ -15561,11 +15561,11 @@ flowchart TD
 **二叉树**：每个节点**最多有 2 个子节点**的树。
 
 ```
-        A
-       / \
-      B   C        ← 每个节点最多 2 个子节点
-     / \   \
-    D   E   F
+ A
+ / \
+ B C ← 每个节点最多 2 个子节点
+ / \ \
+ D E F
 ```
 
 **特点**：
@@ -15575,11 +15575,11 @@ flowchart TD
 
 ```mermaid
 graph TD
-    A((A)) --> B((B 左子节点))
-    A --> C((C 右子节点))
-    B --> D((D))
-    B --> E((E))
-    C --> F((F))
+ A((A)) --> B((B 左子节点))
+ A --> C((C 右子节点))
+ B --> D((D))
+ B --> E((E))
+ C --> F((F))
 ```
 
 ---
@@ -15590,13 +15590,13 @@ graph TD
 
 ```java
 class TreeNode {
-    int val;              // 节点值
-    TreeNode left;        // 左子节点
-    TreeNode right;       // 右子节点
-    
-    TreeNode(int val) {
-        this.val = val;
-    }
+ int val; // 节点值
+ TreeNode left; // 左子节点
+ TreeNode right; // 右子节点
+
+ TreeNode(int val) {
+ this.val = val;
+ }
 }
 ```
 
@@ -15611,11 +15611,11 @@ root.left.right = new TreeNode(5);
 ```
 
 ```
-        1
-       / \
-      2   3
-     / \
-    4   5
+ 1
+ / \
+ 2 3
+ / \
+ 4 5
 ```
 
 ---
@@ -15627,17 +15627,17 @@ root.left.right = new TreeNode(5);
 每个节点要么是叶子节点（0 个子节点），要么有 2 个子节点。
 
 ```
-        A
-       / \
-      B   C        ← 满二叉树
-     / \
-    D   E
+ A
+ / \
+ B C ← 满二叉树
+ / \
+ D E
 
-        A
-       / \
-      B   C        ← 不是满二叉树（B 只有 1 个子节点）
-     /
-    D
+ A
+ / \
+ B C ← 不是满二叉树（B 只有 1 个子节点）
+ /
+ D
 ```
 
 **特点**：
@@ -15651,17 +15651,17 @@ root.left.right = new TreeNode(5);
 除了最后一层，其他层都是满的，且最后一层的节点**从左到右**连续。
 
 ```
-        A
-       / \
-      B   C        ← 完全二叉树
-     / \  /
-    D  E F
+ A
+ / \
+ B C ← 完全二叉树
+ / \ /
+ D E F
 
-        A
-       / \
-      B   C        ← 不是完全二叉树（最后一层不连续）
-     /    /
-    D    F
+ A
+ / \
+ B C ← 不是完全二叉树（最后一层不连续）
+ / /
+ D F
 ```
 
 **特点**：
@@ -15675,11 +15675,11 @@ root.left.right = new TreeNode(5);
 所有层都是满的。
 
 ```
-        A
-       / \
-      B   C        ← 完美二叉树（高度 2，共 7 个节点）
-     / \ / \
-    D  E F  G
+ A
+ / \
+ B C ← 完美二叉树（高度 2，共 7 个节点）
+ / \ / \
+ D E F G
 ```
 
 **特点**：
@@ -15695,17 +15695,17 @@ $$\text{节点数} = 2^3 - 1 = 7$$
 任意节点的左右子树高度差不超过 1。
 
 ```
-        A
-       / \
-      B   C        ← 平衡二叉树（左右高度差 ≤ 1）
-     / \
-    D   E
+ A
+ / \
+ B C ← 平衡二叉树（左右高度差 ≤ 1）
+ / \
+ D E
 
-        A
-       /
-      B            ← 不平衡（左子树高度 2，右子树高度 0）
-     /
-    C
+ A
+ /
+ B ← 不平衡（左子树高度 2，右子树高度 0）
+ /
+ C
 ```
 
 **特点**：
@@ -15719,11 +15719,11 @@ $$\text{节点数} = 2^3 - 1 = 7$$
 左子树所有节点 < 根节点 < 右子树所有节点。
 
 ```
-        5
-       / \
-      3   7        ← 二叉搜索树
-     / \   \
-    1   4   9
+ 5
+ / \
+ 3 7 ← 二叉搜索树
+ / \ \
+ 1 4 9
 ```
 
 **特点**：
@@ -15768,15 +15768,15 @@ $$\text{节点数} = 2^3 - 1 = 7$$
 **性质 4**：叶子节点数 = 度为 2 的节点数 + 1
 
 ```
-        A
-       / \
-      B   C
-     / \
-    D   E
+ A
+ / \
+ B C
+ / \
+ D E
 
 叶子节点：D, E, C（3 个）
 度为 2 的节点：A, B（2 个）
-3 = 2 + 1 ✓
+3 = 2 + 1
 ```
 
 ---
@@ -15788,11 +15788,11 @@ $$\text{节点数} = 2^3 - 1 = 7$$
 **顺序**：根 → 左 → 右
 
 ```
-        1
-       / \
-      2   3
-     / \
-    4   5
+ 1
+ / \
+ 2 3
+ / \
+ 4 5
 
 前序遍历：1 → 2 → 4 → 5 → 3
 ```
@@ -15801,11 +15801,11 @@ $$\text{节点数} = 2^3 - 1 = 7$$
 
 ```java
 void preorder(TreeNode root) {
-    if (root == null) return;
-    
-    System.out.print(root.val + " ");  // 访问根
-    preorder(root.left);               // 遍历左子树
-    preorder(root.right);              // 遍历右子树
+ if (root == null) return;
+
+ System.out.print(root.val + " "); // 访问根
+ preorder(root.left); // 遍历左子树
+ preorder(root.right); // 遍历右子树
 }
 ```
 
@@ -15816,11 +15816,11 @@ void preorder(TreeNode root) {
 **顺序**：左 → 根 → 右
 
 ```
-        1
-       / \
-      2   3
-     / \
-    4   5
+ 1
+ / \
+ 2 3
+ / \
+ 4 5
 
 中序遍历：4 → 2 → 5 → 1 → 3
 ```
@@ -15829,11 +15829,11 @@ void preorder(TreeNode root) {
 
 ```java
 void inorder(TreeNode root) {
-    if (root == null) return;
-    
-    inorder(root.left);                // 遍历左子树
-    System.out.print(root.val + " ");  // 访问根
-    inorder(root.right);               // 遍历右子树
+ if (root == null) return;
+
+ inorder(root.left); // 遍历左子树
+ System.out.print(root.val + " "); // 访问根
+ inorder(root.right); // 遍历右子树
 }
 ```
 
@@ -15846,11 +15846,11 @@ void inorder(TreeNode root) {
 **顺序**：左 → 右 → 根
 
 ```
-        1
-       / \
-      2   3
-     / \
-    4   5
+ 1
+ / \
+ 2 3
+ / \
+ 4 5
 
 后序遍历：4 → 5 → 2 → 3 → 1
 ```
@@ -15859,11 +15859,11 @@ void inorder(TreeNode root) {
 
 ```java
 void postorder(TreeNode root) {
-    if (root == null) return;
-    
-    postorder(root.left);              // 遍历左子树
-    postorder(root.right);             // 遍历右子树
-    System.out.print(root.val + " ");  // 访问根
+ if (root == null) return;
+
+ postorder(root.left); // 遍历左子树
+ postorder(root.right); // 遍历右子树
+ System.out.print(root.val + " "); // 访问根
 }
 ```
 
@@ -15874,11 +15874,11 @@ void postorder(TreeNode root) {
 **顺序**：一层一层从左到右
 
 ```
-        1
-       / \
-      2   3
-     / \
-    4   5
+ 1
+ / \
+ 2 3
+ / \
+ 4 5
 
 层序遍历：1 → 2 → 3 → 4 → 5
 ```
@@ -15887,18 +15887,18 @@ void postorder(TreeNode root) {
 
 ```java
 void levelOrder(TreeNode root) {
-    if (root == null) return;
-    
-    Queue<TreeNode> queue = new LinkedList<>();
-    queue.offer(root);
-    
-    while (!queue.isEmpty()) {
-        TreeNode node = queue.poll();
-        System.out.print(node.val + " ");
-        
-        if (node.left != null) queue.offer(node.left);
-        if (node.right != null) queue.offer(node.right);
-    }
+ if (root == null) return;
+
+ Queue<TreeNode> queue = new LinkedList<>();
+ queue.offer(root);
+
+ while (!queue.isEmpty()) {
+ TreeNode node = queue.poll();
+ System.out.print(node.val + " ");
+
+ if (node.left != null) queue.offer(node.left);
+ if (node.right != null) queue.offer(node.right);
+ }
 }
 ```
 
@@ -15908,22 +15908,22 @@ void levelOrder(TreeNode root) {
 
 ```mermaid
 flowchart TD
-    A[二叉树遍历] --> B[深度优先 DFS]
-    A --> C[广度优先 BFS]
-    
-    B --> B1[前序：根-左-右]
-    B --> B2[中序：左-根-右]
-    B --> B3[后序：左-右-根]
-    
-    C --> C1[层序：逐层遍历]
+ A[二叉树遍历] --> B[深度优先 DFS]
+ A --> C[广度优先 BFS]
+
+ B --> B1[前序：根-左-右]
+ B --> B2[中序：左-根-右]
+ B --> B3[后序：左-右-根]
+
+ C --> C1[层序：逐层遍历]
 ```
 
-| 遍历方式 | 顺序     | 应用               |
+| 遍历方式 | 顺序 | 应用 |
 | -------- | -------- | ------------------ |
-| **前序** | 根-左-右 | 复制树、序列化     |
-| **中序** | 左-根-右 | BST 排序           |
+| **前序** | 根-左-右 | 复制树、序列化 |
+| **中序** | 左-根-右 | BST 排序 |
 | **后序** | 左-右-根 | 删除树、计算表达式 |
-| **层序** | 逐层     | 最短路径、层次结构 |
+| **层序** | 逐层 | 最短路径、层次结构 |
 
 ---
 
@@ -15933,8 +15933,8 @@ flowchart TD
 
 ```java
 int countNodes(TreeNode root) {
-    if (root == null) return 0;
-    return 1 + countNodes(root.left) + countNodes(root.right);
+ if (root == null) return 0;
+ return 1 + countNodes(root.left) + countNodes(root.right);
 }
 ```
 
@@ -15944,8 +15944,8 @@ int countNodes(TreeNode root) {
 
 ```java
 int height(TreeNode root) {
-    if (root == null) return -1;  // 或返回 0，看定义
-    return 1 + Math.max(height(root.left), height(root.right));
+ if (root == null) return -1; // 或返回 0，看定义
+ return 1 + Math.max(height(root.left), height(root.right));
 }
 ```
 
@@ -15955,13 +15955,13 @@ int height(TreeNode root) {
 
 ```java
 TreeNode find(TreeNode root, int target) {
-    if (root == null) return null;
-    if (root.val == target) return root;
-    
-    TreeNode left = find(root.left, target);
-    if (left != null) return left;
-    
-    return find(root.right, target);
+ if (root == null) return null;
+ if (root.val == target) return root;
+
+ TreeNode left = find(root.left, target);
+ if (left != null) return left;
+
+ return find(root.right, target);
 }
 ```
 
@@ -15971,21 +15971,21 @@ TreeNode find(TreeNode root, int target) {
 
 ```java
 boolean isBalanced(TreeNode root) {
-    return checkHeight(root) != -1;
+ return checkHeight(root) != -1;
 }
 
 int checkHeight(TreeNode root) {
-    if (root == null) return 0;
-    
-    int leftHeight = checkHeight(root.left);
-    if (leftHeight == -1) return -1;
-    
-    int rightHeight = checkHeight(root.right);
-    if (rightHeight == -1) return -1;
-    
-    if (Math.abs(leftHeight - rightHeight) > 1) return -1;
-    
-    return 1 + Math.max(leftHeight, rightHeight);
+ if (root == null) return 0;
+
+ int leftHeight = checkHeight(root.left);
+ if (leftHeight == -1) return -1;
+
+ int rightHeight = checkHeight(root.right);
+ if (rightHeight == -1) return -1;
+
+ if (Math.abs(leftHeight - rightHeight) > 1) return -1;
+
+ return 1 + Math.max(leftHeight, rightHeight);
 }
 ```
 
@@ -15997,9 +15997,9 @@ int checkHeight(TreeNode root) {
 
 ```java
 class TreeNode {
-    int val;
-    TreeNode left;
-    TreeNode right;
+ int val;
+ TreeNode left;
+ TreeNode right;
 }
 ```
 
@@ -16010,14 +16010,14 @@ class TreeNode {
 **2. 数组存储（适合完全二叉树）**
 
 ```
-        1
-       / \
-      2   3
-     / \
-    4   5
+ 1
+ / \
+ 2 3
+ / \
+ 4 5
 
 数组：[1, 2, 3, 4, 5]
-索引： 0  1  2  3  4
+索引： 0 1 2 3 4
 ```
 
 **规律**：
@@ -16036,11 +16036,11 @@ class TreeNode {
 ```
 表达式：(3 + 5) * 2
 
-        *
-       / \
-      +   2
-     / \
-    3   5
+ *
+ / \
+ + 2
+ / \
+ 3 5
 
 后序遍历：3 5 + 2 * （后缀表达式）
 ```
@@ -16050,11 +16050,11 @@ class TreeNode {
 **2. 文件系统**
 
 ```
-        /
-       / \
-     home  usr
-     /      / \
-   user   bin lib
+ /
+ / \
+ home usr
+ / / \
+ user bin lib
 ```
 
 ---
@@ -16062,11 +16062,11 @@ class TreeNode {
 **3. 决策树**
 
 ```
-        年龄 > 30?
-        /        \
-      是          否
-     /            \
-  批准贷款      拒绝贷款
+ 年龄 > 30?
+ / \
+ 是 否
+ / \
+ 批准贷款 拒绝贷款
 ```
 
 ---
@@ -16105,36 +16105,36 @@ class TreeNode {
 - 左右子树也都是二叉搜索树
 
 ```
-        5
-       / \
-      3   7        ← 二叉搜索树
-     / \   \
-    1   4   9
+ 5
+ / \
+ 3 7 ← 二叉搜索树
+ / \ \
+ 1 4 9
 
-左子树 {1, 3, 4} < 5 < 右子树 {7, 9} ✓
+左子树 {1, 3, 4} < 5 < 右子树 {7, 9}
 ```
 
 ```mermaid
 graph TD
-    A((5)) --> B((3))
-    A --> C((7))
-    B --> D((1))
-    B --> E((4))
-    C --> F((9))
-    
-    style A fill:#90EE90
-    style B fill:#87CEEB
-    style C fill:#87CEEB
+ A((5)) --> B((3))
+ A --> C((7))
+ B --> D((1))
+ B --> E((4))
+ C --> F((9))
+
+ style A fill:#90EE90
+ style B fill:#87CEEB
+ style C fill:#87CEEB
 ```
 
 **不是 BST 的例子**：
 
 ```
-        5
-       / \
-      3   7
-     / \
-    1   6          ← 不是 BST（6 > 5，不应该在左子树）
+ 5
+ / \
+ 3 7
+ / \
+ 1 6 ← 不是 BST（6 > 5，不应该在左子树）
 ```
 
 ---
@@ -16144,11 +16144,11 @@ graph TD
 **性质 1**：中序遍历是**有序的**
 
 ```
-        5
-       / \
-      3   7
-     / \   \
-    1   4   9
+ 5
+ / \
+ 3 7
+ / \ \
+ 1 4 9
 
 中序遍历：1 → 3 → 4 → 5 → 7 → 9（升序）
 ```
@@ -16159,17 +16159,17 @@ graph TD
 - **最坏情况**（退化成链表）：$O(n)$
 
 ```
-平衡 BST：              退化成链表：
-    5                      1
-   / \                      \
-  3   7                      2
- / \   \                      \
-1   4   9                      3
-                                \
-高度 = log n                     4
-                                  \
-                                   5
-                              高度 = n
+平衡 BST： 退化成链表：
+ 5 1
+ / \ \
+ 3 7 2
+ / \ \ \
+1 4 9 3
+ \
+高度 = log n 4
+ \
+ 5
+ 高度 = n
 ```
 
 ---
@@ -16180,13 +16180,13 @@ graph TD
 
 ```java
 class TreeNode {
-    int val;
-    TreeNode left;
-    TreeNode right;
-    
-    TreeNode(int val) {
-        this.val = val;
-    }
+ int val;
+ TreeNode left;
+ TreeNode right;
+
+ TreeNode(int val) {
+ this.val = val;
+ }
 }
 ```
 
@@ -16201,30 +16201,30 @@ class TreeNode {
 
 ```
 查找 4：
-        5
-       / \
-      3   7        4 < 5，往左
-     / \   \
-    1   4   9      4 > 3，往右
-                   找到 4 ✓
+ 5
+ / \
+ 3 7 4 < 5，往左
+ / \ \
+ 1 4 9 4 > 3，往右
+ 找到 4
 ```
 
 **递归实现**：
 
 ```java
 TreeNode search(TreeNode root, int target) {
-    // 基本情况：空节点或找到目标
-    if (root == null || root.val == target) {
-        return root;
-    }
-    
-    // 目标值小于当前节点，往左找
-    if (target < root.val) {
-        return search(root.left, target);
-    }
-    
-    // 目标值大于当前节点，往右找
-    return search(root.right, target);
+ // 基本情况：空节点或找到目标
+ if (root == null || root.val == target) {
+ return root;
+ }
+
+ // 目标值小于当前节点，往左找
+ if (target < root.val) {
+ return search(root.left, target);
+ }
+
+ // 目标值大于当前节点，往右找
+ return search(root.right, target);
 }
 ```
 
@@ -16232,14 +16232,14 @@ TreeNode search(TreeNode root, int target) {
 
 ```java
 TreeNode search(TreeNode root, int target) {
-    while (root != null && root.val != target) {
-        if (target < root.val) {
-            root = root.left;
-        } else {
-            root = root.right;
-        }
-    }
-    return root;
+ while (root != null && root.val != target) {
+ if (target < root.val) {
+ root = root.left;
+ } else {
+ root = root.right;
+ }
+ }
+ return root;
 }
 ```
 
@@ -16257,33 +16257,33 @@ TreeNode search(TreeNode root, int target) {
 
 ```
 插入 6：
-        5                   5
-       / \                 / \
-      3   7      →        3   7
-     / \   \             / \  / \
-    1   4   9           1  4 6   9
+ 5 5
+ / \ / \
+ 3 7 → 3 7
+ / \ \ / \ / \
+ 1 4 9 1 4 6 9
 ```
 
 **递归实现**：
 
 ```java
 TreeNode insert(TreeNode root, int val) {
-    // 找到空位置，创建新节点
-    if (root == null) {
-        return new TreeNode(val);
-    }
-    
-    // 值小于当前节点，插入左子树
-    if (val < root.val) {
-        root.left = insert(root.left, val);
-    }
-    // 值大于当前节点，插入右子树
-    else if (val > root.val) {
-        root.right = insert(root.right, val);
-    }
-    // 值已存在，不插入（或更新）
-    
-    return root;
+ // 找到空位置，创建新节点
+ if (root == null) {
+ return new TreeNode(val);
+ }
+
+ // 值小于当前节点，插入左子树
+ if (val < root.val) {
+ root.left = insert(root.left, val);
+ }
+ // 值大于当前节点，插入右子树
+ else if (val > root.val) {
+ root.right = insert(root.right, val);
+ }
+ // 值已存在，不插入（或更新）
+
+ return root;
 }
 ```
 
@@ -16291,30 +16291,30 @@ TreeNode insert(TreeNode root, int val) {
 
 ```java
 TreeNode insert(TreeNode root, int val) {
-    if (root == null) {
-        return new TreeNode(val);
-    }
-    
-    TreeNode curr = root;
-    while (true) {
-        if (val < curr.val) {
-            if (curr.left == null) {
-                curr.left = new TreeNode(val);
-                break;
-            }
-            curr = curr.left;
-        } else if (val > curr.val) {
-            if (curr.right == null) {
-                curr.right = new TreeNode(val);
-                break;
-            }
-            curr = curr.right;
-        } else {
-            break;  // 值已存在
-        }
-    }
-    
-    return root;
+ if (root == null) {
+ return new TreeNode(val);
+ }
+
+ TreeNode curr = root;
+ while (true) {
+ if (val < curr.val) {
+ if (curr.left == null) {
+ curr.left = new TreeNode(val);
+ break;
+ }
+ curr = curr.left;
+ } else if (val > curr.val) {
+ if (curr.right == null) {
+ curr.right = new TreeNode(val);
+ break;
+ }
+ curr = curr.right;
+ } else {
+ break; // 值已存在
+ }
+ }
+
+ return root;
 }
 ```
 
@@ -16332,11 +16332,11 @@ TreeNode insert(TreeNode root, int val) {
 
 ```
 删除 1：
-        5                   5
-       / \                 / \
-      3   7      →        3   7
-     / \   \               \   \
-    1   4   9               4   9
+ 5 5
+ / \ / \
+ 3 7 → 3 7
+ / \ \ \ \
+ 1 4 9 4 9
 ```
 
 ---
@@ -16347,11 +16347,11 @@ TreeNode insert(TreeNode root, int val) {
 
 ```
 删除 7：
-        5                   5
-       / \                 / \
-      3   7      →        3   9
-     / \   \             / \
-    1   4   9           1   4
+ 5 5
+ / \ / \
+ 3 7 → 3 9
+ / \ \ / \
+ 1 4 9 1 4
 ```
 
 ---
@@ -16362,11 +16362,11 @@ TreeNode insert(TreeNode root, int val) {
 
 ```
 删除 5：
-        5                   6
-       / \                 / \
-      3   7      →        3   7
-     / \  / \            / \   \
-    1  4 6   9          1   4   9
+ 5 6
+ / \ / \
+ 3 7 → 3 7
+ / \ / \ / \ \
+ 1 4 6 9 1 4 9
 
 步骤：
 1. 找到右子树的最小节点：6
@@ -16378,42 +16378,42 @@ TreeNode insert(TreeNode root, int val) {
 
 ```java
 TreeNode delete(TreeNode root, int val) {
-    if (root == null) return null;
-    
-    // 找到要删除的节点
-    if (val < root.val) {
-        root.left = delete(root.left, val);
-    } else if (val > root.val) {
-        root.right = delete(root.right, val);
-    } else {
-        // 找到了要删除的节点
-        
-        // 情况 1 & 2：没有子节点或只有一个子节点
-        if (root.left == null) {
-            return root.right;
-        }
-        if (root.right == null) {
-            return root.left;
-        }
-        
-        // 情况 3：有两个子节点
-        // 找到右子树的最小节点
-        TreeNode minNode = findMin(root.right);
-        // 用最小节点的值替换当前节点
-        root.val = minNode.val;
-        // 删除右子树中的最小节点
-        root.right = delete(root.right, minNode.val);
-    }
-    
-    return root;
+ if (root == null) return null;
+
+ // 找到要删除的节点
+ if (val < root.val) {
+ root.left = delete(root.left, val);
+ } else if (val > root.val) {
+ root.right = delete(root.right, val);
+ } else {
+ // 找到了要删除的节点
+
+ // 情况 1 & 2：没有子节点或只有一个子节点
+ if (root.left == null) {
+ return root.right;
+ }
+ if (root.right == null) {
+ return root.left;
+ }
+
+ // 情况 3：有两个子节点
+ // 找到右子树的最小节点
+ TreeNode minNode = findMin(root.right);
+ // 用最小节点的值替换当前节点
+ root.val = minNode.val;
+ // 删除右子树中的最小节点
+ root.right = delete(root.right, minNode.val);
+ }
+
+ return root;
 }
 
 // 找到最小节点（最左边的节点）
 TreeNode findMin(TreeNode root) {
-    while (root.left != null) {
-        root = root.left;
-    }
-    return root;
+ while (root.left != null) {
+ root = root.left;
+ }
+ return root;
 }
 ```
 
@@ -16426,21 +16426,21 @@ TreeNode findMin(TreeNode root) {
 **最小值**：最左边的节点
 
 ```
-        5
-       / \
-      3   7
-     / \   \
-    1   4   9      最小值 = 1（最左边）
+ 5
+ / \
+ 3 7
+ / \ \
+ 1 4 9 最小值 = 1（最左边）
 ```
 
 ```java
 TreeNode findMin(TreeNode root) {
-    if (root == null) return null;
-    
-    while (root.left != null) {
-        root = root.left;
-    }
-    return root;
+ if (root == null) return null;
+
+ while (root.left != null) {
+ root = root.left;
+ }
+ return root;
 }
 ```
 
@@ -16449,21 +16449,21 @@ TreeNode findMin(TreeNode root) {
 **最大值**：最右边的节点
 
 ```
-        5
-       / \
-      3   7
-     / \   \
-    1   4   9      最大值 = 9（最右边）
+ 5
+ / \
+ 3 7
+ / \ \
+ 1 4 9 最大值 = 9（最右边）
 ```
 
 ```java
 TreeNode findMax(TreeNode root) {
-    if (root == null) return null;
-    
-    while (root.right != null) {
-        root = root.right;
-    }
-    return root;
+ if (root == null) return null;
+
+ while (root.right != null) {
+ root = root.right;
+ }
+ return root;
 }
 ```
 
@@ -16479,23 +16479,23 @@ TreeNode findMax(TreeNode root) {
 
 ```java
 boolean isValidBST(TreeNode root) {
-    List<Integer> list = new ArrayList<>();
-    inorder(root, list);
-    
-    // 检查是否升序
-    for (int i = 1; i < list.size(); i++) {
-        if (list.get(i) <= list.get(i - 1)) {
-            return false;
-        }
-    }
-    return true;
+ List<Integer> list = new ArrayList<>();
+ inorder(root, list);
+
+ // 检查是否升序
+ for (int i = 1; i < list.size(); i++) {
+ if (list.get(i) <= list.get(i - 1)) {
+ return false;
+ }
+ }
+ return true;
 }
 
 void inorder(TreeNode root, List<Integer> list) {
-    if (root == null) return;
-    inorder(root.left, list);
-    list.add(root.val);
-    inorder(root.right, list);
+ if (root == null) return;
+ inorder(root.left, list);
+ list.add(root.val);
+ inorder(root.right, list);
 }
 ```
 
@@ -16507,22 +16507,22 @@ void inorder(TreeNode root, List<Integer> list) {
 
 ```java
 boolean isValidBST(TreeNode root) {
-    return validate(root, null, null);
+ return validate(root, null, null);
 }
 
 boolean validate(TreeNode root, Integer min, Integer max) {
-    if (root == null) return true;
-    
-    // 检查当前节点是否在范围内
-    if ((min != null && root.val <= min) || 
-        (max != null && root.val >= max)) {
-        return false;
-    }
-    
-    // 左子树：所有节点 < root.val
-    // 右子树：所有节点 > root.val
-    return validate(root.left, min, root.val) && 
-           validate(root.right, root.val, max);
+ if (root == null) return true;
+
+ // 检查当前节点是否在范围内
+ if ((min != null && root.val <= min) ||
+ (max != null && root.val >= max)) {
+ return false;
+ }
+
+ // 左子树：所有节点 < root.val
+ // 右子树：所有节点 > root.val
+ return validate(root.left, min, root.val) &&
+ validate(root.right, root.val, max);
 }
 ```
 
@@ -16537,22 +16537,22 @@ boolean validate(TreeNode root, Integer min, Integer max) {
 中序遍历 BST 得到**有序序列**。
 
 ```
-        5
-       / \
-      3   7
-     / \   \
-    1   4   9
+ 5
+ / \
+ 3 7
+ / \ \
+ 1 4 9
 
 中序遍历：1 → 3 → 4 → 5 → 7 → 9（升序）
 ```
 
 ```java
 void inorder(TreeNode root) {
-    if (root == null) return;
-    
-    inorder(root.left);
-    System.out.print(root.val + " ");
-    inorder(root.right);
+ if (root == null) return;
+
+ inorder(root.left);
+ System.out.print(root.val + " ");
+ inorder(root.right);
 }
 ```
 
@@ -16565,16 +16565,16 @@ void inorder(TreeNode root) {
 **平衡二叉树**：任意节点的左右子树高度差不超过 1。
 
 ```
-平衡：                  不平衡：
-    5                      5
-   / \                    /
-  3   7                  3
- / \                    /
-1   4                  1
-                      /
-高度差 ≤ 1            0
-                    
-                    高度差 = 3
+平衡： 不平衡：
+ 5 5
+ / \ /
+ 3 7 3
+ / \ /
+1 4 1
+ /
+高度差 ≤ 1 0
+
+ 高度差 = 3
 ```
 
 **为什么需要平衡**：
@@ -16590,11 +16590,11 @@ void inorder(TreeNode root) {
 **平衡因子（Balance Factor）**：左子树高度 - 右子树高度
 
 ```
-        5 (BF=0)
-       / \
-      3   7 (BF=0)
-     / \
-    1   4 (BF=0)
+ 5 (BF=0)
+ / \
+ 3 7 (BF=0)
+ / \
+ 1 4 (BF=0)
 
 所有节点的 |BF| ≤ 1
 ```
@@ -16608,41 +16608,41 @@ void inorder(TreeNode root) {
 **1. LL（左左）：右旋**
 
 ```
-      5              3
-     /              / \
-    3       →      1   5
-   /
-  1
+ 5 3
+ / / \
+ 3 → 1 5
+ /
+ 1
 ```
 
 **2. RR（右右）：左旋**
 
 ```
-  3                5
-   \              / \
-    5      →     3   7
-     \
-      7
+ 3 5
+ \ / \
+ 5 → 3 7
+ \
+ 7
 ```
 
 **3. LR（左右）：先左旋后右旋**
 
 ```
-    5          5          4
-   /          /          / \
-  3    →     4    →     3   5
-   \        /
-    4      3
+ 5 5 4
+ / / / \
+ 3 → 4 → 3 5
+ \ /
+ 4 3
 ```
 
 **4. RL（右左）：先右旋后左旋**
 
 ```
-  3          3          4
-   \          \        / \
-    5    →     4  →   3   5
-   /            \
-  4              5
+ 3 3 4
+ \ \ / \
+ 5 → 4 → 3 5
+ / \
+ 4 5
 ```
 
 ---
@@ -16660,33 +16660,33 @@ void inorder(TreeNode root) {
 
 ```mermaid
 graph TD
-    A((10<br/>黑)) --> B((5<br/>红))
-    A --> C((15<br/>红))
-    B --> D((3<br/>黑))
-    B --> E((7<br/>黑))
-    C --> F((12<br/>黑))
-    C --> G((17<br/>黑))
-    
-    style A fill:#000,color:#fff
-    style B fill:#f00,color:#fff
-    style C fill:#f00,color:#fff
-    style D fill:#000,color:#fff
-    style E fill:#000,color:#fff
-    style F fill:#000,color:#fff
-    style G fill:#000,color:#fff
+ A((10<br/>黑)) --> B((5<br/>红))
+ A --> C((15<br/>红))
+ B --> D((3<br/>黑))
+ B --> E((7<br/>黑))
+ C --> F((12<br/>黑))
+ C --> G((17<br/>黑))
+
+ style A fill:#000,color:#fff
+ style B fill:#f00,color:#fff
+ style C fill:#f00,color:#fff
+ style D fill:#000,color:#fff
+ style E fill:#000,color:#fff
+ style F fill:#000,color:#fff
+ style G fill:#000,color:#fff
 ```
 
 ---
 
 #### AVL vs 红黑树
 
-| 特性          | AVL 树       | 红黑树        |
+| 特性 | AVL 树 | 红黑树 |
 | ------------- | ------------ | ------------- |
-| **平衡性**    | 严格平衡     | 近似平衡      |
-| **高度**      | $\log n$     | $2\log n$     |
-| **查找**      | 更快         | 稍慢          |
-| **插入/删除** | 慢（旋转多） | 快（旋转少）  |
-| **应用**      | 查询密集     | 插入/删除密集 |
+| **平衡性** | 严格平衡 | 近似平衡 |
+| **高度** | $\log n$ | $2\log n$ |
+| **查找** | 更快 | 稍慢 |
+| **插入/删除** | 慢（旋转多） | 快（旋转少） |
+| **应用** | 查询密集 | 插入/删除密集 |
 
 **使用场景**：
 - **AVL**：数据库索引、查询多
@@ -16713,9 +16713,9 @@ graph TD
 **B 树**：一种**多路平衡搜索树**，每个节点可以有**多个子节点**。
 
 ```
-            [10, 20, 30]
-           /    |    |    \
-      [5,8]  [12,15] [25] [35,40]
+ [10, 20, 30]
+ / | | \
+ [5,8] [12,15] [25] [35,40]
 ```
 
 **特点**：
@@ -16730,15 +16730,15 @@ graph TD
 **M 阶 B 树**：
 - 每个节点最多 M 个子节点
 - 根节点至少 2 个子节点
-- 非根节点至少 ⌈M/2⌉ 个子节点
+- 非根节点至少 M/2 个子节点
 - 所有叶子节点在同一层
 
 ```
 3 阶 B 树（每个节点最多 3 个子节点）：
 
-            [20]
-           /    \
-      [10,15]  [25,30]
+ [20]
+ / \
+ [10,15] [25,30]
 ```
 
 ---
@@ -16753,22 +16753,22 @@ graph TD
 3. 非叶子节点只存索引
 
 ```
-            [10, 20]          ← 只存索引
-           /    |    \
-      [5,8]  [10,15] [20,30]  ← 存数据，用链表连接
-        ↔      ↔       ↔
+ [10, 20] ← 只存索引
+ / | \
+ [5,8] [10,15] [20,30] ← 存数据，用链表连接
+   
 ```
 
 ---
 
 #### B 树 vs B+ 树
 
-| 特性         | B 树     | B+ 树        |
+| 特性 | B 树 | B+ 树 |
 | ------------ | -------- | ------------ |
 | **数据位置** | 所有节点 | 只在叶子节点 |
-| **叶子节点** | 不连接   | 链表连接     |
-| **范围查询** | 慢       | 快           |
-| **应用**     | 文件系统 | 数据库索引   |
+| **叶子节点** | 不连接 | 链表连接 |
+| **范围查询** | 慢 | 快 |
+| **应用** | 文件系统 | 数据库索引 |
 
 ---
 
@@ -16785,7 +16785,7 @@ graph TD
 
 ```
 查询 10-30：
-[10,15] → [20,30]  只需扫描叶子节点
+[10,15] → [20,30] 只需扫描叶子节点
 ```
 
 **3. 稳定的查询性能**
@@ -16827,11 +16827,11 @@ graph TD
 **最大堆（Max Heap）**：父节点 ≥ 子节点
 
 ```
-        9
-       / \
-      7   6
-     / \
-    3   5
+ 9
+ / \
+ 7 6
+ / \
+ 3 5
 
 9 ≥ 7, 6
 7 ≥ 3, 5
@@ -16840,11 +16840,11 @@ graph TD
 **最小堆（Min Heap）**：父节点 ≤ 子节点
 
 ```
-        1
-       / \
-      3   5
-     / \
-    7   9
+ 1
+ / \
+ 3 5
+ / \
+ 7 9
 
 1 ≤ 3, 5
 3 ≤ 7, 9
@@ -16865,14 +16865,14 @@ graph TD
 **3. 数组存储**
 
 ```
-        1
-       / \
-      3   5
-     / \
-    7   9
+ 1
+ / \
+ 3 5
+ / \
+ 7 9
 
 数组：[1, 3, 5, 7, 9]
-索引： 0  1  2  3  4
+索引： 0 1 2 3 4
 ```
 
 **索引关系**：
@@ -16893,11 +16893,11 @@ graph TD
 ```
 插入 2 到最小堆：
 
-        1                1                1
-       / \              / \              / \
-      3   5     →      3   5     →      2   5
-     / \              / \ /            / \ /
-    7   9            7  9 2           3  9 7
+ 1 1 1
+ / \ / \ / \
+ 3 5 → 3 5 → 2 5
+ / \ / \ / / \ /
+ 7 9 7 9 2 3 9 7
 
 步骤：
 1. 插入到末尾
@@ -16909,17 +16909,17 @@ graph TD
 
 ```java
 void insert(int val) {
-    heap.add(val);           // 插入到末尾
-    bubbleUp(heap.size() - 1);  // 上浮
+ heap.add(val); // 插入到末尾
+ bubbleUp(heap.size() - 1); // 上浮
 }
 
 void bubbleUp(int i) {
-    while (i > 0) {
-        int parent = (i - 1) / 2;
-        if (heap.get(i) >= heap.get(parent)) break;  // 最小堆
-        swap(i, parent);
-        i = parent;
-    }
+ while (i > 0) {
+ int parent = (i - 1) / 2;
+ if (heap.get(i) >= heap.get(parent)) break; // 最小堆
+ swap(i, parent);
+ i = parent;
+ }
 }
 ```
 
@@ -16937,11 +16937,11 @@ void bubbleUp(int i) {
 ```
 删除最小值 1：
 
-        1                9                2
-       / \              / \              / \
-      2   5     →      2   5     →      3   5
-     / \ /            / \              /
-    3  9 7           3   7            7
+ 1 9 2
+ / \ / \ / \
+ 2 5 → 2 5 → 3 5
+ / \ / / \ /
+ 3 9 7 3 7 7
 
 步骤：
 1. 删除根节点 1
@@ -16953,37 +16953,37 @@ void bubbleUp(int i) {
 
 ```java
 int extractMin() {
-    if (heap.isEmpty()) throw new Exception();
-    
-    int min = heap.get(0);           // 保存根节点
-    int last = heap.remove(heap.size() - 1);  // 取出最后一个节点
-    
-    if (!heap.isEmpty()) {
-        heap.set(0, last);           // 放到根节点
-        bubbleDown(0);               // 下沉
-    }
-    
-    return min;
+ if (heap.isEmpty()) throw new Exception();
+
+ int min = heap.get(0); // 保存根节点
+ int last = heap.remove(heap.size() - 1); // 取出最后一个节点
+
+ if (!heap.isEmpty()) {
+ heap.set(0, last); // 放到根节点
+ bubbleDown(0); // 下沉
+ }
+
+ return min;
 }
 
 void bubbleDown(int i) {
-    int size = heap.size();
-    while (true) {
-        int left = 2 * i + 1;
-        int right = 2 * i + 2;
-        int smallest = i;
-        
-        if (left < size && heap.get(left) < heap.get(smallest)) {
-            smallest = left;
-        }
-        if (right < size && heap.get(right) < heap.get(smallest)) {
-            smallest = right;
-        }
-        
-        if (smallest == i) break;
-        swap(i, smallest);
-        i = smallest;
-    }
+ int size = heap.size();
+ while (true) {
+ int left = 2 * i + 1;
+ int right = 2 * i + 2;
+ int smallest = i;
+
+ if (left < size && heap.get(left) < heap.get(smallest)) {
+ smallest = left;
+ }
+ if (right < size && heap.get(right) < heap.get(smallest)) {
+ smallest = right;
+ }
+
+ if (smallest == i) break;
+ swap(i, smallest);
+ i = smallest;
+ }
 }
 ```
 
@@ -16997,8 +16997,8 @@ void bubbleDown(int i) {
 
 ```java
 int peek() {
-    if (heap.isEmpty()) throw new Exception();
-    return heap.get(0);
+ if (heap.isEmpty()) throw new Exception();
+ return heap.get(0);
 }
 ```
 
@@ -17012,9 +17012,9 @@ int peek() {
 
 ```java
 void buildHeap(int[] arr) {
-    for (int val : arr) {
-        insert(val);
-    }
+ for (int val : arr) {
+ insert(val);
+ }
 }
 ```
 
@@ -17028,12 +17028,12 @@ void buildHeap(int[] arr) {
 
 ```java
 void buildHeap(int[] arr) {
-    heap = new ArrayList<>(Arrays.asList(arr));
-    
-    // 从最后一个非叶子节点开始
-    for (int i = (heap.size() - 2) / 2; i >= 0; i--) {
-        bubbleDown(i);
-    }
+ heap = new ArrayList<>(Arrays.asList(arr));
+
+ // 从最后一个非叶子节点开始
+ for (int i = (heap.size() - 2) / 2; i >= 0; i--) {
+ bubbleDown(i);
+ }
 }
 ```
 
@@ -17053,9 +17053,9 @@ PriorityQueue<Integer> minHeap = new PriorityQueue<>();
 PriorityQueue<Integer> maxHeap = new PriorityQueue<>(Collections.reverseOrder());
 
 // 操作
-minHeap.offer(5);      // 插入
-minHeap.poll();        // 删除最小值
-minHeap.peek();        // 获取最小值
+minHeap.offer(5); // 插入
+minHeap.poll(); // 删除最小值
+minHeap.peek(); // 获取最小值
 ```
 
 ---
@@ -17075,10 +17075,10 @@ PriorityQueue<Task> pq = new PriorityQueue<>((a, b) -> b.priority - a.priority);
 // 找最大的 K 个元素：用最小堆
 PriorityQueue<Integer> minHeap = new PriorityQueue<>();
 for (int num : nums) {
-    minHeap.offer(num);
-    if (minHeap.size() > k) {
-        minHeap.poll();  // 删除最小的
-    }
+ minHeap.offer(num);
+ if (minHeap.size() > k) {
+ minHeap.poll(); // 删除最小的
+ }
 }
 ```
 
@@ -17086,13 +17086,13 @@ for (int num : nums) {
 
 ```java
 void heapSort(int[] arr) {
-    // 1. 建堆
-    buildHeap(arr);
-    
-    // 2. 依次取出最小值
-    for (int i = 0; i < arr.length; i++) {
-        arr[i] = extractMin();
-    }
+ // 1. 建堆
+ buildHeap(arr);
+
+ // 2. 依次取出最小值
+ for (int i = 0; i < arr.length; i++) {
+ arr[i] = extractMin();
+ }
 }
 ```
 
@@ -17105,14 +17105,14 @@ PriorityQueue<ListNode> pq = new PriorityQueue<>((a, b) -> a.val - b.val);
 
 // 将每个链表的头节点加入堆
 for (ListNode head : lists) {
-    if (head != null) pq.offer(head);
+ if (head != null) pq.offer(head);
 }
 
 // 依次取出最小节点
 while (!pq.isEmpty()) {
-    ListNode node = pq.poll();
-    // 处理节点...
-    if (node.next != null) pq.offer(node.next);
+ ListNode node = pq.poll();
+ // 处理节点...
+ if (node.next != null) pq.offer(node.next);
 }
 ```
 
@@ -17147,13 +17147,13 @@ while (!pq.isEmpty()) {
 ```
 插入 "cat", "car", "dog"：
 
-        root
-       /    \
-      c      d
-      |      |
-      a      o
-     / \     |
-    t   r    g
+ root
+ / \
+ c d
+ | |
+ a o
+ / \ |
+ t r g
 ```
 
 **特点**：
@@ -17167,13 +17167,13 @@ while (!pq.isEmpty()) {
 
 ```java
 class TrieNode {
-    TrieNode[] children;  // 子节点（26 个字母）
-    boolean isEnd;        // 是否是单词结尾
-    
-    TrieNode() {
-        children = new TrieNode[26];
-        isEnd = false;
-    }
+ TrieNode[] children; // 子节点（26 个字母）
+ boolean isEnd; // 是否是单词结尾
+
+ TrieNode() {
+ children = new TrieNode[26];
+ isEnd = false;
+ }
 }
 ```
 
@@ -17191,25 +17191,25 @@ root → c → a → t (isEnd = true)
 
 ```java
 class Trie {
-    TrieNode root;
-    
-    Trie() {
-        root = new TrieNode();
-    }
-    
-    void insert(String word) {
-        TrieNode node = root;
-        
-        for (char c : word.toCharArray()) {
-            int index = c - 'a';
-            if (node.children[index] == null) {
-                node.children[index] = new TrieNode();
-            }
-            node = node.children[index];
-        }
-        
-        node.isEnd = true;  // 标记单词结尾
-    }
+ TrieNode root;
+
+ Trie() {
+ root = new TrieNode();
+ }
+
+ void insert(String word) {
+ TrieNode node = root;
+
+ for (char c : word.toCharArray()) {
+ int index = c - 'a';
+ if (node.children[index] == null) {
+ node.children[index] = new TrieNode();
+ }
+ node = node.children[index];
+ }
+
+ node.isEnd = true; // 标记单词结尾
+ }
 }
 ```
 
@@ -17221,17 +17221,17 @@ class Trie {
 
 ```java
 boolean search(String word) {
-    TrieNode node = root;
-    
-    for (char c : word.toCharArray()) {
-        int index = c - 'a';
-        if (node.children[index] == null) {
-            return false;  // 路径不存在
-        }
-        node = node.children[index];
-    }
-    
-    return node.isEnd;  // 必须是单词结尾
+ TrieNode node = root;
+
+ for (char c : word.toCharArray()) {
+ int index = c - 'a';
+ if (node.children[index] == null) {
+ return false; // 路径不存在
+ }
+ node = node.children[index];
+ }
+
+ return node.isEnd; // 必须是单词结尾
 }
 ```
 
@@ -17243,17 +17243,17 @@ boolean search(String word) {
 
 ```java
 boolean startsWith(String prefix) {
-    TrieNode node = root;
-    
-    for (char c : prefix.toCharArray()) {
-        int index = c - 'a';
-        if (node.children[index] == null) {
-            return false;
-        }
-        node = node.children[index];
-    }
-    
-    return true;  // 不需要是单词结尾
+ TrieNode node = root;
+
+ for (char c : prefix.toCharArray()) {
+ int index = c - 'a';
+ if (node.children[index] == null) {
+ return false;
+ }
+ node = node.children[index];
+ }
+
+ return true; // 不需要是单词结尾
 }
 ```
 
@@ -17270,11 +17270,11 @@ trie.insert("cat");
 trie.insert("car");
 trie.insert("dog");
 
-trie.search("cat");        // true
-trie.search("ca");         // false（不是完整单词）
-trie.startsWith("ca");     // true（是前缀）
-trie.search("dog");        // true
-trie.search("do");         // false
+trie.search("cat"); // true
+trie.search("ca"); // false（不是完整单词）
+trie.startsWith("ca"); // true（是前缀）
+trie.search("dog"); // true
+trie.search("do"); // false
 ```
 
 ---
@@ -17286,44 +17286,44 @@ trie.search("do");         // false
 ```
 输入 "ca"，返回所有以 "ca" 开头的单词：
 
-        root
-         |
-         c
-         |
-         a
-        / \
-       t   r
-       
+ root
+ |
+ c
+ |
+ a
+ / \
+ t r
+
 结果：["cat", "car"]
 ```
 
 ```java
 List<String> autoComplete(String prefix) {
-    List<String> result = new ArrayList<>();
-    TrieNode node = root;
-    
-    // 找到前缀的最后一个节点
-    for (char c : prefix.toCharArray()) {
-        int index = c - 'a';
-        if (node.children[index] == null) return result;
-        node = node.children[index];
-    }
-    
-    // DFS 收集所有单词
-    dfs(node, prefix, result);
-    return result;
+ List<String> result = new ArrayList<>();
+ TrieNode node = root;
+
+ // 找到前缀的最后一个节点
+ for (char c : prefix.toCharArray()) {
+ int index = c - 'a';
+ if (node.children[index] == null) return result;
+ node = node.children[index];
+ }
+
+ // DFS 收集所有单词
+ dfs(node, prefix, result);
+ return result;
 }
 
 void dfs(TrieNode node, String word, List<String> result) {
-    if (node.isEnd) {
-        result.add(word);
-    }
-    
-    for (int i = 0; i < 26; i++) {
-        if (node.children[i] != null) {
-            dfs(node.children[i], word + (char)('a' + i), result);
-        }
-    }
+ if (node.isEnd) {
+ result.add(word);
+ }
+
+ for (int i = 0; i < 26; i++) {
+ if (node.children[i] != null) {
+ dfs(node.children[i], word + (char)('a' + i), result);
+ }
+ }
 }
 ```
 
@@ -17334,17 +17334,17 @@ void dfs(TrieNode node, String word, List<String> result) {
 ```java
 // 检查字符串是否包含某个单词
 boolean containsWord(String text, Set<String> dictionary) {
-    Trie trie = new Trie();
-    for (String word : dictionary) {
-        trie.insert(word);
-    }
-    
-    for (int i = 0; i < text.length(); i++) {
-        if (trie.startsWith(text.substring(i))) {
-            return true;
-        }
-    }
-    return false;
+ Trie trie = new Trie();
+ for (String word : dictionary) {
+ trie.insert(word);
+ }
+
+ for (int i = 0; i < text.length(); i++) {
+ if (trie.startsWith(text.substring(i))) {
+ return true;
+ }
+ }
+ return false;
 }
 ```
 
@@ -17354,34 +17354,34 @@ boolean containsWord(String text, Set<String> dictionary) {
 
 ```java
 String longestCommonPrefix(String[] words) {
-    if (words.length == 0) return "";
-    
-    Trie trie = new Trie();
-    for (String word : words) {
-        trie.insert(word);
-    }
-    
-    StringBuilder prefix = new StringBuilder();
-    TrieNode node = trie.root;
-    
-    while (true) {
-        // 找到唯一的子节点
-        int count = 0, index = -1;
-        for (int i = 0; i < 26; i++) {
-            if (node.children[i] != null) {
-                count++;
-                index = i;
-            }
-        }
-        
-        // 如果不是唯一子节点或到达单词结尾，停止
-        if (count != 1 || node.isEnd) break;
-        
-        prefix.append((char)('a' + index));
-        node = node.children[index];
-    }
-    
-    return prefix.toString();
+ if (words.length == 0) return "";
+
+ Trie trie = new Trie();
+ for (String word : words) {
+ trie.insert(word);
+ }
+
+ StringBuilder prefix = new StringBuilder();
+ TrieNode node = trie.root;
+
+ while (true) {
+ // 找到唯一的子节点
+ int count = 0, index = -1;
+ for (int i = 0; i < 26; i++) {
+ if (node.children[i] != null) {
+ count++;
+ index = i;
+ }
+ }
+
+ // 如果不是唯一子节点或到达单词结尾，停止
+ if (count != 1 || node.isEnd) break;
+
+ prefix.append((char)('a' + index));
+ node = node.children[index];
+ }
+
+ return prefix.toString();
 }
 ```
 
@@ -17397,34 +17397,34 @@ String longestCommonPrefix(String[] words) {
 
 ```java
 String replaceWords(List<String> dictionary, String sentence) {
-    Trie trie = new Trie();
-    for (String word : dictionary) {
-        trie.insert(word);
-    }
-    
-    String[] words = sentence.split(" ");
-    for (int i = 0; i < words.length; i++) {
-        words[i] = findRoot(trie, words[i]);
-    }
-    
-    return String.join(" ", words);
+ Trie trie = new Trie();
+ for (String word : dictionary) {
+ trie.insert(word);
+ }
+
+ String[] words = sentence.split(" ");
+ for (int i = 0; i < words.length; i++) {
+ words[i] = findRoot(trie, words[i]);
+ }
+
+ return String.join(" ", words);
 }
 
 String findRoot(Trie trie, String word) {
-    TrieNode node = trie.root;
-    StringBuilder root = new StringBuilder();
-    
-    for (char c : word.toCharArray()) {
-        int index = c - 'a';
-        if (node.children[index] == null) break;
-        
-        root.append(c);
-        node = node.children[index];
-        
-        if (node.isEnd) return root.toString();  // 找到最短前缀
-    }
-    
-    return word;  // 没找到，返回原单词
+ TrieNode node = trie.root;
+ StringBuilder root = new StringBuilder();
+
+ for (char c : word.toCharArray()) {
+ int index = c - 'a';
+ if (node.children[index] == null) break;
+
+ root.append(c);
+ node = node.children[index];
+
+ if (node.isEnd) return root.toString(); // 找到最短前缀
+ }
+
+ return word; // 没找到，返回原单词
 }
 ```
 
@@ -17432,12 +17432,12 @@ String findRoot(Trie trie, String word) {
 
 #### Trie vs HashMap
 
-| 特性         | Trie                     | HashMap        |
+| 特性 | Trie | HashMap |
 | ------------ | ------------------------ | -------------- |
-| **查找单词** | $O(m)$                   | $O(1)$         |
-| **前缀查找** | $O(m)$                   | $O(n \cdot m)$ |
-| **空间**     | 大（每个节点 26 个指针） | 小             |
-| **应用**     | 前缀匹配、自动补全       | 精确查找       |
+| **查找单词** | $O(m)$ | $O(1)$ |
+| **前缀查找** | $O(m)$ | $O(n \cdot m)$ |
+| **空间** | 大（每个节点 26 个指针） | 小 |
+| **应用** | 前缀匹配、自动补全 | 精确查找 |
 
 ---
 
@@ -17449,13 +17449,13 @@ String findRoot(Trie trie, String word) {
 
 ```java
 class TrieNode {
-    Map<Character, TrieNode> children;  // 只存在的字符
-    boolean isEnd;
-    
-    TrieNode() {
-        children = new HashMap<>();
-        isEnd = false;
-    }
+ Map<Character, TrieNode> children; // 只存在的字符
+ boolean isEnd;
+
+ TrieNode() {
+ children = new HashMap<>();
+ isEnd = false;
+ }
 }
 ```
 
@@ -17493,24 +17493,24 @@ class TrieNode {
 
 ```java
 class TreeNode {
-    int val;
-    TreeNode left;
-    TreeNode right;
-    
-    TreeNode(int val) {
-        this.val = val;
-    }
+ int val;
+ TreeNode left;
+ TreeNode right;
+
+ TreeNode(int val) {
+ this.val = val;
+ }
 }
 ```
 
 **示例树**：
 
 ```
-        1
-       / \
-      2   3
-     / \
-    4   5
+ 1
+ / \
+ 2 3
+ / \
+ 4 5
 ```
 
 ---
@@ -17527,11 +17527,11 @@ class TreeNode {
 
 ```java
 void preorder(TreeNode root) {
-    if (root == null) return;
-    
-    System.out.print(root.val + " ");  // 访问根
-    preorder(root.left);               // 遍历左子树
-    preorder(root.right);              // 遍历右子树
+ if (root == null) return;
+
+ System.out.print(root.val + " "); // 访问根
+ preorder(root.left); // 遍历左子树
+ preorder(root.right); // 遍历右子树
 }
 ```
 
@@ -17539,22 +17539,22 @@ void preorder(TreeNode root) {
 
 ```java
 List<Integer> preorder(TreeNode root) {
-    List<Integer> result = new ArrayList<>();
-    if (root == null) return result;
-    
-    Stack<TreeNode> stack = new Stack<>();
-    stack.push(root);
-    
-    while (!stack.isEmpty()) {
-        TreeNode node = stack.pop();
-        result.add(node.val);           // 访问根
-        
-        // 先压右子树，再压左子树（栈是后进先出）
-        if (node.right != null) stack.push(node.right);
-        if (node.left != null) stack.push(node.left);
-    }
-    
-    return result;
+ List<Integer> result = new ArrayList<>();
+ if (root == null) return result;
+
+ Stack<TreeNode> stack = new Stack<>();
+ stack.push(root);
+
+ while (!stack.isEmpty()) {
+ TreeNode node = stack.pop();
+ result.add(node.val); // 访问根
+
+ // 先压右子树，再压左子树（栈是后进先出）
+ if (node.right != null) stack.push(node.right);
+ if (node.left != null) stack.push(node.left);
+ }
+
+ return result;
 }
 ```
 
@@ -17574,11 +17574,11 @@ List<Integer> preorder(TreeNode root) {
 
 ```java
 void inorder(TreeNode root) {
-    if (root == null) return;
-    
-    inorder(root.left);                // 遍历左子树
-    System.out.print(root.val + " ");  // 访问根
-    inorder(root.right);               // 遍历右子树
+ if (root == null) return;
+
+ inorder(root.left); // 遍历左子树
+ System.out.print(root.val + " "); // 访问根
+ inorder(root.right); // 遍历右子树
 }
 ```
 
@@ -17586,26 +17586,26 @@ void inorder(TreeNode root) {
 
 ```java
 List<Integer> inorder(TreeNode root) {
-    List<Integer> result = new ArrayList<>();
-    Stack<TreeNode> stack = new Stack<>();
-    TreeNode curr = root;
-    
-    while (curr != null || !stack.isEmpty()) {
-        // 一直往左走，把左子树全部压栈
-        while (curr != null) {
-            stack.push(curr);
-            curr = curr.left;
-        }
-        
-        // 弹出栈顶，访问
-        curr = stack.pop();
-        result.add(curr.val);
-        
-        // 转向右子树
-        curr = curr.right;
-    }
-    
-    return result;
+ List<Integer> result = new ArrayList<>();
+ Stack<TreeNode> stack = new Stack<>();
+ TreeNode curr = root;
+
+ while (curr != null || !stack.isEmpty()) {
+ // 一直往左走，把左子树全部压栈
+ while (curr != null) {
+ stack.push(curr);
+ curr = curr.left;
+ }
+
+ // 弹出栈顶，访问
+ curr = stack.pop();
+ result.add(curr.val);
+
+ // 转向右子树
+ curr = curr.right;
+ }
+
+ return result;
 }
 ```
 
@@ -17623,11 +17623,11 @@ List<Integer> inorder(TreeNode root) {
 
 ```java
 void postorder(TreeNode root) {
-    if (root == null) return;
-    
-    postorder(root.left);              // 遍历左子树
-    postorder(root.right);             // 遍历右子树
-    System.out.print(root.val + " ");  // 访问根
+ if (root == null) return;
+
+ postorder(root.left); // 遍历左子树
+ postorder(root.right); // 遍历右子树
+ System.out.print(root.val + " "); // 访问根
 }
 ```
 
@@ -17635,29 +17635,29 @@ void postorder(TreeNode root) {
 
 ```java
 List<Integer> postorder(TreeNode root) {
-    List<Integer> result = new ArrayList<>();
-    if (root == null) return result;
-    
-    Stack<TreeNode> stack1 = new Stack<>();
-    Stack<TreeNode> stack2 = new Stack<>();
-    
-    stack1.push(root);
-    
-    // 根 → 右 → 左 的顺序压入 stack2
-    while (!stack1.isEmpty()) {
-        TreeNode node = stack1.pop();
-        stack2.push(node);
-        
-        if (node.left != null) stack1.push(node.left);
-        if (node.right != null) stack1.push(node.right);
-    }
-    
-    // stack2 弹出就是 左 → 右 → 根
-    while (!stack2.isEmpty()) {
-        result.add(stack2.pop().val);
-    }
-    
-    return result;
+ List<Integer> result = new ArrayList<>();
+ if (root == null) return result;
+
+ Stack<TreeNode> stack1 = new Stack<>();
+ Stack<TreeNode> stack2 = new Stack<>();
+
+ stack1.push(root);
+
+ // 根 → 右 → 左 的顺序压入 stack2
+ while (!stack1.isEmpty()) {
+ TreeNode node = stack1.pop();
+ stack2.push(node);
+
+ if (node.left != null) stack1.push(node.left);
+ if (node.right != null) stack1.push(node.right);
+ }
+
+ // stack2 弹出就是 左 → 右 → 根
+ while (!stack2.isEmpty()) {
+ result.add(stack2.pop().val);
+ }
+
+ return result;
 }
 ```
 
@@ -17675,21 +17675,21 @@ List<Integer> postorder(TreeNode root) {
 
 ```java
 List<Integer> levelOrder(TreeNode root) {
-    List<Integer> result = new ArrayList<>();
-    if (root == null) return result;
-    
-    Queue<TreeNode> queue = new LinkedList<>();
-    queue.offer(root);
-    
-    while (!queue.isEmpty()) {
-        TreeNode node = queue.poll();
-        result.add(node.val);
-        
-        if (node.left != null) queue.offer(node.left);
-        if (node.right != null) queue.offer(node.right);
-    }
-    
-    return result;
+ List<Integer> result = new ArrayList<>();
+ if (root == null) return result;
+
+ Queue<TreeNode> queue = new LinkedList<>();
+ queue.offer(root);
+
+ while (!queue.isEmpty()) {
+ TreeNode node = queue.poll();
+ result.add(node.val);
+
+ if (node.left != null) queue.offer(node.left);
+ if (node.right != null) queue.offer(node.right);
+ }
+
+ return result;
 }
 ```
 
@@ -17697,28 +17697,28 @@ List<Integer> levelOrder(TreeNode root) {
 
 ```java
 List<List<Integer>> levelOrder(TreeNode root) {
-    List<List<Integer>> result = new ArrayList<>();
-    if (root == null) return result;
-    
-    Queue<TreeNode> queue = new LinkedList<>();
-    queue.offer(root);
-    
-    while (!queue.isEmpty()) {
-        int size = queue.size();  // 当前层的节点数
-        List<Integer> level = new ArrayList<>();
-        
-        for (int i = 0; i < size; i++) {
-            TreeNode node = queue.poll();
-            level.add(node.val);
-            
-            if (node.left != null) queue.offer(node.left);
-            if (node.right != null) queue.offer(node.right);
-        }
-        
-        result.add(level);
-    }
-    
-    return result;
+ List<List<Integer>> result = new ArrayList<>();
+ if (root == null) return result;
+
+ Queue<TreeNode> queue = new LinkedList<>();
+ queue.offer(root);
+
+ while (!queue.isEmpty()) {
+ int size = queue.size(); // 当前层的节点数
+ List<Integer> level = new ArrayList<>();
+
+ for (int i = 0; i < size; i++) {
+ TreeNode node = queue.poll();
+ level.add(node.val);
+
+ if (node.left != null) queue.offer(node.left);
+ if (node.right != null) queue.offer(node.right);
+ }
+
+ result.add(level);
+ }
+
+ return result;
 }
 ```
 
@@ -17726,9 +17726,9 @@ List<List<Integer>> levelOrder(TreeNode root) {
 
 ```
 [
-  [1],
-  [2, 3],
-  [4, 5]
+ [1],
+ [2, 3],
+ [4, 5]
 ]
 ```
 
@@ -17736,12 +17736,12 @@ List<List<Integer>> levelOrder(TreeNode root) {
 
 #### 四种遍历对比
 
-| 遍历方式 | 顺序         | 结果      | 应用               |
+| 遍历方式 | 顺序 | 结果 | 应用 |
 | -------- | ------------ | --------- | ------------------ |
-| **前序** | 根 → 左 → 右 | 1 2 4 5 3 | 复制树、序列化     |
-| **中序** | 左 → 根 → 右 | 4 2 5 1 3 | BST 排序           |
+| **前序** | 根 → 左 → 右 | 1 2 4 5 3 | 复制树、序列化 |
+| **中序** | 左 → 根 → 右 | 4 2 5 1 3 | BST 排序 |
 | **后序** | 左 → 右 → 根 | 4 5 2 3 1 | 删除树、计算表达式 |
-| **层序** | 逐层从左到右 | 1 2 3 4 5 | 最短路径、打印树   |
+| **层序** | 逐层从左到右 | 1 2 3 4 5 | 最短路径、打印树 |
 
 ---
 
@@ -17760,31 +17760,31 @@ List<List<Integer>> levelOrder(TreeNode root) {
 
 ```java
 TreeNode buildTree(int[] preorder, int[] inorder) {
-    return build(preorder, 0, preorder.length - 1,
-                 inorder, 0, inorder.length - 1);
+ return build(preorder, 0, preorder.length - 1,
+ inorder, 0, inorder.length - 1);
 }
 
 TreeNode build(int[] pre, int preStart, int preEnd,
-               int[] in, int inStart, int inEnd) {
-    if (preStart > preEnd) return null;
-    
-    // 前序第一个是根
-    int rootVal = pre[preStart];
-    TreeNode root = new TreeNode(rootVal);
-    
-    // 在中序中找根的位置
-    int index = inStart;
-    while (in[index] != rootVal) index++;
-    
-    int leftSize = index - inStart;  // 左子树大小
-    
-    // 递归构建左右子树
-    root.left = build(pre, preStart + 1, preStart + leftSize,
-                      in, inStart, index - 1);
-    root.right = build(pre, preStart + leftSize + 1, preEnd,
-                       in, index + 1, inEnd);
-    
-    return root;
+ int[] in, int inStart, int inEnd) {
+ if (preStart > preEnd) return null;
+
+ // 前序第一个是根
+ int rootVal = pre[preStart];
+ TreeNode root = new TreeNode(rootVal);
+
+ // 在中序中找根的位置
+ int index = inStart;
+ while (in[index] != rootVal) index++;
+
+ int leftSize = index - inStart; // 左子树大小
+
+ // 递归构建左右子树
+ root.left = build(pre, preStart + 1, preStart + leftSize,
+ in, inStart, index - 1);
+ root.right = build(pre, preStart + leftSize + 1, preEnd,
+ in, index + 1, inEnd);
+
+ return root;
 }
 ```
 
@@ -17793,40 +17793,40 @@ TreeNode build(int[] pre, int preStart, int preEnd,
 **2. 二叉树的右视图**
 
 ```
-        1
-       / \
-      2   3
-       \
-        5
+ 1
+ / \
+ 2 3
+ \
+ 5
 
 右视图：[1, 3, 5]
 ```
 
 ```java
 List<Integer> rightSideView(TreeNode root) {
-    List<Integer> result = new ArrayList<>();
-    if (root == null) return result;
-    
-    Queue<TreeNode> queue = new LinkedList<>();
-    queue.offer(root);
-    
-    while (!queue.isEmpty()) {
-        int size = queue.size();
-        
-        for (int i = 0; i < size; i++) {
-            TreeNode node = queue.poll();
-            
-            // 每层最后一个节点
-            if (i == size - 1) {
-                result.add(node.val);
-            }
-            
-            if (node.left != null) queue.offer(node.left);
-            if (node.right != null) queue.offer(node.right);
-        }
-    }
-    
-    return result;
+ List<Integer> result = new ArrayList<>();
+ if (root == null) return result;
+
+ Queue<TreeNode> queue = new LinkedList<>();
+ queue.offer(root);
+
+ while (!queue.isEmpty()) {
+ int size = queue.size();
+
+ for (int i = 0; i < size; i++) {
+ TreeNode node = queue.poll();
+
+ // 每层最后一个节点
+ if (i == size - 1) {
+ result.add(node.val);
+ }
+
+ if (node.left != null) queue.offer(node.left);
+ if (node.right != null) queue.offer(node.right);
+ }
+ }
+
+ return result;
 }
 ```
 
@@ -17835,46 +17835,46 @@ List<Integer> rightSideView(TreeNode root) {
 **3. 二叉树的锯齿形层序遍历**
 
 ```
-        1
-       / \
-      2   3
-     / \
-    4   5
+ 1
+ / \
+ 2 3
+ / \
+ 4 5
 
 结果：[[1], [3, 2], [4, 5]]
 ```
 
 ```java
 List<List<Integer>> zigzagLevelOrder(TreeNode root) {
-    List<List<Integer>> result = new ArrayList<>();
-    if (root == null) return result;
-    
-    Queue<TreeNode> queue = new LinkedList<>();
-    queue.offer(root);
-    boolean leftToRight = true;
-    
-    while (!queue.isEmpty()) {
-        int size = queue.size();
-        List<Integer> level = new ArrayList<>();
-        
-        for (int i = 0; i < size; i++) {
-            TreeNode node = queue.poll();
-            level.add(node.val);
-            
-            if (node.left != null) queue.offer(node.left);
-            if (node.right != null) queue.offer(node.right);
-        }
-        
-        // 奇数层反转
-        if (!leftToRight) {
-            Collections.reverse(level);
-        }
-        
-        result.add(level);
-        leftToRight = !leftToRight;
-    }
-    
-    return result;
+ List<List<Integer>> result = new ArrayList<>();
+ if (root == null) return result;
+
+ Queue<TreeNode> queue = new LinkedList<>();
+ queue.offer(root);
+ boolean leftToRight = true;
+
+ while (!queue.isEmpty()) {
+ int size = queue.size();
+ List<Integer> level = new ArrayList<>();
+
+ for (int i = 0; i < size; i++) {
+ TreeNode node = queue.poll();
+ level.add(node.val);
+
+ if (node.left != null) queue.offer(node.left);
+ if (node.right != null) queue.offer(node.right);
+ }
+
+ // 奇数层反转
+ if (!leftToRight) {
+ Collections.reverse(level);
+ }
+
+ result.add(level);
+ leftToRight = !leftToRight;
+ }
+
+ return result;
 }
 ```
 
@@ -17907,9 +17907,9 @@ List<List<Integer>> zigzagLevelOrder(TreeNode root) {
 **图（Graph）**：由**顶点（Vertex）**和**边（Edge）**组成的数据结构。
 
 ```
-    A --- B
-    |     |
-    C --- D
+ A --- B
+ | |
+ C --- D
 ```
 
 **表示**：G = (V, E)
@@ -17937,13 +17937,13 @@ List<List<Integer>> zigzagLevelOrder(TreeNode root) {
 **无向边**：双向连接
 
 ```
-A --- B  （A 和 B 互相连接）
+A --- B （A 和 B 互相连接）
 ```
 
 **有向边**：单向连接
 
 ```
-A → B  （只能从 A 到 B）
+A → B （只能从 A 到 B）
 ```
 
 ---
@@ -17953,9 +17953,9 @@ A → B  （只能从 A 到 B）
 **无向图**：与顶点相连的边数
 
 ```
-    A --- B
-    |     |
-    C --- D
+ A --- B
+ | |
+ C --- D
 
 度：
 A: 2（连接 B, C）
@@ -17969,9 +17969,9 @@ D: 2（连接 B, C）
 - **出度（Out-degree）**：从该顶点出发的边数
 
 ```
-    A → B
-    ↓   ↓
-    C → D
+ A → B
+ ↓ ↓
+ C → D
 
 入度：
 A: 0, B: 1, C: 1, D: 2
@@ -17987,9 +17987,9 @@ A: 2, B: 1, C: 1, D: 0
 从一个顶点到另一个顶点经过的顶点序列。
 
 ```
-    A --- B
-    |     |
-    C --- D
+ A --- B
+ | |
+ C --- D
 
 A 到 D 的路径：
 - A → B → D
@@ -18009,9 +18009,9 @@ A → B → D：长度 = 2
 起点和终点相同的路径。
 
 ```
-    A --- B
-    |     |
-    C --- D
+ A --- B
+ | |
+ C --- D
 
 环：A → B → D → C → A
 ```
@@ -18019,9 +18019,9 @@ A → B → D：长度 = 2
 **无环图（Acyclic Graph）**：没有环的图
 
 ```
-    A → B
-    ↓   ↓
-    C → D
+ A → B
+ ↓ ↓
+ C → D
 
 无环（DAG：有向无环图）
 ```
@@ -18033,9 +18033,9 @@ A → B → D：长度 = 2
 **连通图**：任意两个顶点之间都有路径
 
 ```
-    A --- B
-    |     |
-    C --- D
+ A --- B
+ | |
+ C --- D
 
 连通图
 ```
@@ -18043,7 +18043,7 @@ A → B → D：长度 = 2
 **非连通图**：存在顶点之间没有路径
 
 ```
-    A --- B    C --- D
+ A --- B C --- D
 
 非连通图（两个连通分量）
 ```
@@ -18051,9 +18051,9 @@ A → B → D：长度 = 2
 **强连通（有向图）**：任意两个顶点之间都有双向路径
 
 ```
-    A → B
-    ↑   ↓
-    C ← D
+ A → B
+ ↑ ↓
+ C ← D
 
 强连通
 ```
@@ -18065,11 +18065,11 @@ A → B → D：长度 = 2
 边上的数值。
 
 ```
-    A --5-- B
-    |       |
-    3       2
-    |       |
-    C --4-- D
+ A --5-- B
+ | |
+ 3 2
+ | |
+ C --4-- D
 
 边的权重：
 (A,B): 5
@@ -18084,28 +18084,28 @@ A → B → D：长度 = 2
 
 **1. 按边的方向**
 
-| 类型       | 说明       | 示例                 |
+| 类型 | 说明 | 示例 |
 | ---------- | ---------- | -------------------- |
 | **无向图** | 边没有方向 | 社交网络（朋友关系） |
-| **有向图** | 边有方向   | 网页链接、任务依赖   |
+| **有向图** | 边有方向 | 网页链接、任务依赖 |
 
 ---
 
 **2. 按权重**
 
-| 类型       | 说明       | 示例                       |
+| 类型 | 说明 | 示例 |
 | ---------- | ---------- | -------------------------- |
-| **无权图** | 边没有权重 | 地铁线路图                 |
-| **有权图** | 边有权重   | 地图（距离）、网络（延迟） |
+| **无权图** | 边没有权重 | 地铁线路图 |
+| **有权图** | 边有权重 | 地图（距离）、网络（延迟） |
 
 ---
 
 **3. 按连通性**
 
-| 类型         | 说明                     |
+| 类型 | 说明 |
 | ------------ | ------------------------ |
-| **连通图**   | 任意两点可达             |
-| **非连通图** | 存在孤立的部分           |
+| **连通图** | 任意两点可达 |
+| **非连通图** | 存在孤立的部分 |
 | **强连通图** | 有向图中任意两点双向可达 |
 
 ---
@@ -18115,11 +18115,11 @@ A → B → D：长度 = 2
 **完全图**：任意两个顶点之间都有边
 
 ```
-    A --- B
-    |\ /|
-    | X |
-    |/ \|
-    C --- D
+ A --- B
+ |\ /|
+ | X |
+ |/ \|
+ C --- D
 
 每个顶点都与其他顶点相连
 ```
@@ -18127,9 +18127,9 @@ A → B → D：长度 = 2
 **树**：无环连通图
 
 ```
-    A
-   / \
-  B   C
+ A
+ / \
+ B C
  /
 D
 
@@ -18139,9 +18139,9 @@ D
 **DAG（有向无环图）**：有向且无环
 
 ```
-    A → B
-    ↓   ↓
-    C → D
+ A → B
+ ↓ ↓
+ C → D
 
 常用于任务调度
 ```
@@ -18155,16 +18155,16 @@ D
 用二维数组表示。
 
 ```
-    A --- B
-    |     |
-    C --- D
+ A --- B
+ | |
+ C --- D
 
 邻接矩阵：
-    A  B  C  D
-A [ 0  1  1  0 ]
-B [ 1  0  0  1 ]
-C [ 1  0  0  1 ]
-D [ 0  1  1  0 ]
+ A B C D
+A [ 0 1 1 0 ]
+B [ 1 0 0 1 ]
+C [ 1 0 0 1 ]
+D [ 0 1 1 0 ]
 
 matrix[i][j] = 1 表示有边
 ```
@@ -18186,9 +18186,9 @@ matrix[i][j] = 权重
 用链表或数组存储每个顶点的邻居。
 
 ```
-    A --- B
-    |     |
-    C --- D
+ A --- B
+ | |
+ C --- D
 
 邻接表：
 A: [B, C]
@@ -18217,37 +18217,37 @@ graph.get(A).add(B);
 
 ```java
 class Graph {
-    private Map<Integer, List<Integer>> adjList;
-    
-    Graph() {
-        adjList = new HashMap<>();
-    }
-    
-    // 添加顶点
-    void addVertex(int v) {
-        adjList.putIfAbsent(v, new ArrayList<>());
-    }
-    
-    // 添加边（无向图）
-    void addEdge(int u, int v) {
-        adjList.get(u).add(v);
-        adjList.get(v).add(u);
-    }
-    
-    // 添加边（有向图）
-    void addDirectedEdge(int u, int v) {
-        adjList.get(u).add(v);
-    }
-    
-    // 获取邻居
-    List<Integer> getNeighbors(int v) {
-        return adjList.get(v);
-    }
-    
-    // 获取度
-    int getDegree(int v) {
-        return adjList.get(v).size();
-    }
+ private Map<Integer, List<Integer>> adjList;
+
+ Graph() {
+ adjList = new HashMap<>();
+ }
+
+ // 添加顶点
+ void addVertex(int v) {
+ adjList.putIfAbsent(v, new ArrayList<>());
+ }
+
+ // 添加边（无向图）
+ void addEdge(int u, int v) {
+ adjList.get(u).add(v);
+ adjList.get(v).add(u);
+ }
+
+ // 添加边（有向图）
+ void addDirectedEdge(int u, int v) {
+ adjList.get(u).add(v);
+ }
+
+ // 获取邻居
+ List<Integer> getNeighbors(int v) {
+ return adjList.get(v);
+ }
+
+ // 获取度
+ int getDegree(int v) {
+ return adjList.get(v).size();
+ }
 }
 ```
 
@@ -18295,12 +18295,12 @@ A → B
 
 #### 核心区别
 
-| 特性         | 无向图             | 有向图             |
+| 特性 | 无向图 | 有向图 |
 | ------------ | ------------------ | ------------------ |
-| **边的表示** | A --- B            | A → B              |
-| **关系**     | 双向对称           | 单向非对称         |
-| **度**       | 度（Degree）       | 入度 + 出度        |
-| **边数表示** | (A, B) = (B, A)    | (A, B) ≠ (B, A)    |
+| **边的表示** | A --- B | A → B |
+| **关系** | 双向对称 | 单向非对称 |
+| **度** | 度（Degree） | 入度 + 出度 |
+| **边数表示** | (A, B) = (B, A) | (A, B) ≠ (B, A) |
 | **应用场景** | 社交网络、道路网络 | 网页链接、任务依赖 |
 
 ---
@@ -18312,9 +18312,9 @@ A → B
 **示例**：
 
 ```
-    A --- B
-    |     |
-    C --- D
+ A --- B
+ | |
+ C --- D
 ```
 
 **特点**：
@@ -18324,8 +18324,8 @@ A → B
 **度的计算**：
 
 ```
-    A --- B --- C
-    
+ A --- B --- C
+
 度：
 A: 1（连接 B）
 B: 2（连接 A, C）
@@ -18335,15 +18335,15 @@ C: 1（连接 B）
 **邻接矩阵**：对称矩阵
 
 ```
-    A --- B
-    |     |
-    C --- D
+ A --- B
+ | |
+ C --- D
 
-    A  B  C  D
-A [ 0  1  1  0 ]
-B [ 1  0  0  1 ]
-C [ 1  0  0  1 ]
-D [ 0  1  1  0 ]
+ A B C D
+A [ 0 1 1 0 ]
+B [ 1 0 0 1 ]
+C [ 1 0 0 1 ]
+D [ 0 1 1 0 ]
 
 matrix[i][j] = matrix[j][i]
 ```
@@ -18361,24 +18361,24 @@ D: [B, C]
 
 ```java
 class UndirectedGraph {
-    private Map<Integer, List<Integer>> adjList;
-    
-    UndirectedGraph() {
-        adjList = new HashMap<>();
-    }
-    
-    // 添加无向边
-    void addEdge(int u, int v) {
-        adjList.putIfAbsent(u, new ArrayList<>());
-        adjList.putIfAbsent(v, new ArrayList<>());
-        adjList.get(u).add(v);
-        adjList.get(v).add(u);  // 双向添加
-    }
-    
-    // 获取度
-    int getDegree(int v) {
-        return adjList.get(v).size();
-    }
+ private Map<Integer, List<Integer>> adjList;
+
+ UndirectedGraph() {
+ adjList = new HashMap<>();
+ }
+
+ // 添加无向边
+ void addEdge(int u, int v) {
+ adjList.putIfAbsent(u, new ArrayList<>());
+ adjList.putIfAbsent(v, new ArrayList<>());
+ adjList.get(u).add(v);
+ adjList.get(v).add(u); // 双向添加
+ }
+
+ // 获取度
+ int getDegree(int v) {
+ return adjList.get(v).size();
+ }
 }
 ```
 
@@ -18397,9 +18397,9 @@ class UndirectedGraph {
 **示例**：
 
 ```
-    A → B
-    ↓   ↓
-    C → D
+ A → B
+ ↓ ↓
+ C → D
 ```
 
 **特点**：
@@ -18409,8 +18409,8 @@ class UndirectedGraph {
 **度的计算**：
 
 ```
-    A → B → C
-    
+ A → B → C
+
 入度（In-degree）：
 A: 0, B: 1, C: 1
 
@@ -18423,15 +18423,15 @@ A: 1, B: 1, C: 0
 **邻接矩阵**：非对称矩阵
 
 ```
-    A → B
-    ↓   ↓
-    C → D
+ A → B
+ ↓ ↓
+ C → D
 
-    A  B  C  D
-A [ 0  1  0  0 ]
-B [ 0  0  0  1 ]
-C [ 0  0  0  1 ]
-D [ 0  0  0  0 ]
+ A B C D
+A [ 0 1 0 0 ]
+B [ 0 0 0 1 ]
+C [ 0 0 0 1 ]
+D [ 0 0 0 0 ]
 
 matrix[i][j] ≠ matrix[j][i]
 ```
@@ -18449,34 +18449,34 @@ D: []
 
 ```java
 class DirectedGraph {
-    private Map<Integer, List<Integer>> adjList;
-    
-    DirectedGraph() {
-        adjList = new HashMap<>();
-    }
-    
-    // 添加有向边
-    void addEdge(int u, int v) {
-        adjList.putIfAbsent(u, new ArrayList<>());
-        adjList.putIfAbsent(v, new ArrayList<>());
-        adjList.get(u).add(v);  // 只添加单向
-    }
-    
-    // 获取出度
-    int getOutDegree(int v) {
-        return adjList.get(v).size();
-    }
-    
-    // 获取入度
-    int getInDegree(int v) {
-        int inDegree = 0;
-        for (List<Integer> neighbors : adjList.values()) {
-            if (neighbors.contains(v)) {
-                inDegree++;
-            }
-        }
-        return inDegree;
-    }
+ private Map<Integer, List<Integer>> adjList;
+
+ DirectedGraph() {
+ adjList = new HashMap<>();
+ }
+
+ // 添加有向边
+ void addEdge(int u, int v) {
+ adjList.putIfAbsent(u, new ArrayList<>());
+ adjList.putIfAbsent(v, new ArrayList<>());
+ adjList.get(u).add(v); // 只添加单向
+ }
+
+ // 获取出度
+ int getOutDegree(int v) {
+ return adjList.get(v).size();
+ }
+
+ // 获取入度
+ int getInDegree(int v) {
+ int inDegree = 0;
+ for (List<Integer> neighbors : adjList.values()) {
+ if (neighbors.contains(v)) {
+ inDegree++;
+ }
+ }
+ return inDegree;
+ }
 }
 ```
 
@@ -18496,7 +18496,7 @@ class DirectedGraph {
 
 ```
 Alice --- Bob
-  |        |
+ | |
 Charlie - David
 
 Alice 和 Bob 互为朋友
@@ -18506,7 +18506,7 @@ Alice 和 Bob 互为朋友
 
 ```
 Alice → Bob
-  ↓      ↓
+ ↓ ↓
 Charlie ← David
 
 Alice 关注 Bob，但 Bob 不一定关注 Alice
@@ -18555,9 +18555,9 @@ A → B → C
 **连通**：任意两点之间有路径
 
 ```
-    A --- B
-    |     |
-    C --- D
+ A --- B
+ | |
+ C --- D
 
 连通图
 ```
@@ -18565,7 +18565,7 @@ A → B → C
 **连通分量**：最大连通子图
 
 ```
-A --- B    C --- D
+A --- B C --- D
 
 2 个连通分量
 ```
@@ -18577,9 +18577,9 @@ A --- B    C --- D
 **强连通**：任意两点之间有双向路径
 
 ```
-    A → B
-    ↑   ↓
-    C ← D
+ A → B
+ ↑ ↓
+ C ← D
 
 强连通（可以从任意点到达任意点）
 ```
@@ -18587,7 +18587,7 @@ A --- B    C --- D
 **弱连通**：忽略方向后连通
 
 ```
-    A → B → C
+ A → B → C
 
 弱连通（忽略方向后连通）
 但不是强连通（C 无法到达 A）
@@ -18596,9 +18596,9 @@ A --- B    C --- D
 **强连通分量（SCC）**：最大强连通子图
 
 ```
-    A → B → C
-    ↑       ↓
-    E ← D ← 
+ A → B → C
+ ↑ ↓
+ E ← D ←
 
 SCC: {A, B, C, D, E}
 ```
@@ -18610,9 +18610,9 @@ SCC: {A, B, C, D, E}
 **无向图的环**：至少 3 个顶点
 
 ```
-    A --- B
-    |     |
-    C --- D
+ A --- B
+ | |
+ C --- D
 
 环：A → B → D → C → A
 ```
@@ -18620,7 +18620,7 @@ SCC: {A, B, C, D, E}
 **有向图的环**：可以 2 个顶点
 
 ```
-    A ⇄ B
+ A ⇄ B
 
 环：A → B → A
 ```
@@ -18657,16 +18657,16 @@ A → A
 
 #### 实际应用对比
 
-| 应用                 | 图类型 | 原因                 |
+| 应用 | 图类型 | 原因 |
 | -------------------- | ------ | -------------------- |
-| **社交网络（朋友）** | 无向图 | 朋友关系是双向的     |
-| **社交网络（关注）** | 有向图 | 关注是单向的         |
-| **道路网络**         | 无向图 | 大多数道路双向通行   |
-| **单行道**           | 有向图 | 只能单向通行         |
-| **网页链接**         | 有向图 | 超链接是单向的       |
-| **任务调度**         | 有向图 | 任务有依赖顺序       |
-| **电路连接**         | 无向图 | 电流双向流动         |
-| **继承关系**         | 有向图 | 子类继承父类（单向） |
+| **社交网络（朋友）** | 无向图 | 朋友关系是双向的 |
+| **社交网络（关注）** | 有向图 | 关注是单向的 |
+| **道路网络** | 无向图 | 大多数道路双向通行 |
+| **单行道** | 有向图 | 只能单向通行 |
+| **网页链接** | 有向图 | 超链接是单向的 |
+| **任务调度** | 有向图 | 任务有依赖顺序 |
+| **电路连接** | 无向图 | 电流双向流动 |
+| **继承关系** | 有向图 | 子类继承父类（单向） |
 
 ---
 
@@ -18677,12 +18677,12 @@ A → A
 ```
 有向图：
 A → B
-↓   ↓
+↓ ↓
 C → D
 
 转换为无向图：
 A --- B
-|     |
+| |
 C --- D
 ```
 
@@ -18704,24 +18704,24 @@ A ⇄ B
 ```java
 // 无向图
 void addUndirectedEdge(int u, int v) {
-    adjList.get(u).add(v);
-    adjList.get(v).add(u);  // 双向
+ adjList.get(u).add(v);
+ adjList.get(v).add(u); // 双向
 }
 
 // 有向图
 void addDirectedEdge(int u, int v) {
-    adjList.get(u).add(v);  // 单向
+ adjList.get(u).add(v); // 单向
 }
 
 // 判断边是否存在
 // 无向图
 boolean hasEdge(int u, int v) {
-    return adjList.get(u).contains(v);  // 只需检查一个方向
+ return adjList.get(u).contains(v); // 只需检查一个方向
 }
 
 // 有向图
 boolean hasEdge(int u, int v) {
-    return adjList.get(u).contains(v);  // 必须检查指定方向
+ return adjList.get(u).contains(v); // 必须检查指定方向
 }
 ```
 
@@ -18770,12 +18770,12 @@ A --5-- B --3-- C
 
 #### 核心区别
 
-| 特性         | 无权图         | 加权图                  |
+| 特性 | 无权图 | 加权图 |
 | ------------ | -------------- | ----------------------- |
-| **边的信息** | 只有连接关系   | 连接 + 权重             |
-| **路径长度** | 边的数量       | 权重之和                |
-| **最短路径** | BFS            | Dijkstra / Bellman-Ford |
-| **应用场景** | 社交网络、迷宫 | 地图导航、网络路由      |
+| **边的信息** | 只有连接关系 | 连接 + 权重 |
+| **路径长度** | 边的数量 | 权重之和 |
+| **最短路径** | BFS | Dijkstra / Bellman-Ford |
+| **应用场景** | 社交网络、迷宫 | 地图导航、网络路由 |
 
 ---
 
@@ -18786,9 +18786,9 @@ A --5-- B --3-- C
 **示例**：
 
 ```
-    A --- B
-    |     |
-    C --- D
+ A --- B
+ | |
+ C --- D
 ```
 
 **路径长度**：经过的边数
@@ -18802,9 +18802,9 @@ A 到 D 的路径：
 **最短路径**：边数最少的路径（使用 BFS）
 
 ```
-    A --- B --- E
-    |           |
-    C --- D --- F
+ A --- B --- E
+ | |
+ C --- D --- F
 
 A 到 F 的最短路径：
 A → B → E → F（长度 = 3）
@@ -18835,11 +18835,11 @@ graph.get(B).add(A);
 **示例**：
 
 ```
-    A --5-- B
-    |       |
-    3       2
-    |       |
-    C --4-- D
+ A --5-- B
+ | |
+ 3 2
+ | |
+ C --4-- D
 ```
 
 **路径长度**：经过边的权重之和
@@ -18853,28 +18853,28 @@ A 到 D 的路径：
 **最短路径**：权重和最小的路径（使用 Dijkstra）
 
 ```
-    A --1-- B --10-- E
-    |                |
-    5                1
-    |                |
-    C --2-- D --3-- F
+ A --1-- B --10-- E
+ | |
+ 5 1
+ | |
+ C --2-- D --3-- F
 
 A 到 F 的最短路径：
 A → B → E → F（1 + 10 + 1 = 12）
-不是 A → C → D → F（5 + 2 + 3 = 10）✓
+不是 A → C → D → F（5 + 2 + 3 = 10）
 ```
 
 **邻接表表示**：存储邻居和权重
 
 ```java
 class Edge {
-    int to;
-    int weight;
-    
-    Edge(int to, int weight) {
-        this.to = to;
-        this.weight = weight;
-    }
+ int to;
+ int weight;
+
+ Edge(int to, int weight) {
+ this.to = to;
+ this.weight = weight;
+ }
 }
 
 Map<Integer, List<Edge>> graph = new HashMap<>();
@@ -18887,17 +18887,17 @@ graph.get(B).add(new Edge(A, 5));
 **邻接矩阵表示**：
 
 ```
-    A --5-- B
-    |       |
-    3       2
-    |       |
-    C --4-- D
+ A --5-- B
+ | |
+ 3 2
+ | |
+ C --4-- D
 
-    A  B  C  D
-A [ 0  5  3  ∞ ]
-B [ 5  0  ∞  2 ]
-C [ 3  ∞  0  4 ]
-D [ ∞  2  4  0 ]
+ A B C D
+A [ 0 5 3 ∞ ]
+B [ 5 0 ∞ 2 ]
+C [ 3 ∞ 0 4 ]
+D [ ∞ 2 4 0 ]
 
 matrix[i][j] = 权重（∞ 表示无边）
 ```
@@ -18978,28 +18978,28 @@ A 到 C：总延迟 110ms
 
 ```java
 int shortestPath(int start, int end) {
-    Queue<Integer> queue = new LinkedList<>();
-    Map<Integer, Integer> distance = new HashMap<>();
-    
-    queue.offer(start);
-    distance.put(start, 0);
-    
-    while (!queue.isEmpty()) {
-        int node = queue.poll();
-        
-        if (node == end) {
-            return distance.get(node);
-        }
-        
-        for (int neighbor : graph.get(node)) {
-            if (!distance.containsKey(neighbor)) {
-                distance.put(neighbor, distance.get(node) + 1);
-                queue.offer(neighbor);
-            }
-        }
-    }
-    
-    return -1;  // 不可达
+ Queue<Integer> queue = new LinkedList<>();
+ Map<Integer, Integer> distance = new HashMap<>();
+
+ queue.offer(start);
+ distance.put(start, 0);
+
+ while (!queue.isEmpty()) {
+ int node = queue.poll();
+
+ if (node == end) {
+ return distance.get(node);
+ }
+
+ for (int neighbor : graph.get(node)) {
+ if (!distance.containsKey(neighbor)) {
+ distance.put(neighbor, distance.get(node) + 1);
+ queue.offer(neighbor);
+ }
+ }
+ }
+
+ return -1; // 不可达
 }
 ```
 
@@ -19011,35 +19011,35 @@ int shortestPath(int start, int end) {
 
 ```java
 int shortestPath(int start, int end) {
-    PriorityQueue<int[]> pq = new PriorityQueue<>((a, b) -> a[1] - b[1]);
-    Map<Integer, Integer> distance = new HashMap<>();
-    
-    pq.offer(new int[]{start, 0});
-    distance.put(start, 0);
-    
-    while (!pq.isEmpty()) {
-        int[] curr = pq.poll();
-        int node = curr[0];
-        int dist = curr[1];
-        
-        if (node == end) {
-            return dist;
-        }
-        
-        if (dist > distance.getOrDefault(node, Integer.MAX_VALUE)) {
-            continue;
-        }
-        
-        for (Edge edge : graph.get(node)) {
-            int newDist = dist + edge.weight;
-            if (newDist < distance.getOrDefault(edge.to, Integer.MAX_VALUE)) {
-                distance.put(edge.to, newDist);
-                pq.offer(new int[]{edge.to, newDist});
-            }
-        }
-    }
-    
-    return -1;  // 不可达
+ PriorityQueue<int[]> pq = new PriorityQueue<>((a, b) -> a[1] - b[1]);
+ Map<Integer, Integer> distance = new HashMap<>();
+
+ pq.offer(new int[]{start, 0});
+ distance.put(start, 0);
+
+ while (!pq.isEmpty()) {
+ int[] curr = pq.poll();
+ int node = curr[0];
+ int dist = curr[1];
+
+ if (node == end) {
+ return dist;
+ }
+
+ if (dist > distance.getOrDefault(node, Integer.MAX_VALUE)) {
+ continue;
+ }
+
+ for (Edge edge : graph.get(node)) {
+ int newDist = dist + edge.weight;
+ if (newDist < distance.getOrDefault(edge.to, Integer.MAX_VALUE)) {
+ distance.put(edge.to, newDist);
+ pq.offer(new int[]{edge.to, newDist});
+ }
+ }
+ }
+
+ return -1; // 不可达
 }
 ```
 
@@ -19078,16 +19078,16 @@ A --0-- B --5-- C
 
 #### 实际应用对比
 
-| 应用              | 图类型 | 权重含义       |
+| 应用 | 图类型 | 权重含义 |
 | ----------------- | ------ | -------------- |
-| **六度分隔理论**  | 无权图 | 只看关系链长度 |
-| **LinkedIn 推荐** | 加权图 | 关系强度       |
-| **迷宫求解**      | 无权图 | 只看步数       |
-| **GPS 导航**      | 加权图 | 距离或时间     |
-| **网页爬虫**      | 无权图 | 只看链接关系   |
-| **搜索引擎排名**  | 加权图 | PageRank 权重  |
-| **地铁换乘**      | 无权图 | 只看站数       |
-| **打车费用**      | 加权图 | 距离 × 单价    |
+| **六度分隔理论** | 无权图 | 只看关系链长度 |
+| **LinkedIn 推荐** | 加权图 | 关系强度 |
+| **迷宫求解** | 无权图 | 只看步数 |
+| **GPS 导航** | 加权图 | 距离或时间 |
+| **网页爬虫** | 无权图 | 只看链接关系 |
+| **搜索引擎排名** | 加权图 | PageRank 权重 |
+| **地铁换乘** | 无权图 | 只看站数 |
+| **打车费用** | 加权图 | 距离 × 单价 |
 
 ---
 
@@ -19097,34 +19097,34 @@ A --0-- B --5-- C
 
 ```java
 class UnweightedGraph {
-    private Map<Integer, List<Integer>> adjList;
-    
-    void addEdge(int u, int v) {
-        adjList.get(u).add(v);
-        adjList.get(v).add(u);
-    }
-    
-    // BFS 最短路径
-    int shortestPath(int start, int end) {
-        Queue<Integer> queue = new LinkedList<>();
-        Map<Integer, Integer> distance = new HashMap<>();
-        
-        queue.offer(start);
-        distance.put(start, 0);
-        
-        while (!queue.isEmpty()) {
-            int node = queue.poll();
-            if (node == end) return distance.get(node);
-            
-            for (int neighbor : adjList.get(node)) {
-                if (!distance.containsKey(neighbor)) {
-                    distance.put(neighbor, distance.get(node) + 1);
-                    queue.offer(neighbor);
-                }
-            }
-        }
-        return -1;
-    }
+ private Map<Integer, List<Integer>> adjList;
+
+ void addEdge(int u, int v) {
+ adjList.get(u).add(v);
+ adjList.get(v).add(u);
+ }
+
+ // BFS 最短路径
+ int shortestPath(int start, int end) {
+ Queue<Integer> queue = new LinkedList<>();
+ Map<Integer, Integer> distance = new HashMap<>();
+
+ queue.offer(start);
+ distance.put(start, 0);
+
+ while (!queue.isEmpty()) {
+ int node = queue.poll();
+ if (node == end) return distance.get(node);
+
+ for (int neighbor : adjList.get(node)) {
+ if (!distance.containsKey(neighbor)) {
+ distance.put(neighbor, distance.get(node) + 1);
+ queue.offer(neighbor);
+ }
+ }
+ }
+ return -1;
+ }
 }
 ```
 
@@ -19134,46 +19134,46 @@ class UnweightedGraph {
 
 ```java
 class WeightedGraph {
-    private Map<Integer, List<Edge>> adjList;
-    
-    static class Edge {
-        int to, weight;
-        Edge(int to, int weight) {
-            this.to = to;
-            this.weight = weight;
-        }
-    }
-    
-    void addEdge(int u, int v, int weight) {
-        adjList.get(u).add(new Edge(v, weight));
-        adjList.get(v).add(new Edge(u, weight));
-    }
-    
-    // Dijkstra 最短路径
-    int shortestPath(int start, int end) {
-        PriorityQueue<int[]> pq = new PriorityQueue<>((a, b) -> a[1] - b[1]);
-        Map<Integer, Integer> distance = new HashMap<>();
-        
-        pq.offer(new int[]{start, 0});
-        distance.put(start, 0);
-        
-        while (!pq.isEmpty()) {
-            int[] curr = pq.poll();
-            int node = curr[0], dist = curr[1];
-            
-            if (node == end) return dist;
-            if (dist > distance.getOrDefault(node, Integer.MAX_VALUE)) continue;
-            
-            for (Edge edge : adjList.get(node)) {
-                int newDist = dist + edge.weight;
-                if (newDist < distance.getOrDefault(edge.to, Integer.MAX_VALUE)) {
-                    distance.put(edge.to, newDist);
-                    pq.offer(new int[]{edge.to, newDist});
-                }
-            }
-        }
-        return -1;
-    }
+ private Map<Integer, List<Edge>> adjList;
+
+ static class Edge {
+ int to, weight;
+ Edge(int to, int weight) {
+ this.to = to;
+ this.weight = weight;
+ }
+ }
+
+ void addEdge(int u, int v, int weight) {
+ adjList.get(u).add(new Edge(v, weight));
+ adjList.get(v).add(new Edge(u, weight));
+ }
+
+ // Dijkstra 最短路径
+ int shortestPath(int start, int end) {
+ PriorityQueue<int[]> pq = new PriorityQueue<>((a, b) -> a[1] - b[1]);
+ Map<Integer, Integer> distance = new HashMap<>();
+
+ pq.offer(new int[]{start, 0});
+ distance.put(start, 0);
+
+ while (!pq.isEmpty()) {
+ int[] curr = pq.poll();
+ int node = curr[0], dist = curr[1];
+
+ if (node == end) return dist;
+ if (dist > distance.getOrDefault(node, Integer.MAX_VALUE)) continue;
+
+ for (Edge edge : adjList.get(node)) {
+ int newDist = dist + edge.weight;
+ if (newDist < distance.getOrDefault(edge.to, Integer.MAX_VALUE)) {
+ distance.put(edge.to, newDist);
+ pq.offer(new int[]{edge.to, newDist});
+ }
+ }
+ }
+ return -1;
+ }
 }
 ```
 
@@ -19241,9 +19241,9 @@ A --- B --- C
 **示例图**：
 
 ```
-    0 --- 1
-    |     |
-    2 --- 3
+ 0 --- 1
+ | |
+ 2 --- 3
 ```
 
 ---
@@ -19255,16 +19255,16 @@ A --- B --- C
 **无权图**：
 
 ```
-    0 --- 1
-    |     |
-    2 --- 3
+ 0 --- 1
+ | |
+ 2 --- 3
 
 邻接矩阵：
-    0  1  2  3
-0 [ 0  1  1  0 ]
-1 [ 1  0  0  1 ]
-2 [ 1  0  0  1 ]
-3 [ 0  1  1  0 ]
+ 0 1 2 3
+0 [ 0 1 1 0 ]
+1 [ 1 0 0 1 ]
+2 [ 1 0 0 1 ]
+3 [ 0 1 1 0 ]
 
 matrix[i][j] = 1 表示有边
 matrix[i][j] = 0 表示无边
@@ -19273,18 +19273,18 @@ matrix[i][j] = 0 表示无边
 **加权图**：
 
 ```
-    0 --5-- 1
-    |       |
-    3       2
-    |       |
-    2 --4-- 3
+ 0 --5-- 1
+ | |
+ 3 2
+ | |
+ 2 --4-- 3
 
 邻接矩阵：
-    0  1  2  3
-0 [ 0  5  3  ∞ ]
-1 [ 5  0  ∞  2 ]
-2 [ 3  ∞  0  4 ]
-3 [ ∞  2  4  0 ]
+ 0 1 2 3
+0 [ 0 5 3 ∞ ]
+1 [ 5 0 ∞ 2 ]
+2 [ 3 ∞ 0 4 ]
+3 [ ∞ 2 4 0 ]
 
 matrix[i][j] = 权重
 matrix[i][j] = ∞ 表示无边
@@ -19294,47 +19294,47 @@ matrix[i][j] = ∞ 表示无边
 
 ```java
 class GraphMatrix {
-    private int[][] matrix;
-    private int V;  // 顶点数
-    
-    GraphMatrix(int V) {
-        this.V = V;
-        matrix = new int[V][V];
-        
-        // 初始化（加权图用 Integer.MAX_VALUE 表示无边）
-        for (int i = 0; i < V; i++) {
-            for (int j = 0; j < V; j++) {
-                matrix[i][j] = (i == j) ? 0 : Integer.MAX_VALUE;
-            }
-        }
-    }
-    
-    // 添加边（无向图）
-    void addEdge(int u, int v, int weight) {
-        matrix[u][v] = weight;
-        matrix[v][u] = weight;
-    }
-    
-    // 检查边是否存在
-    boolean hasEdge(int u, int v) {
-        return matrix[u][v] != Integer.MAX_VALUE;
-    }
-    
-    // 获取权重
-    int getWeight(int u, int v) {
-        return matrix[u][v];
-    }
-    
-    // 获取所有邻居
-    List<Integer> getNeighbors(int v) {
-        List<Integer> neighbors = new ArrayList<>();
-        for (int i = 0; i < V; i++) {
-            if (matrix[v][i] != Integer.MAX_VALUE && i != v) {
-                neighbors.add(i);
-            }
-        }
-        return neighbors;
-    }
+ private int[][] matrix;
+ private int V; // 顶点数
+
+ GraphMatrix(int V) {
+ this.V = V;
+ matrix = new int[V][V];
+
+ // 初始化（加权图用 Integer.MAX_VALUE 表示无边）
+ for (int i = 0; i < V; i++) {
+ for (int j = 0; j < V; j++) {
+ matrix[i][j] = (i == j) ? 0 : Integer.MAX_VALUE;
+ }
+ }
+ }
+
+ // 添加边（无向图）
+ void addEdge(int u, int v, int weight) {
+ matrix[u][v] = weight;
+ matrix[v][u] = weight;
+ }
+
+ // 检查边是否存在
+ boolean hasEdge(int u, int v) {
+ return matrix[u][v] != Integer.MAX_VALUE;
+ }
+
+ // 获取权重
+ int getWeight(int u, int v) {
+ return matrix[u][v];
+ }
+
+ // 获取所有邻居
+ List<Integer> getNeighbors(int v) {
+ List<Integer> neighbors = new ArrayList<>();
+ for (int i = 0; i < V; i++) {
+ if (matrix[v][i] != Integer.MAX_VALUE && i != v) {
+ neighbors.add(i);
+ }
+ }
+ return neighbors;
+ }
 }
 ```
 
@@ -19363,9 +19363,9 @@ class GraphMatrix {
 **无权图**：
 
 ```
-    0 --- 1
-    |     |
-    2 --- 3
+ 0 --- 1
+ | |
+ 2 --- 3
 
 邻接表：
 0: [1, 2]
@@ -19377,11 +19377,11 @@ class GraphMatrix {
 **加权图**：
 
 ```
-    0 --5-- 1
-    |       |
-    3       2
-    |       |
-    2 --4-- 3
+ 0 --5-- 1
+ | |
+ 3 2
+ | |
+ 2 --4-- 3
 
 邻接表：
 0: [(1, 5), (2, 3)]
@@ -19394,37 +19394,37 @@ class GraphMatrix {
 
 ```java
 class GraphList {
-    private Map<Integer, List<Integer>> adjList;
-    
-    GraphList() {
-        adjList = new HashMap<>();
-    }
-    
-    // 添加顶点
-    void addVertex(int v) {
-        adjList.putIfAbsent(v, new ArrayList<>());
-    }
-    
-    // 添加边（无向图）
-    void addEdge(int u, int v) {
-        adjList.get(u).add(v);
-        adjList.get(v).add(u);
-    }
-    
-    // 检查边是否存在
-    boolean hasEdge(int u, int v) {
-        return adjList.get(u).contains(v);
-    }
-    
-    // 获取邻居
-    List<Integer> getNeighbors(int v) {
-        return adjList.get(v);
-    }
-    
-    // 获取度
-    int getDegree(int v) {
-        return adjList.get(v).size();
-    }
+ private Map<Integer, List<Integer>> adjList;
+
+ GraphList() {
+ adjList = new HashMap<>();
+ }
+
+ // 添加顶点
+ void addVertex(int v) {
+ adjList.putIfAbsent(v, new ArrayList<>());
+ }
+
+ // 添加边（无向图）
+ void addEdge(int u, int v) {
+ adjList.get(u).add(v);
+ adjList.get(v).add(u);
+ }
+
+ // 检查边是否存在
+ boolean hasEdge(int u, int v) {
+ return adjList.get(u).contains(v);
+ }
+
+ // 获取邻居
+ List<Integer> getNeighbors(int v) {
+ return adjList.get(v);
+ }
+
+ // 获取度
+ int getDegree(int v) {
+ return adjList.get(v).size();
+ }
 }
 ```
 
@@ -19432,32 +19432,32 @@ class GraphList {
 
 ```java
 class WeightedGraphList {
-    private Map<Integer, List<Edge>> adjList;
-    
-    static class Edge {
-        int to, weight;
-        Edge(int to, int weight) {
-            this.to = to;
-            this.weight = weight;
-        }
-    }
-    
-    WeightedGraphList() {
-        adjList = new HashMap<>();
-    }
-    
-    void addVertex(int v) {
-        adjList.putIfAbsent(v, new ArrayList<>());
-    }
-    
-    void addEdge(int u, int v, int weight) {
-        adjList.get(u).add(new Edge(v, weight));
-        adjList.get(v).add(new Edge(u, weight));
-    }
-    
-    List<Edge> getNeighbors(int v) {
-        return adjList.get(v);
-    }
+ private Map<Integer, List<Edge>> adjList;
+
+ static class Edge {
+ int to, weight;
+ Edge(int to, int weight) {
+ this.to = to;
+ this.weight = weight;
+ }
+ }
+
+ WeightedGraphList() {
+ adjList = new HashMap<>();
+ }
+
+ void addVertex(int v) {
+ adjList.putIfAbsent(v, new ArrayList<>());
+ }
+
+ void addEdge(int u, int v, int weight) {
+ adjList.get(u).add(new Edge(v, weight));
+ adjList.get(v).add(new Edge(u, weight));
+ }
+
+ List<Edge> getNeighbors(int v) {
+ return adjList.get(v);
+ }
 }
 ```
 
@@ -19481,14 +19481,14 @@ class WeightedGraphList {
 
 #### 4. 对比总结
 
-| 特性           | 邻接矩阵 | 邻接表     |
+| 特性 | 邻接矩阵 | 邻接表 |
 | -------------- | -------- | ---------- |
 | **空间复杂度** | $O(V^2)$ | $O(V + E)$ |
-| **查询边**     | $O(1)$   | $O(度)$    |
-| **添加边**     | $O(1)$   | $O(1)$     |
-| **删除边**     | $O(1)$   | $O(度)$    |
-| **遍历邻居**   | $O(V)$   | $O(度)$    |
-| **适用场景**   | 稠密图   | 稀疏图     |
+| **查询边** | $O(1)$ | $O(度)$ |
+| **添加边** | $O(1)$ | $O(1)$ |
+| **删除边** | $O(1)$ | $O(度)$ |
+| **遍历邻居** | $O(V)$ | $O(度)$ |
+| **适用场景** | 稠密图 | 稀疏图 |
 
 **稠密图**：边数接近 $V^2$（如完全图）
 
@@ -19521,9 +19521,9 @@ class WeightedGraphList {
 **示例图**：
 
 ```
-    0 --- 1
-    |     |
-    2 --- 3
+ 0 --- 1
+ | |
+ 2 --- 3
 ```
 
 ---
@@ -19535,9 +19535,9 @@ class WeightedGraphList {
 **过程**：
 
 ```
-    0 --- 1
-    |     |
-    2 --- 3
+ 0 --- 1
+ | |
+ 2 --- 3
 
 从 0 开始 DFS：
 1. 访问 0
@@ -19553,27 +19553,27 @@ class WeightedGraphList {
 
 ```java
 class DFS {
-    private Set<Integer> visited;
-    private Map<Integer, List<Integer>> graph;
-    
-    void dfs(int node) {
-        // 标记为已访问
-        visited.add(node);
-        System.out.print(node + " ");
-        
-        // 递归访问邻居
-        for (int neighbor : graph.get(node)) {
-            if (!visited.contains(neighbor)) {
-                dfs(neighbor);
-            }
-        }
-    }
-    
-    // 遍历整个图
-    void dfsTraversal(int start) {
-        visited = new HashSet<>();
-        dfs(start);
-    }
+ private Set<Integer> visited;
+ private Map<Integer, List<Integer>> graph;
+
+ void dfs(int node) {
+ // 标记为已访问
+ visited.add(node);
+ System.out.print(node + " ");
+
+ // 递归访问邻居
+ for (int neighbor : graph.get(node)) {
+ if (!visited.contains(neighbor)) {
+ dfs(neighbor);
+ }
+ }
+ }
+
+ // 遍历整个图
+ void dfsTraversal(int start) {
+ visited = new HashSet<>();
+ dfs(start);
+ }
 }
 ```
 
@@ -19581,28 +19581,28 @@ class DFS {
 
 ```java
 void dfsIterative(int start) {
-    Set<Integer> visited = new HashSet<>();
-    Stack<Integer> stack = new Stack<>();
-    
-    stack.push(start);
-    
-    while (!stack.isEmpty()) {
-        int node = stack.pop();
-        
-        if (visited.contains(node)) {
-            continue;
-        }
-        
-        visited.add(node);
-        System.out.print(node + " ");
-        
-        // 将邻居压入栈
-        for (int neighbor : graph.get(node)) {
-            if (!visited.contains(neighbor)) {
-                stack.push(neighbor);
-            }
-        }
-    }
+ Set<Integer> visited = new HashSet<>();
+ Stack<Integer> stack = new Stack<>();
+
+ stack.push(start);
+
+ while (!stack.isEmpty()) {
+ int node = stack.pop();
+
+ if (visited.contains(node)) {
+ continue;
+ }
+
+ visited.add(node);
+ System.out.print(node + " ");
+
+ // 将邻居压入栈
+ for (int neighbor : graph.get(node)) {
+ if (!visited.contains(neighbor)) {
+ stack.push(neighbor);
+ }
+ }
+ }
 }
 ```
 
@@ -19625,9 +19625,9 @@ void dfsIterative(int start) {
 **过程**：
 
 ```
-    0 --- 1
-    |     |
-    2 --- 3
+ 0 --- 1
+ | |
+ 2 --- 3
 
 从 0 开始 BFS：
 1. 访问 0（第 0 层）
@@ -19641,24 +19641,24 @@ void dfsIterative(int start) {
 
 ```java
 void bfs(int start) {
-    Set<Integer> visited = new HashSet<>();
-    Queue<Integer> queue = new LinkedList<>();
-    
-    queue.offer(start);
-    visited.add(start);
-    
-    while (!queue.isEmpty()) {
-        int node = queue.poll();
-        System.out.print(node + " ");
-        
-        // 将未访问的邻居加入队列
-        for (int neighbor : graph.get(node)) {
-            if (!visited.contains(neighbor)) {
-                visited.add(neighbor);
-                queue.offer(neighbor);
-            }
-        }
-    }
+ Set<Integer> visited = new HashSet<>();
+ Queue<Integer> queue = new LinkedList<>();
+
+ queue.offer(start);
+ visited.add(start);
+
+ while (!queue.isEmpty()) {
+ int node = queue.poll();
+ System.out.print(node + " ");
+
+ // 将未访问的邻居加入队列
+ for (int neighbor : graph.get(node)) {
+ if (!visited.contains(neighbor)) {
+ visited.add(neighbor);
+ queue.offer(neighbor);
+ }
+ }
+ }
 }
 ```
 
@@ -19676,22 +19676,22 @@ void bfs(int start) {
 
 #### 4. DFS vs BFS 对比
 
-| 特性           | DFS                | BFS                |
+| 特性 | DFS | BFS |
 | -------------- | ------------------ | ------------------ |
-| **数据结构**   | 栈（递归）         | 队列               |
-| **遍历方式**   | 深度优先           | 广度优先           |
-| **路径**       | 不一定最短         | 最短路径（无权图） |
+| **数据结构** | 栈（递归） | 队列 |
+| **遍历方式** | 深度优先 | 广度优先 |
+| **路径** | 不一定最短 | 最短路径（无权图） |
 | **空间复杂度** | $O(h)$（h 是深度） | $O(w)$（w 是宽度） |
-| **应用**       | 环检测、拓扑排序   | 最短路径、层次遍历 |
+| **应用** | 环检测、拓扑排序 | 最短路径、层次遍历 |
 
 **示例对比**：
 
 ```
-        0
-       / \
-      1   2
-     / \   \
-    3   4   5
+ 0
+ / \
+ 1 2
+ / \ \
+ 3 4 5
 
 DFS（递归）：0 → 1 → 3 → 4 → 2 → 5
 BFS（队列）：0 → 1 → 2 → 3 → 4 → 5
@@ -19711,17 +19711,17 @@ BFS（队列）：0 → 1 → 2 → 3 → 4 → 5
 
 ```java
 class Graph {
-    private Map<Integer, List<Integer>> adjList;
-    
-    Graph() {
-        adjList = new HashMap<>();
-    }
-    
-    void addVertex(int v) {
-        adjList.putIfAbsent(v, new ArrayList<>());
-    }
-    
-    void add
+ private Map<Integer, List<Integer>> adjList;
+
+ Graph() {
+ adjList = new HashMap<>();
+ }
+
+ void addVertex(int v) {
+ adjList.putIfAbsent(v, new ArrayList<>());
+ }
+
+ void add
 ```
 
 ### 10.6 最短路径（Dijkstra / Floyd / Bellman-Ford）
@@ -19735,11 +19735,11 @@ class Graph {
 **示例**：
 
 ```
-    A --1-- B --4-- D
-    |       |
-    2       1
-    |       |
-    C ------+
+ A --1-- B --4-- D
+ | |
+ 2 1
+ | |
+ C ------+
 
 A 到 D 的路径：
 - A → B → D：1 + 4 = 5
@@ -19774,11 +19774,11 @@ A 到 D 的路径：
 **示例**：
 
 ```
-    A --1-- B --4-- D
-    |       |
-    2       1
-    |       |
-    C ------+
+ A --1-- B --4-- D
+ | |
+ 2 1
+ | |
+ C ------+
 
 从 A 开始：
 
@@ -19810,23 +19810,23 @@ A → D：5
 
 ```
 Dijkstra(graph, start):
-    distance[start] = 0
-    for each vertex v:
-        if v != start:
-            distance[v] = ∞
-    
-    priorityQueue.add(start, 0)
-    
-    while priorityQueue is not empty:
-        u = priorityQueue.extractMin()
-        
-        for each neighbor v of u:
-            newDist = distance[u] + weight(u, v)
-            if newDist < distance[v]:
-                distance[v] = newDist
-                priorityQueue.add(v, newDist)
-    
-    return distance
+ distance[start] = 0
+ for each vertex v:
+ if v != start:
+ distance[v] = ∞
+
+ priorityQueue.add(start, 0)
+
+ while priorityQueue is not empty:
+ u = priorityQueue.extractMin()
+
+ for each neighbor v of u:
+ newDist = distance[u] + weight(u, v)
+ if newDist < distance[v]:
+ distance[v] = newDist
+ priorityQueue.add(v, newDist)
+
+ return distance
 ```
 
 **时间复杂度**：
@@ -19856,20 +19856,20 @@ Dijkstra(graph, start):
 ```
 1. 初始化：起点距离 = 0，其他点距离 = ∞
 2. 重复 V-1 次：
-   - 对每条边 (u, v)，尝试松弛：
-     if distance[u] + weight(u,v) < distance[v]:
-         distance[v] = distance[u] + weight(u,v)
+ - 对每条边 (u, v)，尝试松弛：
+ if distance[u] + weight(u,v) < distance[v]:
+ distance[v] = distance[u] + weight(u,v)
 3. 检测负环：再松弛一次，如果还能更新，说明有负环
 ```
 
 **示例**：
 
 ```
-    A --1-- B --(-3)-- D
-    |       |
-    2       1
-    |       |
-    C ------+
+ A --1-- B --(-3)-- D
+ | |
+ 2 1
+ | |
+ C ------+
 
 从 A 开始：
 
@@ -19899,12 +19899,12 @@ A → D：-2（通过 B）
 **负环检测**：
 
 ```
-    A --1-- B
-    |       |
-   -1      -2
-    |       |
-    C ------+
-        1
+ A --1-- B
+ | |
+ -1 -2
+ | |
+ C ------+
+ 1
 
 第 V 轮松弛：
 如果还能更新距离，说明存在负环
@@ -19915,23 +19915,23 @@ A → D：-2（通过 B）
 
 ```
 BellmanFord(graph, start):
-    distance[start] = 0
-    for each vertex v:
-        if v != start:
-            distance[v] = ∞
-    
-    // 松弛 V-1 次
-    for i = 1 to V-1:
-        for each edge (u, v):
-            if distance[u] + weight(u,v) < distance[v]:
-                distance[v] = distance[u] + weight(u,v)
-    
-    // 检测负环
-    for each edge (u, v):
-        if distance[u] + weight(u,v) < distance[v]:
-            return "负环存在"
-    
-    return distance
+ distance[start] = 0
+ for each vertex v:
+ if v != start:
+ distance[v] = ∞
+
+ // 松弛 V-1 次
+ for i = 1 to V-1:
+ for each edge (u, v):
+ if distance[u] + weight(u,v) < distance[v]:
+ distance[v] = distance[u] + weight(u,v)
+
+ // 检测负环
+ for each edge (u, v):
+ if distance[u] + weight(u,v) < distance[v]:
+ return "负环存在"
+
+ return distance
 ```
 
 **时间复杂度**：$O(V \times E)$
@@ -19959,62 +19959,62 @@ BellmanFord(graph, start):
 ```
 1. 初始化：distance[i][j] = 边的权重（无边则为 ∞）
 2. 对每个中间顶点 k：
-   - 对每对顶点 (i, j)：
-     distance[i][j] = min(distance[i][j], 
-                          distance[i][k] + distance[k][j])
+ - 对每对顶点 (i, j)：
+ distance[i][j] = min(distance[i][j],
+ distance[i][k] + distance[k][j])
 ```
 
 **示例**：
 
 ```
-    0 --1-- 1
-    |       |
-    4       2
-    |       |
-    2 --1-- 3
+ 0 --1-- 1
+ | |
+ 4 2
+ | |
+ 2 --1-- 3
 
 初始距离矩阵：
-    0  1  2  3
-0 [ 0  1  4  ∞ ]
-1 [ 1  0  ∞  2 ]
-2 [ 4  ∞  0  1 ]
-3 [ ∞  2  1  0 ]
+ 0 1 2 3
+0 [ 0 1 4 ∞ ]
+1 [ 1 0 ∞ 2 ]
+2 [ 4 ∞ 0 1 ]
+3 [ ∞ 2 1 0 ]
 
 k=0（通过顶点 0）：
 distance[1][2] = min(∞, 1+4) = 5
 distance[2][1] = min(∞, 4+1) = 5
-    0  1  2  3
-0 [ 0  1  4  ∞ ]
-1 [ 1  0  5  2 ]
-2 [ 4  5  0  1 ]
-3 [ ∞  2  1  0 ]
+ 0 1 2 3
+0 [ 0 1 4 ∞ ]
+1 [ 1 0 5 2 ]
+2 [ 4 5 0 1 ]
+3 [ ∞ 2 1 0 ]
 
 k=1（通过顶点 1）：
 distance[0][3] = min(∞, 1+2) = 3
 distance[2][3] = min(1, 5+2) = 1（不更新）
-    0  1  2  3
-0 [ 0  1  4  3 ]
-1 [ 1  0  5  2 ]
-2 [ 4  5  0  1 ]
-3 [ 3  2  1  0 ]
+ 0 1 2 3
+0 [ 0 1 4 3 ]
+1 [ 1 0 5 2 ]
+2 [ 4 5 0 1 ]
+3 [ 3 2 1 0 ]
 
 k=2（通过顶点 2）：
 distance[0][3] = min(3, 4+1) = 3（不更新）
 distance[1][2] = min(5, ∞+0) = 5（不更新）
-    0  1  2  3
-0 [ 0  1  4  3 ]
-1 [ 1  0  5  2 ]
-2 [ 4  5  0  1 ]
-3 [ 3  2  1  0 ]
+ 0 1 2 3
+0 [ 0 1 4 3 ]
+1 [ 1 0 5 2 ]
+2 [ 4 5 0 1 ]
+3 [ 3 2 1 0 ]
 
 k=3（通过顶点 3）：
 distance[0][2] = min(4, 3+1) = 4（不更新）
 distance[1][2] = min(5, 2+1) = 3
-    0  1  2  3
-0 [ 0  1  4  3 ]
-1 [ 1  0  3  2 ]
-2 [ 4  3  0  1 ]
-3 [ 3  2  1  0 ]
+ 0 1 2 3
+0 [ 0 1 4 3 ]
+1 [ 1 0 3 2 ]
+2 [ 4 3 0 1 ]
+3 [ 3 2 1 0 ]
 
 最终结果：所有点对之间的最短距离
 ```
@@ -20023,24 +20023,24 @@ distance[1][2] = min(5, 2+1) = 3
 
 ```
 Floyd(graph):
-    // 初始化
-    for i = 0 to V-1:
-        for j = 0 to V-1:
-            if i == j:
-                distance[i][j] = 0
-            else if edge(i,j) exists:
-                distance[i][j] = weight(i,j)
-            else:
-                distance[i][j] = ∞
-    
-    // 动态规划
-    for k = 0 to V-1:
-        for i = 0 to V-1:
-            for j = 0 to V-1:
-                distance[i][j] = min(distance[i][j],
-                                     distance[i][k] + distance[k][j])
-    
-    return distance
+ // 初始化
+ for i = 0 to V-1:
+ for j = 0 to V-1:
+ if i == j:
+ distance[i][j] = 0
+ else if edge(i,j) exists:
+ distance[i][j] = weight(i,j)
+ else:
+ distance[i][j] = ∞
+
+ // 动态规划
+ for k = 0 to V-1:
+ for i = 0 to V-1:
+ for j = 0 to V-1:
+ distance[i][j] = min(distance[i][j],
+ distance[i][k] + distance[k][j])
+
+ return distance
 ```
 
 **时间复杂度**：$O(V^3)$
@@ -20060,11 +20060,11 @@ Floyd(graph):
 
 #### 5. 三种算法对比
 
-| 算法             | 适用场景       | 时间复杂度       | 负权重 | 负环检测 |
+| 算法 | 适用场景 | 时间复杂度 | 负权重 | 负环检测 |
 | ---------------- | -------------- | ---------------- | ------ | -------- |
-| **Dijkstra**     | 单源，非负权重 | $O((V+E)\log V)$ | ✗      | ✗        |
-| **Bellman-Ford** | 单源，可负权重 | $O(V \times E)$  | ✓      | ✓        |
-| **Floyd**        | 多源           | $O(V^3)$         | ✓      | ✗        |
+| **Dijkstra** | 单源，非负权重 | $O((V+E)\log V)$ | | |
+| **Bellman-Ford** | 单源，可负权重 | $O(V \times E)$ | | |
+| **Floyd** | 多源 | $O(V^3)$ | | |
 
 **选择依据**：
 - 单源 + 非负权重 → **Dijkstra**（最快）
@@ -20107,23 +20107,23 @@ Floyd(graph):
 
 ```
 原图：
-    A --1-- B
-    |  \    |
-    4   2   3
-    |    \  |
-    C --5-- D
+ A --1-- B
+ | \ |
+ 4 2 3
+ | \ |
+ C --5-- D
 
 可能的生成树：
-1. A-B, A-D, A-C：权重 = 1+2+4 = 7 ✓（最小）
+1. A-B, A-D, A-C：权重 = 1+2+4 = 7 （最小）
 2. A-B, B-D, A-C：权重 = 1+3+4 = 8
 3. A-B, B-D, C-D：权重 = 1+3+5 = 9
 
 最小生成树：
-    A --1-- B
-    |  \    
-    4   2   
-    |    \  
-    C       D
+ A --1-- B
+ | \
+ 4 2
+ | \
+ C D
 权重 = 7
 ```
 
@@ -20157,11 +20157,11 @@ Floyd(graph):
 **示例**：
 
 ```
-    A --1-- B
-    |  \    |
-    4   2   3
-    |    \  |
-    C --5-- D
+ A --1-- B
+ | \ |
+ 4 2 3
+ | \ |
+ C --5-- D
 
 从 A 开始：
 
@@ -20190,24 +20190,24 @@ Floyd(graph):
 
 ```
 Prim(graph, start):
-    MST = empty
-    visited = {start}
-    edges = all edges from start
-    
-    while visited.size < V:
-        // 找到最小权重边
-        minEdge = edges中权重最小且连接visited和未visited的边
-        
-        // 加入MST
-        MST.add(minEdge)
-        visited.add(minEdge.to)
-        
-        // 添加新顶点的所有边
-        for each edge from minEdge.to:
-            if edge.to not in visited:
-                edges.add(edge)
-    
-    return MST
+ MST = empty
+ visited = {start}
+ edges = all edges from start
+
+ while visited.size < V:
+ // 找到最小权重边
+ minEdge = edges中权重最小且连接visited和未visited的边
+
+ // 加入MST
+ MST.add(minEdge)
+ visited.add(minEdge.to)
+
+ // 添加新顶点的所有边
+ for each edge from minEdge.to:
+ if edge.to not in visited:
+ edges.add(edge)
+
+ return MST
 ```
 
 **时间复杂度**：
@@ -20238,11 +20238,11 @@ Prim(graph, start):
 **示例**：
 
 ```
-    A --1-- B
-    |  \    |
-    4   2   3
-    |    \  |
-    C --5-- D
+ A --1-- B
+ | \ |
+ 4 2 3
+ | \ |
+ C --5-- D
 
 边排序：
 A-B(1), A-D(2), B-D(3), A-C(4), C-D(5)
@@ -20301,20 +20301,20 @@ B 和 D 在同一集合 → 形成环 → 跳过
 
 ```
 Kruskal(graph):
-    MST = empty
-    edges = 所有边按权重排序
-    unionFind = 初始化并查集
-    
-    for each edge (u, v, weight) in edges:
-        // 检查是否形成环
-        if unionFind.find(u) != unionFind.find(v):
-            MST.add(edge)
-            unionFind.union(u, v)
-            
-            if MST.size == V-1:
-                break
-    
-    return MST
+ MST = empty
+ edges = 所有边按权重排序
+ unionFind = 初始化并查集
+
+ for each edge (u, v, weight) in edges:
+ // 检查是否形成环
+ if unionFind.find(u) != unionFind.find(v):
+ MST.add(edge)
+ unionFind.union(u, v)
+
+ if MST.size == V-1:
+ break
+
+ return MST
 ```
 
 **并查集操作**：
@@ -20322,23 +20322,23 @@ Kruskal(graph):
 ```
 // 查找根节点
 find(x):
-    if parent[x] != x:
-        parent[x] = find(parent[x])  // 路径压缩
-    return parent[x]
+ if parent[x] != x:
+ parent[x] = find(parent[x]) // 路径压缩
+ return parent[x]
 
 // 合并集合
 union(x, y):
-    rootX = find(x)
-    rootY = find(y)
-    
-    if rootX != rootY:
-        if rank[rootX] < rank[rootY]:
-            parent[rootX] = rootY
-        else if rank[rootX] > rank[rootY]:
-            parent[rootY] = rootX
-        else:
-            parent[rootY] = rootX
-            rank[rootX]++
+ rootX = find(x)
+ rootY = find(y)
+
+ if rootX != rootY:
+ if rank[rootX] < rank[rootY]:
+ parent[rootX] = rootY
+ else if rank[rootX] > rank[rootY]:
+ parent[rootY] = rootX
+ else:
+ parent[rootY] = rootX
+ rank[rootX]++
 ```
 
 **时间复杂度**：$O(E \log E)$（主要是排序）
@@ -20404,9 +20404,9 @@ Kruskal：O(2000 log 2000) ≈ 22000
 
 ```
 课程依赖关系：
-    数据结构 → 算法
-    编程基础 → 数据结构
-    编程基础 → 操作系统
+ 数据结构 → 算法
+ 编程基础 → 数据结构
+ 编程基础 → 操作系统
 
 拓扑排序：
 编程基础 → 数据结构 → 算法
@@ -20448,9 +20448,9 @@ Kruskal：O(2000 log 2000) ≈ 22000
 **示例**：
 
 ```
-    0 → 1 → 3
-    ↓   ↓
-    2 → 4
+ 0 → 1 → 3
+ ↓ ↓
+ 2 → 4
 
 入度：
 0: 0
@@ -20496,35 +20496,35 @@ Kruskal：O(2000 log 2000) ≈ 22000
 
 ```
 KahnTopologicalSort(graph):
-    // 计算入度
-    inDegree = array of size V, initialized to 0
-    for each vertex u:
-        for each edge u → v:
-            inDegree[v]++
-    
-    // 入度为0的顶点入队
-    queue = empty
-    for each vertex v:
-        if inDegree[v] == 0:
-            queue.enqueue(v)
-    
-    result = []
-    
-    while queue is not empty:
-        u = queue.dequeue()
-        result.add(u)
-        
-        // 删除出边
-        for each edge u → v:
-            inDegree[v]--
-            if inDegree[v] == 0:
-                queue.enqueue(v)
-    
-    // 检测环
-    if result.size != V:
-        return "图中有环"
-    
-    return result
+ // 计算入度
+ inDegree = array of size V, initialized to 0
+ for each vertex u:
+ for each edge u → v:
+ inDegree[v]++
+
+ // 入度为0的顶点入队
+ queue = empty
+ for each vertex v:
+ if inDegree[v] == 0:
+ queue.enqueue(v)
+
+ result = []
+
+ while queue is not empty:
+ u = queue.dequeue()
+ result.add(u)
+
+ // 删除出边
+ for each edge u → v:
+ inDegree[v]--
+ if inDegree[v] == 0:
+ queue.enqueue(v)
+
+ // 检测环
+ if result.size != V:
+ return "图中有环"
+
+ return result
 ```
 
 **时间复杂度**：$O(V + E)$
@@ -20535,9 +20535,9 @@ KahnTopologicalSort(graph):
 
 ```
 如果有环：
-    0 → 1
-    ↑   ↓
-    3 ← 2
+ 0 → 1
+ ↑ ↓
+ 3 ← 2
 
 入度：0:1, 1:1, 2:1, 3:1
 入度为0的顶点：无
@@ -20565,21 +20565,21 @@ KahnTopologicalSort(graph):
 **示例**：
 
 ```
-    0 → 1 → 3
-    ↓   ↓
-    2 → 4
+ 0 → 1 → 3
+ ↓ ↓
+ 2 → 4
 
 DFS 从 0 开始：
 访问 0
-  访问 1
-    访问 3
-    3 加入栈：[3]
-    访问 4
-    4 加入栈：[3, 4]
-  1 加入栈：[3, 4, 1]
-  访问 2
-    4 已访问
-  2 加入栈：[3, 4, 1, 2]
+ 访问 1
+ 访问 3
+ 3 加入栈：[3]
+ 访问 4
+ 4 加入栈：[3, 4]
+ 1 加入栈：[3, 4, 1]
+ 访问 2
+ 4 已访问
+ 2 加入栈：[3, 4, 1, 2]
 0 加入栈：[3, 4, 1, 2, 0]
 
 反转：[0, 2, 1, 4, 3]
@@ -20591,23 +20591,23 @@ DFS 从 0 开始：
 
 ```
 DFSTopologicalSort(graph):
-    visited = set()
-    stack = []
-    
-    for each vertex v:
-        if v not in visited:
-            DFS(v, visited, stack)
-    
-    return reverse(stack)
+ visited = set()
+ stack = []
+
+ for each vertex v:
+ if v not in visited:
+ DFS(v, visited, stack)
+
+ return reverse(stack)
 
 DFS(v, visited, stack):
-    visited.add(v)
-    
-    for each neighbor u of v:
-        if u not in visited:
-            DFS(u, visited, stack)
-    
-    stack.push(v)  // 后序位置
+ visited.add(v)
+
+ for each neighbor u of v:
+ if u not in visited:
+ DFS(u, visited, stack)
+
+ stack.push(v) // 后序位置
 ```
 
 **时间复杂度**：$O(V + E)$
@@ -20626,17 +20626,17 @@ DFS 环检测：
 如果访问到灰色顶点 → 有环
 
 DFS(v, visited, visiting, stack):
-    visiting.add(v)
-    
-    for each neighbor u of v:
-        if u in visiting:
-            return "有环"
-        if u not in visited:
-            DFS(u, visited, visiting, stack)
-    
-    visiting.remove(v)
-    visited.add(v)
-    stack.push(v)
+ visiting.add(v)
+
+ for each neighbor u of v:
+ if u in visiting:
+ return "有环"
+ if u not in visited:
+ DFS(u, visited, visiting, stack)
+
+ visiting.remove(v)
+ visited.add(v)
+ stack.push(v)
 ```
 
 ---
@@ -20666,9 +20666,9 @@ DFS(v, visited, visiting, stack):
 
 ```
 课程依赖：
-    微积分 → 线性代数
-    编程基础 → 数据结构 → 算法
-    离散数学 → 算法
+ 微积分 → 线性代数
+ 编程基础 → 数据结构 → 算法
+ 离散数学 → 算法
 
 拓扑排序：
 编程基础 → 微积分 → 离散数学 → 数据结构 → 线性代数 → 算法
@@ -20681,9 +20681,9 @@ DFS(v, visited, visiting, stack):
 
 ```
 任务依赖：
-    穿袜子 → 穿鞋
-    穿内裤 → 穿裤子 → 穿鞋
-    穿衬衫 → 穿外套
+ 穿袜子 → 穿鞋
+ 穿内裤 → 穿裤子 → 穿鞋
+ 穿衬衫 → 穿外套
 
 拓扑排序：
 穿内裤 → 穿裤子 → 穿袜子 → 穿鞋 → 穿衬衫 → 穿外套
@@ -20693,10 +20693,10 @@ DFS(v, visited, visiting, stack):
 
 ```
 文件依赖：
-    main.cpp → utils.h
-    utils.cpp → utils.h
-    config.cpp → config.h
-    main.cpp → config.h
+ main.cpp → utils.h
+ utils.cpp → utils.h
+ config.cpp → config.h
+ main.cpp → config.h
 
 编译顺序：
 utils.h → utils.cpp → config.h → config.cpp → main.cpp
@@ -20706,9 +20706,9 @@ utils.h → utils.cpp → config.h → config.cpp → main.cpp
 
 ```
 包依赖：
-    A → B → D
-    A → C → D
-    C → E
+ A → B → D
+ A → C → D
+ C → E
 
 安装顺序：
 D → E → B → C → A
@@ -20724,8 +20724,8 @@ D → B → E → C → A
 **多个拓扑排序**：
 
 ```
-    0 → 2
-    1 → 2
+ 0 → 2
+ 1 → 2
 
 可能的拓扑排序：
 - 0 → 1 → 2
@@ -20739,8 +20739,8 @@ D → B → E → C → A
 ```
 使用优先队列（最小堆）代替普通队列
 
-    0 → 2
-    1 → 2
+ 0 → 2
+ 1 → 2
 
 使用最小堆：
 步骤1：入度为0：{0, 1}，选择 0
@@ -20795,18 +20795,18 @@ find(0) == find(3)：true（同一集合）
 ```
 插入：cat, car, card, dog
 
-        root
-       /    \
-      c      d
-      |      |
-      a      o
-     / \     |
-    t   r    g
-        |
-        d
+ root
+ / \
+ c d
+ | |
+ a o
+ / \ |
+ t r g
+ |
+ d
 
-查找 "car"：root → c → a → r ✓
-查找 "can"：root → c → a → n ✗
+查找 "car"：root → c → a → r
+查找 "can"：root → c → a → n
 ```
 
 **核心操作**：
@@ -20834,13 +20834,13 @@ find(0) == find(3)：true（同一集合）
 数组：[1, 3, 5, 7, 9, 11]
 
 线段树（区间和）：
-           36[0,5]
-          /        \
-      9[0,2]        27[3,5]
-      /    \        /     \
-   4[0,1] 5[2,2] 16[3,4] 11[5,5]
-   /   \          /   \
-1[0,0] 3[1,1]  7[3,3] 9[4,4]
+ 36[0,5]
+ / \
+ 9[0,2] 27[3,5]
+ / \ / \
+ 4[0,1] 5[2,2] 16[3,4] 11[5,5]
+ / \ / \
+1[0,0] 3[1,1] 7[3,3] 9[4,4]
 
 查询 sum(1, 4)：3 + 5 + 7 + 9 = 24
 ```
@@ -20867,8 +20867,8 @@ find(0) == find(3)：true（同一集合）
 数组：[1, 3, 5, 7, 9, 11]
 
 树状数组：
-索引：1  2  3  4  5  6
-值：  1  4  5  16 9  20
+索引：1 2 3 4 5 6
+值： 1 4 5 16 9 20
 
 查询前缀和 sum(5)：
 tree[5] + tree[4] = 9 + 16 = 25
@@ -20942,7 +20942,7 @@ hash3("apple") = 7
 查找 7：
 从顶层开始：1 → 9（过大）
 下降一层：1 → 5 → 9（过大）
-下降一层：5 → 7 ✓
+下降一层：5 → 7
 ```
 
 **核心操作**：
@@ -20974,7 +20974,7 @@ hash3("apple") = 7
 put(1, a)：[1]
 put(2, b)：[2, 1]
 put(3, c)：[3, 2, 1]
-get(1)：   [1, 3, 2]（1 移到最前）
+get(1)： [1, 3, 2]（1 移到最前）
 put(4, d)：[4, 1, 3]（淘汰 2）
 ```
 
@@ -21085,16 +21085,16 @@ f(n) = 3n² + 5n + 2
 
 **常见复杂度（从快到慢）**：
 
-| 记号          | 名称                     | 示例         |
+| 记号 | 名称 | 示例 |
 | ------------- | ------------------------ | ------------ |
-| $O(1)$        | 常数（Constant）         | 数组访问     |
-| $O(\log n)$   | 对数（Logarithmic）      | 二分查找     |
-| $O(n)$        | 线性（Linear）           | 遍历数组     |
-| $O(n \log n)$ | 线性对数（Linearithmic） | 归并排序     |
-| $O(n²)$       | 平方（Quadratic）        | 冒泡排序     |
-| $O(n³)$       | 立方（Cubic）            | 三重循环     |
-| $O(2^n)$      | 指数（Exponential）      | 递归斐波那契 |
-| $O(n!)$       | 阶乘（Factorial）        | 全排列       |
+| $O(1)$ | 常数（Constant） | 数组访问 |
+| $O(\log n)$ | 对数（Logarithmic） | 二分查找 |
+| $O(n)$ | 线性（Linear） | 遍历数组 |
+| $O(n \log n)$ | 线性对数（Linearithmic） | 归并排序 |
+| $O(n²)$ | 平方（Quadratic） | 冒泡排序 |
+| $O(n³)$ | 立方（Cubic） | 三重循环 |
+| $O(2^n)$ | 指数（Exponential） | 递归斐波那契 |
+| $O(n!)$ | 阶乘（Factorial） | 全排列 |
 
 **增长速度对比**：
 
@@ -21121,16 +21121,16 @@ n² + n = O(n²)
 n³ + n² + n = O(n³)
 
 规则 3：循环相乘
-for (int i = 0; i < n; i++)          // O(n)
-    for (int j = 0; j < n; j++)      // O(n)
-        // O(1) 操作
+for (int i = 0; i < n; i++) // O(n)
+ for (int j = 0; j < n; j++) // O(n)
+ // O(1) 操作
 总复杂度：O(n²)
 
 规则 4：分支取最大
 if (condition) {
-    // O(n) 操作
+ // O(n) 操作
 } else {
-    // O(log n) 操作
+ // O(log n) 操作
 }
 总复杂度：O(n)
 ```
@@ -21140,41 +21140,41 @@ if (condition) {
 ```
 案例 1：简单循环
 for (int i = 0; i < n; i++) {
-    sum += arr[i];
+ sum += arr[i];
 }
 复杂度：O(n)
 
 案例 2：嵌套循环
 for (int i = 0; i < n; i++) {
-    for (int j = i; j < n; j++) {
-        // O(1) 操作
-    }
+ for (int j = i; j < n; j++) {
+ // O(1) 操作
+ }
 }
 总次数：n + (n-1) + ... + 1 = n(n+1)/2
 复杂度：O(n²)
 
 案例 3：对数循环
 for (int i = 1; i < n; i *= 2) {
-    // O(1) 操作
+ // O(1) 操作
 }
 循环次数：log₂n
 复杂度：O(log n)
 
 案例 4：递归斐波那契
 int fib(int n) {
-    if (n <= 1) return n;
-    return fib(n-1) + fib(n-2);
+ if (n <= 1) return n;
+ return fib(n-1) + fib(n-2);
 }
 递归树：指数增长
 复杂度：O(2^n)
 
 案例 5：归并排序
 void mergeSort(int[] arr, int l, int r) {
-    if (l >= r) return;
-    int mid = (l + r) / 2;
-    mergeSort(arr, l, mid);      // T(n/2)
-    mergeSort(arr, mid+1, r);    // T(n/2)
-    merge(arr, l, mid, r);       // O(n)
+ if (l >= r) return;
+ int mid = (l + r) / 2;
+ mergeSort(arr, l, mid); // T(n/2)
+ mergeSort(arr, mid+1, r); // T(n/2)
+ merge(arr, l, mid, r); // O(n)
 }
 T(n) = 2T(n/2) + O(n)
 复杂度：O(n log n)
@@ -21246,16 +21246,16 @@ f(n) = O(g(n)) 且 f(n) = Ω(g(n))
 **图示理解**：
 
 ```
-        增长速度
-          ↑
-          |     O(n²) 上界
-          |    /
-          |   /
-    f(n) |  / Θ(n²) 紧确界
-          | /
-          |/_____ Ω(n²) 下界
-          |
-          +---------------→ n
+ 增长速度
+ ↑
+ | O(n²) 上界
+ | /
+ | /
+ f(n) | / Θ(n²) 紧确界
+ | /
+ |/_____ Ω(n²) 下界
+ |
+ +---------------→ n
 ```
 
 **实际应用**：
@@ -21276,15 +21276,15 @@ f(n) = O(g(n)) 且 f(n) = Ω(g(n))
 
 **最好/最坏/平均情况总结**：
 
-| 算法         | 最好 Ω     | 最坏 O     | 平均 Θ     |
+| 算法 | 最好 Ω | 最坏 O | 平均 Θ |
 | ------------ | ---------- | ---------- | ---------- |
-| **冒泡排序** | Ω(n)       | O(n²)      | Θ(n²)      |
-| **插入排序** | Ω(n)       | O(n²)      | Θ(n²)      |
+| **冒泡排序** | Ω(n) | O(n²) | Θ(n²) |
+| **插入排序** | Ω(n) | O(n²) | Θ(n²) |
 | **归并排序** | Ω(n log n) | O(n log n) | Θ(n log n) |
-| **快速排序** | Ω(n log n) | O(n²)      | Θ(n log n) |
-| **堆排序**   | Ω(n log n) | O(n log n) | Θ(n log n) |
-| **线性查找** | Ω(1)       | O(n)       | Θ(n)       |
-| **二分查找** | Ω(1)       | O(log n)   | Θ(log n)   |
+| **快速排序** | Ω(n log n) | O(n²) | Θ(n log n) |
+| **堆排序** | Ω(n log n) | O(n log n) | Θ(n log n) |
+| **线性查找** | Ω(1) | O(n) | Θ(n) |
+| **二分查找** | Ω(1) | O(log n) | Θ(log n) |
 
 ### 12.2 空间复杂度
 
@@ -21394,15 +21394,15 @@ f(n) = O(g(n)) 且 f(n) = Ω(g(n))
 **递归结构**：每次递归调用都在向基线条件靠近，最终触发终止条件返回。递归的本质是将复杂问题逐层简化，通过解决最简单的情况，再逐层回溯构建完整解。这种思维方式与数学归纳法高度一致，先证明基础情况成立，再证明递推关系成立。
 ```mermaid
 graph TD
-    A[开始递归] --> B{是否满足终止条件?}
-    B -->|是| C[返回基线结果]
-    B -->|否| D[分解为子问题]
-    D --> E[递归调用自身]
-    E --> F[等待子问题返回]
-    F --> G[处理子问题结果]
-    G --> H[返回当前层结果]
-    C --> I[结束]
-    H --> I
+ A[开始递归] --> B{是否满足终止条件?}
+ B -->|是| C[返回基线结果]
+ B -->|否| D[分解为子问题]
+ D --> E[递归调用自身]
+ E --> F[等待子问题返回]
+ F --> G[处理子问题结果]
+ G --> H[返回当前层结果]
+ C --> I[结束]
+ H --> I
 ```
 
 ---
@@ -21436,20 +21436,20 @@ graph TD
 **调试技巧**：理解调用栈有助于追踪递归执行流程和调试错误。
 ```mermaid
 graph LR
-    subgraph 递进阶段
-    A[factorial 3] --> B[factorial 2]
-    B --> C[factorial 1]
-    C --> D[factorial 0]
-    end
-    
-    subgraph 回归阶段
-    D -->|返回 1| E[1 × 1 = 1]
-    E -->|返回 1| F[2 × 1 = 2]
-    F -->|返回 2| G[3 × 2 = 6]
-    end
-    
-    style D fill:#90EE90
-    style G fill:#FFB6C1
+ subgraph 递进阶段
+ A[factorial 3] --> B[factorial 2]
+ B --> C[factorial 1]
+ C --> D[factorial 0]
+ end
+
+ subgraph 回归阶段
+ D -->|返回 1| E[1 × 1 = 1]
+ E -->|返回 1| F[2 × 1 = 2]
+ F -->|返回 2| G[3 × 2 = 6]
+ end
+
+ style D fill:#90EE90
+ style G fill:#FFB6C1
 ```
 ---
 
@@ -21462,8 +21462,8 @@ graph LR
 - **归纳步骤（Inductive Step）**：假设 n=k 时成立，证明 n=k+1 时也成立
 
 **与递归的对应关系**：
-- 基础步骤 ↔ 递归的终止条件
-- 归纳步骤 ↔ 递归式
+- 基础步骤  递归的终止条件
+- 归纳步骤  递归式
 
 **本质一致性**：数学归纳法是递归思想的数学表达。递归是数学归纳法的程序实现。两者都基于"解决小问题推导大问题"的逻辑。
 
@@ -21520,25 +21520,25 @@ graph LR
 **选择建议**：递归深度小且逻辑复杂时用递归。性能敏感或深度大时用迭代。
 ```mermaid
 graph TD
-    A[选择实现方式] --> B{问题是否具有<br/>递归结构?}
-    B -->|是| C{递归深度<br/>是否可控?}
-    B -->|否| D[使用迭代]
-    
-    C -->|深度小| E{代码简洁性<br/>重要吗?}
-    C -->|深度大| F{是否可以<br/>尾递归优化?}
-    
-    E -->|是| G[使用递归]
-    E -->|否| H{性能敏感?}
-    
-    H -->|是| D
-    H -->|否| G
-    
-    F -->|是| I[使用尾递归]
-    F -->|否| D
-    
-    style G fill:#90EE90
-    style I fill:#87CEEB
-    style D fill:#FFD700
+ A[选择实现方式] --> B{问题是否具有<br/>递归结构?}
+ B -->|是| C{递归深度<br/>是否可控?}
+ B -->|否| D[使用迭代]
+
+ C -->|深度小| E{代码简洁性<br/>重要吗?}
+ C -->|深度大| F{是否可以<br/>尾递归优化?}
+
+ E -->|是| G[使用递归]
+ E -->|否| H{性能敏感?}
+
+ H -->|是| D
+ H -->|否| G
+
+ F -->|是| I[使用尾递归]
+ F -->|否| D
+
+ style G fill:#90EE90
+ style I fill:#87CEEB
+ style D fill:#FFD700
 ```
 ---
 
@@ -21549,31 +21549,31 @@ graph TD
 **斐波那契数列（Fibonacci）**：F(n) = F(n-1) + F(n-2)，基线条件 F(0)=0, F(1)=1。树形递归，朴素实现时间复杂度 O(2^n)。大量重复计算，需要优化。
 ```mermaid
 graph TD
-    A[fib 5] --> B[fib 4]
-    A --> C[fib 3]
-    
-    B --> D[fib 3]
-    B --> E[fib 2]
-    
-    C --> F[fib 2]
-    C --> G[fib 1]
-    
-    D --> H[fib 2]
-    D --> I[fib 1]
-    
-    E --> J[fib 1]
-    E --> K[fib 0]
-    
-    F --> L[fib 1]
-    F --> M[fib 0]
-    
-    H --> N[fib 1]
-    H --> O[fib 0]
-    
-    style D fill:#FFB6C1
-    style F fill:#FFB6C1
-    style H fill:#FFB6C1
-    classDef repeated fill:#FFB6C1
+ A[fib 5] --> B[fib 4]
+ A --> C[fib 3]
+
+ B --> D[fib 3]
+ B --> E[fib 2]
+
+ C --> F[fib 2]
+ C --> G[fib 1]
+
+ D --> H[fib 2]
+ D --> I[fib 1]
+
+ E --> J[fib 1]
+ E --> K[fib 0]
+
+ F --> L[fib 1]
+ F --> M[fib 0]
+
+ H --> N[fib 1]
+ H --> O[fib 0]
+
+ style D fill:#FFB6C1
+ style F fill:#FFB6C1
+ style H fill:#FFB6C1
+ classDef repeated fill:#FFB6C1
 ```
 **汉诺塔（Tower of Hanoi）**：将 n 个盘子从 A 移到 C（借助 B）。递归策略：移动 n-1 个到 B，移动最大盘到 C，移动 n-1 个从 B 到 C。移动次数 2^n - 1。
 
@@ -21598,22 +21598,22 @@ graph TD
 **应用场景**：回溯算法、搜索算法、组合优化问题。如 N 皇后、数独、旅行商问题。
 ```mermaid
 graph TD
-    A[递归调用 f n] --> B{缓存中是否<br/>存在 f n ?}
-    B -->|存在| C[直接返回缓存值]
-    B -->|不存在| D{是否满足<br/>终止条件?}
-    
-    D -->|是| E[计算基线结果]
-    D -->|否| F[递归计算子问题]
-    
-    F --> G[合并子问题结果]
-    E --> H[存入缓存]
-    G --> H
-    
-    H --> I[返回结果]
-    C --> I
-    
-    style C fill:#90EE90
-    style H fill:#87CEEB
+ A[递归调用 f n] --> B{缓存中是否<br/>存在 f n ?}
+ B -->|存在| C[直接返回缓存值]
+ B -->|不存在| D{是否满足<br/>终止条件?}
+
+ D -->|是| E[计算基线结果]
+ D -->|否| F[递归计算子问题]
+
+ F --> G[合并子问题结果]
+ E --> H[存入缓存]
+ G --> H
+
+ H --> I[返回结果]
+ C --> I
+
+ style C fill:#90EE90
+ style H fill:#87CEEB
 ```
 
 ## 第 14 章 排序算法
@@ -21626,17 +21626,17 @@ graph TD
 
 ```python
 def bubble_sort(arr):
-    n = len(arr)
-    for i in range(n):
-        swapped = False  # 优化标志
-        # 每轮将最大元素冒泡到末尾
-        for j in range(n - 1 - i):
-            if arr[j] > arr[j + 1]:
-                arr[j], arr[j + 1] = arr[j + 1], arr[j]
-                swapped = True
-        if not swapped:  # 无交换说明已排序
-            break
-    return arr
+ n = len(arr)
+ for i in range(n):
+ swapped = False # 优化标志
+ # 每轮将最大元素冒泡到末尾
+ for j in range(n - 1 - i):
+ if arr[j] > arr[j + 1]:
+ arr[j], arr[j + 1] = arr[j + 1], arr[j]
+ swapped = True
+ if not swapped: # 无交换说明已排序
+ break
+ return arr
 
 # 示例
 print(bubble_sort([64, 34, 25, 12, 22, 11, 90]))
@@ -21649,16 +21649,16 @@ print(bubble_sort([64, 34, 25, 12, 22, 11, 90]))
 
 ```python
 def selection_sort(arr):
-    n = len(arr)
-    for i in range(n):
-        # 找到未排序部分的最小值索引
-        min_idx = i
-        for j in range(i + 1, n):
-            if arr[j] < arr[min_idx]:
-                min_idx = j
-        # 交换到已排序部分末尾
-        arr[i], arr[min_idx] = arr[min_idx], arr[i]
-    return arr
+ n = len(arr)
+ for i in range(n):
+ # 找到未排序部分的最小值索引
+ min_idx = i
+ for j in range(i + 1, n):
+ if arr[j] < arr[min_idx]:
+ min_idx = j
+ # 交换到已排序部分末尾
+ arr[i], arr[min_idx] = arr[min_idx], arr[i]
+ return arr
 
 # 示例
 print(selection_sort([64, 25, 12, 22, 11]))
@@ -21671,15 +21671,15 @@ print(selection_sort([64, 25, 12, 22, 11]))
 
 ```python
 def insertion_sort(arr):
-    for i in range(1, len(arr)):
-        key = arr[i]  # 待插入元素
-        j = i - 1
-        # 将大于key的元素后移
-        while j >= 0 and arr[j] > key:
-            arr[j + 1] = arr[j]
-            j -= 1
-        arr[j + 1] = key  # 插入正确位置
-    return arr
+ for i in range(1, len(arr)):
+ key = arr[i] # 待插入元素
+ j = i - 1
+ # 将大于key的元素后移
+ while j >= 0 and arr[j] > key:
+ arr[j + 1] = arr[j]
+ j -= 1
+ arr[j + 1] = key # 插入正确位置
+ return arr
 
 # 示例
 print(insertion_sort([12, 11, 13, 5, 6]))
@@ -21687,55 +21687,55 @@ print(insertion_sort([12, 11, 13, 5, 6]))
 ```
 ```mermaid
 graph TD
-    subgraph "第1轮: 最大值64冒泡到末尾"
-    A1["[64, 34, 25, 12, 22]"] --> A2["[34, 64, 25, 12, 22]"]
-    A2 --> A3["[34, 25, 64, 12, 22]"]
-    A3 --> A4["[34, 25, 12, 64, 22]"]
-    A4 --> A5["[34, 25, 12, 22, 64]"]
-    end
-    
-    subgraph "第2轮: 次大值34冒泡"
-    A5 --> B1["[25, 34, 12, 22, 64]"]
-    B1 --> B2["[25, 12, 34, 22, 64]"]
-    B2 --> B3["[25, 12, 22, 34, 64]"]
-    end
-    
-    style A5 fill:#90EE90
-    style B3 fill:#87CEEB
+ subgraph "第1轮: 最大值64冒泡到末尾"
+ A1["[64, 34, 25, 12, 22]"] --> A2["[34, 64, 25, 12, 22]"]
+ A2 --> A3["[34, 25, 64, 12, 22]"]
+ A3 --> A4["[34, 25, 12, 64, 22]"]
+ A4 --> A5["[34, 25, 12, 22, 64]"]
+ end
+
+ subgraph "第2轮: 次大值34冒泡"
+ A5 --> B1["[25, 34, 12, 22, 64]"]
+ B1 --> B2["[25, 12, 34, 22, 64]"]
+ B2 --> B3["[25, 12, 22, 34, 64]"]
+ end
+
+ style A5 fill:#90EE90
+ style B3 fill:#87CEEB
 ```
 ```mermaid
 graph LR
-    subgraph "初始状态"
-    A["[64, 25, 12, 22, 11]"]
-    end
-    
-    subgraph "第1轮: 选择最小值11"
-    A --> B["[11, 25, 12, 22, 64]"]
-    end
-    
-    subgraph "第2轮: 选择次小值12"
-    B --> C["[11, 12, 25, 22, 64]"]
-    end
-    
-    subgraph "第3轮: 选择22"
-    C --> D["[11, 12, 22, 25, 64]"]
-    end
-    
-    subgraph "第4轮: 选择25"
-    D --> E["[11, 12, 22, 25, 64]"]
-    end
-    
-    style E fill:#90EE90
+ subgraph "初始状态"
+ A["[64, 25, 12, 22, 11]"]
+ end
+
+ subgraph "第1轮: 选择最小值11"
+ A --> B["[11, 25, 12, 22, 64]"]
+ end
+
+ subgraph "第2轮: 选择次小值12"
+ B --> C["[11, 12, 25, 22, 64]"]
+ end
+
+ subgraph "第3轮: 选择22"
+ C --> D["[11, 12, 22, 25, 64]"]
+ end
+
+ subgraph "第4轮: 选择25"
+ D --> E["[11, 12, 22, 25, 64]"]
+ end
+
+ style E fill:#90EE90
 ```
 ```mermaid
 graph TD
-    A["初始: [12, 11, 13, 5, 6]"] --> B["已排序: [12] | 待插入: 11"]
-    B --> C["[11, 12] | 待插入: 13"]
-    C --> D["[11, 12, 13] | 待插入: 5"]
-    D --> E["[5, 11, 12, 13] | 待插入: 6"]
-    E --> F["[5, 6, 11, 12, 13] ✓"]
-    
-    style F fill:#90EE90
+ A["初始: [12, 11, 13, 5, 6]"] --> B["已排序: [12] | 待插入: 11"]
+ B --> C["[11, 12] | 待插入: 13"]
+ C --> D["[11, 12, 13] | 待插入: 5"]
+ D --> E["[5, 11, 12, 13] | 待插入: 6"]
+ E --> F["[5, 6, 11, 12, 13] "]
+
+ style F fill:#90EE90
 ```
 
 ---
@@ -21748,32 +21748,32 @@ graph TD
 
 ```python
 def merge_sort(arr):
-    if len(arr) <= 1:
-        return arr
-    
-    # 分割
-    mid = len(arr) // 2
-    left = merge_sort(arr[:mid])
-    right = merge_sort(arr[mid:])
-    
-    # 合并
-    return merge(left, right)
+ if len(arr) <= 1:
+ return arr
+
+ # 分割
+ mid = len(arr) // 2
+ left = merge_sort(arr[:mid])
+ right = merge_sort(arr[mid:])
+
+ # 合并
+ return merge(left, right)
 
 def merge(left, right):
-    result = []
-    i = j = 0
-    # 比较两个有序数组，取较小者
-    while i < len(left) and j < len(right):
-        if left[i] <= right[j]:
-            result.append(left[i])
-            i += 1
-        else:
-            result.append(right[j])
-            j += 1
-    # 添加剩余元素
-    result.extend(left[i:])
-    result.extend(right[j:])
-    return result
+ result = []
+ i = j = 0
+ # 比较两个有序数组，取较小者
+ while i < len(left) and j < len(right):
+ if left[i] <= right[j]:
+ result.append(left[i])
+ i += 1
+ else:
+ result.append(right[j])
+ j += 1
+ # 添加剩余元素
+ result.extend(left[i:])
+ result.extend(right[j:])
+ return result
 
 # 示例
 print(merge_sort([38, 27, 43, 3, 9, 82, 10]))
@@ -21786,33 +21786,33 @@ print(merge_sort([38, 27, 43, 3, 9, 82, 10]))
 
 ```python
 def quick_sort(arr):
-    if len(arr) <= 1:
-        return arr
-    
-    pivot = arr[len(arr) // 2]  # 选择中间元素为基准
-    left = [x for x in arr if x < pivot]    # 小于基准
-    middle = [x for x in arr if x == pivot] # 等于基准
-    right = [x for x in arr if x > pivot]   # 大于基准
-    
-    return quick_sort(left) + middle + quick_sort(right)
+ if len(arr) <= 1:
+ return arr
+
+ pivot = arr[len(arr) // 2] # 选择中间元素为基准
+ left = [x for x in arr if x < pivot] # 小于基准
+ middle = [x for x in arr if x == pivot] # 等于基准
+ right = [x for x in arr if x > pivot] # 大于基准
+
+ return quick_sort(left) + middle + quick_sort(right)
 
 # 原地分区版本（更高效）
 def quick_sort_inplace(arr, low, high):
-    if low < high:
-        pi = partition(arr, low, high)
-        quick_sort_inplace(arr, low, pi - 1)
-        quick_sort_inplace(arr, pi + 1, high)
-    return arr
+ if low < high:
+ pi = partition(arr, low, high)
+ quick_sort_inplace(arr, low, pi - 1)
+ quick_sort_inplace(arr, pi + 1, high)
+ return arr
 
 def partition(arr, low, high):
-    pivot = arr[high]  # 选择最后一个元素为基准
-    i = low - 1
-    for j in range(low, high):
-        if arr[j] <= pivot:
-            i += 1
-            arr[i], arr[j] = arr[j], arr[i]
-    arr[i + 1], arr[high] = arr[high], arr[i + 1]
-    return i + 1
+ pivot = arr[high] # 选择最后一个元素为基准
+ i = low - 1
+ for j in range(low, high):
+ if arr[j] <= pivot:
+ i += 1
+ arr[i], arr[j] = arr[j], arr[i]
+ arr[i + 1], arr[high] = arr[high], arr[i + 1]
+ return i + 1
 
 # 示例
 arr = [10, 7, 8, 9, 1, 5]
@@ -21826,35 +21826,35 @@ print(quick_sort(arr))
 
 ```python
 def heap_sort(arr):
-    n = len(arr)
-    
-    # 构建最大堆（从最后一个非叶子节点开始）
-    for i in range(n // 2 - 1, -1, -1):
-        heapify(arr, n, i)
-    
-    # 逐个提取最大元素
-    for i in range(n - 1, 0, -1):
-        arr[0], arr[i] = arr[i], arr[0]  # 交换堆顶和末尾
-        heapify(arr, i, 0)  # 重新调整堆
-    
-    return arr
+ n = len(arr)
+
+ # 构建最大堆（从最后一个非叶子节点开始）
+ for i in range(n // 2 - 1, -1, -1):
+ heapify(arr, n, i)
+
+ # 逐个提取最大元素
+ for i in range(n - 1, 0, -1):
+ arr[0], arr[i] = arr[i], arr[0] # 交换堆顶和末尾
+ heapify(arr, i, 0) # 重新调整堆
+
+ return arr
 
 def heapify(arr, n, i):
-    """维护最大堆性质"""
-    largest = i
-    left = 2 * i + 1
-    right = 2 * i + 2
-    
-    # 找到最大值
-    if left < n and arr[left] > arr[largest]:
-        largest = left
-    if right < n and arr[right] > arr[largest]:
-        largest = right
-    
-    # 如果最大值不是根节点，交换并递归调整
-    if largest != i:
-        arr[i], arr[largest] = arr[largest], arr[i]
-        heapify(arr, n, largest)
+ """维护最大堆性质"""
+ largest = i
+ left = 2 * i + 1
+ right = 2 * i + 2
+
+ # 找到最大值
+ if left < n and arr[left] > arr[largest]:
+ largest = left
+ if right < n and arr[right] > arr[largest]:
+ largest = right
+
+ # 如果最大值不是根节点，交换并递归调整
+ if largest != i:
+ arr[i], arr[largest] = arr[largest], arr[i]
+ heapify(arr, n, largest)
 
 # 示例
 print(heap_sort([12, 11, 13, 5, 6, 7]))
@@ -21862,89 +21862,89 @@ print(heap_sort([12, 11, 13, 5, 6, 7]))
 ```
 ```mermaid
 graph TD
-    A["[38, 27, 43, 3, 9, 82, 10]"] --> B["[38, 27, 43, 3]"]
-    A --> C["[9, 82, 10]"]
-    
-    B --> D["[38, 27]"]
-    B --> E["[43, 3]"]
-    
-    C --> F["[9, 82]"]
-    C --> G["[10]"]
-    
-    D --> H["[38]"]
-    D --> I["[27]"]
-    
-    E --> J["[43]"]
-    E --> K["[3]"]
-    
-    F --> L["[9]"]
-    F --> M["[82]"]
-    
-    H --> N["[27, 38]"]
-    I --> N
-    
-    J --> O["[3, 43]"]
-    K --> O
-    
-    L --> P["[9, 82]"]
-    M --> P
-    
-    N --> Q["[3, 27, 38, 43]"]
-    O --> Q
-    
-    P --> R["[9, 10, 82]"]
-    G --> R
-    
-    Q --> S["[3, 9, 10, 27, 38, 43, 82]"]
-    R --> S
-    
-    style S fill:#90EE90
-    style A fill:#FFB6C1
+ A["[38, 27, 43, 3, 9, 82, 10]"] --> B["[38, 27, 43, 3]"]
+ A --> C["[9, 82, 10]"]
+
+ B --> D["[38, 27]"]
+ B --> E["[43, 3]"]
+
+ C --> F["[9, 82]"]
+ C --> G["[10]"]
+
+ D --> H["[38]"]
+ D --> I["[27]"]
+
+ E --> J["[43]"]
+ E --> K["[3]"]
+
+ F --> L["[9]"]
+ F --> M["[82]"]
+
+ H --> N["[27, 38]"]
+ I --> N
+
+ J --> O["[3, 43]"]
+ K --> O
+
+ L --> P["[9, 82]"]
+ M --> P
+
+ N --> Q["[3, 27, 38, 43]"]
+ O --> Q
+
+ P --> R["[9, 10, 82]"]
+ G --> R
+
+ Q --> S["[3, 9, 10, 27, 38, 43, 82]"]
+ R --> S
+
+ style S fill:#90EE90
+ style A fill:#FFB6C1
 ```
 ```mermaid
 graph TD
-    A["[10, 7, 8, 9, 1, 5]<br/>选择基准: 5"] --> B["分区"]
-    B --> C["小于5: [1]"]
-    B --> D["等于5: [5]"]
-    B --> E["大于5: [10, 7, 8, 9]"]
-    
-    C --> F["[1] 已排序"]
-    
-    E --> G["选择基准: 9"]
-    G --> H["小于9: [7, 8]"]
-    G --> I["等于9: [9]"]
-    G --> J["大于9: [10]"]
-    
-    H --> K["选择基准: 8"]
-    K --> L["[7, 8]"]
-    
-    F --> M["合并: [1, 5, 7, 8, 9, 10]"]
-    D --> M
-    L --> M
-    I --> M
-    J --> M
-    
-    style M fill:#90EE90
+ A["[10, 7, 8, 9, 1, 5]<br/>选择基准: 5"] --> B["分区"]
+ B --> C["小于5: [1]"]
+ B --> D["等于5: [5]"]
+ B --> E["大于5: [10, 7, 8, 9]"]
+
+ C --> F["[1] 已排序"]
+
+ E --> G["选择基准: 9"]
+ G --> H["小于9: [7, 8]"]
+ G --> I["等于9: [9]"]
+ G --> J["大于9: [10]"]
+
+ H --> K["选择基准: 8"]
+ K --> L["[7, 8]"]
+
+ F --> M["合并: [1, 5, 7, 8, 9, 10]"]
+ D --> M
+ L --> M
+ I --> M
+ J --> M
+
+ style M fill:#90EE90
 ```
 ```mermaid
 graph TD
-    subgraph "初始数组"
-    A["[12, 11, 13, 5, 6, 7]"]
-    end
-    
-    subgraph "构建最大堆"
-    A --> B["调整后: [13, 11, 12, 5, 6, 7]"]
-    end
-    
-    subgraph "堆结构"
-    C[13] --> D[11]
-    C --> E[12]
-    D --> F[5]
-    D --> G[6]
-    E --> H[7]
-    end
-    
-    style C fill:#FFD700
+ subgraph "初始数组"
+ A["[12, 11, 13, 5, 6, 7]"]
+ end
+
+ subgraph "构建最大堆"
+ A --> B["调整后: [13, 11, 12, 5, 6, 7]"]
+ end
+
+ subgraph "堆结构"
+ C[13] --> D[11]
+ C --> E[12]
+ D --> F[5]
+ D --> G[6]
+ E --> H[7]
+ end
+
+ style C fill:#FFD700
 ```
 ---
 
@@ -21956,23 +21956,23 @@ graph TD
 
 ```python
 def counting_sort(arr):
-    if not arr:
-        return arr
-    
-    # 找到最大值确定计数数组大小
-    max_val = max(arr)
-    count = [0] * (max_val + 1)
-    
-    # 统计每个值的出现次数
-    for num in arr:
-        count[num] += 1
-    
-    # 重构排序数组
-    result = []
-    for i in range(len(count)):
-        result.extend([i] * count[i])
-    
-    return result
+ if not arr:
+ return arr
+
+ # 找到最大值确定计数数组大小
+ max_val = max(arr)
+ count = [0] * (max_val + 1)
+
+ # 统计每个值的出现次数
+ for num in arr:
+ count[num] += 1
+
+ # 重构排序数组
+ result = []
+ for i in range(len(count)):
+ result.extend([i] * count[i])
+
+ return result
 
 # 示例
 print(counting_sort([4, 2, 2, 8, 3, 3, 1]))
@@ -21985,30 +21985,30 @@ print(counting_sort([4, 2, 2, 8, 3, 3, 1]))
 
 ```python
 def bucket_sort(arr):
-    if not arr:
-        return arr
-    
-    # 确定桶的数量和范围
-    min_val, max_val = min(arr), max(arr)
-    bucket_count = len(arr)
-    bucket_range = (max_val - min_val) / bucket_count
-    
-    # 创建桶
-    buckets = [[] for _ in range(bucket_count)]
-    
-    # 分配元素到桶
-    for num in arr:
-        index = int((num - min_val) / bucket_range)
-        if index == bucket_count:  # 处理最大值
-            index -= 1
-        buckets[index].append(num)
-    
-    # 对每个桶排序并合并
-    result = []
-    for bucket in buckets:
-        result.extend(sorted(bucket))  # 使用内置排序
-    
-    return result
+ if not arr:
+ return arr
+
+ # 确定桶的数量和范围
+ min_val, max_val = min(arr), max(arr)
+ bucket_count = len(arr)
+ bucket_range = (max_val - min_val) / bucket_count
+
+ # 创建桶
+ buckets = [[] for _ in range(bucket_count)]
+
+ # 分配元素到桶
+ for num in arr:
+ index = int((num - min_val) / bucket_range)
+ if index == bucket_count: # 处理最大值
+ index -= 1
+ buckets[index].append(num)
+
+ # 对每个桶排序并合并
+ result = []
+ for bucket in buckets:
+ result.extend(sorted(bucket)) # 使用内置排序
+
+ return result
 
 # 示例
 print(bucket_sort([0.42, 0.32, 0.23, 0.52, 0.25, 0.47, 0.51]))
@@ -22021,87 +22021,87 @@ print(bucket_sort([0.42, 0.32, 0.23, 0.52, 0.25, 0.47, 0.51]))
 
 ```python
 def radix_sort(arr):
-    if not arr:
-        return arr
-    
-    # 找到最大值确定位数
-    max_val = max(arr)
-    exp = 1  # 当前处理的位（个位、十位...）
-    
-    while max_val // exp > 0:
-        counting_sort_by_digit(arr, exp)
-        exp *= 10
-    
-    return arr
+ if not arr:
+ return arr
+
+ # 找到最大值确定位数
+ max_val = max(arr)
+ exp = 1 # 当前处理的位（个位、十位...）
+
+ while max_val // exp > 0:
+ counting_sort_by_digit(arr, exp)
+ exp *= 10
+
+ return arr
 
 def counting_sort_by_digit(arr, exp):
-    """按指定位进行计数排序"""
-    n = len(arr)
-    output = [0] * n
-    count = [0] * 10  # 0-9 十个数字
-    
-    # 统计当前位的数字出现次数
-    for num in arr:
-        digit = (num // exp) % 10
-        count[digit] += 1
-    
-    # 累加计数（确定位置）
-    for i in range(1, 10):
-        count[i] += count[i - 1]
-    
-    # 从后向前构建输出数组（保持稳定性）
-    for i in range(n - 1, -1, -1):
-        digit = (arr[i] // exp) % 10
-        output[count[digit] - 1] = arr[i]
-        count[digit] -= 1
-    
-    # 复制回原数组
-    for i in range(n):
-        arr[i] = output[i]
+ """按指定位进行计数排序"""
+ n = len(arr)
+ output = [0] * n
+ count = [0] * 10 # 0-9 十个数字
+
+ # 统计当前位的数字出现次数
+ for num in arr:
+ digit = (num // exp) % 10
+ count[digit] += 1
+
+ # 累加计数（确定位置）
+ for i in range(1, 10):
+ count[i] += count[i - 1]
+
+ # 从后向前构建输出数组（保持稳定性）
+ for i in range(n - 1, -1, -1):
+ digit = (arr[i] // exp) % 10
+ output[count[digit] - 1] = arr[i]
+ count[digit] -= 1
+
+ # 复制回原数组
+ for i in range(n):
+ arr[i] = output[i]
 
 # 示例
 print(radix_sort([170, 45, 75, 90, 802, 24, 2, 66]))
 # 输出: [2, 24, 45, 66, 75, 90, 170,
 ```mermaid
 graph LR
-    A["输入: [4, 2, 2, 8, 3, 3, 1]"] --> B["统计频次"]
-    
-    B --> C["count数组:<br/>索引: 0 1 2 3 4 5 6 7 8<br/>值:   0 1 2 2 1 0 0 0 1"]
-    
-    C --> D["输出: [1, 2, 2, 3, 3, 4, 8]"]
-    
-    style D fill:#90EE90
+ A["输入: [4, 2, 2, 8, 3, 3, 1]"] --> B["统计频次"]
+
+ B --> C["count数组:<br/>索引: 0 1 2 3 4 5 6 7 8<br/>值: 0 1 2 2 1 0 0 0 1"]
+
+ C --> D["输出: [1, 2, 2, 3, 3, 4, 8]"]
+
+ style D fill:#90EE90
 ```
 ```mermaid
 graph TD
-    A["输入: [0.42, 0.32, 0.23, 0.52, 0.25, 0.47, 0.51]"] --> B["分配到桶"]
-    
-    B --> C["桶0 [0.0-0.25): [0.23, 0.25]"]
-    B --> D["桶1 [0.25-0.5): [0.32, 0.42, 0.47]"]
-    B --> E["桶2 [0.5-0.75): [0.51, 0.52]"]
-    
-    C --> F["排序: [0.23, 0.25]"]
-    D --> G["排序: [0.32, 0.42, 0.47]"]
-    E --> H["排序: [0.51, 0.52]"]
-    
-    F --> I["合并: [0.23, 0.25, 0.32, 0.42, 0.47, 0.51, 0.52]"]
-    G --> I
-    H --> I
-    
-    style I fill:#90EE90
+ A["输入: [0.42, 0.32, 0.23, 0.52, 0.25, 0.47, 0.51]"] --> B["分配到桶"]
+
+ B --> C["桶0 [0.0-0.25): [0.23, 0.25]"]
+ B --> D["桶1 [0.25-0.5): [0.32, 0.42, 0.47]"]
+ B --> E["桶2 [0.5-0.75): [0.51, 0.52]"]
+
+ C --> F["排序: [0.23, 0.25]"]
+ D --> G["排序: [0.32, 0.42, 0.47]"]
+ E --> H["排序: [0.51, 0.52]"]
+
+ F --> I["合并: [0.23, 0.25, 0.32, 0.42, 0.47, 0.51, 0.52]"]
+ G --> I
+ H --> I
+
+ style I fill:#90EE90
 ```
 ```mermaid
 graph TD
-    A["输入: [170, 45, 75, 90, 802, 24, 2, 66]"] --> B["按个位排序"]
-    B --> C["[170, 90, 802, 2, 24, 45, 75, 66]"]
-    
-    C --> D["按十位排序"]
-    D --> E["[802, 2, 24, 45, 66, 170, 75, 90]"]
-    
-    E --> F["按百位排序"]
-    F --> G["[2, 24, 45, 66, 75, 90, 170, 802]"]
-    
-    style G fill:#90EE90
+ A["输入: [170, 45, 75, 90, 802, 24, 2, 66]"] --> B["按个位排序"]
+ B --> C["[170, 90, 802, 2, 24, 45, 75, 66]"]
+
+ C --> D["按十位排序"]
+ D --> E["[802, 2, 24, 45, 66, 170, 75, 90]"]
+
+ E --> F["按百位排序"]
+ F --> G["[2, 24, 45, 66, 75, 90, 170, 802]"]
+
+ style G fill:#90EE90
 ```
 
 
@@ -22127,59 +22127,59 @@ graph TD
 
 ```python
 def linear_search(arr, target):
-    """基础顺序查找"""
-    for i in range(len(arr)):
-        if arr[i] == target:
-            return i  # 返回索引
-    return -1  # 未找到
+ """基础顺序查找"""
+ for i in range(len(arr)):
+ if arr[i] == target:
+ return i # 返回索引
+ return -1 # 未找到
 
 # 示例
 arr = [64, 34, 25, 12, 22, 11, 90]
-print(linear_search(arr, 22))  # 输出: 4
-print(linear_search(arr, 100))  # 输出: -1
+print(linear_search(arr, 22)) # 输出: 4
+print(linear_search(arr, 100)) # 输出: -1
 
 
 def linear_search_sentinel(arr, target):
-    """哨兵优化版本"""
-    n = len(arr)
-    if n == 0:
-        return -1
-    
-    # 保存最后一个元素
-    last = arr[n - 1]
-    arr[n - 1] = target  # 设置哨兵
-    
-    i = 0
-    while arr[i] != target:
-        i += 1
-    
-    # 恢复最后一个元素
-    arr[n - 1] = last
-    
-    # 判断是找到目标还是到达哨兵
-    if i < n - 1 or arr[n - 1] == target:
-        return i
-    return -1
+ """哨兵优化版本"""
+ n = len(arr)
+ if n == 0:
+ return -1
+
+ # 保存最后一个元素
+ last = arr[n - 1]
+ arr[n - 1] = target # 设置哨兵
+
+ i = 0
+ while arr[i] != target:
+ i += 1
+
+ # 恢复最后一个元素
+ arr[n - 1] = last
+
+ # 判断是找到目标还是到达哨兵
+ if i < n - 1 or arr[n - 1] == target:
+ return i
+ return -1
 
 # 示例
 arr = [64, 34, 25, 12, 22, 11, 90]
-print(linear_search_sentinel(arr, 12))  # 输出: 3
+print(linear_search_sentinel(arr, 12)) # 输出: 3
 ```
 
 **返回所有匹配位置**：
 
 ```python
 def linear_search_all(arr, target):
-    """返回所有匹配元素的索引"""
-    indices = []
-    for i in range(len(arr)):
-        if arr[i] == target:
-            indices.append(i)
-    return indices if indices else -1
+ """返回所有匹配元素的索引"""
+ indices = []
+ for i in range(len(arr)):
+ if arr[i] == target:
+ indices.append(i)
+ return indices if indices else -1
 
 # 示例
 arr = [1, 3, 5, 3, 7, 3, 9]
-print(linear_search_all(arr, 3))  # 输出: [1, 3, 5]
+print(linear_search_all(arr, 3)) # 输出: [1, 3, 5]
 ```
 
 ---
@@ -22196,120 +22196,120 @@ print(linear_search_all(arr, 3))  # 输出: [1, 3, 5]
 
 ```python
 def binary_search(arr, target):
-    """迭代版本"""
-    left, right = 0, len(arr) - 1
-    
-    while left <= right:
-        mid = left + (right - left) // 2  # 防止溢出
-        
-        if arr[mid] == target:
-            return mid
-        elif arr[mid] < target:
-            left = mid + 1  # 在右半部分
-        else:
-            right = mid - 1  # 在左半部分
-    
-    return -1  # 未找到
+ """迭代版本"""
+ left, right = 0, len(arr) - 1
+
+ while left <= right:
+ mid = left + (right - left) // 2 # 防止溢出
+
+ if arr[mid] == target:
+ return mid
+ elif arr[mid] < target:
+ left = mid + 1 # 在右半部分
+ else:
+ right = mid - 1 # 在左半部分
+
+ return -1 # 未找到
 
 # 示例
 arr = [1, 3, 5, 7, 9, 11, 13, 15]
-print(binary_search(arr, 7))   # 输出: 3
-print(binary_search(arr, 10))  # 输出: -1
+print(binary_search(arr, 7)) # 输出: 3
+print(binary_search(arr, 10)) # 输出: -1
 
 
 def binary_search_recursive(arr, target, left, right):
-    """递归版本"""
-    if left > right:
-        return -1
-    
-    mid = left + (right - left) // 2
-    
-    if arr[mid] == target:
-        return mid
-    elif arr[mid] < target:
-        return binary_search_recursive(arr, target, mid + 1, right)
-    else:
-        return binary_search_recursive(arr, target, left, mid - 1)
+ """递归版本"""
+ if left > right:
+ return -1
+
+ mid = left + (right - left) // 2
+
+ if arr[mid] == target:
+ return mid
+ elif arr[mid] < target:
+ return binary_search_recursive(arr, target, mid + 1, right)
+ else:
+ return binary_search_recursive(arr, target, left, mid - 1)
 
 # 示例
 arr = [1, 3, 5, 7, 9, 11, 13, 15]
-print(binary_search_recursive(arr, 9, 0, len(arr) - 1))  # 输出: 4
+print(binary_search_recursive(arr, 9, 0, len(arr) - 1)) # 输出: 4
 ```
 
 **变体 1：查找第一个等于目标的位置**
 
 ```python
 def binary_search_first(arr, target):
-    """查找第一个等于target的元素"""
-    left, right = 0, len(arr) - 1
-    result = -1
-    
-    while left <= right:
-        mid = left + (right - left) // 2
-        
-        if arr[mid] == target:
-            result = mid
-            right = mid - 1  # 继续在左半部分查找
-        elif arr[mid] < target:
-            left = mid + 1
-        else:
-            right = mid - 1
-    
-    return result
+ """查找第一个等于target的元素"""
+ left, right = 0, len(arr) - 1
+ result = -1
+
+ while left <= right:
+ mid = left + (right - left) // 2
+
+ if arr[mid] == target:
+ result = mid
+ right = mid - 1 # 继续在左半部分查找
+ elif arr[mid] < target:
+ left = mid + 1
+ else:
+ right = mid - 1
+
+ return result
 
 # 示例
 arr = [1, 2, 2, 2, 3, 4, 5]
-print(binary_search_first(arr, 2))  # 输出: 1
+print(binary_search_first(arr, 2)) # 输出: 1
 ```
 
 **变体 2：查找最后一个等于目标的位置**
 
 ```python
 def binary_search_last(arr, target):
-    """查找最后一个等于target的元素"""
-    left, right = 0, len(arr) - 1
-    result = -1
-    
-    while left <= right:
-        mid = left + (right - left) // 2
-        
-        if arr[mid] == target:
-            result = mid
-            left = mid + 1  # 继续在右半部分查找
-        elif arr[mid] < target:
-            left = mid + 1
-        else:
-            right = mid - 1
-    
-    return result
+ """查找最后一个等于target的元素"""
+ left, right = 0, len(arr) - 1
+ result = -1
+
+ while left <= right:
+ mid = left + (right - left) // 2
+
+ if arr[mid] == target:
+ result = mid
+ left = mid + 1 # 继续在右半部分查找
+ elif arr[mid] < target:
+ left = mid + 1
+ else:
+ right = mid - 1
+
+ return result
 
 # 示例
 arr = [1, 2, 2, 2, 3, 4, 5]
-print(binary_search_last(arr, 2))  # 输出: 3
+print(binary_search_last(arr, 2)) # 输出: 3
 ```
 
 **变体 3：查找第一个大于等于目标的位置**
 
 ```python
 def binary_search_lower_bound(arr, target):
-    """查找第一个 >= target 的元素（下界）"""
-    left, right = 0, len(arr) - 1
-    result = len(arr)  # 默认返回数组长度（表示所有元素都小于target）
-    
-    while left <= right:
-        mid = left + (right - left) // 2
-        
-        if arr[mid] >= target:
-            result = mid
-            right = mid - 1  # 继续在左半部分查找
-        else:
-            left = mid + 1
-    
-    return result
+ """查找第一个 >= target 的元素（下界）"""
+ left, right = 0, len(arr) - 1
+ result = len(arr) # 默认返回数组长度（表示所有元素都小于target）
+
+ while left <= right:
+ mid = left + (right - left) // 2
+
+ if arr[mid] >= target:
+ result = mid
+ right = mid - 1 # 继续在左半部分查找
+ else:
+ left = mid + 1
+
+ return result
 
 # 示例
 arr = [1, 3, 5, 7, 9]
-print(binary_search_lower_bound(arr, 6))  # 输出: 3 (元素7的位置)
+print(binary_search_lower_bound(arr, 6)) # 输出: 3 (元素7的位置)
 print(binary_search_lower_bound(arr, 10)) # 输出: 5 (超出范围)
 ```
 
@@ -22317,56 +22317,56 @@ print(binary_search_lower_bound(arr, 10)) # 输出: 5 (超出范围)
 
 ```python
 def binary_search_upper_bound(arr, target):
-    """查找最后一个 <= target 的元素（上界）"""
-    left, right = 0, len(arr) - 1
-    result = -1
-    
-    while left <= right:
-        mid = left + (right - left) // 2
-        
-        if arr[mid] <= target:
-            result = mid
-            left = mid + 1  # 继续在右半部分查找
-        else:
-            right = mid - 1
-    
-    return result
+ """查找最后一个 <= target 的元素（上界）"""
+ left, right = 0, len(arr) - 1
+ result = -1
+
+ while left <= right:
+ mid = left + (right - left) // 2
+
+ if arr[mid] <= target:
+ result = mid
+ left = mid + 1 # 继续在右半部分查找
+ else:
+ right = mid - 1
+
+ return result
 
 # 示例
 arr = [1, 3, 5, 7, 9]
-print(binary_search_upper_bound(arr, 6))  # 输出: 2 (元素5的位置)
+print(binary_search_upper_bound(arr, 6)) # 输出: 2 (元素5的位置)
 ```
 
 **旋转数组中的二分查找**：
 
 ```python
 def search_rotated_array(arr, target):
-    """在旋转有序数组中查找"""
-    left, right = 0, len(arr) - 1
-    
-    while left <= right:
-        mid = left + (right - left) // 2
-        
-        if arr[mid] == target:
-            return mid
-        
-        # 判断哪一半是有序的
-        if arr[left] <= arr[mid]:  # 左半部分有序
-            if arr[left] <= target < arr[mid]:
-                right = mid - 1
-            else:
-                left = mid + 1
-        else:  # 右半部分有序
-            if arr[mid] < target <= arr[right]:
-                left = mid + 1
-            else:
-                right = mid - 1
-    
-    return -1
+ """在旋转有序数组中查找"""
+ left, right = 0, len(arr) - 1
+
+ while left <= right:
+ mid = left + (right - left) // 2
+
+ if arr[mid] == target:
+ return mid
+
+ # 判断哪一半是有序的
+ if arr[left] <= arr[mid]: # 左半部分有序
+ if arr[left] <= target < arr[mid]:
+ right = mid - 1
+ else:
+ left = mid + 1
+ else: # 右半部分有序
+ if arr[mid] < target <= arr[right]:
+ left = mid + 1
+ else:
+ right = mid - 1
+
+ return -1
 
 # 示例
 arr = [4, 5, 6, 7, 0, 1, 2]
-print(search_rotated_array(arr, 0))  # 输出: 4
+print(search_rotated_array(arr, 0)) # 输出: 4
 
 ```
 ---
@@ -22398,64 +22398,64 @@ hash_table['banana'] = 3
 hash_table['orange'] = 7
 
 # 查找
-print(hash_table.get('apple'))      # 输出: 5
-print(hash_table.get('grape', -1))  # 输出: -1 (未找到，返回默认值)
+print(hash_table.get('apple')) # 输出: 5
+print(hash_table.get('grape', -1)) # 输出: -1 (未找到，返回默认值)
 
 # 检查存在
-print('banana' in hash_table)  # 输出: True
+print('banana' in hash_table) # 输出: True
 
 # 删除
 del hash_table['banana']
 
 # 使用 set 实现快速查找
 elements = {1, 3, 5, 7, 9}
-print(5 in elements)  # 输出: True，O(1) 时间
+print(5 in elements) # 输出: True，O(1) 时间
 ```
 
 **手动实现哈希表（链地址法）**：
 
 ```python
 class HashTable:
-    def __init__(self, size=10):
-        self.size = size
-        self.table = [[] for _ in range(size)]  # 每个槽位是链表
-    
-    def _hash(self, key):
-        """哈希函数：使用除留余数法"""
-        return hash(key) % self.size
-    
-    def insert(self, key, value):
-        """插入键值对"""
-        index = self._hash(key)
-        # 检查是否已存在，存在则更新
-        for i, (k, v) in enumerate(self.table[index]):
-            if k == key:
-                self.table[index][i] = (key, value)
-                return
-        # 不存在则追加
-        self.table[index].append((key, value))
-    
-    def search(self, key):
-        """查找键对应的值"""
-        index = self._hash(key)
-        for k, v in self.table[index]:
-            if k == key:
-                return v
-        return None  # 未找到
-    
-    def delete(self, key):
-        """删除键值对"""
-        index = self._hash(key)
-        for i, (k, v) in enumerate(self.table[index]):
-            if k == key:
-                del self.table[index][i]
-                return True
-        return False
-    
-    def display(self):
-        """显示哈希表内容"""
-        for i, bucket in enumerate(self.table):
-            print(f"槽位 {i}: {bucket}")
+ def __init__(self, size=10):
+ self.size = size
+ self.table = [[] for _ in range(size)] # 每个槽位是链表
+
+ def _hash(self, key):
+ """哈希函数：使用除留余数法"""
+ return hash(key) % self.size
+
+ def insert(self, key, value):
+ """插入键值对"""
+ index = self._hash(key)
+ # 检查是否已存在，存在则更新
+ for i, (k, v) in enumerate(self.table[index]):
+ if k == key:
+ self.table[index][i] = (key, value)
+ return
+ # 不存在则追加
+ self.table[index].append((key, value))
+
+ def search(self, key):
+ """查找键对应的值"""
+ index = self._hash(key)
+ for k, v in self.table[index]:
+ if k == key:
+ return v
+ return None # 未找到
+
+ def delete(self, key):
+ """删除键值对"""
+ index = self._hash(key)
+ for i, (k, v) in enumerate(self.table[index]):
+ if k == key:
+ del self.table[index][i]
+ return True
+ return False
+
+ def display(self):
+ """显示哈希表内容"""
+ for i, bucket in enumerate(self.table):
+ print(f"槽位 {i}: {bucket}")
 
 # 示例
 ht = HashTable()
@@ -22464,8 +22464,8 @@ ht.insert('banana', 3)
 ht.insert('orange', 7)
 ht.insert('grape', 2)
 
-print(ht.search('apple'))   # 输出: 5
-print(ht.search('mango'))   # 输出: None
+print(ht.search('apple')) # 输出: 5
+print(ht.search('mango')) # 输出: None
 
 ht.display()
 # 输出示例:
@@ -22479,58 +22479,58 @@ ht.display()
 
 ```python
 class HashTableOpenAddressing:
-    def __init__(self, size=10):
-        self.size = size
-        self.keys = [None] * size
-        self.values = [None] * size
-    
-    def _hash(self, key):
-        """哈希函数"""
-        return hash(key) % self.size
-    
-    def _probe(self, index):
-        """线性探测：寻找下一个槽位"""
-        return (index + 1) % self.size
-    
-    def insert(self, key, value):
-        """插入键值对"""
-        index = self._hash(key)
-        
-        # 线性探测找到空槽位或相同键
-        while self.keys[index] is not None:
-            if self.keys[index] == key:
-                self.values[index] = value  # 更新值
-                return
-            index = self._probe(index)
-        
-        # 插入新键值对
-        self.keys[index] = key
-        self.values[index] = value
-    
-    def search(self, key):
-        """查找键对应的值"""
-        index = self._hash(key)
-        
-        # 线性探测查找
-        while self.keys[index] is not None:
-            if self.keys[index] == key:
-                return self.values[index]
-            index = self._probe(index)
-        
-        return None  # 未找到
-    
-    def delete(self, key):
-        """删除键值对（使用懒删除标记）"""
-        index = self._hash(key)
-        
-        while self.keys[index] is not None:
-            if self.keys[index] == key:
-                self.keys[index] = "DELETED"  # 标记为已删除
-                self.values[index] = None
-                return True
-            index = self._probe(index)
-        
-        return False
+ def __init__(self, size=10):
+ self.size = size
+ self.keys = [None] * size
+ self.values = [None] * size
+
+ def _hash(self, key):
+ """哈希函数"""
+ return hash(key) % self.size
+
+ def _probe(self, index):
+ """线性探测：寻找下一个槽位"""
+ return (index + 1) % self.size
+
+ def insert(self, key, value):
+ """插入键值对"""
+ index = self._hash(key)
+
+ # 线性探测找到空槽位或相同键
+ while self.keys[index] is not None:
+ if self.keys[index] == key:
+ self.values[index] = value # 更新值
+ return
+ index = self._probe(index)
+
+ # 插入新键值对
+ self.keys[index] = key
+ self.values[index] = value
+
+ def search(self, key):
+ """查找键对应的值"""
+ index = self._hash(key)
+
+ # 线性探测查找
+ while self.keys[index] is not None:
+ if self.keys[index] == key:
+ return self.values[index]
+ index = self._probe(index)
+
+ return None # 未找到
+
+ def delete(self, key):
+ """删除键值对（使用懒删除标记）"""
+ index = self._hash(key)
+
+ while self.keys[index] is not None:
+ if self.keys[index] == key:
+ self.keys[index] = "DELETED" # 标记为已删除
+ self.values[index] = None
+ return True
+ index = self._probe(index)
+
+ return False
 
 # 示例
 ht_open = HashTableOpenAddressing()
@@ -22538,34 +22538,34 @@ ht_open.insert('apple', 5)
 ht_open.insert('banana', 3)
 ht_open.insert('orange', 7)
 
-print(ht_open.search('banana'))  # 输出: 3
+print(ht_open.search('banana')) # 输出: 3
 ht_open.delete('banana')
-print(ht_open.search('banana'))  # 输出: None
+print(ht_open.search('banana')) # 输出: None
 ```
 
 **常见哈希函数**：
 
 ```python
 def hash_division(key, table_size):
-    """除留余数法"""
-    return key % table_size
+ """除留余数法"""
+ return key % table_size
 
 def hash_multiplication(key, table_size):
-    """乘法哈希法"""
-    A = 0.6180339887  # 黄金分割比例
-    return int(table_size * ((key * A) % 1))
+ """乘法哈希法"""
+ A = 0.6180339887 # 黄金分割比例
+ return int(table_size * ((key * A) % 1))
 
 def hash_string(s, table_size):
-    """字符串哈希（多项式滚动哈希）"""
-    hash_value = 0
-    for char in s:
-        hash_value = (hash_value * 31 + ord(char)) % table_size
-    return hash_value
+ """字符串哈希（多项式滚动哈希）"""
+ hash_value = 0
+ for char in s:
+ hash_value = (hash_value * 31 + ord(char)) % table_size
+ return hash_value
 
 # 示例
-print(hash_division(25, 10))           # 输出: 5
-print(hash_multiplication(25, 10))     # 输出: 4
-print(hash_string("hello", 100))       # 输出: 某个0-99的值
+print(hash_division(25, 10)) # 输出: 5
+print(hash_multiplication(25, 10)) # 输出: 4
+print(hash_string("hello", 100)) # 输出: 某个0-99的值
 ```
 
 **实际应用场景**：
@@ -22573,10 +22573,10 @@ print(hash_string("hello", 100))       # 输出: 某个0-99的值
 ```python
 # 1. 统计词频
 def word_frequency(text):
-    freq = {}
-    for word in text.split():
-        freq[word] = freq.get(word, 0) + 1
-    return freq
+ freq = {}
+ for word in text.split():
+ freq[word] = freq.get(word, 0) + 1
+ return freq
 
 text = "apple banana apple orange banana apple"
 print(word_frequency(text))
@@ -22585,29 +22585,29 @@ print(word_frequency(text))
 
 # 2. 检测重复元素
 def has_duplicate(arr):
-    seen = set()
-    for num in arr:
-        if num in seen:
-            return True
-        seen.add(num)
-    return False
+ seen = set()
+ for num in arr:
+ if num in seen:
+ return True
+ seen.add(num)
+ return False
 
-print(has_duplicate([1, 2, 3, 4, 5]))     # 输出: False
-print(has_duplicate([1, 2, 3, 2, 5]))     # 输出: True
+print(has_duplicate([1, 2, 3, 4, 5])) # 输出: False
+print(has_duplicate([1, 2, 3, 2, 5])) # 输出: True
 
 
 # 3. 两数之和（LeetCode 经典题）
 def two_sum(nums, target):
-    """使用哈希表实现 O(n) 时间复杂度"""
-    hash_map = {}
-    for i, num in enumerate(nums):
-        complement = target - num
-        if complement in hash_map:
-            return [hash_map[complement], i]
-        hash_map[num] = i
-    return None
+ """使用哈希表实现 O(n) 时间复杂度"""
+ hash_map = {}
+ for i, num in enumerate(nums):
+ complement = target - num
+ if complement in hash_map:
+ return [hash_map[complement], i]
+ hash_map[num] = i
+ return None
 
-print(two_sum([2, 7, 11, 15], 9))  # 输出: [0, 1]
+print(two_sum([2, 7, 11, 15], 9)) # 输出: [0, 1]
 
 
 ---
@@ -22626,71 +22626,71 @@ print(two_sum([2, 7, 11, 15], 9))  # 输出: [0, 1]
 
 ```python
 class TreeNode:
-    def __init__(self, val):
-        self.val = val
-        self.left = None
-        self.right = None
+ def __init__(self, val):
+ self.val = val
+ self.left = None
+ self.right = None
 
 class BinarySearchTree:
-    def __init__(self):
-        self.root = None
-    
-    def insert(self, val):
-        """插入节点"""
-        if not self.root:
-            self.root = TreeNode(val)
-        else:
-            self._insert_recursive(self.root, val)
-    
-    def _insert_recursive(self, node, val):
-        if val < node.val:
-            if node.left is None:
-                node.left = TreeNode(val)
-            else:
-                self._insert_recursive(node.left, val)
-        else:
-            if node.right is None:
-                node.right = TreeNode(val)
-            else:
-                self._insert_recursive(node.right, val)
-    
-    def search(self, val):
-        """查找节点"""
-        return self._search_recursive(self.root, val)
-    
-    def _search_recursive(self, node, val):
-        if node is None or node.val == val:
-            return node
-        
-        if val < node.val:
-            return self._search_recursive(node.left, val)
-        else:
-            return self._search_recursive(node.right, val)
-    
-    def search_iterative(self, val):
-        """迭代版本查找"""
-        current = self.root
-        while current:
-            if val == current.val:
-                return current
-            elif val < current.val:
-                current = current.left
-            else:
-                current = current.right
-        return None
-    
-    def find_min(self, node=None):
-        """查找最小值（最左节点）"""
-        if node is None:
-            node = self.root
-        while node.left:
-            node = node.left
-        return node
-    
-    def find_max(self, node=None):
-        """查找最大值（最右节点）"""
-        if node is None:
-            node = sel
+ def __init__(self):
+ self.root = None
+
+ def insert(self, val):
+ """插入节点"""
+ if not self.root:
+ self.root = TreeNode(val)
+ else:
+ self._insert_recursive(self.root, val)
+
+ def _insert_recursive(self, node, val):
+ if val < node.val:
+ if node.left is None:
+ node.left = TreeNode(val)
+ else:
+ self._insert_recursive(node.left, val)
+ else:
+ if node.right is None:
+ node.right = TreeNode(val)
+ else:
+ self._insert_recursive(node.right, val)
+
+ def search(self, val):
+ """查找节点"""
+ return self._search_recursive(self.root, val)
+
+ def _search_recursive(self, node, val):
+ if node is None or node.val == val:
+ return node
+
+ if val < node.val:
+ return self._search_recursive(node.left, val)
+ else:
+ return self._search_recursive(node.right, val)
+
+ def search_iterative(self, val):
+ """迭代版本查找"""
+ current = self.root
+ while current:
+ if val == current.val:
+ return current
+ elif val < current.val:
+ current = current.left
+ else:
+ current = current.right
+ return None
+
+ def find_min(self, node=None):
+ """查找最小值（最左节点）"""
+ if node is None:
+ node = self.root
+ while node.left:
+ node = node.left
+ return node
+
+ def find_max(self, node=None):
+ """查找最大值（最右节点）"""
+ if node is None:
+ node = sel
 
 ```
 
@@ -22712,28 +22712,28 @@ class BinarySearchTree:
 ```python
 # 归并排序（分治典型）
 def merge_sort(arr):
-    if len(arr) <= 1:
-        return arr
-    
-    mid = len(arr) // 2
-    left = merge_sort(arr[:mid])    # 分解
-    right = merge_sort(arr[mid:])   # 分解
-    
-    return merge(left, right)       # 合并
+ if len(arr) <= 1:
+ return arr
+
+ mid = len(arr) // 2
+ left = merge_sort(arr[:mid]) # 分解
+ right = merge_sort(arr[mid:]) # 分解
+
+ return merge(left, right) # 合并
 
 def merge(left, right):
-    result = []
-    i = j = 0
-    while i < len(left) and j < len(right):
-        if left[i] <= right[j]:
-            result.append(left[i])
-            i += 1
-        else:
-            result.append(right[j])
-            j += 1
-    result.extend(left[i:])
-    result.extend(right[j:])
-    return result
+ result = []
+ i = j = 0
+ while i < len(left) and j < len(right):
+ if left[i] <= right[j]:
+ result.append(left[i])
+ i += 1
+ else:
+ result.append(right[j])
+ j += 1
+ result.extend(left[i:])
+ result.extend(right[j:])
+ return result
 
 print(merge_sort([38, 27, 43, 3, 9, 82, 10]))
 # 输出: [3, 9, 10, 27, 38, 43, 82]
@@ -22741,34 +22741,34 @@ print(merge_sort([38, 27, 43, 3, 9, 82, 10]))
 
 # 最大子数组和（分治法）
 def max_subarray_divide_conquer(arr, left, right):
-    if left == right:
-        return arr[left]
-    
-    mid = (left + right) // 2
-    
-    # 左半部分最大和
-    left_max = max_subarray_divide_conquer(arr, left, mid)
-    # 右半部分最大和
-    right_max = max_subarray_divide_conquer(arr, mid + 1, right)
-    # 跨越中点的最大和
-    cross_max = max_crossing_sum(arr, left, mid, right)
-    
-    return max(left_max, right_max, cross_max)
+ if left == right:
+ return arr[left]
+
+ mid = (left + right) // 2
+
+ # 左半部分最大和
+ left_max = max_subarray_divide_conquer(arr, left, mid)
+ # 右半部分最大和
+ right_max = max_subarray_divide_conquer(arr, mid + 1, right)
+ # 跨越中点的最大和
+ cross_max = max_crossing_sum(arr, left, mid, right)
+
+ return max(left_max, right_max, cross_max)
 
 def max_crossing_sum(arr, left, mid, right):
-    left_sum = float('-inf')
-    total = 0
-    for i in range(mid, left - 1, -1):
-        total += arr[i]
-        left_sum = max(left_sum, total)
-    
-    right_sum = float('-inf')
-    total = 0
-    for i in range(mid + 1, right + 1):
-        total += arr[i]
-        right_sum = max(right_sum, total)
-    
-    return left_sum + right_sum
+ left_sum = float('-inf')
+ total = 0
+ for i in range(mid, left - 1, -1):
+ total += arr[i]
+ left_sum = max(left_sum, total)
+
+ right_sum = float('-inf')
+ total = 0
+ for i in range(mid + 1, right + 1):
+ total += arr[i]
+ right_sum = max(right_sum, total)
+
+ return left_sum + right_sum
 
 arr = [-2, 1, -3, 4, -1, 2, 1, -5, 4]
 print(max_subarray_divide_conquer(arr, 0, len(arr) - 1))
@@ -22792,19 +22792,19 @@ print(max_subarray_divide_conquer(arr, 0, len(arr) - 1))
 ```python
 # 活动选择问题（按结束时间贪心）
 def activity_selection(activities):
-    """activities: [(start, end), ...]"""
-    # 按结束时间排序
-    activities.sort(key=lambda x: x[1])
-    
-    selected = [activities[0]]
-    last_end = activities[0][1]
-    
-    for start, end in activities[1:]:
-        if start >= last_end:  # 不冲突
-            selected.append((start, end))
-            last_end = end
-    
-    return selected
+ """activities: [(start, end), ...]"""
+ # 按结束时间排序
+ activities.sort(key=lambda x: x[1])
+
+ selected = [activities[0]]
+ last_end = activities[0][1]
+
+ for start, end in activities[1:]:
+ if start >= last_end: # 不冲突
+ selected.append((start, end))
+ last_end = end
+
+ return selected
 
 activities = [(1, 4), (3, 5), (0, 6), (5, 7), (3, 9), (5, 9), (6, 10), (8, 11)]
 print(activity_selection(activities))
@@ -22813,16 +22813,16 @@ print(activity_selection(activities))
 
 # 找零钱问题（贪心：优先使用大面额）
 def coin_change_greedy(amount, coins):
-    """coins 必须是特殊币值系统（如 [1, 5, 10, 25]）"""
-    coins.sort(reverse=True)
-    result = []
-    
-    for coin in coins:
-        while amount >= coin:
-            result.append(coin)
-            amount -= coin
-    
-    return result if amount == 0 else None
+ """coins 必须是特殊币值系统（如 [1, 5, 10, 25]）"""
+ coins.sort(reverse=True)
+ result = []
+
+ for coin in coins:
+ while amount >= coin:
+ result.append(coin)
+ amount -= coin
+
+ return result if amount == 0 else None
 
 print(coin_change_greedy(63, [1, 5, 10, 25]))
 # 输出: [25, 25, 10, 1, 1, 1]
@@ -22830,20 +22830,20 @@ print(coin_change_greedy(63, [1, 5, 10, 25]))
 
 # 分数背包问题
 def fractional_knapsack(capacity, items):
-    """items: [(value, weight), ...]"""
-    # 按单位重量价值排序
-    items.sort(key=lambda x: x[0] / x[1], reverse=True)
-    
-    total_value = 0
-    for value, weight in items:
-        if capacity >= weight:
-            total_value += value
-            capacity -= weight
-        else:
-            total_value += value * (capacity / weight)
-            break
-    
-    return total_value
+ """items: [(value, weight), ...]"""
+ # 按单位重量价值排序
+ items.sort(key=lambda x: x[0] / x[1], reverse=True)
+
+ total_value = 0
+ for value, weight in items:
+ if capacity >= weight:
+ total_value += value
+ capacity -= weight
+ else:
+ total_value += value * (capacity / weight)
+ break
+
+ return total_value
 
 items = [(60, 10), (100, 20), (120, 30)]
 print(fractional_knapsack(50, items))
@@ -22871,50 +22871,50 @@ print(fractional_knapsack(50, items))
 
 # 1. 朴素递归（指数时间）
 def fib_recursive(n):
-    if n <= 1:
-        return n
-    return fib_recursive(n - 1) + fib_recursive(n - 2)
+ if n <= 1:
+ return n
+ return fib_recursive(n - 1) + fib_recursive(n - 2)
 
 # 2. 记忆化递归（线性时间）
 def fib_memo(n, memo={}):
-    if n in memo:
-        return memo[n]
-    if n <= 1:
-        return n
-    memo[n] = fib_memo(n - 1, memo) + fib_memo(n - 2, memo)
-    return memo[n]
+ if n in memo:
+ return memo[n]
+ if n <= 1:
+ return n
+ memo[n] = fib_memo(n - 1, memo) + fib_memo(n - 2, memo)
+ return memo[n]
 
 # 3. 自底向上（线性时间，空间优化）
 def fib_dp(n):
-    if n <= 1:
-        return n
-    dp = [0] * (n + 1)
-    dp[1] = 1
-    for i in range(2, n + 1):
-        dp[i] = dp[i - 1] + dp[i - 2]
-    return dp[n]
+ if n <= 1:
+ return n
+ dp = [0] * (n + 1)
+ dp[1] = 1
+ for i in range(2, n + 1):
+ dp[i] = dp[i - 1] + dp[i - 2]
+ return dp[n]
 
-print(fib_dp(10))  # 输出: 55
+print(fib_dp(10)) # 输出: 55
 
 
 # 0-1背包问题
 def knapsack_01(capacity, weights, values):
-    n = len(weights)
-    # dp[i][w] 表示前i个物品，容量为w时的最大价值
-    dp = [[0] * (capacity + 1) for _ in range(n + 1)]
-    
-    for i in range(1, n + 1):
-        for w in range(capacity + 1):
-            if weights[i - 1] <= w:
-                # 选择或不选择第i个物品
-                dp[i][w] = max(
-                    dp[i - 1][w],  # 不选
-                    dp[i - 1][w - weights[i - 1]] + values[i - 1]  # 选
-                )
-            else:
-                dp[i][w] = dp[i - 1][w]
-    
-    return dp[n][capacity]
+ n = len(weights)
+ # dp[i][w] 表示前i个物品，容量为w时的最大价值
+ dp = [[0] * (capacity + 1) for _ in range(n + 1)]
+
+ for i in range(1, n + 1):
+ for w in range(capacity + 1):
+ if weights[i - 1] <= w:
+ # 选择或不选择第i个物品
+ dp[i][w] = max(
+ dp[i - 1][w], # 不选
+ dp[i - 1][w - weights[i - 1]] + values[i - 1] # 选
+ )
+ else:
+ dp[i][w] = dp[i - 1][w]
+
+ return dp[n][capacity]
 
 weights = [2, 3, 4, 5]
 values = [3, 4, 5, 6]
@@ -22924,17 +22924,17 @@ print(knapsack_01(8, weights, values))
 
 # 最长公共子序列（LCS）
 def lcs(s1, s2):
-    m, n = len(s1), len(s2)
-    dp = [[0] * (n + 1) for _ in range(m + 1)]
-    
-    for i in range(1, m + 1):
-        for j in range(1, n + 1):
-            if s1[i - 1] == s2[j - 1]:
-                dp[i][j] = dp[i - 1][j - 1] + 1
-            else:
-                dp[i][j] = max(dp[i - 1][j], dp[i][j - 1])
-    
-    return dp[m][n]
+ m, n = len(s1), len(s2)
+ dp = [[0] * (n + 1) for _ in range(m + 1)]
+
+ for i in range(1, m + 1):
+ for j in range(1, n + 1):
+ if s1[i - 1] == s2[j - 1]:
+ dp[i][j] = dp[i - 1][j - 1] + 1
+ else:
+ dp[i][j] = max(dp[i - 1][j], dp[i][j - 1])
+
+ return dp[m][n]
 
 print(lcs("ABCDGH", "AEDFHR"))
 # 输出: 3 (ADH)
@@ -22942,27 +22942,27 @@ print(lcs("ABCDGH", "AEDFHR"))
 
 # 编辑距离（Levenshtein Distance）
 def edit_distance(s1, s2):
-    m, n = len(s1), len(s2)
-    dp = [[0] * (n + 1) for _ in range(m + 1)]
-    
-    # 初始化边界
-    for i in range(m + 1):
-        dp[i][0] = i
-    for j in range(n + 1):
-        dp[0][j] = j
-    
-    for i in range(1, m + 1):
-        for j in range(1, n + 1):
-            if s1[i - 1] == s2[j - 1]:
-                dp[i][j] = dp[i - 1][j - 1]
-            else:
-                dp[i][j] = 1 + min(
-                    dp[i - 1][j],      # 删除
-                    dp[i][j - 1],      # 插入
-                    dp[i - 1][j - 1]   # 替换
-                )
-    
-    return dp[m][n]
+ m, n = len(s1), len(s2)
+ dp = [[0] * (n + 1) for _ in range(m + 1)]
+
+ # 初始化边界
+ for i in range(m + 1):
+ dp[i][0] = i
+ for j in range(n + 1):
+ dp[0][j] = j
+
+ for i in range(1, m + 1):
+ for j in range(1, n + 1):
+ if s1[i - 1] == s2[j - 1]:
+ dp[i][j] = dp[i - 1][j - 1]
+ else:
+ dp[i][j] = 1 + min(
+ dp[i - 1][j], # 删除
+ dp[i][j - 1], # 插入
+ dp[i - 1][j - 1] # 替换
+ )
+
+ return dp[m][n]
 
 print(edit_distance("kitten", "sitting"))
 # 输出: 3
@@ -22981,36 +22981,36 @@ print(edit_distance("kitten", "sitting"))
 **模板结构**：
 ```
 def backtrack(路径, 选择列表):
-    if 满足结束条件:
-        result.add(路径)
-        return
-    
-    for 选择 in 选择列表:
-        做选择
-        backtrack(路径, 新的选择列表)
-        撤销选择
+ if 满足结束条件:
+ result.add(路径)
+ return
+
+ for 选择 in 选择列表:
+ 做选择
+ backtrack(路径, 新的选择列表)
+ 撤销选择
 ```
 
 ```python
 # 全排列问题
 def permute(nums):
-    result = []
-    
-    def backtrack(path, remaining):
-        if not remaining:
-            result.append(path[:])
-            return
-        
-        for i in range(len(remaining)):
-            # 做选择
-            path.append(remaining[i])
-            # 递归
-            backtrack(path, remaining[:i] + remaining[i+1:])
-            # 撤销选择
-            path.pop()
-    
-    backtrack([], nums)
-    return result
+ result = []
+
+ def backtrack(path, remaining):
+ if not remaining:
+ result.append(path[:])
+ return
+
+ for i in range(len(remaining)):
+ # 做选择
+ path.append(remaining[i])
+ # 递归
+ backtrack(path, remaining[:i] + remaining[i+1:])
+ # 撤销选择
+ path.pop()
+
+ backtrack([], nums)
+ return result
 
 print(permute([1, 2, 3]))
 # 输出: [[1,2,3], [1,3,2], [2,1,3], [2,3,1], [3,1,2], [3,2,1]]
@@ -23018,16 +23018,16 @@ print(permute([1, 2, 3]))
 
 # N皇后问题
 def solve_n_queens(n):
-    result = []
-    board = [['.'] * n for _ in range(n)]
-    
-    def is_valid(row, col):
-        # 检查列
-        for i in range(row):
-            if board[i][c
+ result = []
+ board = [['.'] * n for _ in range(n)]
+
+ def is_valid(row, col):
+ # 检查列
+ for i in range(row):
+ if board[i][c
 ```
 
-#  第五部分 编程范式（Paradigms）
+# 第五部分 编程范式（Paradigms）
 
 ## 第 17 章 主要编程范式
 
@@ -23047,19 +23047,19 @@ def solve_n_queens(n):
 
 ```mermaid
 graph TD
-    A[开始] --> B[初始化变量 x=0]
-    B --> C[x = x + 1]
-    C --> D[x = x * 2]
-    D --> E{x > 10?}
-    E -->|否| C
-    E -->|是| F[输出 x]
-    F --> G[结束]
-    
-    style A fill:#e1f5ff
-    style G fill:#ffe1e1
-    style C fill:#fff4e1
-    style D fill:#fff4e1
-    style E fill:#f0e1ff
+ A[开始] --> B[初始化变量 x=0]
+ B --> C[x = x + 1]
+ C --> D[x = x * 2]
+ D --> E{x > 10?}
+ E -->|否| C
+ E -->|是| F[输出 x]
+ F --> G[结束]
+
+ style A fill:#e1f5ff
+ style G fill:#ffe1e1
+ style C fill:#fff4e1
+ style D fill:#fff4e1
+ style E fill:#f0e1ff
 ```
 
 **说明**：命令式编程像一份详细的菜谱，逐步告诉计算机"怎么做"，每一步都改变程序状态。
@@ -23083,21 +23083,21 @@ graph TD
 
 ```mermaid
 graph LR
-    A[输入数据<br/>1,2,3,4,5] --> B[声明目标<br/>找出所有偶数的平方]
-    B --> C[系统自动处理<br/>filter + map]
-    C --> D[输出结果<br/>4,16]
-    
-    style A fill:#e1f5ff
-    style B fill:#e1ffe1
-    style C fill:#fff4e1
-    style D fill:#ffe1e1
-    
-    E[SQL 示例] -.-> F["SELECT name<br/>FROM users<br/>WHERE age > 18"]
-    F -.-> G[描述'要什么'<br/>不关心'怎么做']
-    
-    style E fill:#f0e1ff
-    style F fill:#ffe1f5
-    style G fill:#e1fff5
+ A[输入数据<br/>1,2,3,4,5] --> B[声明目标<br/>找出所有偶数的平方]
+ B --> C[系统自动处理<br/>filter + map]
+ C --> D[输出结果<br/>4,16]
+
+ style A fill:#e1f5ff
+ style B fill:#e1ffe1
+ style C fill:#fff4e1
+ style D fill:#ffe1e1
+
+ E[SQL 示例] -.-> F["SELECT name<br/>FROM users<br/>WHERE age > 18"]
+ F -.-> G[描述'要什么'<br/>不关心'怎么做']
+
+ style E fill:#f0e1ff
+ style F fill:#ffe1f5
+ style G fill:#e1fff5
 ```
 **说明**：声明式编程像点菜，只说"我要什么"，不管厨师怎么做。
 
@@ -23120,25 +23120,25 @@ graph LR
 
 ```mermaid
 graph TD
-    A[主程序 main] --> B[调用 readData]
-    B --> C[调用 processData]
-    C --> D[调用 saveResult]
-    D --> E[返回主程序]
-    
-    F[函数库] --> G[readData<br/>读取数据]
-    F --> H[processData<br/>处理数据]
-    F --> I[saveResult<br/>保存结果]
-    
-    G -.-> B
-    H -.-> C
-    I -.-> D
-    
-    style A fill:#e1f5ff
-    style F fill:#f0e1ff
-    style G fill:#fff4e1
-    style H fill:#fff4e1
-    style I fill:#fff4e1
-    style E fill:#ffe1e1
+ A[主程序 main] --> B[调用 readData]
+ B --> C[调用 processData]
+ C --> D[调用 saveResult]
+ D --> E[返回主程序]
+
+ F[函数库] --> G[readData<br/>读取数据]
+ F --> H[processData<br/>处理数据]
+ F --> I[saveResult<br/>保存结果]
+
+ G -.-> B
+ H -.-> C
+ I -.-> D
+
+ style A fill:#e1f5ff
+ style F fill:#f0e1ff
+ style G fill:#fff4e1
+ style H fill:#fff4e1
+ style I fill:#fff4e1
+ style E fill:#ffe1e1
 ```
 
 **说明**：过程式编程将程序分解为可复用的函数/过程，像模块化的工具箱。
@@ -23161,39 +23161,39 @@ graph TD
 
 ```mermaid
 classDiagram
-    class Animal {
-        <<abstract>>
-        -name: String
-        -age: int
-        +makeSound()
-        +getInfo()
-    }
-    
-    class Dog {
-        -breed: String
-        +makeSound()
-        +fetch()
-    }
-    
-    class Cat {
-        -color: String
-        +makeSound()
-        +climb()
-    }
-    
-    Animal <|-- Dog : 继承
-    Animal <|-- Cat : 继承
-    
-    class Owner {
-        -pets: List~Animal~
-        +feedPet(Animal)
-    }
-    
-    Owner o-- Animal : 组合
-    
-    note for Animal "封装：隐藏内部实现\n抽象：定义通用接口"
-    note for Dog "多态：不同实现\nmakeSound() → '汪汪'"
-    note for Cat "多态：不同实现\nmakeSound() → '喵喵'"
+ class Animal {
+ <<abstract>>
+ -name: String
+ -age: int
+ +makeSound()
+ +getInfo()
+ }
+
+ class Dog {
+ -breed: String
+ +makeSound()
+ +fetch()
+ }
+
+ class Cat {
+ -color: String
+ +makeSound()
+ +climb()
+ }
+
+ Animal <|-- Dog : 继承
+ Animal <|-- Cat : 继承
+
+ class Owner {
+ -pets: List~Animal~
+ +feedPet(Animal)
+ }
+
+ Owner o-- Animal : 组合
+
+ note for Animal "封装：隐藏内部实现\n抽象：定义通用接口"
+ note for Dog "多态：不同实现\nmakeSound() → '汪汪'"
+ note for Cat "多态：不同实现\nmakeSound() → '喵喵'"
 ```
 
 **说明**：OOP 将数据和行为封装成对象，像现实世界中的实体及其交互。
@@ -23218,30 +23218,30 @@ classDiagram
 
 ```mermaid
 graph TD
-    A[输入数据<br/>1,2,3,4,5] --> B[纯函数 map<br/>x → x²]
-    B --> C[中间结果<br/>1,4,9,16,25]
-    C --> D[纯函数 filter<br/>x > 10]
-    D --> E[中间结果<br/>16,25]
-    E --> F[纯函数 reduce<br/>累加求和]
-    F --> G[输出结果: 41]
-    
-    H[函数式编程特点] --> I[不可变数据]
-    H --> J[无副作用]
-    H --> K[函数组合]
-    H --> L[高阶函数]
-    
-    style A fill:#e1f5ff
-    style B fill:#fff4e1
-    style C fill:#e1ffe1
-    style D fill:#fff4e1
-    style E fill:#e1ffe1
-    style F fill:#fff4e1
-    style G fill:#ffe1e1
-    style H fill:#f0e1ff
-    style I fill:#ffe1f5
-    style J fill:#ffe1f5
-    style K fill:#ffe1f5
-    style L fill:#ffe1f5
+ A[输入数据<br/>1,2,3,4,5] --> B[纯函数 map<br/>x → x²]
+ B --> C[中间结果<br/>1,4,9,16,25]
+ C --> D[纯函数 filter<br/>x > 10]
+ D --> E[中间结果<br/>16,25]
+ E --> F[纯函数 reduce<br/>累加求和]
+ F --> G[输出结果: 41]
+
+ H[函数式编程特点] --> I[不可变数据]
+ H --> J[无副作用]
+ H --> K[函数组合]
+ H --> L[高阶函数]
+
+ style A fill:#e1f5ff
+ style B fill:#fff4e1
+ style C fill:#e1ffe1
+ style D fill:#fff4e1
+ style E fill:#e1ffe1
+ style F fill:#fff4e1
+ style G fill:#ffe1e1
+ style H fill:#f0e1ff
+ style I fill:#ffe1f5
+ style J fill:#ffe1f5
+ style K fill:#ffe1f5
+ style L fill:#ffe1f5
 ```
 
 **说明**：函数式编程像数学函数，输入→输出，无副作用，可组合。
@@ -23269,26 +23269,26 @@ graph TD
 
 ```mermaid
 graph TD
-    A[知识库] --> B[事实<br/>parent tom, bob<br/>parent bob, ann]
-    A --> C[规则<br/>grandparent X,Z :-<br/>parent X,Y,<br/>parent Y,Z]
-    
-    D[查询<br/>grandparent tom, ?] --> E[推理引擎]
-    
-    B --> E
-    C --> E
-    
-    E --> F[统一 Unification]
-    F --> G[回溯 Backtracking]
-    G --> H{找到解?}
-    H -->|是| I[返回: ann]
-    H -->|否| G
-    
-    style A fill:#f0e1ff
-    style B fill:#e1ffe1
-    style C fill:#e1ffe1
-    style D fill:#e1f5ff
-    style E fill:#fff4e1
-    style I fill:#ffe1e1
+ A[知识库] --> B[事实<br/>parent tom, bob<br/>parent bob, ann]
+ A --> C[规则<br/>grandparent X,Z :-<br/>parent X,Y,<br/>parent Y,Z]
+
+ D[查询<br/>grandparent tom, ?] --> E[推理引擎]
+
+ B --> E
+ C --> E
+
+ E --> F[统一 Unification]
+ F --> G[回溯 Backtracking]
+ G --> H{找到解?}
+ H -->|是| I[返回: ann]
+ H -->|否| G
+
+ style A fill:#f0e1ff
+ style B fill:#e1ffe1
+ style C fill:#e1ffe1
+ style D fill:#e1f5ff
+ style E fill:#fff4e1
+ style I fill:#ffe1e1
 ```
 
 **说明**：逻辑式编程像侦探推理，给定事实和规则，系统自动推导结论。
@@ -23313,27 +23313,27 @@ graph TD
 **优点**：简化异步编程、代码简洁、易于组合。**缺点**：学习曲线陡峭、调试困难。
 ```mermaid
 graph LR
-    A[数据源<br/>Observable] -->|发射| B[事件流<br/>1→2→3→4→5]
-    
-    B --> C[操作符 filter<br/>偶数]
-    C --> D[2→4]
-    
-    D --> E[操作符 map<br/>×10]
-    E --> F[20→40]
-    
-    F --> G[订阅者1<br/>Observer]
-    F --> H[订阅者2<br/>Observer]
-    
-    I[用户点击] -.->|触发| A
-    J[传感器数据] -.->|触发| A
-    K[WebSocket] -.->|触发| A
-    
-    style A fill:#e1f5ff
-    style B fill:#fff4e1
-    style C fill:#ffe1f5
-    style E fill:#ffe1f5
-    style G fill:#e1ffe1
-    style H fill:#e1ffe1
+ A[数据源<br/>Observable] -->|发射| B[事件流<br/>1→2→3→4→5]
+
+ B --> C[操作符 filter<br/>偶数]
+ C --> D[2→4]
+
+ D --> E[操作符 map<br/>×10]
+ E --> F[20→40]
+
+ F --> G[订阅者1<br/>Observer]
+ F --> H[订阅者2<br/>Observer]
+
+ I[用户点击] -.->|触发| A
+ J[传感器数据] -.->|触发| A
+ K[WebSocket] -.->|触发| A
+
+ style A fill:#e1f5ff
+ style B fill:#fff4e1
+ style C fill:#ffe1f5
+ style E fill:#ffe1f5
+ style G fill:#e1ffe1
+ style H fill:#e1ffe1
 ```
 
 **说明**：响应式编程像订阅报纸，数据流动时自动通知订阅者。
@@ -23358,36 +23358,36 @@ graph LR
 **优点**：提高性能、充分利用硬件、提升响应速度。**缺点**：复杂度高、竞态条件、死锁风险。
 ```mermaid
 graph TD
-    subgraph 并发 Concurrency
-        A1[任务A] -.->|时间片1| CPU1[CPU核心]
-        B1[任务B] -.->|时间片2| CPU1
-        C1[任务C] -.->|时间片3| CPU1
-        CPU1 -.-> D1[交替执行<br/>看起来同时]
-    end
-    
-    subgraph 并行 Parallelism
-        A2[任务A] --> CPU2[CPU核心1]
-        B2[任务B] --> CPU3[CPU核心2]
-        C2[任务C] --> CPU4[CPU核心3]
-        CPU2 --> D2[真正同时执行]
-        CPU3 --> D2
-        CPU4 --> D2
-    end
-    
-    subgraph 同步机制
-        E[共享资源] --> F[锁 Lock]
-        F --> G[线程1等待]
-        F --> H[线程2访问]
-    end
-    
-    style A1 fill:#e1f5ff
-    style B1 fill:#ffe1f5
-    style C1 fill:#e1ffe1
-    style A2 fill:#e1f5ff
-    style B2 fill:#ffe1f5
-    style C2 fill:#e1ffe1
-    style E fill:#fff4e1
-    style F fill:#ffe1e1
+ subgraph 并发 Concurrency
+ A1[任务A] -.->|时间片1| CPU1[CPU核心]
+ B1[任务B] -.->|时间片2| CPU1
+ C1[任务C] -.->|时间片3| CPU1
+ CPU1 -.-> D1[交替执行<br/>看起来同时]
+ end
+
+ subgraph 并行 Parallelism
+ A2[任务A] --> CPU2[CPU核心1]
+ B2[任务B] --> CPU3[CPU核心2]
+ C2[任务C] --> CPU4[CPU核心3]
+ CPU2 --> D2[真正同时执行]
+ CPU3 --> D2
+ CPU4 --> D2
+ end
+
+ subgraph 同步机制
+ E[共享资源] --> F[锁 Lock]
+ F --> G[线程1等待]
+ F --> H[线程2访问]
+ end
+
+ style A1 fill:#e1f5ff
+ style B1 fill:#ffe1f5
+ style C1 fill:#e1ffe1
+ style A2 fill:#e1f5ff
+ style B2 fill:#ffe1f5
+ style C2 fill:#e1ffe1
+ style E fill:#fff4e1
+ style F fill:#ffe1e1
 ```
 
 **说明**：并发像单核 CPU 快速切换任务，并行像多核 CPU 真正同时执行。
@@ -23397,38 +23397,38 @@ graph TD
 
 ```mermaid
 mindmap
-  root((编程范式))
-    命令式
-      逐步执行
-      状态改变
-      C, Python
-    声明式
-      描述目标
-      SQL, HTML
-      函数式
-        纯函数
-        不可变
-        Haskell
-      逻辑式
-        事实+规则
-        自动推理
-        Prolog
-    过程式
-      函数封装
-      模块化
-      C, Pascal
-    面向对象
-      封装继承
-      多态抽象
-      Java, C++
-    响应式
-      数据流
-      观察者
-      RxJS, RxJava
-    并发并行
-      多线程
-      多进程
-      异步IO
+ root((编程范式))
+ 命令式
+ 逐步执行
+ 状态改变
+ C, Python
+ 声明式
+ 描述目标
+ SQL, HTML
+ 函数式
+ 纯函数
+ 不可变
+ Haskell
+ 逻辑式
+ 事实+规则
+ 自动推理
+ Prolog
+ 过程式
+ 函数封装
+ 模块化
+ C, Pascal
+ 面向对象
+ 封装继承
+ 多态抽象
+ Java, C++
+ 响应式
+ 数据流
+ 观察者
+ RxJS, RxJava
+ 并发并行
+ 多线程
+ 多进程
+ 异步IO
 ```
 
 **说明**：这张思维导图展示了各编程范式的层次关系和核心特征。
@@ -23456,30 +23456,30 @@ mindmap
 # Python 示例：类与对象
 
 class Dog:
-    """狗类 - 定义狗的属性和行为"""
-    
-    # 类属性（所有实例共享）
-    species = "Canis familiaris"
-    
-    def __init__(self, name, age, breed):
-        """构造函数 - 初始化对象"""
-        # 实例属性（每个对象独有）
-        self.name = name
-        self.age = age
-        self.breed = breed
-    
-    def bark(self):
-        """实例方法 - 狗叫"""
-        return f"{self.name} says: Woof! Woof!"
-    
-    def get_info(self):
-        """获取狗的信息"""
-        return f"{self.name} is a {self.age}-year-old {self.breed}"
-    
-    def celebrate_birthday(self):
-        """过生日 - 年龄增加"""
-        self.age += 1
-        return f"Happy birthday {self.name}! Now {self.age} years old."
+ """狗类 - 定义狗的属性和行为"""
+
+ # 类属性（所有实例共享）
+ species = "Canis familiaris"
+
+ def __init__(self, name, age, breed):
+ """构造函数 - 初始化对象"""
+ # 实例属性（每个对象独有）
+ self.name = name
+ self.age = age
+ self.breed = breed
+
+ def bark(self):
+ """实例方法 - 狗叫"""
+ return f"{self.name} says: Woof! Woof!"
+
+ def get_info(self):
+ """获取狗的信息"""
+ return f"{self.name} is a {self.age}-year-old {self.breed}"
+
+ def celebrate_birthday(self):
+ """过生日 - 年龄增加"""
+ self.age += 1
+ return f"Happy birthday {self.name}! Now {self.age} years old."
 
 
 # 创建对象（实例化）
@@ -23487,21 +23487,21 @@ dog1 = Dog("Buddy", 3, "Golden Retriever")
 dog2 = Dog("Max", 5, "German Shepherd")
 
 # 访问属性
-print(dog1.name)        # 输出: Buddy
-print(dog1.age)         # 输出: 3
-print(dog1.species)     # 输出: Canis familiaris
+print(dog1.name) # 输出: Buddy
+print(dog1.age) # 输出: 3
+print(dog1.species) # 输出: Canis familiaris
 
 # 调用方法
-print(dog1.bark())      # 输出: Buddy says: Woof! Woof!
-print(dog1.get_info())  # 输出: Buddy is a 3-year-old Golden Retriever
+print(dog1.bark()) # 输出: Buddy says: Woof! Woof!
+print(dog1.get_info()) # 输出: Buddy is a 3-year-old Golden Retriever
 
 # 修改属性
 dog1.celebrate_birthday()
-print(dog1.age)         # 输出: 4
+print(dog1.age) # 输出: 4
 
 # 多个对象独立
-print(dog2.name)        # 输出: Max
-print(dog2.age)         # 输出: 5
+print(dog2.name) # 输出: Max
+print(dog2.age) # 输出: 5
 
 
 ```
@@ -23510,35 +23510,35 @@ print(dog2.age)         # 输出: 5
 
 ```mermaid
 classDiagram
-    class Dog {
-        +String species$
-        -String name
-        -int age
-        -String breed
-        +Dog(name, age, breed)
-        +bark() String
-        +getInfo() String
-        +celebrateBirthday() void
-    }
-    
-    class dog1 {
-        name = "Buddy"
-        age = 3
-        breed = "Golden Retriever"
-    }
-    
-    class dog2 {
-        name = "Max"
-        age = 5
-        breed = "German Shepherd"
-    }
-    
-    Dog <.. dog1 : 实例化
-    Dog <.. dog2 : 实例化
-    
-    note for Dog "类：对象的蓝图\n定义属性和方法"
-    note for dog1 "对象1：类的实例\n具体的数据"
-    note for dog2 "对象2：独立的实例\n不同的数据"
+ class Dog {
+ +String species$
+ -String name
+ -int age
+ -String breed
+ +Dog(name, age, breed)
+ +bark() String
+ +getInfo() String
+ +celebrateBirthday() void
+ }
+
+ class dog1 {
+ name = "Buddy"
+ age = 3
+ breed = "Golden Retriever"
+ }
+
+ class dog2 {
+ name = "Max"
+ age = 5
+ breed = "German Shepherd"
+ }
+
+ Dog <.. dog1 : 实例化
+ Dog <.. dog2 : 实例化
+
+ note for Dog "类：对象的蓝图\n定义属性和方法"
+ note for dog1 "对象1：类的实例\n具体的数据"
+ note for dog2 "对象2：独立的实例\n不同的数据"
 ```
 
 ---
@@ -23560,39 +23560,39 @@ classDiagram
 
 # 1. 封装：隐藏内部实现
 class BankAccount:
-    def __init__(self, balance):
-        self.__balance = balance  # 私有属性
-    
-    def deposit(self, amount):
-        if amount > 0:
-            self.__balance += amount
-    
-    def get_balance(self):
-        return self.__balance
+ def __init__(self, balance):
+ self.__balance = balance # 私有属性
+
+ def deposit(self, amount):
+ if amount > 0:
+ self.__balance += amount
+
+ def get_balance(self):
+ return self.__balance
 
 
 # 2. 继承：代码复用
 class Animal:
-    def __init__(self, name):
-        self.name = name
-    
-    def make_sound(self):
-        return "Some sound"
+ def __init__(self, name):
+ self.name = name
 
-class Dog(Animal):  # 继承 Animal
-    def make_sound(self):  # 重写方法
-        return f"{self.name}: Woof!"
+ def make_sound(self):
+ return "Some sound"
+
+class Dog(Animal): # 继承 Animal
+ def make_sound(self): # 重写方法
+ return f"{self.name}: Woof!"
 
 class Cat(Animal):
-    def make_sound(self):
-        return f"{self.name}: Meow!"
+ def make_sound(self):
+ return f"{self.name}: Meow!"
 
 
 # 3. 多态：统一接口，不同实现
 def animal_concert(animals):
-    """多态：用统一方式处理不同类型对象"""
-    for animal in animals:
-        print(animal.make_sound())  # 同一方法，不同行为
+ """多态：用统一方式处理不同类型对象"""
+ for animal in animals:
+ print(animal.make_sound()) # 同一方法，不同行为
 
 # 使用
 dog = Dog("Buddy")
@@ -23610,27 +23610,27 @@ animal_concert(animals)
 
 ```mermaid
 graph TB
-    subgraph 封装
-        A[公共接口] --> B[验证逻辑]
-        B --> C[私有数据]
-    end
-    
-    subgraph 继承
-        D[Animal父类] --> E[Dog子类]
-        D --> F[Cat子类]
-    end
-    
-    subgraph 多态
-        G[Animal引用] -.-> H[Dog对象]
-        G -.-> I[Cat对象]
-        H --> J[Woof!]
-        I --> K[Meow!]
-    end
-    
-    style A fill:#e1ffe1
-    style C fill:#ffe1e1
-    style D fill:#e1f5ff
-    style G fill:#fff4e1
+ subgraph 封装
+ A[公共接口] --> B[验证逻辑]
+ B --> C[私有数据]
+ end
+
+ subgraph 继承
+ D[Animal父类] --> E[Dog子类]
+ D --> F[Cat子类]
+ end
+
+ subgraph 多态
+ G[Animal引用] -.-> H[Dog对象]
+ G -.-> I[Cat对象]
+ H --> J[Woof!]
+ I --> K[Meow!]
+ end
+
+ style A fill:#e1ffe1
+ style C fill:#ffe1e1
+ style D fill:#e1f5ff
+ style G fill:#fff4e1
 ```
 
 ### 18.3 抽象类 vs 接口
@@ -23652,167 +23652,167 @@ from abc import ABC, abstractmethod
 
 # 1. 抽象类：包含抽象方法和具体方法
 class Animal(ABC):
-    """动物抽象类 - 定义通用行为和部分实现"""
-    
-    def __init__(self, name, age):
-        self.name = name  # 具体属性
-        self.age = age
-    
-    @abstractmethod
-    def make_sound(self):
-        """抽象方法 - 子类必须实现"""
-        pass
-    
-    @abstractmethod
-    def move(self):
-        """抽象方法"""
-        pass
-    
-    # 具体方法 - 提供通用实现
-    def sleep(self):
-        return f"{self.name} is sleeping"
-    
-    def get_info(self):
-        return f"{self.name}, {self.age} years old"
+ """动物抽象类 - 定义通用行为和部分实现"""
+
+ def __init__(self, name, age):
+ self.name = name # 具体属性
+ self.age = age
+
+ @abstractmethod
+ def make_sound(self):
+ """抽象方法 - 子类必须实现"""
+ pass
+
+ @abstractmethod
+ def move(self):
+ """抽象方法"""
+ pass
+
+ # 具体方法 - 提供通用实现
+ def sleep(self):
+ return f"{self.name} is sleeping"
+
+ def get_info(self):
+ return f"{self.name}, {self.age} years old"
 
 
 # 2. 接口：纯粹的行为契约
 class Flyable(ABC):
-    """可飞行接口"""
-    
-    @abstractmethod
-    def fly(self):
-        pass
-    
-    @abstractmethod
-    def land(self):
-        pass
+ """可飞行接口"""
+
+ @abstractmethod
+ def fly(self):
+ pass
+
+ @abstractmethod
+ def land(self):
+ pass
 
 
 class Swimmable(ABC):
-    """可游泳接口"""
-    
-    @abstractmethod
-    def swim(self):
-        pass
+ """可游泳接口"""
+
+ @abstractmethod
+ def swim(self):
+ pass
 
 
 # 3. 具体类：继承抽象类 + 实现接口
 class Dog(Animal):
-    """狗 - 继承抽象类"""
-    
-    def __init__(self, name, age, breed):
-        super().__init__(name, age)
-        self.breed = breed
-    
-    # 实现抽象方法
-    def make_sound(self):
-        return f"{self.name}: Woof!"
-    
-    def move(self):
-        return f"{self.name} is running"
+ """狗 - 继承抽象类"""
+
+ def __init__(self, name, age, breed):
+ super().__init__(name, age)
+ self.breed = breed
+
+ # 实现抽象方法
+ def make_sound(self):
+ return f"{self.name}: Woof!"
+
+ def move(self):
+ return f"{self.name} is running"
 
 
 class Duck(Animal, Flyable, Swimmable):
-    """鸭子 - 继承抽象类 + 实现多个接口"""
-    
-    def __init__(self, name, age):
-        super().__init__(name, age)
-    
-    # 实现 Animal 抽象方法
-    def make_sound(self):
-        return f"{self.name}: Quack!"
-    
-    def move(self):
-        return f"{self.name} is waddling"
-    
-    # 实现 Flyable 接口
-    def fly(self):
-        return f"{self.name} is flying"
-    
-    def land(self):
-        return f"{self.name} is landing"
-    
-    # 实现 Swimmable 接口
-    def swim(self):
-        return f"{self.name} is swimming"
+ """鸭子 - 继承抽象类 + 实现多个接口"""
+
+ def __init__(self, name, age):
+ super().__init__(name, age)
+
+ # 实现 Animal 抽象方法
+ def make_sound(self):
+ return f"{self.name}: Quack!"
+
+ def move(self):
+ return f"{self.name} is waddling"
+
+ # 实现 Flyable 接口
+ def fly(self):
+ return f"{self.name} is flying"
+
+ def land(self):
+ return f"{self.name} is landing"
+
+ # 实现 Swimmable 接口
+ def swim(self):
+ return f"{self.name} is swimming"
 
 
 # 使用示例
 dog = Dog("Buddy", 3, "Golden Retriever")
-print(dog.make_sound())     # Buddy: Woof!
-print(dog.sleep())          # Buddy is sleeping (继承自抽象类)
-print(dog.move())           # Buddy is running
+print(dog.make_sound()) # Buddy: Woof!
+print(dog.sleep()) # Buddy is sleeping (继承自抽象类)
+print(dog.move()) # Buddy is running
 
 duck = Duck("Donald", 2)
-print(duck.make_sound())    # Donald: Quack!
-print(duck.fly())           # Donald is flying (实现接口)
-print(duck.swim())          # Donald is swimming (实现接口)
-print(duck.sleep())         # Donald is sleeping (继承自抽象类)
+print(duck.make_sound()) # Donald: Quack!
+print(duck.fly()) # Donald is flying (实现接口)
+print(duck.swim()) # Donald is swimming (实现接口)
+print(duck.sleep()) # Donald is sleeping (继承自抽象类)
 
 
 # 错误示例：不能实例化抽象类
-# animal = Animal("Generic", 5)  # TypeError: Can't instantiate abstract class
+# animal = Animal("Generic", 5) # TypeError: Can't instantiate abstract class
 ```
 
 **抽象类 vs 接口对比表**：
 
-| 特性           | 抽象类                           | 接口                                   |
+| 特性 | 抽象类 | 接口 |
 | -------------- | -------------------------------- | -------------------------------------- |
-| **继承数量**   | 单继承（一个父类）               | 多实现（多个接口）                     |
-| **构造函数**   | 可以有                           | 不能有                                 |
-| **成员变量**   | 可以有实例变量                   | 只能有常量（static final）             |
-| **方法实现**   | 可以有抽象和具体方法             | 主要是抽象方法（Java 8+ 可有默认方法） |
-| **访问修饰符** | 任意（public/protected/private） | 默认 public                            |
-| **设计目的**   | 代码复用，共享状态               | 定义契约，描述能力                     |
-| **关系表达**   | "is-a"（是什么）                 | "can-do"（能做什么）                   |
-| **使用场景**   | 有共同实现的类族                 | 不相关类的共同行为                     |
+| **继承数量** | 单继承（一个父类） | 多实现（多个接口） |
+| **构造函数** | 可以有 | 不能有 |
+| **成员变量** | 可以有实例变量 | 只能有常量（static final） |
+| **方法实现** | 可以有抽象和具体方法 | 主要是抽象方法（Java 8+ 可有默认方法） |
+| **访问修饰符** | 任意（public/protected/private） | 默认 public |
+| **设计目的** | 代码复用，共享状态 | 定义契约，描述能力 |
+| **关系表达** | "is-a"（是什么） | "can-do"（能做什么） |
+| **使用场景** | 有共同实现的类族 | 不相关类的共同行为 |
 
 ```mermaid
 classDiagram
-    class Animal {
-        <<abstract>>
-        -String name
-        -int age
-        +Animal(name, age)
-        +makeSound()* String
-        +move()* String
-        +sleep() String
-        +getInfo() String
-    }
-    
-    class Flyable {
-        <<interface>>
-        +fly()* void
-        +land()* void
-    }
-    
-    class Swimmable {
-        <<interface>>
-        +swim()* void
-    }
-    
-    class Dog {
-        -String breed
-        +makeSound() String
-        +move() String
-    }
-    
-    class Duck {
-        +makeSound() String
-        +move() String
-        +fly() void
-        +land() void
-        +swim() void
-    }
-    
-    Animal <|-- Dog : 继承
-    Animal <|-- Duck : 继承
-    Flyable <|.. Duck : 实现
-    Swimmable <|.. Duck : 实现
-    
-    note for Animal "抽象类：\n- 有状态(name, age)\n- 有具体方法(sleep)\n- 有抽象方法"
-    note for Flyable "接口：\n- 无状态\n- 纯行为定义\n- 可多实现"
+ class Animal {
+ <<abstract>>
+ -String name
+ -int age
+ +Animal(name, age)
+ +makeSound()* String
+ +move()* String
+ +sleep() String
+ +getInfo() String
+ }
+
+ class Flyable {
+ <<interface>>
+ +fly()* void
+ +land()* void
+ }
+
+ class Swimmable {
+ <<interface>>
+ +swim()* void
+ }
+
+ class Dog {
+ -String breed
+ +makeSound() String
+ +move() String
+ }
+
+ class Duck {
+ +makeSound() String
+ +move() String
+ +fly() void
+ +land() void
+ +swim() void
+ }
+
+ Animal <|-- Dog : 继承
+ Animal <|-- Duck : 继承
+ Flyable <|.. Duck : 实现
+ Swimmable <|.. Duck : 实现
+
+ note for Animal "抽象类：\n- 有状态(name, age)\n- 有具体方法(sleep)\n- 有抽象方法"
+ note for Flyable "接口：\n- 无状态\n- 纯行为定义\n- 可多实现"
 ```
 
 **实际应用场景**：
@@ -23820,82 +23820,82 @@ classDiagram
 ```python
 # 场景1：使用抽象类 - 共享代码和状态
 class Vehicle(ABC):
-    """交通工具抽象类 - 有共同属性和部分实现"""
-    
-    def __init__(self, brand, model, year):
-        self.brand = brand
-        self.model = model
-        self.year = year
-        self.is_running = False
-    
-    @abstractmethod
-    def start_engine(self):
-        pass
-    
-    # 通用实现
-    def get_info(self):
-        return f"{self.year} {self.brand} {self.model}"
-    
-    def stop(self):
-        self.is_running = False
-        return "Vehicle stopped"
+ """交通工具抽象类 - 有共同属性和部分实现"""
+
+ def __init__(self, brand, model, year):
+ self.brand = brand
+ self.model = model
+ self.year = year
+ self.is_running = False
+
+ @abstractmethod
+ def start_engine(self):
+ pass
+
+ # 通用实现
+ def get_info(self):
+ return f"{self.year} {self.brand} {self.model}"
+
+ def stop(self):
+ self.is_running = False
+ return "Vehicle stopped"
 
 
 # 场景2：使用接口 - 定义能力契约
 class Chargeable(ABC):
-    """可充电接口 - 不相关的类可能都需要充电"""
-    
-    @abstractmethod
-    def charge(self, hours):
-        pass
-    
-    @abstractmethod
-    def get_battery_level(self):
-        pass
+ """可充电接口 - 不相关的类可能都需要充电"""
+
+ @abstractmethod
+ def charge(self, hours):
+ pass
+
+ @abstractmethod
+ def get_battery_level(self):
+ pass
 
 
 class ElectricCar(Vehicle, Chargeable):
-    """电动车 - 继承 Vehicle + 实现 Chargeable"""
-    
-    def __init__(self, brand, model, year, battery_capacity):
-        super().__init__(brand, model, year)
-        self.battery_capacity = battery_capacity
-        self.battery_level = 100
-    
-    def start_engine(self):
-        if self.battery_level > 0:
-            self.is_running = True
-            return "Electric motor started"
-        return "Battery empty"
-    
-    def charge(self, hours):
-        self.battery_level = min(100, self.battery_level + hours * 10)
-        return f"Charged to {self.battery_level}%"
-    
-    def get_battery_level(self):
-        return self.battery_level
+ """电动车 - 继承 Vehicle + 实现 Chargeable"""
+
+ def __init__(self, brand, model, year, battery_capacity):
+ super().__init__(brand, model, year)
+ self.battery_capacity = battery_capacity
+ self.battery_level = 100
+
+ def start_engine(self):
+ if self.battery_level > 0:
+ self.is_running = True
+ return "Electric motor started"
+ return "Battery empty"
+
+ def charge(self, hours):
+ self.battery_level = min(100, self.battery_level + hours * 10)
+ return f"Charged to {self.battery_level}%"
+
+ def get_battery_level(self):
+ return self.battery_level
 
 
 class Smartphone(Chargeable):
-    """智能手机 - 只实现 Chargeable 接口"""
-    
-    def __init__(self, brand):
-        self.brand = brand
-        self.battery_level = 50
-    
-    def charge(self, hours):
-        self.battery_level = min(100, self.battery_level + hours * 20)
-        return f"{self.brand} charged to {self.battery_level}%"
-    
-    def get_battery_level(self):
-        return self.battery_level
+ """智能手机 - 只实现 Chargeable 接口"""
+
+ def __init__(self, brand):
+ self.brand = brand
+ self.battery_level = 50
+
+ def charge(self, hours):
+ self.battery_level = min(100, self.battery_level + hours * 20)
+ return f"{self.brand} charged to {self.battery_level}%"
+
+ def get_battery_level(self):
+ return self.battery_level
 
 
 # 多态使用
 def charge_devices(devices):
-    """统一充电接口 - 多态"""
-    for device in devices:
-        print(device.charge(2))
+ """统一充电接口 - 多态"""
+ for device in devices:
+ print(device.charge(2))
 
 car = ElectricCar("Tesla", "Model 3", 2024, 75)
 phone = Smartphone("iPhone")
@@ -23939,23 +23939,23 @@ charge_devices([car, phone])
 
 ```mermaid
 classDiagram
-    class A {
-        +method()
-    }
-    class B {
-        +method()
-    }
-    class C {
-        +method()
-    }
-    class D {
-        +method() ?
-    }
-    A <|-- B
-    A <|-- C
-    B <|-- D
-    C <|-- D
-    note for D "歧义：调用哪个 method()？\nB 还是 C 的版本？"
+ class A {
+ +method()
+ }
+ class B {
+ +method()
+ }
+ class C {
+ +method()
+ }
+ class D {
+ +method() ?
+ }
+ A <|-- B
+ A <|-- C
+ B <|-- D
+ C <|-- D
+ note for D "歧义：调用哪个 method()？\nB 还是 C 的版本？"
 ```
 
 ---
@@ -23968,16 +23968,16 @@ classDiagram
 
 **核心区别对比**：
 
-| 特性           | 重载 Overload              | 重写 Override               |
+| 特性 | 重载 Overload | 重写 Override |
 | -------------- | -------------------------- | --------------------------- |
-| **发生位置**   | 同一个类中                 | 父类与子类之间              |
-| **方法名**     | 相同                       | 相同                        |
-| **参数列表**   | 必须不同                   | 必须相同                    |
-| **返回类型**   | 可以不同                   | 必须相同（或协变）          |
-| **访问修饰符** | 无限制                     | 不能比父类更严格            |
-| **多态类型**   | 编译时多态                 | 运行时多态                  |
-| **绑定时机**   | 静态绑定（Static Binding） | 动态绑定（Dynamic Binding） |
-| **目的**       | 提供同一功能的多种调用方式 | 改变父类方法的具体行为      |
+| **发生位置** | 同一个类中 | 父类与子类之间 |
+| **方法名** | 相同 | 相同 |
+| **参数列表** | 必须不同 | 必须相同 |
+| **返回类型** | 可以不同 | 必须相同（或协变） |
+| **访问修饰符** | 无限制 | 不能比父类更严格 |
+| **多态类型** | 编译时多态 | 运行时多态 |
+| **绑定时机** | 静态绑定（Static Binding） | 动态绑定（Dynamic Binding） |
+| **目的** | 提供同一功能的多种调用方式 | 改变父类方法的具体行为 |
 
 > **注意**：Python 不直接支持传统意义的方法重载（同名方法会被覆盖），通常通过默认参数、可变参数（*args, **kwargs）或 `@functools.singledispatch` 装饰器实现类似效果。
 
@@ -23991,15 +23991,15 @@ classDiagram
 
 **核心区别**：
 
-| 维度              | 静态成员 Static  | 实例成员 Instance |
+| 维度 | 静态成员 Static | 实例成员 Instance |
 | ----------------- | ---------------- | ----------------- |
-| **归属**          | 类（Class）      | 对象（Object）    |
-| **存储位置**      | 方法区/静态区    | 堆内存（Heap）    |
-| **生命周期**      | 类加载到程序结束 | 对象创建到销毁    |
-| **访问方式**      | 类名.成员        | 对象.成员         |
-| **内存份数**      | 全局唯一一份     | 每个对象一份      |
-| **能否访问 this** | 不能             | 可以              |
-| **初始化时机**    | 类加载时         | 对象创建时        |
+| **归属** | 类（Class） | 对象（Object） |
+| **存储位置** | 方法区/静态区 | 堆内存（Heap） |
+| **生命周期** | 类加载到程序结束 | 对象创建到销毁 |
+| **访问方式** | 类名.成员 | 对象.成员 |
+| **内存份数** | 全局唯一一份 | 每个对象一份 |
+| **能否访问 this** | 不能 | 可以 |
+| **初始化时机** | 类加载时 | 对象创建时 |
 
 **使用场景**：
 - **静态成员**：工具类方法（如 `Math.sqrt`）、常量定义、计数器、单例模式（Singleton Pattern）、工厂方法（Factory Method）
@@ -24007,23 +24007,23 @@ classDiagram
 
 ```mermaid
 graph LR
-    subgraph 类Class["类 Class"]
-        SV[静态变量<br/>Static Variable]
-        SM[静态方法<br/>Static Method]
-    end
-    
-    subgraph 对象1["对象1 Instance 1"]
-        IV1[实例变量<br/>Instance Variable]
-        IM1[实例方法<br/>Instance Method]
-    end
-    
-    subgraph 对象2["对象2 Instance 2"]
-        IV2[实例变量<br/>Instance Variable]
-        IM2[实例方法<br/>Instance Method]
-    end
-    
-    类Class -.共享.-> 对象1
-    类Class -.共享.-> 对象2
+ subgraph 类Class["类 Class"]
+ SV[静态变量<br/>Static Variable]
+ SM[静态方法<br/>Static Method]
+ end
+
+ subgraph 对象1["对象1 Instance 1"]
+ IV1[实例变量<br/>Instance Variable]
+ IM1[实例方法<br/>Instance Method]
+ end
+
+ subgraph 对象2["对象2 Instance 2"]
+ IV2[实例变量<br/>Instance Variable]
+ IM2[实例方法<br/>Instance Method]
+ end
+
+ 类Class -.共享.-> 对象1
+ 类Class -.共享.-> 对象2
 ```
 
 ## 第 19 章 函数式核心概念
@@ -24053,35 +24053,35 @@ graph LR
 **实践原则**：将纯函数（核心业务逻辑）与不纯函数（I/O、状态管理）分离，构建"纯核心、不纯外壳"的架构（Functional Core, Imperative Shell）。
 
 ```python
-#  不纯函数：有副作用
+# 不纯函数：有副作用
 counter = 0
 
 def add_impure(a, b):
-    global counter
-    counter += 1              # 副作用1：修改全局变量
-    print(f"计算: {a}+{b}")    # 副作用2：I/O 输出
-    return a + b
+ global counter
+ counter += 1 # 副作用1：修改全局变量
+ print(f"计算: {a}+{b}") # 副作用2：I/O 输出
+ return a + b
 
 def append_item(lst, item):
-    lst.append(item)          # 副作用：修改传入参数
-    return lst
+ lst.append(item) # 副作用：修改传入参数
+ return lst
 
 
-#  纯函数：无副作用
+# 纯函数：无副作用
 def add_pure(a, b):
-    return a + b              # 相同输入永远返回相同输出
+ return a + b # 相同输入永远返回相同输出
 
 def append_item_pure(lst, item):
-    return [*lst, item]       # 返回新列表，不修改原列表
+ return [*lst, item] # 返回新列表，不修改原列表
 
 # 测试引用透明性
-print(add_pure(2, 3))         # 5
-print(add_pure(2, 3))         # 5（永远相同）
+print(add_pure(2, 3)) # 5
+print(add_pure(2, 3)) # 5（永远相同）
 
 original = [1, 2, 3]
 new_list = append_item_pure(original, 4)
-print(original)               # [1, 2, 3]（未被修改）
-print(new_list)               # [1, 2, 3, 4]
+print(original) # [1, 2, 3]（未被修改）
+print(new_list) # [1, 2, 3, 4]
 ```
 
 ### 19.2 不可变性（Immutability）
@@ -24110,29 +24110,29 @@ print(new_list)               # [1, 2, 3, 4]
 ```python
 from dataclasses import dataclass, replace
 
-#  可变方式：原地修改，容易出 bug
+# 可变方式：原地修改，容易出 bug
 class PointMutable:
-    def __init__(self, x, y):
-        self.x = x
-        self.y = y
+ def __init__(self, x, y):
+ self.x = x
+ self.y = y
 
 p1 = PointMutable(1, 2)
-p2 = p1                  # 共享引用
-p2.x = 100               # 意外修改了 p1
-print(p1.x)              # 100（被污染）
+p2 = p1 # 共享引用
+p2.x = 100 # 意外修改了 p1
+print(p1.x) # 100（被污染）
 
 
-#  不可变方式：使用 frozen dataclass
+# 不可变方式：使用 frozen dataclass
 @dataclass(frozen=True)
 class Point:
-    x: int
-    y: int
+ x: int
+ y: int
 
 p1 = Point(1, 2)
-# p1.x = 100             # 报错：FrozenInstanceError
-p2 = replace(p1, x=100)  # 创建新对象，原对象不变
-print(p1)                # Point(x=1, y=2)
-print(p2)                # Point(x=100, y=2)
+# p1.x = 100 # 报错：FrozenInstanceError
+p2 = replace(p1, x=100) # 创建新对象，原对象不变
+print(p1) # Point(x=1, y=2)
+print(p2) # Point(x=100, y=2)
 ```
 
 ---
@@ -24167,29 +24167,29 @@ from functools import reduce
 
 # 1. 接受函数作为参数
 nums = [1, 2, 3, 4, 5]
-squared = list(map(lambda x: x ** 2, nums))      # [1, 4, 9, 16, 25]
+squared = list(map(lambda x: x ** 2, nums)) # [1, 4, 9, 16, 25]
 evens = list(filter(lambda x: x % 2 == 0, nums)) # [2, 4]
-total = reduce(lambda a, b: a + b, nums)         # 15
+total = reduce(lambda a, b: a + b, nums) # 15
 
 # 2. 返回函数作为结果（闭包 + 柯里化）
 def multiplier(factor):
-    def multiply(x):
-        return x * factor
-    return multiply
+ def multiply(x):
+ return x * factor
+ return multiply
 
 double = multiplier(2)
 triple = multiplier(3)
-print(double(5))    # 10
-print(triple(5))    # 15
+print(double(5)) # 10
+print(triple(5)) # 15
 
 # 3. 函数组合
 def compose(f, g):
-    return lambda x: f(g(x))
+ return lambda x: f(g(x))
 
 add_one = lambda x: x + 1
 square = lambda x: x ** 2
 square_then_add = compose(add_one, square)
-print(square_then_add(3))  # 10 (3² + 1)
+print(square_then_add(3)) # 10 (3² + 1)
 ```
 
 ### 19.4 Lambda 与匿名函数（Lambda & Anonymous Functions）
@@ -24215,8 +24215,8 @@ lambda 参数列表: 表达式
 - 简短的函数式数据转换
 
 **使用建议（PEP 8）**：
-- ✅ 适合：逻辑简单（一行能表达）、临时性、提升代码可读性
-- ❌ 不适合：逻辑复杂、需要复用、需要文档字符串（Docstring）。此时应使用 `def` 定义具名函数
+- 适合：逻辑简单（一行能表达）、临时性、提升代码可读性
+- 不适合：逻辑复杂、需要复用、需要文档字符串（Docstring）。此时应使用 `def` 定义具名函数
 - 不要将 lambda 赋值给变量——这违背了匿名的初衷，应直接用 `def`
 
 **Lambda vs def**：
@@ -24232,21 +24232,21 @@ lambda 参数列表: 表达式
 ```python
 # 1. 配合高阶函数使用
 nums = [1, 2, 3, 4, 5]
-print(list(map(lambda x: x * 2, nums)))      # [2, 4, 6, 8, 10]
+print(list(map(lambda x: x * 2, nums))) # [2, 4, 6, 8, 10]
 
 # 2. 自定义排序 key
 students = [("Alice", 85), ("Bob", 72), ("Carol", 91)]
 students.sort(key=lambda s: s[1], reverse=True)
-print(students)  # [('Carol', 91), ('Alice', 85), ('Bob', 72)]
+print(students) # [('Carol', 91), ('Alice', 85), ('Bob', 72)]
 
 # 3. 三元表达式
 abs_val = lambda x: x if x >= 0 else -x
-print(abs_val(-7))  # 7
+print(abs_val(-7)) # 7
 
 # 4. 作为返回值
 make_adder = lambda n: lambda x: x + n
 add5 = make_adder(5)
-print(add5(10))  # 15
+print(add5(10)) # 15
 ```
 
 ---
@@ -24280,35 +24280,35 @@ print(add5(10))  # 15
 ```python
 # 1. 基本闭包：计数器（数据封装）
 def make_counter():
-    count = 0                    # 自由变量
-    def counter():
-        nonlocal count           # 声明修改外层变量
-        count += 1
-        return count
-    return counter
+ count = 0 # 自由变量
+ def counter():
+ nonlocal count # 声明修改外层变量
+ count += 1
+ return count
+ return counter
 
 c = make_counter()
-print(c(), c(), c())             # 1 2 3
+print(c(), c(), c()) # 1 2 3
 # count 无法从外部访问，实现了数据隐藏
 
 
 # 2. 工厂函数：生成定制化函数
 def power_of(n):
-    def power(x):
-        return x ** n            # 捕获外部的 n
-    return power
+ def power(x):
+ return x ** n # 捕获外部的 n
+ return power
 
 square = power_of(2)
 cube = power_of(3)
-print(square(5), cube(5))        # 25 125
+print(square(5), cube(5)) # 25 125
 
 
 # 3. 循环闭包陷阱
 funcs_bad = [lambda: i for i in range(3)]
-print([f() for f in funcs_bad])  # [2, 2, 2]  都引用最终的 i
+print([f() for f in funcs_bad]) # [2, 2, 2] 都引用最终的 i
 
-funcs_good = [lambda i=i: i for i in range(3)]  # 默认参数立即绑定
-print([f() for f in funcs_good]) # [0, 1, 2] 
+funcs_good = [lambda i=i: i for i in range(3)] # 默认参数立即绑定
+print([f() for f in funcs_good]) # [0, 1, 2]
 ```
 ### 19.6 柯里化（Currying）与偏函数（Partial Application）
 
@@ -24344,34 +24344,34 @@ from functools import partial
 
 # 1. 手动柯里化
 def curry_add(a):
-    def inner1(b):
-        def inner2(c):
-            return a + b + c
-        return inner2
-    return inner1
+ def inner1(b):
+ def inner2(c):
+ return a + b + c
+ return inner2
+ return inner1
 
-print(curry_add(1)(2)(3))         # 6
+print(curry_add(1)(2)(3)) # 6
 
 # 2. 用 lambda 简洁实现
 curry_mul = lambda a: lambda b: lambda c: a * b * c
-print(curry_mul(2)(3)(4))         # 24
+print(curry_mul(2)(3)(4)) # 24
 
 # 3. 偏函数应用：从通用函数派生专用函数
 def power(base, exp):
-    return base ** exp
+ return base ** exp
 
-square = partial(power, exp=2)    # 固定 exp=2
+square = partial(power, exp=2) # 固定 exp=2
 cube = partial(power, exp=3)
-print(square(5), cube(5))         # 25 125
+print(square(5), cube(5)) # 25 125
 
 # 4. 实用场景：日志函数定制
 def log(level, message):
-    print(f"[{level}] {message}")
+ print(f"[{level}] {message}")
 
 info = partial(log, "INFO")
 error = partial(log, "ERROR")
-info("服务启动")                   # [INFO] 服务启动
-error("连接失败")                  # [ERROR] 连接失败
+info("服务启动") # [INFO] 服务启动
+error("连接失败") # [ERROR] 连接失败
 ```
 
 ---
@@ -24406,17 +24406,17 @@ from functools import reduce
 
 # 1. 基础二元组合
 def compose(f, g):
-    return lambda x: f(g(x))      # 从右到左
+ return lambda x: f(g(x)) # 从右到左
 
 def pipe(f, g):
-    return lambda x: g(f(x))      # 从左到右
+ return lambda x: g(f(x)) # 从左到右
 
 # 2. 多函数组合（变长参数）
 def compose_all(*funcs):
-    return reduce(lambda f, g: lambda x: f(g(x)), funcs)
+ return reduce(lambda f, g: lambda x: f(g(x)), funcs)
 
 def pipe_all(*funcs):
-    return reduce(lambda f, g: lambda x: g(f(x)), funcs)
+ return reduce(lambda f, g: lambda x: g(f(x)), funcs)
 
 # 3. 构建数据处理管道
 strip_str = lambda s: s.strip()
@@ -24425,7 +24425,7 @@ replace_space = lambda s: s.replace(" ", "-")
 
 # 处理流程：去空格 → 转小写 → 替换空格为短横线
 slugify = pipe_all(strip_str, to_lower, replace_space)
-print(slugify("  Hello World Python  "))  # hello-world-python
+print(slugify(" Hello World Python ")) # hello-world-python
 
 # 4. 数学函数组合
 add_one = lambda x: x + 1
@@ -24434,7 +24434,7 @@ square = lambda x: x ** 2
 
 # (x+1) → ×2 → 平方
 f = pipe_all(add_one, double, square)
-print(f(3))                       # ((3+1)*2)² = 64
+print(f(3)) # ((3+1)*2)² = 64
 ```
 
 ### 19.8 map / filter / reduce
@@ -24484,26 +24484,26 @@ nums = [1, 2, 3, 4, 5]
 
 # 1. map：每个元素平方
 squared = list(map(lambda x: x ** 2, nums))
-print(squared)                    # [1, 4, 9, 16, 25]
+print(squared) # [1, 4, 9, 16, 25]
 
 # 2. filter：保留偶数
 evens = list(filter(lambda x: x % 2 == 0, nums))
-print(evens)                      # [2, 4]
+print(evens) # [2, 4]
 
 # 3. reduce：求和（带初始值）
 total = reduce(lambda a, b: a + b, nums, 0)
-print(total)                      # 15
+print(total) # 15
 
 # 4. 组合使用：偶数平方和
 result = reduce(
-    lambda a, b: a + b,
-    map(lambda x: x ** 2, filter(lambda x: x % 2 == 0, nums))
+ lambda a, b: a + b,
+ map(lambda x: x ** 2, filter(lambda x: x % 2 == 0, nums))
 )
-print(result)                     # 4 + 16 = 20
+print(result) # 4 + 16 = 20
 
 # 5. Pythonic 替代写法（更推荐）
 result2 = sum(x ** 2 for x in nums if x % 2 == 0)
-print(result2)                    # 20
+print(result2) # 20
 ```
 
 ---
@@ -24551,33 +24551,33 @@ import itertools
 
 # 1. 生成器：惰性产出无限自然数
 def naturals():
-    n = 1
-    while True:                   # 无限循环，但不会卡死
-        yield n
-        n += 1
+ n = 1
+ while True: # 无限循环，但不会卡死
+ yield n
+ n += 1
 
 # 2. 惰性管道：取前 5 个偶数的平方
 result = list(itertools.islice(
-    (x ** 2 for x in naturals() if x % 2 == 0),
-    5
+ (x ** 2 for x in naturals() if x % 2 == 0),
+ 5
 ))
-print(result)                     # [4, 16, 36, 64, 100]
+print(result) # [4, 16, 36, 64, 100]
 
 # 3. 内存对比：处理大数据
-# eager = [x ** 2 for x in range(10**8)]   #  占用大量内存
-lazy = (x ** 2 for x in range(10**8))      #  几乎不占内存
-print(next(lazy), next(lazy))     # 0 1（按需计算）
+# eager = [x ** 2 for x in range(10**8)] # 占用大量内存
+lazy = (x ** 2 for x in range(10**8)) # 几乎不占内存
+print(next(lazy), next(lazy)) # 0 1（按需计算）
 
 # 4. takewhile：满足条件就继续，否则停止
 nums = itertools.takewhile(lambda x: x < 10, naturals())
-print(list(nums))                 # [1, 2, 3, 4, 5, 6, 7, 8, 9]
+print(list(nums)) # [1, 2, 3, 4, 5, 6, 7, 8, 9]
 
 # 5. 短路求值（逻辑运算）
 def expensive():
-    print("被调用了")
-    return True
+ print("被调用了")
+ return True
 
-print(True or expensive())        # True（不会调用 expensive）
+print(True or expensive()) # True（不会调用 expensive）
 ```
 
 # 第六部分 函数与数学性质
@@ -24609,18 +24609,18 @@ $$y = f(x), \quad x \in A$$
 **函数的映射图示**：
 
 ```
-集合 A (定义域)          集合 B (陪域)
-    ┌───┐                  ┌───┐
-    │ 1 │────────────────→ │ 2 │
-    ├───┤                  ├───┤
-    │ 2 │────────────────→ │ 4 │
-    ├───┤        f         ├───┤
-    │ 3 │────────────────→ │ 6 │
-    ├───┤                  ├───┤
-    │ 4 │────────────────→ │ 8 │
-    └───┘                  └───┘
-    
-    每个 x 对应唯一的 y
+集合 A (定义域) 集合 B (陪域)
+ ┌───┐ ┌───┐
+ │ 1 │────────────────→ │ 2 │
+ ├───┤ ├───┤
+ │ 2 │────────────────→ │ 4 │
+ ├───┤ f ├───┤
+ │ 3 │────────────────→ │ 6 │
+ ├───┤ ├───┤
+ │ 4 │────────────────→ │ 8 │
+ └───┘ └───┘
+
+ 每个 x 对应唯一的 y
 ```
 
 ---
@@ -24637,9 +24637,9 @@ $$f(x) = \frac{1}{x-2} \quad \Rightarrow \quad D_f = \{x \in \mathbb{R} \mid x \
 
 ```
 数轴表示：
-    ←─────────○═════════→
-           x=2 (空心圆表示不包含)
-    定义域：(-∞, 2) ∪ (2, +∞)
+ ←─────────○═════════→
+ x=2 (空心圆表示不包含)
+ 定义域：(-∞, 2) ∪ (2, +∞)
 ```
 
 **2. 偶次根式**：被开方数非负
@@ -24648,9 +24648,9 @@ $$f(x) = \sqrt{x-1} \quad \Rightarrow \quad x - 1 \geq 0 \quad \Rightarrow \quad
 
 ```
 数轴表示：
-    ←─────────●═════════→
-           x=1 (实心圆表示包含)
-    定义域：[1, +∞)
+ ←─────────●═════════→
+ x=1 (实心圆表示包含)
+ 定义域：[1, +∞)
 ```
 
 **3. 对数函数**：真数大于零
@@ -24659,9 +24659,9 @@ $$f(x) = \ln(x+3) \quad \Rightarrow \quad x + 3 > 0 \quad \Rightarrow \quad D_f 
 
 ```
 数轴表示：
-    ←─────────○═════════→
-          x=-3 (空心圆)
-    定义域：(-3, +∞)
+ ←─────────○═════════→
+ x=-3 (空心圆)
+ 定义域：(-3, +∞)
 ```
 
 **4. 三角函数**：
@@ -24674,17 +24674,17 @@ $$f(x) = \frac{\sqrt{x-1}}{\ln x} \quad \Rightarrow \quad \begin{cases} x - 1 \g
 
 ```
 条件分析：
-    x-1≥0:  ←─────●═════════→  [1, +∞)
-                x=1
-    
-    x>0:    ←─────○═════════→  (0, +∞)
-                x=0
-    
-    x≠1:    ←═════○═════════→  (-∞,1)∪(1,+∞)
-                x=1
-    
-    交集：  ←─────○═════════→  (1, +∞)
-                x=1
+ x-1≥0: ←─────●═════════→ [1, +∞)
+ x=1
+
+ x>0: ←─────○═════════→ (0, +∞)
+ x=0
+
+ x≠1: ←═════○═════════→ (-∞,1)∪(1,+∞)
+ x=1
+
+ 交集： ←─────○═════════→ (1, +∞)
+ x=1
 ```
 
 ---
@@ -24698,16 +24698,16 @@ $$R_f = \{y \in \mathbb{R} \mid y = f(x), \, x \in D_f\}$$
 **定义域与值域的关系图示**：
 
 ```
-    定义域 Df              值域 Rf
-    ┌─────────┐          ┌─────────┐
-    │    x    │    f     │    y    │
-    │  ●──────┼─────────→│──●      │
-    │  ●──────┼─────────→│──●      │
-    │  ●──────┼─────────→│──●      │
-    │  ●──────┼─────────→│──●      │
-    └─────────┘          └─────────┘
-    
-    注意：值域 Rf ⊆ 陪域 B
+ 定义域 Df 值域 Rf
+ ┌─────────┐ ┌─────────┐
+ │ x │ f │ y │
+ │ ●──────┼─────────→│──● │
+ │ ●──────┼─────────→│──● │
+ │ ●──────┼─────────→│──● │
+ │ ●──────┼─────────→│──● │
+ └─────────┘ └─────────┘
+
+ 注意：值域 Rf ⊆ 陪域 B
 ```
 
 ---
@@ -24731,22 +24731,22 @@ $$R_f = [1, +\infty)$$
 **函数图像**：
 
 ```
-        y
-        │
-      9 │         ╱│╲
-      8 │        ╱ │ ╲
-      7 │       ╱  │  ╲
-      6 │      ╱   │   ╲
-      5 │     ╱    │    ╲
-      4 │    ╱     │     ╲
-      3 │   ╱      │      ╲
-      2 │  ╱       │       ╲
-      1 │─────────●─────────  ← 顶点 (2,1) 最小值
-        └─────────┼─────────── x
-        0    1    2    3    4
-        
-    开口向上的抛物线
-    值域：[1, +∞)
+ y
+ │
+ 9 │ ╱│╲
+ 8 │ ╱ │ ╲
+ 7 │ ╱ │ ╲
+ 6 │ ╱ │ ╲
+ 5 │ ╱ │ ╲
+ 4 │ ╱ │ ╲
+ 3 │ ╱ │ ╲
+ 2 │ ╱ │ ╲
+ 1 │─────────●───────── ← 顶点 (2,1) 最小值
+ └─────────┼─────────── x
+ 0 1 2 3 4
+
+ 开口向上的抛物线
+ 值域：[1, +∞)
 ```
 
 ---
@@ -24774,17 +24774,17 @@ $$\Rightarrow \quad -\frac{1}{2} \leq y \leq \frac{1}{2}$$
 **函数图像**：
 
 ```
-        y
-      1 │
-    1/2 │─────────────────  ← 上界
-        │      ╱─╲
-        │     ╱   ╲
-    ────┼────●─────●──── x
-        │   ╱       ╲
-   -1/2 │─────────────────  ← 下界
-     -1 │
-        
-    有界函数，值域：[-1/2, 1/2]
+ y
+ 1 │
+ 1/2 │───────────────── ← 上界
+ │ ╱─╲
+ │ ╱ ╲
+ ────┼────●─────●──── x
+ │ ╱ ╲
+ -1/2 │───────────────── ← 下界
+ -1 │
+
+ 有界函数，值域：[-1/2, 1/2]
 ```
 
 ---
@@ -24804,19 +24804,19 @@ $$R_f = [2^0, 2^3] = [1, 8]$$
 **单调性图示**：
 
 ```
-        y
-      8 │              ●  ← f(3)=8
-        │            ╱
-      6 │          ╱
-        │        ╱
-      4 │      ╱
-        │    ╱
-      2 │  ╱
-      1 │●────────────────  ← f(0)=1
-        └─────────────────── x
-        0    1    2    3
-        
-    单调递增 ⇒ 值域 = [f(a), f(b)]
+ y
+ 8 │ ● ← f(3)=8
+ │ ╱
+ 6 │ ╱
+ │ ╱
+ 4 │ ╱
+ │ ╱
+ 2 │ ╱
+ 1 │●──────────────── ← f(0)=1
+ └─────────────────── x
+ 0 1 2 3
+
+ 单调递增 ⇒ 值域 = [f(a), f(b)]
 ```
 
 ---
@@ -24836,18 +24836,18 @@ $$R_f = [1, +\infty)$$
 **换元后的图像**：
 
 ```
-        y
-        │
-      5 │           ╱
-        │          ╱
-      3 │        ╱
-        │      ╱
-      1 │●────╱────────  ← t=0 时 y=1
-        └─────────────── t
-        0    1    2
-        
-    新函数 y=t²+t+1 (t≥0)
-    最小值在 t=0 处
+ y
+ │
+ 5 │ ╱
+ │ ╱
+ 3 │ ╱
+ │ ╱
+ 1 │●────╱──────── ← t=0 时 y=1
+ └─────────────── t
+ 0 1 2
+
+ 新函数 y=t²+t+1 (t≥0)
+ 最小值在 t=0 处
 ```
 
 ---
@@ -24875,17 +24875,17 @@ $$R_f = [-2, 2]$$
 **导数分析图**：
 
 ```
-        y
-      2 │  ●           ●  ← 极大值和端点
-        │ ╱ ╲         ╱
-      0 │╱   ╲       ╱
-        │     ╲     ╱
-     -2 │──────●───●────  ← 极小值和端点
-        └─────────────── x
-       -2  -1  0  1  2
-       
-    f'(x): + + 0 - - 0 + +
-           ↗ ↗   ↘ ↘   ↗ ↗
+ y
+ 2 │ ● ● ← 极大值和端点
+ │ ╱ ╲ ╱
+ 0 │╱ ╲ ╱
+ │ ╲ ╱
+ -2 │──────●───●──── ← 极小值和端点
+ └─────────────── x
+ -2 -1 0 1 2
+
+ f'(x): + + 0 - - 0 + +
+      
 ```
 
 ---
@@ -24895,13 +24895,13 @@ $$R_f = [-2, 2]$$
 函数由三个要素唯一确定：
 
 ```
-    ┌──────────────────────┐
-    │   函数的三要素        │
-    ├──────────────────────┤
-    │ 1. 定义域 Df         │
-    │ 2. 对应法则 f        │
-    │ 3. 值域 Rf (由1,2决定)│
-    └──────────────────────┘
+ ┌──────────────────────┐
+ │ 函数的三要素 │
+ ├──────────────────────┤
+ │ 1. 定义域 Df │
+ │ 2. 对应法则 f │
+ │ 3. 值域 Rf (由1,2决定)│
+ └──────────────────────┘
 ```
 
 **判断两个函数是否相同**：
@@ -24923,15 +24923,15 @@ $$f(x) = x \quad \text{与} \quad g(x) = \frac{x^2}{x}$$
 **图像对比**：
 
 ```
-f(x) = x                g(x) = x²/x
-    y                       y
-    │  ╱                    │  ╱
-    │ ╱                     │ ╱  ○  ← x=0处有断点
-────┼╱──── x            ────┼╱──── x
-   ╱│                      ╱│
-  ╱ │                     ╱ │
+f(x) = x g(x) = x²/x
+ y y
+ │ ╱ │ ╱
+ │ ╱ │ ╱ ○ ← x=0处有断点
+────┼╱──── x ────┼╱──── x
+ ╱│ ╱│
+ ╱ │ ╱ │
 
-连续直线              x=0处不连续
+连续直线 x=0处不连续
 ```
 
 ---
@@ -24947,103 +24947,103 @@ $$\text{Graph}(f) = \{(x, y) \mid y = f(x), \, x \in D_f\}$$
 **1. 一次函数** $f(x) = kx + b$
 
 ```
-k > 0 (递增)          k < 0 (递减)
-    y                     y
-    │    ╱                │╲
-    │   ╱                 │ ╲
-    │  ╱                  │  ╲
-    │ ╱                   │   ╲
-────┼╱──── x          ────┼────╲── x
-   ╱│                     │     ╲
-  ╱ │                     │      ╲
+k > 0 (递增) k < 0 (递减)
+ y y
+ │ ╱ │╲
+ │ ╱ │ ╲
+ │ ╱ │ ╲
+ │ ╱ │ ╲
+────┼╱──── x ────┼────╲── x
+ ╱│ │ ╲
+ ╱ │ │ ╲
 ```
 
 **2. 二次函数** $f(x) = ax^2 + bx + c$
 
 ```
-a > 0 (开口向上)      a < 0 (开口向下)
-    y                     y
-    │   ╱─╲               │╲     ╱
-    │  ╱   ╲              │ ╲   ╱
-    │ ╱     ╲             │  ╲ ╱
-────┼●───────●── x    ────┼───●──── x
-    │顶点(最小)           │  顶点(最大)
+a > 0 (开口向上) a < 0 (开口向下)
+ y y
+ │ ╱─╲ │╲ ╱
+ │ ╱ ╲ │ ╲ ╱
+ │ ╱ ╲ │ ╲ ╱
+────┼●───────●── x ────┼───●──── x
+ │顶点(最小) │ 顶点(最大)
 ```
 
 **3. 反比例函数** $f(x) = \frac{k}{x}$
 
 ```
-k > 0                 k < 0
-    y                     y
- ╱  │                     │  ╲
-╱   │                     │   ╲
-────┼──── x           ────┼──── x
-    │   ╲               ╱ │
-    │    ╲             ╱  │
-    
-双曲线，两支          双曲线，两支
+k > 0 k < 0
+ y y
+ ╱ │ │ ╲
+╱ │ │ ╲
+────┼──── x ────┼──── x
+ │ ╲ ╱ │
+ │ ╲ ╱ │
+
+双曲线，两支 双曲线，两支
 ```
 
 **4. 指数函数** $f(x) = a^x$
 
 ```
-a > 1 (递增)          0 < a < 1 (递减)
-    y                     y
-    │      ╱              │╲
-    │    ╱                │ ╲
-    │  ╱                  │  ╲
-  1 │●╱────────        1 │───●╲────
-    │╱                    │    ╲
-────┼──────── x       ────┼─────╲── x
-    0                     0      ╲
-    
-过点(0,1)             过点(0,1)
-y>0恒成立             y>0恒成立
+a > 1 (递增) 0 < a < 1 (递减)
+ y y
+ │ ╱ │╲
+ │ ╱ │ ╲
+ │ ╱ │ ╲
+ 1 │●╱──────── 1 │───●╲────
+ │╱ │ ╲
+────┼──────── x ────┼─────╲── x
+ 0 0 ╲
+
+过点(0,1) 过点(0,1)
+y>0恒成立 y>0恒成立
 ```
 
 **5. 对数函数** $f(x) = \log_a x$
 
 ```
-a > 1 (递增)          0 < a < 1 (递减)
-    y                     y
-    │                     │
-    │  ╱                  │    ╲
-    │ ╱                   │     ╲
-────●╱──── x          ────●──────╲── x
-   ╱│                     │       ╲
-  ╱ │                     │
- 1  0                   1 0
- 
-过点(1,0)             过点(1,0)
-定义域x>0             定义域x>0
+a > 1 (递增) 0 < a < 1 (递减)
+ y y
+ │ │
+ │ ╱ │ ╲
+ │ ╱ │ ╲
+────●╱──── x ────●──────╲── x
+ ╱│ │ ╲
+ ╱ │ │
+ 1 0 1 0
+
+过点(1,0) 过点(1,0)
+定义域x>0 定义域x>0
 ```
 
 **6. 三角函数**
 
 ```
-y = sin x                y = cos x
-    y                        y
-  1 │ ╱╲  ╱╲  ╱           1 │╲  ╱╲  ╱╲
-    │╱  ╲╱  ╲╱             │ ╲╱  ╲╱  ╲
-────┼────────── x       ────┼────────── x
- -1 │                    -1 │
-    0  π  2π                0  π  2π
-    
-周期2π                  周期2π
-值域[-1,1]              值域[-1,1]
+y = sin x y = cos x
+ y y
+ 1 │ ╱╲ ╱╲ ╱ 1 │╲ ╱╲ ╱╲
+ │╱ ╲╱ ╲╱ │ ╲╱ ╲╱ ╲
+────┼────────── x ────┼────────── x
+ -1 │ -1 │
+ 0 π 2π 0 π 2π
+
+周期2π 周期2π
+值域[-1,1] 值域[-1,1]
 
 
 y = tan x
-    y
-    │    │    │
-    │   ╱│   ╱│
-    │  ╱ │  ╱ │
+ y
+ │ │ │
+ │ ╱│ ╱│
+ │ ╱ │ ╱ │
 ────┼─╱──┼─╱──┼── x
-   ╱│    │    │
-  ╱ │    │    │
-    │    │    │
-   -π/2  0  π/2  π
-   
+ ╱│ │ │
+ ╱ │ │ │
+ │ │ │
+ -π/2 0 π/2 π
+
 周期π，有渐近线
 x ≠ π/2 + kπ
 ```
@@ -25051,13 +25051,13 @@ x ≠ π/2 + kπ
 **7. 绝对值函数** $f(x) = |x|$
 
 ```
-    y
-    │  ╱│╲
-    │ ╱ │ ╲
-    │╱  │  ╲
+ y
+ │ ╱│╲
+ │ ╱ │ ╲
+ │╱ │ ╲
 ────●───┼───●── x
-    0   │
-    
+ 0 │
+
 V字形图像
 偶函数，关于y轴对称
 值域[0,+∞)
@@ -25066,16 +25066,16 @@ V字形图像
 **8. 分段函数示例** $f(x) = \begin{cases} x^2, & x < 0 \\ x, & x \geq 0 \end{cases}$
 
 ```
-    y
-    │    ╱
-    │   ╱
-    │  ╱
+ y
+ │ ╱
+ │ ╱
+ │ ╱
 ────●╱──── x
-   ╱│
-  ╱ │
- ╱  │
-╱   0
-    
+ ╱│
+ ╱ │
+ ╱ │
+╱ 0
+
 左侧抛物线，右侧直线
 在x=0处连续
 ```
@@ -25104,19 +25104,19 @@ x > -1
 
 ```
 条件1: 4-x²≥0
-    ←───●═══════●───→
-      -2       2
-    [-2, 2]
+ ←───●═══════●───→
+ -2 2
+ [-2, 2]
 
 条件2: x+1>0
-    ←───○═══════════→
-      -1
-    (-1, +∞)
+ ←───○═══════════→
+ -1
+ (-1, +∞)
 
 交集：
-    ←───○═══════●───→
-      -1       2
-    (-1, 2]
+ ←───○═══════●───→
+ -1 2
+ (-1, 2]
 ```
 
 ---
@@ -25140,15 +25140,15 @@ $$R_f = [-\sqrt{2}, \sqrt{2}]$$
 **图像分析**：
 
 ```
-    y
- √2 │─────╱╲─────╱╲─────  ← 最大值
-    │    ╱  ╲   ╱  ╲
-  0 │───╱────╲─╱────╲───  ← 零点
-    │  ╱      ╲      ╲
--√2 │─╱────────╲──────╲─  ← 最小值
-    └──────────────────── x
-    0   π/2   π   3π/2  2π
-    
+ y
+ √2 │─────╱╲─────╱╲───── ← 最大值
+ │ ╱ ╲ ╱ ╲
+ 0 │───╱────╲─╱────╲─── ← 零点
+ │ ╱ ╲ ╲
+-√2 │─╱────────╲──────╲─ ← 最小值
+ └──────────────────── x
+ 0 π/2 π 3π/2 2π
+
 振幅为√2的正弦波
 ```
 
@@ -25207,17 +25207,17 @@ $$f(x) = 2 - \frac{3}{x+1} \in \left[2-3, 2-\frac{3}{4}\right] = \left[-1, \frac
 **图像**：
 
 ```
-    y
-5/4 │──────────●  ← f(3)
-    │        ╱
-  1 │      ╱
-    │    ╱
-  0 │  ╱
-    │╱
- -1 │●──────────  ← f(0)
-    └──────────── x
-    0    1    2    3
-    
+ y
+5/4 │──────────● ← f(3)
+ │ ╱
+ 1 │ ╱
+ │ ╱
+ 0 │ ╱
+ │╱
+ -1 │●────────── ← f(0)
+ └──────────── x
+ 0 1 2 3
+
 单调递增函数
 ```
 
@@ -25241,15 +25241,15 @@ $$R_f = [0, +\infty)$$
 **换元图像**：
 
 ```
-    y
-    │        ╱
-  4 │      ╱
-    │    ╱
-  1 │  ╱
-    │●╱────────  ← t=1时y=0
+ y
+ │ ╱
+ 4 │ ╱
+ │ ╱
+ 1 │ ╱
+ │●╱──────── ← t=1时y=0
 ────┼──────────── t
-    0    1    2
-    
+ 0 1 2
+
 y = (t-1)² (t≥0)
 顶点在t=1处
 ```
@@ -25270,14 +25270,14 @@ y = (t-1)² (t≥0)
 **求值域的方法总结**：
 ```
 ┌─────────────────────────────────┐
-│        求值域的6种方法           │
+│ 求值域的6种方法 │
 ├─────────────────────────────────┤
-│ 1. 直接法    → 简单函数直接观察  │
-│ 2. 配方法    → 二次函数          │
-│ 3. 判别式法  → 分式函数          │
-│ 4. 单调性法  → 单调函数          │
-│ 5. 换元法    → 复合根式          │
-│ 6. 导数法    → 复杂函数          │
+│ 1. 直接法 → 简单函数直接观察 │
+│ 2. 配方法 → 二次函数 │
+│ 3. 判别式法 → 分式函数 │
+│ 4. 单调性法 → 单调函数 │
+│ 5. 换元法 → 复合根式 │
+│ 6. 导数法 → 复杂函数 │
 └─────────────────────────────────┘
 ```
 
@@ -25311,31 +25311,31 @@ $$f(x_1) = f(x_2) \Rightarrow x_1 = x_2$$
 
 ```
 单射示例：
-集合 A              集合 B
-  ┌───┐              ┌───┐
-  │ 1 │────────────→ │ 2 │
-  ├───┤              ├───┤
-  │ 2 │────────────→ │ 4 │
-  ├───┤              ├───┤
-  │ 3 │────────────→ │ 6 │
-  └───┘              ├───┤
-                     │ 8 │ ← 没有被映射到
-                     └───┘
+集合 A 集合 B
+ ┌───┐ ┌───┐
+ │ 1 │────────────→ │ 2 │
+ ├───┤ ├───┤
+ │ 2 │────────────→ │ 4 │
+ ├───┤ ├───┤
+ │ 3 │────────────→ │ 6 │
+ └───┘ ├───┤
+ │ 8 │ ← 没有被映射到
+ └───┘
 
 特点：不同的x对应不同的y
-     B中可以有元素不被映射到
+ B中可以有元素不被映射到
 ```
 
 **非单射示例**：
 
 ```
-集合 A              集合 B
-  ┌───┐              ┌───┐
-  │ 1 │────────────→ │ 2 │
-  ├───┤        ┌───→ ├───┤
-  │ 2 │────────┘     │ 4 │ ← 两个元素映射到同一个
-  ├───┤        └───→ └───┘
-  │ 3 │────────┘
+集合 A 集合 B
+ ┌───┐ ┌───┐
+ │ 1 │────────────→ │ 2 │
+ ├───┤ ┌───→ ├───┤
+ │ 2 │────────┘ │ 4 │ ← 两个元素映射到同一个
+ ├───┤ └───→ └───┘
+ │ 3 │────────┘
 
 不是单射：f(2)=f(3)=4
 ```
@@ -25347,15 +25347,15 @@ $$f(x_1) = f(x_2) \Rightarrow x_1 = x_2$$
 **方法2（水平线测试）**：任意水平线与函数图像**至多交于一点**
 
 ```
-单射函数：              非单射函数：
-    y                      y
-    │    ╱                 │   ╱─╲
-────┼───╱── ← 水平线   ────┼──╱───╲── ← 水平线
-    │  ╱    只交1点        │ ╱     ╲   交2点
-    │ ╱                    │╱       ╲
-────┼╱──── x           ────┼─────────── x
-    
-y=2x (单射)            y=x² (非单射)
+单射函数： 非单射函数：
+ y y
+ │ ╱ │ ╱─╲
+────┼───╱── ← 水平线 ────┼──╱───╲── ← 水平线
+ │ ╱ 只交1点 │ ╱ ╲ 交2点
+ │ ╱ │╱ ╲
+────┼╱──── x ────┼─────────── x
+
+y=2x (单射) y=x² (非单射)
 ```
 
 **方法3（单调性）**：若 $f$ 在定义域上**严格单调**（递增或递减），则 $f$ 是单射
@@ -25410,34 +25410,34 @@ $$R_f = B$$
 
 ```
 满射示例：
-集合 A              集合 B
-  ┌───┐              ┌───┐
-  │ 1 │────────────→ │ 2 │
-  ├───┤        ┌───→ ├───┤
-  │ 2 │────────┘     │ 4 │
-  ├───┤        ┌───→ ├───┤
-  │ 3 │────────┘     │ 6 │
-  ├───┤              └───┘
-  │ 4 │────────────→ (B中每个元素都被映射到)
-  └───┘
+集合 A 集合 B
+ ┌───┐ ┌───┐
+ │ 1 │────────────→ │ 2 │
+ ├───┤ ┌───→ ├───┤
+ │ 2 │────────┘ │ 4 │
+ ├───┤ ┌───→ ├───┤
+ │ 3 │────────┘ │ 6 │
+ ├───┤ └───┘
+ │ 4 │────────────→ (B中每个元素都被映射到)
+ └───┘
 
 特点：B中每个元素都有原像
-     A中可以有多个元素映射到同一个
+ A中可以有多个元素映射到同一个
 ```
 
 **非满射示例**：
 
 ```
-集合 A              集合 B
-  ┌───┐              ┌───┐
-  │ 1 │────────────→ │ 2 │
-  ├───┤              ├───┤
-  │ 2 │────────────→ │ 4 │
-  ├───┤              ├───┤
-  │ 3 │────────────→ │ 6 │
-  └───┘              ├───┤
-                     │ 8 │ ← 没有原像
-                     └───┘
+集合 A 集合 B
+ ┌───┐ ┌───┐
+ │ 1 │────────────→ │ 2 │
+ ├───┤ ├───┤
+ │ 2 │────────────→ │ 4 │
+ ├───┤ ├───┤
+ │ 3 │────────────→ │ 6 │
+ └───┘ ├───┤
+ │ 8 │ ← 没有原像
+ └───┘
 
 不是满射：8没有被映射到
 ```
@@ -25492,37 +25492,37 @@ $$f \text{ 是双射} \Leftrightarrow f \text{ 是单射且是满射}$$
 
 ```
 双射示例：
-集合 A              集合 B
-  ┌───┐              ┌───┐
-  │ 1 │────────────→ │ 2 │
-  ├───┤              ├───┤
-  │ 2 │────────────→ │ 4 │
-  ├───┤              ├───┤
-  │ 3 │────────────→ │ 6 │
-  └───┘              └───┘
+集合 A 集合 B
+ ┌───┐ ┌───┐
+ │ 1 │────────────→ │ 2 │
+ ├───┤ ├───┤
+ │ 2 │────────────→ │ 4 │
+ ├───┤ ├───┤
+ │ 3 │────────────→ │ 6 │
+ └───┘ └───┘
 
 特点：一一对应
-     |A| = |B| (集合元素个数相等)
+ |A| = |B| (集合元素个数相等)
 ```
 
 **三种映射的关系图**：
 
 ```
-        ┌─────────────────┐
-        │   所有函数       │
-        │  ┌───────────┐  │
-        │  │  满射      │  │
-        │  │  ┌─────┐  │  │
-        │  │  │双射 │  │  │
-        │  │  └─────┘  │  │
-        │  └───────────┘  │
-        │  ┌───────────┐  │
-        │  │  单射      │  │
-        │  │  ┌─────┐  │  │
-        │  │  │双射 │  │  │
-        │  │  └─────┘  │  │
-        │  └───────────┘  │
-        └─────────────────┘
+ ┌─────────────────┐
+ │ 所有函数 │
+ │ ┌───────────┐ │
+ │ │ 满射 │ │
+ │ │ ┌─────┐ │ │
+ │ │ │双射 │ │ │
+ │ │ └─────┘ │ │
+ │ └───────────┘ │
+ │ ┌───────────┐ │
+ │ │ 单射 │ │
+ │ │ ┌─────┐ │ │
+ │ │ │双射 │ │ │
+ │ │ └─────┘ │ │
+ │ └───────────┘ │
+ └─────────────────┘
 
 双射 = 单射 ∩ 满射
 ```
@@ -25581,19 +25581,19 @@ $$f(f^{-1}(y)) = y, \quad \forall y \in B$$
 **图像对比**：
 
 ```
-单射但非满射：        满射但非单射：        双射：
-f:ℝ→ℝ, f(x)=eˣ      f:ℝ→[0,∞), f(x)=x²   f:ℝ→ℝ, f(x)=x³
+单射但非满射： 满射但非单射： 双射：
+f:ℝ→ℝ, f(x)=eˣ f:ℝ→[0,∞), f(x)=x² f:ℝ→ℝ, f(x)=x³
 
-    y                    y                    y
-    │      ╱             │   ╱─╲              │      ╱
-    │    ╱               │  ╱   ╲             │    ╱
-    │  ╱                 │ ╱     ╲            │  ╱
-────┼╱──── x         ────●───────── x     ────┼╱──── x
-    │                    │                   ╱│
-    │                    │                 ╱  │
-    
-值域≠ℝ               非单射              单射+满射
-(非满射)             (满射)              (双射)
+ y y y
+ │ ╱ │ ╱─╲ │ ╱
+ │ ╱ │ ╱ ╲ │ ╱
+ │ ╱ │ ╱ ╲ │ ╱
+────┼╱──── x ────●───────── x ────┼╱──── x
+ │ │ ╱│
+ │ │ ╱ │
+
+值域≠ℝ 非单射 单射+满射
+(非满射) (满射) (双射)
 ```
 
 ---
@@ -25660,17 +25660,17 @@ $$f(b) = f(f(a)) = a$$
 **图示**：
 
 ```
-        y
-        │  y=x
-        │ ╱
-        │╱
-    ────●────(b,a)
-       ╱│╲
-      ╱ │ ╲
- (a,b)  │  ╲
-    ────┼────── x
-        │
-        
+ y
+ │ y=x
+ │ ╱
+ │╱
+ ────●────(b,a)
+ ╱│╲
+ ╱ │ ╲
+ (a,b) │ ╲
+ ────┼────── x
+ │
+
 点(a,b)和(b,a)关于y=x对称
 对合函数图像自身对称
 ```
@@ -25688,16 +25688,16 @@ $$f(x_0) = x_0 \Rightarrow f(f(x_0)) = f(x_0) = x_0 \quad \checkmark$$
 **图示**：
 
 ```
-        y
-        │ y=x
-        │╱
-        ●  ← 不动点(x₀,x₀)
-       ╱│
-      ╱ │
-     ╱  │
+ y
+ │ y=x
+ │╱
+ ● ← 不动点(x₀,x₀)
+ ╱│
+ ╱ │
+ ╱ │
 ────┼───┼──── x
-    │   x₀
-    
+ │ x₀
+
 不动点在y=x上
 ```
 
@@ -25728,15 +25728,15 @@ $$f(f(x)) = f(-x) = -(-x) = x \quad \checkmark$$
 **图像**：
 
 ```
-        y
-        │ y=x
-      ╱ │
-     ╱  │╲
-    ╱   │ ╲ y=-x
+ y
+ │ y=x
+ ╱ │
+ ╱ │╲
+ ╱ │ ╲ y=-x
 ───╱────┼──╲── x
-  ╱     │   ╲
-        │
-        
+ ╱ │ ╲
+ │
+
 关于原点对称
 也关于y=x对称
 ```
@@ -25754,14 +25754,14 @@ $$f(f(x)) = f\left(\frac{1}{x}\right) = \frac{1}{\frac{1}{x}} = x \quad \checkma
 **图像**：
 
 ```
-        y
-        │ y=x
-     ╱  │  ╲
-    ╱   │   ╲
+ y
+ │ y=x
+ ╱ │ ╲
+ ╱ │ ╲
 ───╱────┼────╲── x
-  ╱     │     ╲
-        │
-        
+ ╱ │ ╲
+ │
+
 双曲线，关于y=x对称
 ```
 
@@ -25903,8 +25903,8 @@ $$\text{明文} = f(\text{密文}) = f(f(\text{明文}))$$
 ```
 不使用临时变量交换a和b：
 a = a + b
-b = a - b  (原来的a)
-a = a - b  (原来的b)
+b = a - b (原来的a)
+a = a - b (原来的b)
 
 这是对合变换的应用
 ```
@@ -25949,16 +25949,16 @@ a = a - b  (原来的b)
 
 ```
 ┌─────────────────────────────┐
-│      对合函数分类            │
+│ 对合函数分类 │
 ├─────────────────────────────┤
-│ 1. 全域对合：Df = ℝ         │
-│    例：f(x) = -x            │
-│                             │
-│ 2. 限制域对合：Df ⊂ ℝ       │
-│    例：f(x) = 1/x (x≠0)     │
-│                             │
-│ 3. 离散对合：Df 为离散集    │
-│    例：排列的对换           │
+│ 1. 全域对合：Df = ℝ │
+│ 例：f(x) = -x │
+│ │
+│ 2. 限制域对合：Df ⊂ ℝ │
+│ 例：f(x) = 1/x (x≠0) │
+│ │
+│ 3. 离散对合：Df 为离散集 │
+│ 例：排列的对换 │
 └─────────────────────────────┘
 ```
 
@@ -25982,13 +25982,13 @@ a = a - b  (原来的b)
 
 ```
 ┌──────────────────────────────┐
-│   对合函数 f(f(x)) = x       │
+│ 对合函数 f(f(x)) = x │
 ├──────────────────────────────┤
-│ ✓ 必定是双射                 │
-│ ✓ 自己是自己的反函数         │
-│ ✓ 图像关于 y=x 对称          │
-│ ✓ 不动点在 y=x 上            │
-│ ✓ 应用于加密、几何变换       │
+│ 必定是双射 │
+│ 自己是自己的反函数 │
+│ 图像关于 y=x 对称 │
+│ 不动点在 y=x 上 │
+│ 应用于加密、几何变换 │
 └──────────────────────────────┘
 ```
 
@@ -26052,15 +26052,15 @@ $$f(y) = f(f(x)) = f(x) = y$$
 **图示**：
 
 ```
-定义域 Df          值域 Rf
-  ┌─────┐          ┌─────┐
-  │  x₁ │────────→ │  y₁ │─┐
-  │  x₂ │────────→ │  y₂ │─┤
-  │  x₃ │────────→ │  y₃ │─┤ 不动点
-  │  y₁ │─────────→│  y₁ │←┘ f(yᵢ)=yᵢ
-  │  y₂ │─────────→│  y₂ │←┐
-  │  y₃ │─────────→│  y₃ │←┘
-  └─────┘          └─────┘
+定义域 Df 值域 Rf
+ ┌─────┐ ┌─────┐
+ │ x₁ │────────→ │ y₁ │─┐
+ │ x₂ │────────→ │ y₂ │─┤
+ │ x₃ │────────→ │ y₃ │─┤ 不动点
+ │ y₁ │─────────→│ y₁ │←┘ f(yᵢ)=yᵢ
+ │ y₂ │─────────→│ y₂ │←┐
+ │ y₃ │─────────→│ y₃ │←┘
+ └─────┘ └─────┘
 
 值域中的元素映射到自己
 ```
@@ -26082,17 +26082,17 @@ $$f|_{R_f} = \text{id}_{R_f}$$
 **图示**：
 
 ```
-        y
-        │ y=x
-        │╱
-    ────●────  ← 值域中的点
-       ╱│
-      ╱ │
-     ╱  │
-    ●   │     ← 定义域中的点映射到值域
+ y
+ │ y=x
+ │╱
+ ────●──── ← 值域中的点
+ ╱│
+ ╱ │
+ ╱ │
+ ● │ ← 定义域中的点映射到值域
 ────┼───┼──── x
-    │
-    
+ │
+
 值域上的点在y=x上
 其他点映射到值域
 ```
@@ -26125,15 +26125,15 @@ $$f(f(x)) = f(x) = x = f(x) \quad \checkmark$$
 **图像**：
 
 ```
-        y
-        │╱
-        ╱│
-       ╱ │
-      ╱  │
+ y
+ │╱
+ ╱│
+ ╱ │
+ ╱ │
 ─────╱───┼──── x
-    ╱    │
-   ╱     │
-  
+ ╱ │
+ ╱ │
+
 y = x
 所有点都是不动点
 ```
@@ -26151,14 +26151,14 @@ $$f(f(x)) = f(c) = c = f(x) \quad \checkmark$$
 **图像**：
 
 ```
-        y
-        │
-    ────●────────  ← y = c
-        │
-        │
+ y
+ │
+ ────●──────── ← y = c
+ │
+ │
 ────────┼──────── x
-        │
-        
+ │
+
 值域 = {c}
 唯一不动点 x = c
 ```
@@ -26178,16 +26178,16 @@ $$f(f(x)) = f(\lfloor x \rfloor) = \lfloor \lfloor x \rfloor \rfloor = \lfloor x
 **图像**：
 
 ```
-        y
-      3 │     ●─────
-        │    ╱
-      2 │   ●──────
-        │  ╱
-      1 │ ●───────
-        │╱
-      0 ●────────── x
-        0  1  2  3
-        
+ y
+ 3 │ ●─────
+ │ ╱
+ 2 │ ●──────
+ │ ╱
+ 1 │ ●───────
+ │╱
+ 0 ●────────── x
+ 0 1 2 3
+
 阶梯函数
 整数点是不动点
 ```
@@ -26207,13 +26207,13 @@ $$f(f(x)) = f(|x|) = ||x|| = |x| = f(x) \quad \checkmark$$
 **图像**：
 
 ```
-        y
-        │  ╱│╲
-        │ ╱ │ ╲
-        │╱  │  ╲
+ y
+ │ ╱│╲
+ │ ╱ │ ╲
+ │╱ │ ╲
 ────────●───┼───●── x
-        0   │
-        
+ 0 │
+
 V字形
 非负数是不动点
 ```
@@ -26228,18 +26228,18 @@ $$f(x) = \begin{cases} x, & x \in A \\ a, & x \notin A \end{cases}$$
 
 **验证**：
 
-- 若 $x \in A$：$f(f(x)) = f(x) = x = f(x)$ ✓
-- 若 $x \notin A$：$f(f(x)) = f(a) = a = f(x)$ ✓（因为 $a \in A$）
+- 若 $x \in A$：$f(f(x)) = f(x) = x = f(x)$
+- 若 $x \notin A$：$f(f(x)) = f(a) = a = f(x)$ （因为 $a \in A$）
 
 **图示**：
 
 ```
-定义域          值域 = A
-  ┌─────┐      ┌─────┐
-  │ x∈A │─────→│ x∈A │ 保持不变
-  │ x∉A │─────→│  a  │ 映射到a
-  └─────┘      └─────┘
-  
+定义域 值域 = A
+ ┌─────┐ ┌─────┐
+ │ x∈A │─────→│ x∈A │ 保持不变
+ │ x∉A │─────→│ a │ 映射到a
+ └─────┘ └─────┘
+
 投影到子集A
 ```
 
@@ -26258,15 +26258,15 @@ $$f(f(x)) = \max(\max(x, a), a) = \max(x, a) = f(x) \quad \checkmark$$
 ```
 f(x) = max(x, a)
 
-        y
-        │    ╱
-        │   ╱
-    ────●──╱──── ← y = a
-       ╱│
-      ╱ │
+ y
+ │ ╱
+ │ ╱
+ ────●──╱──── ← y = a
+ ╱│
+ ╱ │
 ─────╱──┼──── x
-        a
-        
+ a
+
 x ≥ a 时保持不变
 x < a 时映射到 a
 ```
@@ -26275,7 +26275,7 @@ x < a 时映射到 a
 
 **7. 分段幂等函数**
 
-$$f(x) = \begin{cases} 
+$$f(x) = \begin{cases}
 0, & x < 0 \\
 x, & 0 \leq x \leq 1 \\
 1, & x > 1
@@ -26283,21 +26283,21 @@ x, & 0 \leq x \leq 1 \\
 
 **验证**：
 
-- $x < 0$：$f(f(x)) = f(0) = 0 = f(x)$ ✓
-- $0 \leq x \leq 1$：$f(f(x)) = f(x) = x = f(x)$ ✓
-- $x > 1$：$f(f(x)) = f(1) = 1 = f(x)$ ✓
+- $x < 0$：$f(f(x)) = f(0) = 0 = f(x)$
+- $0 \leq x \leq 1$：$f(f(x)) = f(x) = x = f(x)$
+- $x > 1$：$f(f(x)) = f(1) = 1 = f(x)$
 
 **图像**：
 
 ```
-        y
-      1 │     ●─────
-        │    ╱
-        │   ╱
-        │  ╱
-      0 ●──╱──────── x
-        0     1
-        
+ y
+ 1 │ ●─────
+ │ ╱
+ │ ╱
+ │ ╱
+ 0 ●──╱──────── x
+ 0 1
+
 截断函数
 将值限制在[0,1]
 ```
@@ -26352,17 +26352,17 @@ $$P^2 = \begin{pmatrix} 1 & 0 \\ 0 & 0 \end{pmatrix} \begin{pmatrix} 1 & 0 \\ 0 
 **图像对比**：
 
 ```
-幂等函数示例：              对合函数示例：
-f(x) = max(x, 0)           f(x) = -x
+幂等函数示例： 对合函数示例：
+f(x) = max(x, 0) f(x) = -x
 
-    y                          y
-    │  ╱                       │ ╱
-    │ ╱                      ╱ │
-────●╱──── x             ───╱──┼──╲── x
-    0                       ╱   │   ╲
-    
-值域[0,∞)都是不动点        所有点关于y=x对称
-非单射                     单射且满射
+ y y
+ │ ╱ │ ╱
+ │ ╱ ╱ │
+────●╱──── x ───╱──┼──╲── x
+ 0 ╱ │ ╲
+
+值域[0,∞)都是不动点 所有点关于y=x对称
+非单射 单射且满射
 ```
 
 ---
@@ -26394,12 +26394,12 @@ $$f(x) = f(f(x)) = x$$
 
 ```
 幂等操作示例：
-SET x = 5      (执行多次结果相同)
-DELETE id=10   (删除多次结果相同)
+SET x = 5 (执行多次结果相同)
+DELETE id=10 (删除多次结果相同)
 
 非幂等操作示例：
-x = x + 1      (每次执行结果不同)
-INSERT ...     (每次插入新记录)
+x = x + 1 (每次执行结果不同)
+INSERT ... (每次插入新记录)
 ```
 
 ---
@@ -26414,8 +26414,8 @@ f([1,2,2,3]) = [1,2,3]
 f(f([1,2,2,3])) = f([1,2,3]) = [1,2,3]
 
 标准化函数：
-f("  Hello  ") = "Hello"
-f(f("  Hello  ")) = f("Hello") = "Hello"
+f(" Hello ") = "Hello"
+f(f(" Hello ")) = f("Hello") = "Hello"
 ```
 
 ---
@@ -26429,7 +26429,7 @@ f(f("  Hello  ")) = f("Hello") = "Hello"
 ```
 向量投影：
 v = (3, 4)
-P(v) = (3, 0)  (投影到x轴)
+P(v) = (3, 0) (投影到x轴)
 P(P(v)) = P(3, 0) = (3, 0) = P(v)
 ```
 
@@ -26503,19 +26503,19 @@ $$f(x) = \max(g(x), h(x)) \quad \text{（更一般）}$$
 
 ```
 ┌─────────────────────────────┐
-│      幂等函数分类            │
+│ 幂等函数分类 │
 ├─────────────────────────────┤
-│ 1. 平凡幂等：Rf = Df        │
-│    唯一例子：f(x) = x       │
-│                             │
-│ 2. 单点幂等：Rf = {c}       │
-│    例：f(x) = c (常函数)    │
-│                             │
-│ 3. 有限幂等：Rf 有限        │
-│    例：分段常函数           │
-│                             │
-│ 4. 无限幂等：Rf 无限        │
-│    例：f(x) = ⌊x⌋          │
+│ 1. 平凡幂等：Rf = Df │
+│ 唯一例子：f(x) = x │
+│ │
+│ 2. 单点幂等：Rf = {c} │
+│ 例：f(x) = c (常函数) │
+│ │
+│ 3. 有限幂等：Rf 有限 │
+│ 例：分段常函数 │
+│ │
+│ 4. 无限幂等：Rf 无限 │
+│ 例：f(x) = x │
 └─────────────────────────────┘
 ```
 
@@ -26528,11 +26528,11 @@ $$f(x) = \max(g(x), h(x)) \quad \text{（更一般）}$$
 $$f(x) = \max(x, 0)$$
 
 ```
-    y
-    │  ╱
-    │ ╱
+ y
+ │ ╱
+ │ ╱
 ────●╱──── x
-    0
+ 0
 
 连续但不可微
 ```
@@ -26540,11 +26540,11 @@ $$f(x) = \max(x, 0)$$
 $$f(x) = |x|$$
 
 ```
-    y
-    │  ╱│╲
-    │ ╱ │ ╲
+ y
+ │ ╱│╲
+ │ ╱ │ ╲
 ────●──┼──●── x
-    0  │
+ 0 │
 
 连续但在0点不可微
 ```
@@ -26556,13 +26556,13 @@ $$f(x) = |x|$$
 $$f(x) = \lfloor x \rfloor$$
 
 ```
-    y
-  2 │   ●──────
-    │  ╱
-  1 │ ●───────
-    │╱
-  0 ●────────── x
-    0  1  2
+ y
+ 2 │ ●──────
+ │ ╱
+ 1 │ ●───────
+ │╱
+ 0 ●────────── x
+ 0 1 2
 
 阶梯函数，跳跃间断
 ```
@@ -26570,11 +26570,11 @@ $$f(x) = \lfloor x \rfloor$$
 $$f(x) = \begin{cases} 0, & x < 0 \\ 1, & x \geq 0 \end{cases}$$
 
 ```
-    y
-  1 │     ●─────
-    │
-  0 ●○────────── x
-    0
+ y
+ 1 │ ●─────
+ │
+ 0 ●○────────── x
+ 0
 
 跳跃间断点在x=0
 ```
@@ -26588,13 +26588,13 @@ $$f(x) = \begin{cases} 0, & x < 0 \\ 1, & x \geq 0 \end{cases}$$
 $$f(x) = \max(x, a)$$
 
 ```
-    y
-    │    ╱
-    │   ╱
+ y
+ │ ╱
+ │ ╱
 ────●──╱──── ← y = a
-   ╱│
+ ╱│
 ──╱──┼──── x
-     a
+ a
 
 单调递增
 ```
@@ -26602,13 +26602,13 @@ $$f(x) = \max(x, a)$$
 $$f(x) = \min(x, a)$$
 
 ```
-    y
-   ╱│
+ y
+ ╱│
 ──╱─●──── ← y = a
- ╱  │
-╱   │
+ ╱ │
+╱ │
 ────┼──── x
-    a
+ a
 
 单调递增
 ```
@@ -26620,13 +26620,13 @@ $$f(x) = \min(x, a)$$
 $$f(x) = \begin{cases} 0, & x < 0 \\ x, & 0 \leq x \leq 1 \\ 1, & x > 1 \end{cases}$$
 
 ```
-    y
-  1 │     ●─────
-    │    ╱
-    │   ╱
-    │  ╱
-  0 ●──╱──────── x
-    0     1
+ y
+ 1 │ ●─────
+ │ ╱
+ │ ╱
+ │ ╱
+ 0 ●──╱──────── x
+ 0 1
 
 分段单调，整体单调
 ```
@@ -26634,12 +26634,12 @@ $$f(x) = \begin{cases} 0, & x < 0 \\ x, & 0 \leq x \leq 1 \\ 1, & x > 1 \end{cas
 $$f(x) = \begin{cases} a, & x \in A \\ b, & x \in B \\ c, & x \in C \end{cases}$$
 
 ```
-    y
-  c │   ●●●
-  b │ ●●   ●●
-  a │●       ●●
+ y
+ c │ ●●●
+ b │ ●● ●●
+ a │● ●●
 ────┼────────── x
-    A  B    C
+ A B C
 
 非单调，分段常值
 ```
@@ -26730,11 +26730,11 @@ $$f \circ g \neq g \circ f$$
 
 2. $f$ 的值域是不动点集：$R_f = \text{Fix}(f)$
 
-   其中 $\text{Fix}(f) = \{x \in D_f : f(x) = x\}$
+ 其中 $\text{Fix}(f) = \{x \in D_f : f(x) = x\}$
 
 3. $f$ 可以分解为：$f = P \circ g$
 
-   其中 $P$ 是投影到 $R_f$ 的幂等函数，$g$ 是任意函数
+ 其中 $P$ 是投影到 $R_f$ 的幂等函数，$g$ 是任意函数
 
 4. $f$ 的图像满足：$\text{Graph}(f) \cap \{(x, x) : x \in D_f\} = \{(x, x) : x \in R_f\}$
 
@@ -26859,13 +26859,13 @@ UPDATE users SET login_count = login_count + 1 WHERE id = 1;
 
 ```
 幂等的 HTTP 方法：
-GET    /users/1      (查询，幂等)
-PUT    /users/1      (更新，幂等)
-DELETE /users/1      (删除，幂等)
+GET /users/1 (查询，幂等)
+PUT /users/1 (更新，幂等)
+DELETE /users/1 (删除，幂等)
 
 非幂等的 HTTP 方法：
-POST   /users        (创建，非幂等)
-PATCH  /users/1      (部分更新，可能非幂等)
+POST /users (创建，非幂等)
+PATCH /users/1 (部分更新，可能非幂等)
 ```
 
 ---
@@ -26875,13 +26875,13 @@ PATCH  /users/1      (部分更新，可能非幂等)
 ```python
 # 幂等函数
 def normalize(text):
-    return text.strip().lower()
+ return text.strip().lower()
 
 # normalize(normalize(text)) == normalize(text)
 
 # 非幂等函数
 def increment(x):
-    return x + 1
+ return x + 1
 
 # increment(increment(x)) != increment(x)
 ```
@@ -26893,11 +26893,11 @@ def increment(x):
 ```python
 # 幂等的缓存写入
 def cache_set(key, value):
-    cache[key] = value  # 多次设置相同值结果相同
+ cache[key] = value # 多次设置相同值结果相同
 
 # 非幂等的缓存操作
 def cache_increment(key):
-    cache[key] = cache.get(key, 0) + 1  # 每次调用结果不同
+ cache[key] = cache.get(key, 0) + 1 # 每次调用结果不同
 ```
 
 ---
@@ -26925,9 +26925,9 @@ def cache_increment(key):
 输出：f 是否幂等
 
 1. 对于 Df 中的每个 x：
-   a. 计算 y = f(x)
-   b. 计算 z = f(y)
-   c. 如果 z ≠ y，返回 False
+ a. 计算 y = f(x)
+ b. 计算 z = f(y)
+ c. 如果 z ≠ y，返回 False
 2. 返回 True
 ```
 
@@ -26943,7 +26943,7 @@ def cache_increment(key):
 
 1. 计算值域 Rf = {f(x) : x ∈ Df}
 2. 对于 Rf 中的每个 y：
-   a. 如果 f(y) ≠ y，返回 False
+ a. 如果 f(y) ≠ y，返回 False
 3. 返回 True
 ```
 
@@ -26973,14 +26973,14 @@ def cache_increment(key):
 
 ```
 ┌──────────────────────────────┐
-│   幂等函数 f(f(x)) = f(x)    │
+│ 幂等函数 f(f(x)) = f(x) │
 ├──────────────────────────────┤
-│ ✓ 值域中所有元素都是不动点   │
-│ ✓ 应用多次等于应用一次       │
-│ ✓ 值域 ⊆ 定义域              │
-│ ✓ 不一定是双射               │
-│ ✓ 应用于投影、数据清洗       │
-│ ✓ 编程中的幂等操作           │
+│ 值域中所有元素都是不动点 │
+│ 应用多次等于应用一次 │
+│ 值域 ⊆ 定义域 │
+│ 不一定是双射 │
+│ 应用于投影、数据清洗 │
+│ 编程中的幂等操作 │
 └──────────────────────────────┘
 ```
 
@@ -27068,29 +27068,29 @@ $$f(x_1) > f(x_2)$$
 **图示**：
 
 ```
-单调递增：              严格单调递增：
-    y                      y
-    │    ──                │      ╱
-    │  ──                  │    ╱
-    │──                    │  ╱
-────┼──────── x         ────┼╱──────── x
-    │                      │
+单调递增： 严格单调递增：
+ y y
+ │ ── │ ╱
+ │ ── │ ╱
+ │── │ ╱
+────┼──────── x ────┼╱──────── x
+ │ │
 
-允许水平段              不允许水平段
-f(x₁) ≤ f(x₂)          f(x₁) < f(x₂)
+允许水平段 不允许水平段
+f(x₁) ≤ f(x₂) f(x₁) < f(x₂)
 ```
 
 ```
-单调递减：              严格单调递减：
-    y                      y
-    │──                    │╲
-    │  ──                  │ ╲
-    │    ──                │  ╲
-────┼──────── x         ────┼───╲───── x
-    │                      │    ╲
+单调递减： 严格单调递减：
+ y y
+ │── │╲
+ │ ── │ ╲
+ │ ── │ ╲
+────┼──────── x ────┼───╲───── x
+ │ │ ╲
 
-允许水平段              不允许水平段
-f(x₁) ≥ f(x₂)          f(x₁) > f(x₂)
+允许水平段 不允许水平段
+f(x₁) ≥ f(x₂) f(x₁) > f(x₂)
 ```
 
 ---
@@ -27191,8 +27191,8 @@ $$f(x) = \begin{cases} 0, & x \leq 0 \\ 1, & x > 0 \end{cases}$$
 $$x_1 < x_2 \Rightarrow f(x_1) + g(x_1) \leq f(x_2) + g(x_2)$$
 
 2. **数乘**：
-   - 若 $c > 0$，则 $cf$ 单调递增
-   - 若 $c < 0$，则 $cf$ 单调递减
+ - 若 $c > 0$，则 $cf$ 单调递增
+ - 若 $c < 0$，则 $cf$ 单调递减
 
 3. **乘法**：若 $f, g > 0$，则 $fg$ 单调递增
 
@@ -27220,14 +27220,14 @@ $$x_1 < x_2 \Rightarrow f(x_1) \leq f(x_2) \Rightarrow \frac{1}{f(x_1)} \geq \fr
 
 ```
 单调函数的跳跃间断：
-    y
-    │     ●─────
-    │    ╱
-    │   ╱
-    │  ○
-    │ ╱
+ y
+ │ ●─────
+ │ ╱
+ │ ╱
+ │ ○
+ │ ╱
 ────●╱──────── x
-    c
+ c
 
 在 c 处跳跃
 左极限 < 右极限
@@ -27295,15 +27295,15 @@ $$f(x_2) - f(x_1) = x_2^2 - x_1^2 = (x_2 - x_1)(x_2 + x_1)$$
 ```
 导数与单调性：
 
-f'(x) > 0          f'(x) < 0
-    y                  y
-    │    ╱             │╲
-    │  ╱               │ ╲
-    │╱                 │  ╲
-────┼──────── x     ────┼───╲── x
-    │                  │    ╲
+f'(x) > 0 f'(x) < 0
+ y y
+ │ ╱ │╲
+ │ ╱ │ ╲
+ │╱ │ ╲
+────┼──────── x ────┼───╲── x
+ │ │ ╲
 
-严格递增           严格递减
+严格递增 严格递减
 ```
 
 ---
@@ -27317,7 +27317,7 @@ $$f'(x) = 3x^2 - 3 = 3(x^2 - 1) = 3(x-1)(x+1)$$
 | 区间 | $x < -1$ | $x = -1$ | $-1 < x < 1$ | $x = 1$ | $x > 1$ |
 |------|----------|----------|--------------|---------|---------|
 | $f'(x)$ | $+$ | $0$ | $-$ | $0$ | $+$ |
-| $f(x)$ | ↗ | 极大 | ↘ | 极小 | ↗ |
+| $f(x)$ |  | 极大 |  | 极小 |  |
 
 因此：
 
@@ -27326,12 +27326,12 @@ $$f'(x) = 3x^2 - 3 = 3(x^2 - 1) = 3(x-1)(x+1)$$
 - $f$ 在 $[1, +\infty)$ 上严格单调递增
 
 ```
-    y
-    │   ╱╲
-    │  ╱  ╲
-    │ ╱    ╲  ╱
+ y
+ │ ╱╲
+ │ ╱ ╲
+ │ ╱ ╲ ╱
 ────┼╱──────╲╱─── x
-   -1   0    1
+ -1 0 1
 
 极大值点 x=-1
 极小值点 x=1
@@ -27378,13 +27378,13 @@ $$f(x) = x^n$$
 | $n$ 为偶数 | $(-\infty, 0]$ | 严格递减 |
 
 ```
-n > 0 (如 x²)      n < 0 (如 1/x)
-    y                  y
-    │  ╱               │╲
-    │ ╱                │ ╲
-    │╱                 │  ╲___
-────●──────── x     ───┼──────── x
-    0                  │
+n > 0 (如 x²) n < 0 (如 1/x)
+ y y
+ │ ╱ │╲
+ │ ╱ │ ╲
+ │╱ │ ╲___
+────●──────── x ───┼──────── x
+ 0 │
 ```
 
 **特例**：
@@ -27405,15 +27405,15 @@ $$f(x) = a^x, \quad a > 0, \, a \neq 1$$
 - 若 $0 < a < 1$：在 $\mathbb{R}$ 上严格单调递减
 
 ```
-a > 1 (如 2ˣ)      0 < a < 1 (如 (1/2)ˣ)
-    y                  y
-    │      ╱           │╲
-    │    ╱             │ ╲___
-    │  ╱               │
-────┼╱──────── x    ───┼──────── x
-    0                  0
-    
-y = 2ˣ 递增         y = (1/2)ˣ 递减
+a > 1 (如 2ˣ) 0 < a < 1 (如 (1/2)ˣ)
+ y y
+ │ ╱ │╲
+ │ ╱ │ ╲___
+ │ ╱ │
+────┼╱──────── x ───┼──────── x
+ 0 0
+
+y = 2ˣ 递增 y = (1/2)ˣ 递减
 ```
 
 **证明**（$a > 1$ 时递增）：
@@ -27432,15 +27432,15 @@ $$f(x) = \log_a x, \quad a > 0, \, a \neq 1, \, x > 0$$
 - 若 $0 < a < 1$：在 $(0, +\infty)$ 上严格单调递减
 
 ```
-a > 1 (如 log₂x)   0 < a < 1 (如 log₁/₂x)
-    y                  y
-    │  ╱               │
-    │ ╱                │╲___
-────┼╱──────── x    ───┼──────── x
-    1                  1╲
-    │                  │ ╲
-    
-递增                递减
+a > 1 (如 log₂x) 0 < a < 1 (如 log₁/₂x)
+ y y
+ │ ╱ │
+ │ ╱ │╲___
+────┼╱──────── x ───┼──────── x
+ 1 1╲
+ │ │ ╲
+
+递增 递减
 ```
 
 **证明**（$a > 1$ 时递增）：
@@ -27461,14 +27461,14 @@ $$f'(x) = \frac{1}{x \ln a}$$
 | $\left[\frac{\pi}{2} + 2k\pi, \frac{3\pi}{2} + 2k\pi\right]$ | 严格递减 |
 
 ```
-    y
-  1 │   ╱╲    ╱╲
-    │  ╱  ╲  ╱  ╲
+ y
+ 1 │ ╱╲ ╱╲
+ │ ╱ ╲ ╱ ╲
 ────┼─╱────╲╱────╲─── x
- -1 │╱      ╲    ╱
-    -π/2  π/2  3π/2
-    
-    ↗    ↘    ↗
+ -1 │╱ ╲ ╱
+ -π/2 π/2 3π/2
+
+   
 ```
 
 ---
@@ -27481,14 +27481,14 @@ $$f'(x) = \frac{1}{x \ln a}$$
 | $[\pi + 2k\pi, 2\pi + 2k\pi]$ | 严格递增 |
 
 ```
-    y
-  1 │╲    ╱╲    ╱
-    │ ╲  ╱  ╲  ╱
+ y
+ 1 │╲ ╱╲ ╱
+ │ ╲ ╱ ╲ ╱
 ────┼──╲╱────╲╱──── x
- -1 │   ╲    ╱
-    0   π   2π
-    
-    ↘   ↗   ↘
+ -1 │ ╲ ╱
+ 0 π 2π
+
+   
 ```
 
 ---
@@ -27498,17 +27498,17 @@ $$f'(x) = \frac{1}{x \ln a}$$
 在每个区间 $\left(-\frac{\pi}{2} + k\pi, \frac{\pi}{2} + k\pi\right)$ 上严格单调递增。
 
 ```
-    y
-    │    │    │
-    │   ╱│   ╱│
-    │  ╱ │  ╱ │
+ y
+ │ │ │
+ │ ╱│ ╱│
+ │ ╱ │ ╱ │
 ────┼─╱──┼─╱──┼─── x
-    │╱   │╱   │
-    │    │    │
-   -π/2  0  π/2
-   
-   渐近线处不连续
-   每段严格递增
+ │╱ │╱ │
+ │ │ │
+ -π/2 0 π/2
+
+ 渐近线处不连续
+ 每段严格递增
 ```
 
 **证明**：
@@ -27528,15 +27528,15 @@ $$f'(x) = \sec^2 x = \frac{1}{\cos^2 x} > 0$$
 | $\arctan x$ | $\mathbb{R}$ | $\left(-\frac{\pi}{2}, \frac{\pi}{2}\right)$ | 严格递增 |
 
 ```
-arcsin x              arctan x
-    y                     y
- π/2│    ╱            π/2│      ___╱
-    │   ╱                │    ╱
-────┼──╱──── x        ───┼───╱───── x
--π/2│ ╱                  │ ╱
-   -1  1              -π/2
-   
-严格递增              严格递增
+arcsin x arctan x
+ y y
+ π/2│ ╱ π/2│ ___╱
+ │ ╱ │ ╱
+────┼──╱──── x ───┼───╱───── x
+-π/2│ ╱ │ ╱
+ -1 1 -π/2
+
+严格递增 严格递增
 ```
 
 ---
@@ -27552,13 +27552,13 @@ arcsin x              arctan x
 $$f'(x) = \cosh x = \frac{e^x + e^{-x}}{2} > 0$$
 
 ```
-    y
-    │      ╱
-    │    ╱
-    │  ╱
+ y
+ │ ╱
+ │ ╱
+ │ ╱
 ────┼─╱──────── x
-    │╱
-    
+ │╱
+
 奇函数，严格递增
 ```
 
@@ -27577,13 +27577,13 @@ $$f'(x) = \sinh x = \frac{e^x - e^{-x}}{2}$$
 - $x > 0$ 时，$f'(x) > 0$，递增
 
 ```
-    y
-    │  ╲  ╱
-    │   ╲╱
-    │   ╱╲
+ y
+ │ ╲ ╱
+ │ ╲╱
+ │ ╱╲
 ────┼──╱──╲──── x
-    0
-    
+ 0
+
 偶函数，U型曲线
 ```
 
@@ -27598,12 +27598,12 @@ $$f'(x) = \sinh x = \frac{e^x - e^{-x}}{2}$$
 $$f'(x) = \operatorname{sech}^2 x = \frac{1}{\cosh^2 x} > 0$$
 
 ```
-    y
-  1 │      ___╱
-    │    ╱
+ y
+ 1 │ ___╱
+ │ ╱
 ────┼───╱───── x
  -1 │╱___
-    
+
 有界，严格递增
 lim = ±1
 ```
@@ -27620,13 +27620,13 @@ lim = ±1
 **注意**：不能说在 $\mathbb{R} \setminus \{0\}$ 上单调递减（因为 $f(-1) = -1 < 1 = f(1)$）。
 
 ```
-    y
-    │╲
-    │ ╲___
+ y
+ │╲
+ │ ╲___
 ────┼──────── x
-    │    ╲___
-    │      ╲
-    
+ │ ╲___
+ │ ╲
+
 两支各自递减
 但整体不单调
 ```
@@ -27657,13 +27657,13 @@ $$ad - bc = 2 \cdot (-3) - 1 \cdot 1 = -7 < 0$$
 $$f'(x) = \frac{1}{2\sqrt{x}} > 0, \quad x > 0$$
 
 ```
-    y
-    │   ╱
-    │  ╱
-    │ ╱
+ y
+ │ ╱
+ │ ╱
+ │ ╱
 ────●╱──────── x
-    0
-    
+ 0
+
 凹函数，递增
 ```
 
@@ -27688,14 +27688,14 @@ $$f'(x) = \frac{1}{2\sqrt{x}} > 0, \quad x > 0$$
 在 $\mathbb{R}$ 上单调递增（非严格）。
 
 ```
-    y
-  2 │   ●──────
-    │  ╱
-  1 │ ●───────
-    │╱
-  0 ●────────── x
-    0  1  2
-    
+ y
+ 2 │ ●──────
+ │ ╱
+ 1 │ ●───────
+ │╱
+ 0 ●────────── x
+ 0 1 2
+
 阶梯函数
 每段水平
 ```
@@ -27716,12 +27716,12 @@ $$f(x) = |x|$$
 - 在 $[0, +\infty)$ 上严格单调递增
 
 ```
-    y
-    │  ╱│╲
-    │ ╱ │ ╲
+ y
+ │ ╱│╲
+ │ ╱ │ ╲
 ────●──┼──●── x
-    0  │
-    
+ 0 │
+
 V型，分段单调
 ```
 
@@ -27734,13 +27734,13 @@ $$f(x) = \operatorname{sgn}(x) = \begin{cases} -1, & x < 0 \\ 0, & x = 0 \\ 1, &
 在 $\mathbb{R}$ 上单调递增（非严格）。
 
 ```
-    y
-  1 │     ●─────
-    │
+ y
+ 1 │ ●─────
+ │
 ────●─────────── x
  -1 │─────●
-    0
-    
+ 0
+
 跳跃间断
 但单调递增
 ```
@@ -27848,7 +27848,7 @@ $$f'(x) = 1 - \frac{1}{x^2}$$
 | 区间 | $(0, 1)$ | $x = 1$ | $(1, +\infty)$ |
 |------|----------|---------|----------------|
 | $f'(x)$ | $-$ | $0$ | $+$ |
-| $f(x)$ | ↘ | 最小 | ↗ |
+| $f(x)$ |  | 最小 |  |
 
 因此 $f$ 在 $x = 1$ 处取得最小值 $f(1) = 2$。
 
@@ -27907,11 +27907,11 @@ $$(cf)(x) = c \cdot f(x), \quad c \in \mathbb{R}, \, x \in D_f$$
 ```
 函数加法：f + g
 
-f(x)    g(x)    (f+g)(x)
-  │       │         │
-  ●       ●         ●
-  │       │         │
-  2   +   3    =    5
+f(x) g(x) (f+g)(x)
+ │ │ │
+ ● ● ●
+ │ │ │
+ 2 + 3 = 5
 
 逐点相加
 ```
@@ -27933,13 +27933,13 @@ $$D_{f \circ g} = \{x \in D_g : g(x) \in D_f\}$$
 ```
 函数复合：f ∘ g
 
-    x  ──→  g(x)  ──→  f(g(x))
-    │       │          │
-   输入    中间值     输出
-    
-    g: X → Y
-    f: Y → Z
-    f∘g: X → Z
+ x ──→ g(x) ──→ f(g(x))
+ │ │ │
+ 输入 中间值 输出
+
+ g: X → Y
+ f: Y → Z
+ f∘g: X → Z
 ```
 
 **例**：设 $f(x) = x^2$，$g(x) = x + 1$，求 $f \circ g$ 和 $g \circ f$。
@@ -27960,9 +27960,9 @@ $$(g \circ f)(x) = g(f(x)) = g(x^2) = x^2 + 1$$
 
 | 运算 | 交换律 |
 |------|--------|
-| 加法 | $f + g = g + f$ | ✓ |
-| 乘法 | $f \cdot g = g \cdot f$ | ✓ |
-| 复合 | $f \circ g \neq g \circ f$ | ✗ |
+| 加法 | $f + g = g + f$ | |
+| 乘法 | $f \cdot g = g \cdot f$ | |
+| 复合 | $f \circ g \neq g \circ f$ | |
 
 **证明**（加法）：
 
@@ -27974,9 +27974,9 @@ $$(f + g)(x) = f(x) + g(x) = g(x) + f(x) = (g + f)(x)$$
 
 | 运算 | 结合律 |
 |------|--------|
-| 加法 | $(f + g) + h = f + (g + h)$ | ✓ |
-| 乘法 | $(f \cdot g) \cdot h = f \cdot (g \cdot h)$ | ✓ |
-| 复合 | $(f \circ g) \circ h = f \circ (g \circ h)$ | ✓ |
+| 加法 | $(f + g) + h = f + (g + h)$ | |
+| 乘法 | $(f \cdot g) \cdot h = f \cdot (g \cdot h)$ | |
+| 复合 | $(f \circ g) \circ h = f \circ (g \circ h)$ | |
 
 **证明**（复合）：
 
@@ -27994,9 +27994,9 @@ $$[f \circ (g \circ h)](x) = f[(g \circ h)(x)] = f(g(h(x)))$$
 (f ∘ g) ∘ h = f ∘ (g ∘ h)
 
 x → h(x) → g(h(x)) → f(g(h(x)))
-    └─ h ─┘  └─ g ─┘   └─ f ─┘
-    └──── g∘h ────┘
-    └────── f∘g ──────┘
+ └─ h ─┘ └─ g ─┘ └─ f ─┘
+ └──── g∘h ────┘
+ └────── f∘g ──────┘
 ```
 
 ---
@@ -28079,25 +28079,25 @@ $(\mathcal{F}(D, \mathbb{R}), +, \cdot)$ 构成一个**向量空间**（Vector S
 
 **验证向量空间公理**：
 
-1. **加法封闭性**：$f, g \in \mathcal{F} \Rightarrow f + g \in \mathcal{F}$ ✓
+1. **加法封闭性**：$f, g \in \mathcal{F} \Rightarrow f + g \in \mathcal{F}$
 
-2. **加法交换律**：$f + g = g + f$ ✓
+2. **加法交换律**：$f + g = g + f$
 
-3. **加法结合律**：$(f + g) + h = f + (g + h)$ ✓
+3. **加法结合律**：$(f + g) + h = f + (g + h)$
 
-4. **加法单位元**：存在零函数 $0$ 使得 $f + 0 = f$ ✓
+4. **加法单位元**：存在零函数 $0$ 使得 $f + 0 = f$
 
-5. **加法逆元**：对每个 $f$，存在 $-f$ 使得 $f + (-f) = 0$ ✓
+5. **加法逆元**：对每个 $f$，存在 $-f$ 使得 $f + (-f) = 0$
 
-6. **数乘封闭性**：$c \in \mathbb{R}, f \in \mathcal{F} \Rightarrow cf \in \mathcal{F}$ ✓
+6. **数乘封闭性**：$c \in \mathbb{R}, f \in \mathcal{F} \Rightarrow cf \in \mathcal{F}$
 
-7. **数乘分配律**：$c(f + g) = cf + cg$ ✓
+7. **数乘分配律**：$c(f + g) = cf + cg$
 
-8. **数乘分配律**：$(c + d)f = cf + df$ ✓
+8. **数乘分配律**：$(c + d)f = cf + df$
 
-9. **数乘结合律**：$c(df) = (cd)f$ ✓
+9. **数乘结合律**：$c(df) = (cd)f$
 
-10. **数乘单位元**：$1 \cdot f = f$ ✓
+10. **数乘单位元**：$1 \cdot f = f$
 
 ---
 
@@ -28107,17 +28107,17 @@ $(\mathcal{F}(D, \mathbb{R}), +, \cdot)$ 构成一个**交换代数**（Commutat
 
 **验证代数公理**：
 
-1. 向量空间结构 ✓
+1. 向量空间结构
 
-2. **乘法封闭性**：$f, g \in \mathcal{F} \Rightarrow f \cdot g \in \mathcal{F}$ ✓
+2. **乘法封闭性**：$f, g \in \mathcal{F} \Rightarrow f \cdot g \in \mathcal{F}$
 
-3. **乘法结合律**：$(f \cdot g) \cdot h = f \cdot (g \cdot h)$ ✓
+3. **乘法结合律**：$(f \cdot g) \cdot h = f \cdot (g \cdot h)$
 
-4. **乘法交换律**：$f \cdot g = g \cdot f$ ✓
+4. **乘法交换律**：$f \cdot g = g \cdot f$
 
-5. **分配律**：$f \cdot (g + h) = f \cdot g + f \cdot h$ ✓
+5. **分配律**：$f \cdot (g + h) = f \cdot g + f \cdot h$
 
-6. **数乘与乘法的相容性**：$c(f \cdot g) = (cf) \cdot g = f \cdot (cg)$ ✓
+6. **数乘与乘法的相容性**：$c(f \cdot g) = (cf) \cdot g = f \cdot (cg)$
 
 ---
 
@@ -28127,11 +28127,11 @@ $(\mathcal{F}(D, D), \circ)$ 构成一个**幺半群**（Monoid）。
 
 **验证幺半群公理**：
 
-1. **复合封闭性**：$f, g: D \to D \Rightarrow f \circ g: D \to D$ ✓
+1. **复合封闭性**：$f, g: D \to D \Rightarrow f \circ g: D \to D$
 
-2. **复合结合律**：$(f \circ g) \circ h = f \circ (g \circ h)$ ✓
+2. **复合结合律**：$(f \circ g) \circ h = f \circ (g \circ h)$
 
-3. **单位元**：恒等函数 $\text{id}$ 满足 $f \circ \text{id} = \text{id} \circ f = f$ ✓
+3. **单位元**：恒等函数 $\text{id}$ 满足 $f \circ \text{id} = \text{id} \circ f = f$
 
 **注意**：复合不满足交换律，所以不是交换幺半群。
 
@@ -28149,12 +28149,12 @@ $(\mathcal{F}(D, D), \circ)$ 构成一个**幺半群**（Monoid）。
 
 | 运算 | 封闭性 |
 |------|--------|
-| 加法 $f + g$ | ✓ |
-| 减法 $f - g$ | ✓ |
-| 乘法 $f \cdot g$ | ✓ |
-| 除法 $f / g$（$g \neq 0$） | ✓ |
-| 数乘 $cf$ | ✓ |
-| 复合 $f \circ g$ | ✓ |
+| 加法 $f + g$ | |
+| 减法 $f - g$ | |
+| 乘法 $f \cdot g$ | |
+| 除法 $f / g$（$g \neq 0$） | |
+| 数乘 $cf$ | |
+| 复合 $f \circ g$ | |
 
 **定理**：连续函数的和、差、积、商（分母不为零）、数乘、复合都是连续函数。
 
@@ -28166,12 +28166,12 @@ $(\mathcal{F}(D, D), \circ)$ 构成一个**幺半群**（Monoid）。
 
 | 运算 | 封闭性 |
 |------|--------|
-| 加法 $f + g$ | ✓ |
-| 减法 $f - g$ | ✓ |
-| 乘法 $f \cdot g$ | ✓ |
-| 除法 $f / g$（$g \neq 0$） | ✓ |
-| 数乘 $cf$ | ✓ |
-| 复合 $f \circ g$ | ✓（需要链式法则） |
+| 加法 $f + g$ | |
+| 减法 $f - g$ | |
+| 乘法 $f \cdot g$ | |
+| 除法 $f / g$（$g \neq 0$） | |
+| 数乘 $cf$ | |
+| 复合 $f \circ g$ | （需要链式法则） |
 
 **求导公式**：
 
@@ -28191,10 +28191,10 @@ $$(f \circ g)' = f'(g(x)) \cdot g'(x)$$
 
 | 运算 | 封闭性 |
 |------|--------|
-| 加法 $f + g$ | ✓ |
-| 数乘 $cf$（$c > 0$） | ✓ |
-| 复合 $f \circ g$ | ✓ |
-| 乘法 $f \cdot g$ | ✗（需要额外条件） |
+| 加法 $f + g$ | |
+| 数乘 $cf$（$c > 0$） | |
+| 复合 $f \circ g$ | |
+| 乘法 $f \cdot g$ | （需要额外条件） |
 
 **定理**：
 
@@ -28210,11 +28210,11 @@ $$(f \circ g)' = f'(g(x)) \cdot g'(x)$$
 
 | 运算 | 封闭性 |
 |------|--------|
-| 加法 $f + g$ | ✓ |
-| 减法 $f - g$ | ✓ |
-| 乘法 $f \cdot g$ | ✓ |
-| 数乘 $cf$ | ✓ |
-| 复合 $f \circ g$ | ✓（需要 $g$ 的值域在 $f$ 的定义域内） |
+| 加法 $f + g$ | |
+| 减法 $f - g$ | |
+| 乘法 $f \cdot g$ | |
+| 数乘 $cf$ | |
+| 复合 $f \circ g$ | （需要 $g$ 的值域在 $f$ 的定义域内） |
 
 **证明**（加法）：
 
@@ -28230,11 +28230,11 @@ $$|(f + g)(x)| = |f(x) + g(x)| \leq |f(x)| + |g(x)| \leq M_f + M_g$$
 
 | 运算 | 封闭性 |
 |------|--------|
-| 加法 $f + g$ | ✓ |
-| 减法 $f - g$ | ✓ |
-| 乘法 $f \cdot g$ | ✓ |
-| 数乘 $cf$ | ✓ |
-| 复合 $f \circ g$ | ✗（一般不封闭） |
+| 加法 $f + g$ | |
+| 减法 $f - g$ | |
+| 乘法 $f \cdot g$ | |
+| 数乘 $cf$ | |
+| 复合 $f \circ g$ | （一般不封闭） |
 
 **定理**：两个周期为 $T$ 的函数的和、差、积、数乘仍是周期为 $T$ 的函数。
 
@@ -28315,13 +28315,13 @@ $$B = \{x \in \mathbb{R} \mid x^2 < 4\} = \{x \in \mathbb{R} \mid -2 < x < 2\}$$
 **3. 图示法（Venn Diagram）**
 
 ```
-    ┌─────────────┐
-    │      A      │
-    │   ●  ●  ●   │
-    │  ●  ●  ●  ● │
-    │   ●  ●  ●   │
-    └─────────────┘
-    
+ ┌─────────────┐
+ │ A │
+ │ ● ● ● │
+ │ ● ● ● ● │
+ │ ● ● ● │
+ └─────────────┘
+
 集合 A 用封闭曲线表示
 元素用点表示
 ```
@@ -28352,16 +28352,16 @@ $$A \subseteq B \Leftrightarrow \forall x (x \in A \Rightarrow x \in B)$$
 **图示**：
 
 ```
-    ┌─────────────────┐
-    │        B        │
-    │   ┌─────────┐   │
-    │   │    A    │   │
-    │   │  ●  ●   │   │
-    │   └─────────┘   │
-    │      ●  ●       │
-    └─────────────────┘
-    
-    A ⊆ B
+ ┌─────────────────┐
+ │ B │
+ │ ┌─────────┐ │
+ │ │ A │ │
+ │ │ ● ● │ │
+ │ └─────────┘ │
+ │ ● ● │
+ └─────────────────┘
+
+ A ⊆ B
 ```
 
 ---
@@ -28409,34 +28409,34 @@ $$A \cup B = \{x \mid x \in A \lor x \in B\}$$
 **图示**：
 
 ```
-    ┌─────────┐
-    │    A    │
-    │  ●  ●  ●│●  ●
-    │  ●  ●  ●│●  ●
-    │  ●  ●  ●│●  ●
-    └─────────┘─────┘
-              B
-    
-    A ∪ B（阴影部分）
-    
-    ┌─────────────────┐
-    │█████████████████│
-    │█████████████████│
-    │█████████████████│
-    └─────────────────┘
+ ┌─────────┐
+ │ A │
+ │ ● ● ●│● ●
+ │ ● ● ●│● ●
+ │ ● ● ●│● ●
+ └─────────┘─────┘
+ B
+
+ A ∪ B（阴影部分）
+
+ ┌─────────────────┐
+ │█████████████████│
+ │█████████████████│
+ │█████████████████│
+ └─────────────────┘
 ```
 
 **Venn 图**：
 
 ```
-       A          B
-    ┌─────┐   ┌─────┐
-    │█████│███│█████│
-    │█████│███│█████│
-    │█████│███│█████│
-    └─────┘   └─────┘
-    
-    整个阴影区域是 A ∪ B
+ A B
+ ┌─────┐ ┌─────┐
+ │█████│███│█████│
+ │█████│███│█████│
+ │█████│███│█████│
+ └─────┘ └─────┘
+
+ 整个阴影区域是 A ∪ B
 ```
 
 ---
@@ -28490,27 +28490,27 @@ $$A \cap B = \{x \mid x \in A \land x \in B\}$$
 **图示**：
 
 ```
-       A          B
-    ┌─────┐   ┌─────┐
-    │     │███│     │
-    │     │███│     │
-    │     │███│     │
-    └─────┘   └─────┘
-    
-    中间阴影部分是 A ∩ B
+ A B
+ ┌─────┐ ┌─────┐
+ │ │███│ │
+ │ │███│ │
+ │ │███│ │
+ └─────┘ └─────┘
+
+ 中间阴影部分是 A ∩ B
 ```
 
 **Venn 图**：
 
 ```
-       A          B
-    ┌─────┐   ┌─────┐
-    │  ●  │●●●│  ●  │
-    │  ●  │●●●│  ●  │
-    │  ●  │●●●│  ●  │
-    └─────┘   └─────┘
-    
-    重叠部分是 A ∩ B
+ A B
+ ┌─────┐ ┌─────┐
+ │ ● │●●●│ ● │
+ │ ● │●●●│ ● │
+ │ ● │●●●│ ● │
+ └─────┘ └─────┘
+
+ 重叠部分是 A ∩ B
 ```
 
 ---
@@ -28556,13 +28556,13 @@ $$\bigcap_{i \in I} A_i = \{x \mid \forall i \in I, x \in A_i\}$$
 **定义**：若 $A \cap B = \emptyset$，则称 $A$ 和 $B$ **不相交**（Disjoint）。
 
 ```
-    A              B
- ┌─────┐      ┌─────┐
- │  ●  │      │  ●  │
- │  ●  │      │  ●  │
- │  ●  │      │  ●  │
- └─────┘      └─────┘
- 
+ A B
+ ┌─────┐ ┌─────┐
+ │ ● │ │ ● │
+ │ ● │ │ ● │
+ │ ● │ │ ● │
+ └─────┘ └─────┘
+
  A ∩ B = ∅
 ```
 
@@ -28581,27 +28581,27 @@ $$A - B = \{x \mid x \in A \land x \notin B\}$$
 **图示**：
 
 ```
-       A          B
-    ┌─────┐   ┌─────┐
-    │█████│   │     │
-    │█████│   │     │
-    │█████│   │     │
-    └─────┘   └─────┘
-    
-    左边阴影部分是 A - B
+ A B
+ ┌─────┐ ┌─────┐
+ │█████│ │ │
+ │█████│ │ │
+ │█████│ │ │
+ └─────┘ └─────┘
+
+ 左边阴影部分是 A - B
 ```
 
 **Venn 图**：
 
 ```
-       A          B
-    ┌─────┐   ┌─────┐
-    │●●●●●│   │     │
-    │●●●●●│   │     │
-    │●●●●●│   │     │
-    └─────┘   └─────┘
-    
-    A 中不在 B 中的部分
+ A B
+ ┌─────┐ ┌─────┐
+ │●●●●●│ │ │
+ │●●●●●│ │ │
+ │●●●●●│ │ │
+ └─────┘ └─────┘
+
+ A 中不在 B 中的部分
 ```
 
 ---
@@ -28659,32 +28659,32 @@ $$A^c = U - A = \{x \in U \mid x \notin A\}$$
 **图示**：
 
 ```
-    全集 U
+ 全集 U
  ┌─────────────────┐
  │█████████████████│
  │████┌─────┐██████│
- │████│  A  │██████│
- │████│     │██████│
+ │████│ A │██████│
+ │████│ │██████│
  │████└─────┘██████│
  │█████████████████│
  └─────────────────┘
- 
+
  阴影部分是 Aᶜ
 ```
 
 **Venn 图**：
 
 ```
-    全集 U
+ 全集 U
  ┌─────────────────┐
  │●●●●●●●●●●●●●●●●●│
  │●●●┌─────┐●●●●●●│
- │●●●│     │●●●●●●│
- │●●●│  A  │●●●●●●│
+ │●●●│ │●●●●●●│
+ │●●●│ A │●●●●●●│
  │●●●└─────┘●●●●●●│
  │●●●●●●●●●●●●●●●●●│
  └─────────────────┘
- 
+
  U 中不在 A 中的部分
 ```
 
@@ -28779,22 +28779,22 @@ $$\emptyset^c = U$$
 **图示**：
 
 ```
-    A ⊆ B  ⟹  Bᶜ ⊆ Aᶜ
+ A ⊆ B ⟹ Bᶜ ⊆ Aᶜ
 
-    ┌─────────────┐
-    │      B      │
-    │  ┌─────┐    │
-    │  │  A  │    │
-    │  └─────┘    │
-    └─────────────┘
-    
-    ┌─────────────┐
-    │█████████████│
-    │██┌─────┐████│
-    │██│ Bᶜ  │ Aᶜ │
-    │██└─────┘████│
-    │█████████████│
-    └─────────────┘
+ ┌─────────────┐
+ │ B │
+ │ ┌─────┐ │
+ │ │ A │ │
+ │ └─────┘ │
+ └─────────────┘
+
+ ┌─────────────┐
+ │█████████████│
+ │██┌─────┐████│
+ │██│ Bᶜ │ Aᶜ │
+ │██└─────┘████│
+ │█████████████│
+ └─────────────┘
 ```
 
 ---
@@ -28862,20 +28862,20 @@ $$\Leftrightarrow x \in A^c \cup B^c$$
 **(1) $(A \cup B)^c = A^c \cap B^c$**
 
 ```
-A ∪ B                (A ∪ B)ᶜ
-┌─────┬─────┐        ┌─────────────┐
-│█████│█████│        │●●●●●●●●●●●●●│
-│█████│█████│        │●●┌─────┐●●●│
-│█████│█████│        │●●│     │●●●│
-└─────┴─────┘        │●●└─────┘●●●│
-                     │●●●●●●●●●●●●●│
-                     └─────────────┘
+A ∪ B (A ∪ B)ᶜ
+┌─────┬─────┐ ┌─────────────┐
+│█████│█████│ │●●●●●●●●●●●●●│
+│█████│█████│ │●●┌─────┐●●●│
+│█████│█████│ │●●│ │●●●│
+└─────┴─────┘ │●●└─────┘●●●│
+ │●●●●●●●●●●●●●│
+ └─────────────┘
 
 Aᶜ ∩ Bᶜ
 ┌─────────────┐
 │●●●●●●●●●●●●●│
 │●●┌─────┐●●●│
-│●●│     │●●●│
+│●●│ │●●●│
 │●●└─────┘●●●│
 │●●●●●●●●●●●●●│
 └─────────────┘
@@ -28888,20 +28888,20 @@ Aᶜ ∩ Bᶜ
 **(2) $(A \cap B)^c = A^c \cup B^c$**
 
 ```
-A ∩ B                (A ∩ B)ᶜ
-   ┌───┐             ┌─────────────┐
-   │███│             │█████████████│
-   │███│             │██┌───┐██████│
-   │███│             │██│   │██████│
-   └───┘             │██└───┘██████│
-                     │█████████████│
-                     └─────────────┘
+A ∩ B (A ∩ B)ᶜ
+ ┌───┐ ┌─────────────┐
+ │███│ │█████████████│
+ │███│ │██┌───┐██████│
+ │███│ │██│ │██████│
+ └───┘ │██└───┘██████│
+ │█████████████│
+ └─────────────┘
 
 Aᶜ ∪ Bᶜ
 ┌─────────────┐
 │█████████████│
 │██┌───┐██████│
-│██│   │██████│
+│██│ │██████│
 │██└───┘██████│
 │█████████████│
 └─────────────┘
@@ -28956,28 +28956,28 @@ $$A \triangle B = \{x \mid (x \in A \land x \notin B) \lor (x \in B \land x \not
 **图示**：
 
 ```
-       A          B
-    ┌─────┐   ┌─────┐
-    │█████│   │█████│
-    │█████│   │█████│
-    │█████│   │█████│
-    └─────┘   └─────┘
-    
-    两边阴影部分是 A △ B
-    （不包括中间重叠部分）
+ A B
+ ┌─────┐ ┌─────┐
+ │█████│ │█████│
+ │█████│ │█████│
+ │█████│ │█████│
+ └─────┘ └─────┘
+
+ 两边阴影部分是 A △ B
+ （不包括中间重叠部分）
 ```
 
 **Venn 图**：
 
 ```
-       A          B
-    ┌─────┐   ┌─────┐
-    │●●●●●│   │●●●●●│
-    │●●●●●│   │●●●●●│
-    │●●●●●│   │●●●●●│
-    └─────┘   └─────┘
-    
-    A 和 B 的非重叠部分
+ A B
+ ┌─────┐ ┌─────┐
+ │●●●●●│ │●●●●●│
+ │●●●●●│ │●●●●●│
+ │●●●●●│ │●●●●●│
+ └─────┘ └─────┘
+
+ A 和 B 的非重叠部分
 ```
 
 ---
@@ -29139,16 +29139,16 @@ $$|A \times B| = |A| \cdot |B| = 3 \times 2 = 6$$
 ```
 $\mathbb{R} \times \mathbb{R} = \mathbb{R}^2$
 
-    y
-    │
-  3 │  ●  ●  ●  ●
-    │
-  2 │  ●  ●  ●  ●
-    │
-  1 │  ●  ●  ●  ●
-    │
+ y
+ │
+ 3 │ ● ● ● ●
+ │
+ 2 │ ● ● ● ●
+ │
+ 1 │ ● ● ● ●
+ │
 ────┼──────────────── x
-    0  1  2  3  4
+ 0 1 2 3 4
 
 每个点 (x, y) 是一个有序对
 ```
@@ -29352,11 +29352,11 @@ $$\begin{array}{cc} \uparrow & \uparrow \\ a & b \end{array}$$
 $$A = \{1, 2, 3, 4\}, \quad R = \{(1, 2), (2, 3), (3, 4), (4, 1), (2, 4)\}$$
 
 ```
-    1 ──→ 2
-    ↑     │
-    │     ↓
-    4 ←── 3
-      ↖─┘
+ 1 ──→ 2
+ ↑ │
+ │ ↓
+ 4 ←── 3
+ ─┘
 ```
 
 ---
@@ -29370,14 +29370,14 @@ $$A = \{1, 2, 3, 4\}, \quad R = \{(1, 2), (2, 3), (3, 4), (4, 1), (2, 4)\}$$
 $$R = \{(x, y) \in \mathbb{R}^2 \mid y = x^2\}$$
 
 ```
-    y
-    │    ╱
-  4 │   ●
-    │  ╱
-  1 │ ●
-    │╱
+ y
+ │ ╱
+ 4 │ ●
+ │ ╱
+ 1 │ ●
+ │╱
 ────●──────── x
-   -2 -1 0 1 2
+ -2 -1 0 1 2
 
 抛物线上的点
 ```
@@ -29456,11 +29456,11 @@ $$S \circ R = \{(a, c) \mid \exists b \in B, (a, b) \in R \land (b, c) \in S\}$$
 
 ```
 A ──R──→ B ──S──→ C
-  └────S∘R────→
-  
+ └────S∘R────→
+
 a ──→ b ──→ c
-  (a,b)∈R  (b,c)∈S
-  
+ (a,b)∈R (b,c)∈S
+
 ⟹ (a,c) ∈ S∘R
 ```
 
@@ -29541,7 +29541,7 @@ $$<\text{ 是传递的}$$
 
 $$a < b \land b < c \Rightarrow a < c$$
 
-具体：$2 < 5 \land 5 < 9 \Rightarrow 2 < 9$ ✓
+具体：$2 < 5 \land 5 < 9 \Rightarrow 2 < 9$
 
 ---
 
@@ -29551,7 +29551,7 @@ $$\leq \text{ 是传递的}$$
 
 $$a \leq b \land b \leq c \Rightarrow a \leq c$$
 
-具体：$3 \leq 7 \land 7 \leq 7 \Rightarrow 3 \leq 7$ ✓
+具体：$3 \leq 7 \land 7 \leq 7 \Rightarrow 3 \leq 7$
 
 ---
 
@@ -29561,7 +29561,7 @@ $$\subseteq \text{ 是传递的}$$
 
 $$A \subseteq B \land B \subseteq C \Rightarrow A \subseteq C$$
 
-具体：$\{1\} \subseteq \{1, 2\} \land \{1, 2\} \subseteq \{1, 2, 3\} \Rightarrow \{1\} \subseteq \{1, 2, 3\}$ ✓
+具体：$\{1\} \subseteq \{1, 2\} \land \{1, 2\} \subseteq \{1, 2, 3\} \Rightarrow \{1\} \subseteq \{1, 2, 3\}$
 
 ---
 
@@ -29579,7 +29579,7 @@ $$\mid \text{ 是传递的}$$
 
 $$a \mid b \land b \mid c \Rightarrow a \mid c$$
 
-具体：$2 \mid 6 \land 6 \mid 18 \Rightarrow 2 \mid 18$ ✓
+具体：$2 \mid 6 \land 6 \mid 18 \Rightarrow 2 \mid 18$
 
 **证明**：若 $a \mid b$，则 $b = ka$；若 $b \mid c$，则 $c = mb$。
 
@@ -29594,12 +29594,12 @@ $$a \mid b \land b \mid c \Rightarrow a \mid c$$
 $$\text{若 } A \text{ 是 } B \text{ 的祖先，} B \text{ 是 } C \text{ 的祖先，则 } A \text{ 是 } C \text{ 的祖先}$$
 
 ```
-    祖父
-     │
-    父亲  ← 祖父是父亲的祖先
-     │
-    儿子  ← 父亲是儿子的祖先
-    
+ 祖父
+ │
+ 父亲 ← 祖父是父亲的祖先
+ │
+ 儿子 ← 父亲是儿子的祖先
+
 ⟹ 祖父是儿子的祖先（传递性）
 ```
 
@@ -29630,8 +29630,8 @@ $$\neq \text{ 不是传递的}$$
 在图中，"相邻"关系不是传递的：
 
 ```
-    1 ─── 2 ─── 3
-    
+ 1 ─── 2 ─── 3
+
 1 与 2 相邻，2 与 3 相邻
 但 1 与 3 不相邻
 ```
@@ -29662,7 +29662,7 @@ $$A = \{1, 2, 3\}, \quad R = \{(1, 2), (2, 3), (1, 3)\}$$
 
 检查：
 
-- $(1, 2) \in R \land (2, 3) \in R$：需要 $(1, 3) \in R$ ✓
+- $(1, 2) \in R \land (2, 3) \in R$：需要 $(1, 3) \in R$
 - 没有其他组合
 
 所以 $R$ 是传递的。
@@ -29687,7 +29687,7 @@ $$M_R = \begin{bmatrix} 0 & 1 & 1 \\ 0 & 0 & 1 \\ 0 & 0 & 0 \end{bmatrix}$$
 
 $$M_R^2 = M_R \odot M_R = \begin{bmatrix} 0 & 0 & 1 \\ 0 & 0 & 0 \\ 0 & 0 & 0 \end{bmatrix}$$
 
-检查：$M_R^2$ 中为 1 的位置 $(1, 3)$，在 $M_R$ 中也为 1 ✓
+检查：$M_R^2$ 中为 1 的位置 $(1, 3)$，在 $M_R$ 中也为 1
 
 所以 $R$ 是传递的。
 
@@ -29701,7 +29701,7 @@ $$M_R = \begin{bmatrix} 0 & 1 & 0 \\ 0 & 0 & 1 \\ 0 & 0 & 0 \end{bmatrix}$$
 
 $$M_R^2 = \begin{bmatrix} 0 & 0 & 1 \\ 0 & 0 & 0 \\ 0 & 0 & 0 \end{bmatrix}$$
 
-$M_R^2$ 中 $(1, 3)$ 位置为 1，但 $M_R$ 中 $(1, 3)$ 位置为 0 ✗
+$M_R^2$ 中 $(1, 3)$ 位置为 1，但 $M_R$ 中 $(1, 3)$ 位置为 0
 
 所以 $R$ 不是传递的。
 
@@ -29716,20 +29716,20 @@ $M_R^2$ 中 $(1, 3)$ 位置为 1，但 $M_R$ 中 $(1, 3)$ 位置为 0 ✗
 **例**（传递）：
 
 ```
-    1 ──→ 2 ──→ 3
-    └──────────→
-    
+ 1 ──→ 2 ──→ 3
+ └──────────→
+
 路径 1→2→3 存在
-直接边 1→3 也存在 ✓
+直接边 1→3 也存在
 ```
 
 **反例**（非传递）：
 
 ```
-    1 ──→ 2 ──→ 3
-    
+ 1 ──→ 2 ──→ 3
+
 路径 1→2→3 存在
-但没有直接边 1→3 ✗
+但没有直接边 1→3
 ```
 
 ---
@@ -29820,9 +29820,9 @@ $$R^* = \{(1, 1), (2, 2), (3, 3), (1, 2), (2, 3), (1, 3)\}$$
 
 W := M_R
 for k := 1 to n do
-    for i := 1 to n do
-        for j := 1 to n do
-            W[i,j] := W[i,j] ∨ (W[i,k] ∧ W[k,j])
+ for i := 1 to n do
+ for j := 1 to n do
+ W[i,j] := W[i,j] ∨ (W[i,k] ∧ W[k,j])
 return W
 ```
 
@@ -30030,8 +30030,8 @@ $(1, 2) \in R \cup S \land (2, 3) \in R \cup S$，但 $(1, 3) \notin R \cup S$�
 
 | $p$ | $\neg p$ |
 |-----|----------|
-| T   | F        |
-| F   | T        |
+| T | F |
+| F | T |
 
 **例**：
 
@@ -30052,10 +30052,10 @@ $(1, 2) \in R \cup S \land (2, 3) \in R \cup S$，但 $(1, 3) \notin R \cup S$�
 
 | $p$ | $q$ | $p \land q$ |
 |-----|-----|-------------|
-| T   | T   | T           |
-| T   | F   | F           |
-| F   | T   | F           |
-| F   | F   | F           |
+| T | T | T |
+| T | F | F |
+| F | T | F |
+| F | F | F |
 
 **例**：
 
@@ -30079,10 +30079,10 @@ $(1, 2) \in R \cup S \land (2, 3) \in R \cup S$，但 $(1, 3) \notin R \cup S$�
 
 | $p$ | $q$ | $p \lor q$ |
 |-----|-----|------------|
-| T   | T   | T          |
-| T   | F   | T          |
-| F   | T   | T          |
-| F   | F   | F          |
+| T | T | T |
+| T | F | T |
+| F | T | T |
+| F | F | F |
 
 **例**：
 
@@ -30106,10 +30106,10 @@ $(1, 2) \in R \cup S \land (2, 3) \in R \cup S$，但 $(1, 3) \notin R \cup S$�
 
 | $p$ | $q$ | $p \oplus q$ |
 |-----|-----|--------------|
-| T   | T   | F            |
-| T   | F   | T            |
-| F   | T   | T            |
-| F   | F   | F            |
+| T | T | F |
+| T | F | T |
+| F | T | T |
+| F | F | F |
 
 **例**：
 
@@ -30137,10 +30137,10 @@ $$p \oplus q \equiv (p \land \neg q) \lor (\neg p \land q)$$
 
 | $p$ | $q$ | $p \to q$ |
 |-----|-----|-----------|
-| T   | T   | T         |
-| T   | F   | F         |
-| F   | T   | T         |
-| F   | F   | T         |
+| T | T | T |
+| T | F | F |
+| F | T | T |
+| F | F | T |
 
 **例**：
 
@@ -30176,10 +30176,10 @@ $$p \to q \equiv \neg p \lor q$$
 
 | $p$ | $q$ | $p \leftrightarrow q$ |
 |-----|-----|-----------------------|
-| T   | T   | T                     |
-| T   | F   | F                     |
-| F   | T   | F                     |
-| F   | F   | T                     |
+| T | T | T |
+| T | F | F |
+| F | T | F |
+| F | F | T |
 
 **例**：
 
@@ -30228,10 +30228,10 @@ $$\neg p \land q$$
 
 | $p$ | $q$ | $\neg p$ | $\neg p \land q$ |
 |-----|-----|----------|------------------|
-| T   | T   | F        | F                |
-| T   | F   | F        | F                |
-| F   | T   | T        | T                |
-| F   | F   | T        | F                |
+| T | T | F | F |
+| T | F | F | F |
+| F | T | T | T |
+| F | F | T | F |
 
 ---
 
@@ -30243,12 +30243,12 @@ $$\neg p \land q$$
 
 | $p$ | $q$ | $p \to q$ | $\neg p$ | $\neg p \lor q$ |
 |-----|-----|-----------|----------|-----------------|
-| T   | T   | T         | F        | T               |
-| T   | F   | F         | F        | F               |
-| F   | T   | T         | T        | T               |
-| F   | F   | T         | T        | T               |
+| T | T | T | F | T |
+| T | F | F | F | F |
+| F | T | T | T | T |
+| F | F | T | T | T |
 
-最后两列相同，所以 $p \to q \equiv \neg p \lor q$ ✓
+最后两列相同，所以 $p \to q \equiv \neg p \lor q$
 
 ---
 
@@ -30260,12 +30260,12 @@ $$\neg p \land q$$
 
 | $p$ | $q$ | $p \land q$ | $\neg(p \land q)$ | $\neg p$ | $\neg q$ | $\neg p \lor \neg q$ |
 |-----|-----|-------------|-------------------|----------|----------|----------------------|
-| T   | T   | T           | F                 | F        | F        | F                    |
-| T   | F   | F           | T                 | F        | T        | T                    |
-| F   | T   | F           | T                 | T        | F        | T                    |
-| F   | F   | F           | T                 | T        | T        | T                    |
+| T | T | T | F | F | F | F |
+| T | F | F | T | F | T | T |
+| F | T | F | T | T | F | T |
+| F | F | F | T | T | T | T |
 
-第 4 列和第 7 列相同，所以 $\neg(p \land q) \equiv \neg p \lor \neg q$ ✓
+第 4 列和第 7 列相同，所以 $\neg(p \land q) \equiv \neg p \lor \neg q$
 
 ---
 
@@ -30277,14 +30277,14 @@ $$(p \lor q) \land r$$
 
 | $p$ | $q$ | $r$ | $p \lor q$ | $(p \lor q) \land r$ |
 |-----|-----|-----|------------|----------------------|
-| T   | T   | T   | T          | T                    |
-| T   | T   | F   | T          | F                    |
-| T   | F   | T   | T          | T                    |
-| T   | F   | F   | T          | F                    |
-| F   | T   | T   | T          | T                    |
-| F   | T   | F   | T          | F                    |
-| F   | F   | T   | F          | F                    |
-| F   | F   | F   | F          | F                    |
+| T | T | T | T | T |
+| T | T | F | T | F |
+| T | F | T | T | T |
+| T | F | F | T | F |
+| F | T | T | T | T |
+| F | T | F | T | F |
+| F | F | T | F | F |
+| F | F | F | F | F |
 
 ---
 
@@ -30298,14 +30298,14 @@ $$(p \to q) \land (q \to r) \to (p \to r)$$
 
 | $p$ | $q$ | $r$ | $p \to q$ | $q \to r$ | $(p \to q) \land (q \to r)$ | $p \to r$ | 整个命题 |
 |-----|-----|-----|-----------|-----------|----------------------------|-----------|----------|
-| T   | T   | T   | T         | T         | T                          | T         | T        |
-| T   | T   | F   | T         | F         | F                          | F         | T        |
-| T   | F   | T   | F         | T         | F                          | T         | T        |
-| T   | F   | F   | F         | T         | F                          | F         | T        |
-| F   | T   | T   | T         | T         | T                          | T         | T        |
-| F   | T   | F   | T         | F         | F                          | T         | T        |
-| F   | F   | T   | T         | T         | T                          | T         | T        |
-| F   | F   | F   | T         | T         | T                          | T         | T        |
+| T | T | T | T | T | T | T | T |
+| T | T | F | T | F | F | F | T |
+| T | F | T | F | T | F | T | T |
+| T | F | F | F | T | F | F | T |
+| F | T | T | T | T | T | T | T |
+| F | T | F | T | F | F | T | T |
+| F | F | T | T | T | T | T | T |
+| F | F | F | T | T | T | T | T |
 
 最后一列全为 $T$，所以这是一个**重言式**（tautology）。
 
@@ -30333,10 +30333,10 @@ $$(p \to q) \land (q \to r) \to (p \to r)$$
 
 | $p$ | $\neg p$ | $p \lor \neg p$ |
 |-----|----------|-----------------|
-| T   | F        | T               |
-| F   | T        | T               |
+| T | F | T |
+| F | T | T |
 
-所有行都为 $T$，所以是重言式 ✓
+所有行都为 $T$，所以是重言式
 
 ---
 
@@ -30344,12 +30344,12 @@ $$(p \to q) \land (q \to r) \to (p \to r)$$
 
 | $p$ | $q$ | $p \land q$ | $(p \land q) \to p$ |
 |-----|-----|-------------|---------------------|
-| T   | T   | T           | T                   |
-| T   | F   | F           | T                   |
-| F   | T   | F           | T                   |
-| F   | F   | F           | T                   |
+| T | T | T | T |
+| T | F | F | T |
+| F | T | F | T |
+| F | F | F | T |
 
-所有行都为 $T$，所以是重言式 ✓
+所有行都为 $T$，所以是重言式
 
 ---
 
@@ -30469,10 +30469,10 @@ $$[(p \to q) \land \neg q] \to \neg p$$
 
 | $p$ | $\neg p$ | $p \land \neg p$ |
 |-----|----------|------------------|
-| T   | F        | F                |
-| F   | T        | F                |
+| T | F | F |
+| F | T | F |
 
-所有行都为 $F$，所以是矛盾式 ✓
+所有行都为 $F$，所以是矛盾式
 
 ---
 
@@ -30480,12 +30480,12 @@ $$[(p \to q) \land \neg q] \to \neg p$$
 
 | $p$ | $q$ | $p \to q$ | $\neg q$ | $(p \to q) \land p \land \neg q$ |
 |-----|-----|-----------|----------|----------------------------------|
-| T   | T   | T         | F        | F                                |
-| T   | F   | F         | T        | F                                |
-| F   | T   | T         | F        | F                                |
-| F   | F   | T         | T        | F                                |
+| T | T | T | F | F |
+| T | F | F | T | F |
+| F | T | T | F | F |
+| F | F | T | T | F |
 
-所有行都为 $F$，所以是矛盾式 ✓
+所有行都为 $F$，所以是矛盾式
 
 ---
 
@@ -30512,12 +30512,12 @@ $$[(p \to q) \land \neg q] \to \neg p$$
 
 | $p$ | $q$ | $p \land q$ |
 |-----|-----|-------------|
-| T   | T   | **T**       |
-| T   | F   | F           |
-| F   | T   | F           |
-| F   | F   | F           |
+| T | T | **T** |
+| T | F | F |
+| F | T | F |
+| F | F | F |
 
-至少有一行为 $T$，所以是可满足式 ✓
+至少有一行为 $T$，所以是可满足式
 
 ---
 
@@ -30537,21 +30537,21 @@ $$[(p \to q) \land \neg q] \to \neg p$$
 ```
 所有命题
 ├── 可满足式（至少一行为 T）
-│   ├── 重言式（所有行为 T）
-│   └── 偶然式（有些行为 T，有些行为 F）
+│ ├── 重言式（所有行为 T）
+│ └── 偶然式（有些行为 T，有些行为 F）
 └── 不可满足式（所有行为 F）= 矛盾式
 ```
 
 **关系图**：
 
 ```
-        所有命题
-           │
-    ┌──────┴──────┐
-可满足式        矛盾式
-    │
+ 所有命题
+ │
+ ┌──────┴──────┐
+可满足式 矛盾式
+ │
 ┌───┴───┐
-重言式  偶然式
+重言式 偶然式
 ```
 
 ---
@@ -30586,12 +30586,12 @@ $$p \to q \equiv \neg p \lor q$$
 
 | $p$ | $q$ | $p \to q$ | $\neg p$ | $\neg p \lor q$ |
 |-----|-----|-----------|----------|-----------------|
-| T   | T   | T         | F        | T               |
-| T   | F   | F         | F        | F               |
-| F   | T   | T         | T        | T               |
-| F   | F   | T         | T        | T               |
+| T | T | T | F | T |
+| T | F | F | F | F |
+| F | T | T | T | T |
+| F | F | T | T | T |
 
-第 3 列和第 5 列相同 ✓
+第 3 列和第 5 列相同
 
 ---
 
@@ -30603,12 +30603,12 @@ $$p \to q \equiv \neg q \to \neg p$$
 
 | $p$ | $q$ | $p \to q$ | $\neg q$ | $\neg p$ | $\neg q \to \neg p$ |
 |-----|-----|-----------|----------|----------|---------------------|
-| T   | T   | T         | F        | F        | T                   |
-| T   | F   | F         | T        | F        | F                   |
-| F   | T   | T         | F        | T        | T                   |
-| F   | F   | T         | T        | T        | T                   |
+| T | T | T | F | F | T |
+| T | F | F | T | F | F |
+| F | T | T | F | T | T |
+| F | F | T | T | T | T |
 
-第 3 列和第 6 列相同 ✓
+第 3 列和第 6 列相同
 
 ---
 
@@ -30628,16 +30628,16 @@ $$p \land (q \lor r) \equiv (p \land q) \lor (p \land r)$$
 
 | $p$ | $q$ | $r$ | $q \lor r$ | $p \land (q \lor r)$ | $p \land q$ | $p \land r$ | $(p \land q) \lor (p \land r)$ |
 |-----|-----|-----|------------|----------------------|-------------|-------------|--------------------------------|
-| T   | T   | T   | T          | T                    | T           | T           | T                              |
-| T   | T   | F   | T          | T                    | T           | F           | T                              |
-| T   | F   | T   | T          | T                    | F           | T           | T                              |
-| T   | F   | F   | F          | F                    | F           | F           | F                              |
-| F   | T   | T   | T          | F                    | F           | F           | F                              |
-| F   | T   | F   | T          | F                    | F           | F           | F                              |
-| F   | F   | T   | T          | F                    | F           | F           | F                              |
-| F   | F   | F   | F          | F                    | F           | F           | F                              |
+| T | T | T | T | T | T | T | T |
+| T | T | F | T | T | T | F | T |
+| T | F | T | T | T | F | T | T |
+| T | F | F | F | F | F | F | F |
+| F | T | T | T | F | F | F | F |
+| F | T | F | T | F | F | F | F |
+| F | F | T | T | F | F | F | F |
+| F | F | F | F | F | F | F | F |
 
-第 5 列和第 8 列相同 ✓
+第 5 列和第 8 列相同
 
 ---
 
@@ -30692,23 +30692,23 @@ $$\neg(p \lor q) \equiv \neg p \land \neg q$$
 
 | $p$ | $q$ | $p \land q$ | $\neg(p \land q)$ | $\neg p$ | $\neg q$ | $\neg p \lor \neg q$ |
 |-----|-----|-------------|-------------------|----------|----------|----------------------|
-| T   | T   | T           | **F**             | F        | F        | **F**                |
-| T   | F   | F           | **T**             | F        | T        | **T**                |
-| F   | T   | F           | **T**             | T        | F        | **T**                |
-| F   | F   | F           | **T**             | T        | T        | **T**                |
+| T | T | T | **F** | F | F | **F** |
+| T | F | F | **T** | F | T | **T** |
+| F | T | F | **T** | T | F | **T** |
+| F | F | F | **T** | T | T | **T** |
 
-第 4 列和第 7 列完全相同，验证成立 ✓
+第 4 列和第 7 列完全相同，验证成立
 
 **真值表验证**（第二定律）：
 
 | $p$ | $q$ | $p \lor q$ | $\neg(p \lor q)$ | $\neg p$ | $\neg q$ | $\neg p \land \neg q$ |
 |-----|-----|------------|------------------|----------|----------|-----------------------|
-| T   | T   | T          | **F**            | F        | F        | **F**                 |
-| T   | F   | T          | **F**            | F        | T        | **F**                 |
-| F   | T   | T          | **F**            | T        | F        | **F**                 |
-| F   | F   | F          | **T**            | T        | T        | **T**                 |
+| T | T | T | **F** | F | F | **F** |
+| T | F | T | **F** | F | T | **F** |
+| F | T | T | **F** | T | F | **F** |
+| F | F | F | **T** | T | T | **T** |
 
-第 4 列和第 7 列完全相同，验证成立 ✓
+第 4 列和第 7 列完全相同，验证成立
 
 **记忆技巧**：
 
@@ -30743,12 +30743,12 @@ $$\neg(p \lor q \lor r) \equiv \neg p \land \neg q \land \neg r$$
 当 $p = T, q = T, r = T$ 时：
 
 - 左边：$\neg(T \land T \land T) = \neg T = F$
-- 右边：$F \lor F \lor F = F$ ✓
+- 右边：$F \lor F \lor F = F$
 
 当 $p = T, q = T, r = F$ 时：
 
 - 左边：$\neg(T \land T \land F) = \neg F = T$
-- 右边：$F \lor F \lor T = T$ ✓
+- 右边：$F \lor F \lor T = T$
 
 **集合论形式**：
 
@@ -30845,21 +30845,21 @@ NAND 门等价于输入取反后的 OR 门。
 ```python
 # 原始代码
 if not (x > 0 and y > 0):
-    # 执行某操作
+ # 执行某操作
 
 # 使用德摩根定律简化
 if x <= 0 or y <= 0:
-    # 执行某操作
+ # 执行某操作
 ```
 
 ```python
 # 原始代码
 if not (is_student or is_teacher):
-    # 执行某操作
+ # 执行某操作
 
 # 使用德摩根定律简化
 if not is_student and not is_teacher:
-    # 执行某操作
+ # 执行某操作
 ```
 
 ---
@@ -30914,7 +30914,7 @@ $$\Leftrightarrow x \in A^c \lor x \in B^c$$
 
 $$\Leftrightarrow x \in A^c \cup B^c$$
 
-因此 $(A \cap B)^c = A^c \cup B^c$ ✓
+因此 $(A \cap B)^c = A^c \cup B^c$
 
 **方法 4：文氏图法**
 
@@ -30925,18 +30925,18 @@ $$\Leftrightarrow x \in A^c \cup B^c$$
 ```
 全集 U
 ┌─────────────────────┐
-│         ┌───┐       │
-│    A^c  │ A │       │
-│       ┌─┼───┼─┐     │
-│       │ │///│ │     │  /// 表示 A∩B
-│       │ └───┘ │     │
-│       │   B   │ B^c │
-│       └───────┘     │
+│ ┌───┐ │
+│ A^c │ A │ │
+│ ┌─┼───┼─┐ │
+│ │ │///│ │ │ /// 表示 A∩B
+│ │ └───┘ │ │
+│ │ B │ B^c │
+│ └───────┘ │
 └─────────────────────┘
 
 (A∩B)^c 是除了 /// 区域外的所有部分
 A^c∪B^c 是 A 外部和 B 外部的并集
-两者相同 ✓
+两者相同
 ```
 
 ---
@@ -31816,13 +31816,13 @@ $$T_3 = \binom{5}{2}(2x)^3(-3)^2 = 10 \cdot 8x^3 \cdot 9 = 720x^3$$
 **帕斯卡三角形（Pascal's Triangle）**
 
 ```
-                1
-              1   1
-            1   2   1
-          1   3   3   1
-        1   4   6   4   1
-      1   5  10  10   5   1
-    1   6  15  20  15   6   1
+ 1
+ 1 1
+ 1 2 1
+ 1 3 3 1
+ 1 4 6 4 1
+ 1 5 10 10 5 1
+ 1 6 15 20 15 6 1
 ```
 
 **性质**：
@@ -32060,14 +32060,14 @@ $$a_n^{(h)} = A \cdot c^n$$
 
 **常见 $f(n)$ 的特解形式**：
 
-| $f(n)$        | 特解形式 $a_n^{(p)}$            | 条件       |
+| $f(n)$ | 特解形式 $a_n^{(p)}$ | 条件 |
 | ------------- | ------------------------------- | ---------- |
-| 常数 $d$      | $\frac{d}{1-c}$                 | $c \neq 1$ |
-| 常数 $d$      | $nd$                            | $c = 1$    |
-| $bn$          | $\alpha n + \beta$              | $c \neq 1$ |
-| $bn^2$        | $\alpha n^2 + \beta n + \gamma$ | $c \neq 1$ |
-| $b \cdot r^n$ | $\alpha \cdot r^n$              | $r \neq c$ |
-| $b \cdot r^n$ | $\alpha n \cdot r^n$            | $r = c$    |
+| 常数 $d$ | $\frac{d}{1-c}$ | $c \neq 1$ |
+| 常数 $d$ | $nd$ | $c = 1$ |
+| $bn$ | $\alpha n + \beta$ | $c \neq 1$ |
+| $bn^2$ | $\alpha n^2 + \beta n + \gamma$ | $c \neq 1$ |
+| $b \cdot r^n$ | $\alpha \cdot r^n$ | $r \neq c$ |
+| $b \cdot r^n$ | $\alpha n \cdot r^n$ | $r = c$ |
 
 ---
 
@@ -32694,7 +32694,7 @@ $$r^3 - 6r^2 + 11r - 6 = 0$$
 
 尝试 $r = 1$：
 
-$$1 - 6 + 11 - 6 = 0$$ ✓
+$$1 - 6 + 11 - 6 = 0$$
 
 因式分解：
 
@@ -32738,7 +32738,7 @@ $$r^3 - 4r^2 + 5r - 2 = 0$$
 
 尝试 $r = 1$：
 
-$$1 - 4 + 5 - 2 = 0$$ ✓
+$$1 - 4 + 5 - 2 = 0$$
 
 因式分解：
 
@@ -32861,7 +32861,7 @@ $$1 + 2 + 3 + \cdots + n = \frac{n(n+1)}{2}$$
 
 右边 $= \frac{1 \times 2}{2} = 1$
 
-左边 = 右边，$P(1)$ 成立。✓
+左边 = 右边，$P(1)$ 成立。
 
 **(2) 归纳假设**：假设当 $n = k$ 时，公式成立，即
 
@@ -32881,7 +32881,7 @@ $$= \frac{(k+1)(k+2)}{2}$$
 
 $$= \frac{(k+1)[(k+1)+1]}{2}$$
 
-这正是 $n = k+1$ 时的公式。✓
+这正是 $n = k+1$ 时的公式。
 
 **(4) 结论**：由数学归纳法，公式对所有 $n \geq 1$ 成立。$\square$
 
@@ -32899,7 +32899,7 @@ $$1^2 + 2^2 + 3^2 + \cdots + n^2 = \frac{n(n+1)(2n+1)}{6}$$
 
 右边 $= \frac{1 \times 2 \times 3}{6} = 1$
 
-$P(1)$ 成立。✓
+$P(1)$ 成立。
 
 **(2) 归纳假设**：假设当 $n = k$ 时，
 
@@ -32923,7 +32923,7 @@ $$= \frac{(k+1)(k+2)(2k+3)}{6}$$
 
 $$= \frac{(k+1)[(k+1)+1][2(k+1)+1]}{6}$$
 
-这正是 $n = k+1$ 时的公式。✓
+这正是 $n = k+1$ 时的公式。
 
 **(4) 结论**：由数学归纳法，公式对所有 $n \geq 1$ 成立。$\square$
 
@@ -32935,7 +32935,7 @@ $$= \frac{(k+1)[(k+1)+1][2(k+1)+1]}{6}$$
 
 **(1) 基础步骤**：当 $n = 1$ 时，
 
-$2^1 = 2 > 1$，成立。✓
+$2^1 = 2 > 1$，成立。
 
 **(2) 归纳假设**：假设当 $n = k$ 时，$2^k > k$
 
@@ -32949,7 +32949,7 @@ $$2^{k+1} = 2 \cdot 2^k > 2k$$ （由归纳假设）
 
 当 $k > 1$ 时，$2k > k+1$ 显然成立。
 
-因此 $2^{k+1} > k+1$。✓
+因此 $2^{k+1} > k+1$。
 
 **(4) 结论**：由数学归纳法，$2^n > n$ 对所有 $n \geq 1$ 成立。$\square$
 
@@ -32961,7 +32961,7 @@ $$2^{k+1} = 2 \cdot 2^k > 2k$$ （由归纳假设）
 
 **(1) 基础步骤**：当 $n = 1$ 时，
 
-$1^3 - 1 = 0 = 3 \times 0$，能被 3 整除。✓
+$1^3 - 1 = 0 = 3 \times 0$，能被 3 整除。
 
 **(2) 归纳假设**：假设当 $n = k$ 时，$k^3 - k$ 能被 3 整除，即
 
@@ -32981,7 +32981,7 @@ $$= 3m + 3(k^2 + k)$$ （由归纳假设）
 
 $$= 3(m + k^2 + k)$$
 
-能被 3 整除。✓
+能被 3 整除。
 
 **(4) 结论**：由数学归纳法，$n^3 - n$ 对所有 $n \geq 1$ 能被 3 整除。$\square$
 
@@ -32993,7 +32993,7 @@ $$= 3(m + k^2 + k)$$
 
 **(1) 基础步骤**：当 $n = 4$ 时，
 
-$2^4 = 16 < 24 = 4!$，成立。✓
+$2^4 = 16 < 24 = 4!$，成立。
 
 **(2) 归纳假设**：假设当 $n = k$（$k \geq 4$）时，$2^k < k!$
 
@@ -33005,7 +33005,7 @@ $$2^{k+1} = 2 \cdot 2^k < 2 \cdot k!$$ （由归纳假设）
 
 由于 $k \geq 4$，所以 $k+1 \geq 5 > 2$，成立。
 
-因此 $2^{k+1} < (k+1)!$。✓
+因此 $2^{k+1} < (k+1)!$。
 
 **(4) 结论**：由数学归纳法，$2^n < n!$ 对所有 $n \geq 4$ 成立。$\square$
 
@@ -33048,13 +33048,13 @@ $$[P(n_0) \land \forall k \geq n_0 ([\forall i, n_0 \leq i \leq k \Rightarrow P(
 
 **证明**：
 
-**(1) 基础步骤**：当 $n = 2$ 时，2 本身是质数，成立。✓
+**(1) 基础步骤**：当 $n = 2$ 时，2 本身是质数，成立。
 
 **(2) 归纳假设**：假设对所有 $2 \leq i \leq k$，$i$ 都可以表示为质数的乘积。
 
 **(3) 归纳步骤**：考虑 $n = k+1$。
 
-**情况 1**：如果 $k+1$ 是质数，则它本身就是质数的乘积。✓
+**情况 1**：如果 $k+1$ 是质数，则它本身就是质数的乘积。
 
 **情况 2**：如果 $k+1$ 是合数，则存在 $a, b$（$1 < a, b < k+1$）使得
 
@@ -33068,7 +33068,7 @@ $$a = p_1 p_2 \cdots p_r, \quad b = q_1 q_2 \cdots q_s$$
 
 $$k+1 = a \times b = p_1 p_2 \cdots p_r q_1 q_2 \cdots q_s$$
 
-也是质数的乘积。✓
+也是质数的乘积。
 
 **(4) 结论**：由强归纳法，每个大于 1 的整数都可以表示为质数的乘积。$\square$
 
@@ -33084,9 +33084,9 @@ $$k+1 = a \times b = p_1 p_2 \cdots p_r q_1 q_2 \cdots q_s$$
 
 **(1) 基础步骤**：
 
-当 $n = 1$ 时，$F_1 = 1 < 2 = 2^1$。✓
+当 $n = 1$ 时，$F_1 = 1 < 2 = 2^1$。
 
-当 $n = 2$ 时，$F_2 = 1 < 4 = 2^2$。✓
+当 $n = 2$ 时，$F_2 = 1 < 4 = 2^2$。
 
 **(2) 归纳假设**：假设对所有 $1 \leq i \leq k$（$k \geq 2$），$F_i < 2^i$
 
@@ -33106,7 +33106,7 @@ $$= 2^2 \cdot 2^{k-1}$$
 
 $$= 2^{k+1}$$
 
-因此 $F_{k+1} < 2^{k+1}$。✓
+因此 $F_{k+1} < 2^{k+1}$。
 
 **(4) 结论**：由强归纳法，$F_n < 2^n$ 对所有 $n \geq 1$ 成立。$\square$
 
@@ -33120,10 +33120,10 @@ $$= 2^{k+1}$$
 
 **(1) 基础步骤**：
 
-- $n = 12$：$12 = 3 \times 4$。✓
-- $n = 13$：$13 = 2 \times 4 + 1 \times 5$。✓
-- $n = 14$：$14 = 1 \times 4 + 2 \times 5$。✓
-- $n = 15$：$15 = 3 \times 5$。✓
+- $n = 12$：$12 = 3 \times 4$。
+- $n = 13$：$13 = 2 \times 4 + 1 \times 5$。
+- $n = 14$：$14 = 1 \times 4 + 2 \times 5$。
+- $n = 15$：$15 = 3 \times 5$。
 
 **(2) 归纳假设**：假设对所有 $12 \leq i \leq k$（$k \geq 15$），$i$ 都可以用 4 分和 5 分邮票表示。
 
@@ -33139,7 +33139,7 @@ $$k-3 = 4a + 5b$$
 
 $$k+1 = (k-3) + 4 = 4a + 5b + 4 = 4(a+1) + 5b$$
 
-也可以用 4 分和 5 分邮票表示。✓
+也可以用 4 分和 5 分邮票表示。
 
 **(4) 结论**：由强归纳法，所有 $n \geq 12$ 都可以用 4 分和 5 分邮票表示。$\square$
 
@@ -33149,7 +33149,7 @@ $$k+1 = (k-3) + 4 = 4a + 5b + 4 = 4(a+1) + 5b$$
 
 **证明**：
 
-**(1) 基础步骤**：当 $k = 1$，$n = 2$ 时，$2 \times 2$ 棋盘去掉一格后剩余 3 格，恰好是一个 L 型骨牌。✓
+**(1) 基础步骤**：当 $k = 1$，$n = 2$ 时，$2 \times 2$ 棋盘去掉一格后剩余 3 格，恰好是一个 L 型骨牌。
 
 **(2) 归纳假设**：假设对所有 $1 \leq i \leq k$，$2^i \times 2^i$ 棋盘去掉一格后可以用 L 型骨牌覆盖。
 
@@ -33166,7 +33166,7 @@ $$k+1 = (k-3) + 4 = 4a + 5b + 4 = 4(a+1) + 5b$$
 - 第 1 象限：原本缺失的格
 - 其他三个象限：被中心 L 型骨牌覆盖的格
 
-根据归纳假设，每个 $2^k \times 2^k$ 子棋盘都可以用 L 型骨牌覆盖。✓
+根据归纳假设，每个 $2^k \times 2^k$ 子棋盘都可以用 L 型骨牌覆盖。
 
 **(4) 结论**：由强归纳法，任何 $2^k \times 2^k$ 棋盘去掉一格后都可以用 L 型骨牌覆盖。$\square$
 
@@ -33216,7 +33216,7 @@ $$L = N_2 + 1$$
 
 - $L = 1$（根节点是叶子）
 - $N_2 = 0$（没有度为 2 的节点）
-- $L = 0 + 1 = 1$，成立。✓
+- $L = 0 + 1 = 1$，成立。
 
 **(2) 归纳假设**：
 
@@ -33246,7 +33246,7 @@ $$= (N_{2,1} + N_{2,2} + 1) + 1$$
 
 $$= N_2 + 1$$
 
-成立。✓
+成立。
 
 **(4) 结论**：由结构归纳法，$L = N_2 + 1$ 对所有非空二叉树成立。$\square$
 
@@ -33265,7 +33265,7 @@ $$= N_2 + 1$$
 
 **(1) 基础步骤**：$h = 0$ 时，只有根节点。
 
-节点数 $= 1 = 2^{0+1} - 1 = 2 - 1 = 1$。✓
+节点数 $= 1 = 2^{0+1} - 1 = 2 - 1 = 1$。
 
 **(2) 归纳假设**：假设高度为 $k$ 的满二叉树有 $2^{k+1} - 1$ 个节点。
 
@@ -33279,7 +33279,7 @@ $$= 2^{k+2} - 1$$
 
 $$= 2^{(k+1)+1} - 1$$
 
-成立。✓
+成立。
 
 **(4) 结论**：由结构归纳法，高度为 $h$ 的满二叉树有 $2^{h+1} - 1$ 个节点。$\square$
 
@@ -33296,16 +33296,16 @@ $$= 2^{(k+1)+1} - 1$$
 
 **证明**：
 
-**(1) 基础步骤**：数字本身有确定的值。✓
+**(1) 基础步骤**：数字本身有确定的值。
 
 **(2) 归纳假设**：假设 $E_1$ 和 $E_2$ 都有唯一确定的值 $v_1$ 和 $v_2$。
 
 **(3) 归纳步骤**：
 
-- $(E_1 + E_2)$ 的值为 $v_1 + v_2$，唯一确定。✓
-- $(E_1 - E_2)$ 的值为 $v_1 - v_2$，唯一确定。✓
-- $(E_1 \times E_2)$ 的值为 $v_1 \times v_2$，唯一确定。✓
-- $(E_1 \div E_2)$ 的值为 $v_1 \div v_2$（$v_2 \neq 0$），唯一确定。✓
+- $(E_1 + E_2)$ 的值为 $v_1 + v_2$，唯一确定。
+- $(E_1 - E_2)$ 的值为 $v_1 - v_2$，唯一确定。
+- $(E_1 \times E_2)$ 的值为 $v_1 \times v_2$，唯一确定。
+- $(E_1 \div E_2)$ 的值为 $v_1 \div v_2$（$v_2 \neq 0$），唯一确定。
 
 **(4) 结论**：由结构归纳法，每个表达式都有唯一确定的值。$\square$
 
@@ -33326,7 +33326,7 @@ $$= 2^{(k+1)+1} - 1$$
 
 $$|\epsilon t| = |t| = 0 + |t| = |\epsilon| + |t|$$
 
-成立。✓
+成立。
 
 **(2) 归纳假设**：假设对字符串 $s'$，有 $|s't| = |s'| + |t|$
 
@@ -33346,7 +33346,7 @@ $$= |as'| + |t|$$
 
 $$= |s| + |t|$$
 
-成立。✓
+成立。
 
 **(4) 结论**：由结构归纳法，$|st| = |s| + |t|$ 对所有字符串成立。$\square$
 
@@ -33358,10 +33358,10 @@ $$= |s| + |t|$$
 
 ```
 factorial(n):
-    if n = 0:
-        return 1
-    else:
-        return n × factorial(n-1)
+ if n = 0:
+ return 1
+ else:
+ return n × factorial(n-1)
 ```
 
 **命题**：证明对所有 $n \geq 0$，`factorial(n)` 返回 $n!$
@@ -33370,7 +33370,7 @@ factorial(n):
 
 **(1) 基础步骤**：$n = 0$ 时，
 
-`factorial(0)` 返回 $1 = 0!$。✓
+`factorial(0)` 返回 $1 = 0!$。
 
 **(2) 归纳假设**：假设 `factorial(k)` 返回 $k!$
 
@@ -33378,11 +33378,11 @@ factorial(n):
 
 ```
 factorial(k+1) = (k+1) × factorial(k)
-               = (k+1) × k!     （归纳假设）
-               = (k+1)!
+ = (k+1) × k! （归纳假设）
+ = (k+1)!
 ```
 
-成立。✓
+成立。
 
 **(4) 结论**：由结构归纳法，`factorial(n)` 对所有 $n \geq 0$ 返回 $n!$。$\square$
 
@@ -33439,12 +33439,12 @@ $$[P(N) \land \forall k (n_0 \leq k < N \land P(k+1) \to P(k))] \Rightarrow \for
 
 **(1) 基础步骤**：
 
-- $n = 1$：取 1 颗，当前玩家获胜。$P(1) = $ 必胜。✓
-- $n = 2$：取 2 颗，当前玩家获胜。$P(2) = $ 必胜。✓
+- $n = 1$：取 1 颗，当前玩家获胜。$P(1) = $ 必胜。
+- $n = 2$：取 2 颗，当前玩家获胜。$P(2) = $ 必胜。
 - $n = 3$：
-  - 取 1 颗，剩 2 颗，对手必胜
-  - 取 2 颗，剩 1 颗，对手必胜
-  - 无论如何，对手都必胜。$P(3) = $ 必败。✓
+ - 取 1 颗，剩 2 颗，对手必胜
+ - 取 2 颗，剩 1 颗，对手必胜
+ - 无论如何，对手都必胜。$P(3) = $ 必败。
 
 **(2) 归纳假设**：假设对 $k+1, k+2, \ldots$ 的情况已知。
 
@@ -33458,13 +33458,13 @@ $$[P(N) \land \forall k (n_0 \leq k < N \land P(k+1) \to P(k))] \Rightarrow \for
 **分析**：
 
 - 如果 $k \equiv 0 \pmod{3}$，则 $k-1 \equiv 2 \pmod{3}$，$k-2 \equiv 1 \pmod{3}$
-  - 由归纳假设，$P(k-1)$ 和 $P(k-2)$ 都是对手必胜
-  - 无论取几颗，对手都必胜
-  - $P(k) = $ 必败
+ - 由归纳假设，$P(k-1)$ 和 $P(k-2)$ 都是对手必胜
+ - 无论取几颗，对手都必胜
+ - $P(k) = $ 必败
 
 - 如果 $k \not\equiv 0 \pmod{3}$，则 $k-1$ 或 $k-2$ 中至少有一个是 3 的倍数
-  - 选择使对手进入必败状态的取法
-  - $P(k) = $ 必胜
+ - 选择使对手进入必败状态的取法
+ - $P(k) = $ 必胜
 
 **(4) 结论**：由反向归纳法，$n \equiv 0 \pmod{3}$ 时先手必败（后手必胜），否则先手必胜。$\square$
 
@@ -33539,7 +33539,7 @@ $$\leq 1 + \ln(k+1) - \frac{1}{k+1}$$ （归纳假设）
 
 即：$\ln\left(1 + \frac{1}{k}\right) \leq \frac{1}{k+1}$
 
-这对 $k \geq 1$ 成立（可用微积分验证）。✓
+这对 $k \geq 1$ 成立（可用微积分验证）。
 
 **(3) 结论**：由反向归纳法，不等式对所有 $1 \leq n \leq N$ 成立。$\square$
 
@@ -33643,7 +33643,7 @@ $$C(i) = \min_{j>i} \{cost(i, j) + C(j)\}$$
 - 前 $k$ 匹 $\{h_1, \ldots, h_k\}$ 同色（归纳假设）
 - 后 $k$ 匹 $\{h_2, \ldots, h_{k+1}\}$ 同色（归纳假设）
 - 因此 $h_1$ 与 $h_2, \ldots, h_k$ 同色，$h_{k+1}$ 与 $h_2, \ldots, h_k$ 同色
-- 所以所有 $k+1$ 匹马同色。✗
+- 所以所有 $k+1$ 匹马同色。
 
 **错误分析**：
 
@@ -33652,8 +33652,8 @@ $$C(i) = \min_{j>i} \{cost(i, j) + C(j)\}$$
 但 $k = 1 \to k = 2$ 的步骤失败：
 
 - 两匹马 $\{h_1, h_2\}$
-- 前 1 匹：$\{h_1\}$ 同色 ✓
-- 后 1 匹：$\{h_2\}$ 同色 ✓
+- 前 1 匹：$\{h_1\}$ 同色
+- 后 1 匹：$\{h_2\}$ 同色
 - 但没有重叠部分来连接 $h_1$ 和 $h_2$！
 
 **教训**：必须验证基础步骤和第一个归纳步骤都成立。
@@ -33666,7 +33666,7 @@ $$C(i) = \min_{j>i} \{cost(i, j) + C(j)\}$$
 
 **"证明"**：
 
-基础步骤：$n = 1$ 时，$2^1 = 2 \neq 1 = 1^2$。✗
+基础步骤：$n = 1$ 时，$2^1 = 2 \neq 1 = 1^2$。
 
 这个命题本身就是错误的，但有人可能会强行"证明"：
 
@@ -33676,7 +33676,7 @@ $$2^{k+1} = 2 \cdot 2^k = 2k^2$$
 
 需要证明 $2k^2 = (k+1)^2 = k^2 + 2k + 1$
 
-即 $k^2 = 2k + 1$，这对一般的 $k$ 不成立。✗
+即 $k^2 = 2k + 1$，这对一般的 $k$ 不成立。
 
 **教训**：归纳假设不能用来证明错误的命题。如果归纳步骤推导失败，说明命题可能本身就不成立。
 
@@ -33692,7 +33692,7 @@ $$2^{k+1} = 2 \cdot 2^k = 2k^2$$
 
 $$\sum_{i=1}^{k+1} i = \frac{(k+1)(k+2)}{2}$$
 
-因为这是公式在 $n = k+1$ 时的形式，所以成立。✗
+因为这是公式在 $n = k+1$ 时的形式，所以成立。
 
 **错误分析**：这是循环论证，用结论证明结论。
 
@@ -33708,13 +33708,13 @@ $$\sum_{i=1}^{k+1} i = \left(\sum_{i=1}^{k} i\right) + (k+1) = \frac{k(k+1)}{2} 
 
 **"证明"**：
 
-基础步骤：$n = 1$ 时，$1! = 1 \not> 2 = 2^1$。✗
+基础步骤：$n = 1$ 时，$1! = 1 \not> 2 = 2^1$。
 
 **错误分析**：命题对 $n = 1, 2, 3$ 都不成立。
 
 **正确做法**：应该从 $n = 4$ 开始：
 
-$4! = 24 > 16 = 2^4$ ✓
+$4! = 24 > 16 = 2^4$
 
 然后用归纳法证明对所有 $n \geq 4$ 成立。
 
@@ -34078,29 +34078,29 @@ $$A = \begin{bmatrix}
 无自环、无多重边的图。
 ```mermaid
 flowchart TD
-    Start([给定图 G]) --> Directed{是否有向?}
-    Directed -->|是| DAG{是否无环?}
-    Directed -->|否| Connected{是否连通?}
-    
-    DAG -->|是| DAGResult[有向无环图 DAG<br/>应用: 拓扑排序]
-    DAG -->|否| DirCycle[有向图含环<br/>检查: 强连通分量]
-    
-    Connected -->|是| Cycle{是否有环?}
-    Connected -->|否| DisconnectedResult[非连通图<br/>分析: 连通分量]
-    
-    Cycle -->|否| Tree[树<br/>性质: E = V - 1]
-    Cycle -->|是| Bipartite{是否二部图?}
-    
-    Bipartite -->|是| BipartiteResult[二部图<br/>应用: 匹配问题]
-    Bipartite -->|否| Planar{是否平面图?}
-    
-    Planar -->|是| PlanarResult[平面图<br/>性质: 欧拉公式]
-    Planar -->|否| NonPlanar[非平面图<br/>如: K5, K3,3]
-    
-    style Start fill:#e1f5e1
-    style Tree fill:#e1ffe1
-    style DAGResult fill:#fff4e1
-    style BipartiteResult fill:#e1f0ff
+ Start([给定图 G]) --> Directed{是否有向?}
+ Directed -->|是| DAG{是否无环?}
+ Directed -->|否| Connected{是否连通?}
+
+ DAG -->|是| DAGResult[有向无环图 DAG<br/>应用: 拓扑排序]
+ DAG -->|否| DirCycle[有向图含环<br/>检查: 强连通分量]
+
+ Connected -->|是| Cycle{是否有环?}
+ Connected -->|否| DisconnectedResult[非连通图<br/>分析: 连通分量]
+
+ Cycle -->|否| Tree[树<br/>性质: E = V - 1]
+ Cycle -->|是| Bipartite{是否二部图?}
+
+ Bipartite -->|是| BipartiteResult[二部图<br/>应用: 匹配问题]
+ Bipartite -->|否| Planar{是否平面图?}
+
+ Planar -->|是| PlanarResult[平面图<br/>性质: 欧拉公式]
+ Planar -->|否| NonPlanar[非平面图<br/>如: K5, K3,3]
+
+ style Start fill:#e1f5e1
+ style Tree fill:#e1ffe1
+ style DAGResult fill:#fff4e1
+ style BipartiteResult fill:#e1f0ff
 ```
 **本章后续内容默认讨论简单图，除非特别说明。**
 
@@ -34285,7 +34285,7 @@ $$\text{diam}(G) = \max_{u, v \in V} d(u, v)$$
 
 **证明**：用归纳法。
 
-**基础**：$n = 1$ 时，0 条边 $= n - 1$。✓
+**基础**：$n = 1$ 时，0 条边 $= n - 1$。
 
 **归纳**：假设 $k$ 个顶点的树有 $k-1$ 条边。
 
@@ -34293,7 +34293,7 @@ $$\text{diam}(G) = \max_{u, v \in V} d(u, v)$$
 
 删除 $v$ 及其关联的边，得到 $k$ 个顶点的树 $T'$，有 $k-1$ 条边。
 
-因此 $T$ 有 $k-1+1 = k$ 条边 $= (k+1) - 1$。✓ $\square$
+因此 $T$ 有 $k-1+1 = k$ 条边 $= (k+1) - 1$。 $\square$
 
 ---
 
@@ -34333,13 +34333,13 @@ $$\text{diam}(G) = \max_{u, v \in V} d(u, v)$$
 **例**：
 
 ```
-        1          ← 根 (深度 0)
-       / \
-      2   3        ← 深度 1
-     / \   \
-    4   5   6      ← 深度 2
-       / \
-      7   8        ← 深度 3 (叶子)
+ 1 ← 根 (深度 0)
+ / \
+ 2 3 ← 深度 1
+ / \ \
+ 4 5 6 ← 深度 2
+ / \
+ 7 8 ← 深度 3 (叶子)
 ```
 
 - 根：1
@@ -34437,32 +34437,32 @@ $$\text{diam}(G) = \max_{u, v \in V} d(u, v)$$
 **Kruskal 算法**：
 
 1. 排序：(B,C):1, (A,B):2, (A,C):3, (B,D):4, (C,D):5, (C,E):6, (D,E):7
-2. 选 (B,C):1 ✓
-3. 选 (A,B):2 ✓
+2. 选 (B,C):1
+3. 选 (A,B):2
 4. (A,C):3 形成回路 A-B-C-A，跳过
-5. 选 (B,D):4 ✓
+5. 选 (B,D):4
 6. (C,D):5 形成回路，跳过
-7. 选 (C,E):6 ✓
+7. 选 (C,E):6
 
 最小生成树边：{(B,C), (A,B), (B,D), (C,E)}，总权重 = 1+2+4+6 = 13
 
 ---
 ```mermaid
 flowchart TD
-    Start([开始 Kruskal]) --> Sort[将所有边按权重<br/>从小到大排序]
-    Sort --> Init[初始化:<br/>MST = ∅<br/>每个顶点自成一个集合]
-    Init --> CheckEdges{是否还有边<br/>且 |MST| < |V|-1?}
-    CheckEdges -->|是| GetEdge[取出权重最小的边 e = u,v]
-    GetEdge --> CheckCycle{u 和 v<br/>在同一集合?}
-    CheckCycle -->|否| AddEdge[将 e 加入 MST<br/>合并 u 和 v 的集合]
-    CheckCycle -->|是| CheckEdges
-    AddEdge --> CheckEdges
-    CheckEdges -->|否| End([返回 MST])
-    
-    style Start fill:#e1f5e1
-    style End fill:#ffe1e1
-    style AddEdge fill:#e1ffe1
-    style CheckCycle fill:#f0e1ff
+ Start([开始 Kruskal]) --> Sort[将所有边按权重<br/>从小到大排序]
+ Sort --> Init[初始化:<br/>MST = ∅<br/>每个顶点自成一个集合]
+ Init --> CheckEdges{是否还有边<br/>且 |MST| < |V|-1?}
+ CheckEdges -->|是| GetEdge[取出权重最小的边 e = u,v]
+ GetEdge --> CheckCycle{u 和 v<br/>在同一集合?}
+ CheckCycle -->|否| AddEdge[将 e 加入 MST<br/>合并 u 和 v 的集合]
+ CheckCycle -->|是| CheckEdges
+ AddEdge --> CheckEdges
+ CheckEdges -->|否| End([返回 MST])
+
+ style Start fill:#e1f5e1
+ style End fill:#ffe1e1
+ style AddEdge fill:#e1ffe1
+ style CheckCycle fill:#f0e1ff
 ```
 #### 22.4.4 图的遍历
 
@@ -34474,10 +34474,10 @@ flowchart TD
 
 ```
 DFS(v):
-    标记 v 为已访问
-    输出 v
-    对 v 的每个未访问的邻居 u:
-        DFS(u)
+ 标记 v 为已访问
+ 输出 v
+ 对 v 的每个未访问的邻居 u:
+ DFS(u)
 ```
 
 **时间复杂度**：$O(|V| + |E|)$（使用邻接表）
@@ -34514,14 +34514,14 @@ $1 \to 2 \to 4 \to 5 \to 7 \to 3 \to 6$
 
 ```
 BFS(s):
-    标记 s 为已访问
-    将 s 加入队列 Q
-    while Q 非空:
-        v = Q 出队
-        输出 v
-        对 v 的每个未访问的邻居 u:
-            标记 u 为已访问
-            将 u 加入队列 Q
+ 标记 s 为已访问
+ 将 s 加入队列 Q
+ while Q 非空:
+ v = Q 出队
+ 输出 v
+ 对 v 的每个未访问的邻居 u:
+ 标记 u 为已访问
+ 将 u 加入队列 Q
 ```
 
 **时间复杂度**：$O(|V| + |E|)$
@@ -34549,35 +34549,35 @@ $1 \to 2 \to 3 \to 4 \to 5 \to 6 \to 7$
 ---
 ```mermaid
 flowchart TD
-    Start([开始 BFS]) --> Init[标记源点 s 为已访问<br/>将 s 加入队列 Q]
-    Init --> CheckQueue{队列 Q<br/>是否为空?}
-    CheckQueue -->|否| Dequeue[从队列中取出顶点 v]
-    Dequeue --> Output[输出/处理顶点 v]
-    Output --> GetNeighbors[获取 v 的所有邻居]
-    GetNeighbors --> CheckNeighbor{是否还有<br/>未访问的邻居?}
-    CheckNeighbor -->|是| GetNext[获取下一个<br/>未访问邻居 u]
-    GetNext --> Mark[标记 u 为已访问<br/>将 u 加入队列]
-    Mark --> CheckNeighbor
-    CheckNeighbor -->|否| CheckQueue
-    CheckQueue -->|是| End([结束])
-    
-    style Start fill:#e1f5e1
-    style End fill:#ffe1e1
-    style Dequeue fill:#e1f0ff
+ Start([开始 BFS]) --> Init[标记源点 s 为已访问<br/>将 s 加入队列 Q]
+ Init --> CheckQueue{队列 Q<br/>是否为空?}
+ CheckQueue -->|否| Dequeue[从队列中取出顶点 v]
+ Dequeue --> Output[输出/处理顶点 v]
+ Output --> GetNeighbors[获取 v 的所有邻居]
+ GetNeighbors --> CheckNeighbor{是否还有<br/>未访问的邻居?}
+ CheckNeighbor -->|是| GetNext[获取下一个<br/>未访问邻居 u]
+ GetNext --> Mark[标记 u 为已访问<br/>将 u 加入队列]
+ Mark --> CheckNeighbor
+ CheckNeighbor -->|否| CheckQueue
+ CheckQueue -->|是| End([结束])
+
+ style Start fill:#e1f5e1
+ style End fill:#ffe1e1
+ style Dequeue fill:#e1f0ff
 ```
 ```mermaid
 flowchart TD
-    Start([开始 DFS]) --> Init[标记当前顶点 v 为已访问]
-    Init --> Output[输出/处理顶点 v]
-    Output --> CheckNeighbor{是否还有<br/>未访问的邻居?}
-    CheckNeighbor -->|是| GetNeighbor[获取下一个<br/>未访问邻居 u]
-    GetNeighbor --> Recurse[递归调用 DFS 对 u]
-    Recurse --> CheckNeighbor
-    CheckNeighbor -->|否| End([返回])
-    
-    style Start fill:#e1f5e1
-    style End fill:#ffe1e1
-    style Recurse fill:#fff4e1
+ Start([开始 DFS]) --> Init[标记当前顶点 v 为已访问]
+ Init --> Output[输出/处理顶点 v]
+ Output --> CheckNeighbor{是否还有<br/>未访问的邻居?}
+ CheckNeighbor -->|是| GetNeighbor[获取下一个<br/>未访问邻居 u]
+ GetNeighbor --> Recurse[递归调用 DFS 对 u]
+ Recurse --> CheckNeighbor
+ CheckNeighbor -->|否| End([返回])
+
+ style Start fill:#e1f5e1
+ style End fill:#ffe1e1
+ style Recurse fill:#fff4e1
 ```
 **应用**：
 
@@ -34614,31 +34614,31 @@ flowchart TD
 
 ```mermaid
 flowchart TD
-    Start([最短路径问题]) --> Type{问题类型?}
-    
-    Type -->|单源| Weight1{边权情况?}
-    Type -->|所有对| Weight2{边权情况?}
-    
-    Weight1 -->|无权| BFS[使用 BFS<br/>O V+E]
-    Weight1 -->|非负权| Dijkstra[使用 Dijkstra<br/>O V+E log V]
-    Weight1 -->|可能负权| NegCycle1{有负权回路?}
-    
-    NegCycle1 -->|否| BellmanFord[使用 Bellman-Ford<br/>O VE]
-    NegCycle1 -->|是| NoSolution1[无解]
-    
-    Weight2 -->|可能负权| NegCycle2{有负权回路?}
-    Weight2 -->|非负权| MultiDijkstra[多次 Dijkstra<br/>O V² + VE log V]
-    
-    NegCycle2 -->|否| Floyd[使用 Floyd-Warshall<br/>O V³]
-    NegCycle2 -->|是| NoSolution2[无解]
-    
-    style Start fill:#e1f5e1
-    style BFS fill:#e1ffe1
-    style Dijkstra fill:#e1ffe1
-    style BellmanFord fill:#fff4e1
-    style Floyd fill:#e1f0ff
-    style NoSolution1 fill:#ffe1e1
-    style NoSolution2 fill:#ffe1e1
+ Start([最短路径问题]) --> Type{问题类型?}
+
+ Type -->|单源| Weight1{边权情况?}
+ Type -->|所有对| Weight2{边权情况?}
+
+ Weight1 -->|无权| BFS[使用 BFS<br/>O V+E]
+ Weight1 -->|非负权| Dijkstra[使用 Dijkstra<br/>O V+E log V]
+ Weight1 -->|可能负权| NegCycle1{有负权回路?}
+
+ NegCycle1 -->|否| BellmanFord[使用 Bellman-Ford<br/>O VE]
+ NegCycle1 -->|是| NoSolution1[无解]
+
+ Weight2 -->|可能负权| NegCycle2{有负权回路?}
+ Weight2 -->|非负权| MultiDijkstra[多次 Dijkstra<br/>O V² + VE log V]
+
+ NegCycle2 -->|否| Floyd[使用 Floyd-Warshall<br/>O V³]
+ NegCycle2 -->|是| NoSolution2[无解]
+
+ style Start fill:#e1f5e1
+ style BFS fill:#e1ffe1
+ style Dijkstra fill:#e1ffe1
+ style BellmanFord fill:#fff4e1
+ style Floyd fill:#e1f0ff
+ style NoSolution1 fill:#ffe1e1
+ style NoSolution2 fill:#ffe1e1
 ```
 ---
 
@@ -34651,24 +34651,24 @@ flowchart TD
 **思想**：贪心策略，每次选择当前距离最小的未确定顶点，更新其邻居的距离。
 ```mermaid
 flowchart TD
-    Start([开始 Dijkstra]) --> Init[初始化:<br/>dist源点 = 0<br/>其他 = ∞<br/>Q = 所有顶点]
-    Init --> CheckQueue{Q 是否为空?}
-    CheckQueue -->|否| Extract[从 Q 中取出<br/>dist 最小的顶点 u]
-    Extract --> AddToS[将 u 加入已确定集合 S]
-    AddToS --> GetNeighbors[获取 u 在 Q 中的邻居]
-    GetNeighbors --> CheckNeighbor{是否还有邻居?}
-    CheckNeighbor -->|是| GetNext[获取下一个邻居 v]
-    GetNext --> Relax{dist[u] + w(u,v)<br/>< dist[v]?}
-    Relax -->|是| Update[更新 dist[v]<br/>记录 prev[v] = u]
-    Relax -->|否| CheckNeighbor
-    Update --> CheckNeighbor
-    CheckNeighbor -->|否| CheckQueue
-    CheckQueue -->|是| End([返回 dist 和 prev])
-    
-    style Start fill:#e1f5e1
-    style End fill:#ffe1e1
-    style Update fill:#fff4e1
-    style Relax fill:#f0e1ff
+ Start([开始 Dijkstra]) --> Init[初始化:<br/>dist源点 = 0<br/>其他 = ∞<br/>Q = 所有顶点]
+ Init --> CheckQueue{Q 是否为空?}
+ CheckQueue -->|否| Extract[从 Q 中取出<br/>dist 最小的顶点 u]
+ Extract --> AddToS[将 u 加入已确定集合 S]
+ AddToS --> GetNeighbors[获取 u 在 Q 中的邻居]
+ GetNeighbors --> CheckNeighbor{是否还有邻居?}
+ CheckNeighbor -->|是| GetNext[获取下一个邻居 v]
+ GetNext --> Relax{dist[u] + w(u,v)<br/>< dist[v]?}
+ Relax -->|是| Update[更新 dist[v]<br/>记录 prev[v] = u]
+ Relax -->|否| CheckNeighbor
+ Update --> CheckNeighbor
+ CheckNeighbor -->|否| CheckQueue
+ CheckQueue -->|是| End([返回 dist 和 prev])
+
+ style Start fill:#e1f5e1
+ style End fill:#ffe1e1
+ style Update fill:#fff4e1
+ style Relax fill:#f0e1ff
 ```
 
 ---
@@ -34677,25 +34677,25 @@ flowchart TD
 
 ```
 Dijkstra(G, s):
-    初始化：
-        对每个顶点 v: dist[v] = ∞
-        dist[s] = 0
-        prev[v] = null（记录前驱，用于路径重建）
-        S = ∅（已确定最短距离的顶点集）
-        Q = V（未确定的顶点集，使用优先队列）
-    
-    while Q 非空:
-        u = Q 中 dist[u] 最小的顶点
-        将 u 从 Q 移除，加入 S
-        
-        对 u 的每个邻居 v ∈ Q:
-            alt = dist[u] + weight(u, v)
-            if alt < dist[v]:
-                dist[v] = alt
-                prev[v] = u
-                更新 Q 中 v 的优先级
-    
-    返回 dist 和 prev
+ 初始化：
+ 对每个顶点 v: dist[v] = ∞
+ dist[s] = 0
+ prev[v] = null（记录前驱，用于路径重建）
+ S = ∅（已确定最短距离的顶点集）
+ Q = V（未确定的顶点集，使用优先队列）
+
+ while Q 非空:
+ u = Q 中 dist[u] 最小的顶点
+ 将 u 从 Q 移除，加入 S
+
+ 对 u 的每个邻居 v ∈ Q:
+ alt = dist[u] + weight(u, v)
+ if alt < dist[v]:
+ dist[v] = alt
+ prev[v] = u
+ 更新 Q 中 v 的优先级
+
+ 返回 dist 和 prev
 ```
 
 ---
@@ -34756,12 +34756,12 @@ D → E: 2
 
 ```
 路径重建(s, t):
-    path = []
-    u = t
-    while u ≠ null:
-        将 u 加入 path 开头
-        u = prev[u]
-    返回 path
+ path = []
+ u = t
+ while u ≠ null:
+ 将 u 加入 path 开头
+ u = prev[u]
+ 返回 path
 ```
 
 **例**：重建 A → E 的路径
@@ -34783,11 +34783,11 @@ D → E: 2
 
 - **基础**：初始时 $S = \{s\}$，$dist[s] = 0$ 正确。
 - **归纳**：假设对当前 $S$ 成立。选择 $u \in V \setminus S$ 使 $dist[u]$ 最小。
-  - 反证：假设存在更短路径 $P$ 从 $s$ 到 $u$。
-  - $P$ 必经过某个顶点 $x \in V \setminus S$（第一个离开 $S$ 的顶点）。
-  - 由于边权非负，$dist[x] \leq$ $P$ 的长度 $\leq dist[u]$。
-  - 但 $u$ 是 $V \setminus S$ 中 $dist$ 最小的，矛盾。
-  - 因此 $dist[u]$ 是最短距离。$\square$
+ - 反证：假设存在更短路径 $P$ 从 $s$ 到 $u$。
+ - $P$ 必经过某个顶点 $x \in V \setminus S$（第一个离开 $S$ 的顶点）。
+ - 由于边权非负，$dist[x] \leq$ $P$ 的长度 $\leq dist[u]$。
+ - 但 $u$ 是 $V \setminus S$ 中 $dist$ 最小的，矛盾。
+ - 因此 $dist[u]$ 是最短距离。$\square$
 
 ---
 
@@ -34809,50 +34809,50 @@ D → E: 2
 ---
 ```mermaid
 flowchart TD
-    Start([开始 Bellman-Ford]) --> Init[初始化:<br/>dist源点 = 0<br/>其他 = ∞]
-    Init --> SetCounter[设置计数器 i = 1]
-    SetCounter --> CheckCounter{i ≤ |V| - 1?}
-    CheckCounter -->|是| LoopEdges[遍历所有边 e = u,v]
-    LoopEdges --> CheckEdge{还有边?}
-    CheckEdge -->|是| GetEdge[获取下一条边 u → v]
-    GetEdge --> Relax{dist[u] + w(u,v)<br/>< dist[v]?}
-    Relax -->|是| Update[更新 dist[v]<br/>记录 prev[v] = u]
-    Relax -->|否| CheckEdge
-    Update --> CheckEdge
-    CheckEdge -->|否| IncCounter[i = i + 1]
-    IncCounter --> CheckCounter
-    CheckCounter -->|否| DetectCycle[检测负权回路:<br/>再遍历所有边]
-    DetectCycle --> CheckNegCycle{存在可松弛的边?}
-    CheckNegCycle -->|是| NegCycle([返回:<br/>存在负权回路])
-    CheckNegCycle -->|否| Success([返回 dist 和 prev])
-    
-    style Start fill:#e1f5e1
-    style Success fill:#e1ffe1
-    style NegCycle fill:#ffe1e1
-    style Update fill:#fff4e1
+ Start([开始 Bellman-Ford]) --> Init[初始化:<br/>dist源点 = 0<br/>其他 = ∞]
+ Init --> SetCounter[设置计数器 i = 1]
+ SetCounter --> CheckCounter{i ≤ |V| - 1?}
+ CheckCounter -->|是| LoopEdges[遍历所有边 e = u,v]
+ LoopEdges --> CheckEdge{还有边?}
+ CheckEdge -->|是| GetEdge[获取下一条边 u → v]
+ GetEdge --> Relax{dist[u] + w(u,v)<br/>< dist[v]?}
+ Relax -->|是| Update[更新 dist[v]<br/>记录 prev[v] = u]
+ Relax -->|否| CheckEdge
+ Update --> CheckEdge
+ CheckEdge -->|否| IncCounter[i = i + 1]
+ IncCounter --> CheckCounter
+ CheckCounter -->|否| DetectCycle[检测负权回路:<br/>再遍历所有边]
+ DetectCycle --> CheckNegCycle{存在可松弛的边?}
+ CheckNegCycle -->|是| NegCycle([返回:<br/>存在负权回路])
+ CheckNegCycle -->|否| Success([返回 dist 和 prev])
+
+ style Start fill:#e1f5e1
+ style Success fill:#e1ffe1
+ style NegCycle fill:#ffe1e1
+ style Update fill:#fff4e1
 ```
 ---
 **算法步骤**：
 
 ```
 Bellman-Ford(G, s):
-    初始化：
-        对每个顶点 v: dist[v] = ∞
-        dist[s] = 0
-        prev[v] = null
-    
-    重复 |V| - 1 次：
-        对每条边 (u, v) ∈ E:
-            if dist[u] + weight(u, v) < dist[v]:
-                dist[v] = dist[u] + weight(u, v)
-                prev[v] = u
-    
-    检测负权回路：
-        对每条边 (u, v) ∈ E:
-            if dist[u] + weight(u, v) < dist[v]:
-                返回 "存在负权回路"
-    
-    返回 dist 和 prev
+ 初始化：
+ 对每个顶点 v: dist[v] = ∞
+ dist[s] = 0
+ prev[v] = null
+
+ 重复 |V| - 1 次：
+ 对每条边 (u, v) ∈ E:
+ if dist[u] + weight(u, v) < dist[v]:
+ dist[v] = dist[u] + weight(u, v)
+ prev[v] = u
+
+ 检测负权回路：
+ 对每条边 (u, v) ∈ E:
+ if dist[u] + weight(u, v) < dist[v]:
+ 返回 "存在负权回路"
+
+ 返回 dist 和 prev
 ```
 
 ---
@@ -34956,20 +34956,20 @@ C → A: 1
 
 ```
 Floyd-Warshall(G):
-    初始化：
-        对每对顶点 (i, j):
-            if i == j:
-                dist[i][j] = 0
-            else if (i, j) ∈ E:
-                dist[i][j] = weight(i, j)
-            else:
-                dist[i][j] = ∞
-    
-    对 k = 1 到 |V|:
-        对每对顶点 (i, j):
-            dist[i][j] = min(dist[i][j], dist[i][k] + dist[k][j])
-    
-    返回 dist
+ 初始化：
+ 对每对顶点 (i, j):
+ if i == j:
+ dist[i][j] = 0
+ else if (i, j) ∈ E:
+ dist[i][j] = weight(i, j)
+ else:
+ dist[i][j] = ∞
+
+ 对 k = 1 到 |V|:
+ 对每对顶点 (i, j):
+ dist[i][j] = min(dist[i][j], dist[i][k] + dist[k][j])
+
+ 返回 dist
 ```
 
 **含义**：$dist[i][j]$ 表示从 $i$ 到 $j$ 只经过顶点 $\{1, 2, \ldots, k\}$ 作为中间顶点的最短路径。
@@ -35058,24 +35058,24 @@ $$D^{(4)} = \begin{bmatrix}
 
 ```
 初始化：
-    if (i, j) ∈ E:
-        next[i][j] = j
-    else:
-        next[i][j] = null
+ if (i, j) ∈ E:
+ next[i][j] = j
+ else:
+ next[i][j] = null
 
 更新（在松弛时）：
-    if dist[i][k] + dist[k][j] < dist[i][j]:
-        dist[i][j] = dist[i][k] + dist[k][j]
-        next[i][j] = next[i][k]
+ if dist[i][k] + dist[k][j] < dist[i][j]:
+ dist[i][j] = dist[i][k] + dist[k][j]
+ next[i][j] = next[i][k]
 
 路径重建(i, j):
-    if next[i][j] == null:
-        返回 "无路径"
-    path = [i]
-    while i ≠ j:
-        i = next[i][j]
-        将 i 加入 path
-    返回 path
+ if next[i][j] == null:
+ 返回 "无路径"
+ path = [i]
+ while i ≠ j:
+ i = next[i][j]
+ 将 i 加入 path
+ 返回 path
 ```
 
 ---
@@ -35197,11 +35197,11 @@ $$D^{(4)} = \begin{bmatrix}
 
 ```
 贪心着色(G):
-    对每个顶点 v（按某种顺序）:
-        C = {1, 2, 3, ...}（可用颜色集合）
-        对 v 的每个已着色邻居 u:
-            从 C 中移除 color[u]
-        color[v] = C 中的最小颜色
+ 对每个顶点 v（按某种顺序）:
+ C = {1, 2, 3, ...}（可用颜色集合）
+ 对 v 的每个已着色邻居 u:
+ 从 C 中移除 color[u]
+ color[v] = C 中的最小颜色
 ```
 
 **时间复杂度**：$O(|V| + |E|)$
@@ -35329,7 +35329,7 @@ $$V - E + F = 2$$
 
 **基础**：树（$E = V - 1$，$F = 1$）
 
-$$V - (V-1) + 1 = 2$$ ✓
+$$V - (V-1) + 1 = 2$$
 
 **归纳**：对于有回路的连通平面图，删除回路上的一条边 $e$：
 
@@ -35339,7 +35339,7 @@ $$V - (V-1) + 1 = 2$$ ✓
 
 由归纳假设：$V - (E-1) + (F-1) = 2$
 
-因此：$V - E + F = 2$ ✓ $\square$
+因此：$V - E + F = 2$ $\square$
 
 ---
 
@@ -35511,13 +35511,13 @@ $$|N(S)| \geq |S|$$
 
 检查 Hall 条件：
 
-- $N(\{a\}) = \{1, 2\}$，$|N(\{a\})| = 2 \geq 1$ ✓
-- $N(\{b\}) = \{2, 3\}$，$|N(\{b\})| = 2 \geq 1$ ✓
-- $N(\{c\}) = \{3, 4\}$，$|N(\{c\})| = 2 \geq 1$ ✓
-- $N(\{a, b\}) = \{1, 2, 3\}$，$|N(\{a, b\})| = 3 \geq 2$ ✓
-- $N(\{a, c\}) = \{1, 2, 3, 4\}$，$|N(\{a, c\})| = 4 \geq 2$ ✓
-- $N(\{b, c\}) = \{2, 3, 4\}$，$|N(\{b, c\})| = 3 \geq 2$ ✓
-- $N(\{a, b, c\}) = \{1, 2, 3, 4\}$，$|N(\{a, b, c\})| = 4 \geq 3$ ✓
+- $N(\{a\}) = \{1, 2\}$，$|N(\{a\})| = 2 \geq 1$
+- $N(\{b\}) = \{2, 3\}$，$|N(\{b\})| = 2 \geq 1$
+- $N(\{c\}) = \{3, 4\}$，$|N(\{c\})| = 2 \geq 1$
+- $N(\{a, b\}) = \{1, 2, 3\}$，$|N(\{a, b\})| = 3 \geq 2$
+- $N(\{a, c\}) = \{1, 2, 3, 4\}$，$|N(\{a, c\})| = 4 \geq 2$
+- $N(\{b, c\}) = \{2, 3, 4\}$，$|N(\{b, c\})| = 3 \geq 2$
+- $N(\{a, b, c\}) = \{1, 2, 3, 4\}$，$|N(\{a, b, c\})| = 4 \geq 3$
 
 Hall 条件满足，存在完美匹配（对于 $X$）。
 
@@ -35541,27 +35541,27 @@ Hall 条件满足，存在完美匹配（对于 $X$）。
 
 ```
 匈牙利算法(G):
-    M = ∅（初始匹配为空）
-    while 存在增广路径 P:
-        沿 P 翻转边的匹配状态
-        更新 M
-    返回 M
+ M = ∅（初始匹配为空）
+ while 存在增广路径 P:
+ 沿 P 翻转边的匹配状态
+ 更新 M
+ 返回 M
 ```
 
 **时间复杂度**：$O(|V| \cdot |E|)$
 ```mermaid
 flowchart TD
-    Start([开始匈牙利算法]) --> Init[初始化:<br/>匹配 M = ∅]
-    Init --> CheckAugPath{存在增广路径?}
-    CheckAugPath -->|是| FindPath[寻找增广路径 P<br/>起点和终点都是未饱和顶点]
-    FindPath --> Augment[沿 P 翻转边的状态:<br/>匹配边 → 非匹配边<br/>非匹配边 → 匹配边]
-    Augment --> UpdateMatch[更新匹配 M]
-    UpdateMatch --> CheckAugPath
-    CheckAugPath -->|否| End([返回最大匹配 M])
-    
-    style Start fill:#e1f5e1
-    style End fill:#ffe1e1
-    style Augment fill:#fff4e1
+ Start([开始匈牙利算法]) --> Init[初始化:<br/>匹配 M = ∅]
+ Init --> CheckAugPath{存在增广路径?}
+ CheckAugPath -->|是| FindPath[寻找增广路径 P<br/>起点和终点都是未饱和顶点]
+ FindPath --> Augment[沿 P 翻转边的状态:<br/>匹配边 → 非匹配边<br/>非匹配边 → 匹配边]
+ Augment --> UpdateMatch[更新匹配 M]
+ UpdateMatch --> CheckAugPath
+ CheckAugPath -->|否| End([返回最大匹配 M])
+
+ style Start fill:#e1f5e1
+ style End fill:#ffe1e1
+ style Augment fill:#fff4e1
 ```
 ---
 
@@ -35669,19 +35669,19 @@ $$|f| = \sum_{v:(s,v) \in E} f(s, v) - \sum_{u:(u,s) \in E} f(u, s)$$
 **最大流问题**：找到流值最大的流。
 ```mermaid
 flowchart TD
-    Start([开始 Ford-Fulkerson]) --> Init[初始化:<br/>所有边流量 f = 0]
-    Init --> BuildResidual[构建残余网络 Gf]
-    BuildResidual --> FindPath{在 Gf 中<br/>存在 s 到 t<br/>的增广路径?}
-    FindPath -->|是| GetPath[找到增广路径 P]
-    GetPath --> CalcBottleneck[计算瓶颈容量<br/>cf_P = min 残余容量]
-    CalcBottleneck --> UpdateFlow[沿路径 P 更新流:<br/>前向边增加 cf_P<br/>反向边减少 cf_P]
-    UpdateFlow --> BuildResidual
-    FindPath -->|否| End([返回最大流 f])
-    
-    style Start fill:#e1f5e1
-    style End fill:#ffe1e1
-    style UpdateFlow fill:#fff4e1
-    style FindPath fill:#f0e1ff
+ Start([开始 Ford-Fulkerson]) --> Init[初始化:<br/>所有边流量 f = 0]
+ Init --> BuildResidual[构建残余网络 Gf]
+ BuildResidual --> FindPath{在 Gf 中<br/>存在 s 到 t<br/>的增广路径?}
+ FindPath -->|是| GetPath[找到增广路径 P]
+ GetPath --> CalcBottleneck[计算瓶颈容量<br/>cf_P = min 残余容量]
+ CalcBottleneck --> UpdateFlow[沿路径 P 更新流:<br/>前向边增加 cf_P<br/>反向边减少 cf_P]
+ UpdateFlow --> BuildResidual
+ FindPath -->|否| End([返回最大流 f])
+
+ style Start fill:#e1f5e1
+ style End fill:#ffe1e1
+ style UpdateFlow fill:#fff4e1
+ style FindPath fill:#f0e1ff
 ```
 ---
 
@@ -35711,8 +35711,8 @@ b → t: 10
 
 **检查流守恒**：
 
-- 顶点 $a$：流入 10，流出 10 ✓
-- 顶点 $b$：流入 5，流出 5 ✓
+- 顶点 $a$：流入 10，流出 10
+- 顶点 $b$：流入 5，流出 5
 
 ---
 
@@ -35721,8 +35721,8 @@ b → t: 10
 给定流网络 $G$ 和流 $f$，**残余网络** $G_f$ 定义为：
 
 - 对于 $(u, v) \in E$：
-  - 如果 $f(u, v) < c(u, v)$，添加**前向边** $(u, v)$，残余容量 $c_f(u, v) = c(u, v) - f(u, v)$
-  - 如果 $f(u, v) > 0$，添加**反向边** $(v, u)$，残余容量 $c_f(v, u) = f(u, v)$
+ - 如果 $f(u, v) < c(u, v)$，添加**前向边** $(u, v)$，残余容量 $c_f(u, v) = c(u, v) - f(u, v)$
+ - 如果 $f(u, v) > 0$，添加**反向边** $(v, u)$，残余容量 $c_f(v, u) = f(u, v)$
 
 **直观理解**：
 
@@ -35749,17 +35749,17 @@ b → t: 10
 
 ```
 Ford-Fulkerson(G, s, t):
-    初始化：对所有边 (u, v)，f(u, v) = 0
-    
-    while 残余网络 G_f 中存在从 s 到 t 的增广路径 P:
-        计算 P 的瓶颈容量 cf(P)
-        对 P 上的每条边 (u, v):
-            if (u, v) 是前向边:
-                f(u, v) += cf(P)
-            else:  # (u, v) 是反向边
-                f(v, u) -= cf(P)
-    
-    返回 f
+ 初始化：对所有边 (u, v)，f(u, v) = 0
+
+ while 残余网络 G_f 中存在从 s 到 t 的增广路径 P:
+ 计算 P 的瓶颈容量 cf(P)
+ 对 P 上的每条边 (u, v):
+ if (u, v) 是前向边:
+ f(u, v) += cf(P)
+ else: # (u, v) 是反向边
+ f(v, u) -= cf(P)
+
+ 返回 f
 ```
 
 **注**：这是一个方法框架，具体实现取决于如何寻找增广路径。
@@ -35855,7 +35855,7 @@ b → t: 10
 - $f(a, t) = 4$
 - $f(b, t) = 10$
 
-验证：$|f| = 6 + 8 = 14$ ✓
+验证：$|f| = 6 + 8 = 14$
 
 ---
 
@@ -35906,7 +35906,7 @@ $$\max |f| = \min c(S, T)$$
 
 $$c(S, T) = c(a, t) + c(b, t) = 4 + 10 = 14$$
 
-与最大流值相等 ✓
+与最大流值相等
 
 ---
 
@@ -36285,18 +36285,18 @@ $$n = p_1^{a_1} p_2^{a_2} \cdots p_k^{a_k}$$
 
 ```
 判定质数(n):
-    if n ≤ 1:
-        返回 False
-    if n = 2:
-        返回 True
-    if n 是偶数:
-        返回 False
-    
-    for i = 3 to √n (步长 2):
-        if n % i = 0:
-            返回 False
-    
-    返回 True
+ if n ≤ 1:
+ 返回 False
+ if n = 2:
+ 返回 True
+ if n 是偶数:
+ 返回 False
+
+ for i = 3 to √n (步长 2):
+ if n % i = 0:
+ 返回 False
+
+ 返回 True
 ```
 
 ---
@@ -36305,10 +36305,10 @@ $$n = p_1^{a_1} p_2^{a_2} \cdots p_k^{a_k}$$
 
 检查 $2, 3, 5, 7$（因为 $\sqrt{97} \approx 9.85$）：
 
-- $97 \div 2 = 48$ 余 $1$ ✗
-- $97 \div 3 = 32$ 余 $1$ ✗
-- $97 \div 5 = 19$ 余 $2$ ✗
-- $97 \div 7 = 13$ 余 $6$ ✗
+- $97 \div 2 = 48$ 余 $1$
+- $97 \div 3 = 32$ 余 $1$
+- $97 \div 5 = 19$ 余 $2$
+- $97 \div 7 = 13$ 余 $6$
 
 因此 97 是质数。
 
@@ -36322,14 +36322,14 @@ $$n = p_1^{a_1} p_2^{a_2} \cdots p_k^{a_k}$$
 
 ```
 埃氏筛(n):
-    创建布尔数组 is_prime[2..n]，初始化为 True
-    
-    for p = 2 to √n:
-        if is_prime[p]:
-            for i = p² to n (步长 p):
-                is_prime[i] = False
-    
-    返回所有 is_prime[i] = True 的 i
+ 创建布尔数组 is_prime[2..n]，初始化为 True
+
+ for p = 2 to √n:
+ if is_prime[p]:
+ for i = p² to n (步长 p):
+ is_prime[i] = False
+
+ 返回所有 is_prime[i] = True 的 i
 ```
 
 **时间复杂度**：$O(n \log \log n)$
@@ -36471,7 +36471,7 @@ $$(1 + p_1 + p_1^2 + \cdots + p_1^{a_1})(1 + p_2 + \cdots + p_2^{a_2}) \cdots$$
 
 $$\sigma(60) = \frac{2^3 - 1}{2 - 1} \times \frac{3^2 - 1}{3 - 1} \times \frac{5^2 - 1}{5 - 1} = 7 \times 4 \times 6 = 168$$
 
-验证：$1 + 2 + 3 + 4 + 5 + 6 + 10 + 12 + 15 + 20 + 30 + 60 = 168$ ✓
+验证：$1 + 2 + 3 + 4 + 5 + 6 + 10 + 12 + 15 + 20 + 30 + 60 = 168$
 
 ---
 
@@ -36501,9 +36501,9 @@ $$\sigma(60) = \frac{2^3 - 1}{2 - 1} \times \frac{3^2 - 1}{3 - 1} \times \frac{5
 
 **例**：
 
-- $p = 2$：$2^2 - 1 = 3$ 是质数，$n = 2^1 \times 3 = 6$ ✓
-- $p = 3$：$2^3 - 1 = 7$ 是质数，$n = 2^2 \times 7 = 28$ ✓
-- $p = 5$：$2^5 - 1 = 31$ 是质数，$n = 2^4 \times 31 = 496$ ✓
+- $p = 2$：$2^2 - 1 = 3$ 是质数，$n = 2^1 \times 3 = 6$
+- $p = 3$：$2^3 - 1 = 7$ 是质数，$n = 2^2 \times 7 = 28$
+- $p = 5$：$2^5 - 1 = 31$ 是质数，$n = 2^4 \times 31 = 496$
 
 ---
 
@@ -36542,7 +36542,7 @@ $$\gcd(a, b) \times \text{lcm}(a, b) = a \times b$$
 
 - $\gcd(12, 18) = 6$
 - $\text{lcm}(12, 18) = 36$
-- 验证：$6 \times 36 = 12 \times 18 = 216$ ✓
+- 验证：$6 \times 36 = 12 \times 18 = 216$
 
 ---
 
@@ -36563,7 +36563,7 @@ $$\gcd(60, 90) = 2^{\min(2,1)} \times 3^{\min(1,2)} \times 5^{\min(1,1)} = 2 \ti
 
 $$\text{lcm}(60, 90) = 2^{\max(2,1)} \times 3^{\max(1,2)} \times 5^{\max(1,1)} = 2^2 \times 3^2 \times 5 = 180$$
 
-验证：$30 \times 180 = 60 \times 90 = 5400$ ✓
+验证：$30 \times 180 = 60 \times 90 = 5400$
 
 ---
 
@@ -36597,21 +36597,21 @@ $$\gcd(a, b) = \gcd(b, a \bmod b)$$
 
 ```
 欧几里得算法(a, b):
-    while b ≠ 0:
-        r = a mod b
-        a = b
-        b = r
-    返回 a
+ while b ≠ 0:
+ r = a mod b
+ a = b
+ b = r
+ 返回 a
 ```
 
 **递归版本**：
 
 ```
 gcd(a, b):
-    if b = 0:
-        返回 a
-    else:
-        返回 gcd(b, a mod b)
+ if b = 0:
+ 返回 a
+ else:
+ 返回 gcd(b, a mod b)
 ```
 
 ---
@@ -36664,13 +36664,13 @@ $$ax + by = \gcd(a, b)$$
 
 ```
 扩展欧几里得(a, b):
-    if b = 0:
-        返回 (a, 1, 0)  # gcd, x, y
-    else:
-        (g, x1, y1) = 扩展欧几里得(b, a mod b)
-        x = y1
-        y = x1 - (a // b) × y1
-        返回 (g, x, y)
+ if b = 0:
+ 返回 (a, 1, 0) # gcd, x, y
+ else:
+ (g, x1, y1) = 扩展欧几里得(b, a mod b)
+ x = y1
+ y = x1 - (a // b) × y1
+ 返回 (g, x, y)
 ```
 
 ---
@@ -36730,7 +36730,7 @@ $$y = x_1 - \lfloor 105/42 \rfloor \times y_1 = 1 - 2 \times (-2) = 5$$
 
 所以 $105x + 42y = 21$，其中 $x = -2, y = 5$
 
-验证：$105 \times (-2) + 42 \times 5 = -210 + 210 = 0$ ✗
+验证：$105 \times (-2) + 42 \times 5 = -210 + 210 = 0$
 
 让我重新计算：
 
@@ -36769,7 +36769,7 @@ $$21 = 105 - 42 \times 2 = 105 - (42) \times 2$$
 - $x_3 = x_1 - q_2 \times x_2 = 0 - 2 \times 1 = -2$
 - $y_3 = y_1 - q_2 \times y_2 = 1 - 2 \times (-2) = 5$
 
-结果：$252 \times (-2) + 105 \times 5 = -504 + 525 = 21$ ✓
+结果：$252 \times (-2) + 105 \times 5 = -504 + 525 = 21$
 
 ---
 
@@ -36863,7 +36863,7 @@ $$\varphi(n) = n \prod_{i=1}^{k} \left(1 - \frac{1}{p_i}\right) = n \times \frac
 
 $$\varphi(36) = 36 \times \left(1 - \frac{1}{2}\right) \times \left(1 - \frac{1}{3}\right) = 36 \times \frac{1}{2} \times \frac{2}{3} = 12$$
 
-验证：与 36 互质的数：1, 5, 7, 11, 13, 17, 19, 23, 25, 29, 31, 35（共 12 个）✓
+验证：与 36 互质的数：1, 5, 7, 11, 13, 17, 19, 23, 25, 29, 31, 35（共 12 个）
 
 ---
 
@@ -36877,21 +36877,21 @@ $$\varphi(100) = 100 \times \left(1 - \frac{1}{2}\right) \times \left(1 - \frac{
 
 ```
 欧拉函数(n):
-    result = n
-    p = 2
-    while p × p ≤ n:
-        if n % p = 0:
-            # 去除所有因子 p
-            while n % p = 0:
-                n = n / p
-            # 乘以 (1 - 1/p)
-            result = result - result / p
-        p = p + 1
-    
-    if n > 1:  # n 是质数
-        result = result - result / n
-    
-    返回 result
+ result = n
+ p = 2
+ while p × p ≤ n:
+ if n % p = 0:
+ # 去除所有因子 p
+ while n % p = 0:
+ n = n / p
+ # 乘以 (1 - 1/p)
+ result = result - result / p
+ p = p + 1
+
+ if n > 1: # n 是质数
+ result = result - result / n
+
+ 返回 result
 ```
 
 **时间复杂度**：$O(\sqrt{n})$
@@ -36922,9 +36922,9 @@ $$a^p \equiv a \pmod{p}$$
 
 **例**：$a = 2, p = 7$
 
-$$2^6 = 64 = 7 \times 9 + 1 \equiv 1 \pmod{7}$$ ✓
+$$2^6 = 64 = 7 \times 9 + 1 \equiv 1 \pmod{7}$$
 
-$$2^7 = 128 = 7 \times 18 + 2 \equiv 2 \pmod{7}$$ ✓
+$$2^7 = 128 = 7 \times 18 + 2 \equiv 2 \pmod{7}$$
 
 ---
 
@@ -36985,11 +36985,11 @@ $$\gcd(a, b) = \gcd(b, a \bmod b)$$
 **算法**：
 ```
 gcd(a, b):
-    while b ≠ 0:
-        r = a mod b
-        a = b
-        b = r
-    返回 a
+ while b ≠ 0:
+ r = a mod b
+ a = b
+ b = r
+ 返回 a
 ```
 
 **例**：计算 $\gcd(252, 105)$
@@ -37009,19 +37009,19 @@ $$ax + by = \gcd(a, b)$$
 **算法**：
 ```
 扩展gcd(a, b):
-    if b = 0:
-        返回 (a, 1, 0)
-    (g, x1, y1) = 扩展gcd(b, a mod b)
-    x = y1
-    y = x1 - (a // b) × y1
-    返回 (g, x, y)
+ if b = 0:
+ 返回 (a, 1, 0)
+ (g, x1, y1) = 扩展gcd(b, a mod b)
+ x = y1
+ y = x1 - (a // b) × y1
+ 返回 (g, x, y)
 ```
 
 **例**：求 $\gcd(252, 105)$ 及系数 $x, y$
 
 通过回溯计算得：$252 \times (-2) + 105 \times 5 = 21$
 
-验证：$-504 + 525 = 21$ ✓
+验证：$-504 + 525 = 21$
 
 **应用**：
 - 求解线性丢番图方程
@@ -37036,14 +37036,14 @@ $$ax + by = \gcd(a, b)$$
 
 ```
 lcm(a, b):
-    返回 |a × b| / gcd(a, b)
+ 返回 |a × b| / gcd(a, b)
 ```
 
 **注意**：为避免溢出，可改写为：
 
 ```
 lcm(a, b):
-    返回 |a| / gcd(a, b) × |b|
+ 返回 |a| / gcd(a, b) × |b|
 ```
 
 **多个数的最小公倍数**：
@@ -37098,10 +37098,10 @@ $$a \equiv b \pmod{m}$$
 **例**：$7 \equiv 2 \pmod{5}$，$11 \equiv 1 \pmod{5}$
 
 $$7 + 11 = 18 \equiv 3 \pmod{5}$$
-$$2 + 1 = 3 \equiv 3 \pmod{5}$$ ✓
+$$2 + 1 = 3 \equiv 3 \pmod{5}$$
 
 $$7 \times 11 = 77 \equiv 2 \pmod{5}$$
-$$2 \times 1 = 2 \equiv 2 \pmod{5}$$ ✓
+$$2 \times 1 = 2 \equiv 2 \pmod{5}$$
 
 ---
 
@@ -37139,14 +37139,14 @@ $$= (3 \times 7) \bmod 10 = 21 \bmod 10 = 1$$
 
 ```
 快速幂(a, n, m):
-    result = 1
-    a = a mod m
-    while n > 0:
-        if n 是奇数:
-            result = (result × a) mod m
-        a = (a × a) mod m
-        n = n // 2
-    返回 result
+ result = 1
+ a = a mod m
+ while n > 0:
+ if n 是奇数:
+ result = (result × a) mod m
+ a = (a × a) mod m
+ n = n // 2
+ 返回 result
 ```
 
 **原理**：将 $n$ 表示为二进制，利用 $a^{2k} = (a^k)^2$。
@@ -37171,7 +37171,7 @@ $$13 = (1101)_2 = 8 + 4 + 1$$
 
 结果：$3^{13} \equiv 3 \pmod{7}$
 
-验证：$3^{13} = 1594323 = 227760 \times 7 + 3$ ✓
+验证：$3^{13} = 1594323 = 227760 \times 7 + 3$
 
 ---
 
@@ -37209,7 +37209,7 @@ $$7x + 26y = 1$$
 
 计算得：$x = 15, y = -4$
 
-验证：$7 \times 15 = 105 = 4 \times 26 + 1 \equiv 1 \pmod{26}$ ✓
+验证：$7 \times 15 = 105 = 4 \times 26 + 1 \equiv 1 \pmod{26}$
 
 所以 $7^{-1} \equiv 15 \pmod{26}$
 
@@ -37237,7 +37237,7 @@ $$3^{-1} \equiv 3^{7-2} = 3^5 \pmod{7}$$
 
 $$3^5 = 243 = 34 \times 7 + 5 \equiv 5 \pmod{7}$$
 
-验证：$3 \times 5 = 15 \equiv 1 \pmod{7}$ ✓
+验证：$3 \times 5 = 15 \equiv 1 \pmod{7}$
 
 ---
 
@@ -37259,7 +37259,7 @@ $$5^{-1} \equiv 5^{4-1} = 5^3 = 125 \pmod{12}$$
 
 $$125 = 10 \times 12 + 5 \equiv 5 \pmod{12}$$
 
-验证：$5 \times 5 = 25 = 2 \times 12 + 1 \equiv 1 \pmod{12}$ ✓
+验证：$5 \times 5 = 25 = 2 \times 12 + 1 \equiv 1 \pmod{12}$
 
 ---
 
@@ -37287,7 +37287,7 @@ $$x \equiv a^{-1} b \pmod{m}$$
 
 $$x \equiv 7^{-1} \times 3 \equiv 15 \times 3 = 45 \equiv 19 \pmod{26}$$
 
-验证：$7 \times 19 = 133 = 5 \times 26 + 3 \equiv 3 \pmod{26}$ ✓
+验证：$7 \times 19 = 133 = 5 \times 26 + 3 \equiv 3 \pmod{26}$
 
 **(3) RSA 加密**：
 
@@ -37359,9 +37359,9 @@ $$x \equiv 2 \times 35 \times 2 + 3 \times 21 \times 1 + 2 \times 15 \times 1 \p
 $$= 140 + 63 + 30 = 233 \equiv 23 \pmod{105}$$
 
 **验证**：
-- $23 = 7 \times 3 + 2 \equiv 2 \pmod{3}$ ✓
-- $23 = 4 \times 5 + 3 \equiv 3 \pmod{5}$ ✓
-- $23 = 3 \times 7 + 2 \equiv 2 \pmod{7}$ ✓
+- $23 = 7 \times 3 + 2 \equiv 2 \pmod{3}$
+- $23 = 4 \times 5 + 3 \equiv 3 \pmod{5}$
+- $23 = 3 \times 7 + 2 \equiv 2 \pmod{7}$
 
 通解：$x = 23 + 105k$（$k \in \mathbb{Z}$）
 
@@ -37466,7 +37466,7 @@ $$\varphi(36) = 36 \times \left(1 - \frac{1}{2}\right) \times \left(1 - \frac{1}
 
 $$= 36 \times \frac{1}{2} \times \frac{2}{3} = 12$$
 
-验证：与 36 互质的数为 1, 5, 7, 11, 13, 17, 19, 23, 25, 29, 31, 35（共 12 个）✓
+验证：与 36 互质的数为 1, 5, 7, 11, 13, 17, 19, 23, 25, 29, 31, 35（共 12 个）
 
 ---
 
@@ -37482,7 +37482,7 @@ $$= 100 \times \frac{1}{2} \times \frac{4}{5} = 40$$
 
 $$\varphi(30) = 30 \times \frac{1}{2} \times \frac{2}{3} \times \frac{4}{5} = 8$$
 
-与 30 互质的数：1, 7, 11, 13, 17, 19, 23, 29（共 8 个）✓
+与 30 互质的数：1, 7, 11, 13, 17, 19, 23, 29（共 8 个）
 
 ---
 
@@ -37490,21 +37490,21 @@ $$\varphi(30) = 30 \times \frac{1}{2} \times \frac{2}{3} \times \frac{4}{5} = 8$
 
 ```
 欧拉函数(n):
-    result = n
-    p = 2
-    while p × p ≤ n:
-        if n % p = 0:
-            # 去除所有因子 p
-            while n % p = 0:
-                n = n / p
-            # 乘以 (1 - 1/p)
-            result = result - result / p
-        p = p + 1
-    
-    if n > 1:  # n 是质数
-        result = result - result / n
-    
-    返回 result
+ result = n
+ p = 2
+ while p × p ≤ n:
+ if n % p = 0:
+ # 去除所有因子 p
+ while n % p = 0:
+ n = n / p
+ # 乘以 (1 - 1/p)
+ result = result - result / p
+ p = p + 1
+
+ if n > 1: # n 是质数
+ result = result - result / n
+
+ 返回 result
 ```
 
 **时间复杂度**：$O(\sqrt{n})$
@@ -37532,24 +37532,24 @@ $84 = 2^2 \times 3 \times 7$
 
 ```
 线性筛欧拉函数(n):
-    phi[1] = 1
-    primes = []
-    
-    for i = 2 to n:
-        if phi[i] = 0:  # i 是质数
-            phi[i] = i - 1
-            primes.append(i)
-        
-        for p in primes:
-            if i × p > n:
-                break
-            if i % p = 0:
-                phi[i × p] = phi[i] × p
-                break
-            else:
-                phi[i × p] = phi[i] × phi[p]
-    
-    返回 phi
+ phi[1] = 1
+ primes = []
+
+ for i = 2 to n:
+ if phi[i] = 0: # i 是质数
+ phi[i] = i - 1
+ primes.append(i)
+
+ for p in primes:
+ if i × p > n:
+ break
+ if i % p = 0:
+ phi[i × p] = phi[i] × p
+ break
+ else:
+ phi[i × p] = phi[i] × phi[p]
+
+ 返回 phi
 ```
 
 ---
@@ -37584,7 +37584,7 @@ $$a^{\varphi(n)} \prod_{i=1}^{\varphi(n)} r_i \equiv \prod_{i=1}^{\varphi(n)} r_
 
 $\gcd(3, 10) = 1$，$\varphi(10) = 4$
 
-$$3^4 = 81 = 8 \times 10 + 1 \equiv 1 \pmod{10}$$ ✓
+$$3^4 = 81 = 8 \times 10 + 1 \equiv 1 \pmod{10}$$
 
 ---
 
@@ -37592,7 +37592,7 @@ $$3^4 = 81 = 8 \times 10 + 1 \equiv 1 \pmod{10}$$ ✓
 
 $\gcd(7, 12) = 1$，$\varphi(12) = 4$
 
-$$7^4 = 2401 = 200 \times 12 + 1 \equiv 1 \pmod{12}$$ ✓
+$$7^4 = 2401 = 200 \times 12 + 1 \equiv 1 \pmod{12}$$
 
 ---
 
@@ -37612,9 +37612,9 @@ $$a^p \equiv a \pmod{p}$$
 
 **例**：$a = 2, p = 7$
 
-$$2^6 = 64 = 9 \times 7 + 1 \equiv 1 \pmod{7}$$ ✓
+$$2^6 = 64 = 9 \times 7 + 1 \equiv 1 \pmod{7}$$
 
-$$2^7 = 128 = 18 \times 7 + 2 \equiv 2 \pmod{7}$$ ✓
+$$2^7 = 128 = 18 \times 7 + 2 \equiv 2 \pmod{7}$$
 
 ---
 
@@ -37654,7 +37654,7 @@ $\varphi(12) = 4$
 
 $$5^{-1} \equiv 5^{4-1} = 5^3 = 125 \equiv 5 \pmod{12}$$
 
-验证：$5 \times 5 = 25 \equiv 1 \pmod{12}$ ✓
+验证：$5 \times 5 = 25 \equiv 1 \pmod{12}$
 
 ---
 
@@ -37706,7 +37706,7 @@ $$m \equiv 26^7 \pmod{33}$$
 - $25 \times 16 = 400 \equiv 4 \pmod{33}$
 - $4 \times 26 = 104 \equiv 5 \pmod{33}$
 
-恢复明文 $m = 5$ ✓
+恢复明文 $m = 5$
 
 ---
 
@@ -37718,7 +37718,7 @@ $$m \equiv 26^7 \pmod{33}$$
 
 $$\frac{1}{7} = 0.\overline{142857}$$
 
-循环节长度为 6，$\varphi(7) = 6$ ✓
+循环节长度为 6，$\varphi(7) = 6$
 
 ---
 
@@ -37777,10 +37777,10 @@ $$N_b = d_n \times b^n + d_{n-1} \times b^{n-1} + \cdots + d_1 \times b + d_0$$
 
 ```
 转十进制(数字串, 进制b):
-    result = 0
-    for 每个数字 d (从高位到低位):
-        result = result × b + d
-    返回 result
+ result = 0
+ for 每个数字 d (从高位到低位):
+ result = result × b + d
+ 返回 result
 ```
 
 这是**秦九韶算法**（Horner's method）的应用。
@@ -37803,7 +37803,7 @@ $$725_8 = 7 \times 8^2 + 2 \times 8 + 5$$
 
 $$= 448 + 16 + 5 = 469_{10}$$
 
-**验证**：$469 = 58 \times 8 + 5$，$58 = 7 \times 8 + 2$，$7 = 0 \times 8 + 7$，所以 $469_{10} = 725_8$ ✓
+**验证**：$469 = 58 \times 8 + 5$，$58 = 7 \times 8 + 2$，$7 = 0 \times 8 + 7$，所以 $469_{10} = 725_8$
 
 ---
 
@@ -37815,17 +37815,17 @@ $$= 448 + 16 + 5 = 469_{10}$$
 
 ```
 十进制转b进制(n, b):
-    if n = 0:
-        返回 "0"
-    
-    digits = []
-    while n > 0:
-        余数 = n mod b
-        digits.添加(余数)
-        n = n // b
-    
-    反转 digits
-    返回 digits
+ if n = 0:
+ 返回 "0"
+
+ digits = []
+ while n > 0:
+ 余数 = n mod b
+ digits.添加(余数)
+ n = n // b
+
+ 反转 digits
+ 返回 digits
 ```
 
 **原理**：设 $n = d_k b^k + \cdots + d_1 b + d_0$
@@ -37849,7 +37849,7 @@ $$\lfloor n / b \rfloor = d_k b^{k-1} + \cdots + d_1$$
 
 从下往上读余数：$45_{10} = 101101_2$
 
-验证：$32 + 8 + 4 + 1 = 45$ ✓
+验证：$32 + 8 + 4 + 1 = 45$
 
 **例 2**：$255_{10}$ 转十六进制
 
@@ -37860,7 +37860,7 @@ $$\lfloor n / b \rfloor = d_k b^{k-1} + \cdots + d_1$$
 
 结果：$255_{10} = \text{FF}_{16}$
 
-验证：$15 \times 16 + 15 = 255$ ✓
+验证：$15 \times 16 + 15 = 255$
 
 **例 3**：$100_{10}$ 转八进制
 
@@ -37872,13 +37872,13 @@ $$\lfloor n / b \rfloor = d_k b^{k-1} + \cdots + d_1$$
 
 结果：$100_{10} = 144_8$
 
-验证：$64 + 32 + 4 = 100$ ✓
+验证：$64 + 32 + 4 = 100$
 
 ---
 
 #### 23.4.4 二、八、十六进制间的快速转换
 
-**二进制 ↔ 八进制**
+**二进制  八进制**
 
 **原理**：$8 = 2^3$，每 3 位二进制对应 1 位八进制。
 
@@ -37894,7 +37894,7 @@ $$011_2 = 3_8, \quad 010_2 = 2_8, \quad 110_2 = 6_8$$
 
 验证：$3 \times 64 + 2 \times 8 + 6 = 214_{10}$
 
-$11010110_2 = 128 + 64 + 16 + 4 + 2 = 214_{10}$ ✓
+$11010110_2 = 128 + 64 + 16 + 4 + 2 = 214_{10}$
 
 **八进制转二进制**：每位八进制数转为 3 位二进制。
 
@@ -37906,7 +37906,7 @@ $$7_8 = 111_2, \quad 4_8 = 100_2, \quad 5_8 = 101_2$$
 
 ---
 
-**二进制 ↔ 十六进制**
+**二进制  十六进制**
 
 **原理**：$16 = 2^4$，每 4 位二进制对应 1 位十六进制。
 
@@ -37928,11 +37928,11 @@ $$3_{16} = 0011_2, \quad \text{F}_{16} = 1111_2$$
 
 结果：$\text{3F}_{16} = 00111111_2 = 111111_2$
 
-验证：$63_{10} = 32 + 16 + 8 + 4 + 2 + 1$ ✓
+验证：$63_{10} = 32 + 16 + 8 + 4 + 2 + 1$
 
 ---
 
-**八进制 ↔ 十六进制**
+**八进制  十六进制**
 
 **方法**：通过二进制作为中介。
 
@@ -37952,7 +37952,7 @@ $$0110_2 = 6_{16}, \quad 1111_2 = \text{F}_{16}$$
 
 结果：$157_8 = \text{6F}_{16}$
 
-验证：$6 \times 16 + 15 = 111_{10}$，$1 \times 64 + 5 \times 8 + 7 = 111_{10}$ ✓
+验证：$6 \times 16 + 15 = 111_{10}$，$1 \times 64 + 5 \times 8 + 7 = 111_{10}$
 
 ---
 
@@ -37993,7 +37993,7 @@ $$0110_2 = 6_{16}, \quad 1111_2 = \text{F}_{16}$$
 
 从上往下读整数部分：$0.625_{10} = 0.101_2$
 
-验证：$0.5 + 0.125 = 0.625$ ✓
+验证：$0.5 + 0.125 = 0.625$
 
 **$b$ 进制小数转十进制**：按负幂展开。
 
@@ -38025,7 +38025,7 @@ $$3_{16} = 0011_2, \quad \text{C}_{16} = 1100_2, \quad 8_{16} = 1000_2$$
 - 八进制：$177_8$
 - 十六进制：$7\text{F}_{16}$
 
-验证：$127 = 64 + 32 + 16 + 8 + 4 + 2 + 1$ ✓
+验证：$127 = 64 + 32 + 16 + 8 + 4 + 2 + 1$
 
 ---
 
@@ -38059,13 +38059,13 @@ $$3_{16} = 0011_2, \quad \text{C}_{16} = 1100_2, \quad 8_{16} = 1000_2$$
 3. **十进制转其他**：短除法，连续除以目标进制取余数
 
 4. **快速转换**：
-   - 二进制 ↔ 八进制：3 位一组
-   - 二进制 ↔ 十六进制：4 位一组
-   - 八进制 ↔ 十六进制：通过二进制中介
+ - 二进制  八进制：3 位一组
+ - 二进制  十六进制：4 位一组
+ - 八进制  十六进制：通过二进制中介
 
 5. **小数转换**：
-   - 转 $b$ 进制：连续乘 $b$ 取整数部分
-   - 转十进制：按负幂展开
+ - 转 $b$ 进制：连续乘 $b$ 取整数部分
+ - 转十进制：按负幂展开
 
 **常用技巧**：
 
@@ -38102,24 +38102,24 @@ $$3_{16} = 0011_2, \quad \text{C}_{16} = 1100_2, \quad 8_{16} = 1000_2$$
 **例**：$a = 12_{10} = 1100_2$，$b = 10_{10} = 1010_2$
 
 ```
-    1100  (12)
-&   1010  (10)
+ 1100 (12)
+& 1010 (10)
 ---------
-    1000  (8)
+ 1000 (8)
 
-    1100  (12)
-|   1010  (10)
+ 1100 (12)
+| 1010 (10)
 ---------
-    1110  (14)
+ 1110 (14)
 
-    1100  (12)
-^   1010  (10)
+ 1100 (12)
+^ 1010 (10)
 ---------
-    0110  (6)
+ 0110 (6)
 
-~   1100  (12)
+~ 1100 (12)
 ---------
-    0011  (3, 假设4位)
+ 0011 (3, 假设4位)
 ```
 
 **注意**：取反运算 `~` 会翻转所有位，包括符号位。在有符号整数中，`~x = -x - 1`。
@@ -38140,9 +38140,9 @@ $$3_{16} = 0011_2, \quad \text{C}_{16} = 1100_2, \quad 8_{16} = 1000_2$$
 
 ```
 if (n & 1 == 1):
-    # n 是奇数
+ # n 是奇数
 else:
-    # n 是偶数
+ # n 是偶数
 ```
 
 **原理**：最低位为 1 表示奇数，为 0 表示偶数。
@@ -38173,8 +38173,8 @@ n = n & ~(1 << k)
 
 ```
 45 & ~(1 << 2) = 101101_2 & ~000100_2
-                = 101101_2 & 111011_2
-                = 101001_2 = 41_{10}
+ = 101101_2 & 111011_2
+ = 101001_2 = 41_{10}
 ```
 
 ---
@@ -38199,7 +38199,7 @@ n = n | (1 << k)
 
 ```
 41 | (1 << 1) = 101001_2 | 000010_2
-               = 101011_2 = 43_{10}
+ = 101011_2 = 43_{10}
 ```
 
 **应用 2**：合并标志位
@@ -38230,16 +38230,16 @@ n = n | (1 << k)
 
 ```
 a = a ^ b
-b = a ^ b  # b = (a ^ b) ^ b = a
-a = a ^ b  # a = (a ^ b) ^ a = b
+b = a ^ b # b = (a ^ b) ^ b = a
+a = a ^ b # a = (a ^ b) ^ a = b
 ```
 
 **例**：$a = 5 = 101_2$，$b = 3 = 011_2$
 
 ```
 a = 5 ^ 3 = 110_2 = 6
-b = 6 ^ 3 = 101_2 = 5  ✓
-a = 6 ^ 5 = 011_2 = 3  ✓
+b = 6 ^ 3 = 101_2 = 5
+a = 6 ^ 5 = 011_2 = 3
 ```
 
 **应用 2**：找出数组中唯一出现一次的数
@@ -38251,7 +38251,7 @@ a = 6 ^ 5 = 011_2 = 3  ✓
 ```
 result = 0
 for num in array:
-    result = result ^ num
+ result = result ^ num
 返回 result
 ```
 
@@ -38303,8 +38303,8 @@ mask = ~(~0 << k)
 
 ```
 ~(~0 << 4) = ~(11111111 << 4)
-           = ~(11110000)
-           = 00001111
+ = ~(11110000)
+ = 00001111
 ```
 
 ---
@@ -38442,7 +38442,7 @@ mid = (left + right) >> 1
 
 **字符属性与规范化**：Unicode 不仅定义了字符的码点，还定义了丰富的字符属性（character properties），如：字符类别（category，字母、数字、标点等）、大小写映射（case mapping）、双向文本属性（bidirectional properties，用于阿拉伯文、希伯来文等从右到左的文字）、组合类（combining class，用于变音符号）等。Unicode 还定义了多种规范化形式（normalization forms）：NFD（Canonical Decomposition，规范分解）、NFC（Canonical Decomposition followed by Canonical Composition，规范分解后再组合）、NFKD（Compatibility Decomposition）、NFKC（Compatibility Decomposition followed by Canonical Composition）。规范化用于解决同一字符的不同表示方式，例如 "é" 可以是单个字符 `U+00E9`，也可以是 "e"（`U+0065`）加组合音标 "´"（`U+0301`）。
 
-**码点与字符的关系**：需要注意，Unicode 的"字符"（character）概念比较复杂。一个用户感知的字符（grapheme cluster，字形簇）可能由多个码点组成。例如，emoji "👨‍👩‍👧‍👦"（家庭）由 7 个码点组成：👨（`U+1F468`）、零宽连接符（Zero Width Joiner, ZWJ, `U+200D`）、👩（`U+1F469`）、ZWJ、👧（`U+1F467`）、ZWJ、👦（`U+1F466`）。肤色修饰符（skin tone modifiers）也是独立的码点。因此，字符串长度的计算需要区分：码点数量（code point count）、字节数量（byte count，取决于编码方式）、字形簇数量（grapheme cluster count，用户感知的字符数）。
+**码点与字符的关系**：需要注意，Unicode 的"字符"（character）概念比较复杂。一个用户感知的字符（grapheme cluster，字形簇）可能由多个码点组成。例如，emoji ""（家庭）由 7 个码点组成：（`U+1F468`）、零宽连接符（Zero Width Joiner, ZWJ, `U+200D`）、（`U+1F469`）、ZWJ、（`U+1F467`）、ZWJ、（`U+1F466`）。肤色修饰符（skin tone modifiers）也是独立的码点。因此，字符串长度的计算需要区分：码点数量（code point count）、字节数量（byte count，取决于编码方式）、字形簇数量（grapheme cluster count，用户感知的字符数）。
 
 ---
 
@@ -38465,23 +38465,23 @@ mid = (left + right) >> 1
 
 ```
 UTF8编码(码点):
-    if 码点 <= 0x7F:
-        返回 [码点]
-    elif 码点 <= 0x7FF:
-        字节1 = 0xC0 | (码点 >> 6)
-        字节2 = 0x80 | (码点 & 0x3F)
-        返回 [字节1, 字节2]
-    elif 码点 <= 0xFFFF:
-        字节1 = 0xE0 | (码点 >> 12)
-        字节2 = 0x80 | ((码点 >> 6) & 0x3F)
-        字节3 = 0x80 | (码点 & 0x3F)
-        返回 [字节1, 字节2, 字节3]
-    else:  # 码点 <= 0x10FFFF
-        字节1 = 0xF0 | (码点 >> 18)
-        字节2 = 0x80 | ((码点 >> 12) & 0x3F)
-        字节3 = 0x80 | ((码点 >> 6) & 0x3F)
-        字节4 = 0x80 | (码点 & 0x3F)
-        返回 [字节1, 字节2, 字节3, 字节4]
+ if 码点 <= 0x7F:
+ 返回 [码点]
+ elif 码点 <= 0x7FF:
+ 字节1 = 0xC0 | (码点 >> 6)
+ 字节2 = 0x80 | (码点 & 0x3F)
+ 返回 [字节1, 字节2]
+ elif 码点 <= 0xFFFF:
+ 字节1 = 0xE0 | (码点 >> 12)
+ 字节2 = 0x80 | ((码点 >> 6) & 0x3F)
+ 字节3 = 0x80 | (码点 & 0x3F)
+ 返回 [字节1, 字节2, 字节3]
+ else: # 码点 <= 0x10FFFF
+ 字节1 = 0xF0 | (码点 >> 18)
+ 字节2 = 0x80 | ((码点 >> 12) & 0x3F)
+ 字节3 = 0x80 | ((码点 >> 6) & 0x3F)
+ 字节4 = 0x80 | (码点 & 0x3F)
+ 返回 [字节1, 字节2, 字节3, 字节4]
 ```
 
 **编码示例**：
@@ -38494,7 +38494,7 @@ UTF8编码(码点):
 结果：0x41
 ```
 
-**(2)** '©'（`U+00A9`，版权符号）：
+**(2)** ''（`U+00A9`，版权符号）：
 
 ```
 00A9 在 0080-07FF 范围，使用 2 字节
@@ -38517,7 +38517,7 @@ UTF8编码(码点):
 结果：0xE4 0xB8 0xAD
 ```
 
-**(4)** '😀'（`U+1F600`，笑脸 emoji）：
+**(4)** ''（`U+1F600`，笑脸 emoji）：
 
 ```
 1F600 在 10000-10FFFF 范围，使用 4 字节
@@ -38546,17 +38546,17 @@ UTF8编码(码点):
 
 ```
 UTF16编码(码点):
-    if 码点 <= 0xFFFF:
-        if 0xD800 <= 码点 <= 0xDFFF:
-            错误：码点在代理区
-        返回 [码点]
-    else:  # 码点 >= 0x10000
-        码点 = 码点 - 0x10000
-        高10位 = 码点 >> 10
-        低10位 = 码点 & 0x3FF
-        高代理 = 0xD800 + 高10位
-        低代理 = 0xDC00 + 低10位
-        返回 [高代理, 低代理]
+ if 码点 <= 0xFFFF:
+ if 0xD800 <= 码点 <= 0xDFFF:
+ 错误：码点在代理区
+ 返回 [码点]
+ else: # 码点 >= 0x10000
+ 码点 = 码点 - 0x10000
+ 高10位 = 码点 >> 10
+ 低10位 = 码点 & 0x3FF
+ 高代理 = 0xD800 + 高10位
+ 低代理 = 0xDC00 + 低10位
+ 返回 [高代理, 低代理]
 ```
 
 **编码示例**：
@@ -38579,7 +38579,7 @@ UTF16编码(码点):
 小端序：0x2D 0x4E
 ```
 
-**(3)** '😀'（`U+1F600`）：
+**(3)** ''（`U+1F600`）：
 
 ```
 1F600 在辅助平面，使用代理对
@@ -38608,22 +38608,22 @@ UTF16编码(码点):
 
 ```
 UTF16解码(单元序列):
-    第一单元 = 单元序列[0]
-    
-    if 0xD800 <= 第一单元 <= 0xDBFF:  # 高代理
-        if 长度 < 2:
-            错误：不完整的代理对
-        第二单元 = 单元序列[1]
-        if not (0xDC00 <= 第二单元 <= 0xDFFF):
-            错误：无效的低代理
-        高10位 = 第一单元 - 0xD800
-        低10位 = 第二单元 - 0xDC00
-        码点 = 0x10000 + (高10位 << 10) + 低10位
-        返回 码点
-    elif 0xDC00 <= 第一单元 <= 0xDFFF:  # 低代理
-        错误：孤立的低代理
-    else:
-        返回 第一单元
+ 第一单元 = 单元序列[0]
+
+ if 0xD800 <= 第一单元 <= 0xDBFF: # 高代理
+ if 长度 < 2:
+ 错误：不完整的代理对
+ 第二单元 = 单元序列[1]
+ if not (0xDC00 <= 第二单元 <= 0xDFFF):
+ 错误：无效的低代理
+ 高10位 = 第一单元 - 0xD800
+ 低10位 = 第二单元 - 0xDC00
+ 码点 = 0x10000 + (高10位 << 10) + 低10位
+ 返回 码点
+ elif 0xDC00 <= 第一单元 <= 0xDFFF: # 低代理
+ 错误：孤立的低代理
+ else:
+ 返回 第一单元
 ```
 
 **字节序问题（BOM）**：UTF-16 存在字节序（byte order, endianness）问题。对于多字节单元，需要确定高字节在前（大端序，big-endian, BE）还是低字节在前（小端序，little-endian, LE）。为解决这个问题，UTF-16 文件通常在开头添加字节序标记（Byte Order Mark, BOM）：`U+FEFF`（零宽不换行空格）。如果文件开头是 `0xFE 0xFF`，表示大端序（UTF-16BE）；如果是 `0xFF 0xFE`，表示小端序（UTF-16LE）。BOM 本身不显示但用于标识编码和字节序。没有 BOM 的 UTF-16 文件通常默认为大端序。
@@ -38631,10 +38631,10 @@ UTF16解码(单元序列):
 **BOM 示例**：
 
 ```
-UTF-16BE with BOM: FE FF 00 41 4E 2D  ("A中")
-UTF-16LE with BOM: FF FE 41 00 2D 4E  ("A中")
-UTF-16BE no BOM:   00 41 4E 2D        ("A中")
-UTF-16LE no BOM:   41 00 2D 4E        ("A中")
+UTF-16BE with BOM: FE FF 00 41 4E 2D ("A中")
+UTF-16LE with BOM: FF FE 41 00 2D 4E ("A中")
+UTF-16BE no BOM: 00 41 4E 2D ("A中")
+UTF-16LE no BOM: 41 00 2D 4E ("A中")
 ```
 
 **优缺点**：UTF-16 的优点是：对于 BMP 字符（包括大部分常用汉字），每个字符固定 2 字节，比 UTF-8 的 3 字节节省空间；随机访问效率较高（大部分情况下）。缺点是：不兼容 ASCII（即使是 ASCII 字符也需要 2 字节）；存在字节序问题，需要 BOM；代理对机制增加了复杂性；对于英文文本，空间效率低（是 UTF-8 的两倍）。UTF-16 主要用于 Windows 系统内部、Java 和 JavaScript 的字符串表示、某些数据库系统。
@@ -38649,11 +38649,11 @@ UTF-16LE no BOM:   41 00 2D 4E        ("A中")
 
 ```
 UTF32编码(码点):
-    if 码点 > 0x10FFFF:
-        错误：超出 Unicode 范围
-    if 0xD800 <= 码点 <= 0xDFFF:
-        错误：码点在代理区
-    返回 码点的 32 位表示
+ if 码点 > 0x10FFFF:
+ 错误：超出 Unicode 范围
+ if 0xD800 <= 码点 <= 0xDFFF:
+ 错误：码点在代理区
+ 返回 码点的 32 位表示
 ```
 
 **编码示例**：
@@ -38674,7 +38674,7 @@ UTF32编码(码点):
 小端序：0x2D 0x4E 0x00 0x00
 ```
 
-**(3)** '😀'（`U+1F600`）：
+**(3)** ''（`U+1F600`）：
 
 ```
 结果：0x0001F600（4 字节）
@@ -38693,33 +38693,33 @@ UTF32编码(码点):
 **字节序与 BOM**：UTF-32 同样存在字节序问题，也使用 BOM 来标识。BOM 为 `U+FEFF`：
 
 ```
-UTF-32BE with BOM: 00 00 FE FF 00 00 00 41  ("A")
-UTF-32LE with BOM: FF FE 00 00 41 00 00 00  ("A")
-UTF-32BE no BOM:   00 00 00 41              ("A")
-UTF-32LE no BOM:   41 00 00 00              ("A")
+UTF-32BE with BOM: 00 00 FE FF 00 00 00 41 ("A")
+UTF-32LE with BOM: FF FE 00 00 41 00 00 00 ("A")
+UTF-32BE no BOM: 00 00 00 41 ("A")
+UTF-32LE no BOM: 41 00 00 00 ("A")
 ```
 
 **解码算法**：
 
 ```
 UTF32解码(字节序列):
-    if 长度 < 4:
-        错误：不完整的码点
-    
-    # 根据字节序读取 32 位整数
-    if 大端序:
-        码点 = (字节[0] << 24) | (字节[1] << 16) | 
-               (字节[2] << 8) | 字节[3]
-    else:  # 小端序
-        码点 = 字节[0] | (字节[1] << 8) | 
-               (字节[2] << 16) | (字节[3] << 24)
-    
-    if 码点 > 0x10FFFF:
-        错误：超出 Unicode 范围
-    if 0xD800 <= 码点 <= 0xDFFF:
-        错误：码点在代理区
-    
-    返回 码点
+ if 长度 < 4:
+ 错误：不完整的码点
+
+ # 根据字节序读取 32 位整数
+ if 大端序:
+ 码点 = (字节[0] << 24) | (字节[1] << 16) |
+ (字节[2] << 8) | 字节[3]
+ else: # 小端序
+ 码点 = 字节[0] | (字节[1] << 8) |
+ (字节[2] << 16) | (字节[3] << 24)
+
+ if 码点 > 0x10FFFF:
+ 错误：超出 Unicode 范围
+ if 0xD800 <= 码点 <= 0xDFFF:
+ 错误：码点在代理区
+
+ 返回 码点
 ```
 
 **优缺点**：UTF-32 的优点是：定长编码，每个码点固定 4 字节；随机访问效率最高，可以直接通过索引访问第 $n$ 个字符（`字符[n] = 数组[n * 4]`）；编码解码算法最简单，无需复杂的位运算。缺点是：空间效率极低，即使是 ASCII 字符也需要 4 字节，是 UTF-8 的 4 倍；浪费大量存储空间和网络带宽（高 11 位始终为 0）；仍然存在字节序问题。UTF-32 主要用于内部处理（如文本编辑器的内部表示）、需要频繁随机访问字符的场景，但很少用于存储和传输。
@@ -38735,7 +38735,7 @@ UTF32解码(字节序列):
 | ASCII | 1 字节 | 2 字节 | 4 字节 | 'A' |
 | 拉丁扩展 | 2 字节 | 2 字节 | 4 字节 | 'é' |
 | 中日韩 | 3 字节 | 2 字节 | 4 字节 | '中' |
-| Emoji | 4 字节 | 4 字节 | 4 字节 | '😀' |
+| Emoji | 4 字节 | 4 字节 | 4 字节 | '' |
 
 **文本类型的最优编码**：
 
@@ -38782,17 +38782,17 @@ UTF32解码(字节序列):
 
 ```
 编码转换(源字节, 源编码, 目标编码):
-    码点列表 = []
-    for 每个字符 in 源字节:
-        码点 = 源编码解码(字符)
-        码点列表.添加(码点)
-    
-    目标字节 = []
-    for 码点 in 码点列表:
-        字节 = 目标编码编码(码点)
-        目标字节.添加(字节)
-    
-    返回 目标字节
+ 码点列表 = []
+ for 每个字符 in 源字节:
+ 码点 = 源编码解码(字符)
+ 码点列表.添加(码点)
+
+ 目标字节 = []
+ for 码点 in 码点列表:
+ 字节 = 目标编码编码(码点)
+ 目标字节.添加(字节)
+
+ 返回 目标字节
 ```
 
 **实际应用建议**：对于新项目，强烈推荐使用 UTF-8 作为默认编码，原因是：Web 标准（HTML5 默认 UTF-8）、跨平台兼容性好、空间效率高、无字节序问题、工具支持完善。只有在特定场景下（如 Windows 平台开发、需要与遗留系统兼容）才考虑 UTF-16。UTF-32 仅用于内部处理，不应用于存储和传输。无论选择哪种编码，都应该在文件头、HTTP 头、数据库连接字符串中明确声明编码，避免编码混乱导致的乱码问题。
@@ -38807,23 +38807,23 @@ UTF32解码(字节序列):
 
 **码点（Code Point）**：码点是 Unicode 标准中为每个字符分配的唯一编号，是逻辑层面的概念。码点用 `U+xxxx` 表示（十六进制），范围从 `U+0000` 到 `U+10FFFF`，共 1,114,112 个可能的值。码点是字符的抽象标识，独立于任何具体的编码方式。例如，字符 '中' 的码点是 `U+4E2D`，无论使用 UTF-8、UTF-16 还是 UTF-32 编码，这个码点都不变。码点到字节的转换过程称为编码（encoding），字节到码点的转换过程称为解码（decoding）。一个码点可能对应 1-4 个字节（UTF-8）、2-4 个字节（UTF-16）或固定 4 个字节（UTF-32）。码点是 Unicode 体系的核心概念，是连接字符和字节的桥梁。
 
-**字符（Character）**：字符是用户感知层面的概念，表示一个有意义的文本单元。在 Unicode 中，字符的定义比较复杂，可以分为多个层次：(1) **码点字符**：一个码点对应一个字符，这是最简单的情况，如 'A'（`U+0041`）、'中'（`U+4E2D`）。(2) **组合字符**：由基础字符和组合标记组成，如 "é" 可以是单个码点 `U+00E9`，也可以是 "e"（`U+0065`）+ 组合音标 "´"（`U+0301`）。(3) **字形簇（Grapheme Cluster）**：用户感知的单个字符，可能由多个码点组成，如 emoji "👨‍👩‍👧‍👦" 由 7 个码点组成，但用户看到的是一个字符。字符是最接近人类认知的概念，但在编程中处理起来最复杂。
+**字符（Character）**：字符是用户感知层面的概念，表示一个有意义的文本单元。在 Unicode 中，字符的定义比较复杂，可以分为多个层次：(1) **码点字符**：一个码点对应一个字符，这是最简单的情况，如 'A'（`U+0041`）、'中'（`U+4E2D`）。(2) **组合字符**：由基础字符和组合标记组成，如 "é" 可以是单个码点 `U+00E9`，也可以是 "e"（`U+0065`）+ 组合音标 "´"（`U+0301`）。(3) **字形簇（Grapheme Cluster）**：用户感知的单个字符，可能由多个码点组成，如 emoji "" 由 7 个码点组成，但用户看到的是一个字符。字符是最接近人类认知的概念，但在编程中处理起来最复杂。
 
 **三者关系**：字符 → 码点 → 字节，这是文本处理的三个层次。字符是语义层，码点是逻辑层，字节是物理层。一个字符可能对应一个或多个码点，一个码点对应一个或多个字节（取决于编码）。例如：
 
 ```
 字符 "é"（单个视觉字符）
-  ↓ 可能的表示方式
+ ↓ 可能的表示方式
 码点 U+00E9（预组合形式）
-  或
+ 或
 码点 U+0065 + U+0301（分解形式）
-  ↓ UTF-8 编码
+ ↓ UTF-8 编码
 字节 0xC3 0xA9（预组合）
-  或
+ 或
 字节 0x65 0xCC 0x81（分解）
 ```
 
-**常见误区**：(1) **字符串长度**：`"中国".length` 在不同语言中可能返回不同结果。Java/JavaScript 返回 2（UTF-16 代码单元数），Python 3 返回 2（码点数），C 语言返回 6（UTF-8 字节数）。(2) **字符索引**：`"Hello😀"[5]` 在 JavaScript 中返回 `\uD83D`（高代理，不是完整字符），因为 emoji 占用两个 UTF-16 代码单元。(3) **字符反转**：简单的字节反转或码点反转都可能破坏组合字符和 emoji，需要按字形簇反转。(4) **字符计数**：统计用户输入的字符数应该按字形簇计数，而不是字节数或码点数。
+**常见误区**：(1) **字符串长度**：`"中国".length` 在不同语言中可能返回不同结果。Java/JavaScript 返回 2（UTF-16 代码单元数），Python 3 返回 2（码点数），C 语言返回 6（UTF-8 字节数）。(2) **字符索引**：`"Hello"[5]` 在 JavaScript 中返回 `\uD83D`（高代理，不是完整字符），因为 emoji 占用两个 UTF-16 代码单元。(3) **字符反转**：简单的字节反转或码点反转都可能破坏组合字符和 emoji，需要按字形簇反转。(4) **字符计数**：统计用户输入的字符数应该按字形簇计数，而不是字节数或码点数。
 
 ---
 
@@ -38833,9 +38833,9 @@ UTF32解码(字节序列):
 
 ```c
 // C 语言字符串示例
-char str[] = "Hello";           // 字节数组，6 字节（含 \0）
-char utf8[] = "中国";           // UTF-8，7 字节（6 + \0）
-wchar_t wstr[] = L"中国";       // 宽字符，平台相关
+char str[] = "Hello"; // 字节数组，6 字节（含 \0）
+char utf8[] = "中国"; // UTF-8，7 字节（6 + \0）
+wchar_t wstr[] = L"中国"; // 宽字符，平台相关
 
 // C++11
 std::u8string u8str = u8"中国"; // UTF-8
@@ -38846,28 +38846,28 @@ std::u32string u32str = U"中国"; // UTF-32
 **Java 的字符串**：Java 的 `char` 类型是 16 位，表示一个 UTF-16 代码单元（code unit），而不是一个完整的字符。`String` 类内部使用 UTF-16 编码存储。对于 BMP 字符，一个 `char` 对应一个字符；对于辅助平面字符（如 emoji），需要两个 `char`（代理对）。`String.length()` 返回代码单元数，不是字符数。Java 提供了 `codePointAt()`、`codePointCount()` 等方法来处理码点。
 
 ```java
-String str = "Hello😀";
-System.out.println(str.length());           // 7（代码单元数）
+String str = "Hello";
+System.out.println(str.length()); // 7（代码单元数）
 System.out.println(str.codePointCount(0, str.length())); // 6（码点数）
 
 // 遍历码点
 for (int i = 0; i < str.length(); ) {
-    int codePoint = str.codePointAt(i);
-    System.out.println(Character.toChars(codePoint));
-    i += Character.charCount(codePoint);
+ int codePoint = str.codePointAt(i);
+ System.out.println(Character.toChars(codePoint));
+ i += Character.charCount(codePoint);
 }
 ```
 
 **Python 的字符串**：Python 3 的 `str` 类型是 Unicode 字符串，内部使用灵活的编码策略（PEP 393）：纯 ASCII 字符串使用 1 字节/字符，包含 Latin-1 字符使用 2 字节/字符，包含更高码点使用 4 字节/字符。`len()` 返回码点数，不是字节数。Python 的字符串是不可变的（immutable），支持丰富的 Unicode 操作。`bytes` 类型表示字节序列，与 `str` 之间通过 `encode()` 和 `decode()` 转换。
 
 ```python
-s = "Hello😀"
-print(len(s))              # 6（码点数）
-print(len(s.encode('utf-8')))  # 10（字节数）
+s = "Hello"
+print(len(s)) # 6（码点数）
+print(len(s.encode('utf-8'))) # 10（字节数）
 
 # 遍历码点
 for char in s:
-    print(char, ord(char))  # ord() 返回码点值
+ print(char, ord(char)) # ord() 返回码点值
 
 # 编码转换
 utf8_bytes = s.encode('utf-8')
@@ -38877,13 +38877,13 @@ utf16_bytes = s.encode('utf-16')
 **JavaScript 的字符串**：JavaScript 的字符串使用 UTF-16 编码，`length` 属性返回代码单元数。与 Java 类似，辅助平面字符需要两个代码单元。ES6 引入了 `codePointAt()`、`String.fromCodePoint()` 等方法，以及字符串迭代器（支持按码点遍历）。`for...of` 循环可以正确遍历包含 emoji 的字符串。
 
 ```javascript
-let str = "Hello😀";
-console.log(str.length);           // 7（代码单元数）
-console.log([...str].length);      // 6（码点数，使用扩展运算符）
+let str = "Hello";
+console.log(str.length); // 7（代码单元数）
+console.log([...str].length); // 6（码点数，使用扩展运算符）
 
 // 遍历码点
 for (let char of str) {
-    console.log(char, char.codePointAt(0));
+ console.log(char, char.codePointAt(0));
 }
 
 // 字符串反转（正确处理 emoji）
@@ -38893,18 +38893,18 @@ let reversed = [...str].reverse().join('');
 **Go 的字符串**：Go 的 `string` 类型是不可变的字节序列，默认使用 UTF-8 编码。`len()` 返回字节数，不是字符数。`rune` 类型（`int32` 的别名）表示一个 Unicode 码点。使用 `range` 遍历字符串时，会自动按 UTF-8 解码，返回码点。Go 的设计鼓励使用 UTF-8，提供了 `unicode/utf8` 包来处理 UTF-8 编码。
 
 ```go
-s := "Hello😀"
-fmt.Println(len(s))                    // 10（字节数）
+s := "Hello"
+fmt.Println(len(s)) // 10（字节数）
 fmt.Println(utf8.RuneCountInString(s)) // 6（码点数）
 
 // 遍历码点
 for i, r := range s {
-    fmt.Printf("%d: %c (%U)\n", i, r, r)
+ fmt.Printf("%d: %c (%U)\n", i, r, r)
 }
 
 // 转换为 rune 切片
 runes := []rune(s)
-fmt.Println(len(runes))  // 6
+fmt.Println(len(runes)) // 6
 ```
 
 ---
@@ -38921,9 +38921,9 @@ fmt.Println(len(runes))  // 6
 
 ```
 字符 '中'
-  ↓ 字符集（Unicode）
+ ↓ 字符集（Unicode）
 码点 U+4E2D（编号 20013）
-  ↓ 编码方式（UTF-8）
+ ↓ 编码方式（UTF-8）
 字节 0xE4 0xB8 0xAD
 ```
 
@@ -38973,11 +38973,11 @@ fmt.Println(len(runes))  // 6
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
-    <title>示例页面</title>
+ <meta charset="UTF-8">
+ <title>示例页面</title>
 </head>
 <body>
-    <p>这是一个 UTF-8 编码的页面</p>
+ <p>这是一个 UTF-8 编码的页面</p>
 </body>
 </html>
 ```
@@ -39008,7 +39008,7 @@ Content-Type: application/xml; charset=UTF-8
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <root>
-    <item>中文内容</item>
+ <item>中文内容</item>
 </root>
 ```
 
@@ -39085,9 +39085,9 @@ print("姓名\t年龄\t城市")
 print("张三\t25\t北京")
 print("李四\t30\t上海")
 # 输出：
-# 姓名    年龄    城市
-# 张三    25      北京
-# 李四    30      上海
+# 姓名 年龄 城市
+# 张三 25 北京
+# 李四 30 上海
 ```
 
 需要注意，制表符的显示宽度取决于制表位设置，不同的编辑器和终端可能有不同的制表位宽度（通常是 4 或 8 个字符）。因此，使用制表符进行对齐可能在不同环境中显示不一致。现代编程实践中，通常推荐使用空格而不是制表符进行代码缩进。
@@ -39118,10 +39118,10 @@ System.out.println(path);
 ```python
 # Python 示例
 s1 = "He said, \"Hello!\""
-print(s1)  # 输出：He said, "Hello!"
+print(s1) # 输出：He said, "Hello!"
 
 s2 = 'It\'s a beautiful day'
-print(s2)  # 输出：It's a beautiful day
+print(s2) # 输出：It's a beautiful day
 
 # 或者交替使用单双引号
 s3 = 'He said, "Hello!"'
@@ -39131,10 +39131,10 @@ s4 = "It's a beautiful day"
 ```javascript
 // JavaScript 示例
 let s1 = "He said, \"Hello!\"";
-console.log(s1);  // 输出：He said, "Hello!"
+console.log(s1); // 输出：He said, "Hello!"
 
 let s2 = 'It\'s a beautiful day';
-console.log(s2);  // 输出：It's a beautiful day
+console.log(s2); // 输出：It's a beautiful day
 ```
 
 **空字符 `\0`**：空字符（null character）的 ASCII 码为 0，在 C 语言中用作字符串终止符。C 语言的字符串是字符数组，以 `\0` 标记字符串的结束。其他语言（如 Java、Python）通常不使用空字符作为字符串终止符，而是存储字符串长度。
@@ -39145,8 +39145,8 @@ char str[] = "Hello";
 // 实际存储：'H' 'e' 'l' 'l' 'o' '\0'（6 个字符）
 
 char str2[] = "Hello\0World";
-printf("%s\n", str2);  // 输出：Hello（遇到 \0 停止）
-printf("%zu\n", strlen(str2));  // 输出：5（strlen 遇到 \0 停止）
+printf("%s\n", str2); // 输出：Hello（遇到 \0 停止）
+printf("%zu\n", strlen(str2)); // 输出：5（strlen 遇到 \0 停止）
 ```
 
 **其他常见转义字符**：
@@ -39162,8 +39162,8 @@ printf("%zu\n", strlen(str2));  // 输出：5（strlen 遇到 \0 停止）
 
 ```python
 # Python 示例
-print("响铃：\a")  # 可能发出蜂鸣声（取决于终端）
-print("退格：ABC\b\bXY")  # 输出：AXY（删除了 BC）
+print("响铃：\a") # 可能发出蜂鸣声（取决于终端）
+print("退格：ABC\b\bXY") # 输出：AXY（删除了 BC）
 ```
 
 ---
@@ -39174,24 +39174,24 @@ print("退格：ABC\b\bXY")  # 输出：AXY（删除了 BC）
 
 ```c
 // C 语言示例
-printf("\101\102\103\n");  // 输出：ABC
+printf("\101\102\103\n"); // 输出：ABC
 // \101 = 65 (A), \102 = 66 (B), \103 = 67 (C)
 
-printf("\0\12\15");  // 输出：空字符、换行、回车
+printf("\0\12\15"); // 输出：空字符、换行、回车
 // \0 = 0, \12 = 10 (LF), \15 = 13 (CR)
 ```
 
 ```python
 # Python 示例
-print("\101\102\103")  # 输出：ABC
-print("\141\142\143")  # 输出：abc
+print("\101\102\103") # 输出：ABC
+print("\141\142\143") # 输出：abc
 # \141 = 97 (a), \142 = 98 (b), \143 = 99 (c)
 ```
 
 八进制转义的一个陷阱是，如果后面跟着数字字符，可能导致歧义：
 
 ```c
-printf("\0123");  // 是 \012 + '3' 还是 \0 + "123"？
+printf("\0123"); // 是 \012 + '3' 还是 \0 + "123"？
 // 实际是 \012 + '3'，因为八进制转义最多 3 位
 ```
 
@@ -39199,23 +39199,23 @@ printf("\0123");  // 是 \012 + '3' 还是 \0 + "123"？
 
 ```c
 // C 语言示例
-printf("\x41\x42\x43\n");  // 输出：ABC
+printf("\x41\x42\x43\n"); // 输出：ABC
 // \x41 = 65 (A), \x42 = 66 (B), \x43 = 67 (C)
 
-printf("\x48\x65\x6C\x6C\x6F\n");  // 输出：Hello
+printf("\x48\x65\x6C\x6C\x6F\n"); // 输出：Hello
 ```
 
 ```python
 # Python 示例
-print("\x41\x42\x43")  # 输出：ABC
-print("\x48\x65\x6c\x6c\x6f")  # 输出：Hello
+print("\x41\x42\x43") # 输出：ABC
+print("\x48\x65\x6c\x6c\x6f") # 输出：Hello
 ```
 
 十六进制转义也存在歧义问题，但通常限制为 2 位：
 
 ```python
-print("\x41BC")  # 输出：ABC（\x41 + "BC"）
-print("\x4142")  # 错误：\x41 + "42"，但 "42" 不是转义序列
+print("\x41BC") # 输出：ABC（\x41 + "BC"）
+print("\x4142") # 错误：\x41 + "42"，但 "42" 不是转义序列
 ```
 
 **Unicode 转义序列**：用于表示 Unicode 字符，有多种格式：
@@ -39224,33 +39224,33 @@ print("\x4142")  # 错误：\x41 + "42"，但 "42" 不是转义序列
 
 ```python
 # Python 示例
-print("\u4E2D\u56FD")  # 输出：中国
+print("\u4E2D\u56FD") # 输出：中国
 # \u4E2D = U+4E2D (中), \u56FD = U+56FD (国)
 
-print("\u0041\u0042\u0043")  # 输出：ABC
+print("\u0041\u0042\u0043") # 输出：ABC
 ```
 
 ```javascript
 // JavaScript 示例
-console.log("\u4E2D\u56FD");  // 输出：中国
-console.log("\u0041\u0042\u0043");  // 输出：ABC
+console.log("\u4E2D\u56FD"); // 输出：中国
+console.log("\u0041\u0042\u0043"); // 输出：ABC
 ```
 
 **(2) `\Uxxxxxxxx` 格式**：8 位十六进制数字，表示完整的 Unicode 字符（`U+00000000` 至 `U+0010FFFF`）。主要用于表示辅助平面的字符（如 emoji）。
 
 ```python
 # Python 示例
-print("\U0001F600")  # 输出：😀
-print("\U0001F1E8\U0001F1F3")  # 输出：🇨🇳（中国国旗）
+print("\U0001F600") # 输出：
+print("\U0001F1E8\U0001F1F3") # 输出：（中国国旗）
 ```
 
 **(3) `\N{name}` 格式**：使用 Unicode 字符名称表示字符（Python 特有）。
 
 ```python
 # Python 示例
-print("\N{LATIN CAPITAL LETTER A}")  # 输出：A
-print("\N{GRINNING FACE}")  # 输出：😀
-print("\N{CJK UNIFIED IDEOGRAPH-4E2D}")  # 输出：中
+print("\N{LATIN CAPITAL LETTER A}") # 输出：A
+print("\N{GRINNING FACE}") # 输出：
+print("\N{CJK UNIFIED IDEOGRAPH-4E2D}") # 输出：中
 ```
 
 **不同语言的 Unicode 转义支持**：
@@ -39268,11 +39268,11 @@ print("\N{CJK UNIFIED IDEOGRAPH-4E2D}")  # 输出：中
 
 ```javascript
 // JavaScript ES6
-console.log("\u{1F600}");  // 输出：😀
-console.log("\u{1F1E8}\u{1F1F3}");  // 输出：🇨🇳
+console.log("\u{1F600}"); // 输出：
+console.log("\u{1F1E8}\u{1F1F3}"); // 输出：
 
 // 旧语法需要使用代理对
-console.log("\uD83D\uDE00");  // 输出：😀（代理对）
+console.log("\uD83D\uDE00"); // 输出：（代理对）
 ```
 
 ### 24.5 Base64 编码
@@ -39286,11 +39286,11 @@ console.log("\uD83D\uDE00");  // 输出：😀（代理对）
 **Base64 字符集**：Base64 使用 64 个字符来表示数据，这 64 个字符是：
 
 ```
-索引  0-25:  A B C D E F G H I J K L M N O P Q R S T U V W X Y Z
-索引 26-51:  a b c d e f g h i j k l m n o p q r s t u v w x y z
-索引 52-61:  0 1 2 3 4 5 6 7 8 9
-索引 62-63:  + /
-填充字符:    =
+索引 0-25: A B C D E F G H I J K L M N O P Q R S T U V W X Y Z
+索引 26-51: a b c d e f g h i j k l m n o p q r s t u v w x y z
+索引 52-61: 0 1 2 3 4 5 6 7 8 9
+索引 62-63: + /
+填充字符: =
 ```
 
 这 64 个字符都是 ASCII 可打印字符，且在大多数字符集和传输协议中都不会被特殊处理。填充字符 `=` 用于补齐编码后的数据长度，使其为 4 的倍数。
@@ -39318,12 +39318,12 @@ n = 110 = 01101110
 
 重新划分为 4 个 6 位：
 010011 | 010110 | 000101 | 101110
-  19      22       5       46
+ 19 22 5 46
 
 映射到 Base64 字符：
 19 → T
 22 → W
-5  → F
+5 → F
 46 → u
 
 结果：TWFu
@@ -39338,17 +39338,17 @@ a = 97 = 01100001
 
 合并为 16 位，补齐到 24 位：
 01001101 01100001 00000000
-                  ^^^^^^^^ 补齐的 0
+ ^^^^^^^^ 补齐的 0
 
 重新划分为 4 个 6 位：
 010011 | 010110 | 000100 | 000000
-  19      22       4       0
+ 19 22 4 0
 
 映射到 Base64 字符：
 19 → T
 22 → W
-4  → E
-0  → A（但这是补齐的，需要用 = 替换）
+4 → E
+0 → A（但这是补齐的，需要用 = 替换）
 
 结果：TWE=（最后一个字符用 = 填充）
 ```
@@ -39361,17 +39361,17 @@ M = 77 = 01001101
 
 补齐到 24 位：
 01001101 00000000 00000000
-         ^^^^^^^^ ^^^^^^^^ 补齐的 0
+ ^^^^^^^^ ^^^^^^^^ 补齐的 0
 
 重新划分为 4 个 6 位：
 010011 | 010000 | 000000 | 000000
-  19      16       0       0
+ 19 16 0 0
 
 映射到 Base64 字符：
 19 → T
 16 → Q
-0  → A（补齐，用 = 替换）
-0  → A（补齐，用 = 替换）
+0 → A（补齐，用 = 替换）
+0 → A（补齐，用 = 替换）
 
 结果：TQ==（最后两个字符用 = 填充）
 ```
@@ -39413,7 +39413,7 @@ Base64 字符：T W F u
 映射到 6 位值：
 T → 19 = 010011
 W → 22 = 010110
-F → 5  = 000101
+F → 5 = 000101
 u → 46 = 101110
 
 合并为 24 位：
@@ -39421,7 +39421,7 @@ u → 46 = 101110
 
 重新划分为 3 个 8 位：
 01001101 | 01100001 | 01101110
-   77        97        110
+ 77 97 110
 
 转换为字符：
 77 → M
@@ -39435,76 +39435,76 @@ u → 46 = 101110
 
 ```python
 def base64_encode(data):
-    base64_chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"
-    result = []
-    
-    # 处理完整的 3 字节组
-    for i in range(0, len(data) - len(data) % 3, 3):
-        # 合并 3 个字节为 24 位
-        b1, b2, b3 = data[i], data[i+1], data[i+2]
-        combined = (b1 << 16) | (b2 << 8) | b3
-        
-        # 提取 4 个 6 位值
-        result.append(base64_chars[(combined >> 18) & 0x3F])
-        result.append(base64_chars[(combined >> 12) & 0x3F])
-        result.append(base64_chars[(combined >> 6) & 0x3F])
-        result.append(base64_chars[combined & 0x3F])
-    
-    # 处理剩余字节
-    remaining = len(data) % 3
-    if remaining == 1:
-        b1 = data[-1]
-        combined = b1 << 16
-        result.append(base64_chars[(combined >> 18) & 0x3F])
-        result.append(base64_chars[(combined >> 12) & 0x3F])
-        result.append('==')
-    elif remaining == 2:
-        b1, b2 = data[-2], data[-1]
-        combined = (b1 << 16) | (b2 << 8)
-        result.append(base64_chars[(combined >> 18) & 0x3F])
-        result.append(base64_chars[(combined >> 12) & 0x3F])
-        result.append(base64_chars[(combined >> 6) & 0x3F])
-        result.append('=')
-    
-    return ''.join(result)
+ base64_chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"
+ result = []
+
+ # 处理完整的 3 字节组
+ for i in range(0, len(data) - len(data) % 3, 3):
+ # 合并 3 个字节为 24 位
+ b1, b2, b3 = data[i], data[i+1], data[i+2]
+ combined = (b1 << 16) | (b2 << 8) | b3
+
+ # 提取 4 个 6 位值
+ result.append(base64_chars[(combined >> 18) & 0x3F])
+ result.append(base64_chars[(combined >> 12) & 0x3F])
+ result.append(base64_chars[(combined >> 6) & 0x3F])
+ result.append(base64_chars[combined & 0x3F])
+
+ # 处理剩余字节
+ remaining = len(data) % 3
+ if remaining == 1:
+ b1 = data[-1]
+ combined = b1 << 16
+ result.append(base64_chars[(combined >> 18) & 0x3F])
+ result.append(base64_chars[(combined >> 12) & 0x3F])
+ result.append('==')
+ elif remaining == 2:
+ b1, b2 = data[-2], data[-1]
+ combined = (b1 << 16) | (b2 << 8)
+ result.append(base64_chars[(combined >> 18) & 0x3F])
+ result.append(base64_chars[(combined >> 12) & 0x3F])
+ result.append(base64_chars[(combined >> 6) & 0x3F])
+ result.append('=')
+
+ return ''.join(result)
 ```
 
 **Base64 解码算法（伪代码）**：
 
 ```python
 def base64_decode(encoded):
-    base64_chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"
-    char_to_value = {c: i for i, c in enumerate(base64_chars)}
-    
-    # 去除填充
-    padding = encoded.count('=')
-    encoded = encoded.rstrip('=')
-    
-    result = []
-    
-    # 处理完整的 4 字符组
-    for i in range(0, len(encoded), 4):
-        # 获取 4 个 6 位值
-        v1 = char_to_value[encoded[i]]
-        v2 = char_to_value[encoded[i+1]] if i+1 < len(encoded) else 0
-        v3 = char_to_value[encoded[i+2]] if i+2 < len(encoded) else 0
-        v4 = char_to_value[encoded[i+3]] if i+3 < len(encoded) else 0
-        
-        # 合并为 24 位
-        combined = (v1 << 18) | (v2 << 12) | (v3 << 6) | v4
-        
-        # 提取 3 个字节
-        result.append((combined >> 16) & 0xFF)
-        result.append((combined >> 8) & 0xFF)
-        result.append(combined & 0xFF)
-    
-    # 根据填充数量截断
-    if padding == 1:
-        result = result[:-1]
-    elif padding == 2:
-        result = result[:-2]
-    
-    return bytes(result)
+ base64_chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"
+ char_to_value = {c: i for i, c in enumerate(base64_chars)}
+
+ # 去除填充
+ padding = encoded.count('=')
+ encoded = encoded.rstrip('=')
+
+ result = []
+
+ # 处理完整的 4 字符组
+ for i in range(0, len(encoded), 4):
+ # 获取 4 个 6 位值
+ v1 = char_to_value[encoded[i]]
+ v2 = char_to_value[encoded[i+1]] if i+1 < len(encoded) else 0
+ v3 = char_to_value[encoded[i+2]] if i+2 < len(encoded) else 0
+ v4 = char_to_value[encoded[i+3]] if i+3 < len(encoded) else 0
+
+ # 合并为 24 位
+ combined = (v1 << 18) | (v2 << 12) | (v3 << 6) | v4
+
+ # 提取 3 个字节
+ result.append((combined >> 16) & 0xFF)
+ result.append((combined >> 8) & 0xFF)
+ result.append(combined & 0xFF)
+
+ # 根据填充数量截断
+ if padding == 1:
+ result = result[:-1]
+ elif padding == 2:
+ result = result[:-2]
+
+ return bytes(result)
 ```
 
 **Base64 的特点**：
@@ -39542,10 +39542,10 @@ def base64_decode(encoded):
 
 ```
 错误：http://example.com/search?q=a&b
-      （会被解析为两个参数：q=a 和 b）
+ （会被解析为两个参数：q=a 和 b）
 
 正确：http://example.com/search?q=a%26b
-      （%26 是 & 的编码，参数值为 "a&b"）
+ （%26 是 & 的编码，参数值为 "a&b"）
 ```
 
 **(2) 非 ASCII 字符**：URL 规范只允许 ASCII 字符，非 ASCII 字符（如中文、emoji）必须编码才能在 URL 中使用。
@@ -39569,15 +39569,15 @@ def base64_decode(encoded):
 
 ```
 scheme://user:password@host:port/path?query#fragment
-  |       |     |      |    |    |    |     |
-  |       |     |      |    |    |    |     └─ 片段标识符
-  |       |     |      |    |    |    └─────── 查询字符串
-  |       |     |      |    |    └──────────── 路径
-  |       |     |      |    └───────────────── 端口
-  |       |     |      └────────────────────── 主机
-  |       |     └───────────────────────────── 密码
-  |       └─────────────────────────────────── 用户名
-  └─────────────────────────────────────────── 协议
+ | | | | | | | |
+ | | | | | | | └─ 片段标识符
+ | | | | | | └─────── 查询字符串
+ | | | | | └──────────── 路径
+ | | | | └───────────────── 端口
+ | | | └────────────────────── 主机
+ | | └───────────────────────────── 密码
+ | └─────────────────────────────────── 用户名
+ └─────────────────────────────────────────── 协议
 
 示例：
 https://user:pass@example.com:8080/path/to/page?name=value&foo=bar#section
@@ -39639,13 +39639,13 @@ from urllib.parse import quote
 
 # 路径编码
 path = "/search/hello world"
-encoded = quote(path, safe='/')  # safe='/' 表示不编码 /
-print(encoded)  # /search/hello%20world
+encoded = quote(path, safe='/') # safe='/' 表示不编码 /
+print(encoded) # /search/hello%20world
 
 # 如果路径段本身包含 /
 path_segment = "a/b/c"
-encoded = quote(path_segment)  # 不指定 safe，所有保留字符都编码
-print(encoded)  # a%2Fb%2Fc
+encoded = quote(path_segment) # 不指定 safe，所有保留字符都编码
+print(encoded) # a%2Fb%2Fc
 
 # 完整示例
 base = "http://example.com"
@@ -39676,10 +39676,10 @@ from urllib.parse import urlencode, quote_plus
 
 # 方法 1：使用 urlencode（推荐）
 params = {
-    'name': '张三',
-    'age': '25',
-    'city': '北京',
-    'hobby': 'reading&writing'  # 包含保留字符
+ 'name': '张三',
+ 'age': '25',
+ 'city': '北京',
+ 'hobby': 'reading&writing' # 包含保留字符
 }
 query_string = urlencode(params)
 print(query_string)
@@ -39688,25 +39688,25 @@ print(query_string)
 # 方法 2：使用 quote_plus（空格编码为 +）
 value = "hello world"
 encoded = quote_plus(value)
-print(encoded)  # hello+world
+print(encoded) # hello+world
 
 # 方法 3：使用 quote（空格编码为 %20）
 encoded = quote(value)
-print(encoded)  # hello%20world
+print(encoded) # hello%20world
 ```
 
 ```javascript
 // JavaScript 示例
 let params = {
-    name: '张三',
-    age: '25',
-    hobby: 'reading&writing'
+ name: '张三',
+ age: '25',
+ hobby: 'reading&writing'
 };
 
 // 手动构建查询字符串
 let queryString = Object.keys(params)
-    .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`)
-    .join('&');
+ .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`)
+ .join('&');
 console.log(queryString);
 // name=%E5%BC%A0%E4%B8%89&age=25&hobby=reading%26writing
 
@@ -39738,9 +39738,9 @@ params = {'colors': 'red,green,blue'}
 
 ```javascript
 let params = {
-    name: 'John',
-    age: null,
-    city: ''
+ name: 'John',
+ age: null,
+ city: ''
 };
 
 // 不同的处理方式
@@ -39777,10 +39777,10 @@ domain = "中国.com"
 
 import idna
 encoded = idna.encode(domain).decode('ascii')
-print(encoded)  # xn--fiqs8s.com
+print(encoded) # xn--fiqs8s.com
 
 decoded = idna.decode(encoded)
-print(decoded)  # 中国.com
+print(decoded) # 中国.com
 ```
 
 **用户名和密码编码**：如果 URL 中包含用户名和密码（不推荐），需要编码特殊字符。
@@ -39806,7 +39806,7 @@ print(url)
 
 #### 24.7.1 HTML 实体编码的概念与必要性
 
-**什么是 HTML 实体**：HTML 实体（HTML Entity）是一种用于在 HTML 文档中表示特殊字符的编码方式。HTML 实体以 `&` 开始，以 `;` 结束，中间是实体名称或字符的数字编码。例如，小于号 `<` 的实体是 `&lt;`，版权符号 © 的实体是 `&copy;` 或 `&#169;`。HTML 实体编码是 HTML 规范的一部分，用于在 HTML 文档中安全地表示具有特殊含义的字符或难以输入的字符。
+**什么是 HTML 实体**：HTML 实体（HTML Entity）是一种用于在 HTML 文档中表示特殊字符的编码方式。HTML 实体以 `&` 开始，以 `;` 结束，中间是实体名称或字符的数字编码。例如，小于号 `<` 的实体是 `&lt;`，版权符号  的实体是 `&copy;` 或 `&#169;`。HTML 实体编码是 HTML 规范的一部分，用于在 HTML 文档中安全地表示具有特殊含义的字符或难以输入的字符。
 
 **为什么需要 HTML 实体编码**：HTML 实体编码解决了以下几个核心问题：
 
@@ -39825,7 +39825,7 @@ print(url)
 <p>1 &lt; 2 是真的</p>
 ```
 
-**(2) 难以输入的字符**：某些特殊字符在键盘上无法直接输入，使用实体编码可以方便地表示这些字符。例如，版权符号 `©`、商标符号 `™`、希腊字母 `α`、数学符号 `≤` 等。
+**(2) 难以输入的字符**：某些特殊字符在键盘上无法直接输入，使用实体编码可以方便地表示这些字符。例如，版权符号 ``、商标符号 ``、希腊字母 `α`、数学符号 `≤` 等。
 
 **(3) 避免编码问题**：在某些情况下，HTML 文档的字符编码可能不支持所有字符，使用实体编码可以确保字符正确显示，无论文档使用什么编码。例如，在 ISO-8859-1 编码的文档中，可以使用 `&#20013;` 表示汉字 "中"。
 
@@ -39844,36 +39844,36 @@ print(url)
 **(1) 命名实体（Named Entity）**：使用预定义的名称表示字符，格式为 `&name;`。
 
 ```
-&lt;     →  <
-&gt;     →  >
-&amp;    →  &
-&quot;   →  "
-&apos;   →  '
-&copy;   →  ©
-&reg;    →  ®
-&trade;  →  ™
-&nbsp;   →  （不间断空格）
+&lt; → <
+&gt; → >
+&amp; → &
+&quot; → "
+&apos; → '
+&copy; → 
+&reg; → 
+&trade; → 
+&nbsp; → （不间断空格）
 ```
 
 **(2) 十进制数字实体（Decimal Numeric Entity）**：使用字符的 Unicode 码点（十进制）表示，格式为 `&#nnn;`。
 
 ```
-&#60;    →  <  (码点 60)
-&#62;    →  >  (码点 62)
-&#38;    →  &  (码点 38)
-&#169;   →  ©  (码点 169)
-&#20013; →  中 (码点 20013)
-&#128512; → 😀 (码点 128512)
+&#60; → < (码点 60)
+&#62; → > (码点 62)
+&#38; → & (码点 38)
+&#169; →  (码点 169)
+&#20013; → 中 (码点 20013)
+&#128512; → (码点 128512)
 ```
 
 **(3) 十六进制数字实体（Hexadecimal Numeric Entity）**：使用字符的 Unicode 码点（十六进制）表示，格式为 `&#xhh;` 或 `&#Xhh;`。
 
 ```
-&#x3C;    →  <  (码点 0x3C)
-&#x3E;    →  >  (码点 0x3E)
-&#xA9;    →  ©  (码点 0xA9)
-&#x4E2D;  →  中 (码点 0x4E2D)
-&#x1F600; → 😀 (码点 0x1F600)
+&#x3C; → < (码点 0x3C)
+&#x3E; → > (码点 0x3E)
+&#xA9; →  (码点 0xA9)
+&#x4E2D; → 中 (码点 0x4E2D)
+&#x1F600; → (码点 0x1F600)
 ```
 
 数字实体的优势是不需要记忆名称，可以表示任意 Unicode 字符。命名实体的优势是可读性更好，但只支持预定义的字符集。
@@ -39898,7 +39898,7 @@ print(url)
 
 ```html
 <!-- 错误 -->
-<p>x < y</p>  <!-- 浏览器可能误认为 <y> 是标签 -->
+<p>x < y</p> <!-- 浏览器可能误认为 <y> 是标签 -->
 
 <!-- 正确 -->
 <p>x &lt; y</p>
@@ -39907,15 +39907,15 @@ print(url)
 **(2) `>`（大于号）**：在文本内容中通常不需要编码（因为没有对应的开始标签），但为了一致性和安全性，推荐编码。
 
 ```html
-<p>x &gt; y</p>  <!-- 推荐 -->
-<p>x > y</p>     <!-- 也可以工作 -->
+<p>x &gt; y</p> <!-- 推荐 -->
+<p>x > y</p> <!-- 也可以工作 -->
 ```
 
 **(3) `&`（&符号）**：必须编码，否则会被解析为实体引用的开始。
 
 ```html
 <!-- 错误 -->
-<p>Tom & Jerry</p>  <!-- 浏览器会尝试解析 & Jerry 为实体 -->
+<p>Tom & Jerry</p> <!-- 浏览器会尝试解析 & Jerry 为实体 -->
 
 <!-- 正确 -->
 <p>Tom &amp; Jerry</p>
@@ -39928,8 +39928,8 @@ print(url)
 <a title="He said &quot;Hello&quot;">链接</a>
 
 <!-- 文本内容中可选 -->
-<p>He said "Hello"</p>  <!-- 可以 -->
-<p>He said &quot;Hello&quot;</p>  <!-- 也可以 -->
+<p>He said "Hello"</p> <!-- 可以 -->
+<p>He said &quot;Hello&quot;</p> <!-- 也可以 -->
 ```
 
 **(5) `'`（单引号）**：在单引号属性值内必须编码。注意，`&apos;` 是 XHTML/XML 实体，旧版 HTML 4 不支持，建议使用 `&#39;` 或 `&#x27;` 以获得最大兼容性。
@@ -39957,22 +39957,22 @@ print(url)
 
 ```html
 <!-- 普通空格：多个空格被合并 -->
-<p>Hello     World</p>  <!-- 显示：Hello World -->
+<p>Hello World</p> <!-- 显示：Hello World -->
 
 <!-- 不间断空格：保留所有空格 -->
-<p>Hello&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;World</p>  <!-- 显示：Hello     World -->
+<p>Hello&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;World</p> <!-- 显示：Hello World -->
 
 <!-- 防止换行 -->
-<p>Mr.&nbsp;Smith</p>  <!-- "Mr." 和 "Smith" 不会分开换行 -->
+<p>Mr.&nbsp;Smith</p> <!-- "Mr." 和 "Smith" 不会分开换行 -->
 ```
 
 **常用符号实体**：
 
 | 字符 | 命名实体 | 数字实体 | 说明 |
 |------|----------|----------|------|
-| © | `&copy;` | `&#169;` | 版权符号 |
-| ® | `&reg;` | `&#174;` | 注册商标 |
-| ™ | `&trade;` | `&#8482;` | 商标符号 |
+|  | `&copy;` | `&#169;` | 版权符号 |
+|  | `&reg;` | `&#174;` | 注册商标 |
+|  | `&trade;` | `&#8482;` | 商标符号 |
 | § | `&sect;` | `&#167;` | 章节符号 |
 | ¶ | `&para;` | `&#182;` | 段落符号 |
 | † | `&dagger;` | `&#8224;` | 剑号 |
@@ -40025,13 +40025,13 @@ print(url)
 
 ```
 类型 0：递归可枚举语言（Recursively Enumerable Languages）
-        ↓ 由图灵机（Turing Machine）识别
+ ↓ 由图灵机（Turing Machine）识别
 类型 1：上下文相关语言（Context-Sensitive Languages）
-        ↓ 由线性有界自动机识别
+ ↓ 由线性有界自动机识别
 类型 2：上下文无关语言（Context-Free Languages）
-        ↓ 由下推自动机（Pushdown Automaton）识别
+ ↓ 由下推自动机（Pushdown Automaton）识别
 类型 3：正则语言（Regular Languages）
-        ↓ 由有限状态自动机（Finite Automaton）识别
+ ↓ 由有限状态自动机（Finite Automaton）识别
 ```
 
 正则语言是表达能力最弱、最受限的一类，但也是计算最高效的一类。正则表达式正是用于描述正则语言的工具。理解这个层级关系有助于我们认识正则表达式的能力边界——它无法处理嵌套结构（如匹配嵌套括号），因为这超出了正则语言的表达能力。
@@ -40067,21 +40067,21 @@ print(url)
 接受状态：{q2}
 
 转移表：
-        a    b
-q0 →   q1   q0
-q1 →   q1   q2  (接受)
-q2 →   q1   q0
+ a b
+q0 → q1 q0
+q1 → q1 q2 (接受)
+q2 → q1 q0
 
 状态图：
-       a           b
-   ┌──────┐    ┌──────┐
-   ↓      │    ↓      │
-  q0 ──a─→ q1 ──b─→ q2
-   ↑                 │
-   └────── b ────────┘
+ a b
+ ┌──────┐ ┌──────┐
+ ↓ │ ↓ │
+ q0 ──a─→ q1 ──b─→ q2
+ ↑ │
+ └────── b ────────┘
 ```
 
-输入 "aab"：q0 →a→ q1 →a→ q1 →b→ q2 ✓ 接受。DFA 的优点是匹配速度快，每个字符只需常数时间。
+输入 "aab"：q0 →a→ q1 →a→ q1 →b→ q2 接受。DFA 的优点是匹配速度快，每个字符只需常数时间。
 
 ---
 
@@ -40097,16 +40097,16 @@ q2 →   q1   q0
 接受状态：{q2}
 
 转移表：
-        a       b      ε
-q0 →   {q0,q1} {q0}   {}
-q1 →   {}      {q2}   {}
-q2 →   {q2}    {q2}   {}
+ a b ε
+q0 → {q0,q1} {q0} {}
+q1 → {} {q2} {}
+q2 → {q2} {q2} {}
 
 状态图：
-   a,b              a,b
-  ┌──┐             ┌──┐
-  ↓  │             ↓  │
-  q0 ──a─→ q1 ──b─→ q2
+ a,b a,b
+ ┌──┐ ┌──┐
+ ↓ │ ↓ │
+ q0 ──a─→ q1 ──b─→ q2
 ```
 
 NFA 在状态 q0 读入 'a' 时，可以选择停留在 q0 或转移到 q1。NFA 接受字符串当且仅当存在一条路径到达接受状态。NFA 表达能力与 DFA 相同，但状态数通常更少，构造更直观。
@@ -40128,9 +40128,9 @@ DFA 状态数：最多 2^n（指数级膨胀）
 示例：
 NFA: 3 个状态 {q0, q1, q2}
 DFA: 最多 2^3 = 8 个状态
-     对应所有可能的子集：
-     {}, {q0}, {q1}, {q2},
-     {q0,q1}, {q0,q2}, {q1,q2}, {q0,q1,q2}
+ 对应所有可能的子集：
+ {}, {q0}, {q1}, {q2},
+ {q0,q1}, {q0,q2}, {q1,q2}, {q0,q1,q2}
 ```
 
 **性能对比**：
@@ -40158,13 +40158,13 @@ DFA: 最多 2^3 = 8 个状态
 
 ```
 正则表达式
-    ↓ Thompson 构造法
-   NFA
-    ↓ 子集构造法（可选）
-   DFA
-    ↓ 状态最小化（可选）
+ ↓ Thompson 构造法
+ NFA
+ ↓ 子集构造法（可选）
+ DFA
+ ↓ 状态最小化（可选）
 最小化 DFA
-    ↓ 执行匹配
+ ↓ 执行匹配
 匹配结果
 ```
 
@@ -40174,11 +40174,11 @@ DFA: 最多 2^3 = 8 个状态
 正则：a|b （a 或 b）
 
 NFA 结构：
-        ε      a      ε
-   q0 ──→ q1 ──→ q2 ──→ q5
-    │                    ↑
-    │  ε      b      ε   │
-    └──→ q3 ──→ q4 ──────┘
+ ε a ε
+ q0 ──→ q1 ──→ q2 ──→ q5
+ │ ↑
+ │ ε b ε │
+ └──→ q3 ──→ q4 ──────┘
 ```
 
 每个正则操作符（连接、选择、闭包）都有对应的 NFA 构造规则。这种系统化的转换是正则引擎实现的理论基础。
@@ -40237,17 +40237,17 @@ NFA 结构：
 . ^ $ * + ? { } [ ] \ | ( )
 
 分类说明：
-.  → 匹配任意字符（除换行符）
-^  → 匹配行首
-$  → 匹配行尾
-*  → 匹配前面元素 0 次或多次
-+  → 匹配前面元素 1 次或多次
-?  → 匹配前面元素 0 次或 1 次
-{}  → 指定重复次数
-[]  → 字符集
-\  → 转义字符
-|  → 选择（或）
-()  → 分组和捕获
+. → 匹配任意字符（除换行符）
+^ → 匹配行首
+$ → 匹配行尾
+* → 匹配前面元素 0 次或多次
++ → 匹配前面元素 1 次或多次
+? → 匹配前面元素 0 次或 1 次
+{} → 指定重复次数
+[] → 字符集
+\ → 转义字符
+| → 选择（或）
+() → 分组和捕获
 ```
 
 **转义元字符**：如果要匹配元字符本身，需要使用反斜杠 `\` 转义。
@@ -40258,36 +40258,36 @@ import re
 # 匹配点号本身
 pattern = r'\.'
 text = "file.txt"
-print(re.findall(pattern, text))  # ['.']
+print(re.findall(pattern, text)) # ['.']
 
 # 匹配问号本身
 pattern = r'What\?'
 text = "What? Where?"
-print(re.findall(pattern, text))  # ['What?']
+print(re.findall(pattern, text)) # ['What?']
 
 # 匹配反斜杠本身（需要双重转义）
 pattern = r'\\'
 text = r"path\to\file"
-print(re.findall(pattern, text))  # ['\\', '\\']
+print(re.findall(pattern, text)) # ['\\', '\\']
 
 # 匹配美元符号
 pattern = r'\$\d+'
 text = "Price: $100"
-print(re.findall(pattern, text))  # ['$100']
+print(re.findall(pattern, text)) # ['$100']
 ```
 
 **字符集内的元字符**：在字符集 `[]` 内部，大多数元字符失去特殊含义，只有少数保持特殊性：`]`、`\`、`^`（在首位）、`-`（在中间）。
 
 ```python
 # 字符集内的元字符
-pattern = r'[.+*?]'  # 匹配 . + * ? 中的任意一个
+pattern = r'[.+*?]' # 匹配 . + * ? 中的任意一个
 text = "a.b+c*d?"
-print(re.findall(pattern, text))  # ['.', '+', '*', '?']
+print(re.findall(pattern, text)) # ['.', '+', '*', '?']
 
 # 需要转义的字符
-pattern = r'[\[\]]'  # 匹配 [ 或 ]
+pattern = r'[\[\]]' # 匹配 [ 或 ]
 text = "array[0]"
-print(re.findall(pattern, text))  # ['[', ']']
+print(re.findall(pattern, text)) # ['[', ']']
 ```
 
 ---
@@ -40303,19 +40303,19 @@ import re
 pattern = r'c.t'
 texts = ["cat", "cot", "cut", "c t", "c9t", "c\tt"]
 for text in texts:
-    if re.match(pattern, text):
-        print(f"'{text}' 匹配")
+ if re.match(pattern, text):
+ print(f"'{text}' 匹配")
 # 输出：'cat' 'cot' 'cut' 'c t' 'c9t' 'c\tt' 都匹配
 
 # 不匹配换行符
 pattern = r'a.b'
 text = "a\nb"
-print(re.match(pattern, text))  # None
+print(re.match(pattern, text)) # None
 
 # 匹配多个字符
 pattern = r'file_...'
 text = "file_001.txt"
-print(re.search(pattern, text).group())  # file_001
+print(re.search(pattern, text).group()) # file_001
 ```
 
 **DOTALL 模式**：通过标志（Flag）可以让点号匹配包括换行符在内的所有字符。
@@ -40324,7 +40324,7 @@ print(re.search(pattern, text).group())  # file_001
 # 默认行为：不匹配换行符
 pattern = r'start.*end'
 text = "start\nmiddle\nend"
-print(re.search(pattern, text))  # None
+print(re.search(pattern, text)) # None
 
 # DOTALL 模式：匹配换行符
 pattern = r'start.*end'
@@ -40365,17 +40365,17 @@ import re
 # \d 匹配数字
 pattern = r'\d+'
 text = "Room 123, Floor 4"
-print(re.findall(pattern, text))  # ['123', '4']
+print(re.findall(pattern, text)) # ['123', '4']
 
 # \D 匹配非数字
 pattern = r'\D+'
 text = "abc123def456"
-print(re.findall(pattern, text))  # ['abc', 'def']
+print(re.findall(pattern, text)) # ['abc', 'def']
 
 # 实际应用：提取电话号码
 pattern = r'\d{3}-\d{4}-\d{4}'
 text = "联系电话：138-1234-5678"
-print(re.search(pattern, text).group())  # 138-1234-5678
+print(re.search(pattern, text).group()) # 138-1234-5678
 ```
 
 **单词字符类 `\w` 和 `\W`**：
@@ -40389,12 +40389,12 @@ print(re.search(pattern, text).group())  # 138-1234-5678
 # \w 匹配单词字符
 pattern = r'\w+'
 text = "hello_world123"
-print(re.findall(pattern, text))  # ['hello_world123']
+print(re.findall(pattern, text)) # ['hello_world123']
 
 # \W 匹配非单词字符
 pattern = r'\W+'
 text = "hello, world!"
-print(re.findall(pattern, text))  # [', ', '!']
+print(re.findall(pattern, text)) # [', ', '!']
 
 # 提取变量名
 pattern = r'\b[a-zA-Z_]\w*\b'
@@ -40407,7 +40407,7 @@ print(re.findall(pattern, text))
 
 ```
 \s → 匹配空白字符，包括空格、制表符、换行符等
-     等价于 [ \t\n\r\f\v]
+ 等价于 [ \t\n\r\f\v]
 \S → 匹配非空白字符
 ```
 
@@ -40415,18 +40415,18 @@ print(re.findall(pattern, text))
 # \s 匹配空白
 pattern = r'\s+'
 text = "hello\tworld\n"
-print(re.split(pattern, text))  # ['hello', 'world', '']
+print(re.split(pattern, text)) # ['hello', 'world', '']
 
 # \S 匹配非空白
 pattern = r'\S+'
-text = "  hello   world  "
-print(re.findall(pattern, text))  # ['hello', 'world']
+text = " hello world "
+print(re.findall(pattern, text)) # ['hello', 'world']
 
 # 清理多余空白
 pattern = r'\s+'
-text = "hello    world"
+text = "hello world"
 result = re.sub(pattern, ' ', text)
-print(result)  # hello world
+print(result) # hello world
 ```
 
 **Unicode 模式下的差异**：在 Python 3 中，默认使用 Unicode 模式，`\w`、`\d`、`\s` 会匹配 Unicode 字符。
@@ -40435,17 +40435,17 @@ print(result)  # hello world
 # Unicode 模式
 pattern = r'\w+'
 text = "hello世界123"
-print(re.findall(pattern, text))  # ['hello世界123']
+print(re.findall(pattern, text)) # ['hello世界123']
 
 # ASCII 模式
 pattern = r'\w+'
 text = "hello世界123"
-print(re.findall(pattern, text, re.ASCII))  # ['hello', '123']
+print(re.findall(pattern, text, re.ASCII)) # ['hello', '123']
 
 # Unicode 数字
 pattern = r'\d+'
-text = "123 ١٢٣ ১২৩"  # 阿拉伯数字、阿拉伯-印度数字、孟加拉数字
-print(re.findall(pattern, text))  # ['123', '١٢٣', '১২৩']
+text = "123 ١٢٣ ১২৩" # 阿拉伯数字、阿拉伯-印度数字、孟加拉数字
+print(re.findall(pattern, text)) # ['123', '١٢٣', '১২৩']
 ```
 
 ---
@@ -40460,17 +40460,17 @@ import re
 # 基本字符集
 pattern = r'[aeiou]'
 text = "hello world"
-print(re.findall(pattern, text))  # ['e', 'o', 'o']
+print(re.findall(pattern, text)) # ['e', 'o', 'o']
 
 # 多字符匹配
 pattern = r'[aeiou]+'
 text = "beautiful"
-print(re.findall(pattern, text))  # ['eau', 'i', 'u']
+print(re.findall(pattern, text)) # ['eau', 'i', 'u']
 
 # 匹配特定字符
 pattern = r'[.,!?;:]'
 text = "Hello, world! How are you?"
-print(re.findall(pattern, text))  # [',', '!', '?']
+print(re.findall(pattern, text)) # [',', '!', '?']
 ```
 
 **字符集的特性**：
@@ -40484,14 +40484,14 @@ print(re.findall(pattern, text))  # [',', '!', '?']
 
 ```python
 # 字符集内的元字符
-pattern = r'[.+*]'  # 匹配 . 或 + 或 *
+pattern = r'[.+*]' # 匹配 . 或 + 或 *
 text = "1.5 + 2 * 3"
-print(re.findall(pattern, text))  # ['.', '+', '*']
+print(re.findall(pattern, text)) # ['.', '+', '*']
 
 # 包含转义序列
 pattern = r'[\d\s]+'
 text = "abc 123 def"
-print(re.findall(pattern, text))  # [' 123 ']
+print(re.findall(pattern, text)) # [' 123 ']
 ```
 
 ---
@@ -40506,56 +40506,56 @@ import re
 # 小写字母
 pattern = r'[a-z]+'
 text = "Hello World 123"
-print(re.findall(pattern, text))  # ['ello', 'orld']
+print(re.findall(pattern, text)) # ['ello', 'orld']
 
 # 大写字母
 pattern = r'[A-Z]+'
 text = "Hello World"
-print(re.findall(pattern, text))  # ['H', 'W']
+print(re.findall(pattern, text)) # ['H', 'W']
 
 # 数字范围
 pattern = r'[0-5]+'
 text = "123456789"
-print(re.findall(pattern, text))  # ['12345']
+print(re.findall(pattern, text)) # ['12345']
 
 # 组合范围
 pattern = r'[a-zA-Z0-9]+'
 text = "user_123"
-print(re.findall(pattern, text))  # ['user', '123']
+print(re.findall(pattern, text)) # ['user', '123']
 ```
 
 **连字符的位置**：连字符在特定位置失去特殊含义，代表字面字符。
 
 ```python
 # 连字符在开头或结尾
-pattern = r'[-+*/]'  # 匹配运算符
+pattern = r'[-+*/]' # 匹配运算符
 text = "1 + 2 - 3"
-print(re.findall(pattern, text))  # ['+', '-']
+print(re.findall(pattern, text)) # ['+', '-']
 
 # 连字符在中间需要转义
-pattern = r'[a\-z]'  # 匹配 a 或 - 或 z
+pattern = r'[a\-z]' # 匹配 a 或 - 或 z
 text = "a-z"
-print(re.findall(pattern, text))  # ['a', '-', 'z']
+print(re.findall(pattern, text)) # ['a', '-', 'z']
 
 # 或者放在末尾
 pattern = r'[az-]'
 text = "a-z"
-print(re.findall(pattern, text))  # ['a', '-', 'z']
+print(re.findall(pattern, text)) # ['a', '-', 'z']
 ```
 
 **范围的陷阱**：范围基于字符编码顺序，可能产生意外结果。
 
 ```python
 # ASCII 顺序陷阱
-pattern = r'[A-z]+'  # 包含 A-Z 和 a-z 之间的所有字符
+pattern = r'[A-z]+' # 包含 A-Z 和 a-z 之间的所有字符
 text = "Hello[World]"
-print(re.findall(pattern, text))  # ['Hello', '[World]']
+print(re.findall(pattern, text)) # ['Hello', '[World]']
 # 因为 [ \ ] ^ _ ` 的 ASCII 码在 Z 和 a 之间
 
 # 正确写法
 pattern = r'[A-Za-z]+'
 text = "Hello[World]"
-print(re.findall(pattern, text))  # ['Hello', 'World']
+print(re.findall(pattern, text)) # ['Hello', 'World']
 ```
 
 ---
@@ -40570,17 +40570,17 @@ import re
 # 基本否定
 pattern = r'[^aeiou]+'
 text = "hello world"
-print(re.findall(pattern, text))  # ['h', 'll', ' w', 'rld']
+print(re.findall(pattern, text)) # ['h', 'll', ' w', 'rld']
 
 # 否定数字
 pattern = r'[^\d]+'
 text = "abc123def456"
-print(re.findall(pattern, text))  # ['abc', 'def']
+print(re.findall(pattern, text)) # ['abc', 'def']
 
 # 否定空白
 pattern = r'[^\s]+'
 text = "hello world"
-print(re.findall(pattern, text))  # ['hello', 'world']
+print(re.findall(pattern, text)) # ['hello', 'world']
 ```
 
 **否定字符集的应用**：
@@ -40595,12 +40595,12 @@ print(re.findall(pattern, text))
 # 匹配引号内的内容（简化版）
 pattern = r'"([^"]*)"'
 text = 'He said "Hello" and "Goodbye"'
-print(re.findall(pattern, text))  # ['Hello', 'Goodbye']
+print(re.findall(pattern, text)) # ['Hello', 'Goodbye']
 
 # 提取 CSV 字段（简化版）
 pattern = r'[^,]+'
 text = "name,age,city"
-print(re.findall(pattern, text))  # ['name', 'age', 'city']
+print(re.findall(pattern, text)) # ['name', 'age', 'city']
 ```
 
 **注意事项**：`^` 只在字符集开头有特殊含义，在其他位置代表字面
@@ -40611,17 +40611,17 @@ print(re.findall(pattern, text))  # ['name', 'age', 'city']
 # ^ 在开头：否定
 pattern = r'[^abc]'
 text = "abcdef"
-print(re.findall(pattern, text))  # ['d', 'e', 'f']
+print(re.findall(pattern, text)) # ['d', 'e', 'f']
 
 # ^ 不在开头：字面字符
 pattern = r'[a^bc]'
 text = "a^bc"
-print(re.findall(pattern, text))  # ['a', '^', 'b', 'c']
+print(re.findall(pattern, text)) # ['a', '^', 'b', 'c']
 
 # 转义也可以
 pattern = r'[\^abc]'
 text = "a^bc"
-print(re.findall(pattern, text))  # ['a', '^', 'b', 'c']
+print(re.findall(pattern, text)) # ['a', '^', 'b', 'c']
 ```
 
 ---
@@ -40633,19 +40633,19 @@ print(re.findall(pattern, text))  # ['a', '^', 'b', 'c']
 **常用 POSIX 字符类**：
 
 ```
-[:alpha:]  → 字母字符 [a-zA-Z]
-[:digit:]  → 数字字符 [0-9]
-[:alnum:]  → 字母和数字 [a-zA-Z0-9]
-[:lower:]  → 小写字母 [a-z]
-[:upper:]  → 大写字母 [A-Z]
-[:space:]  → 空白字符 [ \t\n\r\f\v]
-[:blank:]  → 空格和制表符 [ \t]
-[:punct:]  → 标点符号
+[:alpha:] → 字母字符 [a-zA-Z]
+[:digit:] → 数字字符 [0-9]
+[:alnum:] → 字母和数字 [a-zA-Z0-9]
+[:lower:] → 小写字母 [a-z]
+[:upper:] → 大写字母 [A-Z]
+[:space:] → 空白字符 [ \t\n\r\f\v]
+[:blank:] → 空格和制表符 [ \t]
+[:punct:] → 标点符号
 [:xdigit:] → 十六进制数字 [0-9A-Fa-f]
-[:cntrl:]  → 控制字符
-[:graph:]  → 可见字符（非空白）
-[:print:]  → 可打印字符（包括空格）
-[:word:]   → 单词字符 [a-zA-Z0-9_]（非标准）
+[:cntrl:] → 控制字符
+[:graph:] → 可见字符（非空白）
+[:print:] → 可打印字符（包括空格）
+[:word:] → 单词字符 [a-zA-Z0-9_]（非标准）
 ```
 
 **Python 中的使用**：Python 的 `re` 模块不直接支持 POSIX 字符类，但可以通过 `regex` 模块（第三方库）使用。
@@ -40653,25 +40653,25 @@ print(re.findall(pattern, text))  # ['a', '^', 'b', 'c']
 ```python
 # 标准 re 模块不支持 POSIX
 import re
-pattern = r'[[:alpha:]]+'  # 不会按预期工作
+pattern = r'[[:alpha:]]+' # 不会按预期工作
 text = "hello123"
-print(re.findall(pattern, text))  # ['hello']（误匹配）
+print(re.findall(pattern, text)) # ['hello']（误匹配）
 
 # 使用 regex 模块
 import regex
 pattern = r'[[:alpha:]]+'
 text = "hello123"
-print(regex.findall(pattern, text))  # ['hello']
+print(regex.findall(pattern, text)) # ['hello']
 
 # POSIX 数字类
 pattern = r'[[:digit:]]+'
 text = "abc123def"
-print(regex.findall(pattern, text))  # ['123']
+print(regex.findall(pattern, text)) # ['123']
 
 # POSIX 空白类
 pattern = r'[[:space:]]+'
 text = "hello\tworld\n"
-print(regex.split(pattern, text))  # ['hello', 'world', '']
+print(regex.split(pattern, text)) # ['hello', 'world', '']
 ```
 
 **POSIX 与标准字符类的对比**：
@@ -40683,16 +40683,16 @@ import regex
 pattern1 = r'[[:alnum:]]+'
 pattern2 = r'\w+'
 text = "hello_world"
-print(regex.findall(pattern1, text))  # ['hello', 'world']
-print(regex.findall(pattern2, text))  # ['hello_world']
+print(regex.findall(pattern1, text)) # ['hello', 'world']
+print(regex.findall(pattern2, text)) # ['hello_world']
 # \w 包含下划线，[:alnum:] 不包含
 
 # [:space:] vs \s
 pattern1 = r'[[:space:]]+'
 pattern2 = r'\s+'
 text = "a b\tc\nd"
-print(regex.split(pattern1, text))  # ['a', 'b', 'c', 'd', '']
-print(re.split(pattern2, text))     # ['a', 'b', 'c', 'd', '']
+print(regex.split(pattern1, text)) # ['a', 'b', 'c', 'd', '']
+print(re.split(pattern2, text)) # ['a', 'b', 'c', 'd', '']
 # 功能相同
 ```
 
@@ -40704,17 +40704,17 @@ import regex
 # 组合多个 POSIX 类
 pattern = r'[[:alpha:][:digit:]]+'
 text = "user123"
-print(regex.findall(pattern, text))  # ['user123']
+print(regex.findall(pattern, text)) # ['user123']
 
 # 否定 POSIX 类
 pattern = r'[^[:digit:]]+'
 text = "abc123def"
-print(regex.findall(pattern, text))  # ['abc', 'def']
+print(regex.findall(pattern, text)) # ['abc', 'def']
 
 # 混合使用
 pattern = r'[[:alpha:]_]+'
 text = "hello_world"
-print(regex.findall(pattern, text))  # ['hello_world']
+print(regex.findall(pattern, text)) # ['hello_world']
 ```
 
 **区域设置（Locale）影响**：POSIX 字符类的行为受区域设置影响，在不同语言环境下可能匹配不同字符。
@@ -40727,26 +40727,26 @@ import locale
 locale.setlocale(locale.LC_ALL, 'en_US.UTF-8')
 pattern = r'[[:alpha:]]+'
 text = "café"
-print(regex.findall(pattern, text))  # ['caf', '']（é 可能不匹配）
+print(regex.findall(pattern, text)) # ['caf', '']（é 可能不匹配）
 
 # 法语环境
 locale.setlocale(locale.LC_ALL, 'fr_FR.UTF-8')
-print(regex.findall(pattern, text))  # ['café']（é 匹配）
+print(regex.findall(pattern, text)) # ['café']（é 匹配）
 ```
 
 **实际应用建议**：
 
 ```python
 # 推荐：使用标准转义序列（跨平台一致）
-pattern = r'[a-zA-Z]+'  # 而非 [[:alpha:]]
-pattern = r'\d+'        # 而非 [[:digit:]]
-pattern = r'\s+'        # 而非 [[:space:]]
+pattern = r'[a-zA-Z]+' # 而非 [[:alpha:]]
+pattern = r'\d+' # 而非 [[:digit:]]
+pattern = r'\s+' # 而非 [[:space:]]
 
 # 特殊场景：需要区域感知时使用 POSIX
 import regex
-pattern = r'[[:alpha:]]+'  # 自动适应当前区域设置
-text = "Привет мир"  # 俄语
-print(regex.findall(pattern, text))  # ['Привет', 'мир']
+pattern = r'[[:alpha:]]+' # 自动适应当前区域设置
+text = "Привет мир" # 俄语
+print(regex.findall(pattern, text)) # ['Привет', 'мир']
 ```
 
 ---
@@ -40760,20 +40760,20 @@ import re
 
 # 验证用户名（字母、数字、下划线，3-16 位）
 def validate_username(username):
-    pattern = r'^[a-zA-Z0-9_]{3,16}$'
-    return bool(re.match(pattern, username))
+ pattern = r'^[a-zA-Z0-9_]{3,16}$'
+ return bool(re.match(pattern, username))
 
-print(validate_username("user_123"))   # True
-print(validate_username("ab"))         # False（太短）
-print(validate_username("user@123"))   # False（包含 @）
+print(validate_username("user_123")) # True
+print(validate_username("ab")) # False（太短）
+print(validate_username("user@123")) # False（包含 @）
 
 # 验证邮箱（简化版）
 def validate_email(email):
-    pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
-    return bool(re.match(pattern, email))
+ pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
+ return bool(re.match(pattern, email))
 
-print(validate_email("user@example.com"))  # True
-print(validate_email("invalid.email"))     # False
+print(validate_email("user@example.com")) # True
+print(validate_email("invalid.email")) # False
 ```
 
 **提取和清理数据**：
@@ -40782,12 +40782,12 @@ print(validate_email("invalid.email"))     # False
 # 提取 URL 中的域名
 pattern = r'https?://([a-zA-Z0-9.-]+)'
 text = "Visit https://www.example.com for more"
-print(re.search(pattern, text).group(1))  # www.example.com
+print(re.search(pattern, text).group(1)) # www.example.com
 
 # 清理 HTML 标签（简化版）
 pattern = r'<[^>]+>'
 text = "<p>Hello <b>world</b>!</p>"
-print(re.sub(pattern, '', text))  # Hello world!
+print(re.sub(pattern, '', text)) # Hello world!
 
 # 提取十六进制颜色代码
 pattern = r'#[0-9A-Fa-f]{6}\b'
@@ -40809,7 +40809,7 @@ print(Counter(words))
 # 提取所有数字（包括小数）
 pattern = r'\d+\.?\d*'
 text = "Price: $19.99, Quantity: 5, Total: $99.95"
-print(re.findall(pattern, text))  # ['19.99', '5', '99.95']
+print(re.findall(pattern, text)) # ['19.99', '5', '99.95']
 
 # 分割驼峰命名
 pattern = r'[A-Z][a-z]+'
@@ -40831,13 +40831,13 @@ text = "test123" * 1000
 # 方式 1：每次编译（慢）
 start = time.time()
 for _ in range(1000):
-    re.findall(r'[a-zA-Z0-9]+', text)
+ re.findall(r'[a-zA-Z0-9]+', text)
 print(f"未编译: {time.time() - start:.4f}s")
 
 # 方式 2：预编译（快）
 start = time.time()
 for _ in range(1000):
-    pattern.findall(text)
+ pattern.findall(text)
 print(f"预编译: {time.time() - start:.4f}s")
 
 # 输出示例：
@@ -40857,19 +40857,19 @@ print(f"预编译: {time.time() - start:.4f}s")
 
 ```
 基本量词（Basic Quantifiers）：
-*       → 0 次或多次
-+       → 1 次或多次
-?       → 0 次或 1 次
+* → 0 次或多次
++ → 1 次或多次
+? → 0 次或 1 次
 
 精确量词（Precise Quantifiers）：
-{n}     → 恰好 n 次
-{n,}    → 至少 n 次
-{n,m}   → n 到 m 次（含两端）
+{n} → 恰好 n 次
+{n,} → 至少 n 次
+{n,m} → n 到 m 次（含两端）
 
 匹配模式（Matching Modes）：
-贪婪（Greedy）      → 默认，尽可能多匹配
+贪婪（Greedy） → 默认，尽可能多匹配
 懒惰（Lazy/Reluctant）→ 加 ?，尽可能少匹配
-占有（Possessive）   → 加 +，匹配后不回溯
+占有（Possessive） → 加 +，匹配后不回溯
 ```
 
 **作用对象**：量词作用于其前面的最小单位。
@@ -40878,19 +40878,19 @@ print(f"预编译: {time.time() - start:.4f}s")
 import re
 
 # 作用于单个字符
-pattern = r'ab+'  # b 重复
+pattern = r'ab+' # b 重复
 text = "abbb"
-print(re.match(pattern, text).group())  # abbb
+print(re.match(pattern, text).group()) # abbb
 
 # 作用于字符集
-pattern = r'[ab]+'  # [ab] 重复
+pattern = r'[ab]+' # [ab] 重复
 text = "ababba"
-print(re.match(pattern, text).group())  # ababba
+print(re.match(pattern, text).group()) # ababba
 
 # 作用于分组
-pattern = r'(ab)+'  # ab 整体重复
+pattern = r'(ab)+' # ab 整体重复
 text = "ababab"
-print(re.match(pattern, text).group())  # ababab
+print(re.match(pattern, text).group()) # ababab
 ```
 
 ---
@@ -40903,11 +40903,11 @@ print(re.match(pattern, text).group())  # ababab
 import re
 
 # 基本用法
-pattern = r'ab*'  # a 后跟 0 个或多个 b
+pattern = r'ab*' # a 后跟 0 个或多个 b
 texts = ["a", "ab", "abb", "abbbbb", "ac"]
 for text in texts:
-    m = re.match(pattern, text)
-    print(f"'{text}' → '{m.group()}'")
+ m = re.match(pattern, text)
+ print(f"'{text}' → '{m.group()}'")
 # 输出：
 # 'a' → 'a'
 # 'ab' → 'ab'
@@ -40922,28 +40922,28 @@ for text in texts:
 # * 可以匹配空字符串
 pattern = r'a*'
 text = "bbb"
-print(re.match(pattern, text).group())  # ''（匹配空字符串）
+print(re.match(pattern, text).group()) # ''（匹配空字符串）
 print(re.findall(pattern, text))
 # ['', '', '', '']（每个位置都匹配空）
 
 # 容易导致无限循环的模式
 pattern = r'.*'
 text = "hello"
-print(re.findall(pattern, text))  # ['hello', '']
+print(re.findall(pattern, text)) # ['hello', '']
 ```
 
 **常见应用**：
 
 ```python
 # 匹配可选前缀
-pattern = r'https?://.*'  # http 或 https
+pattern = r'https?://.*' # http 或 https
 print(re.match(pattern, "https://example.com").group())
 
 # 匹配任意空白（包括无空白）
 pattern = r'key\s*=\s*value'
-texts = ["key=value", "key = value", "key  =  value"]
+texts = ["key=value", "key = value", "key = value"]
 for text in texts:
-    print(re.match(pattern, text).group())
+ print(re.match(pattern, text).group())
 # 全部匹配
 ```
 
@@ -40957,14 +40957,14 @@ for text in texts:
 import re
 
 # 基本用法
-pattern = r'ab+'  # a 后跟至少 1 个 b
+pattern = r'ab+' # a 后跟至少 1 个 b
 texts = ["a", "ab", "abb", "abbbbb", "ac"]
 for text in texts:
-    m = re.match(pattern, text)
-    if m:
-        print(f"'{text}' → '{m.group()}'")
-    else:
-        print(f"'{text}' → 不匹配")
+ m = re.match(pattern, text)
+ if m:
+ print(f"'{text}' → '{m.group()}'")
+ else:
+ print(f"'{text}' → 不匹配")
 # 输出：
 # 'a' → 不匹配
 # 'ab' → 'ab'
@@ -40996,17 +40996,17 @@ print(re.findall(pattern_plus, text))
 # 提取单词
 pattern = r'[a-zA-Z]+'
 text = "Hello, world! 123"
-print(re.findall(pattern, text))  # ['Hello', 'world']
+print(re.findall(pattern, text)) # ['Hello', 'world']
 
 # 提取数字
 pattern = r'\d+'
 text = "abc123def456"
-print(re.findall(pattern, text))  # ['123', '456']
+print(re.findall(pattern, text)) # ['123', '456']
 
 # 匹配多个空白
 pattern = r'\s+'
-text = "hello   world"
-print(re.sub(pattern, ' ', text))  # 'hello world'
+text = "hello world"
+print(re.sub(pattern, ' ', text)) # 'hello world'
 ```
 
 ---
@@ -41019,11 +41019,11 @@ print(re.sub(pattern, ' ', text))  # 'hello world'
 import re
 
 # 基本用法：可选字符
-pattern = r'colou?r'  # u 是可选的
+pattern = r'colou?r' # u 是可选的
 texts = ["color", "colour", "colouur"]
 for text in texts:
-    m = re.fullmatch(pattern, text)
-    print(f"'{text}' → {m.group() if m else '不匹配'}")
+ m = re.fullmatch(pattern, text)
+ print(f"'{text}' → {m.group() if m else '不匹配'}")
 # 输出：
 # 'color' → 'color'
 # 'colour' → 'colour'
@@ -41037,22 +41037,22 @@ for text in texts:
 pattern = r'(https?://)?www\..+'
 texts = ["www.example.com", "http://www.example.com", "https://www.example.com"]
 for text in texts:
-    print(re.match(pattern, text).group())
+ print(re.match(pattern, text).group())
 
 # 可选的负号
 pattern = r'-?\d+'
 texts = ["123", "-123", "+123"]
 for text in texts:
-    m = re.match(pattern, text)
-    print(f"'{text}' → '{m.group()}'")
+ m = re.match(pattern, text)
+ print(f"'{text}' → '{m.group()}'")
 # '123' → '123'
 # '-123' → '-123'
 # '+123' → '123'
 
 # 可选的文件扩展名
 pattern = r'\w+(\.\w+)?'
-print(re.match(pattern, "file").group())       # file
-print(re.match(pattern, "file.txt").group())   # file.txt
+print(re.match(pattern, "file").group()) # file
+print(re.match(pattern, "file.txt").group()) # file.txt
 ```
 
 **`?` 的双重含义**：`?` 既可以作为量词，也可以跟在其他量词后表示懒惰匹配，需注意区分。
@@ -41060,11 +41060,11 @@ print(re.match(pattern, "file.txt").group())   # file.txt
 ```python
 # 作为量词：0 或 1 次
 pattern = r'ab?'
-print(re.match(pattern, "abc").group())  # ab
+print(re.match(pattern, "abc").group()) # ab
 
 # 作为懒惰修饰符
-pattern = r'ab*?'  # b 出现 0 次或多次，懒惰
-print(re.match(pattern, "abbb").group())  # a（最少匹配）
+pattern = r'ab*?' # b 出现 0 次或多次，懒惰
+print(re.match(pattern, "abbb").group()) # a（最少匹配）
 ```
 
 ---
@@ -41079,13 +41079,13 @@ import re
 # 恰好 3 个数字
 pattern = r'\d{3}'
 text = "123 4567 89"
-print(re.findall(pattern, text))  # ['123', '456']
+print(re.findall(pattern, text)) # ['123', '456']
 # '4567' 匹配前 3 个 '456'，'89' 不够 3 个
 
 # 提取固定长度的编码
 pattern = r'[A-Z]{2}\d{4}'
 text = "订单号：AB1234, CD5678, X123"
-print(re.findall(pattern, text))  # ['AB1234', 'CD5678']
+print(re.findall(pattern, text)) # ['AB1234', 'CD5678']
 ```
 
 **`{n,}`：至少 n 次**：
@@ -41094,7 +41094,7 @@ print(re.findall(pattern, text))  # ['AB1234', 'CD5678']
 # 至少 3 个数字
 pattern = r'\d{3,}'
 text = "12 345 6789 10"
-print(re.findall(pattern, text))  # ['345', '6789']
+print(re.findall(pattern, text)) # ['345', '6789']
 
 # 至少 5 个字符的单词
 pattern = r'\b[a-zA-Z]{5,}\b'
@@ -41115,12 +41115,12 @@ print(re.findall(pattern, text))
 
 # 验证密码长度（8-16 位）
 def validate_password(pwd):
-    pattern = r'^.{8,16}$'
-    return bool(re.match(pattern, pwd))
+ pattern = r'^.{8,16}$'
+ return bool(re.match(pattern, pwd))
 
-print(validate_password("abc"))           # False
-print(validate_password("password123"))   # True
-print(validate_password("a" * 20))        # False
+print(validate_password("abc")) # False
+print(validate_password("password123")) # True
+print(validate_password("a" * 20)) # False
 ```
 
 **实际应用：验证电话号码**：
@@ -41128,29 +41128,29 @@ print(validate_password("a" * 20))        # False
 ```python
 # 中国手机号：1 开头，11 位数字
 pattern = r'^1\d{10}$'
-print(bool(re.match(pattern, "13812345678")))  # True
-print(bool(re.match(pattern, "1381234567")))   # False
+print(bool(re.match(pattern, "13812345678"))) # True
+print(bool(re.match(pattern, "1381234567"))) # False
 
 # 国际电话号码（带区号）
 pattern = r'^\+\d{1,3}[-\s]?\d{3,4}[-\s]?\d{4,8}$'
 texts = ["+86-138-12345678", "+1 555 1234567", "+44-20-12345678"]
 for text in texts:
-    print(f"'{text}' → {bool(re.match(pattern, text))}")
+ print(f"'{text}' → {bool(re.match(pattern, text))}")
 
 # 验证 IP 地址（简化版）
 pattern = r'^(\d{1,3}\.){3}\d{1,3}$'
-print(bool(re.match(pattern, "192.168.1.1")))  # True
-print(bool(re.match(pattern, "192.168.1")))    # False
+print(bool(re.match(pattern, "192.168.1.1"))) # True
+print(bool(re.match(pattern, "192.168.1"))) # False
 ```
 
 **量词的边界值**：
 
 ```
-{0}    → 等同于不匹配该元素
-{0,1}  → 等同于 ?
-{0,}   → 等同于 *
-{1,}   → 等同于 +
-{1}    → 等同于不加量词
+{0} → 等同于不匹配该元素
+{0,1} → 等同于 ?
+{0,} → 等同于 *
+{1,} → 等同于 +
+{1} → 等同于不加量词
 ```
 
 ```python
@@ -41191,9 +41191,9 @@ print(re.match(pattern1, text).group() == re.match(pattern2, text).group())
 **懒惰量词列表**：
 
 ```
-*?   → 懒惰：0 次或多次（倾向 0 次）
-+?   → 懒惰：1 次或多次（倾向 1 次）
-??   → 懒惰：0 次或 1 次（倾向 0 次）
+*? → 懒惰：0 次或多次（倾向 0 次）
++? → 懒惰：1 次或多次（倾向 1 次）
+?? → 懒惰：0 次或 1 次（倾向 0 次）
 {n,m}? → 懒惰：倾向 n 次
 ```
 
@@ -41262,11 +41262,11 @@ print(re.findall(pattern_lazy, code))
 # {n,m}? 懒惰版本
 pattern = r'\d{2,5}?'
 text = "12345"
-print(re.match(pattern, text).group())  # 12（最少 2 次）
+print(re.match(pattern, text).group()) # 12（最少 2 次）
 
 # 对比贪婪版本
 pattern = r'\d{2,5}'
-print(re.match(pattern, text).group())  # 12345（最多 5 次）
+print(re.match(pattern, text).group()) # 12345（最多 5 次）
 ```
 
 **重要提示：懒惰不等于"不回溯"**：
@@ -41280,7 +41280,7 @@ text = "axbxbb"
 # 2. .*? 匹配 'x'，检查 'bb'：失败
 # 3. .*? 匹配 'xb'，检查 'bb'：失败
 # 4. .*? 匹配 'xbx'，检查 'bb'：成功
-print(re.match(pattern, text).group())  # axbxbb
+print(re.match(pattern, text).group()) # axbxbb
 ```
 
 ---
@@ -41292,9 +41292,9 @@ print(re.match(pattern, text).group())  # axbxbb
 **占有量词列表**：
 
 ```
-*+   → 占有：0 次或多次，不回溯
-++   → 占有：1 次或多次，不回溯
-?+   → 占有：0 次或 1 次，不回溯
+*+ → 占有：0 次或多次，不回溯
+++ → 占有：1 次或多次，不回溯
+?+ → 占有：0 次或 1 次，不回溯
 {n,m}+ → 占有：不回溯
 ```
 
@@ -41310,11 +41310,11 @@ text = "12345"
 # \d++ 匹配 "12345"，不会让出 '5'
 # 因此整体匹配失败
 result = re.match(pattern, text)
-print(result)  # None
+print(result) # None
 
 # 对比贪婪版本（会回溯）
 pattern = r'\d+5'
-print(re.match(pattern, text).group())  # 12345（回溯找到 5）
+print(re.match(pattern, text).group()) # 12345（回溯找到 5）
 ```
 
 **占有 vs 贪婪对比**：
@@ -41326,11 +41326,11 @@ text = "aaab"
 
 # 贪婪：a* 匹配 "aaa"，回溯让出，最终 "aaab"
 pattern = r'a*ab'
-print(re.match(pattern, text).group())  # aaab
+print(re.match(pattern, text).group()) # aaab
 
 # 占有：a*+ 匹配 "aaa"，不回溯，'a' 失败
 pattern = r'a*+ab'
-print(re.match(pattern, text))  # None
+print(re.match(pattern, text)) # None
 ```
 
 **占有匹配的核心价值：性能优化**：
@@ -41348,7 +41348,7 @@ text = "a" * 20 + "X"
 pattern_greedy = r'(a+)+b'
 
 start = time.time()
-re.match(pattern_greedy, text)  # 失败但耗时极长
+re.match(pattern_greedy, text) # 失败但耗时极长
 print(f"贪婪：{time.time() - start:.4f}s")
 # 可能耗时数秒到几分钟
 
@@ -41372,8 +41372,8 @@ pattern1 = r'\d++'
 pattern2 = r'(?>\d+)'
 
 text = "12345"
-print(regex.match(pattern1, text).group())  # 12345
-print(regex.match(pattern2, text).group())  # 12345
+print(regex.match(pattern1, text).group()) # 12345
+print(regex.match(pattern2, text).group()) # 12345
 ```
 
 ---
@@ -41384,9 +41384,9 @@ print(regex.match(pattern2, text).group())  # 12345
 
 | 量词 | 模式 | 行为 | 回溯 |
 |------|------|------|------|
-| `*`  | 贪婪 | 尽可能多 | 允许 |
-| `+`  | 贪婪 | 尽可能多 | 允许 |
-| `?`  | 贪婪 | 倾向 1 次 | 允许 |
+| `*` | 贪婪 | 尽可能多 | 允许 |
+| `+` | 贪婪 | 尽可能多 | 允许 |
+| `?` | 贪婪 | 倾向 1 次 | 允许 |
 | `*?` | 懒惰 | 尽可能少 | 允许（向前） |
 | `+?` | 懒惰 | 尽可能少 | 允许（向前） |
 | `??` | 懒惰 | 倾向 0 次 | 允许（向前） |
@@ -41403,17 +41403,17 @@ text = "aaaa"
 
 # 贪婪：最长匹配 + 必要时回溯
 pattern = r'a+a'
-print(re.match(pattern, text).group())  # aaaa
+print(re.match(pattern, text).group()) # aaaa
 # a+ 匹配 "aaaa"，回溯让出 1 个，匹配 "aaa" + "a"
 
 # 懒惰：最短匹配 + 必要时扩展
 pattern = r'a+?a'
-print(re.match(pattern, text).group())  # aa
+print(re.match(pattern, text).group()) # aa
 # a+? 先匹配 "a"，再匹配 "a"
 
 # 占有：最长匹配 + 不回溯
 pattern = r'a++a'
-print(re.match(pattern, text))  # None
+print(re.match(pattern, text)) # None
 # a++ 匹配 "aaaa"，无字符给后面的 'a'
 ```
 
@@ -41421,15 +41421,15 @@ print(re.match(pattern, text))  # None
 
 ```python
 # 1. 优先使用占有量词（如果引擎支持）
-#    既快又安全
-pattern = r'\w++@\w++\.\w++'  # 邮箱
+# 既快又安全
+pattern = r'\w++@\w++\.\w++' # 邮箱
 
 # 2. 使用懒惰匹配处理"分隔符之间的内容"
-pattern = r'<.*?>'  # HTML 标签
-pattern = r'".*?"'  # 引号内容
+pattern = r'<.*?>' # HTML 标签
+pattern = r'".*?"' # 引号内容
 
 # 3. 默认贪婪适合大多数场景
-pattern = r'\d+'    # 数字
+pattern = r'\d+' # 数字
 
 # 4. 避免嵌套量词（容易灾难性回溯）
 # 危险：(a+)+, (a*)*, (a|aa)+
@@ -41453,30 +41453,30 @@ import re
 pattern = r'^hello'
 text = "hello world"
 match = re.match(pattern, text)
-print(match.group())  # hello
-print(match.span())   # (0, 5)
+print(match.group()) # hello
+print(match.span()) # (0, 5)
 # ^ 匹配位置 0，但不占用任何字符
 
 # 对比：普通字符会消耗
 pattern = r'hello'
-print(re.match(pattern, text).span())  # (0, 5)
+print(re.match(pattern, text).span()) # (0, 5)
 ```
 
 **锚点分类**：
 
 ```
 行锚点（Line Anchors）：
-^       → 行首（字符串开头或换行后）
-$       → 行尾（字符串结尾或换行前）
+^ → 行首（字符串开头或换行后）
+$ → 行尾（字符串结尾或换行前）
 
 字符串锚点（String Anchors）：
-\A      → 字符串开头（绝对开头）
-\Z      → 字符串结尾（绝对结尾，忽略尾部换行）
-\z      → 字符串结尾（绝对结尾，不忽略换行）
+\A → 字符串开头（绝对开头）
+\Z → 字符串结尾（绝对结尾，忽略尾部换行）
+\z → 字符串结尾（绝对结尾，不忽略换行）
 
 单词边界（Word Boundaries）：
-\b      → 单词边界
-\B      → 非单词边界
+\b → 单词边界
+\B → 非单词边界
 ```
 
 ---
@@ -41490,13 +41490,13 @@ import re
 
 # 匹配行首
 pattern = r'^hello'
-print(re.match(pattern, "hello world"))      # 匹配
-print(re.match(pattern, "say hello"))        # 不匹配
-print(re.search(pattern, "say hello"))       # 不匹配
+print(re.match(pattern, "hello world")) # 匹配
+print(re.match(pattern, "say hello")) # 不匹配
+print(re.search(pattern, "say hello")) # 不匹配
 
 # ^ 必须在模式开头才有意义
-pattern = r'hello^world'  # 无意义的模式
-print(re.match(pattern, "hello^world"))      # 不匹配
+pattern = r'hello^world' # 无意义的模式
+print(re.match(pattern, "hello^world")) # 不匹配
 ```
 
 **多行模式（MULTILINE）**：使用 `re.MULTILINE` 标志后，`^` 会匹配每行的开头。
@@ -41522,12 +41522,12 @@ print(re.findall(pattern, text, re.MULTILINE))
 ```python
 # 验证格式必须从开头匹配
 def validate_email(email):
-    pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
-    return bool(re.match(pattern, email))
+ pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
+ return bool(re.match(pattern, email))
 
-print(validate_email("user@example.com"))     # True
-print(validate_email("invalid user@example.com"))  # False
-print(validate_email("prefix user@example.com"))   # False
+print(validate_email("user@example.com")) # True
+print(validate_email("invalid user@example.com")) # False
+print(validate_email("prefix user@example.com")) # False
 
 # 提取配置文件中的注释行
 config = """# This is a comment
@@ -41558,11 +41558,11 @@ print(titles)
 ```python
 # 在模式中：行首锚点
 pattern = r'^abc'
-print(re.match(pattern, "abc"))  # 匹配
+print(re.match(pattern, "abc")) # 匹配
 
 # 在字符集中：否定
 pattern = r'[^abc]+'
-print(re.findall(pattern, "abcdef"))  # ['def']
+print(re.findall(pattern, "abcdef")) # ['def']
 ```
 
 ---
@@ -41576,13 +41576,13 @@ import re
 
 # 匹配行尾
 pattern = r'world$'
-print(re.search(pattern, "hello world"))      # 匹配
-print(re.search(pattern, "world hello"))      # 不匹配
+print(re.search(pattern, "hello world")) # 匹配
+print(re.search(pattern, "world hello")) # 不匹配
 
 # $ 对尾部换行符的处理
 pattern = r'world$'
-print(re.search(pattern, "hello world\n"))    # 匹配
-print(re.search(pattern, "hello world\n\n"))  # 不匹配
+print(re.search(pattern, "hello world\n")) # 匹配
+print(re.search(pattern, "hello world\n\n")) # 不匹配
 ```
 
 **多行模式**：
@@ -41608,19 +41608,19 @@ print(re.findall(pattern, text, re.MULTILINE))
 ```python
 # 精确匹配整个字符串
 pattern = r'^\d{3}$'
-print(bool(re.match(pattern, "123")))      # True
-print(bool(re.match(pattern, "1234")))     # False
-print(bool(re.match(pattern, "a123")))     # False
+print(bool(re.match(pattern, "123"))) # True
+print(bool(re.match(pattern, "1234"))) # False
+print(bool(re.match(pattern, "a123"))) # False
 
 # 验证完整格式
 def validate_phone(phone):
-    pattern = r'^1[3-9]\d{9}$'
-    return bool(re.match(pattern, phone))
+ pattern = r'^1[3-9]\d{9}$'
+ return bool(re.match(pattern, phone))
 
-print(validate_phone("13812345678"))   # True
-print(validate_phone("1381234567"))    # False（太短）
-print(validate_phone("138123456789"))  # False（太长）
-print(validate_phone("a13812345678"))  # False（有前缀）
+print(validate_phone("13812345678")) # True
+print(validate_phone("1381234567")) # False（太短）
+print(validate_phone("138123456789")) # False（太长）
+print(validate_phone("a13812345678")) # False（有前缀）
 
 # 提取每行的最后一个单词
 text = """The quick brown fox
@@ -41640,8 +41640,8 @@ print(words)
 pattern = r'\.txt$'
 files = ["file.txt", "document.txt", "file.txt.bak", "readme"]
 for f in files:
-    if re.search(pattern, f):
-        print(f"{f} 是文本文件")
+ if re.search(pattern, f):
+ print(f"{f} 是文本文件")
 # file.txt 是文本文件
 # document.txt 是文本文件
 
@@ -41675,17 +41675,17 @@ import re
 # 基本用法
 pattern = r'\bword\b'
 texts = [
-    "word",           # 匹配（两侧都是边界）
-    "word.",          # 匹配（右侧是边界）
-    "a word here",    # 匹配（两侧都是边界）
-    "sword",          # 不匹配（左侧不是边界）
-    "wording",        # 不匹配（右侧不是边界）
-    "password",       # 不匹配（两侧都不是边界）
+ "word", # 匹配（两侧都是边界）
+ "word.", # 匹配（右侧是边界）
+ "a word here", # 匹配（两侧都是边界）
+ "sword", # 不匹配（左侧不是边界）
+ "wording", # 不匹配（右侧不是边界）
+ "password", # 不匹配（两侧都不是边界）
 ]
 
 for text in texts:
-    match = re.search(pattern, text)
-    print(f"'{text}' → {'匹配' if match else '不匹配'}")
+ match = re.search(pattern, text)
+ print(f"'{text}' → {'匹配' if match else '不匹配'}")
 ```
 
 **可视化边界位置**：
@@ -41703,7 +41703,7 @@ print(f"边界位置：{positions}")
 # 可视化
 result = list(text)
 for pos in reversed(positions):
-    result.insert(pos, '|')
+ result.insert(pos, '|')
 print(''.join(result))
 # |The| |quick|-|brown| |fox_123|
 ```
@@ -41736,15 +41736,15 @@ print(result)
 # 标点符号是非单词字符，形成边界
 pattern = r'\bword\b'
 texts = [
-    "word.",
-    "word,",
-    "word!",
-    "(word)",
-    "'word'",
-    '"word"',
+ "word.",
+ "word,",
+ "word!",
+ "(word)",
+ "'word'",
+ '"word"',
 ]
 for text in texts:
-    print(f"'{text}' → {bool(re.search(pattern, text))}")
+ print(f"'{text}' → {bool(re.search(pattern, text))}")
 # 全部匹配
 
 # 提取句子中的所有单词
@@ -41775,8 +41775,8 @@ print(re.findall(pattern, text, re.ASCII))
 ```python
 # 1. 关键词高亮
 def highlight_keyword(text, keyword):
-    pattern = r'\b' + re.escape(keyword) + r'\b'
-    return re.sub(pattern, f'**{keyword}**', text, flags=re.IGNORECASE)
+ pattern = r'\b' + re.escape(keyword) + r'\b'
+ return re.sub(pattern, f'**{keyword}**', text, flags=re.IGNORECASE)
 
 text = "Python is great. I love Python programming."
 print(highlight_keyword(text, "Python"))
@@ -41793,7 +41793,7 @@ print(variables)
 text = "The quick brown fox jumps over the lazy dog"
 pattern = r'\b\w+\b'
 word_count = len(re.findall(pattern, text))
-print(f"单词数：{word_count}")  # 9
+print(f"单词数：{word_count}") # 9
 
 # 4. 查找重复单词
 text = "The the quick brown brown fox"
@@ -41837,11 +41837,11 @@ print(re.sub(pattern, '-', text))
 
 # 3. 查找非完整单词的匹配
 text = "The catalog contains cats and category info"
-pattern = r'\Bcat'  # cat 前面不是边界
+pattern = r'\Bcat' # cat 前面不是边界
 print(re.findall(pattern, text))
 # []（cat 总是在词首或独立）
 
-pattern = r'cat\B'  # cat 后面不是边界
+pattern = r'cat\B' # cat 后面不是边界
 print(re.findall(pattern, text))
 # ['cat', 'cat']（catalog 和 category 中的 cat）
 
@@ -41852,7 +41852,7 @@ pattern = r'\Bis\B'
 print(re.findall(pattern, text))
 # ['is']（来自 fish 中间的 is）
 
-pattern = r'is\B'  # is 后非边界
+pattern = r'is\B' # is 后非边界
 print(re.findall(pattern, text))
 # ['is', 'is', 'is']（This、island、fish 中）
 ```
@@ -41909,8 +41909,8 @@ import re
 
 # \A vs ^（默认模式下行为相同）
 text = "hello world"
-print(re.search(r'\Ahello', text))  # 匹配
-print(re.search(r'^hello', text))   # 匹配
+print(re.search(r'\Ahello', text)) # 匹配
+print(re.search(r'^hello', text)) # 匹配
 
 # 在多行模式下的区别
 text = """first line
@@ -41929,8 +41929,8 @@ print(re.findall(pattern, text, re.MULTILINE))
 
 # 验证：\A 不受 MULTILINE 影响
 text = "hello\nworld"
-print(re.findall(r'\Ahello', text, re.MULTILINE))  # ['hello']
-print(re.findall(r'\Aworld', text, re.MULTILINE))  # []
+print(re.findall(r'\Ahello', text, re.MULTILINE)) # ['hello']
+print(re.findall(r'\Aworld', text, re.MULTILINE)) # []
 ```
 
 **`\Z` 的行为**：
@@ -41940,19 +41940,19 @@ import re
 
 # \Z vs $（默认模式下）
 text = "hello world"
-print(re.search(r'world\Z', text))  # 匹配
-print(re.search(r'world$', text))   # 匹配
+print(re.search(r'world\Z', text)) # 匹配
+print(re.search(r'world$', text)) # 匹配
 
 # Python 的 \Z 严格匹配字符串结尾（不忽略换行）
 text1 = "hello"
 text2 = "hello\n"
 
-print(bool(re.search(r'hello\Z', text1)))  # True
-print(bool(re.search(r'hello\Z', text2)))  # False（有 \n）
+print(bool(re.search(r'hello\Z', text1))) # True
+print(bool(re.search(r'hello\Z', text2))) # False（有 \n）
 
 # 而 $ 允许尾部有一个换行符
-print(bool(re.search(r'hello$', text1)))   # True
-print(bool(re.search(r'hello$', text2)))   # True
+print(bool(re.search(r'hello$', text1))) # True
+print(bool(re.search(r'hello$', text2))) # True
 
 # 多行模式下的区别
 text = """first
@@ -41975,25 +41975,25 @@ print(re.findall(pattern, text, re.MULTILINE))
 ```python
 # 1. 验证整个字符串（不受多行影响）
 def strict_validate(text, pattern):
-    """严格匹配整个字符串，即使有换行符"""
-    return bool(re.match(r'\A' + pattern + r'\Z', text))
+ """严格匹配整个字符串，即使有换行符"""
+ return bool(re.match(r'\A' + pattern + r'\Z', text))
 
 # 包含换行的字符串
 multi_line = "line1\nline2"
-print(strict_validate(multi_line, r'.*'))           # False（. 默认不匹配 \n）
-print(strict_validate(multi_line, r'[\s\S]*'))      # True
+print(strict_validate(multi_line, r'.*')) # False（. 默认不匹配 \n）
+print(strict_validate(multi_line, r'[\s\S]*')) # True
 
 # 2. 处理带尾部换行的输入
-user_input = "username123\n"  # 用户输入通常带换行
+user_input = "username123\n" # 用户输入通常带换行
 
 # 使用 $ 容易出错
 pattern_loose = r'^[a-zA-Z0-9]+$'
-print(bool(re.match(pattern_loose, user_input)))  # True（不严格）
+print(bool(re.match(pattern_loose, user_input))) # True（不严格）
 
 # 使用 \Z 严格验证
 pattern_strict = r'\A[a-zA-Z0-9]+\Z'
-print(bool(re.match(pattern_strict, user_input)))  # False
-print(bool(re.match(pattern_strict, user_input.strip())))  # True
+print(bool(re.match(pattern_strict, user_input))) # False
+print(bool(re.match(pattern_strict, user_input.strip()))) # True
 
 # 3. 多行文本中查找全文级别的模式
 log = """[INFO] System started
@@ -42020,8 +42020,8 @@ print(re.search(pattern, log).group())
 
 | 锚点 | 默认模式 | MULTILINE 模式 | 受 MULTILINE 影响 |
 |------|----------|----------------|-------------------|
-| `^`  | 字符串开头 | 每行开头 | 是 |
-| `$`  | 字符串结尾（容许尾部换行） | 每行结尾 | 是 |
+| `^` | 字符串开头 | 每行开头 | 是 |
+| `$` | 字符串结尾（容许尾部换行） | 每行结尾 | 是 |
 | `\A` | 字符串开头 | 字符串开头 | 否 |
 | `\Z` | 字符串结尾（严格） | 字符串结尾（严格） | 否 |
 | `\b` | 单词边界 | 单词边界 | 否 |
@@ -42035,16 +42035,16 @@ import re
 text = "first\nmiddle\nlast\n"
 
 print("=== 默认模式 ===")
-print(f"^first  : {bool(re.search(r'^first', text))}")    # True
-print(f"^middle : {bool(re.search(r'^middle', text))}")   # False
-print(f"\\Afirst : {bool(re.search(r'\Afirst', text))}")  # True
-print(f"last$   : {bool(re.search(r'last$', text))}")     # True
-print(f"last\\Z : {bool(re.search(r'last\Z', text))}")    # False（有 \n）
+print(f"^first : {bool(re.search(r'^first', text))}") # True
+print(f"^middle : {bool(re.search(r'^middle', text))}") # False
+print(f"\\Afirst : {bool(re.search(r'\Afirst', text))}") # True
+print(f"last$ : {bool(re.search(r'last$', text))}") # True
+print(f"last\\Z : {bool(re.search(r'last\Z', text))}") # False（有 \n）
 
 print("\n=== 多行模式 ===")
-print(f"^first  : {bool(re.search(r'^first', text, re.M))}")    # True
-print(f"^middle : {bool(re.search(r'^middle', text, re.M))}")   # True
-print(f"\\Afirst : {bool(re.search(r'\Afirst', text, re.M))}")  # True
+print(f"^first : {bool(re.search(r'^first', text, re.M))}") # True
+print(f"^middle : {bool(re.search(r'^middle', text, re.M))}") # True
+print(f"\\Afirst : {bool(re.search(r'\Afirst', text, re.M))}") # True
 print(f"\\Amiddle: {bool(re.search(r'\Amiddle', text, re.M))}") # False
 ```
 
@@ -42053,11 +42053,11 @@ print(f"\\Amiddle: {bool(re.search(r'\Amiddle', text, re.M))}") # False
 ```
 需要匹配字符串边界？
 ├── 是 → 是否考虑多行情况？
-│       ├── 仅整个字符串 → \A 和 \Z
-│       └── 每行 → 用 ^ 和 $（配合 MULTILINE）
+│ ├── 仅整个字符串 → \A 和 \Z
+│ └── 每行 → 用 ^ 和 $（配合 MULTILINE）
 └── 否 → 需要匹配单词位置？
-        ├── 是 → \b（单词边界）或 \B（非单词边界）
-        └── 否 → 不需要锚点
+ ├── 是 → \b（单词边界）或 \B（非单词边界）
+ └── 否 → 不需要锚点
 ```
 
 ---
@@ -42070,35 +42070,35 @@ print(f"\\Amiddle: {bool(re.search(r'\Amiddle', text, re.M))}") # False
 import re
 
 def validate_url(url):
-    pattern = r'''
-        \A                              # 字符串开头
-        (https?|ftp)                    # 协议
-        ://                             # 分隔符
-        ([\w-]+\.)+[\w-]+               # 域名
-        (:\d+)?                         # 可选端口
-        (/[\w\-./?%&=]*)?               # 可选路径
-        \Z                              # 字符串结尾
-    '''
-    return bool(re.match(pattern, url, re.VERBOSE))
+ pattern = r'''
+ \A # 字符串开头
+ (https?|ftp) # 协议
+ :// # 分隔符
+ ([\w-]+\.)+[\w-]+ # 域名
+ (:\d+)? # 可选端口
+ (/[\w\-./?%&=]*)? # 可选路径
+ \Z # 字符串结尾
+ '''
+ return bool(re.match(pattern, url, re.VERBOSE))
 
 urls = [
-    "https://www.example.com",
-    "http://example.com:8080/path",
-    "ftp://files.example.com",
-    "example.com",                      # 缺少协议
-    "https://example.com\nmalicious",   # 包含换行
+ "https://www.example.com",
+ "http://example.com:8080/path",
+ "ftp://files.example.com",
+ "example.com", # 缺少协议
+ "https://example.com\nmalicious", # 包含换行
 ]
 for url in urls:
-    print(f"{url[:30]:30} → {validate_url(url)}")
+ print(f"{url[:30]:30} → {validate_url(url)}")
 ```
 
 **日志分析**：
 
 ```python
-log = """2024-01-15 10:30:01 INFO  Server started
-2024-01-15 10:30:15 WARN  Memory usage high
+log = """2024-01-15 10:30:01 INFO Server started
+2024-01-15 10:30:15 WARN Memory usage high
 2024-01-15 10:30:23 ERROR Database connection failed
-2024-01-15 10:30:45 INFO  Retry successful"""
+2024-01-15 10:30:45 INFO Retry successful"""
 
 # 提取每行的级别
 pattern = r'^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2} (\w+)'
@@ -42133,11 +42133,11 @@ import re
 
 # 不使用分组：量词只作用于单个字符
 pattern = r'ab+'
-print(re.match(pattern, "abab").group())  # 'ab'
+print(re.match(pattern, "abab").group()) # 'ab'
 
 # 使用分组：量词作用于整个分组
 pattern = r'(ab)+'
-print(re.match(pattern, "abab").group())  # 'abab'
+print(re.match(pattern, "abab").group()) # 'abab'
 ```
 
 ---
@@ -42152,16 +42152,16 @@ import re
 # 提取日期的年月日
 pattern = r'(\d{4})-(\d{2})-(\d{2})'
 match = re.match(pattern, "2024-01-15")
-print(match.group(0))   # '2024-01-15'（整体）
-print(match.group(1))   # '2024'
-print(match.group(2))   # '01'
-print(match.group(3))   # '15'
-print(match.groups())   # ('2024', '01', '15')
+print(match.group(0)) # '2024-01-15'（整体）
+print(match.group(1)) # '2024'
+print(match.group(2)) # '01'
+print(match.group(3)) # '15'
+print(match.groups()) # ('2024', '01', '15')
 
 # 替换中使用捕获组（\1, \2...）
 text = "2024-01-15"
 result = re.sub(pattern, r'\3/\2/\1', text)
-print(result)  # '15/01/2024'
+print(result) # '15/01/2024'
 ```
 
 **嵌套分组**按左括号顺序编号：
@@ -42169,10 +42169,10 @@ print(result)  # '15/01/2024'
 ```python
 pattern = r'((\d{4})-(\d{2}))-(\d{2})'
 match = re.match(pattern, "2024-01-15")
-print(match.group(1))  # '2024-01'（外层）
-print(match.group(2))  # '2024'（内层第一个）
-print(match.group(3))  # '01'
-print(match.group(4))  # '15'
+print(match.group(1)) # '2024-01'（外层）
+print(match.group(2)) # '2024'（内层第一个）
+print(match.group(3)) # '01'
+print(match.group(4)) # '15'
 ```
 
 ---
@@ -42187,14 +42187,14 @@ import re
 # 只想分组而不捕获
 pattern = r'(?:https?|ftp)://(\S+)'
 match = re.match(pattern, "https://example.com")
-print(match.group(0))  # 'https://example.com'
-print(match.group(1))  # 'example.com'（协议未被捕获）
+print(match.group(0)) # 'https://example.com'
+print(match.group(1)) # 'example.com'（协议未被捕获）
 
 # 对比：使用捕获组会占用编号
 pattern_cap = r'(https?|ftp)://(\S+)'
 match = re.match(pattern_cap, "https://example.com")
-print(match.group(1))  # 'https'（多了一个组）
-print(match.group(2))  # 'example.com'
+print(match.group(1)) # 'https'（多了一个组）
+print(match.group(2)) # 'example.com'
 ```
 
 **使用场景**：当只需要分组逻辑（应用量词、选择）但不关心其内容时，使用非捕获组更高效、更清晰。
@@ -42207,7 +42207,7 @@ print(match.group(2))  # 'example.com'
 
 **语法对比**：
 - Python：`(?P<name>...)`（PEP 风格）
-- Python 3.x 也支持：`(?<name>...)` ❌（**Python 不支持**，仅 .NET/Java）
+- Python 3.x 也支持：`(?<name>...)` （**Python 不支持**，仅 .NET/Java）
 
 ```python
 import re
@@ -42215,19 +42215,19 @@ import re
 # 使用命名组
 pattern = r'(?P<year>\d{4})-(?P<month>\d{2})-(?P<day>\d{2})'
 match = re.match(pattern, "2024-01-15")
-print(match.group('year'))   # '2024'
-print(match.group('month'))  # '01'
-print(match.group('day'))    # '15'
+print(match.group('year')) # '2024'
+print(match.group('month')) # '01'
+print(match.group('day')) # '15'
 print(match.groupdict())
 # {'year': '2024', 'month': '01', 'day': '15'}
 
 # 替换中引用命名组：\g<name>
 text = "2024-01-15"
 result = re.sub(pattern, r'\g<day>/\g<month>/\g<year>', text)
-print(result)  # '15/01/2024'
+print(result) # '15/01/2024'
 
 # 命名组同时也有编号
-print(match.group(1))  # '2024'（与 group('year') 等价）
+print(match.group(1)) # '2024'（与 group('year') 等价）
 ```
 
 ---
@@ -42267,9 +42267,9 @@ print(re.findall(pattern, text))
 
 | 类型 | 语法 | 占编号 | 可命名引用 |
 |------|------|--------|------------|
-| 捕获组 | `(...)` | ✓ | `\1` |
-| 非捕获组 | `(?:...)` | ✗ | — |
-| 命名组 | `(?P<n>...)` | ✓ | `(?P=n)` / `\g<n>` |
+| 捕获组 | `(...)` | | `\1` |
+| 非捕获组 | `(?:...)` | | — |
+| 命名组 | `(?P<n>...)` | | `(?P=n)` / `\g<n>` |
 
 
 ### 25.6 选择与分支：`|`
@@ -42285,8 +42285,8 @@ import re
 pattern = r'cat|dog'
 texts = ["cat", "dog", "bird"]
 for text in texts:
-    match = re.search(pattern, text)
-    print(f"'{text}' → {'匹配' if match else '不匹配'}")
+ match = re.search(pattern, text)
+ print(f"'{text}' → {'匹配' if match else '不匹配'}")
 # 'cat' → 匹配
 # 'dog' → 匹配
 # 'bird' → 不匹配
@@ -42294,7 +42294,7 @@ for text in texts:
 # 匹配多个选项
 pattern = r'apple|banana|orange'
 text = "I like banana"
-print(re.search(pattern, text).group())  # 'banana'
+print(re.search(pattern, text).group()) # 'banana'
 ```
 
 ---
@@ -42309,15 +42309,15 @@ import re
 # 错误理解：以为只作用于相邻字符
 pattern = r'cat|dog food'
 # 实际含义：'cat' 或 'dog food'
-print(re.findall(pattern, "cat food"))     # ['cat']
-print(re.findall(pattern, "dog food"))     # ['dog food']
+print(re.findall(pattern, "cat food")) # ['cat']
+print(re.findall(pattern, "dog food")) # ['dog food']
 
 # 正确做法：使用分组限定范围
 pattern = r'(cat|dog) food'
 # 含义：'cat food' 或 'dog food'
-print(re.findall(pattern, "cat food"))     # ['cat']
-print(re.findall(pattern, "dog food"))     # ['dog']
-print(re.search(pattern, "cat food").group())  # 'cat food'
+print(re.findall(pattern, "cat food")) # ['cat']
+print(re.findall(pattern, "dog food")) # ['dog']
+print(re.search(pattern, "cat food").group()) # 'cat food'
 ```
 
 **复杂表达式中的优先级**：
@@ -42331,9 +42331,9 @@ pattern = r'\.jpg|\.png|\.gif'
 pattern = r'\.(jpg|png|gif)'
 files = ["image.jpg", "photo.png", "icon.gif"]
 for f in files:
-    match = re.search(pattern, f)
-    if match:
-        print(f"{f} → 扩展名: {match.group(1)}")
+ match = re.search(pattern, f)
+ if match:
+ print(f"{f} → 扩展名: {match.group(1)}")
 # image.jpg → 扩展名: jpg
 # photo.png → 扩展名: png
 # icon.gif → 扩展名: gif
@@ -42351,22 +42351,22 @@ import re
 # 顺序影响结果
 pattern = r'cat|category'
 text = "category"
-print(re.search(pattern, text).group())  # 'cat'（匹配到就停止）
+print(re.search(pattern, text).group()) # 'cat'（匹配到就停止）
 
 # 调整顺序：长的在前
 pattern = r'category|cat'
-print(re.search(pattern, text).group())  # 'category'
+print(re.search(pattern, text).group()) # 'category'
 
 # 实际应用：关键词匹配
 pattern = r'javascript|java|script'
 text = "I love javascript"
-print(re.search(pattern, text).group())  # 'java'（错误！）
+print(re.search(pattern, text).group()) # 'java'（错误！）
 
 # 正确：长模式优先
 pattern = r'javascript|java|script'
 # 应改为：
 pattern = r'javascript|script|java'
-print(re.search(pattern, text).group())  # 'javascript'
+print(re.search(pattern, text).group()) # 'javascript'
 ```
 
 **最佳实践**：将更长、更具体的模式放在前面。
@@ -42384,8 +42384,8 @@ import re
 pattern = r'(https?|ftp)://(\S+)'
 urls = ["https://example.com", "ftp://files.com"]
 for url in urls:
-    match = re.match(pattern, url)
-    print(f"协议: {match.group(1)}, 域名: {match.group(2)}")
+ match = re.match(pattern, url)
+ print(f"协议: {match.group(1)}, 域名: {match.group(2)}")
 # 协议: https, 域名: example.com
 # 协议: ftp, 域名: files.com
 
@@ -42393,8 +42393,8 @@ for url in urls:
 pattern = r'(?:Mr|Ms|Mrs)\. (\w+)'
 names = ["Mr. Smith", "Ms. Johnson"]
 for name in names:
-    match = re.match(pattern, name)
-    print(f"姓氏: {match.group(1)}")
+ match = re.match(pattern, name)
+ print(f"姓氏: {match.group(1)}")
 # 姓氏: Smith
 # 姓氏: Johnson
 ```
@@ -42413,8 +42413,8 @@ print(matches)
 pattern = r'((Mr|Ms)\. )?(\w+) (Smith|Johnson)'
 names = ["Mr. John Smith", "Jane Johnson"]
 for name in names:
-    match = re.match(pattern, name)
-    print(match.groups())
+ match = re.match(pattern, name)
+ print(match.groups())
 # ('Mr. ', 'Mr', 'John', 'Smith')
 # (None, None, 'Jane', 'Johnson')
 ```
@@ -42432,20 +42432,20 @@ import re
 pattern = r'\d{4}-\d{2}-\d{2}|\d{2}/\d{2}/\d{4}|\d{2}\.\d{2}\.\d{4}'
 dates = ["2024-01-15", "15/01/2024", "15.01.2024"]
 for date in dates:
-    print(re.search(pattern, date).group())
+ print(re.search(pattern, date).group())
 # 2024-01-15
 # 15/01/2024
 # 15.01.2024
 
 # 改进：使用命名组
 pattern = r'''
-    (?P<iso>\d{4}-\d{2}-\d{2})|
-    (?P<us>\d{2}/\d{2}/\d{4})|
-    (?P<eu>\d{2}\.\d{2}\.\d{4})
+ (?P<iso>\d{4}-\d{2}-\d{2})|
+ (?P<us>\d{2}/\d{2}/\d{4})|
+ (?P<eu>\d{2}\.\d{2}\.\d{4})
 '''
 for date in dates:
-    match = re.search(pattern, date, re.VERBOSE)
-    print(match.lastgroup, ":", match.group())
+ match = re.search(pattern, date, re.VERBOSE)
+ print(match.lastgroup, ":", match.group())
 # iso : 2024-01-15
 # us : 15/01/2024
 # eu : 15.01.2024
@@ -42467,14 +42467,14 @@ print(highlighted)
 ```python
 # 匹配多种电话格式
 pattern = r'''
-    \d{3}-\d{4}-\d{4}|      # 格式：138-1234-5678
-    \d{11}|                  # 格式：13812345678
-    \(\d{3}\)\s?\d{4}-\d{4}  # 格式：(138) 1234-5678
+ \d{3}-\d{4}-\d{4}| # 格式：138-1234-5678
+ \d{11}| # 格式：13812345678
+ \(\d{3}\)\s?\d{4}-\d{4} # 格式：(138) 1234-5678
 '''
 phones = ["138-1234-5678", "13812345678", "(138) 1234-5678"]
 for phone in phones:
-    if re.match(pattern, phone, re.VERBOSE):
-        print(f"{phone} 有效")
+ if re.match(pattern, phone, re.VERBOSE):
+ print(f"{phone} 有效")
 ```
 
 **URL 路由匹配**：
@@ -42482,22 +42482,22 @@ for phone in phones:
 ```python
 # 简化的路由匹配
 routes = {
-    r'^/$': 'home',
-    r'^/user/(\d+)$': 'user_profile',
-    r'^/(about|contact)$': 'static_page',
+ r'^/$': 'home',
+ r'^/user/(\d+)$': 'user_profile',
+ r'^/(about|contact)$': 'static_page',
 }
 
 def match_route(path):
-    for pattern, handler in routes.items():
-        match = re.match(pattern, path)
-        if match:
-            return handler, match.groups()
-    return None, None
+ for pattern, handler in routes.items():
+ match = re.match(pattern, path)
+ if match:
+ return handler, match.groups()
+ return None, None
 
 paths = ["/", "/user/123", "/about", "/unknown"]
 for path in paths:
-    handler, params = match_route(path)
-    print(f"{path} → {handler} {params if params else ''}")
+ handler, params = match_route(path)
+ print(f"{path} → {handler} {params if params else ''}")
 # / → home ()
 # /user/123 → user_profile ('123',)
 # /about → static_page ('about',)
@@ -42534,14 +42534,14 @@ import re
 pattern = r'\d+'
 text = "price: 100 yuan"
 match = re.search(pattern, text)
-print(match.group())  # '100'
-print(match.span())   # (7, 10)
+print(match.group()) # '100'
+print(match.span()) # (7, 10)
 
 # 零宽断言：不消耗字符
-pattern = r'\d+(?= yuan)'  # 数字后面是 ' yuan'
+pattern = r'\d+(?= yuan)' # 数字后面是 ' yuan'
 match = re.search(pattern, text)
-print(match.group())  # '100'（不包含 ' yuan'）
-print(match.span())   # (7, 10)
+print(match.group()) # '100'（不包含 ' yuan'）
+print(match.span()) # (7, 10)
 ```
 
 ---
@@ -42556,19 +42556,19 @@ import re
 # 基本用法：提取后面跟特定词的数字
 pattern = r'\d+(?= yuan)'
 text = "price: 100 yuan, cost: 50 dollar"
-print(re.findall(pattern, text))  # ['100']
+print(re.findall(pattern, text)) # ['100']
 
 # 多个先行断言（AND 关系）
 # 密码必须包含数字和字母
 pattern = r'^(?=.*\d)(?=.*[a-zA-Z]).{6,}$'
 passwords = ["abc123", "abcdef", "123456", "Abc123"]
 for pwd in passwords:
-    valid = bool(re.match(pattern, pwd))
-    print(f"{pwd:10} → {'有效' if valid else '无效'}")
-# abc123     → 有效
-# abcdef     → 无效（无数字）
-# 123456     → 无效（无字母）
-# Abc123     → 有效
+ valid = bool(re.match(pattern, pwd))
+ print(f"{pwd:10} → {'有效' if valid else '无效'}")
+# abc123 → 有效
+# abcdef → 无效（无数字）
+# 123456 → 无效（无字母）
+# Abc123 → 有效
 ```
 
 **实际应用：提取特定格式的数据**：
@@ -42602,23 +42602,23 @@ import re
 # 基本用法：匹配后面不跟特定词的数字
 pattern = r'\d+(?! yuan)'
 text = "price: 100 yuan, cost: 50 dollar"
-print(re.findall(pattern, text))  # ['10', '50']
+print(re.findall(pattern, text)) # ['10', '50']
 # 注意：'100' 中的 '10' 也匹配了
 
 # 更精确的写法
 pattern = r'\b\d+\b(?! yuan)'
-print(re.findall(pattern, text))  # ['50']
+print(re.findall(pattern, text)) # ['50']
 
 # 排除特定扩展名的文件
 files = ["doc.txt", "image.jpg", "data.csv", "photo.png"]
-pattern = r'\w+\.\w+(?<!\.txt)$'  # 这是后行断言，先看下面
+pattern = r'\w+\.\w+(?<!\.txt)$' # 这是后行断言，先看下面
 # 使用先行断言：
 pattern = r'\w+(?!\.txt)\.\w+$'
 # 更好的写法：
 pattern = r'[\w.]+(?<!\.txt)$'
 for f in files:
-    if re.match(pattern, f):
-        print(f)
+ if re.match(pattern, f):
+ print(f)
 # image.jpg
 # data.csv
 # photo.png
@@ -42631,13 +42631,13 @@ for f in files:
 pattern = r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?!.*[^a-zA-Z\d]).{8,}$'
 passwords = ["Abcd1234", "abcd1234", "ABCD1234", "Abcd123!", "Abc1"]
 for pwd in passwords:
-    valid = bool(re.match(pattern, pwd))
-    print(f"{pwd:12} → {'有效' if valid else '无效'}")
-# Abcd1234     → 有效
-# abcd1234     → 无效（无大写）
-# ABCD1234     → 无效（无小写）
-# Abcd123!     → 无效（有特殊字符）
-# Abc1         → 无效（太短）
+ valid = bool(re.match(pattern, pwd))
+ print(f"{pwd:12} → {'有效' if valid else '无效'}")
+# Abcd1234 → 有效
+# abcd1234 → 无效（无大写）
+# ABCD1234 → 无效（无小写）
+# Abcd123! → 无效（有特殊字符）
+# Abc1 → 无效（太短）
 ```
 
 ---
@@ -42654,11 +42654,11 @@ import re
 # 基本用法：提取货币符号后的金额
 text = "$100, €50, ¥200"
 pattern = r'(?<=\$)\d+'
-print(re.findall(pattern, text))  # ['100']
+print(re.findall(pattern, text)) # ['100']
 
 # 多个货币符号
 pattern = r'(?<=\$|€|¥)\d+'
-print(re.findall(pattern, text))  # ['100', '50', '200']
+print(re.findall(pattern, text)) # ['100', '50', '200']
 
 # 提取 @ 后的域名
 emails = ["user@example.com", "admin@test.org"]
@@ -42678,15 +42678,15 @@ print(re.findall(pattern, " ".join(emails)))
 ```python
 # 错误：变长模式
 try:
-    pattern = r'(?<=\d+)\w+'  # \d+ 是变长的
-    re.search(pattern, "123abc")
+ pattern = r'(?<=\d+)\w+' # \d+ 是变长的
+ re.search(pattern, "123abc")
 except re.error as e:
-    print(f"错误: {e}")
+ print(f"错误: {e}")
 # 错误: look-behind requires fixed-width pattern
 
 # 正确：固定长度
-pattern = r'(?<=\d{3})\w+'  # \d{3} 是固定长度
-print(re.search(pattern, "123abc").group())  # 'abc'
+pattern = r'(?<=\d{3})\w+' # \d{3} 是固定长度
+print(re.search(pattern, "123abc").group()) # 'abc'
 
 # 正确：选择固定长度的模式
 pattern = r'(?<=Mr\.|Ms\.)\s*\w+'
@@ -42707,17 +42707,17 @@ import re
 # 基本用法：匹配前面不是 $ 的数字
 text = "$100, 50, €200"
 pattern = r'(?<!\$)\b\d+'
-print(re.findall(pattern, text))  # ['50', '200']
+print(re.findall(pattern, text)) # ['50', '200']
 
 # 排除特定前缀
 # 提取非 http 协议的 URL
 urls = "Visit example.com or https://secure.com or ftp://files.com"
 pattern = r'(?<!https://)(?<!http://)(?<!ftp://)\b[\w.-]+\.com\b'
-print(re.findall(pattern, urls))  # ['example.com']
+print(re.findall(pattern, urls)) # ['example.com']
 
 # 更简洁的写法
 pattern = r'(?<!://)\b[\w.-]+\.com\b'
-print(re.findall(pattern, urls))  # ['example.com']
+print(re.findall(pattern, urls)) # ['example.com']
 ```
 
 **实际应用：提取非引号内的单词**：
@@ -42771,24 +42771,24 @@ print(re.findall(pattern, html))
 # - 包含特殊字符
 # - 不能有连续 3 个相同字符
 pattern = r'''
-    ^
-    (?=.*[a-z])           # 至少一个小写
-    (?=.*[A-Z])           # 至少一个大写
-    (?=.*\d)              # 至少一个数字
-    (?=.*[@#$%^&+=])      # 至少一个特殊字符
-    (?!.*(.)\1{2})        # 不能有连续 3 个相同字符
-    .{8,}
-    $
+ ^
+ (?=.*[a-z]) # 至少一个小写
+ (?=.*[A-Z]) # 至少一个大写
+ (?=.*\d) # 至少一个数字
+ (?=.*[@#$%^&+=]) # 至少一个特殊字符
+ (?!.*(.)\1{2}) # 不能有连续 3 个相同字符
+ .{8,}
+ $
 '''
 passwords = [
-    "Abcd123@",      # 有效
-    "Abcd1234",      # 无效（无特殊字符）
-    "Abcd111@",      # 无效（连续 3 个 1）
-    "Abc@123",       # 有效
+ "Abcd123@", # 有效
+ "Abcd1234", # 无效（无特殊字符）
+ "Abcd111@", # 无效（连续 3 个 1）
+ "Abc@123", # 有效
 ]
 for pwd in passwords:
-    valid = bool(re.match(pattern, pwd, re.VERBOSE))
-    print(f"{pwd:12} → {'有效' if valid else '无效'}")
+ valid = bool(re.match(pattern, pwd, re.VERBOSE))
+ print(f"{pwd:12} → {'有效' if valid else '无效'}")
 ```
 
 ---
@@ -42804,8 +42804,8 @@ pattern = r'^\d{1,3}(,\d{3})*(\.\d{2})?$'
 pattern = r'^(?=.*\d)\d{1,3}(,\d{3})*(\.\d{2})?$'
 numbers = ["1,234.56", "12,345", "1234", "12,34.56"]
 for num in numbers:
-    valid = bool(re.match(pattern, num))
-    print(f"{num:12} → {'有效' if valid else '无效'}")
+ valid = bool(re.match(pattern, num))
+ print(f"{num:12} → {'有效' if valid else '无效'}")
 ```
 
 **日志过滤**：
@@ -42820,7 +42820,7 @@ log = """2024-01-15 INFO Server started
 pattern = r'^(?!.*DEBUG).*$'
 filtered = re.findall(pattern, log, re.MULTILINE)
 for line in filtered:
-    print(line)
+ print(line)
 # 2024-01-15 INFO Server started
 # 2024-01-15 ERROR Failed to load
 ```
@@ -42863,7 +42863,7 @@ import re
 # 不使用标志：区分大小写
 pattern = r'python'
 text = "I love Python and PYTHON"
-print(re.findall(pattern, text))  # []
+print(re.findall(pattern, text)) # []
 
 # 使用 re.I：忽略大小写
 print(re.findall(pattern, text, re.I))
@@ -42875,7 +42875,7 @@ print(re.findall(pattern, text))
 # ['Python', 'PYTHON']
 
 # 部分忽略大小写
-pattern = r'(?i)python(?-i) 3'  # Python 不支持 (?-i)
+pattern = r'(?i)python(?-i) 3' # Python 不支持 (?-i)
 # Python 中需要分开写：
 pattern = r'(?i:python) 3'
 text = "Python 3 and PYTHON 3"
@@ -42891,9 +42891,9 @@ keywords = ["error", "warning", "critical"]
 log = "ERROR: disk full, Warning: memory low, CRITICAL: system halt"
 
 for keyword in keywords:
-    pattern = rf'\b{keyword}\b'
-    matches = re.findall(pattern, log, re.I)
-    print(f"{keyword}: {len(matches)} 次")
+ pattern = rf'\b{keyword}\b'
+ matches = re.findall(pattern, log, re.I)
+ print(f"{keyword}: {len(matches)} 次")
 # error: 1 次
 # warning: 1 次
 # critical: 1 次
@@ -42902,8 +42902,8 @@ for keyword in keywords:
 pattern = r'^[\w.-]+@[\w.-]+\.[a-z]{2,}$'
 emails = ["user@Example.COM", "admin@TEST.org"]
 for email in emails:
-    valid = bool(re.match(pattern, email, re.I))
-    print(f"{email:20} → {'有效' if valid else '无效'}")
+ valid = bool(re.match(pattern, email, re.I))
+ print(f"{email:20} → {'有效' if valid else '无效'}")
 ```
 
 ---
@@ -42921,7 +42921,7 @@ for email in emails:
 import re
 
 # JavaScript 风格（需要 g 标志）
-# text.match(/\d+/g)  // 返回所有匹配
+# text.match(/\d+/g) // 返回所有匹配
 
 # Python 风格（默认全局）
 text = "10 apples, 20 oranges, 30 bananas"
@@ -42931,10 +42931,10 @@ print(re.findall(r'\d+', text))
 # 限制匹配次数：使用 count 参数
 text = "a1 b2 c3 d4"
 result = re.sub(r'\d', 'X', text, count=2)
-print(result)  # 'aX bX c3 d4'
+print(result) # 'aX bX c3 d4'
 
 # 获取第一个匹配：使用 search()
-print(re.search(r'\d+', text).group())  # '10'
+print(re.search(r'\d+', text).group()) # '10'
 ```
 
 **模拟非全局匹配**：
@@ -42943,11 +42943,11 @@ print(re.search(r'\d+', text).group())  # '10'
 # 只替换第一个匹配
 text = "apple apple apple"
 result = re.sub(r'apple', 'orange', text, count=1)
-print(result)  # 'orange apple apple'
+print(result) # 'orange apple apple'
 
 # 只获取第一个匹配
 match = re.search(r'\d+', "10 20 30")
-print(match.group())  # '10'
+print(match.group()) # '10'
 ```
 
 ---
@@ -42965,19 +42965,19 @@ third line"""
 
 # 不使用 MULTILINE：^ 和 $ 只匹配字符串边界
 pattern = r'^second'
-print(re.findall(pattern, text))  # []
+print(re.findall(pattern, text)) # []
 
 # 使用 MULTILINE：^ 和 $ 匹配每行
-print(re.findall(pattern, text, re.M))  # ['second']
+print(re.findall(pattern, text, re.M)) # ['second']
 
 # $ 的行为
 pattern = r'line$'
-print(re.findall(pattern, text))        # ['line']（最后一行）
-print(re.findall(pattern, text, re.M))  # ['line', 'line', 'line']
+print(re.findall(pattern, text)) # ['line']（最后一行）
+print(re.findall(pattern, text, re.M)) # ['line', 'line', 'line']
 
 # 内联标志
 pattern = r'(?m)^third'
-print(re.findall(pattern, text))  # ['third']
+print(re.findall(pattern, text)) # ['third']
 ```
 
 **实际应用：日志处理**：
@@ -42997,12 +42997,12 @@ print(errors)
 # 提取每行的时间戳
 pattern = r'^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}'
 timestamps = re.findall(pattern, log, re.M)
-print(len(timestamps))  # 4
+print(len(timestamps)) # 4
 
 # 给每行添加行号
 def add_line_number(match):
-    add_line_number.counter += 1
-    return f"{add_line_number.counter}. {match.group()}"
+ add_line_number.counter += 1
+ return f"{add_line_number.counter}. {match.group()}"
 add_line_number.counter = 0
 
 result = re.sub(r'^.*$', add_line_number, log, flags=re.M)
@@ -43027,7 +43027,7 @@ third line"""
 
 # 不使用 DOTALL：. 不匹配换行
 pattern = r'first.*third'
-print(re.search(pattern, text))  # None
+print(re.search(pattern, text)) # None
 
 # 使用 DOTALL：. 匹配所有字符
 match = re.search(pattern, text, re.S)
@@ -43045,20 +43045,20 @@ print(re.search(pattern, text).group())
 
 ```python
 html = """<div>
-    <p>paragraph 1</p>
-    <p>paragraph 2</p>
+ <p>paragraph 1</p>
+ <p>paragraph 2</p>
 </div>"""
 
 # 不使用 DOTALL：无法跨行匹配
 pattern = r'<div>.*</div>'
-print(re.search(pattern, html))  # None
+print(re.search(pattern, html)) # None
 
 # 使用 DOTALL：可以跨行
 match = re.search(pattern, html, re.S)
 print(match.group())
 # <div>
-#     <p>paragraph 1</p>
-#     <p>paragraph 2</p>
+# <p>paragraph 1</p>
+# <p>paragraph 2</p>
 # </div>
 
 # 提取多行注释
@@ -43098,24 +43098,24 @@ pattern = r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$%]).{8,}$'
 
 # 使用 VERBOSE：添加注释和格式化
 pattern = r'''
-    ^                   # 字符串开始
-    (?=.*[a-z])         # 至少一个小写字母
-    (?=.*[A-Z])         # 至少一个大写字母
-    (?=.*\d)            # 至少一个数字
-    (?=.*[@#$%])        # 至少一个特殊字符
-    .{8,}               # 至少 8 个字符
-    $                   # 字符串结束
+ ^ # 字符串开始
+ (?=.*[a-z]) # 至少一个小写字母
+ (?=.*[A-Z]) # 至少一个大写字母
+ (?=.*\d) # 至少一个数字
+ (?=.*[@#$%]) # 至少一个特殊字符
+ .{8,} # 至少 8 个字符
+ $ # 字符串结束
 '''
 password = "Abcd123@"
-print(bool(re.match(pattern, password, re.X)))  # True
+print(bool(re.match(pattern, password, re.X))) # True
 
 # 注意：扩展模式中的空格会被忽略
-pattern = r'a b c'  # 匹配 'abc'（空格被忽略）
-print(re.match(pattern, "abc", re.X).group())  # 'abc'
+pattern = r'a b c' # 匹配 'abc'（空格被忽略）
+print(re.match(pattern, "abc", re.X).group()) # 'abc'
 
 # 如果需要匹配空格，使用 \s 或 [ ]
-pattern = r'a\ b\ c'  # 或 r'a[ ]b[ ]c'
-print(re.match(pattern, "a b c", re.X).group())  # 'a b c'
+pattern = r'a\ b\ c' # 或 r'a[ ]b[ ]c'
+print(re.match(pattern, "a b c", re.X).group()) # 'a b c'
 ```
 
 **实际应用：复杂模式分解**：
@@ -43123,41 +43123,41 @@ print(re.match(pattern, "a b c", re.X).group())  # 'a b c'
 ```python
 # URL 验证（带注释）
 url_pattern = r'''
-    ^
-    (?P<protocol>https?|ftp)    # 协议
-    ://                          # 分隔符
-    (?P<domain>                  # 域名部分
-        (?:[\w-]+\.)+            # 子域名
-        [\w-]+                   # 顶级域名
-    )
-    (?::(?P<port>\d+))?          # 可选端口
-    (?P<path>/[\w\-./?%&=]*)?    # 可选路径
-    $
+ ^
+ (?P<protocol>https?|ftp) # 协议
+ :// # 分隔符
+ (?P<domain> # 域名部分
+ (?:[\w-]+\.)+ # 子域名
+ [\w-]+ # 顶级域名
+ )
+ (?::(?P<port>\d+))? # 可选端口
+ (?P<path>/[\w\-./?%&=]*)? # 可选路径
+ $
 '''
 urls = [
-    "https://www.example.com",
-    "http://example.com:8080/path",
-    "ftp://files.example.com",
+ "https://www.example.com",
+ "http://example.com:8080/path",
+ "ftp://files.example.com",
 ]
 for url in urls:
-    match = re.match(url_pattern, url, re.X)
-    if match:
-        print(f"{url}")
-        print(f"  协议: {match.group('protocol')}")
-        print(f"  域名: {match.group('domain')}")
-        print(f"  端口: {match.group('port')}")
-        print(f"  路径: {match.group('path')}")
+ match = re.match(url_pattern, url, re.X)
+ if match:
+ print(f"{url}")
+ print(f" 协议: {match.group('protocol')}")
+ print(f" 域名: {match.group('domain')}")
+ print(f" 端口: {match.group('port')}")
+ print(f" 路径: {match.group('path')}")
 ```
 
 **日期解析**：
 
 ```python
 date_pattern = r'''
-    (?P<year>\d{4})     # 年份
-    -                   # 分隔符
-    (?P<month>\d{2})    # 月份
-    -                   # 分隔符
-    (?P<day>\d{2})      # 日期
+ (?P<year>\d{4}) # 年份
+ - # 分隔符
+ (?P<month>\d{2}) # 月份
+ - # 分隔符
+ (?P<day>\d{2}) # 日期
 '''
 date = "2024-01-15"
 match = re.match(date_pattern, date, re.X)
@@ -43237,12 +43237,12 @@ pattern = "ABA"
 文本串: A B A B C A B A B A
 模式串: A B A
 
-位置 0: A B A ✓ 匹配
-        ↓ ↓ ↓
-位置 1:   B A B ✗ 不匹配
-          ↓
-位置 2:     A B A ✓ 匹配
-            ↓ ↓ ↓
+位置 0: A B A 匹配
+ ↓ ↓ ↓
+位置 1: B A B 不匹配
+ ↓
+位置 2: A B A 匹配
+ ↓ ↓ ↓
 ...
 ```
 
@@ -43254,47 +43254,47 @@ pattern = "ABA"
 
 ```python
 def naive_search(text, pattern):
-    """朴素字符串匹配算法"""
-    n = len(text)
-    m = len(pattern)
-    result = []
-    
-    # 遍历所有可能的起始位置
-    for i in range(n - m + 1):
-        # 检查从位置 i 开始是否匹配
-        match = True
-        for j in range(m):
-            if text[i + j] != pattern[j]:
-                match = False
-                break
-        
-        if match:
-            result.append(i)
-    
-    return result
+ """朴素字符串匹配算法"""
+ n = len(text)
+ m = len(pattern)
+ result = []
+
+ # 遍历所有可能的起始位置
+ for i in range(n - m + 1):
+ # 检查从位置 i 开始是否匹配
+ match = True
+ for j in range(m):
+ if text[i + j] != pattern[j]:
+ match = False
+ break
+
+ if match:
+ result.append(i)
+
+ return result
 
 # 测试
 text = "ABABCABABA"
 pattern = "ABA"
-print(naive_search(text, pattern))  # [0, 2, 7]
+print(naive_search(text, pattern)) # [0, 2, 7]
 ```
 
 **简化版本**：
 
 ```python
 def naive_search_simple(text, pattern):
-    """使用切片的简化版本"""
-    n, m = len(text), len(pattern)
-    result = []
-    
-    for i in range(n - m + 1):
-        if text[i:i+m] == pattern:
-            result.append(i)
-    
-    return result
+ """使用切片的简化版本"""
+ n, m = len(text), len(pattern)
+ result = []
+
+ for i in range(n - m + 1):
+ if text[i:i+m] == pattern:
+ result.append(i)
+
+ return result
 
 # 测试
-print(naive_search_simple("ABABCABABA", "ABA"))  # [0, 2, 7]
+print(naive_search_simple("ABABCABABA", "ABA")) # [0, 2, 7]
 ```
 
 ---
@@ -43303,15 +43303,15 @@ print(naive_search_simple("ABABCABABA", "ABA"))  # [0, 2, 7]
 
 **时间复杂度**：
 - **最坏情况**：O(n × m)
-  - 每个位置都需要比较 m 次
-  - 例如：text = "AAAA...A", pattern = "AAA...AB"
-  
+ - 每个位置都需要比较 m 次
+ - 例如：text = "AAAA...A", pattern = "AAA...AB"
+
 - **最好情况**：O(n)
-  - 第一个字符就不匹配，立即跳过
-  - 例如：text = "BBBB...B", pattern = "AAA"
+ - 第一个字符就不匹配，立即跳过
+ - 例如：text = "BBBB...B", pattern = "AAA"
 
 - **平均情况**：O(n + m)
-  - 实际应用中，大多数位置很快就能判断不匹配
+ - 实际应用中，大多数位置很快就能判断不匹配
 
 **空间复杂度**：O(1)（不计结果数组）
 
@@ -43335,38 +43335,38 @@ pattern = "A" * 100
 
 ```python
 def naive_search_optimized(text, pattern):
-    """带提前终止的朴素算法"""
-    n, m = len(text), len(pattern)
-    result = []
-    
-    for i in range(n - m + 1):
-        # 先检查首尾字符（快速过滤）
-        if text[i] != pattern[0] or text[i + m - 1] != pattern[m - 1]:
-            continue
-        
-        # 再检查中间字符
-        if text[i:i+m] == pattern:
-            result.append(i)
-    
-    return result
+ """带提前终止的朴素算法"""
+ n, m = len(text), len(pattern)
+ result = []
+
+ for i in range(n - m + 1):
+ # 先检查首尾字符（快速过滤）
+ if text[i] != pattern[0] or text[i + m - 1] != pattern[m - 1]:
+ continue
+
+ # 再检查中间字符
+ if text[i:i+m] == pattern:
+ result.append(i)
+
+ return result
 ```
 
 **统计匹配次数**：
 
 ```python
 def count_matches(text, pattern):
-    """统计模式串出现次数"""
-    count = 0
-    n, m = len(text), len(pattern)
-    
-    for i in range(n - m + 1):
-        if text[i:i+m] == pattern:
-            count += 1
-    
-    return count
+ """统计模式串出现次数"""
+ count = 0
+ n, m = len(text), len(pattern)
+
+ for i in range(n - m + 1):
+ if text[i:i+m] == pattern:
+ count += 1
+
+ return count
 
 # 测试
-print(count_matches("ABABABA", "ABA"))  # 3
+print(count_matches("ABABABA", "ABA")) # 3
 ```
 
 ---
@@ -43377,12 +43377,12 @@ print(count_matches("ABABABA", "ABA"))  # 3
 
 ```python
 def search_in_file(filename, pattern):
-    """在文件中搜索模式串"""
-    with open(filename, 'r', encoding='utf-8') as f:
-        for line_num, line in enumerate(f, 1):
-            positions = naive_search(line, pattern)
-            for pos in positions:
-                print(f"行 {line_num}, 位置 {pos}: {line.strip()}")
+ """在文件中搜索模式串"""
+ with open(filename, 'r', encoding='utf-8') as f:
+ for line_num, line in enumerate(f, 1):
+ positions = naive_search(line, pattern)
+ for pos in positions:
+ print(f"行 {line_num}, 位置 {pos}: {line.strip()}")
 
 # 使用示例
 # search_in_file('data.txt', 'error')
@@ -43392,11 +43392,11 @@ def search_in_file(filename, pattern):
 
 ```python
 def contains_sensitive_words(text, sensitive_words):
-    """检查文本是否包含敏感词"""
-    for word in sensitive_words:
-        if naive_search(text.lower(), word.lower()):
-            return True, word
-    return False, None
+ """检查文本是否包含敏感词"""
+ for word in sensitive_words:
+ if naive_search(text.lower(), word.lower()):
+ return True, word
+ return False, None
 
 # 测试
 text = "This is a normal message"
@@ -43409,14 +43409,14 @@ print(f"包含敏感词: {found}")
 
 ```python
 def find_dna_pattern(sequence, pattern):
-    """在 DNA 序列中查找特定模式"""
-    positions = naive_search(sequence, pattern)
-    return positions
+ """在 DNA 序列中查找特定模式"""
+ positions = naive_search(sequence, pattern)
+ return positions
 
 # 测试
 dna = "ATCGATCGATCG"
 pattern = "GATC"
-print(find_dna_pattern(dna, pattern))  # [2, 6, 10]
+print(find_dna_pattern(dna, pattern)) # [2, 6, 10]
 ```
 
 ---
@@ -43458,27 +43458,27 @@ text = "ABABCABABA"
 pattern = "ABA"
 
 # str.find() - 查找第一个匹配
-print(text.find(pattern))  # 0
+print(text.find(pattern)) # 0
 
 # str.index() - 类似 find，但未找到会抛异常
-print(text.index(pattern))  # 0
+print(text.index(pattern)) # 0
 
 # str.count() - 统计非重叠匹配次数
-print(text.count(pattern))  # 2（注意：不重叠）
+print(text.count(pattern)) # 2（注意：不重叠）
 
 # 手动实现查找所有匹配（包括重叠）
 def find_all(text, pattern):
-    start = 0
-    result = []
-    while True:
-        pos = text.find(pattern, start)
-        if pos == -1:
-            break
-        result.append(pos)
-        start = pos + 1  # 允许重叠
-    return result
+ start = 0
+ result = []
+ while True:
+ pos = text.find(pattern, start)
+ if pos == -1:
+ break
+ result.append(pos)
+ start = pos + 1 # 允许重叠
+ return result
 
-print(find_all(text, pattern))  # [0, 2, 7]
+print(find_all(text, pattern)) # [0, 2, 7]
 ```
 
 **性能对比**：
@@ -43526,9 +43526,9 @@ print(f"内置方法: {time.time() - start:.6f}s")
 # 示例
 pattern = "ABABC"
 # 部分匹配表（next 数组）：
-# 索引:  0  1  2  3  4
-# 字符:  A  B  A  B  C
-# next: -1  0  0  1  2
+# 索引: 0 1 2 3 4
+# 字符: A B A B C
+# next: -1 0 0 1 2
 
 # next[i] 表示：pattern[0:i] 的最长相同前后缀长度
 ```
@@ -43544,56 +43544,56 @@ pattern = "ABABC"
 
 ```python
 def build_next(pattern):
-    """构建 KMP 的 next 数组"""
-    m = len(pattern)
-    next_arr = [-1] * m  # next[0] = -1
-    
-    if m == 1:
-        return next_arr
-    
-    next_arr[1] = 0  # 长度为 1 的串，最长前后缀为 0
-    
-    # i: 当前位置，j: 前缀长度
-    i, j = 2, 0
-    
-    while i < m:
-        if pattern[i - 1] == pattern[j]:
-            # 匹配成功，前缀长度 +1
-            j += 1
-            next_arr[i] = j
-            i += 1
-        elif j > 0:
-            # 匹配失败，回退到更短的前缀
-            j = next_arr[j]
-        else:
-            # 无法匹配，前缀长度为 0
-            next_arr[i] = 0
-            i += 1
-    
-    return next_arr
+ """构建 KMP 的 next 数组"""
+ m = len(pattern)
+ next_arr = [-1] * m # next[0] = -1
+
+ if m == 1:
+ return next_arr
+
+ next_arr[1] = 0 # 长度为 1 的串，最长前后缀为 0
+
+ # i: 当前位置，j: 前缀长度
+ i, j = 2, 0
+
+ while i < m:
+ if pattern[i - 1] == pattern[j]:
+ # 匹配成功，前缀长度 +1
+ j += 1
+ next_arr[i] = j
+ i += 1
+ elif j > 0:
+ # 匹配失败，回退到更短的前缀
+ j = next_arr[j]
+ else:
+ # 无法匹配，前缀长度为 0
+ next_arr[i] = 0
+ i += 1
+
+ return next_arr
 
 # 测试
 pattern = "ABABC"
-print(build_next(pattern))  # [-1, 0, 0, 1, 2]
+print(build_next(pattern)) # [-1, 0, 0, 1, 2]
 
 pattern = "AAAA"
-print(build_next(pattern))  # [-1, 0, 1, 2]
+print(build_next(pattern)) # [-1, 0, 1, 2]
 ```
 
 **next 数组示例**：
 
 ```python
 # pattern = "ABABC"
-# 索引 0: "A"     → 无前后缀 → -1
-# 索引 1: "AB"    → 无相同前后缀 → 0
-# 索引 2: "ABA"   → "A" = "A" → 1
-# 索引 3: "ABAB"  → "AB" = "AB" → 2
+# 索引 0: "A" → 无前后缀 → -1
+# 索引 1: "AB" → 无相同前后缀 → 0
+# 索引 2: "ABA" → "A" = "A" → 1
+# 索引 3: "ABAB" → "AB" = "AB" → 2
 # 索引 4: "ABABC" → 无相同前后缀 → 0
 
 # pattern = "AAAA"
-# 索引 0: "A"    → -1
-# 索引 1: "AA"   → "A" = "A" → 1
-# 索引 2: "AAA"  → "AA" = "AA" → 2
+# 索引 0: "A" → -1
+# 索引 1: "AA" → "A" = "A" → 1
+# 索引 2: "AAA" → "AA" = "AA" → 2
 # 索引 3: "AAAA" → "AAA" = "AAA" → 3
 ```
 
@@ -43603,46 +43603,46 @@ print(build_next(pattern))  # [-1, 0, 1, 2]
 
 ```python
 def kmp_search(text, pattern):
-    """KMP 字符串匹配算法"""
-    n, m = len(text), len(pattern)
-    if m == 0:
-        return []
-    
-    # 构建 next 数组
-    next_arr = build_next(pattern)
-    result = []
-    
-    i, j = 0, 0  # i: 文本串指针，j: 模式串指针
-    
-    while i < n:
-        if text[i] == pattern[j]:
-            # 字符匹配，两个指针都前进
-            i += 1
-            j += 1
-            
-            if j == m:
-                # 完全匹配
-                result.append(i - m)
-                j = next_arr[j - 1] + 1  # 继续查找下一个匹配
-        else:
-            # 字符不匹配
-            if j > 0:
-                # 利用 next 数组跳过已匹配部分
-                j = next_arr[j - 1] + 1
-            else:
-                # 模式串第一个字符就不匹配
-                i += 1
-    
-    return result
+ """KMP 字符串匹配算法"""
+ n, m = len(text), len(pattern)
+ if m == 0:
+ return []
+
+ # 构建 next 数组
+ next_arr = build_next(pattern)
+ result = []
+
+ i, j = 0, 0 # i: 文本串指针，j: 模式串指针
+
+ while i < n:
+ if text[i] == pattern[j]:
+ # 字符匹配，两个指针都前进
+ i += 1
+ j += 1
+
+ if j == m:
+ # 完全匹配
+ result.append(i - m)
+ j = next_arr[j - 1] + 1 # 继续查找下一个匹配
+ else:
+ # 字符不匹配
+ if j > 0:
+ # 利用 next 数组跳过已匹配部分
+ j = next_arr[j - 1] + 1
+ else:
+ # 模式串第一个字符就不匹配
+ i += 1
+
+ return result
 
 # 测试
 text = "ABABCABABA"
 pattern = "ABA"
-print(kmp_search(text, pattern))  # [0, 2, 7]
+print(kmp_search(text, pattern)) # [0, 2, 7]
 
 text = "AAAAAAA"
 pattern = "AAA"
-print(kmp_search(text, pattern))  # [0, 1, 2, 3, 4]
+print(kmp_search(text, pattern)) # [0, 1, 2, 3, 4]
 ```
 
 ---
@@ -43655,13 +43655,13 @@ print(kmp_search(text, pattern))  # [0, 1, 2, 3, 4]
 
 # 步骤 1: 匹配到位置 4
 # A B A B C A B A B A
-# A B A B C ✓ 完全匹配
-# ↑       ↑
+# A B A B C 完全匹配
+# ↑ ↑
 
 # 步骤 2: 继续查找（利用 next 数组）
 # A B A B C A B A B A
-#     A B A B C ✗ 不匹配
-#     ↑     ↑
+# A B A B C 不匹配
+# ↑ ↑
 
 # 传统算法需要回溯，KMP 直接跳到合适位置
 ```
@@ -43670,37 +43670,37 @@ print(kmp_search(text, pattern))  # [0, 1, 2, 3, 4]
 
 ```python
 def kmp_search_verbose(text, pattern):
-    """带详细输出的 KMP 算法"""
-    n, m = len(text), len(pattern)
-    next_arr = build_next(pattern)
-    
-    print(f"文本串: {text}")
-    print(f"模式串: {pattern}")
-    print(f"next 数组: {next_arr}\n")
-    
-    result = []
-    i, j = 0, 0
-    
-    while i < n:
-        if text[i] == pattern[j]:
-            print(f"匹配: text[{i}]='{text[i]}' == pattern[{j}]='{pattern[j]}'")
-            i += 1
-            j += 1
-            
-            if j == m:
-                print(f"✓ 找到匹配，位置 {i - m}\n")
-                result.append(i - m)
-                j = next_arr[j - 1] + 1
-        else:
-            print(f"失配: text[{i}]='{text[i]}' != pattern[{j}]='{pattern[j]}'")
-            if j > 0:
-                print(f"跳转: j = next[{j-1}] + 1 = {next_arr[j-1] + 1}\n")
-                j = next_arr[j - 1] + 1
-            else:
-                print(f"移动文本指针: i = {i + 1}\n")
-                i += 1
-    
-    return result
+ """带详细输出的 KMP 算法"""
+ n, m = len(text), len(pattern)
+ next_arr = build_next(pattern)
+
+ print(f"文本串: {text}")
+ print(f"模式串: {pattern}")
+ print(f"next 数组: {next_arr}\n")
+
+ result = []
+ i, j = 0, 0
+
+ while i < n:
+ if text[i] == pattern[j]:
+ print(f"匹配: text[{i}]='{text[i]}' == pattern[{j}]='{pattern[j]}'")
+ i += 1
+ j += 1
+
+ if j == m:
+ print(f" 找到匹配，位置 {i - m}\n")
+ result.append(i - m)
+ j = next_arr[j - 1] + 1
+ else:
+ print(f"失配: text[{i}]='{text[i]}' != pattern[{j}]='{pattern[j]}'")
+ if j > 0:
+ print(f"跳转: j = next[{j-1}] + 1 = {next_arr[j-1] + 1}\n")
+ j = next_arr[j - 1] + 1
+ else:
+ print(f"移动文本指针: i = {i + 1}\n")
+ i += 1
+
+ return result
 
 # 测试
 kmp_search_verbose("ABABCABABA", "ABA")
@@ -43759,7 +43759,7 @@ print(len(kmp_search(text, pattern)))
 # 2. 重复模式匹配
 text = "ABABABABAB"
 pattern = "ABAB"
-print(kmp_search(text, pattern))  # [0, 2, 4, 6]
+print(kmp_search(text, pattern)) # [0, 2, 4, 6]
 ```
 
 ---
@@ -43788,7 +43788,7 @@ pattern = "DEF"
 # Boyer-Moore：从右向左
 # A B C D E F G
 # D E F
-#     ↑ 先比较最后一个字符
+# ↑ 先比较最后一个字符
 ```
 
 ---
@@ -43799,15 +43799,15 @@ pattern = "DEF"
 
 ```python
 def build_bad_char(pattern):
-    """构建坏字符表"""
-    bad_char = {}
-    m = len(pattern)
-    
-    # 记录每个字符在模式串中最右出现的位置
-    for i in range(m):
-        bad_char[pattern[i]] = i
-    
-    return bad_char
+ """构建坏字符表"""
+ bad_char = {}
+ m = len(pattern)
+
+ # 记录每个字符在模式串中最右出现的位置
+ for i in range(m):
+ bad_char[pattern[i]] = i
+
+ return bad_char
 
 # 测试
 pattern = "EXAMPLE"
@@ -43819,9 +43819,9 @@ print(bad_char)
 **坏字符规则应用**：
 
 ```python
-# 文本串: H E R E   I S   A   S I M P L E   E X A M P L E
+# 文本串: H E R E I S A S I M P L E E X A M P L E
 # 模式串: E X A M P L E
-#                     ↑ 失配位置（文本串是空格）
+# ↑ 失配位置（文本串是空格）
 
 # 空格不在模式串中，可以直接跳过整个模式串长度
 # 移动距离 = 模式串长度 = 7
@@ -43833,80 +43833,80 @@ print(bad_char)
 
 ```python
 def boyer_moore_simple(text, pattern):
-    """简化版 Boyer-Moore（仅使用坏字符规则）"""
-    n, m = len(text), len(pattern)
-    if m == 0:
-        return []
-    
-    # 构建坏字符表
-    bad_char = build_bad_char(pattern)
-    result = []
-    
-    i = 0  # 文本串当前对齐位置
-    while i <= n - m:
-        # 从右向左比较
-        j = m - 1
-        while j >= 0 and text[i + j] == pattern[j]:
-            j -= 1
-        
-        if j < 0:
-            # 完全匹配
-            result.append(i)
-            i += 1
-        else:
-            # 失配，使用坏字符规则
-            bad_char_pos = bad_char.get(text[i + j], -1)
-            # 移动距离 = j - bad_char_pos
-            shift = max(1, j - bad_char_pos)
-            i += shift
-    
-    return result
+ """简化版 Boyer-Moore（仅使用坏字符规则）"""
+ n, m = len(text), len(pattern)
+ if m == 0:
+ return []
+
+ # 构建坏字符表
+ bad_char = build_bad_char(pattern)
+ result = []
+
+ i = 0 # 文本串当前对齐位置
+ while i <= n - m:
+ # 从右向左比较
+ j = m - 1
+ while j >= 0 and text[i + j] == pattern[j]:
+ j -= 1
+
+ if j < 0:
+ # 完全匹配
+ result.append(i)
+ i += 1
+ else:
+ # 失配，使用坏字符规则
+ bad_char_pos = bad_char.get(text[i + j], -1)
+ # 移动距离 = j - bad_char_pos
+ shift = max(1, j - bad_char_pos)
+ i += shift
+
+ return result
 
 # 测试
 text = "HERE IS A SIMPLE EXAMPLE"
 pattern = "EXAMPLE"
-print(boyer_moore_simple(text, pattern))  # [17]
+print(boyer_moore_simple(text, pattern)) # [17]
 
 text = "ABABCABABA"
 pattern = "ABA"
-print(boyer_moore_simple(text, pattern))  # [0, 2, 7]
+print(boyer_moore_simple(text, pattern)) # [0, 2, 7]
 ```
 
 ---
 ```python
 def boyer_moore_verbose(text, pattern):
-    """带详细输出的 Boyer-Moore"""
-    n, m = len(text), len(pattern)
-    bad_char = build_bad_char(pattern)
-    
-    print(f"文本串: {text}")
-    print(f"模式串: {pattern}")
-    print(f"坏字符表: {bad_char}\n")
-    
-    result = []
-    i = 0
-    
-    while i <= n - m:
-        print(f"对齐位置 {i}:")
-        print(f"  {text}")
-        print(f"  {' ' * i}{pattern}")
-        
-        j = m - 1
-        while j >= 0 and text[i + j] == pattern[j]:
-            j -= 1
-        
-        if j < 0:
-            print(f"  ✓ 完全匹配\n")
-            result.append(i)
-            i += 1
-        else:
-            bad_char_pos = bad_char.get(text[i + j], -1)
-            shift = max(1, j - bad_char_pos)
-            print(f"  失配: text[{i+j}]='{text[i+j]}' != pattern[{j}]='{pattern[j]}'")
-            print(f"  移动距离: {shift}\n")
-            i += shift
-    
-    return result
+ """带详细输出的 Boyer-Moore"""
+ n, m = len(text), len(pattern)
+ bad_char = build_bad_char(pattern)
+
+ print(f"文本串: {text}")
+ print(f"模式串: {pattern}")
+ print(f"坏字符表: {bad_char}\n")
+
+ result = []
+ i = 0
+
+ while i <= n - m:
+ print(f"对齐位置 {i}:")
+ print(f" {text}")
+ print(f" {' ' * i}{pattern}")
+
+ j = m - 1
+ while j >= 0 and text[i + j] == pattern[j]:
+ j -= 1
+
+ if j < 0:
+ print(f" 完全匹配\n")
+ result.append(i)
+ i += 1
+ else:
+ bad_char_pos = bad_char.get(text[i + j], -1)
+ shift = max(1, j - bad_char_pos)
+ print(f" 失配: text[{i+j}]='{text[i+j]}' != pattern[{j}]='{pattern[j]}'")
+ print(f" 移动距离: {shift}\n")
+ i += shift
+
+ return result
 
 # 测试
 boyer_moore_verbose("HERE IS A SIMPLE EXAMPLE", "EXAMPLE")
@@ -43973,9 +43973,9 @@ pattern = "BCD"
 
 # 计算哈希值（简化）
 # hash("BCD") = 某个数值
-# hash("ABC") = ?  比较
-# hash("BCD") = ?  匹配
-# hash("CDA") = ?  比较
+# hash("ABC") = ? 比较
+# hash("BCD") = ? 匹配
+# hash("CDA") = ? 比较
 # ...
 ```
 
@@ -44006,30 +44006,30 @@ hash(S[i+1..i+m]) = (d × (hash(S[i..i+m-1]) - S[i] × d^(m-1)) + S[i+m]) mod q
 
 ```python
 def rolling_hash_demo():
-    """滚动哈希演示"""
-    text = "ABCDE"
-    m = 3  # 窗口大小
-    d = 256  # 字符集大小
-    q = 101  # 素数
-    
-    # 计算第一个窗口 "ABC" 的哈希
-    h1 = 0
-    for i in range(m):
-        h1 = (h1 * d + ord(text[i])) % q
-    print(f"hash('ABC') = {h1}")
-    
-    # 计算 d^(m-1) % q
-    h = pow(d, m - 1, q)
-    
-    # 滚动到下一个窗口 "BCD"
-    h2 = (d * (h1 - ord(text[0]) * h) + ord(text[m])) % q
-    print(f"hash('BCD') = {h2}")
-    
-    # 验证
-    h2_verify = 0
-    for i in range(1, m + 1):
-        h2_verify = (h2_verify * d + ord(text[i])) % q
-    print(f"验证 hash('BCD') = {h2_verify}")
+ """滚动哈希演示"""
+ text = "ABCDE"
+ m = 3 # 窗口大小
+ d = 256 # 字符集大小
+ q = 101 # 素数
+
+ # 计算第一个窗口 "ABC" 的哈希
+ h1 = 0
+ for i in range(m):
+ h1 = (h1 * d + ord(text[i])) % q
+ print(f"hash('ABC') = {h1}")
+
+ # 计算 d^(m-1) % q
+ h = pow(d, m - 1, q)
+
+ # 滚动到下一个窗口 "BCD"
+ h2 = (d * (h1 - ord(text[0]) * h) + ord(text[m])) % q
+ print(f"hash('BCD') = {h2}")
+
+ # 验证
+ h2_verify = 0
+ for i in range(1, m + 1):
+ h2_verify = (h2_verify * d + ord(text[i])) % q
+ print(f"验证 hash('BCD') = {h2_verify}")
 
 rolling_hash_demo()
 ```
@@ -44040,50 +44040,50 @@ rolling_hash_demo()
 
 ```python
 def rabin_karp(text, pattern):
-    """Rabin-Karp 字符串匹配算法"""
-    n, m = len(text), len(pattern)
-    if m == 0 or m > n:
-        return []
-    
-    d = 256   # 字符集大小
-    q = 101   # 大素数
-    result = []
-    
-    # 计算 d^(m-1) % q（用于滚动哈希）
-    h = pow(d, m - 1, q)
-    
-    # 计算模式串和第一个窗口的哈希值
-    p_hash = 0  # 模式串哈希
-    t_hash = 0  # 文本窗口哈希
-    
-    for i in range(m):
-        p_hash = (p_hash * d + ord(pattern[i])) % q
-        t_hash = (t_hash * d + ord(text[i])) % q
-    
-    # 滑动窗口
-    for i in range(n - m + 1):
-        # 哈希值相同时，进行字符串比较
-        if p_hash == t_hash:
-            if text[i:i + m] == pattern:
-                result.append(i)
-        
-        # 计算下一个窗口的哈希值
-        if i < n - m:
-            t_hash = (d * (t_hash - ord(text[i]) * h) + ord(text[i + m])) % q
-            # 处理负数
-            if t_hash < 0:
-                t_hash += q
-    
-    return result
+ """Rabin-Karp 字符串匹配算法"""
+ n, m = len(text), len(pattern)
+ if m == 0 or m > n:
+ return []
+
+ d = 256 # 字符集大小
+ q = 101 # 大素数
+ result = []
+
+ # 计算 d^(m-1) % q（用于滚动哈希）
+ h = pow(d, m - 1, q)
+
+ # 计算模式串和第一个窗口的哈希值
+ p_hash = 0 # 模式串哈希
+ t_hash = 0 # 文本窗口哈希
+
+ for i in range(m):
+ p_hash = (p_hash * d + ord(pattern[i])) % q
+ t_hash = (t_hash * d + ord(text[i])) % q
+
+ # 滑动窗口
+ for i in range(n - m + 1):
+ # 哈希值相同时，进行字符串比较
+ if p_hash == t_hash:
+ if text[i:i + m] == pattern:
+ result.append(i)
+
+ # 计算下一个窗口的哈希值
+ if i < n - m:
+ t_hash = (d * (t_hash - ord(text[i]) * h) + ord(text[i + m])) % q
+ # 处理负数
+ if t_hash < 0:
+ t_hash += q
+
+ return result
 
 # 测试
 text = "ABABCABABA"
 pattern = "ABA"
-print(rabin_karp(text, pattern))  # [0, 2, 7]
+print(rabin_karp(text, pattern)) # [0, 2, 7]
 
 text = "GEEKS FOR GEEKS"
 pattern = "GEEK"
-print(rabin_karp(text, pattern))  # [0, 10]
+print(rabin_karp(text, pattern)) # [0, 10]
 ```
 
 ---
@@ -44103,26 +44103,26 @@ print(rabin_karp(text, pattern))  # [0, 10]
 ```python
 # 演示哈希冲突
 def hash_collision_demo():
-    text = "ABABABAB"
-    pattern = "AB"
-    q = 7  # 故意使用小素数，增加冲突概率
-    d = 2
-    m = len(pattern)
-    
-    p_hash = 0
-    for c in pattern:
-        p_hash = (p_hash * d + ord(c)) % q
-    
-    print(f"模式串哈希: {p_hash}")
-    
-    # 计算所有窗口的哈希
-    for i in range(len(text) - m + 1):
-        window = text[i:i+m]
-        w_hash = 0
-        for c in window:
-            w_hash = (w_hash * d + ord(c)) % q
-        match = "✓" if window == pattern else "✗"
-        print(f"窗口 '{window}' 哈希: {w_hash} {match}")
+ text = "ABABABAB"
+ pattern = "AB"
+ q = 7 # 故意使用小素数，增加冲突概率
+ d = 2
+ m = len(pattern)
+
+ p_hash = 0
+ for c in pattern:
+ p_hash = (p_hash * d + ord(c)) % q
+
+ print(f"模式串哈希: {p_hash}")
+
+ # 计算所有窗口的哈希
+ for i in range(len(text) - m + 1):
+ window = text[i:i+m]
+ w_hash = 0
+ for c in window:
+ w_hash = (w_hash * d + ord(c)) % q
+ match = "" if window == pattern else ""
+ print(f"窗口 '{window}' 哈希: {w_hash} {match}")
 
 hash_collision_demo()
 ```
@@ -44135,54 +44135,54 @@ Rabin-Karp 的一大优势：**可以同时匹配多个模式串**。
 
 ```python
 def rabin_karp_multi(text, patterns):
-    """多模式 Rabin-Karp 匹配"""
-    if not patterns:
-        return {}
-    
-    # 假设所有模式串长度相同
-    m = len(patterns[0])
-    n = len(text)
-    d = 256
-    q = 101
-    
-    # 计算所有模式串的哈希值
-    pattern_hashes = {}
-    for pattern in patterns:
-        if len(pattern) != m:
-            continue
-        p_hash = 0
-        for c in pattern:
-            p_hash = (p_hash * d + ord(c)) % q
-        pattern_hashes.setdefault(p_hash, []).append(pattern)
-    
-    # 滑动窗口匹配
-    result = {p: [] for p in patterns}
-    h = pow(d, m - 1, q)
-    
-    t_hash = 0
-    for i in range(m):
-        t_hash = (t_hash * d + ord(text[i])) % q
-    
-    for i in range(n - m + 1):
-        if t_hash in pattern_hashes:
-            window = text[i:i + m]
-            for pattern in pattern_hashes[t_hash]:
-                if window == pattern:
-                    result[pattern].append(i)
-        
-        if i < n - m:
-            t_hash = (d * (t_hash - ord(text[i]) * h) + ord(text[i + m])) % q
-            if t_hash < 0:
-                t_hash += q
-    
-    return result
+ """多模式 Rabin-Karp 匹配"""
+ if not patterns:
+ return {}
+
+ # 假设所有模式串长度相同
+ m = len(patterns[0])
+ n = len(text)
+ d = 256
+ q = 101
+
+ # 计算所有模式串的哈希值
+ pattern_hashes = {}
+ for pattern in patterns:
+ if len(pattern) != m:
+ continue
+ p_hash = 0
+ for c in pattern:
+ p_hash = (p_hash * d + ord(c)) % q
+ pattern_hashes.setdefault(p_hash, []).append(pattern)
+
+ # 滑动窗口匹配
+ result = {p: [] for p in patterns}
+ h = pow(d, m - 1, q)
+
+ t_hash = 0
+ for i in range(m):
+ t_hash = (t_hash * d + ord(text[i])) % q
+
+ for i in range(n - m + 1):
+ if t_hash in pattern_hashes:
+ window = text[i:i + m]
+ for pattern in pattern_hashes[t_hash]:
+ if window == pattern:
+ result[pattern].append(i)
+
+ if i < n - m:
+ t_hash = (d * (t_hash - ord(text[i]) * h) + ord(text[i + m])) % q
+ if t_hash < 0:
+ t_hash += q
+
+ return result
 
 # 测试
 text = "ABCDEFABCXYZ"
 patterns = ["ABC", "XYZ", "DEF"]
 result = rabin_karp_multi(text, patterns)
 for pattern, positions in result.items():
-    print(f"{pattern}: {positions}")
+ print(f"{pattern}: {positions}")
 # ABC: [0, 6]
 # XYZ: [9]
 # DEF: [3]
@@ -44213,29 +44213,29 @@ SOLID 是面向对象设计的五大基本原则，帮助开发者编写可维�
 
 ```python
 class User:
-    """违反 SRP：一个类承担了太多职责"""
-    
-    def __init__(self, name, email):
-        self.name = name
-        self.email = email
-    
-    # 职责 1：用户数据管理
-    def get_name(self):
-        return self.name
-    
-    # 职责 2：数据库操作
-    def save_to_db(self):
-        print(f"保存用户 {self.name} 到数据库")
-        # 数据库操作代码
-    
-    # 职责 3：邮件发送
-    def send_email(self, message):
-        print(f"发送邮件给 {self.email}: {message}")
-        # 邮件发送代码
-    
-    # 职责 4：数据验证
-    def validate_email(self):
-        return "@" in self.email
+ """违反 SRP：一个类承担了太多职责"""
+
+ def __init__(self, name, email):
+ self.name = name
+ self.email = email
+
+ # 职责 1：用户数据管理
+ def get_name(self):
+ return self.name
+
+ # 职责 2：数据库操作
+ def save_to_db(self):
+ print(f"保存用户 {self.name} 到数据库")
+ # 数据库操作代码
+
+ # 职责 3：邮件发送
+ def send_email(self, message):
+ print(f"发送邮件给 {self.email}: {message}")
+ # 邮件发送代码
+
+ # 职责 4：数据验证
+ def validate_email(self):
+ return "@" in self.email
 
 # 问题：
 # 1. 数据库变更需要修改 User 类
@@ -44248,52 +44248,52 @@ class User:
 
 ```python
 class User:
-    """只负责用户数据"""
-    def __init__(self, name, email):
-        self.name = name
-        self.email = email
-    
-    def get_name(self):
-        return self.name
-    
-    def get_email(self):
-        return self.email
+ """只负责用户数据"""
+ def __init__(self, name, email):
+ self.name = name
+ self.email = email
+
+ def get_name(self):
+ return self.name
+
+ def get_email(self):
+ return self.email
 
 
 class UserRepository:
-    """只负责数据库操作"""
-    def save(self, user):
-        print(f"保存用户 {user.get_name()} 到数据库")
-        # 数据库操作代码
-    
-    def find_by_email(self, email):
-        print(f"查找邮箱为 {email} 的用户")
-        # 查询代码
+ """只负责数据库操作"""
+ def save(self, user):
+ print(f"保存用户 {user.get_name()} 到数据库")
+ # 数据库操作代码
+
+ def find_by_email(self, email):
+ print(f"查找邮箱为 {email} 的用户")
+ # 查询代码
 
 
 class EmailService:
-    """只负责邮件发送"""
-    def send(self, to_email, message):
-        print(f"发送邮件给 {to_email}: {message}")
-        # 邮件发送代码
+ """只负责邮件发送"""
+ def send(self, to_email, message):
+ print(f"发送邮件给 {to_email}: {message}")
+ # 邮件发送代码
 
 
 class UserValidator:
-    """只负责数据验证"""
-    @staticmethod
-    def validate_email(email):
-        return "@" in email and "." in email
+ """只负责数据验证"""
+ @staticmethod
+ def validate_email(email):
+ return "@" in email and "." in email
 
 
 # 使用
 user = User("Alice", "alice@example.com")
 
 if UserValidator.validate_email(user.get_email()):
-    repo = UserRepository()
-    repo.save(user)
-    
-    email_service = EmailService()
-    email_service.send(user.get_email(), "欢迎注册！")
+ repo = UserRepository()
+ repo.save(user)
+
+ email_service = EmailService()
+ email_service.send(user.get_email(), "欢迎注册！")
 ```
 
 **优点**：
@@ -44316,19 +44316,19 @@ if UserValidator.validate_email(user.get_email()):
 
 ```python
 class PaymentProcessor:
-    """违反 OCP：每增加一种支付方式都要修改这个类"""
-    
-    def process_payment(self, payment_type, amount):
-        if payment_type == "credit_card":
-            print(f"处理信用卡支付: ${amount}")
-            # 信用卡支付逻辑
-        elif payment_type == "paypal":
-            print(f"处理 PayPal 支付: ${amount}")
-            # PayPal 支付逻辑
-        elif payment_type == "alipay":
-            print(f"处理支付宝支付: ${amount}")
-            # 支付宝支付逻辑
-        # 每增加一种支付方式，都要修改这个方法
+ """违反 OCP：每增加一种支付方式都要修改这个类"""
+
+ def process_payment(self, payment_type, amount):
+ if payment_type == "credit_card":
+ print(f"处理信用卡支付: ${amount}")
+ # 信用卡支付逻辑
+ elif payment_type == "paypal":
+ print(f"处理 PayPal 支付: ${amount}")
+ # PayPal 支付逻辑
+ elif payment_type == "alipay":
+ print(f"处理支付宝支付: ${amount}")
+ # 支付宝支付逻辑
+ # 每增加一种支付方式，都要修改这个方法
 
 # 问题：
 # 1. 增加新支付方式需要修改现有代码
@@ -44342,39 +44342,39 @@ class PaymentProcessor:
 from abc import ABC, abstractmethod
 
 class PaymentMethod(ABC):
-    """支付方式抽象基类"""
-    
-    @abstractmethod
-    def process(self, amount):
-        pass
+ """支付方式抽象基类"""
+
+ @abstractmethod
+ def process(self, amount):
+ pass
 
 
 class CreditCardPayment(PaymentMethod):
-    """信用卡支付"""
-    def process(self, amount):
-        print(f"处理信用卡支付: ${amount}")
-        # 信用卡支付逻辑
+ """信用卡支付"""
+ def process(self, amount):
+ print(f"处理信用卡支付: ${amount}")
+ # 信用卡支付逻辑
 
 
 class PayPalPayment(PaymentMethod):
-    """PayPal 支付"""
-    def process(self, amount):
-        print(f"处理 PayPal 支付: ${amount}")
-        # PayPal 支付逻辑
+ """PayPal 支付"""
+ def process(self, amount):
+ print(f"处理 PayPal 支付: ${amount}")
+ # PayPal 支付逻辑
 
 
 class AlipayPayment(PaymentMethod):
-    """支付宝支付"""
-    def process(self, amount):
-        print(f"处理支付宝支付: ${amount}")
-        # 支付宝支付逻辑
+ """支付宝支付"""
+ def process(self, amount):
+ print(f"处理支付宝支付: ${amount}")
+ # 支付宝支付逻辑
 
 
 class PaymentProcessor:
-    """支付处理器：对扩展开放，对修改关闭"""
-    
-    def process_payment(self, payment_method: PaymentMethod, amount):
-        payment_method.process(amount)
+ """支付处理器：对扩展开放，对修改关闭"""
+
+ def process_payment(self, payment_method: PaymentMethod, amount):
+ payment_method.process(amount)
 
 
 # 使用
@@ -44387,8 +44387,8 @@ processor.process_payment(AlipayPayment(), 300)
 
 # 增加新支付方式：只需添加新类，不修改现有代码
 class WeChatPayment(PaymentMethod):
-    def process(self, amount):
-        print(f"处理微信支付: ${amount}")
+ def process(self, amount):
+ print(f"处理微信支付: ${amount}")
 
 processor.process_payment(WeChatPayment(), 400)
 ```
@@ -44413,48 +44413,48 @@ processor.process_payment(WeChatPayment(), 400)
 
 ```python
 class Rectangle:
-    """矩形"""
-    def __init__(self, width, height):
-        self.width = width
-        self.height = height
-    
-    def set_width(self, width):
-        self.width = width
-    
-    def set_height(self, height):
-        self.height = height
-    
-    def get_area(self):
-        return self.width * self.height
+ """矩形"""
+ def __init__(self, width, height):
+ self.width = width
+ self.height = height
+
+ def set_width(self, width):
+ self.width = width
+
+ def set_height(self, height):
+ self.height = height
+
+ def get_area(self):
+ return self.width * self.height
 
 
 class Square(Rectangle):
-    """正方形：违反 LSP"""
-    def set_width(self, width):
-        self.width = width
-        self.height = width  # 强制保持正方形
-    
-    def set_height(self, height):
-        self.width = height
-        self.height = height  # 强制保持正方形
+ """正方形：违反 LSP"""
+ def set_width(self, width):
+ self.width = width
+ self.height = width # 强制保持正方形
+
+ def set_height(self, height):
+ self.width = height
+ self.height = height # 强制保持正方形
 
 
 # 测试函数
 def test_rectangle(rect: Rectangle):
-    rect.set_width(5)
-    rect.set_height(4)
-    expected_area = 5 * 4  # 期望面积为 20
-    actual_area = rect.get_area()
-    print(f"期望面积: {expected_area}, 实际面积: {actual_area}")
-    assert expected_area == actual_area, "面积计算错误！"
+ rect.set_width(5)
+ rect.set_height(4)
+ expected_area = 5 * 4 # 期望面积为 20
+ actual_area = rect.get_area()
+ print(f"期望面积: {expected_area}, 实际面积: {actual_area}")
+ assert expected_area == actual_area, "面积计算错误！"
 
 
 # 使用
 rectangle = Rectangle(0, 0)
-test_rectangle(rectangle)  # ✓ 通过
+test_rectangle(rectangle) # 通过
 
 square = Square(0, 0)
-test_rectangle(square)  # ✗ 失败！实际面积是 16，不是 20
+test_rectangle(square) # 失败！实际面积是 16，不是 20
 
 # 问题：Square 不能替换 Rectangle，违反了 LSP
 ```
@@ -44465,50 +44465,50 @@ test_rectangle(square)  # ✗ 失败！实际面积是 16，不是 20
 from abc import ABC, abstractmethod
 
 class Shape(ABC):
-    """形状抽象基类"""
-    
-    @abstractmethod
-    def get_area(self):
-        pass
+ """形状抽象基类"""
+
+ @abstractmethod
+ def get_area(self):
+ pass
 
 
 class Rectangle(Shape):
-    """矩形"""
-    def __init__(self, width, height):
-        self.width = width
-        self.height = height
-    
-    def set_width(self, width):
-        self.width = width
-    
-    def set_height(self, height):
-        self.height = height
-    
-    def get_area(self):
-        return self.width * self.height
+ """矩形"""
+ def __init__(self, width, height):
+ self.width = width
+ self.height = height
+
+ def set_width(self, width):
+ self.width = width
+
+ def set_height(self, height):
+ self.height = height
+
+ def get_area(self):
+ return self.width * self.height
 
 
 class Square(Shape):
-    """正方形：独立实现，不继承 Rectangle"""
-    def __init__(self, side):
-        self.side = side
-    
-    def set_side(self, side):
-        self.side = side
-    
-    def get_area(self):
-        return self.side * self.side
+ """正方形：独立实现，不继承 Rectangle"""
+ def __init__(self, side):
+ self.side = side
+
+ def set_side(self, side):
+ self.side = side
+
+ def get_area(self):
+ return self.side * self.side
 
 
 # 使用
 def print_area(shape: Shape):
-    print(f"面积: {shape.get_area()}")
+ print(f"面积: {shape.get_area()}")
 
 rectangle = Rectangle(5, 4)
-print_area(rectangle)  # 面积: 20
+print_area(rectangle) # 面积: 20
 
 square = Square(5)
-print_area(square)  # 面积: 25
+print_area(square) # 面积: 25
 
 # 两者都可以作为 Shape 使用，符合 LSP
 ```
@@ -44536,45 +44536,45 @@ print_area(square)  # 面积: 25
 from abc import ABC, abstractmethod
 
 class Worker(ABC):
-    """违反 ISP：臃肿的接口"""
-    
-    @abstractmethod
-    def work(self):
-        pass
-    
-    @abstractmethod
-    def eat(self):
-        pass
-    
-    @abstractmethod
-    def sleep(self):
-        pass
+ """违反 ISP：臃肿的接口"""
+
+ @abstractmethod
+ def work(self):
+ pass
+
+ @abstractmethod
+ def eat(self):
+ pass
+
+ @abstractmethod
+ def sleep(self):
+ pass
 
 
 class HumanWorker(Worker):
-    """人类工人：需要所有方法"""
-    def work(self):
-        print("人类工作中...")
-    
-    def eat(self):
-        print("人类吃饭中...")
-    
-    def sleep(self):
-        print("人类睡觉中...")
+ """人类工人：需要所有方法"""
+ def work(self):
+ print("人类工作中...")
+
+ def eat(self):
+ print("人类吃饭中...")
+
+ def sleep(self):
+ print("人类睡觉中...")
 
 
 class RobotWorker(Worker):
-    """机器人工人：被迫实现不需要的方法"""
-    def work(self):
-        print("机器人工作中...")
-    
-    def eat(self):
-        # 机器人不需要吃饭，但被迫实现
-        raise NotImplementedError("机器人不需要吃饭")
-    
-    def sleep(self):
-        # 机器人不需要睡觉，但被迫实现
-        raise NotImplementedError("机器人不需要睡觉")
+ """机器人工人：被迫实现不需要的方法"""
+ def work(self):
+ print("机器人工作中...")
+
+ def eat(self):
+ # 机器人不需要吃饭，但被迫实现
+ raise NotImplementedError("机器人不需要吃饭")
+
+ def sleep(self):
+ # 机器人不需要睡觉，但被迫实现
+ raise NotImplementedError("机器人不需要睡觉")
 
 # 问题：RobotWorker 被迫实现不需要的方法
 ```
@@ -44583,59 +44583,59 @@ class RobotWorker(Worker):
 from abc import ABC, abstractmethod
 
 class Workable(ABC):
-    """工作接口"""
-    @abstractmethod
-    def work(self):
-        pass
+ """工作接口"""
+ @abstractmethod
+ def work(self):
+ pass
 
 
 class Eatable(ABC):
-    """进食接口"""
-    @abstractmethod
-    def eat(self):
-        pass
+ """进食接口"""
+ @abstractmethod
+ def eat(self):
+ pass
 
 
 class Sleepable(ABC):
-    """睡眠接口"""
-    @abstractmethod
-    def sleep(self):
-        pass
+ """睡眠接口"""
+ @abstractmethod
+ def sleep(self):
+ pass
 
 
 class HumanWorker(Workable, Eatable, Sleepable):
-    """人类工人：实现所有需要的接口"""
-    def work(self):
-        print("人类工作中...")
-    
-    def eat(self):
-        print("人类吃饭中...")
-    
-    def sleep(self):
-        print("人类睡觉中...")
+ """人类工人：实现所有需要的接口"""
+ def work(self):
+ print("人类工作中...")
+
+ def eat(self):
+ print("人类吃饭中...")
+
+ def sleep(self):
+ print("人类睡觉中...")
 
 
 class RobotWorker(Workable):
-    """机器人工人：只实现需要的接口"""
-    def work(self):
-        print("机器人工作中...")
+ """机器人工人：只实现需要的接口"""
+ def work(self):
+ print("机器人工作中...")
 
 
 # 使用
 def manage_work(worker: Workable):
-    worker.work()
+ worker.work()
 
 def manage_break(worker: Eatable):
-    worker.eat()
+ worker.eat()
 
 human = HumanWorker()
 robot = RobotWorker()
 
-manage_work(human)  # ✓
-manage_work(robot)  # ✓
+manage_work(human) #
+manage_work(robot) #
 
-manage_break(human)  # ✓
-# manage_break(robot)  # ✗ 编译时就会报错，不会运行时才发现
+manage_break(human) #
+# manage_break(robot) # 编译时就会报错，不会运行时才发现
 ```
 
 **实际应用示例**：
@@ -44643,63 +44643,63 @@ manage_break(human)  # ✓
 ```python
 # 文件操作接口隔离
 class Readable(ABC):
-    @abstractmethod
-    def read(self):
-        pass
+ @abstractmethod
+ def read(self):
+ pass
 
 
 class Writable(ABC):
-    @abstractmethod
-    def write(self, data):
-        pass
+ @abstractmethod
+ def write(self, data):
+ pass
 
 
 class Closeable(ABC):
-    @abstractmethod
-    def close(self):
-        pass
+ @abstractmethod
+ def close(self):
+ pass
 
 
 class ReadOnlyFile(Readable, Closeable):
-    """只读文件：不需要实现 write"""
-    def read(self):
-        return "读取数据..."
-    
-    def close(self):
-        print("关闭只读文件")
+ """只读文件：不需要实现 write"""
+ def read(self):
+ return "读取数据..."
+
+ def close(self):
+ print("关闭只读文件")
 
 
 class WriteOnlyFile(Writable, Closeable):
-    """只写文件：不需要实现 read"""
-    def write(self, data):
-        print(f"写入数据: {data}")
-    
-    def close(self):
-        print("关闭只写文件")
+ """只写文件：不需要实现 read"""
+ def write(self, data):
+ print(f"写入数据: {data}")
+
+ def close(self):
+ print("关闭只写文件")
 
 
 class ReadWriteFile(Readable, Writable, Closeable):
-    """读写文件：实现所有接口"""
-    def read(self):
-        return "读取数据..."
-    
-    def write(self, data):
-        print(f"写入数据: {data}")
-    
-    def close(self):
-        print("关闭读写文件")
+ """读写文件：实现所有接口"""
+ def read(self):
+ return "读取数据..."
+
+ def write(self, data):
+ print(f"写入数据: {data}")
+
+ def close(self):
+ print("关闭读写文件")
 
 
 # 使用
 def process_readable(file: Readable):
-    data = file.read()
-    print(f"处理数据: {data}")
+ data = file.read()
+ print(f"处理数据: {data}")
 
 read_only = ReadOnlyFile()
-process_readable(read_only)  # ✓
+process_readable(read_only) #
 
 write_only = WriteOnlyFile()
-# process_readable(write_only)  # ✗ 类型不匹配
+# process_readable(write_only) # 类型不匹配
 ```
 
 **优点**：
@@ -44725,23 +44725,23 @@ write_only = WriteOnlyFile()
 
 ```python
 class MySQLDatabase:
-    """MySQL 数据库（低层模块）"""
-    def connect(self):
-        print("连接到 MySQL 数据库")
-    
-    def query(self, sql):
-        print(f"执行 MySQL 查询: {sql}")
-        return ["结果1", "结果2"]
+ """MySQL 数据库（低层模块）"""
+ def connect(self):
+ print("连接到 MySQL 数据库")
+
+ def query(self, sql):
+ print(f"执行 MySQL 查询: {sql}")
+ return ["结果1", "结果2"]
 
 
 class UserService:
-    """用户服务（高层模块）：直接依赖具体实现"""
-    def __init__(self):
-        self.db = MySQLDatabase()  # 硬编码依赖
-    
-    def get_user(self, user_id):
-        self.db.connect()
-        return self.db.query(f"SELECT * FROM users WHERE id={user_id}")
+ """用户服务（高层模块）：直接依赖具体实现"""
+ def __init__(self):
+ self.db = MySQLDatabase() # 硬编码依赖
+
+ def get_user(self, user_id):
+ self.db.connect()
+ return self.db.query(f"SELECT * FROM users WHERE id={user_id}")
 
 
 # 使用
@@ -44760,54 +44760,54 @@ service.get_user(1)
 from abc import ABC, abstractmethod
 
 class Database(ABC):
-    """数据库抽象接口"""
-    @abstractmethod
-    def connect(self):
-        pass
-    
-    @abstractmethod
-    def query(self, sql):
-        pass
+ """数据库抽象接口"""
+ @abstractmethod
+ def connect(self):
+ pass
+
+ @abstractmethod
+ def query(self, sql):
+ pass
 
 
 class MySQLDatabase(Database):
-    """MySQL 实现"""
-    def connect(self):
-        print("连接到 MySQL 数据库")
-    
-    def query(self, sql):
-        print(f"执行 MySQL 查询: {sql}")
-        return ["MySQL 结果1", "MySQL 结果2"]
+ """MySQL 实现"""
+ def connect(self):
+ print("连接到 MySQL 数据库")
+
+ def query(self, sql):
+ print(f"执行 MySQL 查询: {sql}")
+ return ["MySQL 结果1", "MySQL 结果2"]
 
 
 class PostgreSQLDatabase(Database):
-    """PostgreSQL 实现"""
-    def connect(self):
-        print("连接到 PostgreSQL 数据库")
-    
-    def query(self, sql):
-        print(f"执行 PostgreSQL 查询: {sql}")
-        return ["PostgreSQL 结果1", "PostgreSQL 结果2"]
+ """PostgreSQL 实现"""
+ def connect(self):
+ print("连接到 PostgreSQL 数据库")
+
+ def query(self, sql):
+ print(f"执行 PostgreSQL 查询: {sql}")
+ return ["PostgreSQL 结果1", "PostgreSQL 结果2"]
 
 
 class MockDatabase(Database):
-    """测试用的 Mock 数据库"""
-    def connect(self):
-        print("连接到 Mock 数据库")
-    
-    def query(self, sql):
-        print(f"Mock 查询: {sql}")
-        return ["Mock 数据"]
+ """测试用的 Mock 数据库"""
+ def connect(self):
+ print("连接到 Mock 数据库")
+
+ def query(self, sql):
+ print(f"Mock 查询: {sql}")
+ return ["Mock 数据"]
 
 
 class UserService:
-    """用户服务：依赖抽象，通过依赖注入"""
-    def __init__(self, database: Database):
-        self.db = database  # 依赖注入
-    
-    def get_user(self, user_id):
-        self.db.connect()
-        return self.db.query(f"SELECT * FROM users WHERE id={user_id}")
+ """用户服务：依赖抽象，通过依赖注入"""
+ def __init__(self, database: Database):
+ self.db = database # 依赖注入
+
+ def get_user(self, user_id):
+ self.db.connect()
+ return self.db.query(f"SELECT * FROM users WHERE id={user_id}")
 
 
 # 使用：可以灵活切换数据库实现
@@ -44827,28 +44827,28 @@ test_service.get_user(3)
 ```python
 # 1. 构造函数注入（推荐）
 class UserService:
-    def __init__(self, database: Database):
-        self.db = database
+ def __init__(self, database: Database):
+ self.db = database
 
 
 # 2. Setter 注入
 class UserService:
-    def __init__(self):
-        self.db = None
-    
-    def set_database(self, database: Database):
-        self.db = database
+ def __init__(self):
+ self.db = None
+
+ def set_database(self, database: Database):
+ self.db = database
 
 
 # 3. 接口注入
 class DatabaseInjectable(ABC):
-    @abstractmethod
-    def inject_database(self, database: Database):
-        pass
+ @abstractmethod
+ def inject_database(self, database: Database):
+ pass
 
 class UserService(DatabaseInjectable):
-    def inject_database(self, database: Database):
-        self.db = database
+ def inject_database(self, database: Database):
+ self.db = database
 ```
 
 **实际应用：日志系统**
@@ -44858,39 +44858,39 @@ from abc import ABC, abstractmethod
 from datetime import datetime
 
 class Logger(ABC):
-    """日志抽象接口"""
-    @abstractmethod
-    def log(self, message):
-        pass
+ """日志抽象接口"""
+ @abstractmethod
+ def log(self, message):
+ pass
 
 
 class ConsoleLogger(Logger):
-    """控制台日志"""
-    def log(self, message):
-        print(f"[Console] {datetime.now()}: {message}")
+ """控制台日志"""
+ def log(self, message):
+ print(f"[Console] {datetime.now()}: {message}")
 
 
 class FileLogger(Logger):
-    """文件日志"""
-    def __init__(self, filename):
-        self.filename = filename
-    
-    def log(self, message):
-        with open(self.filename, 'a', encoding='utf-8') as f:
-            f.write(f"{datetime.now()}: {message}\n")
-        print(f"[File] 日志已写入 {self.filename}")
+ """文件日志"""
+ def __init__(self, filename):
+ self.filename = filename
+
+ def log(self, message):
+ with open(self.filename, 'a', encoding='utf-8') as f:
+ f.write(f"{datetime.now()}: {message}\n")
+ print(f"[File] 日志已写入 {self.filename}")
 
 
 class Application:
-    """应用程序：依赖日志抽象"""
-    def __init__(self, logger: Logger):
-        self.logger = logger
-    
-    def run(self):
-        self.logger.log("应用程序启动")
-        # 业务逻辑
-        self.logger.log("处理业务逻辑")
-        self.logger.log("应用程序结束")
+ """应用程序：依赖日志抽象"""
+ def __init__(self, logger: Logger):
+ self.logger = logger
+
+ def run(self):
+ self.logger.log("应用程序启动")
+ # 业务逻辑
+ self.logger.log("处理业务逻辑")
+ self.logger.log("应用程序结束")
 
 
 # 使用：可以灵活切换日志实现
@@ -44907,33 +44907,33 @@ file_app.run()
 
 ```python
 class OrderService:
-    """订单服务：依赖多个抽象"""
-    def __init__(self, 
-                 database: Database, 
-                 logger: Logger,
-                 payment: 'PaymentMethod'):
-        self.db = database
-        self.logger = logger
-        self.payment = payment
-    
-    def create_order(self, user_id, amount):
-        self.logger.log(f"创建订单: 用户 {user_id}, 金额 {amount}")
-        
-        # 保存订单到数据库
-        self.db.connect()
-        self.db.query(f"INSERT INTO orders VALUES ({user_id}, {amount})")
-        
-        # 处理支付
-        self.payment.process(amount)
-        
-        self.logger.log("订单创建成功")
+ """订单服务：依赖多个抽象"""
+ def __init__(self,
+ database: Database,
+ logger: Logger,
+ payment: 'PaymentMethod'):
+ self.db = database
+ self.logger = logger
+ self.payment = payment
+
+ def create_order(self, user_id, amount):
+ self.logger.log(f"创建订单: 用户 {user_id}, 金额 {amount}")
+
+ # 保存订单到数据库
+ self.db.connect()
+ self.db.query(f"INSERT INTO orders VALUES ({user_id}, {amount})")
+
+ # 处理支付
+ self.payment.process(amount)
+
+ self.logger.log("订单创建成功")
 
 
 # 使用
 order_service = OrderService(
-    database=MySQLDatabase(),
-    logger=ConsoleLogger(),
-    payment=CreditCardPayment()
+ database=MySQLDatabase(),
+ logger=ConsoleLogger(),
+ payment=CreditCardPayment()
 )
 order_service.create_order(1, 100)
 ```
@@ -45278,16 +45278,16 @@ order_service.create_order(1, 100)
 复杂写法：
 ```python
 def is_adult(age):
-    if age >= 18:
-        return True
-    else:
-        return False
+ if age >= 18:
+ return True
+ else:
+ return False
 ```
 
 简单写法：
 ```python
 def is_adult(age):
-    return age >= 18
+ return age >= 18
 ```
 
 ---
@@ -45297,21 +45297,21 @@ def is_adult(age):
 复杂写法：
 ```python
 def process(user):
-    if user is not None:
-        if user.is_active:
-            if user.has_permission:
-                return user.do_something()
-    return None
+ if user is not None:
+ if user.is_active:
+ if user.has_permission:
+ return user.do_something()
+ return None
 ```
 
 简单写法（提前返回）：
 ```python
 def process(user):
-    if user is None or not user.is_active:
-        return None
-    if not user.has_permission:
-        return None
-    return user.do_something()
+ if user is None or not user.is_active:
+ return None
+ if not user.has_permission:
+ return None
+ return user.do_something()
 ```
 
 ---
@@ -45324,8 +45324,8 @@ def process(user):
 numbers = [3, 1, 4, 1, 5, 9, 2, 6]
 max_num = numbers[0]
 for num in numbers:
-    if num > max_num:
-        max_num = num
+ if num > max_num:
+ max_num = num
 ```
 
 简单写法：
@@ -45341,22 +45341,22 @@ max_num = max(numbers)
 复杂写法（一个函数做太多事）：
 ```python
 def process_order(order):
-    # 验证订单（10 行）
-    # 计算价格（15 行）
-    # 处理支付（20 行）
-    # 发送通知（10 行）
-    # 更新库存（15 行）
-    pass
+ # 验证订单（10 行）
+ # 计算价格（15 行）
+ # 处理支付（20 行）
+ # 发送通知（10 行）
+ # 更新库存（15 行）
+ pass
 ```
 
 简单写法（职责分离）：
 ```python
 def process_order(order):
-    validate_order(order)
-    price = calculate_price(order)
-    process_payment(order, price)
-    send_notification(order)
-    update_inventory(order)
+ validate_order(order)
+ price = calculate_price(order)
+ process_payment(order, price)
+ send_notification(order)
+ update_inventory(order)
 ```
 
 ---
@@ -45366,12 +45366,12 @@ def process_order(order):
 复杂写法（过度设计）：
 ```python
 class UserNameContainer:
-    def __init__(self, first, last):
-        self._first = first
-        self._last = last
-    
-    def get_full_name(self):
-        return f"{self._first} {self._last}"
+ def __init__(self, first, last):
+ self._first = first
+ self._last = last
+
+ def get_full_name(self):
+ return f"{self._first} {self._last}"
 ```
 
 简单写法（直接使用元组或字典）：
@@ -45490,10 +45490,10 @@ full_name = f"{user['first']} {user['last']}"
 - 这个功能现在需要吗？
 - 有更简单的方法吗？
 
-> "Simplicity is the ultimate sophistication." — Leonardo da Vinci  
+> "Simplicity is the ultimate sophistication." — Leonardo da Vinci
 > （简单是终极的复杂。）
 
-> "Make everything as simple as possible, but not simpler." — Albert Einstein  
+> "Make everything as simple as possible, but not simpler." — Albert Einstein
 > （一切应该尽可能简单，但不能过于简单。）
 
 
@@ -45548,28 +45548,28 @@ full_name = f"{user['first']} {user['last']}"
 ```python
 # 只有一个支付方式，却设计了复杂的抽象
 class PaymentStrategy(ABC):
-    @abstractmethod
-    def pay(self, amount): pass
+ @abstractmethod
+ def pay(self, amount): pass
 
 class PaymentFactory:
-    @staticmethod
-    def create_payment(type): pass
+ @staticmethod
+ def create_payment(type): pass
 
 class PaymentContext:
-    def __init__(self, strategy): pass
-    def execute_payment(self): pass
+ def __init__(self, strategy): pass
+ def execute_payment(self): pass
 
 # 实际只用到信用卡支付
 class CreditCardPayment(PaymentStrategy):
-    def pay(self, amount):
-        print(f"信用卡支付: {amount}")
+ def pay(self, amount):
+ print(f"信用卡支付: {amount}")
 ```
 
 遵循 YAGNI：
 ```python
 # 当前只需要信用卡支付
 def process_credit_card_payment(amount):
-    print(f"信用卡支付: {amount}")
+ print(f"信用卡支付: {amount}")
 
 # 等到需要第二种支付方式时再抽象
 ```
@@ -45581,28 +45581,28 @@ def process_credit_card_payment(amount):
 违反 YAGNI：
 ```python
 class User:
-    def __init__(self, name, email):
-        self.name = name
-        self.email = email
-        self.phone = None  # 预留，但当前不需要
-        self.address = None  # 预留，但当前不需要
-        self.avatar = None  # 预留，但当前不需要
-        self.preferences = {}  # 预留，但当前不需要
-    
-    def get_phone(self):  # 预留方法
-        return self.phone
-    
-    def set_phone(self, phone):  # 预留方法
-        self.phone = phone
+ def __init__(self, name, email):
+ self.name = name
+ self.email = email
+ self.phone = None # 预留，但当前不需要
+ self.address = None # 预留，但当前不需要
+ self.avatar = None # 预留，但当前不需要
+ self.preferences = {} # 预留，但当前不需要
+
+ def get_phone(self): # 预留方法
+ return self.phone
+
+ def set_phone(self, phone): # 预留方法
+ self.phone = phone
 ```
 
 遵循 YAGNI：
 ```python
 class User:
-    def __init__(self, name, email):
-        self.name = name
-        self.email = email
-    
+ def __init__(self, name, email):
+ self.name = name
+ self.email = email
+
 # 需要时再添加其他字段
 ```
 
@@ -45614,26 +45614,26 @@ class User:
 ```python
 # 为可能的扩展设计复杂的配置系统
 class EmailService:
-    def __init__(self, config):
-        self.host = config.get('host')
-        self.port = config.get('port')
-        self.use_ssl = config.get('use_ssl')
-        self.timeout = config.get('timeout')
-        self.retry_count = config.get('retry_count')
-        self.retry_delay = config.get('retry_delay')
-        # ... 更多配置项
-    
-    def send(self, to, subject, body):
-        # 复杂的发送逻辑
-        pass
+ def __init__(self, config):
+ self.host = config.get('host')
+ self.port = config.get('port')
+ self.use_ssl = config.get('use_ssl')
+ self.timeout = config.get('timeout')
+ self.retry_count = config.get('retry_count')
+ self.retry_delay = config.get('retry_delay')
+ # ... 更多配置项
+
+ def send(self, to, subject, body):
+ # 复杂的发送逻辑
+ pass
 ```
 
 遵循 YAGNI：
 ```python
 # 当前只需要基本功能
 def send_email(to, subject, body):
-    # 使用默认配置发送邮件
-    smtp.send(to, subject, body)
+ # 使用默认配置发送邮件
+ smtp.send(to, subject, body)
 
 # 需要配置时再添加
 ```
@@ -45646,22 +45646,22 @@ def send_email(to, subject, body):
 ```python
 # 只需要处理用户数据，却设计了通用的数据处理器
 class GenericDataProcessor:
-    def process(self, data, data_type, options):
-        if data_type == 'user':
-            return self._process_user(data, options)
-        elif data_type == 'order':
-            return self._process_order(data, options)
-        elif data_type == 'product':
-            return self._process_product(data, options)
-        # ... 更多类型
+ def process(self, data, data_type, options):
+ if data_type == 'user':
+ return self._process_user(data, options)
+ elif data_type == 'order':
+ return self._process_order(data, options)
+ elif data_type == 'product':
+ return self._process_product(data, options)
+ # ... 更多类型
 ```
 
 遵循 YAGNI：
 ```python
 # 当前只处理用户数据
 def process_user_data(user_data):
-    # 处理用户数据
-    return processed_data
+ # 处理用户数据
+ return processed_data
 
 # 需要处理其他类型时再添加
 ```
@@ -45698,12 +45698,12 @@ def process_user_data(user_data):
 ```python
 # 下个迭代就要支持多语言
 class Message:
-    def __init__(self, text_en, text_zh):
-        self.text_en = text_en
-        self.text_zh = text_zh
-    
-    def get_text(self, lang='en'):
-        return self.text_zh if lang == 'zh' else self.text_en
+ def __init__(self, text_en, text_zh):
+ self.text_en = text_en
+ self.text_zh = text_zh
+
+ def get_text(self, lang='en'):
+ return self.text_zh if lang == 'zh' else self.text_en
 
 # 这不算违反 YAGNI，因为需求明确
 ```
@@ -45713,11 +45713,11 @@ class Message:
 # 使用数据库而不是文件存储
 # 虽然当前数据量小，但明确会增长
 class UserRepository:
-    def __init__(self, db_connection):
-        self.db = db_connection
-    
-    def save(self, user):
-        self.db.execute("INSERT INTO users ...")
+ def __init__(self, db_connection):
+ self.db = db_connection
+
+ def save(self, user):
+ self.db.execute("INSERT INTO users ...")
 
 # 架构决策需要前瞻性
 ```
@@ -45736,7 +45736,7 @@ DATABASE_URL = os.getenv('DATABASE_URL', 'localhost:5432')
 # 即使当前只有一个客户端
 @app.route('/api/users/<int:user_id>', methods=['GET'])
 def get_user(user_id):
-    return jsonify(user)
+ return jsonify(user)
 
 # 遵循标准不算过度设计
 ```
@@ -45773,22 +45773,22 @@ def get_user(user_id):
 ```python
 # 第一个版本：只支持邮件通知
 def send_notification(user, message):
-    send_email(user.email, message)
+ send_email(user.email, message)
 ```
 
 新需求出现时重构：
 ```python
 # 第二个版本：需要支持短信通知
 class EmailNotifier:
-    def send(self, user, message):
-        send_email(user.email, message)
+ def send(self, user, message):
+ send_email(user.email, message)
 
 class SMSNotifier:
-    def send(self, user, message):
-        send_sms(user.phone, message)
+ def send(self, user, message):
+ send_sms(user.phone, message)
 
 def send_notification(user, message, notifier):
-    notifier.send(user, message)
+ notifier.send(user, message)
 ```
 
 **重构的时机**：
@@ -45873,36 +45873,36 @@ def send_notification(user, message, notifier):
 ```python
 # 设计了复杂的权限系统，但只有管理员和普通用户
 class Permission:
-    def __init__(self, resource, action, conditions):
-        self.resource = resource
-        self.action = action
-        self.conditions = conditions
+ def __init__(self, resource, action, conditions):
+ self.resource = resource
+ self.action = action
+ self.conditions = conditions
 
 class Role:
-    def __init__(self, name, permissions):
-        self.name = name
-        self.permissions = permissions
+ def __init__(self, name, permissions):
+ self.name = name
+ self.permissions = permissions
 
 class User:
-    def __init__(self, name, roles):
-        self.name = name
-        self.roles = roles
-    
-    def has_permission(self, resource, action):
-        # 复杂的权限检查逻辑
-        pass
+ def __init__(self, name, roles):
+ self.name = name
+ self.roles = roles
+
+ def has_permission(self, resource, action):
+ # 复杂的权限检查逻辑
+ pass
 ```
 
 遵循 YAGNI：
 ```python
 # 简单的角色判断
 class User:
-    def __init__(self, name, is_admin=False):
-        self.name = name
-        self.is_admin = is_admin
-    
-    def can_delete(self):
-        return self.is_admin
+ def __init__(self, name, is_admin=False):
+ self.name = name
+ self.is_admin = is_admin
+
+ def can_delete(self):
+ return self.is_admin
 ```
 
 ---
@@ -45913,28 +45913,28 @@ class User:
 ```python
 # 设计了多环境、多格式的配置系统
 class ConfigManager:
-    def __init__(self):
-        self.configs = {}
-    
-    def load_from_file(self, file, format):
-        pass
-    
-    def load_from_env(self):
-        pass
-    
-    def load_from_remote(self, url):
-        pass
-    
-    def get(self, key, env='dev'):
-        pass
+ def __init__(self):
+ self.configs = {}
+
+ def load_from_file(self, file, format):
+ pass
+
+ def load_from_env(self):
+ pass
+
+ def load_from_remote(self, url):
+ pass
+
+ def get(self, key, env='dev'):
+ pass
 ```
 
 遵循 YAGNI：
 ```python
 # 简单的配置字典
 config = {
-    'database_url': 'localhost:5432',
-    'api_key': 'your-api-key'
+ 'database_url': 'localhost:5432',
+ 'api_key': 'your-api-key'
 }
 ```
 
@@ -45944,34 +45944,34 @@ config = {
 
 **三个关键问题**：
 1. **现在需要吗？**
-   - 不是"将来可能需要"
-   - 不是"最好有"
-   - 而是"现在必须有"
+ - 不是"将来可能需要"
+ - 不是"最好有"
+ - 而是"现在必须有"
 
 2. **有明确的使用场景吗？**
-   - 不是想象的场景
-   - 不是理论上的可能
-   - 而是具体的业务需求
+ - 不是想象的场景
+ - 不是理论上的可能
+ - 而是具体的业务需求
 
 3. **延迟实现的成本高吗？**
-   - 如果成本很低，就等到需要时再做
-   - 如果成本很高（如架构决策），可以提前考虑
-   - 但要基于事实，不是猜测
+ - 如果成本很低，就等到需要时再做
+ - 如果成本很高（如架构决策），可以提前考虑
+ - 但要基于事实，不是猜测
 
 ```python
-   - 不是"将来可能需要"
-   - 不是"最好有"
-   - 而是"现在必须有"
+ - 不是"将来可能需要"
+ - 不是"最好有"
+ - 而是"现在必须有"
 
 2. **有明确的使用场景吗？**
-   - 不是想象的场景
-   - 不是理论上的可能
-   - 而是具体的业务需求
+ - 不是想象的场景
+ - 不是理论上的可能
+ - 而是具体的业务需求
 
 3. **延迟实现的成本高吗？**
-   - 如果成本很低，就等到需要时再做
-   - 如果成本很高（如架构决策），可以提前考虑
-   - 但要基于事实，不是猜测
+ - 如果成本很低，就等到需要时再做
+ - 如果成本很高（如架构决策），可以提前考虑
+ - 但要基于事实，不是猜测
 ```
 
 **YAGNI 的本质**：
@@ -45986,10 +45986,10 @@ config = {
 - 问题出现再优化
 - 持续重构保质量
 
-> "You aren't gonna need it" — Ron Jeffries  
+> "You aren't gonna need it" — Ron Jeffries
 > （你不会需要它的。）
 
-> "Do the simplest thing that could possibly work." — Ward Cunningham  
+> "Do the simplest thing that could possibly work." — Ward Cunningham
 > （做最简单的、可能有效的事情。）
 
 ---
@@ -46038,46 +46038,46 @@ config = {
 ```python
 # 通过多层对象访问
 class Customer:
-    def __init__(self, wallet):
-        self.wallet = wallet
+ def __init__(self, wallet):
+ self.wallet = wallet
 
 class Wallet:
-    def __init__(self, money):
-        self.money = money
+ def __init__(self, money):
+ self.money = money
 
 class Cashier:
-    def charge(self, customer, amount):
-        # 违反：访问了 customer 的 wallet，又访问了 wallet 的 money
-        if customer.wallet.money >= amount:
-            customer.wallet.money -= amount
-            return True
-        return False
+ def charge(self, customer, amount):
+ # 违反：访问了 customer 的 wallet，又访问了 wallet 的 money
+ if customer.wallet.money >= amount:
+ customer.wallet.money -= amount
+ return True
+ return False
 ```
 
 遵循迪米特法则：
 ```python
 class Customer:
-    def __init__(self, wallet):
-        self.wallet = wallet
-    
-    def pay(self, amount):
-        # 封装内部细节
-        return self.wallet.deduct(amount)
+ def __init__(self, wallet):
+ self.wallet = wallet
+
+ def pay(self, amount):
+ # 封装内部细节
+ return self.wallet.deduct(amount)
 
 class Wallet:
-    def __init__(self, money):
-        self.money = money
-    
-    def deduct(self, amount):
-        if self.money >= amount:
-            self.money -= amount
-            return True
-        return False
+ def __init__(self, money):
+ self.money = money
+
+ def deduct(self, amount):
+ if self.money >= amount:
+ self.money -= amount
+ return True
+ return False
 
 class Cashier:
-    def charge(self, customer, amount):
-        # 只与直接朋友（customer）通信
-        return customer.pay(amount)
+ def charge(self, customer, amount):
+ # 只与直接朋友（customer）通信
+ return customer.pay(amount)
 ```
 
 ---
@@ -46087,49 +46087,49 @@ class Cashier:
 违反迪米特法则：
 ```python
 class Order:
-    def __init__(self, customer):
-        self.customer = customer
+ def __init__(self, customer):
+ self.customer = customer
 
 class Customer:
-    def __init__(self, address):
-        self.address = address
+ def __init__(self, address):
+ self.address = address
 
 class Address:
-    def __init__(self, city):
-        self.city = city
+ def __init__(self, city):
+ self.city = city
 
 # 违反：访问了多层嵌套的对象
 def get_order_city(order):
-    return order.customer.address.city
+ return order.customer.address.city
 ```
 
 遵循迪米特法则：
 ```python
 class Order:
-    def __init__(self, customer):
-        self.customer = customer
-    
-    def get_city(self):
-        # 封装访问路径
-        return self.customer.get_city()
+ def __init__(self, customer):
+ self.customer = customer
+
+ def get_city(self):
+ # 封装访问路径
+ return self.customer.get_city()
 
 class Customer:
-    def __init__(self, address):
-        self.address = address
-    
-    def get_city(self):
-        return self.address.get_city()
+ def __init__(self, address):
+ self.address = address
+
+ def get_city(self):
+ return self.address.get_city()
 
 class Address:
-    def __init__(self, city):
-        self.city = city
-    
-    def get_city(self):
-        return self.city
+ def __init__(self, city):
+ self.city = city
+
+ def get_city(self):
+ return self.city
 
 # 只与直接对象通信
 def get_order_city(order):
-    return order.get_city()
+ return order.get_city()
 ```
 
 ---
@@ -46160,35 +46160,35 @@ def get_order_city(order):
 违反：
 ```python
 class Engine:
-    def start(self):
-        print("引擎启动")
+ def start(self):
+ print("引擎启动")
 
 class Car:
-    def __init__(self):
-        self.engine = Engine()
+ def __init__(self):
+ self.engine = Engine()
 
 # 外部直接访问内部对象
 car = Car()
-car.engine.start()  # 违反
+car.engine.start() # 违反
 ```
 
 遵循：
 ```python
 class Engine:
-    def start(self):
-        print("引擎启动")
+ def start(self):
+ print("引擎启动")
 
 class Car:
-    def __init__(self):
-        self.engine = Engine()
-    
-    def start(self):
-        # 委托给内部对象
-        self.engine.start()
+ def __init__(self):
+ self.engine = Engine()
+
+ def start(self):
+ # 委托给内部对象
+ self.engine.start()
 
 # 外部只与 Car 交互
 car = Car()
-car.start()  # 遵循
+car.start() # 遵循
 ```
 
 ---
@@ -46198,36 +46198,36 @@ car.start()  # 遵循
 违反：
 ```python
 class BankAccount:
-    def __init__(self):
-        self.transactions = []
-    
-    def get_transactions(self):
-        # 返回内部对象，外部可以直接修改
-        return self.transactions
+ def __init__(self):
+ self.transactions = []
+
+ def get_transactions(self):
+ # 返回内部对象，外部可以直接修改
+ return self.transactions
 
 account = BankAccount()
 transactions = account.get_transactions()
-transactions.append("非法交易")  # 违反封装
+transactions.append("非法交易") # 违反封装
 ```
 
 遵循：
 ```python
 class BankAccount:
-    def __init__(self):
-        self._transactions = []
-    
-    def get_transactions(self):
-        # 返回副本，保护内部状态
-        return self._transactions.copy()
-    
-    def add_transaction(self, transaction):
-        # 提供受控的修改方法
-        self._transactions.append(transaction)
+ def __init__(self):
+ self._transactions = []
+
+ def get_transactions(self):
+ # 返回副本，保护内部状态
+ return self._transactions.copy()
+
+ def add_transaction(self, transaction):
+ # 提供受控的修改方法
+ self._transactions.append(transaction)
 
 account = BankAccount()
 transactions = account.get_transactions()
-transactions.append("非法交易")  # 不影响内部状态
-account.add_transaction("合法交易")  # 正确方式
+transactions.append("非法交易") # 不影响内部状态
+account.add_transaction("合法交易") # 正确方式
 ```
 
 ---
@@ -46238,15 +46238,15 @@ account.add_transaction("合法交易")  # 正确方式
 ```python
 # 客户端需要了解复杂的子系统
 class CPU:
-    def freeze(self): pass
-    def jump(self, position): pass
-    def execute(self): pass
+ def freeze(self): pass
+ def jump(self, position): pass
+ def execute(self): pass
 
 class Memory:
-    def load(self, position, data): pass
+ def load(self, position, data): pass
 
 class HardDrive:
-    def read(self, lba, size): pass
+ def read(self, lba, size): pass
 
 # 客户端代码复杂
 cpu = CPU()
@@ -46262,17 +46262,17 @@ cpu.execute()
 遵循（使用门面）：
 ```python
 class ComputerFacade:
-    def __init__(self):
-        self.cpu = CPU()
-        self.memory = Memory()
-        self.hard_drive = HardDrive()
-    
-    def start(self):
-        # 封装复杂的启动过程
-        self.cpu.freeze()
-        self.memory.load(0, self.hard_drive.read(0, 1024))
-        self.cpu.jump(0)
-        self.cpu.execute()
+ def __init__(self):
+ self.cpu = CPU()
+ self.memory = Memory()
+ self.hard_drive = HardDrive()
+
+ def start(self):
+ # 封装复杂的启动过程
+ self.cpu.freeze()
+ self.memory.load(0, self.hard_drive.read(0, 1024))
+ self.cpu.jump(0)
+ self.cpu.execute()
 
 # 客户端代码简单
 computer = ComputerFacade()
@@ -46308,13 +46308,13 @@ computer.start()
 ```python
 # 为了遵循迪米特法则，创建了大量委托方法
 class Order:
-    def get_customer_name(self): pass
-    def get_customer_email(self): pass
-    def get_customer_phone(self): pass
-    def get_customer_address_street(self): pass
-    def get_customer_address_city(self): pass
-    def get_customer_address_zip(self): pass
-    # ... 更多委托方法
+ def get_customer_name(self): pass
+ def get_customer_email(self): pass
+ def get_customer_phone(self): pass
+ def get_customer_address_street(self): pass
+ def get_customer_address_city(self): pass
+ def get_customer_address_zip(self): pass
+ # ... 更多委托方法
 ```
 
 **合理的违反**：
@@ -46323,25 +46323,25 @@ class Order:
 ```python
 # DTO 的目的就是传输数据，可以直接访问
 class UserDTO:
-    def __init__(self, name, email, age):
-        self.name = name
-        self.email = email
-        self.age = age
+ def __init__(self, name, email, age):
+ self.name = name
+ self.email = email
+ self.age = age
 
 # 直接访问是合理的
 user = UserDTO("Alice", "alice@example.com", 25)
-print(user.name)  # 合理
+print(user.name) # 合理
 ```
 
 流式 API：
 ```python
 # 流式 API 的链式调用是设计意图
 query = (QueryBuilder()
-    .select("name", "age")
-    .from_table("users")
-    .where("age > 18")
-    .order_by("name")
-    .build())
+ .select("name", "age")
+ .from_table("users")
+ .where("age > 18")
+ .order_by("name")
+ .build())
 ```
 
 ---
@@ -46372,19 +46372,19 @@ query = (QueryBuilder()
 违反：
 ```python
 def calculate_shipping_cost(order):
-    # 访问多层嵌套对象
-    city = order.customer.address.city
-    weight = sum(item.product.weight for item in order.items)
-    return shipping_calculator.calculate(city, weight)
+ # 访问多层嵌套对象
+ city = order.customer.address.city
+ weight = sum(item.product.weight for item in order.items)
+ return shipping_calculator.calculate(city, weight)
 ```
 
 遵循：
 ```python
 def calculate_shipping_cost(order):
-    # 通过 order 的方法获取信息
-    city = order.get_shipping_city()
-    weight = order.get_total_weight()
-    return shipping_calculator.calculate(city, weight)
+ # 通过 order 的方法获取信息
+ city = order.get_shipping_city()
+ weight = order.get_total_weight()
+ return shipping_calculator.calculate(city, weight)
 ```
 
 ---
@@ -46473,10 +46473,10 @@ window.disable_toolbar_button()
 接口简洁最重要。
 ```
 
-> "Talk only to your immediate friends." — Law of Demeter  
+> "Talk only to your immediate friends." — Law of Demeter
 > （只与你的直接朋友交谈。）
 
-> "Each unit should have only limited knowledge about other units." — Law of Demeter  
+> "Each unit should have only limited knowledge about other units." — Law of Demeter
 > （每个单元应该只对其他单元有有限的了解。）
 
 ---
@@ -46548,16 +46548,16 @@ window.disable_toolbar_button()
 
 ```python
 class Singleton:
-    _instance = None
-    
-    def __new__(cls):
-        if cls._instance is None:
-            cls._instance = super().__new__(cls)
-        return cls._instance
+ _instance = None
+
+ def __new__(cls):
+ if cls._instance is None:
+ cls._instance = super().__new__(cls)
+ return cls._instance
 
 a = Singleton()
 b = Singleton()
-print(a is b)  # True
+print(a is b) # True
 ```
 
 ---
@@ -46587,16 +46587,16 @@ print(a is b)  # True
 
 ```python
 class Dog:
-    def speak(self): return "汪汪"
+ def speak(self): return "汪汪"
 
 class Cat:
-    def speak(self): return "喵喵"
+ def speak(self): return "喵喵"
 
 class AnimalFactory:
-    def create(self, kind):
-        return Dog() if kind == "dog" else Cat()
+ def create(self, kind):
+ return Dog() if kind == "dog" else Cat()
 
-print(AnimalFactory().create("dog").speak())  # 汪汪
+print(AnimalFactory().create("dog").speak()) # 汪汪
 ```
 
 ---
@@ -46625,17 +46625,17 @@ print(AnimalFactory().create("dog").speak())  # 汪汪
 ##### 代码示例
 
 ```python
-class WinButton:  pass
-class MacButton:  pass
+class WinButton: pass
+class MacButton: pass
 
 class WinFactory:
-    def create_button(self): return WinButton()
+ def create_button(self): return WinButton()
 
 class MacFactory:
-    def create_button(self): return MacButton()
+ def create_button(self): return MacButton()
 
 factory = MacFactory()
-button = factory.create_button()  # MacButton
+button = factory.create_button() # MacButton
 ```
 
 ---
@@ -46665,16 +46665,16 @@ button = factory.create_button()  # MacButton
 
 ```python
 class Burger:
-    def __init__(self):
-        self.parts = []
+ def __init__(self):
+ self.parts = []
 
 class BurgerBuilder:
-    def __init__(self):
-        self.b = Burger()
-    def add(self, part):
-        self.b.parts.append(part); return self
-    def build(self):
-        return self.b
+ def __init__(self):
+ self.b = Burger()
+ def add(self, part):
+ self.b.parts.append(part); return self
+ def build(self):
+ return self.b
 
 burger = BurgerBuilder().add("面包").add("牛肉").add("芝士").build()
 ```
@@ -46708,15 +46708,15 @@ burger = BurgerBuilder().add("面包").add("牛肉").add("芝士").build()
 import copy
 
 class Prototype:
-    def __init__(self, data):
-        self.data = data
-    def clone(self):
-        return copy.deepcopy(self)
+ def __init__(self, data):
+ self.data = data
+ def clone(self):
+ return copy.deepcopy(self)
 
 p1 = Prototype([1, 2, 3])
 p2 = p1.clone()
 p2.data.append(4)
-print(p1.data, p2.data)  # [1,2,3] [1,2,3,4]
+print(p1.data, p2.data) # [1,2,3] [1,2,3,4]
 ```
 
 ---
@@ -46769,17 +46769,17 @@ print(p1.data, p2.data)  # [1,2,3] [1,2,3,4]
 
 ```python
 class OldPrinter:
-    def old_print(self, text):
-        print(f"旧打印: {text}")
+ def old_print(self, text):
+ print(f"旧打印: {text}")
 
 class PrinterAdapter:
-    def __init__(self, old_printer):
-        self.printer = old_printer
-    def print(self, text):
-        self.printer.old_print(text)
+ def __init__(self, old_printer):
+ self.printer = old_printer
+ def print(self, text):
+ self.printer.old_print(text)
 
 adapter = PrinterAdapter(OldPrinter())
-adapter.print("Hello")  # 旧打印: Hello
+adapter.print("Hello") # 旧打印: Hello
 ```
 
 ---
@@ -46809,20 +46809,20 @@ adapter.print("Hello")  # 旧打印: Hello
 
 ```python
 class Color:
-    def fill(self): pass
+ def fill(self): pass
 
 class Red(Color):
-    def fill(self): return "红色"
+ def fill(self): return "红色"
 
 class Shape:
-    def __init__(self, color):
-        self.color = color
-    def draw(self): pass
+ def __init__(self, color):
+ self.color = color
+ def draw(self): pass
 
 class Circle(Shape):
-    def draw(self): return f"圆形，{self.color.fill()}"
+ def draw(self): return f"圆形，{self.color.fill()}"
 
-print(Circle(Red()).draw())  # 圆形，红色
+print(Circle(Red()).draw()) # 圆形，红色
 ```
 
 ---
@@ -46852,21 +46852,21 @@ print(Circle(Red()).draw())  # 圆形，红色
 
 ```python
 class Component:
-    def show(self): pass
+ def show(self): pass
 
 class File(Component):
-    def __init__(self, name):
-        self.name = name
-    def show(self): print(f"文件: {self.name}")
+ def __init__(self, name):
+ self.name = name
+ def show(self): print(f"文件: {self.name}")
 
 class Folder(Component):
-    def __init__(self, name):
-        self.name = name
-        self.children = []
-    def add(self, c): self.children.append(c)
-    def show(self):
-        print(f"文件夹: {self.name}")
-        for c in self.children: c.show()
+ def __init__(self, name):
+ self.name = name
+ self.children = []
+ def add(self, c): self.children.append(c)
+ def show(self):
+ print(f"文件夹: {self.name}")
+ for c in self.children: c.show()
 ```
 
 ---
@@ -46897,20 +46897,20 @@ class Folder(Component):
 
 ```python
 class Coffee:
-    def cost(self): return 5
+ def cost(self): return 5
 
 class MilkDecorator:
-    def __init__(self, coffee):
-        self.coffee = coffee
-    def cost(self): return self.coffee.cost() + 2
+ def __init__(self, coffee):
+ self.coffee = coffee
+ def cost(self): return self.coffee.cost() + 2
 
 class SugarDecorator:
-    def __init__(self, coffee):
-        self.coffee = coffee
-    def cost(self): return self.coffee.cost() + 1
+ def __init__(self, coffee):
+ self.coffee = coffee
+ def cost(self): return self.coffee.cost() + 1
 
 c = SugarDecorator(MilkDecorator(Coffee()))
-print(c.cost())  # 8
+print(c.cost()) # 8
 ```
 
 ---
@@ -46940,23 +46940,23 @@ print(c.cost())  # 8
 
 ```python
 class CPU:
-    def start(self): print("CPU 启动")
+ def start(self): print("CPU 启动")
 
 class Memory:
-    def load(self): print("内存加载")
+ def load(self): print("内存加载")
 
 class Disk:
-    def read(self): print("硬盘读取")
+ def read(self): print("硬盘读取")
 
 class ComputerFacade:
-    def __init__(self):
-        self.cpu = CPU()
-        self.mem = Memory()
-        self.disk = Disk()
-    def start(self):
-        self.cpu.start()
-        self.mem.load()
-        self.disk.read()
+ def __init__(self):
+ self.cpu = CPU()
+ self.mem = Memory()
+ self.disk = Disk()
+ def start(self):
+ self.cpu.start()
+ self.mem.load()
+ self.disk.read()
 
 ComputerFacade().start()
 ```
@@ -46988,22 +46988,22 @@ ComputerFacade().start()
 
 ```python
 class TreeType:
-    def __init__(self, name, color):
-        self.name = name
-        self.color = color
+ def __init__(self, name, color):
+ self.name = name
+ self.color = color
 
 class TreeFactory:
-    types = {}
-    @classmethod
-    def get_type(cls, name, color):
-        key = f"{name}_{color}"
-        if key not in cls.types:
-            cls.types[key] = TreeType(name, color)
-        return cls.types[key]
+ types = {}
+ @classmethod
+ def get_type(cls, name, color):
+ key = f"{name}_{color}"
+ if key not in cls.types:
+ cls.types[key] = TreeType(name, color)
+ return cls.types[key]
 
 t1 = TreeFactory.get_type("松树", "绿色")
 t2 = TreeFactory.get_type("松树", "绿色")
-print(t1 is t2)  # True
+print(t1 is t2) # True
 ```
 
 ---
@@ -47033,22 +47033,22 @@ print(t1 is t2)  # True
 
 ```python
 class RealImage:
-    def __init__(self, filename):
-        self.filename = filename
-        print(f"加载图片: {filename}")
-    def display(self): print(f"显示: {self.filename}")
+ def __init__(self, filename):
+ self.filename = filename
+ print(f"加载图片: {filename}")
+ def display(self): print(f"显示: {self.filename}")
 
 class ImageProxy:
-    def __init__(self, filename):
-        self.filename = filename
-        self.real = None
-    def display(self):
-        if not self.real:
-            self.real = RealImage(self.filename)
-        self.real.display()
+ def __init__(self, filename):
+ self.filename = filename
+ self.real = None
+ def display(self):
+ if not self.real:
+ self.real = RealImage(self.filename)
+ self.real.display()
 
 img = ImageProxy("photo.jpg")
-img.display()  # 此时才加载
+img.display() # 此时才加载
 ```
 
 ---
@@ -47108,21 +47108,21 @@ img.display()  # 此时才加载
 
 ```python
 class Subject:
-    def __init__(self):
-        self._observers = []
-    def attach(self, obs):
-        self._observers.append(obs)
-    def notify(self, msg):
-        for obs in self._observers:
-            obs.update(msg)
+ def __init__(self):
+ self._observers = []
+ def attach(self, obs):
+ self._observers.append(obs)
+ def notify(self, msg):
+ for obs in self._observers:
+ obs.update(msg)
 
 class Observer:
-    def update(self, msg):
-        print(f"收到通知: {msg}")
+ def update(self, msg):
+ print(f"收到通知: {msg}")
 
 s = Subject()
 s.attach(Observer())
-s.notify("状态改变")  # 收到通知: 状态改变
+s.notify("状态改变") # 收到通知: 状态改变
 ```
 
 ---
@@ -47152,21 +47152,21 @@ s.notify("状态改变")  # 收到通知: 状态改变
 
 ```python
 class PayStrategy:
-    def pay(self, amount): pass
+ def pay(self, amount): pass
 
 class Alipay(PayStrategy):
-    def pay(self, amount): return f"支付宝支付 ¥{amount}"
+ def pay(self, amount): return f"支付宝支付 ¥{amount}"
 
 class WeChat(PayStrategy):
-    def pay(self, amount): return f"微信支付 ¥{amount}"
+ def pay(self, amount): return f"微信支付 ¥{amount}"
 
 class Order:
-    def __init__(self, strategy):
-        self.strategy = strategy
-    def checkout(self, amount):
-        return self.strategy.pay(amount)
+ def __init__(self, strategy):
+ self.strategy = strategy
+ def checkout(self, amount):
+ return self.strategy.pay(amount)
 
-print(Order(Alipay()).checkout(100))  # 支付宝支付 ¥100
+print(Order(Alipay()).checkout(100)) # 支付宝支付 ¥100
 ```
 
 ---
@@ -47198,22 +47198,22 @@ print(Order(Alipay()).checkout(100))  # 支付宝支付 ¥100
 from abc import ABC, abstractmethod
 
 class DataParser(ABC):
-    def parse(self):  # Template Method
-        data = self.read_data()
-        parsed = self.parse_data(data)
-        self.save_data(parsed)
-    
-    @abstractmethod
-    def read_data(self): pass
-    @abstractmethod
-    def parse_data(self, data): pass
-    def save_data(self, data): print(f"保存: {data}")
+ def parse(self): # Template Method
+ data = self.read_data()
+ parsed = self.parse_data(data)
+ self.save_data(parsed)
+
+ @abstractmethod
+ def read_data(self): pass
+ @abstractmethod
+ def parse_data(self, data): pass
+ def save_data(self, data): print(f"保存: {data}")
 
 class CSVParser(DataParser):
-    def read_data(self): return "csv_data"
-    def parse_data(self, data): return f"解析{data}"
+ def read_data(self): return "csv_data"
+ def parse_data(self, data): return f"解析{data}"
 
-CSVParser().parse()  # 保存: 解析csv_data
+CSVParser().parse() # 保存: 解析csv_data
 ```
 
 ---
@@ -47243,18 +47243,18 @@ CSVParser().parse()  # 保存: 解析csv_data
 
 ```python
 class BookShelf:
-    def __init__(self):
-        self.books = []
-    def add(self, book):
-        self.books.append(book)
-    def __iter__(self):  # Iterator Protocol
-        return iter(self.books)
+ def __init__(self):
+ self.books = []
+ def add(self, book):
+ self.books.append(book)
+ def __iter__(self): # Iterator Protocol
+ return iter(self.books)
 
 shelf = BookShelf()
 shelf.add("Python")
 shelf.add("Java")
 for book in shelf:
-    print(book)  # Python, Java
+ print(book) # Python, Java
 ```
 
 ---
@@ -47285,24 +47285,24 @@ for book in shelf:
 
 ```python
 class Handler:
-    def __init__(self, successor=None):
-        self.successor = successor
-    def handle(self, request):
-        if self.successor:
-            return self.successor.handle(request)
+ def __init__(self, successor=None):
+ self.successor = successor
+ def handle(self, request):
+ if self.successor:
+ return self.successor.handle(request)
 
 class Manager(Handler):
-    def handle(self, req):
-        if req <= 1000: return f"经理批准 ¥{req}"
-        return super().handle(req)
+ def handle(self, req):
+ if req <= 1000: return f"经理批准 ¥{req}"
+ return super().handle(req)
 
 class Director(Handler):
-    def handle(self, req):
-        if req <= 5000: return f"总监批准 ¥{req}"
-        return super().handle(req)
+ def handle(self, req):
+ if req <= 5000: return f"总监批准 ¥{req}"
+ return super().handle(req)
 
 chain = Manager(Director())
-print(chain.handle(3000))  # 总监批准 ¥3000
+print(chain.handle(3000)) # 总监批准 ¥3000
 ```
 
 ---
@@ -47332,24 +47332,24 @@ print(chain.handle(3000))  # 总监批准 ¥3000
 
 ```python
 class State:
-    def handle(self): pass
+ def handle(self): pass
 
 class StartState(State):
-    def handle(self): return "开始状态"
+ def handle(self): return "开始状态"
 
 class StopState(State):
-    def handle(self): return "停止状态"
+ def handle(self): return "停止状态"
 
 class Context:
-    def __init__(self, state):
-        self.state = state
-    def request(self):
-        return self.state.handle()
+ def __init__(self, state):
+ self.state = state
+ def request(self):
+ return self.state.handle()
 
 ctx = Context(StartState())
-print(ctx.request())  # 开始状态
+print(ctx.request()) # 开始状态
 ctx.state = StopState()
-print(ctx.request())  # 停止状态
+print(ctx.request()) # 停止状态
 ```
 
 ---
@@ -47380,23 +47380,23 @@ print(ctx.request())  # 停止状态
 
 ```python
 class Light:
-    def on(self): print("灯打开")
-    def off(self): print("灯关闭")
+ def on(self): print("灯打开")
+ def off(self): print("灯关闭")
 
 class Command:
-    def execute(self): pass
-    def undo(self): pass
+ def execute(self): pass
+ def undo(self): pass
 
 class LightOnCommand(Command):
-    def __init__(self, light):
-        self.light = light
-    def execute(self): self.light.on()
-    def undo(self): self.light.off()
+ def __init__(self, light):
+ self.light = light
+ def execute(self): self.light.on()
+ def undo(self): self.light.off()
 
 light = Light()
 cmd = LightOnCommand(light)
-cmd.execute()  # 灯打开
-cmd.undo()     # 灯关闭
+cmd.execute() # 灯打开
+cmd.undo() # 灯关闭
 ```
 
 ---
@@ -47431,26 +47431,26 @@ cmd.undo()     # 灯关闭
 
 ```python
 class Memento:
-    def __init__(self, state):
-        self.state = state
+ def __init__(self, state):
+ self.state = state
 
-class Editor:  # Originator
-    def __init__(self):
-        self.content = ""
-    def type(self, text):
-        self.content += text
-    def save(self):
-        return Memento(self.content)
-    def restore(self, m):
-        self.content = m.state
+class Editor: # Originator
+ def __init__(self):
+ self.content = ""
+ def type(self, text):
+ self.content += text
+ def save(self):
+ return Memento(self.content)
+ def restore(self, m):
+ self.content = m.state
 
 editor = Editor()
 editor.type("Hello")
 saved = editor.save()
 editor.type(" World")
-print(editor.content)  # Hello World
+print(editor.content) # Hello World
 editor.restore(saved)
-print(editor.content)  # Hello
+print(editor.content) # Hello
 ```
 
 ---
@@ -47479,20 +47479,20 @@ print(editor.content)  # Hello
 
 ```python
 class Element:
-    def accept(self, visitor): pass
+ def accept(self, visitor): pass
 
 class Book(Element):
-    def __init__(self, price):
-        self.price = price
-    def accept(self, visitor):
-        return visitor.visit_book(self)
+ def __init__(self, price):
+ self.price = price
+ def accept(self, visitor):
+ return visitor.visit_book(self)
 
 class Visitor:
-    def visit_book(self, book):
-        return f"书籍价格: ¥{book.price}"
+ def visit_book(self, book):
+ return f"书籍价格: ¥{book.price}"
 
 book = Book(50)
-print(book.accept(Visitor()))  # 书籍价格: ¥50
+print(book.accept(Visitor())) # 书籍价格: ¥50
 ```
 
 ---
@@ -47521,20 +47521,20 @@ print(book.accept(Visitor()))  # 书籍价格: ¥50
 #### 代码示例
 
 ```python
-class ChatRoom:  # Mediator
-    def show_message(self, user, msg):
-        print(f"[{user}]: {msg}")
+class ChatRoom: # Mediator
+ def show_message(self, user, msg):
+ print(f"[{user}]: {msg}")
 
-class User:  # Colleague
-    def __init__(self, name, room):
-        self.name = name
-        self.room = room
-    def send(self, msg):
-        self.room.show_message(self.name, msg)
+class User: # Colleague
+ def __init__(self, name, room):
+ self.name = name
+ self.room = room
+ def send(self, msg):
+ self.room.show_message(self.name, msg)
 
 room = ChatRoom()
 user1 = User("张三", room)
-user1.send("你好")  # [张三]: 你好
+user1.send("你好") # [张三]: 你好
 ```
 
 ---
@@ -47565,24 +47565,24 @@ user1.send("你好")  # [张三]: 你好
 
 ```python
 class Expression:
-    def interpret(self, context): pass
+ def interpret(self, context): pass
 
 class Number(Expression):
-    def __init__(self, value):
-        self.value = value
-    def interpret(self, context):
-        return self.value
+ def __init__(self, value):
+ self.value = value
+ def interpret(self, context):
+ return self.value
 
 class Add(Expression):
-    def __init__(self, left, right):
-        self.left = left
-        self.right = right
-    def interpret(self, context):
-        return self.left.interpret(context) + self.right.interpret(context)
+ def __init__(self, left, right):
+ self.left = left
+ self.right = right
+ def interpret(self, context):
+ return self.left.interpret(context) + self.right.interpret(context)
 
 # 表达式: 5 + 3
 expr = Add(Number(5), Number(3))
-print(expr.interpret({}))  # 8
+print(expr.interpret({})) # 8
 ```
 
 ---
@@ -47658,8 +47658,8 @@ print(expr.interpret({}))  # 8
 
 ---
 
->  **实践建议**：
-> 
+> **实践建议**：
+>
 > 1. **不要过度设计**：简单问题用简单方案，不要为了用模式而用模式
 > 2. **理解问题本质**：先理解模式解决的问题，再学习实现方式
 > 3. **组合使用**：实际项目中常常组合多个模式（如工厂+单例，策略+工厂）
@@ -47687,11 +47687,11 @@ print(expr.interpret({}))  # 8
 
 ```
 ┌─────────────────────────┐
-│   表示层 (Presentation)  │  ← UI、用户交互
+│ 表示层 (Presentation) │ ← UI、用户交互
 ├─────────────────────────┤
-│   业务逻辑层 (Business)  │  ← 业务规则、流程
+│ 业务逻辑层 (Business) │ ← 业务规则、流程
 ├─────────────────────────┤
-│   数据访问层 (Data)      │  ← 数据库操作
+│ 数据访问层 (Data) │ ← 数据库操作
 └─────────────────────────┘
 ```
 
@@ -47699,13 +47699,13 @@ print(expr.interpret({}))  # 8
 
 ```
 ┌─────────────────────────┐
-│   表示层 (Presentation)  │  ← UI、API 接口
+│ 表示层 (Presentation) │ ← UI、API 接口
 ├─────────────────────────┤
-│   应用层 (Application)   │  ← 应用服务、用例
+│ 应用层 (Application) │ ← 应用服务、用例
 ├─────────────────────────┤
-│   领域层 (Domain)        │  ← 业务逻辑、实体
+│ 领域层 (Domain) │ ← 业务逻辑、实体
 ├─────────────────────────┤
-│   基础设施层 (Infrastructure) │  ← 数据库、外部服务
+│ 基础设施层 (Infrastructure) │ ← 数据库、外部服务
 └─────────────────────────┘
 ```
 
@@ -47721,55 +47721,55 @@ print(expr.interpret({}))  # 8
 ```python
 # 数据访问层 (Data Access Layer)
 class UserRepository:
-    def get_user(self, user_id):
-        # 模拟数据库查询
-        return {"id": user_id, "name": "张三", "age": 25}
-    
-    def save_user(self, user):
-        # 模拟保存到数据库
-        print(f"保存用户: {user}")
+ def get_user(self, user_id):
+ # 模拟数据库查询
+ return {"id": user_id, "name": "张三", "age": 25}
+
+ def save_user(self, user):
+ # 模拟保存到数据库
+ print(f"保存用户: {user}")
 
 # 业务逻辑层 (Business Logic Layer)
 class UserService:
-    def __init__(self, repo):
-        self.repo = repo
-    
-    def get_user_info(self, user_id):
-        user = self.repo.get_user(user_id)
-        # 业务逻辑处理
-        if user['age'] >= 18:
-            user['status'] = '成年'
-        else:
-            user['status'] = '未成年'
-        return user
-    
-    def register_user(self, user_data):
-        # 业务验证
-        if not user_data.get('name'):
-            raise ValueError("用户名不能为空")
-        self.repo.save_user(user_data)
+ def __init__(self, repo):
+ self.repo = repo
+
+ def get_user_info(self, user_id):
+ user = self.repo.get_user(user_id)
+ # 业务逻辑处理
+ if user['age'] >= 18:
+ user['status'] = '成年'
+ else:
+ user['status'] = '未成年'
+ return user
+
+ def register_user(self, user_data):
+ # 业务验证
+ if not user_data.get('name'):
+ raise ValueError("用户名不能为空")
+ self.repo.save_user(user_data)
 
 # 表示层 (Presentation Layer)
 class UserController:
-    def __init__(self, service):
-        self.service = service
-    
-    def show_user(self, user_id):
-        user = self.service.get_user_info(user_id)
-        print(f"用户信息: {user['name']}, {user['status']}")
-    
-    def create_user(self, name, age):
-        try:
-            self.service.register_user({"name": name, "age": age})
-            print("用户创建成功")
-        except ValueError as e:
-            print(f"错误: {e}")
+ def __init__(self, service):
+ self.service = service
+
+ def show_user(self, user_id):
+ user = self.service.get_user_info(user_id)
+ print(f"用户信息: {user['name']}, {user['status']}")
+
+ def create_user(self, name, age):
+ try:
+ self.service.register_user({"name": name, "age": age})
+ print("用户创建成功")
+ except ValueError as e:
+ print(f"错误: {e}")
 
 # 使用
 repo = UserRepository()
 service = UserService(repo)
 controller = UserController(service)
-controller.show_user(1)  # 用户信息: 张三, 成年
+controller.show_user(1) # 用户信息: 张三, 成年
 ```
 
 #### 优点
@@ -47808,8 +47808,8 @@ controller.show_user(1)  # 用户信息: 张三, 成年
 
 ```
 表示层 → 业务层 → 数据层
-  ↓         ↓
-  └─────────┘
+ ↓ ↓
+ └─────────┘
 ```
 
 ---
@@ -47836,29 +47836,29 @@ controller.show_user(1)  # 用户信息: 张三, 成年
 
 ```mermaid
 graph LR
-    User[用户] -->|操作| View[View 视图]
-    View -->|事件| Controller[Controller 控制器]
-    Controller -->|更新| Model[Model 模型]
-    Model -->|通知| View
-    Controller -->|选择| View
+ User[用户] -->|操作| View[View 视图]
+ View -->|事件| Controller[Controller 控制器]
+ Controller -->|更新| Model[Model 模型]
+ Model -->|通知| View
+ Controller -->|选择| View
 ```
 
 ##### 详细流程
 
 ```mermaid
 sequenceDiagram
-    participant User as 用户
-    participant View as View
-    participant Controller as Controller
-    participant Model as Model
-    
-    User->>View: 1. 用户操作
-    View->>Controller: 2. 触发事件
-    Controller->>Model: 3. 更新数据
-    Model->>Model: 4. 处理业务逻辑
-    Model->>View: 5. 通知变化
-    View->>View: 6. 更新显示
-    View->>User: 7. 展示结果
+ participant User as 用户
+ participant View as View
+ participant Controller as Controller
+ participant Model as Model
+
+ User->>View: 1. 用户操作
+ View->>Controller: 2. 触发事件
+ Controller->>Model: 3. 更新数据
+ Model->>Model: 4. 处理业务逻辑
+ Model->>View: 5. 通知变化
+ View->>View: 6. 更新显示
+ View->>User: 7. 展示结果
 ```
 
 ##### 代码示例
@@ -47866,58 +47866,58 @@ sequenceDiagram
 ```python
 # Model - 数据和业务逻辑
 class TodoModel:
-    def __init__(self):
-        self.todos = []
-        self.observers = []
-    
-    def add_observer(self, observer):
-        self.observers.append(observer)
-    
-    def notify_observers(self):
-        for observer in self.observers:
-            observer.update()
-    
-    def add_todo(self, task):
-        self.todos.append({"task": task, "done": False})
-        self.notify_observers()
-    
-    def get_todos(self):
-        return self.todos
+ def __init__(self):
+ self.todos = []
+ self.observers = []
+
+ def add_observer(self, observer):
+ self.observers.append(observer)
+
+ def notify_observers(self):
+ for observer in self.observers:
+ observer.update()
+
+ def add_todo(self, task):
+ self.todos.append({"task": task, "done": False})
+ self.notify_observers()
+
+ def get_todos(self):
+ return self.todos
 
 # View - 展示层
 class TodoView:
-    def __init__(self, model):
-        self.model = model
-        self.model.add_observer(self)
-    
-    def update(self):
-        print("\n=== 待办事项 ===")
-        for i, todo in enumerate(self.model.get_todos(), 1):
-            status = "✓" if todo['done'] else "○"
-            print(f"{i}. [{status}] {todo['task']}")
-    
-    def show_input(self):
-        return input("输入任务 (q 退出): ")
+ def __init__(self, model):
+ self.model = model
+ self.model.add_observer(self)
+
+ def update(self):
+ print("\n=== 待办事项 ===")
+ for i, todo in enumerate(self.model.get_todos(), 1):
+ status = "" if todo['done'] else "○"
+ print(f"{i}. [{status}] {todo['task']}")
+
+ def show_input(self):
+ return input("输入任务 (q 退出): ")
 
 # Controller - 控制逻辑
 class TodoController:
-    def __init__(self, model, view):
-        self.model = model
-        self.view = view
-    
-    def run(self):
-        while True:
-            task = self.view.show_input()
-            if task.lower() == 'q':
-                break
-            if task:
-                self.model.add_todo(task)
+ def __init__(self, model, view):
+ self.model = model
+ self.view = view
+
+ def run(self):
+ while True:
+ task = self.view.show_input()
+ if task.lower() == 'q':
+ break
+ if task:
+ self.model.add_todo(task)
 
 # 使用
 model = TodoModel()
 view = TodoView(model)
 controller = TodoController(model, view)
-# controller.run()  # 交互式运行
+# controller.run() # 交互式运行
 ```
 
 ##### 优点
@@ -47957,58 +47957,58 @@ controller = TodoController(model, view)
 
 ```mermaid
 graph LR
-    User[用户] -->|操作| View[View 视图]
-    View <-->|双向通信| Presenter[Presenter 展示器]
-    Presenter <-->|数据操作| Model[Model 模型]
+ User[用户] -->|操作| View[View 视图]
+ View <-->|双向通信| Presenter[Presenter 展示器]
+ Presenter <-->|数据操作| Model[Model 模型]
 ```
 
 ##### 详细流程
 
 ```mermaid
 sequenceDiagram
-    participant User as 用户
-    participant View as View
-    participant Presenter as Presenter
-    participant Model as Model
-    
-    User->>View: 1. 用户操作
-    View->>Presenter: 2. 调用 Presenter 方法
-    Presenter->>Model: 3. 请求/更新数据
-    Model->>Presenter: 4. 返回数据
-    Presenter->>Presenter: 5. 处理业务逻辑
-    Presenter->>View: 6. 更新 View
-    View->>User: 7. 展示结果
+ participant User as 用户
+ participant View as View
+ participant Presenter as Presenter
+ participant Model as Model
+
+ User->>View: 1. 用户操作
+ View->>Presenter: 2. 调用 Presenter 方法
+ Presenter->>Model: 3. 请求/更新数据
+ Model->>Presenter: 4. 返回数据
+ Presenter->>Presenter: 5. 处理业务逻辑
+ Presenter->>View: 6. 更新 View
+ View->>User: 7. 展示结果
 ```
 
 ```python
-        # 业务逻辑验证
-        if not username or not email:
-            self.view.show_message("用户名和邮箱不能为空")
-            return
-        
-        if "@" not in email:
-            self.view.show_message("邮箱格式不正确")
-            return
-        
-        # 调用 Model
-        if self.model.add_user(username, email):
-            self.view.show_message("用户添加成功")
-        else:
-            self.view.show_message("用户添加失败")
-    
-    def show_user(self, username):
-        user = self.model.get_user(username)
-        if user:
-            self.view.show_user(username, user['email'])
-        else:
-            self.view.show_message("用户不存在")
+ # 业务逻辑验证
+ if not username or not email:
+ self.view.show_message("用户名和邮箱不能为空")
+ return
+
+ if "@" not in email:
+ self.view.show_message("邮箱格式不正确")
+ return
+
+ # 调用 Model
+ if self.model.add_user(username, email):
+ self.view.show_message("用户添加成功")
+ else:
+ self.view.show_message("用户添加失败")
+
+ def show_user(self, username):
+ user = self.model.get_user(username)
+ if user:
+ self.view.show_user(username, user['email'])
+ else:
+ self.view.show_message("用户不存在")
 
 # 使用
 model = UserModel()
 view = UserView()
 presenter = UserPresenter(view, model)
-presenter.add_user()  # [消息] 用户添加成功
-presenter.show_user("张三")  # 用户: 张三, 邮箱: zhangsan@example.com
+presenter.add_user() # [消息] 用户添加成功
+presenter.show_user("张三") # 用户: 张三, 邮箱: zhangsan@example.com
 ```
 
 ##### 优点
@@ -48048,27 +48048,27 @@ presenter.show_user("张三")  # 用户: 张三, 邮箱: zhangsan@example.com
 
 ```mermaid
 graph LR
-    User[用户] -->|操作| View[View 视图]
-    View <-->|数据绑定| ViewModel[ViewModel 视图模型]
-    ViewModel <-->|数据操作| Model[Model 模型]
+ User[用户] -->|操作| View[View 视图]
+ View <-->|数据绑定| ViewModel[ViewModel 视图模型]
+ ViewModel <-->|数据操作| Model[Model 模型]
 ```
 
 ##### 详细流程
 
 ```mermaid
 sequenceDiagram
-    participant User as 用户
-    participant View as View
-    participant ViewModel as ViewModel
-    participant Model as Model
-    
-    User->>View: 1. 用户操作
-    View->>ViewModel: 2. 数据绑定触发
-    ViewModel->>Model: 3. 更新数据
-    Model->>ViewModel: 4. 返回数据
-    ViewModel->>ViewModel: 5. 更新属性
-    ViewModel->>View: 6. 自动通知 (数据绑定)
-    View->>User: 7. 自动更新显示
+ participant User as 用户
+ participant View as View
+ participant ViewModel as ViewModel
+ participant Model as Model
+
+ User->>View: 1. 用户操作
+ View->>ViewModel: 2. 数据绑定触发
+ ViewModel->>Model: 3. 更新数据
+ Model->>ViewModel: 4. 返回数据
+ ViewModel->>ViewModel: 5. 更新属性
+ ViewModel->>View: 6. 自动通知 (数据绑定)
+ View->>User: 7. 自动更新显示
 ```
 
 ##### 代码示例
@@ -48076,82 +48076,82 @@ sequenceDiagram
 ```python
 # Model
 class ProductModel:
-    def __init__(self):
-        self.products = [
-            {"name": "笔记本", "price": 5000},
-            {"name": "鼠标", "price": 100}
-        ]
-    
-    def get_products(self):
-        return self.products
-    
-    def add_product(self, name, price):
-        self.products.append({"name": name, "price": price})
+ def __init__(self):
+ self.products = [
+ {"name": "笔记本", "price": 5000},
+ {"name": "鼠标", "price": 100}
+ ]
+
+ def get_products(self):
+ return self.products
+
+ def add_product(self, name, price):
+ self.products.append({"name": name, "price": price})
 
 # ViewModel
 class ProductViewModel:
-    def __init__(self, model):
-        self.model = model
-        self._products = []
-        self._total_price = 0
-        self.observers = []  # 模拟数据绑定
-        self.load_products()
-    
-    # 可观察属性
-    @property
-    def products(self):
-        return self._products
-    
-    @products.setter
-    def products(self, value):
-        self._products = value
-        self.notify_observers()
-    
-    @property
-    def total_price(self):
-        return self._total_price
-    
-    @total_price.setter
-    def total_price(self, value):
-        self._total_price = value
-        self.notify_observers()
-    
-    # 观察者模式（模拟数据绑定）
-    def add_observer(self, observer):
-        self.observers.append(observer)
-    
-    def notify_observers(self):
-        for observer in self.observers:
-            observer.update()
-    
-    # 命令
-    def load_products(self):
-        self.products = self.model.get_products()
-        self.calculate_total()
-    
-    def add_product_command(self, name, price):
-        self.model.add_product(name, price)
-        self.load_products()
-    
-    def calculate_total(self):
-        self.total_price = sum(p['price'] for p in self.products)
+ def __init__(self, model):
+ self.model = model
+ self._products = []
+ self._total_price = 0
+ self.observers = [] # 模拟数据绑定
+ self.load_products()
+
+ # 可观察属性
+ @property
+ def products(self):
+ return self._products
+
+ @products.setter
+ def products(self, value):
+ self._products = value
+ self.notify_observers()
+
+ @property
+ def total_price(self):
+ return self._total_price
+
+ @total_price.setter
+ def total_price(self, value):
+ self._total_price = value
+ self.notify_observers()
+
+ # 观察者模式（模拟数据绑定）
+ def add_observer(self, observer):
+ self.observers.append(observer)
+
+ def notify_observers(self):
+ for observer in self.observers:
+ observer.update()
+
+ # 命令
+ def load_products(self):
+ self.products = self.model.get_products()
+ self.calculate_total()
+
+ def add_product_command(self, name, price):
+ self.model.add_product(name, price)
+ self.load_products()
+
+ def calculate_total(self):
+ self.total_price = sum(p['price'] for p in self.products)
 
 # View
 class ProductView:
-    def __init__(self, view_model):
-        self.view_model = view_model
-        self.view_model.add_observer(self)  # 绑定
-    
-    def update(self):
-        # 数据绑定自动触发更新
-        print("\n=== 商品列表 ===")
-        for product in self.view_model.products:
-            print(f"- {product['name']}: ¥{product['price']}")
-        print(f"总价: ¥{self.view_model.total_price}")
-    
-    def add_product(self, name, price):
-        # 用户操作触发命令
-        self.view_model.add_product_command(name, price)
+ def __init__(self, view_model):
+ self.view_model = view_model
+ self.view_model.add_observer(self) # 绑定
+
+ def update(self):
+ # 数据绑定自动触发更新
+ print("\n=== 商品列表 ===")
+ for product in self.view_model.products:
+ print(f"- {product['name']}: ¥{product['price']}")
+ print(f"总价: ¥{self.view_model.total_price}")
+
+ def add_product(self, name, price):
+ # 用户操作触发命令
+ self.view_model.add_product_command(name, price)
 
 # 使用
 model = ProductModel()
@@ -48177,40 +48177,40 @@ view.add_product("键盘", 200)
 ```javascript
 // ViewModel (Vue 组件)
 export default {
-  data() {
-    return {
-      products: [],
-      totalPrice: 0
-    }
-  },
-  methods: {
-    async loadProducts() {
-      // Model 层调用
-      this.products = await ProductAPI.getProducts()
-      this.calculateTotal()
-    },
-    calculateTotal() {
-      this.totalPrice = this.products.reduce((sum, p) => sum + p.price, 0)
-    }
-  },
-  mounted() {
-    this.loadProducts()
-  }
+ data() {
+ return {
+ products: [],
+ totalPrice: 0
+ }
+ },
+ methods: {
+ async loadProducts() {
+ // Model 层调用
+ this.products = await ProductAPI.getProducts()
+ this.calculateTotal()
+ },
+ calculateTotal() {
+ this.totalPrice = this.products.reduce((sum, p) => sum + p.price, 0)
+ }
+ },
+ mounted() {
+ this.loadProducts()
+ }
 }
 ```
 
 ```html
 <!-- View (模板) - 数据绑定 -->
 <template>
-  <div>
-    <h2>商品列表</h2>
-    <ul>
-      <li v-for="product in products" :key="product.id">
-        {{ product.name }}: ¥{{ product.price }}
-      </li>
-    </ul>
-    <p>总价: ¥{{ totalPrice }}</p>
-  </div>
+ <div>
+ <h2>商品列表</h2>
+ <ul>
+ <li v-for="product in products" :key="product.id">
+ {{ product.name }}: ¥{{ product.price }}
+ </li>
+ </ul>
+ <p>总价: ¥{{ totalPrice }}</p>
+ </div>
 </template>
 ```
 
@@ -48243,21 +48243,21 @@ export default {
 
 ```mermaid
 graph TB
-    subgraph MVC
-        V1[View] -->|事件| C1[Controller]
-        C1 -->|更新| M1[Model]
-        M1 -->|通知| V1
-    end
-    
-    subgraph MVP
-        V2[View] <-->|接口调用| P[Presenter]
-        P <-->|数据操作| M2[Model]
-    end
-    
-    subgraph MVVM
-        V3[View] <-->|数据绑定| VM[ViewModel]
-        VM <-->|数据操作| M3[Model]
-    end
+ subgraph MVC
+ V1[View] -->|事件| C1[Controller]
+ C1 -->|更新| M1[Model]
+ M1 -->|通知| V1
+ end
+
+ subgraph MVP
+ V2[View] <-->|接口调用| P[Presenter]
+ P <-->|数据操作| M2[Model]
+ end
+
+ subgraph MVVM
+ V3[View] <-->|数据绑定| VM[ViewModel]
+ VM <-->|数据操作| M3[Model]
+ end
 ```
 
 ##### 详细对比表
@@ -48296,12 +48296,12 @@ graph TB
 
 ```mermaid
 graph LR
-    MVC[MVC<br/>1979] -->|View-Model 解耦| MVP[MVP<br/>1990s]
-    MVP -->|引入数据绑定| MVVM[MVVM<br/>2005]
-    
-    style MVC fill:#e1f5ff
-    style MVP fill:#fff4e1
-    style MVVM fill:#e8f5e9
+ MVC[MVC<br/>1979] -->|View-Model 解耦| MVP[MVP<br/>1990s]
+ MVP -->|引入数据绑定| MVVM[MVVM<br/>2005]
+
+ style MVC fill:#e1f5ff
+ style MVP fill:#fff4e1
+ style MVVM fill:#e8f5e9
 ```
 
 ---
@@ -48317,18 +48317,18 @@ graph LR
 
 #### 常见错误
 
-**❌ 错误示例**：
+** 错误示例**：
 
 ```python
 # View 中包含业务逻辑
 class UserView:
-    def show_user(self, user):
-        # ❌ 业务逻辑不应该在 View 中
-        if user['age'] >= 18:
-            status = "成年"
-        else:
-            status = "未成年"
-        print(f"{user['name']}: {status}")
+ def show_user(self, user):
+ # 业务逻辑不应该在 View 中
+ if user['age'] >= 18:
+ status = "成年"
+ else:
+ status = "未成年"
+ print(f"{user['name']}: {status}")
 ```
 
 
@@ -48368,38 +48368,38 @@ class UserView:
 
 ```mermaid
 graph TB
-    subgraph 计算机系统
-        CPU[CPU 中央处理器<br/>Central Processing Unit<br/>速度: 极快 / 容量: 极小 KB级]
-        Memory[内存 RAM<br/>Random Access Memory<br/>速度: 快 / 容量: 中 GB级<br/>易失性 Volatile]
-        Disk[硬盘 Storage<br/>HDD / SSD<br/>速度: 慢 / 容量: 大 TB级<br/>非易失性 Non-Volatile]
-        
-        Disk -->|加载程序/数据 Load| Memory
-        Memory <-->|读取指令/数据 Fetch| CPU
-        CPU -->|计算结果 Result| Memory
-        Memory -->|保存数据 Save| Disk
-    end
-    
-    style CPU fill:#ffcdd2
-    style Memory fill:#fff9c4
-    style Disk fill:#c8e6c9
+ subgraph 计算机系统
+ CPU[CPU 中央处理器<br/>Central Processing Unit<br/>速度: 极快 / 容量: 极小 KB级]
+ Memory[内存 RAM<br/>Random Access Memory<br/>速度: 快 / 容量: 中 GB级<br/>易失性 Volatile]
+ Disk[硬盘 Storage<br/>HDD / SSD<br/>速度: 慢 / 容量: 大 TB级<br/>非易失性 Non-Volatile]
+
+ Disk -->|加载程序/数据 Load| Memory
+ Memory <-->|读取指令/数据 Fetch| CPU
+ CPU -->|计算结果 Result| Memory
+ Memory -->|保存数据 Save| Disk
+ end
+
+ style CPU fill:#ffcdd2
+ style Memory fill:#fff9c4
+ style Disk fill:#c8e6c9
 ```
 
 #### 工作流程
 
 ```mermaid
 sequenceDiagram
-    participant User as 用户
-    participant Disk as 硬盘 Disk
-    participant Memory as 内存 Memory
-    participant CPU as CPU
-    
-    User->>Disk: 1. 双击程序图标
-    Disk->>Memory: 2. 加载程序到内存 (Load)
-    Memory->>CPU: 3. 传送指令和数据 (Fetch)
-    CPU->>CPU: 4. 执行指令 (Execute)
-    CPU->>Memory: 5. 返回计算结果 (Write Back)
-    Memory->>Disk: 6. 保存数据 (Save)
-    Memory->>User: 7. 显示结果到屏幕
+ participant User as 用户
+ participant Disk as 硬盘 Disk
+ participant Memory as 内存 Memory
+ participant CPU as CPU
+
+ User->>Disk: 1. 双击程序图标
+ Disk->>Memory: 2. 加载程序到内存 (Load)
+ Memory->>CPU: 3. 传送指令和数据 (Fetch)
+ CPU->>CPU: 4. 执行指令 (Execute)
+ CPU->>Memory: 5. 返回计算结果 (Write Back)
+ Memory->>Disk: 6. 保存数据 (Save)
+ Memory->>User: 7. 显示结果到屏幕
 ```
 
 #### 速度与容量对比
@@ -48418,53 +48418,53 @@ sequenceDiagram
 
 ```mermaid
 graph TD
-    A[CPU 寄存器 Register<br/>最快 最小 最贵] --> B[CPU 缓存 Cache L1/L2/L3<br/>极快 极小]
-    B --> C[内存 Main Memory<br/>快 中等]
-    C --> D[固态硬盘 SSD<br/>较快 大]
-    D --> E[机械硬盘 HDD<br/>慢 最大 最便宜]
-    
-    style A fill:#ff5252
-    style B fill:#ff7043
-    style C fill:#ffa726
-    style D fill:#ffca28
-    style E fill:#9ccc65
+ A[CPU 寄存器 Register<br/>最快 最小 最贵] --> B[CPU 缓存 Cache L1/L2/L3<br/>极快 极小]
+ B --> C[内存 Main Memory<br/>快 中等]
+ C --> D[固态硬盘 SSD<br/>较快 大]
+ D --> E[机械硬盘 HDD<br/>慢 最大 最便宜]
+
+ style A fill:#ff5252
+ style B fill:#ff7043
+ style C fill:#ffa726
+ style D fill:#ffca28
+ style E fill:#9ccc65
 ```
 
 #### 实际运行示例：打开并编辑文档
 
 ```mermaid
 flowchart LR
-    A[硬盘中的<br/>document.txt] -->|1. 加载 Load| B[内存中的<br/>文档数据]
-    B -->|2. 读取 Fetch| C[CPU 处理<br/>Process]
-    C -->|3. 渲染 Render| D[屏幕显示]
-    
-    E[用户输入<br/>Input] -->|4. 输入| C
-    C -->|5. 更新 Update| B
-    B -->|6. 保存 Save| A
-    
-    style A fill:#c8e6c9
-    style B fill:#fff9c4
-    style C fill:#ffcdd2
-    style D fill:#bbdefb
-    style E fill:#e1bee7
+ A[硬盘中的<br/>document.txt] -->|1. 加载 Load| B[内存中的<br/>文档数据]
+ B -->|2. 读取 Fetch| C[CPU 处理<br/>Process]
+ C -->|3. 渲染 Render| D[屏幕显示]
+
+ E[用户输入<br/>Input] -->|4. 输入| C
+ C -->|5. 更新 Update| B
+ B -->|6. 保存 Save| A
+
+ style A fill:#c8e6c9
+ style B fill:#fff9c4
+ style C fill:#ffcdd2
+ style D fill:#bbdefb
+ style E fill:#e1bee7
 ```
 
 **详细步骤**：
 
 1. **加载阶段（Loading）**：
-   - 硬盘读取 `document.txt` 文件（约 10 ms）
-   - 将文件内容加载到内存（约 100 ns）
-   - 内存将数据传给 CPU（约 50 ns）
+ - 硬盘读取 `document.txt` 文件（约 10 ms）
+ - 将文件内容加载到内存（约 100 ns）
+ - 内存将数据传给 CPU（约 50 ns）
 
 2. **编辑阶段（Editing）**：
-   - 用户输入字符
-   - CPU 处理输入，更新内存中的数据
-   - 内存数据实时更新，但硬盘文件未变
+ - 用户输入字符
+ - CPU 处理输入，更新内存中的数据
+ - 内存数据实时更新，但硬盘文件未变
 
 3. **保存阶段（Saving）**：
-   - 用户点击"保存"
-   - 内存中的数据写回硬盘（约 10 ms）
-   - 硬盘文件更新
+ - 用户点击"保存"
+ - 内存中的数据写回硬盘（约 10 ms）
+ - 硬盘文件更新
 
 #### 为什么需要内存？
 
@@ -48489,16 +48489,16 @@ flowchart LR
 
 ```mermaid
 graph LR
-    subgraph 厨房类比
-        A[冰箱 Refrigerator<br/>硬盘<br/>长期存储] -->|取出食材| B[操作台 Counter<br/>内存<br/>临时放置]
-        B -->|处理| C[厨师 Chef<br/>CPU<br/>烹饪加工]
-        C -->|成品| B
-        B -->|储存| A
-    end
-    
-    style A fill:#c8e6c9
-    style B fill:#fff9c4
-    style C fill:#ffcdd2
+ subgraph 厨房类比
+ A[冰箱 Refrigerator<br/>硬盘<br/>长期存储] -->|取出食材| B[操作台 Counter<br/>内存<br/>临时放置]
+ B -->|处理| C[厨师 Chef<br/>CPU<br/>烹饪加工]
+ C -->|成品| B
+ B -->|储存| A
+ end
+
+ style A fill:#c8e6c9
+ style B fill:#fff9c4
+ style C fill:#ffcdd2
 ```
 
 **为什么厨师不直接从冰箱拿食材？**
@@ -48514,13 +48514,13 @@ graph LR
 
 ```mermaid
 graph TB
-    A[程序需要 16 GB 内存] -->|物理内存只有 8 GB| B{内存不足<br/>Out of Memory}
-    B -->|启用虚拟内存| C[将部分数据写入硬盘<br/>Swap / Page File]
-    C -->|需要时| D[从硬盘读回内存<br/>页面置换 Page Swap]
-    
-    style B fill:#ffcdd2
-    style C fill:#fff9c4
-    style D fill:#c8e6c9
+ A[程序需要 16 GB 内存] -->|物理内存只有 8 GB| B{内存不足<br/>Out of Memory}
+ B -->|启用虚拟内存| C[将部分数据写入硬盘<br/>Swap / Page File]
+ C -->|需要时| D[从硬盘读回内存<br/>页面置换 Page Swap]
+
+ style B fill:#ffcdd2
+ style C fill:#fff9c4
+ style D fill:#c8e6c9
 ```
 
 **后果**：
@@ -48539,16 +48539,16 @@ graph TB
 
 ```mermaid
 graph TB
-    CPU[CPU 核心 Core] <-->|0.5 ns| L1[L1 Cache<br/>32-64 KB<br/>每核独立 Per-core]
-    L1 <-->|2-5 ns| L2[L2 Cache<br/>256-512 KB<br/>每核独立 Per-core]
-    L2 <-->|10-20 ns| L3[L3 Cache<br/>8-32 MB<br/>所有核心共享 Shared]
-    L3 <-->|50-100 ns| RAM[内存 Main Memory<br/>8-64 GB]
-    
-    style CPU fill:#ff5252
-    style L1 fill:#ff7043
-    style L2 fill:#ffa726
-    style L3 fill:#ffca28
-    style RAM fill:#9ccc65
+ CPU[CPU 核心 Core] <-->|0.5 ns| L1[L1 Cache<br/>32-64 KB<br/>每核独立 Per-core]
+ L1 <-->|2-5 ns| L2[L2 Cache<br/>256-512 KB<br/>每核独立 Per-core]
+ L2 <-->|10-20 ns| L3[L3 Cache<br/>8-32 MB<br/>所有核心共享 Shared]
+ L3 <-->|50-100 ns| RAM[内存 Main Memory<br/>8-64 GB]
+
+ style CPU fill:#ff5252
+ style L1 fill:#ff7043
+ style L2 fill:#ffa726
+ style L3 fill:#ffca28
+ style RAM fill:#9ccc65
 ```
 
 **缓存工作原理**：
@@ -48562,28 +48562,28 @@ graph TB
 
 ```mermaid
 flowchart TB
-    subgraph 存储层次 Memory Hierarchy
-        direction TB
-        A[硬盘 HDD/SSD<br/>TB 级 / 永久存储] 
-        B[内存 RAM<br/>GB 级 / 临时存储]
-        C[L3 Cache<br/>MB 级]
-        D[L2 Cache<br/>KB 级]
-        E[L1 Cache<br/>KB 级]
-        F[CPU 寄存器 Register<br/>字节级 / 直接运算]
-    end
-    
-    A <-->|加载/保存 ms 级| B
-    B <-->|读写 100 ns| C
-    C <-->|读写 20 ns| D
-    D <-->|读写 5 ns| E
-    E <-->|读写 0.5 ns| F
-    
-    style A fill:#4caf50
-    style B fill:#8bc34a
-    style C fill:#cddc39
-    style D fill:#ffeb3b
-    style E fill:#ffc107
-    style F fill:#ff5722
+ subgraph 存储层次 Memory Hierarchy
+ direction TB
+ A[硬盘 HDD/SSD<br/>TB 级 / 永久存储]
+ B[内存 RAM<br/>GB 级 / 临时存储]
+ C[L3 Cache<br/>MB 级]
+ D[L2 Cache<br/>KB 级]
+ E[L1 Cache<br/>KB 级]
+ F[CPU 寄存器 Register<br/>字节级 / 直接运算]
+ end
+
+ A <-->|加载/保存 ms 级| B
+ B <-->|读写 100 ns| C
+ C <-->|读写 20 ns| D
+ D <-->|读写 5 ns| E
+ E <-->|读写 0.5 ns| F
+
+ style A fill:#4caf50
+ style B fill:#8bc34a
+ style C fill:#cddc39
+ style D fill:#ffeb3b
+ style E fill:#ffc107
+ style F fill:#ff5722
 ```
 
 #### 性能优化启示
@@ -48591,24 +48591,24 @@ flowchart TB
 ##### 程序设计原则
 
 1. **局部性原理（Locality Principle）**
-   - **时间局部性（Temporal Locality）**：最近访问的数据可能很快再次访问
-   - **空间局部性（Spatial Locality）**：相邻的数据可能一起被访问
-   - **应用**：利用缓存，减少内存访问
+ - **时间局部性（Temporal Locality）**：最近访问的数据可能很快再次访问
+ - **空间局部性（Spatial Locality）**：相邻的数据可能一起被访问
+ - **应用**：利用缓存，减少内存访问
 
 2. **减少内存占用（Memory Footprint）**
-   - 及时释放不用的对象
-   - 使用合适的数据结构
-   - 避免内存泄漏（Memory Leak）
+ - 及时释放不用的对象
+ - 使用合适的数据结构
+ - 避免内存泄漏（Memory Leak）
 
 3. **减少硬盘 I/O（3. **减少硬盘 I/O（Disk I/O）**
-   - 批量读写而非频繁小量读写
-   - 使用缓冲区（Buffer）
-   - 异步 I/O（Asynchronous I/O）
+ - 批量读写而非频繁小量读写
+ - 使用缓冲区（Buffer）
+ - 异步 I/O（Asynchronous I/O）
 
 4. **充分利用缓存（Cache Optimization）**
-   - 顺序访问数组（而非跳跃访问）
-   - 数据对齐（Data Alignment）
-   - 避免伪共享（False Sharing）
+ - 顺序访问数组（而非跳跃访问）
+ - 数据对齐（Data Alignment）
+ - 避免伪共享（False Sharing）
 
 #### 关键要点总结
 
@@ -48642,19 +48642,19 @@ flowchart TB
 
 ```mermaid
 graph TD
-    A[寄存器 Register<br/>最快 / 最小 / 最贵<br/>0.3 ns / 几百字节]
-    B[L1 缓存 L1 Cache<br/>极快 / 极小<br/>0.5-1 ns / 32-64 KB]
-    C[L2 缓存 L2 Cache<br/>很快 / 小<br/>2-5 ns / 256-512 KB]
-    D[L3 缓存 L3 Cache<br/>快 / 中<br/>10-20 ns / 8-32 MB]
-    E[主存 Main Memory<br/>较快 / 大<br/>50-100 ns / 8-64 GB]
-    
-    A --> B --> C --> D --> E
-    
-    style A fill:#ff5252
-    style B fill:#ff7043
-    style C fill:#ffa726
-    style D fill:#ffca28
-    style E fill:#9ccc65
+ A[寄存器 Register<br/>最快 / 最小 / 最贵<br/>0.3 ns / 几百字节]
+ B[L1 缓存 L1 Cache<br/>极快 / 极小<br/>0.5-1 ns / 32-64 KB]
+ C[L2 缓存 L2 Cache<br/>很快 / 小<br/>2-5 ns / 256-512 KB]
+ D[L3 缓存 L3 Cache<br/>快 / 中<br/>10-20 ns / 8-32 MB]
+ E[主存 Main Memory<br/>较快 / 大<br/>50-100 ns / 8-64 GB]
+
+ A --> B --> C --> D --> E
+
+ style A fill:#ff5252
+ style B fill:#ff7043
+ style C fill:#ffa726
+ style D fill:#ffca28
+ style E fill:#9ccc65
 ```
 
 #### 寄存器（Register）
@@ -48684,16 +48684,16 @@ graph TD
 
 ```mermaid
 sequenceDiagram
-    participant Memory as 主存
-    participant Register as 寄存器
-    participant ALU as 算术逻辑单元 ALU
-    
-    Memory->>Register: 1. 加载数据 a=5
-    Memory->>Register: 2. 加载数据 b=3
-    Register->>ALU: 3. 传送 a, b
-    ALU->>ALU: 4. 计算 a + b
-    ALU->>Register: 5. 结果 8 存入寄存器
-    Register->>Memory: 6. 写回主存（如需要）
+ participant Memory as 主存
+ participant Register as 寄存器
+ participant ALU as 算术逻辑单元 ALU
+
+ Memory->>Register: 1. 加载数据 a=5
+ Memory->>Register: 2. 加载数据 b=3
+ Register->>ALU: 3. 传送 a, b
+ ALU->>ALU: 4. 计算 a + b
+ ALU->>Register: 5. 结果 8 存入寄存器
+ Register->>Memory: 6. 写回主存（如需要）
 ```
 
 **为什么需要寄存器？**
@@ -48709,41 +48709,41 @@ sequenceDiagram
 
 **核心原理**：
 - **局部性原理（Locality Principle）**
-  - **时间局部性**：最近访问的数据可能很快再次访问
-  - **空间局部性**：相邻的数据可能一起被访问
+ - **时间局部性**：最近访问的数据可能很快再次访问
+ - **空间局部性**：相邻的数据可能一起被访问
 
 ##### 三级缓存结构
 
 ```mermaid
 graph TB
-    subgraph CPU 芯片
-        Core1[CPU 核心 1]
-        Core2[CPU 核心 2]
-        
-        L1_1[L1 Cache<br/>32-64 KB<br/>独立]
-        L1_2[L1 Cache<br/>32-64 KB<br/>独立]
-        
-        L2_1[L2 Cache<br/>256-512 KB<br/>独立]
-        L2_2[L2 Cache<br/>256-512 KB<br/>独立]
-        
-        L3[L3 Cache<br/>8-32 MB<br/>共享]
-        
-        Core1 --> L1_1 --> L2_1
-        Core2 --> L1_2 --> L2_2
-        L2_1 --> L3
-        L2_2 --> L3
-    end
-    
-    L3 --> Memory[主存 Main Memory<br/>8-64 GB]
-    
-    style Core1 fill:#ff5252
-    style Core2 fill:#ff5252
-    style L1_1 fill:#ff7043
-    style L1_2 fill:#ff7043
-    style L2_1 fill:#ffa726
-    style L2_2 fill:#ffa726
-    style L3 fill:#ffca28
-    style Memory fill:#9ccc65
+ subgraph CPU 芯片
+ Core1[CPU 核心 1]
+ Core2[CPU 核心 2]
+
+ L1_1[L1 Cache<br/>32-64 KB<br/>独立]
+ L1_2[L1 Cache<br/>32-64 KB<br/>独立]
+
+ L2_1[L2 Cache<br/>256-512 KB<br/>独立]
+ L2_2[L2 Cache<br/>256-512 KB<br/>独立]
+
+ L3[L3 Cache<br/>8-32 MB<br/>共享]
+
+ Core1 --> L1_1 --> L2_1
+ Core2 --> L1_2 --> L2_2
+ L2_1 --> L3
+ L2_2 --> L3
+ end
+
+ L3 --> Memory[主存 Main Memory<br/>8-64 GB]
+
+ style Core1 fill:#ff5252
+ style Core2 fill:#ff5252
+ style L1_1 fill:#ff7043
+ style L1_2 fill:#ff7043
+ style L2_1 fill:#ffa726
+ style L2_2 fill:#ffa726
+ style L3 fill:#ffca28
+ style Memory fill:#9ccc65
 ```
 
 ##### L1 缓存（Level 1 Cache）
@@ -48794,20 +48794,20 @@ graph TB
 
 ```mermaid
 flowchart TD
-    Start[CPU 请求数据] --> L1{L1 Cache<br/>查找}
-    L1 -->|命中 Hit| Return1[返回数据<br/>0.5 ns]
-    L1 -->|未命中 Miss| L2{L2 Cache<br/>查找}
-    L2 -->|命中 Hit| Return2[返回数据<br/>2-5 ns]
-    L2 -->|未命中 Miss| L3{L3 Cache<br/>查找}
-    L3 -->|命中 Hit| Return3[返回数据<br/>10-20 ns]
-    L3 -->|未命中 Miss| Memory[主存读取<br/>50-100 ns]
-    Memory --> Update[更新各级缓存]
-    Update --> Return4[返回数据]
-    
-    style Return1 fill:#4caf50
-    style Return2 fill:#8bc34a
-    style Return3 fill:#cddc39
-    style Memory fill:#ff9800
+ Start[CPU 请求数据] --> L1{L1 Cache<br/>查找}
+ L1 -->|命中 Hit| Return1[返回数据<br/>0.5 ns]
+ L1 -->|未命中 Miss| L2{L2 Cache<br/>查找}
+ L2 -->|命中 Hit| Return2[返回数据<br/>2-5 ns]
+ L2 -->|未命中 Miss| L3{L3 Cache<br/>查找}
+ L3 -->|命中 Hit| Return3[返回数据<br/>10-20 ns]
+ L3 -->|未命中 Miss| Memory[主存读取<br/>50-100 ns]
+ Memory --> Update[更新各级缓存]
+ Update --> Return4[返回数据]
+
+ style Return1 fill:#4caf50
+ style Return2 fill:#8bc34a
+ style Return3 fill:#cddc39
+ style Memory fill:#ff9800
 ```
 
 **关键术语**：
@@ -48827,23 +48827,23 @@ flowchart TD
 
 ```mermaid
 graph LR
-    subgraph 主存
-        A[地址 0x1000<br/>数据 a]
-        B[地址 0x1004<br/>数据 b]
-        C[地址 0x1008<br/>数据 c]
-        D[...<br/>共 64 字节]
-    end
-    
-    subgraph 缓存行
-        E[Cache Line<br/>64 字节<br/>包含 a, b, c...]
-    end
-    
-    A --> E
-    B --> E
-    C --> E
-    D --> E
-    
-    style E fill:#fff9c4
+ subgraph 主存
+ A[地址 0x1000<br/>数据 a]
+ B[地址 0x1004<br/>数据 b]
+ C[地址 0x1008<br/>数据 c]
+ D[...<br/>共 64 字节]
+ end
+
+ subgraph 缓存行
+ E[Cache Line<br/>64 字节<br/>包含 a, b, c...]
+ end
+
+ A --> E
+ B --> E
+ C --> E
+ D --> E
+
+ style E fill:#fff9c4
 ```
 
 **示例**：
@@ -48894,17 +48894,17 @@ graph LR
 
 ```mermaid
 sequenceDiagram
-    participant CPU
-    participant Cache as 缓存
-    participant Memory as 主存
-    
-    CPU->>Cache: 1. 请求数据
-    Cache->>Cache: 2. 查找（Miss）
-    Cache->>Memory: 3. 请求数据
-    Memory->>Memory: 4. 读取数据（50-100 ns）
-    Memory->>Cache: 5. 返回数据
-    Cache->>Cache: 6. 缓存数据
-    Cache->>CPU: 7. 返回数据
+ participant CPU
+ participant Cache as 缓存
+ participant Memory as 主存
+
+ CPU->>Cache: 1. 请求数据
+ Cache->>Cache: 2. 查找（Miss）
+ Cache->>Memory: 3. 请求数据
+ Memory->>Memory: 4. 读取数据（50-100 ns）
+ Memory->>Cache: 5. 返回数据
+ Cache->>Cache: 6. 缓存数据
+ Cache->>CPU: 7. 返回数据
 ```
 
 #### 完整的数据访问流程
@@ -48913,23 +48913,23 @@ sequenceDiagram
 
 ```mermaid
 flowchart TD
-    Start[CPU 需要数据] --> Check1{寄存器中<br/>有数据?}
-    Check1 -->|是| End1[直接使用<br/>0.3 ns]
-    Check1 -->|否| Check2{L1 Cache<br/>有数据?}
-    Check2 -->|是 Hit| End2[加载到寄存器<br/>0.5 ns]
-    Check2 -->|否 Miss| Check3{L2 Cache<br/>有数据?}
-    Check3 -->|是 Hit| End3[加载到 L1<br/>2-5 ns]
-    Check3 -->|否 Miss| Check4{L3 Cache<br/>有数据?}
-    Check4 -->|是 Hit| End4[加载到 L2<br/>10-20 ns]
-    Check4 -->|否 Miss| Memory[从主存读取<br/>50-100 ns]
-    Memory --> Update[更新各级缓存]
-    Update --> End5[加载到寄存器]
-    
-    style End1 fill:#4caf50
-    style End2 fill:#8bc34a
-    style End3 fill:#cddc39
-    style End4 fill:#ffeb3b
-    style Memory fill:#ff9800
+ Start[CPU 需要数据] --> Check1{寄存器中<br/>有数据?}
+ Check1 -->|是| End1[直接使用<br/>0.3 ns]
+ Check1 -->|否| Check2{L1 Cache<br/>有数据?}
+ Check2 -->|是 Hit| End2[加载到寄存器<br/>0.5 ns]
+ Check2 -->|否 Miss| Check3{L2 Cache<br/>有数据?}
+ Check3 -->|是 Hit| End3[加载到 L1<br/>2-5 ns]
+ Check3 -->|否 Miss| Check4{L3 Cache<br/>有数据?}
+ Check4 -->|是 Hit| End4[加载到 L2<br/>10-20 ns]
+ Check4 -->|否 Miss| Memory[从主存读取<br/>50-100 ns]
+ Memory --> Update[更新各级缓存]
+ Update --> End5[加载到寄存器]
+
+ style End1 fill:#4caf50
+ style End2 fill:#8bc34a
+ style End3 fill:#cddc39
+ style End4 fill:#ffeb3b
+ style Memory fill:#ff9800
 ```
 
 ##### 写入数据流程
@@ -48948,21 +48948,21 @@ flowchart TD
 
 ```mermaid
 graph LR
-    subgraph 写直达 Write-Through
-        A[CPU 写数据] --> B[写入 Cache]
-        A --> C[同时写入 Memory]
-    end
-    
-    subgraph 写回 Write-Back
-        D[CPU 写数据] --> E[只写入 Cache]
-        E --> F[标记为 Dirty]
-        F --> G[稍后写回 Memory]
-    end
-    
-    style B fill:#fff9c4
-    style C fill:#fff9c4
-    style E fill:#c8e6c9
-    style G fill:#c8e6c9
+ subgraph 写直达 Write-Through
+ A[CPU 写数据] --> B[写入 Cache]
+ A --> C[同时写入 Memory]
+ end
+
+ subgraph 写回 Write-Back
+ D[CPU 写数据] --> E[只写入 Cache]
+ E --> F[标记为 Dirty]
+ F --> G[稍后写回 Memory]
+ end
+
+ style B fill:#fff9c4
+ style C fill:#fff9c4
+ style E fill:#c8e6c9
+ style G fill:#c8e6c9
 ```
 
 #### 性能对比与实际影响
@@ -48971,27 +48971,27 @@ graph LR
 
 ```mermaid
 gantt
-    title 不同存储器访问时间对比（对数刻度）
-    dateFormat X
-    axisFormat %s
-    
-    section 寄存器
-    0.3 ns :0, 1
-    
-    section L1 Cache
-    1 ns :0, 3
-    
-    section L2 Cache
-    5 ns :0, 17
-    
-    section L3 Cache
-    20 ns :0, 67
-    
-    section 主存
-    100 ns :0, 333
-    
-    section SSD
-    100000 ns :0, 333333
+ title 不同存储器访问时间对比（对数刻度）
+ dateFormat X
+ axisFormat %s
+
+ section 寄存器
+ 0.3 ns :0, 1
+
+ section L1 Cache
+ 1 ns :0, 3
+
+ section L2 Cache
+ 5 ns :0, 17
+
+ section L3 Cache
+ 20 ns :0, 67
+
+ section 主存
+ 100 ns :0, 333
+
+ section SSD
+ 100000 ns :0, 333333
 ```
 
 ##### 如果 CPU 周期是 1 秒
@@ -49021,24 +49021,24 @@ gantt
 
 ```mermaid
 graph TB
-    subgraph 多核缓存一致性问题
-        Core1[核心 1] --> L1_1[L1: x=5]
-        Core2[核心 2] --> L1_2[L1: x=5]
-        
-        L1_1 --> L2_1[L2]
-        L1_2 --> L2_2[L2]
-        
-        L2_1 --> L3[L3 共享]
-        L2_2 --> L3
-        
-        L3 --> Memory[主存: x=5]
-    end
-    
-    Update[核心 1 修改 x=10] -.->|问题| L1_1
-    Question[核心 2 读取 x<br/>应该是 5 还是 10?] -.-> L1_2
-    
-    style Update fill:#ffcdd2
-    style Question fill:#ffcdd2
+ subgraph 多核缓存一致性问题
+ Core1[核心 1] --> L1_1[L1: x=5]
+ Core2[核心 2] --> L1_2[L1: x=5]
+
+ L1_1 --> L2_1[L2]
+ L1_2 --> L2_2[L2]
+
+ L2_1 --> L3[L3 共享]
+ L2_2 --> L3
+
+ L3 --> Memory[主存: x=5]
+ end
+
+ Update[核心 1 修改 x=10] -.->|问题| L1_1
+ Question[核心 2 读取 x<br/>应该是 5 还是 10?] -.-> L1_2
+
+ style Update fill:#ffcdd2
+ style Question fill:#ffcdd2
 ```
 
 ##### 解决方案：MESI 协议
@@ -49055,15 +49055,15 @@ graph TB
 **工作流程**：
 ```mermaid
 stateDiagram-v2
-    [*] --> I: 初始状态
-    I --> E: 独占读取
-    I --> S: 共享读取
-    E --> M: 写入
-    E --> S: 其他核心读取
-    S --> M: 写入（通知其他核心失效）
-    S --> I: 其他核心写入
-    M --> I: 其他核心读取（先写回主存）
-    M --> E: 写回主存
+ [*] --> I: 初始状态
+ I --> E: 独占读取
+ I --> S: 共享读取
+ E --> M: 写入
+ E --> S: 其他核心读取
+ S --> M: 写入（通知其他核心失效）
+ S --> I: 其他核心写入
+ M --> I: 其他核心读取（先写回主存）
+ M --> E: 写回主存
 ```
 
 #### 程序优化技巧
@@ -49072,23 +49072,23 @@ stateDiagram-v2
 
 **技巧 1：顺序访问数据**
 
-❌ **错误示例**（跳跃访问）：
+ **错误示例**（跳跃访问）：
 ```c
 // 列优先访问（Cache Miss 多）
 for (int j = 0; j < N; j++) {
-    for (int i = 0; i < N; i++) {
-        sum += matrix[i][j];  // 跳跃访问
-    }
+ for (int i = 0; i < N; i++) {
+ sum += matrix[i][j]; // 跳跃访问
+ }
 }
 ```
 
-✅ **正确示例**（顺序访问）：
+ **正确示例**（顺序访问）：
 ```c
 // 行优先访问（Cache Hit 多）
 for (int i = 0; i < N; i++) {
-    for (int j = 0; j < N; j++) {
-        sum += matrix[i][j];  // 顺序访问
-    }
+ for (int j = 0; j < N; j++) {
+ sum += matrix[i][j]; // 顺序访问
+ }
 }
 ```
 
@@ -49104,20 +49104,20 @@ for (int i = 0; i < N; i++) {
 ```c
 // 未对齐（可能跨越两个缓存行）
 struct Data {
-    char a;      // 1 字节
-    int b;       // 4 字节
-    char c;      // 1 字节
-    long d;      // 8 字节
-};  // 实际占用可能 24 字节（含填充）
+ char a; // 1 字节
+ int b; // 4 字节
+ char c; // 1 字节
+ long d; // 8 字节
+}; // 实际占用可能 24 字节（含填充）
 
 // 对齐优化
 struct DataAligned {
-    long d;      // 8 字节
-    int b;       // 4 字节
-    char a;      // 1 字节
-    char c;      // 1 字节
-    // 2 字节填充
-};  // 占用 16 字节
+ long d; // 8 字节
+ int b; // 4 字节
+ char a; // 1 字节
+ char c; // 1 字节
+ // 2 字节填充
+}; // 占用 16 字节
 ```
 
 ##### 3. 避免伪共享（False Sharing）
@@ -49126,66 +49126,66 @@ struct DataAligned {
 
 ```mermaid
 graph LR
-    subgraph 缓存行 64 字节
-        A[变量 a<br/>线程 1 写]
-        B[变量 b<br/>线程 2 写]
-    end
-    
-    Problem[问题: 线程 1 写 a 导致<br/>线程 2 的缓存行失效]
-    
-    style Problem fill:#ffcdd2
+ subgraph 缓存行 64 字节
+ A[变量 a<br/>线程 1 写]
+ B[变量 b<br/>线程 2 写]
+ end
+
+ Problem[问题: 线程 1 写 a 导致<br/>线程 2 的缓存行失效]
+
+ style Problem fill:#ffcdd2
 ```
 
-❌ **错误示例**：
+ **错误示例**：
 ```c
 struct Counter {
-    long count1;  // 线程 1 使用
-    long count2;  // 线程 2 使用
-};  // count1 和 count2 在同一缓存行
+ long count1; // 线程 1 使用
+ long count2; // 线程 2 使用
+}; // count1 和 count2 在同一缓存行
 ```
 
-✅ **正确示例**：
+ **正确示例**：
 ```c
 struct Counter {
-    long count1;
-    char padding[56];  // 填充到 64 字节
-    long count2;
-};  // count1 和 count2 在不同缓存行
+ long count1;
+ char padding[56]; // 填充到 64 字节
+ long count2;
+}; // count1 和 count2 在不同缓存行
 ```
 
 ##### 4. 循环分块（Loop Tiling）
 
 **技巧 4：将大循环分成小块，提高缓存利用率**
 
-❌ **未优化**：
+ **未优化**：
 ```c
 // 矩阵乘法（Cache Miss 多）
 for (int i = 0; i < N; i++) {
-    for (int j = 0; j < N; j++) {
-        for (int k = 0; k < N; k++) {
-            C[i][j] += A[i][k] * B[k][j];
-        }
-    }
+ for (int j = 0; j < N; j++) {
+ for (int k = 0; k < N; k++) {
+ C[i][j] += A[i][k] * B[k][j];
+ }
+ }
 }
 ```
 
-✅ **分块优化**：
+ **分块优化**：
 ```c
 // 分块矩阵乘法（Cache Hit 多）
 #define BLOCK_SIZE 64
 for (int ii = 0; ii < N; ii += BLOCK_SIZE) {
-    for (int jj = 0; jj < N; jj += BLOCK_SIZE) {
-        for (int kk = 0; kk < N; kk += BLOCK_SIZE) {
-            // 处理小块
-            for (int i = ii; i < ii + BLOCK_SIZE; i++) {
-                for (int j = jj; j < jj + BLOCK_SIZE; j++) {
-                    for (int k = kk; k < kk + BLOCK_SIZE; k++) {
-                        C[i][j] += A[i][k] * B[k][j];
-                    }
-                }
-            }
-        }
-    }
+ for (int jj = 0; jj < N; jj += BLOCK_SIZE) {
+ for (int kk = 0; kk < N; kk += BLOCK_SIZE) {
+ // 处理小块
+ for (int i = ii; i < ii + BLOCK_SIZE; i++) {
+ for (int j = jj; j < jj + BLOCK_SIZE; j++) {
+ for (int k = kk; k < kk + BLOCK_SIZE; k++) {
+ C[i][j] += A[i][k] * B[k][j];
+ }
+ }
+ }
+ }
+ }
 }
 ```
 
@@ -49198,10 +49198,10 @@ for (int ii = 0; ii < N; ii += BLOCK_SIZE) {
 lscpu | grep cache
 
 # 查看详细缓存信息
-cat /sys/devices/system/cpu/cpu0/cache/index0/size  # L1d
-cat /sys/devices/system/cpu/cpu0/cache/index1/size  # L1i
-cat /sys/devices/system/cpu/cpu0/cache/index2/size  # L2
-cat /sys/devices/system/cpu/cpu0/cache/index3/size  # L3
+cat /sys/devices/system/cpu/cpu0/cache/index0/size # L1d
+cat /sys/devices/system/cpu/cpu0/cache/index1/size # L1i
+cat /sys/devices/system/cpu/cpu0/cache/index2/size # L2
+cat /sys/devices/system/cpu/cpu0/cache/index3/size # L3
 ```
 
 ##### macOS 系统
@@ -49228,29 +49228,29 @@ Get-WmiObject -Class Win32_CacheMemory
 #include <time.h>
 #include <stdlib.h>
 
-#define SIZE (64 * 1024 * 1024)  // 64 MB
+#define SIZE (64 * 1024 * 1024) // 64 MB
 
 int main() {
-    int *arr = malloc(SIZE * sizeof(int));
-    int steps[] = {1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024};
-    
-    for (int s = 0; s < 11; s++) {
-        int step = steps[s];
-        clock_t start = clock();
-        
-        // 访问数组
-        for (int i = 0; i < SIZE; i += step) {
-            arr[i] *= 2;
-        }
-        
-        clock_t end = clock();
-        double time = (double)(end - start) / CLOCKS_PER_SEC;
-        
-        printf("Step %4d: %.6f 秒\n", step, time);
-    }
-    
-    free(arr);
-    return 0;
+ int *arr = malloc(SIZE * sizeof(int));
+ int steps[] = {1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024};
+
+ for (int s = 0; s < 11; s++) {
+ int step = steps[s];
+ clock_t start = clock();
+
+ // 访问数组
+ for (int i = 0; i < SIZE; i += step) {
+ arr[i] *= 2;
+ }
+
+ clock_t end = clock();
+ double time = (double)(end - start) / CLOCKS_PER_SEC;
+
+ printf("Step %4d: %.6f 秒\n", step, time);
+ }
+
+ free(arr);
+ return 0;
 }
 ```
 
@@ -49274,23 +49274,23 @@ int main() {
 ##### 优化原则
 
 1. **利用局部性原理**
-   - 时间局部性：重复访问相同数据
-   - 空间局部性：顺序访问相邻数据
+ - 时间局部性：重复访问相同数据
+ - 空间局部性：顺序访问相邻数据
 
 2. **提高缓存命中率**
-   - 顺序访问数组
-   - 数据对齐
-   - 循环分块
+ - 顺序访问数组
+ - 数据对齐
+ - 循环分块
 
 3. **避免缓存问题**
-   - 避免伪共享
-   - 减少缓存行冲突
-   - 合理使用内存
+ - 避免伪共享
+ - 减少缓存行冲突
+ - 合理使用内存
 
 4. **理解硬件特性**
-   - 缓存行大小（通常 64 字节）
-   - 缓存容量限制
-   - 多核缓存一致性
+ - 缓存行大小（通常 64 字节）
+ - 缓存容量限制
+ - 多核缓存一致性
 
 **核心思想**：
 - 寄存器最快但最小，用于直接运算
@@ -49332,23 +49332,23 @@ int main() {
 
 ```mermaid
 graph TB
-    Input["输入设备<br/>Input Device"]
-    Output["输出设备<br/>Output Device"]
-    CU["控制器<br/>Control Unit"]
-    ALU["运算器<br/>Arithmetic Logic Unit"]
-    Memory["存储器<br/>Memory"]
-    
-    Input -->|输入数据| Memory
-    Memory <-->|取指令/数据| CU
-    CU <-->|控制信号| ALU
-    Memory <-->|读写数据| ALU
-    Memory -->|输出数据| Output
-    
-    style CU fill:#ffcdd2
-    style ALU fill:#f8bbd0
-    style Memory fill:#fff9c4
-    style Input fill:#c8e6c9
-    style Output fill:#bbdefb
+ Input["输入设备<br/>Input Device"]
+ Output["输出设备<br/>Output Device"]
+ CU["控制器<br/>Control Unit"]
+ ALU["运算器<br/>Arithmetic Logic Unit"]
+ Memory["存储器<br/>Memory"]
+
+ Input -->|输入数据| Memory
+ Memory <-->|取指令/数据| CU
+ CU <-->|控制信号| ALU
+ Memory <-->|读写数据| ALU
+ Memory -->|输出数据| Output
+
+ style CU fill:#ffcdd2
+ style ALU fill:#f8bbd0
+ style Memory fill:#fff9c4
+ style Input fill:#c8e6c9
+ style Output fill:#bbdefb
 ```
 
 ##### 1. 运算器（Arithmetic Logic Unit, ALU）
@@ -49423,17 +49423,17 @@ graph TB
 
 ```mermaid
 graph LR
-    A[取指<br/>Fetch] --> B[译码<br/>Decode]
-    B --> C[执行<br/>Execute]
-    C --> D[访存<br/>Memory Access]
-    D --> E[写回<br/>Write Back]
-    E --> A
-    
-    style A fill:#ffcdd2
-    style B fill:#f8bbd0
-    style C fill:#e1bee7
-    style D fill:#d1c4e9
-    style E fill:#c5cae9
+ A[取指<br/>Fetch] --> B[译码<br/>Decode]
+ B --> C[执行<br/>Execute]
+ C --> D[访存<br/>Memory Access]
+ D --> E[写回<br/>Write Back]
+ E --> A
+
+ style A fill:#ffcdd2
+ style B fill:#f8bbd0
+ style C fill:#e1bee7
+ style D fill:#d1c4e9
+ style E fill:#c5cae9
 ```
 
 **各阶段说明**：
@@ -49464,19 +49464,19 @@ graph LR
 
 ```mermaid
 flowchart TB
-    subgraph 数据通路
-        PC[程序计数器 PC] -->|指令地址| Memory[存储器]
-        Memory -->|指令| IR[指令寄存器 IR]
-        IR -->|操作码| Decoder[译码器]
-        Decoder -->|控制信号| ALU[运算器 ALU]
-        Memory <-->|数据| ALU
-        ALU -->|结果| Register[寄存器]
-        Register -->|数据| Memory
-    end
-    
-    style PC fill:#ffcdd2
-    style Memory fill:#fff9c4
-    style ALU fill:#f8bbd0
+ subgraph 数据通路
+ PC[程序计数器 PC] -->|指令地址| Memory[存储器]
+ Memory -->|指令| IR[指令寄存器 IR]
+ IR -->|操作码| Decoder[译码器]
+ Decoder -->|控制信号| ALU[运算器 ALU]
+ Memory <-->|数据| ALU
+ ALU -->|结果| Register[寄存器]
+ Register -->|数据| Memory
+ end
+
+ style PC fill:#ffcdd2
+ style Memory fill:#fff9c4
+ style ALU fill:#f8bbd0
 ```
 
 #### 冯·诺依曼架构的特点
@@ -49504,10 +49504,10 @@ flowchart TB
 
 ```mermaid
 graph LR
-    CPU[CPU<br/>处理速度快] <-->|单一总线<br/>瓶颈| Memory[存储器<br/>访问速度慢]
-    
-    style CPU fill:#ffcdd2
-    style Memory fill:#fff9c4
+ CPU[CPU<br/>处理速度快] <-->|单一总线<br/>瓶颈| Memory[存储器<br/>访问速度慢]
+
+ style CPU fill:#ffcdd2
+ style Memory fill:#fff9c4
 ```
 
 **2. 顺序执行效率低**
@@ -49526,17 +49526,17 @@ graph LR
 
 ```mermaid
 graph TB
-    CPU[CPU]
-    
-    InstMem[指令存储器<br/>Instruction Memory]
-    DataMem[数据存储器<br/>Data Memory]
-    
-    CPU <-->|指令总线| InstMem
-    CPU <-->|数据总线| DataMem
-    
-    style CPU fill:#ffcdd2
-    style InstMem fill:#c8e6c9
-    style DataMem fill:#bbdefb
+ CPU[CPU]
+
+ InstMem[指令存储器<br/>Instruction Memory]
+ DataMem[数据存储器<br/>Data Memory]
+
+ CPU <-->|指令总线| InstMem
+ CPU <-->|数据总线| DataMem
+
+ style CPU fill:#ffcdd2
+ style InstMem fill:#c8e6c9
+ style DataMem fill:#bbdefb
 ```
 
 **优点**：
@@ -49590,25 +49590,25 @@ graph TB
 
 ```mermaid
 graph TB
-    subgraph 现代 CPU
-        Core[CPU 核心]
-        L1I[L1 指令缓存]
-        L1D[L1 数据缓存]
-        L2[L2 统一缓存]
-        
-        Core --> L1I
-        Core --> L1D
-        L1I --> L2
-        L1D --> L2
-    end
-    
-    L2 <--> Memory[主存<br/>统一存储]
-    
-    style Core fill:#ffcdd2
-    style L1I fill:#c8e6c9
-    style L1D fill:#bbdefb
-    style L2 fill:#fff9c4
-    style Memory fill:#e1bee7
+ subgraph 现代 CPU
+ Core[CPU 核心]
+ L1I[L1 指令缓存]
+ L1D[L1 数据缓存]
+ L2[L2 统一缓存]
+
+ Core --> L1I
+ Core --> L1D
+ L1I --> L2
+ L1D --> L2
+ end
+
+ L2 <--> Memory[主存<br/>统一存储]
+
+ style Core fill:#ffcdd2
+ style L1I fill:#c8e6c9
+ style L1D fill:#bbdefb
+ style L2 fill:#fff9c4
+ style Memory fill:#e1bee7
 ```
 
 #### 关键要点总结
@@ -49705,18 +49705,18 @@ graph TB
 
 ```mermaid
 graph LR
-    A[1 Bit<br/>位] -->|× 8| B[1 Byte<br/>字节]
-    B -->|× 1024| C[1 KB<br/>千字节]
-    C -->|× 1024| D[1 MB<br/>兆字节]
-    D -->|× 1024| E[1 GB<br/>吉字节]
-    E -->|× 1024| F[1 TB<br/>太字节]
-    
-    style A fill:#ffcdd2
-    style B fill:#f8bbd0
-    style C fill:#e1bee7
-    style D fill:#d1c4e9
-    style E fill:#c5cae9
-    style F fill:#bbdefb
+ A[1 Bit<br/>位] -->|× 8| B[1 Byte<br/>字节]
+ B -->|× 1024| C[1 KB<br/>千字节]
+ C -->|× 1024| D[1 MB<br/>兆字节]
+ D -->|× 1024| E[1 GB<br/>吉字节]
+ E -->|× 1024| F[1 TB<br/>太字节]
+
+ style A fill:#ffcdd2
+ style B fill:#f8bbd0
+ style C fill:#e1bee7
+ style D fill:#d1c4e9
+ style E fill:#c5cae9
+ style F fill:#bbdefb
 ```
 
 ##### 换算表
@@ -49771,21 +49771,21 @@ graph LR
 
 ```mermaid
 graph TB
-    subgraph 内存地址示意
-        A[地址 0x0000<br/>字节 0]
-        B[地址 0x0001<br/>字节 1]
-        C[地址 0x0002<br/>字节 2]
-        D[地址 0x0003<br/>字节 3]
-        E[地址 0x0004<br/>字节 4]
-        F[...]
-        G[地址 0xFFFF<br/>最后字节]
-    end
-    
-    style A fill:#ffcdd2
-    style B fill:#f8bbd0
-    style C fill:#e1bee7
-    style D fill:#d1c4e9
-    style E fill:#c5cae9
+ subgraph 内存地址示意
+ A[地址 0x0000<br/>字节 0]
+ B[地址 0x0001<br/>字节 1]
+ C[地址 0x0002<br/>字节 2]
+ D[地址 0x0003<br/>字节 3]
+ E[地址 0x0004<br/>字节 4]
+ F[...]
+ G[地址 0xFFFF<br/>最后字节]
+ end
+
+ style A fill:#ffcdd2
+ style B fill:#f8bbd0
+ style C fill:#e1bee7
+ style D fill:#d1c4e9
+ style E fill:#c5cae9
 ```
 
 ##### 字节寻址 vs 字寻址
@@ -49853,7 +49853,7 @@ graph TB
 - 元素地址 = 起始地址 + 索引 × 元素大小
 
 ```
-int arr[4] = {10, 20, 30, 40};  // 每个 int 4 字节
+int arr[4] = {10, 20, 30, 40}; // 每个 int 4 字节
 
 地址 0x1000-0x1003: arr[0] = 10
 地址 0x1004-0x1007: arr[1] = 20
@@ -49875,8 +49875,8 @@ arr[2] 的地址 = 0x1000 + 2 × 4 = 0x1008
 
 ```
 struct Point {
-    int x;    // 4 字节
-    int y;    // 4 字节
+ int x; // 4 字节
+ int y; // 4 字节
 };
 
 地址 0x1000-0x1003: x
@@ -49917,20 +49917,20 @@ struct Point {
 
 ```mermaid
 graph TB
-    subgraph 未对齐访问
-        A1[字边界 0-3]
-        A2[字边界 4-7]
-        A3[int 数据<br/>地址 1-4<br/>跨越两个字]
-    end
-    
-    subgraph 对齐访问
-        B1[字边界 0-3]
-        B2[int 数据<br/>地址 0-3<br/>完整的字]
-        B3[字边界 4-7]
-    end
-    
-    style A3 fill:#ffcdd2
-    style B2 fill:#c8e6c9
+ subgraph 未对齐访问
+ A1[字边界 0-3]
+ A2[字边界 4-7]
+ A3[int 数据<br/>地址 1-4<br/>跨越两个字]
+ end
+
+ subgraph 对齐访问
+ B1[字边界 0-3]
+ B2[int 数据<br/>地址 0-3<br/>完整的字]
+ B3[字边界 4-7]
+ end
+
+ style A3 fill:#ffcdd2
+ style B2 fill:#c8e6c9
 ```
 
 **性能差异**：
@@ -49949,9 +49949,9 @@ graph TB
 **未优化结构体**：
 ```c
 struct Example {
-    char a;      // 1 字节
-    int b;       // 4 字节
-    char c;      // 1 字节
+ char a; // 1 字节
+ int b; // 4 字节
+ char c; // 1 字节
 };
 ```
 
@@ -49968,9 +49968,9 @@ struct Example {
 **优化后结构体**：
 ```c
 struct ExampleOptimized {
-    int b;       // 4 字节
-    char a;      // 1 字节
-    char c;      // 1 字节
+ int b; // 4 字节
+ char a; // 1 字节
+ char c; // 1 字节
 };
 ```
 
@@ -49994,17 +49994,17 @@ struct ExampleOptimized {
 ```c
 // GCC/Clang
 struct __attribute__((packed)) NoPadding {
-    char a;
-    int b;
-    char c;
-};  // 大小：6 字节（无填充）
+ char a;
+ int b;
+ char c;
+}; // 大小：6 字节（无填充）
 
 // MSVC
 #pragma pack(push, 1)
 struct NoPadding {
-    char a;
-    int b;
-    char c;
+ char a;
+ int b;
+ char c;
 };
 #pragma pack(pop)
 ```
@@ -50060,24 +50060,24 @@ struct NoPadding {
 
 ```mermaid
 graph TB
-    subgraph 大端序 Big-Endian
-        direction TB
-        A1[低地址 0x00: 0x12 最高位]
-        A2[地址 0x01: 0x34]
-        A3[地址 0x02: 0x56]
-        A4[高地址 0x03: 0x78 最低位]
-    end
-    
-    subgraph 小端序 Little-Endian
-        direction TB
-        B1[低地址 0x00: 0x78 最低位]
-        B2[地址 0x01: 0x56]
-        B3[地址 0x02: 0x34]
-        B4[高地址 0x03: 0x12 最高位]
-    end
-    
-    style A1 fill:#ffcdd2
-    style B4 fill:#c8e6c9
+ subgraph 大端序 Big-Endian
+ direction TB
+ A1[低地址 0x00: 0x12 最高位]
+ A2[地址 0x01: 0x34]
+ A3[地址 0x02: 0x56]
+ A4[高地址 0x03: 0x78 最低位]
+ end
+
+ subgraph 小端序 Little-Endian
+ direction TB
+ B1[低地址 0x00: 0x78 最低位]
+ B2[地址 0x01: 0x56]
+ B3[地址 0x02: 0x34]
+ B4[高地址 0x03: 0x12 最高位]
+ end
+
+ style A1 fill:#ffcdd2
+ style B4 fill:#c8e6c9
 ```
 ### 30.5 原码、反码、补码
 
@@ -50144,10 +50144,10 @@ graph TB
 计算：1 + (-1) = 0
 
 原码运算：
-  0000 0001  (+1)
-+ 1000 0001  (-1)
+ 0000 0001 (+1)
++ 1000 0001 (-1)
 -----------
-  1000 0010  (-2) ← 错误！应该是 0
+ 1000 0010 (-2) ← 错误！应该是 0
 ```
 
 **问题 3：需要复杂的运算规则**
@@ -50203,10 +50203,10 @@ graph TB
 计算：1 + (-1) = 0
 
 反码运算：
-  0000 0001  (+1 的反码)
-+ 1111 1110  (-1 的反码)
+ 0000 0001 (+1 的反码)
++ 1111 1110 (-1 的反码)
 -----------
-  1111 1111  (-0 的反码)
+ 1111 1111 (-0 的反码)
 
 结果是 -0，接近正确但不完美
 ```
@@ -50216,13 +50216,13 @@ graph TB
 计算：5 + (-3) = 2
 
 反码运算：
-  0000 0101  (+5 的反码)
-+ 1111 1100  (-3 的反码)
+ 0000 0101 (+5 的反码)
++ 1111 1100 (-3 的反码)
 -----------
-1 0000 0001  (产生进位)
-  0000 0001  (进位加到最低位)
+1 0000 0001 (产生进位)
+ 0000 0001 (进位加到最低位)
 -----------
-  0000 0010  (+2) ← 正确！
+ 0000 0010 (+2) ← 正确！
 ```
 
 ##### 反码的问题
@@ -50264,17 +50264,17 @@ graph TB
 **负数**：
 ```
 -1：
-  原码：1000 0001
-  反码：1111 1110
-  补码：1111 1111 (反码 + 1)
+ 原码：1000 0001
+ 反码：1111 1110
+ 补码：1111 1111 (反码 + 1)
 
 -5：
-  原码：1000 0101
-  反码：1111 1010
-  补码：1111 1011 (反码 + 1)
+ 原码：1000 0101
+ 反码：1111 1010
+ 补码：1111 1011 (反码 + 1)
 
 -128：
-  补码：1000 0000 (特殊，没有对应的正数)
+ 补码：1000 0000 (特殊，没有对应的正数)
 ```
 
 **表示范围**（8 位）：
@@ -50294,11 +50294,11 @@ graph TB
 计算：1 + (-1) = 0
 
 补码运算：
-  0000 0001  (+1 的补码)
-+ 1111 1111  (-1 的补码)
+ 0000 0001 (+1 的补码)
++ 1111 1111 (-1 的补码)
 -----------
-1 0000 0000  (最高位进位丢弃)
-  0000 0000  (0) ← 正确！
+1 0000 0000 (最高位进位丢弃)
+ 0000 0000 (0) ← 正确！
 ```
 
 **减法转加法**：
@@ -50306,11 +50306,11 @@ graph TB
 计算：5 - 3 = 5 + (-3) = 2
 
 补码运算：
-  0000 0101  (+5 的补码)
-+ 1111 1101  (-3 的补码)
+ 0000 0101 (+5 的补码)
++ 1111 1101 (-3 的补码)
 -----------
-1 0000 0010  (最高位进位丢弃)
-  0000 0010  (+2) ← 正确！
+1 0000 0010 (最高位进位丢弃)
+ 0000 0010 (+2) ← 正确！
 ```
 
 **负数相加**：
@@ -50318,11 +50318,11 @@ graph TB
 计算：(-5) + (-3) = -8
 
 补码运算：
-  1111 1011  (-5 的补码)
-+ 1111 1101  (-3 的补码)
+ 1111 1011 (-5 的补码)
++ 1111 1101 (-3 的补码)
 -----------
-1 1111 1000  (最高位进位丢弃)
-  1111 1000  (-8 的补码) ← 正确！
+1 1111 1000 (最高位进位丢弃)
+ 1111 1000 (-8 的补码) ← 正确！
 ```
 
 ##### 补码的优点
@@ -50425,7 +50425,7 @@ graph TB
 0000 0101
 
 步骤 2：从右往左，遇到第一个 1 之前（包括这个 1）保持不变
-     ...0101 (保持不变)
+ ...0101 (保持不变)
 
 步骤 3：第一个 1 之后的所有位取反
 1111 1011 (取反后的结果)
@@ -50470,8 +50470,8 @@ graph TB
 
 如果最高位是 1，表示负数
 值 = 补码 - 2^n
-   = 251 - 256
-   = -5
+ = 251 - 256
+ = -5
 ```
 
 **方法 3：权值法**
@@ -50507,11 +50507,11 @@ graph TB
 -5 的补码 = 256 - 5 = 251 = 1111 1011
 
 5 - 3 = 5 + (-3)
-     = 5 + (256 - 3)
-     = 5 + 253
-     = 258
-     = 258 mod 256
-     = 2 ✓
+ = 5 + (256 - 3)
+ = 5 + 253
+ = 258
+ = 258 mod 256
+ = 2
 ```
 
 ##### 为什么补码加法总是正确
@@ -50521,12 +50521,12 @@ graph TB
 ```
 5 + (-3) = 2
 
-  0000 0101  (5)
-+ 1111 1101  (253，即 -3 的补码)
+ 0000 0101 (5)
++ 1111 1101 (253，即 -3 的补码)
 -----------
-1 0000 0010  (258)
-  ↑
-  丢弃（相当于 258 mod 256 = 2）
+1 0000 0010 (258)
+ ↑
+ 丢弃（相当于 258 mod 256 = 2）
 ```
 
 #### 溢出（Overflow）
@@ -50544,22 +50544,22 @@ graph TB
 ```
 计算：100 + 50 = 150（超出 +127）
 
-  0110 0100  (+100)
-+ 0011 0010  (+50)
+ 0110 0100 (+100)
++ 0011 0010 (+50)
 -----------
-  1001 0110  (-106) ← 错误！
+ 1001 0110 (-106) ← 错误！
 ```
 
 **负溢出**：
 ```
 计算：(-100) + (-50) = -150（超出 -128）
 
-  1001 1100  (-100)
-+ 1100 1110  (-50)
+ 1001 1100 (-100)
++ 1100 1110 (-50)
 -----------
-1 0110 1010  (+106) ← 错误！
-  ↑
-  进位丢弃
+1 0110 1010 (+106) ← 错误！
+ ↑
+ 进位丢弃
 ```
 
 ##### 溢出检测
@@ -50651,13 +50651,13 @@ E：指数（Exponent）
 
 ```mermaid
 graph LR
-    A[浮点数] --> B[符号位<br/>Sign]
-    A --> C[指数位<br/>Exponent]
-    A --> D[尾数位<br/>Mantissa/Fraction]
-    
-    style B fill:#ffcdd2
-    style C fill:#fff9c4
-    style D fill:#c8e6c9
+ A[浮点数] --> B[符号位<br/>Sign]
+ A --> C[指数位<br/>Exponent]
+ A --> D[尾数位<br/>Mantissa/Fraction]
+
+ style B fill:#ffcdd2
+ style C fill:#fff9c4
+ style D fill:#c8e6c9
 ```
 
 #### 单精度浮点数（32 位）
@@ -50666,28 +50666,28 @@ graph LR
 
 ```
 ┌─────┬──────────┬───────────────────────┐
-│  S  │    E     │          M            │
+│ S │ E │ M │
 ├─────┼──────────┼───────────────────────┤
-│ 1位 │  8 位    │       23 位           │
+│ 1位 │ 8 位 │ 23 位 │
 └─────┴──────────┴───────────────────────┘
- 符号   指数        尾数（小数部分）
+ 符号 指数 尾数（小数部分）
 ```
 
 **各部分说明**：
 - **符号位（S）**：1 位
-  - 0 = 正数
-  - 1 = 负数
-  
+ - 0 = 正数
+ - 1 = 负数
+
 - **指数位（E）**：8 位
-  - 范围：0 ~ 255
-  - 偏移量（Bias）：127
-  - 实际指数 = E - 127
-  - 实际范围：-126 ~ +127（0 和 255 特殊用途）
+ - 范围：0 ~ 255
+ - 偏移量（Bias）：127
+ - 实际指数 = E - 127
+ - 实际范围：-126 ~ +127（0 和 255 特殊用途）
 
 - **尾数位（M）**：23 位
-  - 表示小数部分
-  - 隐含前导 1（规格化数）
-  - 实际精度：24 位（1 + 23）
+ - 表示小数部分
+ - 隐含前导 1（规格化数）
+ - 实际精度：24 位（1 + 23）
 
 ##### 表示公式
 
@@ -50700,8 +50700,8 @@ graph LR
 ```
 S = 0, E = 127, M = 0
 值 = (-1)^0 × 1.0 × 2^(127-127)
-   = 1 × 1.0 × 2^0
-   = 1.0
+ = 1 × 1.0 × 2^0
+ = 1.0
 ```
 
 ##### 表示范围
@@ -50722,23 +50722,23 @@ S = 0, E = 127, M = 0
 
 ```
 ┌─────┬─────────────┬──────────────────────────────────────────────────┐
-│  S  │      E      │                      M                           │
+│ S │ E │ M │
 ├─────┼─────────────┼──────────────────────────────────────────────────┤
-│ 1位 │   11 位     │                   52 位                          │
+│ 1位 │ 11 位 │ 52 位 │
 └─────┴─────────────┴──────────────────────────────────────────────────┘
- 符号     指数                    尾数（小数部分）
+ 符号 指数 尾数（小数部分）
 ```
 
 **各部分说明**：
 - **符号位（S）**：1 位
 - **指数位（E）**：11 位
-  - 范围：0 ~ 2047
-  - 偏移量（Bias）：1023
-  - 实际指数 = E - 1023
-  - 实际范围：-1022 ~ +1023
+ - 范围：0 ~ 2047
+ - 偏移量（Bias）：1023
+ - 实际指数 = E - 1023
+ - 实际范围：-1022 ~ +1023
 
 - **尾数位（M）**：52 位
-  - 实际精度：53 位（1 + 52）
+ - 实际精度：53 位（1 + 52）
 
 ##### 表示公式
 
@@ -50795,8 +50795,8 @@ S = 0, E = 127, M = 0
 步骤 2：转换为二进制
 整数部分：5 = 101₂
 小数部分：0.75 = 0.11₂
-  0.75 × 2 = 1.5  → 1
-  0.5  × 2 = 1.0  → 1
+ 0.75 × 2 = 1.5 → 1
+ 0.5 × 2 = 1.0 → 1
 结果：5.75 = 101.11₂
 
 步骤 3：规格化
@@ -50828,9 +50828,9 @@ M = 01110000000000000000000
 
 步骤 2：转换为二进制
 0.125 = 1/8 = 0.001₂
-  0.125 × 2 = 0.25  → 0
-  0.25  × 2 = 0.5   → 0
-  0.5   × 2 = 1.0   → 1
+ 0.125 × 2 = 0.25 → 0
+ 0.25 × 2 = 0.5 → 0
+ 0.5 × 2 = 1.0 → 1
 
 步骤 3：规格化
 0.001₂ = 1.0₂ × 2^-3
@@ -50876,8 +50876,8 @@ M = 01000000000000000000000₂
 
 步骤 4：计算最终值
 值 = (-1)^0 × 1.25 × 2^3
-   = 1 × 1.25 × 8
-   = 10.0
+ = 1 × 1.25 × 8
+ = 10.0
 ```
 
 #### 特殊值
@@ -50887,10 +50887,10 @@ M = 01000000000000000000000₂
 **表示**：
 ```
 +0：S=0, E=0, M=0
-  0 00000000 00000000000000000000000
+ 0 00000000 00000000000000000000000
 
 -0：S=1, E=0, M=0
-  1 00000000 00000000000000000000000
+ 1 00000000 00000000000000000000000
 ```
 
 **注意**：
@@ -50903,10 +50903,10 @@ M = 01000000000000000000000₂
 **表示**：
 ```
 +∞：S=0, E=255, M=0
-  0 11111111 00000000000000000000000
+ 0 11111111 00000000000000000000000
 
 -∞：S=1, E=255, M=0
-  1 11111111 00000000000000000000000
+ 1 11111111 00000000000000000000000
 ```
 
 **产生原因**：
@@ -50927,7 +50927,7 @@ M = 01000000000000000000000₂
 **表示**：
 ```
 NaN：S=任意, E=255, M≠0
-  x 11111111 非零值
+ x 11111111 非零值
 ```
 
 **产生原因**：
@@ -50938,8 +50938,8 @@ NaN：S=任意, E=255, M≠0
 
 **特性**：
 ```
-NaN ≠ NaN  （NaN 不等于任何值，包括自己）
-isNaN(x)   （需要专门函数判断）
+NaN ≠ NaN （NaN 不等于任何值，包括自己）
+isNaN(x) （需要专门函数判断）
 ```
 
 **类型**：
@@ -50951,7 +50951,7 @@ isNaN(x)   （需要专门函数判断）
 **表示**：
 ```
 E = 0, M ≠ 0
-值 = (-1)^S × 0.M × 2^-126  （单精度）
+值 = (-1)^S × 0.M × 2^-126 （单精度）
 ```
 
 **作用**：
@@ -50962,19 +50962,19 @@ E = 0, M ≠ 0
 **示例**：
 ```
 最小规格化数（单精度）：
-  0 00000001 00000000000000000000000
-  = 1.0 × 2^-126
-  ≈ 1.18 × 10^-38
+ 0 00000001 00000000000000000000000
+ = 1.0 × 2^-126
+ ≈ 1.18 × 10^-38
 
 最大非规格化数（单精度）：
-  0 00000000 11111111111111111111111
-  = 0.111...111₂ × 2^-126
-  ≈ 1.18 × 10^-38
+ 0 00000000 11111111111111111111111
+ = 0.111...111₂ × 2^-126
+ ≈ 1.18 × 10^-38
 
 最小非规格化数（单精度）：
-  0 00000000 00000000000000000000001
-  = 0.000...001₂ × 2^-126
-  ≈ 1.40 × 10^-45
+ 0 00000000 00000000000000000000001
+ = 0.000...001₂ × 2^-126
+ ≈ 1.40 × 10^-45
 ```
 
 ##### 特殊值总结
@@ -51019,7 +51019,7 @@ E = 0, M ≠ 0
 float a = 0.1f;
 float b = 0.2f;
 float c = a + b;
-printf("%.20f\n", c);  // 0.30000001192092895508
+printf("%.20f\n", c); // 0.30000001192092895508
 ```
 
 **原因**：
@@ -51039,7 +51039,7 @@ printf("%.20f\n", c);  // 0.30000001192092895508
 float big = 1e20f;
 float small = 1.0f;
 float result = big + small;
-printf("%.0f\n", result);  // 100000000000000000000（没有变化）
+printf("%.0f\n", result); // 100000000000000000000（没有变化）
 ```
 
 **原因**：
@@ -51049,7 +51049,7 @@ printf("%.0f\n", result);  // 100000000000000000000（没有变化）
 小数被舍弃
 ```
 ## 第 31 章 操作系统基础
-### 31.1 进程 vs 线程 vs 协程 
+### 31.1 进程 vs 线程 vs 协程
 
 #### 进程（Process）
 
@@ -51093,24 +51093,24 @@ printf("%.0f\n", result);  // 100000000000000000000（没有变化）
 
 ```mermaid
 graph TB
-    subgraph 进程 A 的地址空间
-        A1[栈 Stack]
-        A2[堆 Heap]
-        A3[数据段 Data]
-        A4[代码段 Text]
-    end
-    
-    subgraph 进程 B 的地址空间
-        B1[栈 Stack]
-        B2[堆 Heap]
-        B3[数据段 Data]
-        B4[代码段 Text]
-    end
-    
-    style A1 fill:#ffcdd2
-    style A2 fill:#f8bbd0
-    style B1 fill:#c8e6c9
-    style B2 fill:#dcedc8
+ subgraph 进程 A 的地址空间
+ A1[栈 Stack]
+ A2[堆 Heap]
+ A3[数据段 Data]
+ A4[代码段 Text]
+ end
+
+ subgraph 进程 B 的地址空间
+ B1[栈 Stack]
+ B2[堆 Heap]
+ B3[数据段 Data]
+ B4[代码段 Text]
+ end
+
+ style A1 fill:#ffcdd2
+ style A2 fill:#f8bbd0
+ style B1 fill:#c8e6c9
+ style B2 fill:#dcedc8
 ```
 
 **特点**：
@@ -51122,18 +51122,18 @@ graph TB
 
 ```mermaid
 graph LR
-    A[新建<br/>New] --> B[就绪<br/>Ready]
-    B --> C[运行<br/>Running]
-    C --> B
-    C --> D[阻塞<br/>Blocked]
-    D --> B
-    C --> E[终止<br/>Terminated]
-    
-    style A fill:#e1f5fe
-    style B fill:#fff9c4
-    style C fill:#c8e6c9
-    style D fill:#ffccbc
-    style E fill:#f5f5f5
+ A[新建<br/>New] --> B[就绪<br/>Ready]
+ B --> C[运行<br/>Running]
+ C --> B
+ C --> D[阻塞<br/>Blocked]
+ D --> B
+ C --> E[终止<br/>Terminated]
+
+ style A fill:#e1f5fe
+ style B fill:#fff9c4
+ style C fill:#c8e6c9
+ style D fill:#ffccbc
+ style E fill:#f5f5f5
 ```
 
 **状态说明**：
@@ -51160,20 +51160,20 @@ graph LR
 #include <stdio.h>
 
 int main() {
-    pid_t pid = fork();  // 创建子进程
-    
-    if (pid < 0) {
-        // 创建失败
-        printf("Fork failed\n");
-    } else if (pid == 0) {
-        // 子进程
-        printf("Child process, PID: %d\n", getpid());
-    } else {
-        // 父进程
-        printf("Parent process, PID: %d, Child PID: %d\n", getpid(), pid);
-    }
-    
-    return 0;
+ pid_t pid = fork(); // 创建子进程
+
+ if (pid < 0) {
+ // 创建失败
+ printf("Fork failed\n");
+ } else if (pid == 0) {
+ // 子进程
+ printf("Child process, PID: %d\n", getpid());
+ } else {
+ // 父进程
+ printf("Parent process, PID: %d, Child PID: %d\n", getpid(), pid);
+ }
+
+ return 0;
 }
 ```
 
@@ -51182,28 +51182,28 @@ int main() {
 #include <windows.h>
 
 int main() {
-    STARTUPINFO si;
-    PROCESS_INFORMATION pi;
-    
-    ZeroMemory(&si, sizeof(si));
-    si.cb = sizeof(si);
-    ZeroMemory(&pi, sizeof(pi));
-    
-    // 创建新进程
-    CreateProcess(
-        "C:\\Program.exe",  // 程序路径
-        NULL,               // 命令行参数
-        NULL,               // 进程安全属性
-        NULL,               // 线程安全属性
-        FALSE,              // 继承句柄
-        0,                  // 创建标志
-        NULL,               // 环境变量
-        NULL,               // 当前目录
-        &si,                // 启动信息
-        &pi                 // 进程信息
-    );
-    
-    return 0;
+ STARTUPINFO si;
+ PROCESS_INFORMATION pi;
+
+ ZeroMemory(&si, sizeof(si));
+ si.cb = sizeof(si);
+ ZeroMemory(&pi, sizeof(pi));
+
+ // 创建新进程
+ CreateProcess(
+ "C:\\Program.exe", // 程序路径
+ NULL, // 命令行参数
+ NULL, // 进程安全属性
+ NULL, // 线程安全属性
+ FALSE, // 继承句柄
+ 0, // 创建标志
+ NULL, // 环境变量
+ NULL, // 当前目录
+ &si, // 启动信息
+ &pi // 进程信息
+ );
+
+ return 0;
 }
 ```
 
@@ -51290,33 +51290,33 @@ int main() {
 
 ```mermaid
 graph TB
-    subgraph 进程
-        A[代码段<br/>共享]
-        B[数据段<br/>共享]
-        C[堆<br/>共享]
-        
-        subgraph 线程 1
-            D1[栈 1<br/>独立]
-            E1[寄存器 1<br/>独立]
-        end
-        
-        subgraph 线程 2
-            D2[栈 2<br/>独立]
-            E2[寄存器 2<br/>独立]
-        end
-        
-        subgraph 线程 3
-            D3[栈 3<br/>独立]
-            E3[寄存器 3<br/>独立]
-        end
-    end
-    
-    style A fill:#e1bee7
-    style B fill:#e1bee7
-    style C fill:#e1bee7
-    style D1 fill:#ffcdd2
-    style D2 fill:#f8bbd0
-    style D3 fill:#f48fb1
+ subgraph 进程
+ A[代码段<br/>共享]
+ B[数据段<br/>共享]
+ C[堆<br/>共享]
+
+ subgraph 线程 1
+ D1[栈 1<br/>独立]
+ E1[寄存器 1<br/>独立]
+ end
+
+ subgraph 线程 2
+ D2[栈 2<br/>独立]
+ E2[寄存器 2<br/>独立]
+ end
+
+ subgraph 线程 3
+ D3[栈 3<br/>独立]
+ E3[寄存器 3<br/>独立]
+ end
+ end
+
+ style A fill:#e1bee7
+ style B fill:#e1bee7
+ style C fill:#e1bee7
+ style D1 fill:#ffcdd2
+ style D2 fill:#f8bbd0
+ style D3 fill:#f48fb1
 ```
 
 ##### 线程的优点
@@ -51353,24 +51353,24 @@ graph TB
 #include <stdio.h>
 
 void* thread_function(void* arg) {
-    int thread_id = *(int*)arg;
-    printf("Thread %d is running\n", thread_id);
-    return NULL;
+ int thread_id = *(int*)arg;
+ printf("Thread %d is running\n", thread_id);
+ return NULL;
 }
 
 int main() {
-    pthread_t thread1, thread2;
-    int id1 = 1, id2 = 2;
-    
-    // 创建线程
-    pthread_create(&thread1, NULL, thread_function, &id1);
-    pthread_create(&thread2, NULL, thread_function, &id2);
-    
-    // 等待线程结束
-    pthread_join(thread1, NULL);
-    pthread_join(thread2, NULL);
-    
-    return 0;
+ pthread_t thread1, thread2;
+ int id1 = 1, id2 = 2;
+
+ // 创建线程
+ pthread_create(&thread1, NULL, thread_function, &id1);
+ pthread_create(&thread2, NULL, thread_function, &id2);
+
+ // 等待线程结束
+ pthread_join(thread1, NULL);
+ pthread_join(thread2, NULL);
+
+ return 0;
 }
 ```
 
@@ -51380,43 +51380,43 @@ int main() {
 #include <thread>
 
 void thread_function(int id) {
-    std::cout << "Thread " << id << " is running\n";
+ std::cout << "Thread " << id << " is running\n";
 }
 
 int main() {
-    std::thread t1(thread_function, 1);
-    std::thread t2(thread_function, 2);
-    
-    t1.join();  // 等待线程结束
-    t2.join();
-    
-    return 0;
+ std::thread t1(thread_function, 1);
+ std::thread t2(thread_function, 2);
+
+ t1.join(); // 等待线程结束
+ t2.join();
+
+ return 0;
 }
 ```
 
 **Java 线程**：
 ```java
 class MyThread extends Thread {
-    private int id;
-    
-    public MyThread(int id) {
-        this.id = id;
-    }
-    
-    @Override
-    public void run() {
-        System.out.println("Thread " + id + " is running");
-    }
+ private int id;
+
+ public MyThread(int id) {
+ this.id = id;
+ }
+
+ @Override
+ public void run() {
+ System.out.println("Thread " + id + " is running");
+ }
 }
 
 public class Main {
-    public static void main(String[] args) {
-        MyThread t1 = new MyThread(1);
-        MyThread t2 = new MyThread(2);
-        
-        t1.start();
-        t2.start();
-    }
+ public static void main(String[] args) {
+ MyThread t1 = new MyThread(1);
+ MyThread t2 = new MyThread(2);
+
+ t1.start();
+ t2.start();
+ }
 }
 ```
 
@@ -51434,23 +51434,23 @@ public class Main {
 pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
 
 void* thread_function(void* arg) {
-    pthread_mutex_lock(&mutex);    // 加锁
-    // 临界区代码
-    pthread_mutex_unlock(&mutex);  // 解锁
-    return NULL;
+ pthread_mutex_lock(&mutex); // 加锁
+ // 临界区代码
+ pthread_mutex_unlock(&mutex); // 解锁
+ return NULL;
 }
 ```
 
 **2. 信号量（Semaphore）**
 ```c
 sem_t semaphore;
-sem_init(&semaphore, 0, 1);  // 初始化为 1
+sem_init(&semaphore, 0, 1); // 初始化为 1
 
 void* thread_function(void* arg) {
-    sem_wait(&semaphore);    // P 操作（减 1）
-    // 临界区代码
-    sem_post(&semaphore);    // V 操作（加 1）
-    return NULL;
+ sem_wait(&semaphore); // P 操作（减 1）
+ // 临界区代码
+ sem_post(&semaphore); // V 操作（加 1）
+ return NULL;
 }
 ```
 
@@ -51460,19 +51460,19 @@ pthread_cond_t cond = PTHREAD_COND_INITIALIZER;
 pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
 
 void* producer(void* arg) {
-    pthread_mutex_lock(&mutex);
-    // 生产数据
-    pthread_cond_signal(&cond);  // 通知消费者
-    pthread_mutex_unlock(&mutex);
-    return NULL;
+ pthread_mutex_lock(&mutex);
+ // 生产数据
+ pthread_cond_signal(&cond); // 通知消费者
+ pthread_mutex_unlock(&mutex);
+ return NULL;
 }
 
 void* consumer(void* arg) {
-    pthread_mutex_lock(&mutex);
-    pthread_cond_wait(&cond, &mutex);  // 等待通知
-    // 消费数据
-    pthread_mutex_unlock(&mutex);
-    return NULL;
+ pthread_mutex_lock(&mutex);
+ pthread_cond_wait(&cond, &mutex); // 等待通知
+ // 消费数据
+ pthread_mutex_unlock(&mutex);
+ return NULL;
 }
 ```
 
@@ -51481,17 +51481,17 @@ void* consumer(void* arg) {
 pthread_rwlock_t rwlock = PTHREAD_RWLOCK_INITIALIZER;
 
 void* reader(void* arg) {
-    pthread_rwlock_rdlock(&rwlock);  // 读锁
-    // 读取数据
-    pthread_rwlock_unlock(&rwlock);
-    return NULL;
+ pthread_rwlock_rdlock(&rwlock); // 读锁
+ // 读取数据
+ pthread_rwlock_unlock(&rwlock);
+ return NULL;
 }
 
 void* writer(void* arg) {
-    pthread_rwlock_wrlock(&rwlock);  // 写锁
-    // 写入数据
-    pthread_rwlock_unlock(&rwlock);
-    return NULL;
+ pthread_rwlock_wrlock(&rwlock); // 写锁
+ // 写入数据
+ pthread_rwlock_unlock(&rwlock);
+ return NULL;
 }
 ```
 
@@ -51544,9 +51544,9 @@ void* writer(void* arg) {
 **时间维度**：
 ```
 时间 ──────────────────────────────────>
-核心 1: ████████████████████████████  任务 A
-核心 2: ████████████████████████████  任务 B
-核心 3: ████████████████████████████  任务 C
+核心 1: ████████████████████████████ 任务 A
+核心 2: ████████████████████████████ 任务 B
+核心 3: ████████████████████████████ 任务 C
 
 真正的同时执行
 ```
@@ -51563,27 +51563,27 @@ void* writer(void* arg) {
 
 ```mermaid
 graph TB
-    subgraph 并发 Concurrency
-        A1[单核 CPU]
-        A2[任务 A]
-        A3[任务 B]
-        A4[任务 C]
-        A1 --> A2
-        A1 --> A3
-        A1 --> A4
-        A5[时间片轮转<br/>快速切换]
-    end
-    
-    subgraph 并行 Parallelism
-        B1[多核 CPU]
-        B2[核心 1 → 任务 A]
-        B3[核心 2 → 任务 B]
-        B4[核心 3 → 任务 C]
-        B5[真正同时执行]
-    end
-    
-    style A1 fill:#ffcdd2
-    style B1 fill:#c8e6c9
+ subgraph 并发 Concurrency
+ A1[单核 CPU]
+ A2[任务 A]
+ A3[任务 B]
+ A4[任务 C]
+ A1 --> A2
+ A1 --> A3
+ A1 --> A4
+ A5[时间片轮转<br/>快速切换]
+ end
+
+ subgraph 并行 Parallelism
+ B1[多核 CPU]
+ B2[核心 1 → 任务 A]
+ B3[核心 2 → 任务 B]
+ B4[核心 3 → 任务 C]
+ B5[真正同时执行]
+ end
+
+ style A1 fill:#ffcdd2
+ style B1 fill:#c8e6c9
 ```
 
 ##### 对比表
@@ -51772,14 +51772,14 @@ graph TB
 **结构**：
 ```
 阶段 1（核心 1）: 读取数据
-    ↓
+ ↓
 阶段 2（核心 2）: 处理数据
-    ↓
+ ↓
 阶段 3（核心 3）: 写入结果
 
 数据项 1 → 阶段 1 → 阶段 2 → 阶段 3
-数据项 2 →         阶段 1 → 阶段 2 → 阶段 3
-数据项 3 →                 阶段 1 → 阶段 2 → 阶段 3
+数据项 2 → 阶段 1 → 阶段 2 → 阶段 3
+数据项 3 → 阶段 1 → 阶段 2 → 阶段 3
 ```
 
 #### 并发与并行的关系
@@ -51788,16 +51788,16 @@ graph TB
 
 ```mermaid
 graph TB
-    A[任务执行方式]
-    A --> B[既不并发也不并行<br/>单任务单核]
-    A --> C[并发但不并行<br/>多任务单核]
-    A --> D[并行但不并发<br/>单任务多核]
-    A --> E[既并发又并行<br/>多任务多核]
-    
-    style B fill:#ffcdd2
-    style C fill:#fff9c4
-    style D fill:#c8e6c9
-    style E fill:#bbdefb
+ A[任务执行方式]
+ A --> B[既不并发也不并行<br/>单任务单核]
+ A --> C[并发但不并行<br/>多任务单核]
+ A --> D[并行但不并发<br/>单任务多核]
+ A --> E[既并发又并行<br/>多任务多核]
+
+ style B fill:#ffcdd2
+ style C fill:#fff9c4
+ style D fill:#c8e6c9
+ style E fill:#bbdefb
 ```
 
 **1. 既不并发也不并行**：
@@ -52734,7 +52734,7 @@ CPU 不分配给该线程
 ```c
 // 读取文件，线程阻塞直到读取完成
 int fd = open("file.txt", O_RDONLY);
-read(fd, buffer, size);  // 阻塞等待
+read(fd, buffer, size); // 阻塞等待
 // 读取完成后继续执行
 ```
 - 调用后线程挂起
@@ -52746,12 +52746,12 @@ read(fd, buffer, size);  // 阻塞等待
 // 设置为非阻塞模式
 int fd = open("file.txt", O_RDONLY | O_NONBLOCK);
 while (1) {
-    int n = read(fd, buffer, size);  // 立即返回
-    if (n > 0) break;  // 读取成功
-    if (errno == EAGAIN) {
-        // 数据未就绪，继续轮询
-        continue;
-    }
+ int n = read(fd, buffer, size); // 立即返回
+ if (n > 0) break; // 读取成功
+ if (errno == EAGAIN) {
+ // 数据未就绪，继续轮询
+ continue;
+ }
 }
 ```
 - 调用立即返回
@@ -52773,8 +52773,8 @@ readable, _, _ = select.select([fd1, fd2], [], [])
 ```javascript
 // Node.js 异步读取文件
 fs.readFile('file.txt', (err, data) => {
-    // 回调函数，文件读取完成后执行
-    console.log(data);
+ // 回调函数，文件读取完成后执行
+ console.log(data);
 });
 // 立即继续执行，不等待
 console.log('继续执行其他任务');
@@ -52971,7 +52971,7 @@ broadcast()：唤醒所有等待线程
 ```
 lock(mutex)
 while (条件不满足) {
-    wait(cond, mutex)  // 原子地释放锁并等待
+ wait(cond, mutex) // 原子地释放锁并等待
 }
 // 条件满足，执行操作
 unlock(mutex)
@@ -53367,9 +53367,9 @@ P2：持有 R2，等待 R1
 ```
 多个进程，多个资源：
 P1 → R2 → P2 → R4 → P4 → R1 → P1
-         ↓
-         R3 → P3 → R5 → P5
-         
+ ↓
+ R3 → P3 → R5 → P5
+
 可能存在多个环路
 ```
 
@@ -53584,17 +53584,17 @@ P2 不可能持有 R2，等待 R1
 **文件系统的层次**：
 ```
 应用层
-    ↓
+ ↓
 文件系统接口（open, read, write, close）
-    ↓
+ ↓
 虚拟文件系统（VFS）
-    ↓
+ ↓
 具体文件系统（ext4, NTFS, FAT32）
-    ↓
+ ↓
 块设备层
-    ↓
+ ↓
 设备驱动
-    ↓
+ ↓
 物理存储设备
 ```
 
@@ -53667,7 +53667,7 @@ inode 号：文件系统内部标识
 ```
 树形结构：根目录 + 子目录
 路径：绝对路径（/home/user/file.txt）
-      相对路径（../file.txt）
+ 相对路径（../file.txt）
 ```
 
 **特殊目录**：
@@ -54150,258 +54150,258 @@ inode 操作：create, unlink, rename
 ```
 
 ## 第 32 章 网络基础
-###  OSI 七层与 TCP/IP 四层
-#### **32.1.1 协议的重要性 (Why Protocols Are Essential for Communication Between Computers)**  
+### OSI 七层与 TCP/IP 四层
+#### **32.1.1 协议的重要性 (Why Protocols Are Essential for Communication Between Computers)**
 
-##### **定义 (Definition)**  
-协议是用于规范计算机之间通信的一组规则或标准。它确保数据在网络中以标准化的方式发送和接收。  
-Protocols are a set of rules or standards that govern communication between computers. They ensure data is sent and received in a standardized manner across networks.  
+##### **定义 (Definition)**
+协议是用于规范计算机之间通信的一组规则或标准。它确保数据在网络中以标准化的方式发送和接收。
+Protocols are a set of rules or standards that govern communication between computers. They ensure data is sent and received in a standardized manner across networks.
 
-##### **协议的重要性 (Importance of Protocols)**  
-1. **一致性 (Consistency)**  
-   - 确保不同设备和系统可以相互理解，避免数据混乱或丢失。  
-   - Ensures that different devices and systems can understand each other, avoiding data corruption or loss.  
+##### **协议的重要性 (Importance of Protocols)**
+1. **一致性 (Consistency)**
+ - 确保不同设备和系统可以相互理解，避免数据混乱或丢失。
+ - Ensures that different devices and systems can understand each other, avoiding data corruption or loss.
 
-2. **互操作性 (Interoperability)**  
-   - 允许不同硬件和软件平台之间进行无缝通信。  
-   - Allows seamless communication between different hardware and software platforms.  
+2. **互操作性 (Interoperability)**
+ - 允许不同硬件和软件平台之间进行无缝通信。
+ - Allows seamless communication between different hardware and software platforms.
 
-3. **可靠性 (Reliability)**  
-   - 确保数据能够完整且准确地传输到目标设备。  
-   - Ensures that data is transmitted completely and accurately to the destination device.  
+3. **可靠性 (Reliability)**
+ - 确保数据能够完整且准确地传输到目标设备。
+ - Ensures that data is transmitted completely and accurately to the destination device.
 
-4. **安全性 (Security)**  
-   - 提供数据加密、验证和完整性检查等功能，保护数据传输。  
-   - Provides features like encryption, authentication, and integrity checks to secure data transmission.  
-
----
-
-#### **32.1.2 协议栈的概念 (Protocol Stack and Its Functionality)**  
-
-##### **定义 (Definition)**  
-协议栈是协议实现的一种分层结构，每一层负责特定的功能。协议栈的分层设计使得网络通信更高效、更易管理。  
-A protocol stack is a layered structure for implementing protocols, where each layer handles specific functionality. The layered design makes network communication more efficient and manageable.  
-
-##### **协议栈的分层 (Layers in a Protocol Stack)**  
-1. **应用层 (Application Layer)**  
-   - 提供用户与网络交互的功能，负责处理高层应用数据（如网页浏览、邮件）。  
-   - Examples: HTTP, SMTP, FTP.  
-
-2. **传输层 (Transport Layer)**  
-   - 负责数据的分段、传输和错误检测，确保数据可靠传输。  
-   - Examples: TCP, UDP.  
-
-3. **网络层 (Internet Layer)**  
-   - 负责数据的路径选择和逻辑地址（IP地址）管理，确保数据包到达正确目标。  
-   - Examples: IP.  
-
-4. **链路层 (Link Layer)**  
-   - 负责物理设备之间的数据传输，包括数据帧的创建和传输。  
-   - Examples: Ethernet, Wi-Fi.  
-
-##### **协议栈的应用 (Application of Protocol Stack)**  
-- 当一台主机向另一台主机发送消息时，数据从协议栈的顶部（应用层）向下传递到链路层。随后，数据通过网络传输到目标主机，并从协议栈的底部向上处理，直到应用层。  
-- When a host sends a message to another host, data flows down the protocol stack from the application layer to the link layer. The data is transmitted over the network and processed up the stack at the destination host.  
+4. **安全性 (Security)**
+ - 提供数据加密、验证和完整性检查等功能，保护数据传输。
+ - Provides features like encryption, authentication, and integrity checks to secure data transmission.
 
 ---
 
-#### **32.1.3 TCP/IP 协议套件 (TCP/IP Protocol Suite)**  
+#### **32.1.2 协议栈的概念 (Protocol Stack and Its Functionality)**
 
-##### **定义 (Definition)**  
-TCP/IP 是一种广泛使用的协议套件，用于互联网通信。它由多个协议组成，分为四个主要层级：应用层、传输层、网络层和链路层。  
-TCP/IP is a widely used protocol suite for internet communication. It consists of multiple protocols organized into four main layers: Application, Transport, Internet, and Link.  
+##### **定义 (Definition)**
+协议栈是协议实现的一种分层结构，每一层负责特定的功能。协议栈的分层设计使得网络通信更高效、更易管理。
+A protocol stack is a layered structure for implementing protocols, where each layer handles specific functionality. The layered design makes network communication more efficient and manageable.
 
-##### **TCP/IP 协议层的功能和目的 (Purpose and Function of Each Layer)**  
-1. **应用层 (Application Layer)**  
-   - 提供网络服务，如网页浏览 (HTTP)、文件传输 (FTP)、电子邮件 (SMTP)。  
-   - Examples: HTTP, SMTP, FTP.  
+##### **协议栈的分层 (Layers in a Protocol Stack)**
+1. **应用层 (Application Layer)**
+ - 提供用户与网络交互的功能，负责处理高层应用数据（如网页浏览、邮件）。
+ - Examples: HTTP, SMTP, FTP.
 
-2. **传输层 (Transport Layer)**  
-   - 负责数据分段、传输和重组，确保可靠的端到端通信。  
-   - Examples: TCP, UDP.  
+2. **传输层 (Transport Layer)**
+ - 负责数据的分段、传输和错误检测，确保数据可靠传输。
+ - Examples: TCP, UDP.
 
-3. **网络层 (Internet Layer)**  
-   - 负责路由数据包并分配逻辑地址（IP地址）。  
-   - Examples: IP.  
+3. **网络层 (Internet Layer)**
+ - 负责数据的路径选择和逻辑地址（IP地址）管理，确保数据包到达正确目标。
+ - Examples: IP.
 
-4. **链路层 (Link Layer)**  
-   - 负责设备之间的物理数据传输，包括数据帧创建。  
-   - Examples: Ethernet, Wi-Fi.  
+4. **链路层 (Link Layer)**
+ - 负责物理设备之间的数据传输，包括数据帧的创建和传输。
+ - Examples: Ethernet, Wi-Fi.
 
----
-
-#### **32.1.4 常见协议及其用途 (Common Protocols and Their Purposes)**  
-
-##### **HTTP (HyperText Transfer Protocol)**  
-- 用途：用于网页浏览，允许客户端与服务器交换网页数据。  
-- Purpose: Enables web browsing by allowing clients and servers to exchange webpage data.  
-
-##### **FTP (File Transfer Protocol)**  
-- 用途：用于文件上传和下载，支持远程文件管理。  
-- Purpose: Facilitates file upload and download, supporting remote file management.  
-
-##### **POP3 (Post Office Protocol v3)**  
-- 用途：用于电子邮件接收，允许客户端从邮件服务器下载邮件到本地。  
-- Purpose: Enables email retrieval by downloading messages from the mail server to the client.  
-
-##### **IMAP (Internet Message Access Protocol)**  
-- 用途：用于电子邮件接收，允许客户端直接管理邮件服务器上的邮件。  
-- Purpose: Allows email management directly on the mail server without downloading.  
-
-##### **SMTP (Simple Mail Transfer Protocol)**  
-- 用途：用于电子邮件发送，负责将邮件发送到目标服务器。  
-- Purpose: Facilitates email sending to the destination server.  
-
-##### **BitTorrent**  
-- 用途：用于点对点 (P2P) 文件共享，允许用户分布式下载文件。  
-- Purpose: Enables peer-to-peer (P2P) file sharing, allowing users to download files in a distributed manner.  
-
-##### **Wi-Fi (Wireless Fidelity)**  
-- 用途：一种无线局域网协议，允许设备通过无线信号连接到网络。  
-- Purpose: A wireless LAN protocol that enables devices to connect to networks via radio signals.  
-
-##### **蓝牙 (Bluetooth)**  
-- 用途：用于短距离无线通信，支持设备之间的数据传输和连接。  
-- Purpose: A short-range wireless communication protocol for data transfer and device connectivity.  
-
-##### **WiMAX (Worldwide Interoperability for Microwave Access)**  
-- 用途：提供长距离无线宽带连接，适用于城域网。  
-- Purpose: Provides long-range wireless broadband connectivity, suitable for metropolitan area networks.  
-
-##### **以太网 (Ethernet)**  
-- 用途：有线网络协议，支持局域网内的数据帧传输。  
-- Purpose: A wired network protocol for transmitting data frames within a local area network (LAN).  
-
----
-### **32.2 电路交换与分组交换 (Circuit Switching, Packet Switching)**  
+##### **协议栈的应用 (Application of Protocol Stack)**
+- 当一台主机向另一台主机发送消息时，数据从协议栈的顶部（应用层）向下传递到链路层。随后，数据通过网络传输到目标主机，并从协议栈的底部向上处理，直到应用层。
+- When a host sends a message to another host, data flows down the protocol stack from the application layer to the link layer. The data is transmitted over the network and processed up the stack at the destination host.
 
 ---
 
-#### **32.2.1 电路交换 (Circuit Switching)**  
+#### **32.1.3 TCP/IP 协议套件 (TCP/IP Protocol Suite)**
 
-##### **定义 (Definition)**  
-电路交换是一种通信技术，在发送方和接收方之间建立专用通信路径（电路），并保持连接直到通信完成。  
-Circuit switching is a communication method that establishes a dedicated communication path (circuit) between the sender and receiver, maintaining the connection until the communication is complete.  
+##### **定义 (Definition)**
+TCP/IP 是一种广泛使用的协议套件，用于互联网通信。它由多个协议组成，分为四个主要层级：应用层、传输层、网络层和链路层。
+TCP/IP is a widely used protocol suite for internet communication. It consists of multiple protocols organized into four main layers: Application, Transport, Internet, and Link.
 
-##### **工作原理 (How It Works)**  
-1. **连接建立 (Connection Establishment)**  
-   - 在通信开始前，必须通过信号建立一条专用的物理路径。  
-   - A dedicated physical path must be established via signaling before communication begins.  
+##### **TCP/IP 协议层的功能和目的 (Purpose and Function of Each Layer)**
+1. **应用层 (Application Layer)**
+ - 提供网络服务，如网页浏览 (HTTP)、文件传输 (FTP)、电子邮件 (SMTP)。
+ - Examples: HTTP, SMTP, FTP.
 
-2. **数据传输 (Data Transmission)**  
-   - 数据在该专用路径上传输，没有中断或竞争。  
+2. **传输层 (Transport Layer)**
+ - 负责数据分段、传输和重组，确保可靠的端到端通信。
+ - Examples: TCP, UDP.
 
-3. **连接释放 (Connection Release)**  
-   - 通信结束后，专用路径被断开，资源释放。  
+3. **网络层 (Internet Layer)**
+ - 负责路由数据包并分配逻辑地址（IP地址）。
+ - Examples: IP.
 
-##### **优缺点 (Pros and Cons)**  
+4. **链路层 (Link Layer)**
+ - 负责设备之间的物理数据传输，包括数据帧创建。
+ - Examples: Ethernet, Wi-Fi.
 
-| **优点 (Pros)**              | **缺点 (Cons)**                                |
+---
+
+#### **32.1.4 常见协议及其用途 (Common Protocols and Their Purposes)**
+
+##### **HTTP (HyperText Transfer Protocol)**
+- 用途：用于网页浏览，允许客户端与服务器交换网页数据。
+- Purpose: Enables web browsing by allowing clients and servers to exchange webpage data.
+
+##### **FTP (File Transfer Protocol)**
+- 用途：用于文件上传和下载，支持远程文件管理。
+- Purpose: Facilitates file upload and download, supporting remote file management.
+
+##### **POP3 (Post Office Protocol v3)**
+- 用途：用于电子邮件接收，允许客户端从邮件服务器下载邮件到本地。
+- Purpose: Enables email retrieval by downloading messages from the mail server to the client.
+
+##### **IMAP (Internet Message Access Protocol)**
+- 用途：用于电子邮件接收，允许客户端直接管理邮件服务器上的邮件。
+- Purpose: Allows email management directly on the mail server without downloading.
+
+##### **SMTP (Simple Mail Transfer Protocol)**
+- 用途：用于电子邮件发送，负责将邮件发送到目标服务器。
+- Purpose: Facilitates email sending to the destination server.
+
+##### **BitTorrent**
+- 用途：用于点对点 (P2P) 文件共享，允许用户分布式下载文件。
+- Purpose: Enables peer-to-peer (P2P) file sharing, allowing users to download files in a distributed manner.
+
+##### **Wi-Fi (Wireless Fidelity)**
+- 用途：一种无线局域网协议，允许设备通过无线信号连接到网络。
+- Purpose: A wireless LAN protocol that enables devices to connect to networks via radio signals.
+
+##### **蓝牙 (Bluetooth)**
+- 用途：用于短距离无线通信，支持设备之间的数据传输和连接。
+- Purpose: A short-range wireless communication protocol for data transfer and device connectivity.
+
+##### **WiMAX (Worldwide Interoperability for Microwave Access)**
+- 用途：提供长距离无线宽带连接，适用于城域网。
+- Purpose: Provides long-range wireless broadband connectivity, suitable for metropolitan area networks.
+
+##### **以太网 (Ethernet)**
+- 用途：有线网络协议，支持局域网内的数据帧传输。
+- Purpose: A wired network protocol for transmitting data frames within a local area network (LAN).
+
+---
+### **32.2 电路交换与分组交换 (Circuit Switching, Packet Switching)**
+
+---
+
+#### **32.2.1 电路交换 (Circuit Switching)**
+
+##### **定义 (Definition)**
+电路交换是一种通信技术，在发送方和接收方之间建立专用通信路径（电路），并保持连接直到通信完成。
+Circuit switching is a communication method that establishes a dedicated communication path (circuit) between the sender and receiver, maintaining the connection until the communication is complete.
+
+##### **工作原理 (How It Works)**
+1. **连接建立 (Connection Establishment)**
+ - 在通信开始前，必须通过信号建立一条专用的物理路径。
+ - A dedicated physical path must be established via signaling before communication begins.
+
+2. **数据传输 (Data Transmission)**
+ - 数据在该专用路径上传输，没有中断或竞争。
+
+3. **连接释放 (Connection Release)**
+ - 通信结束后，专用路径被断开，资源释放。
+
+##### **优缺点 (Pros and Cons)**
+
+| **优点 (Pros)** | **缺点 (Cons)** |
 |------------------------------|-----------------------------------------------|
-| **稳定的连接**：专用路径保证稳定的通信，不受其他用户干扰。 | **资源浪费**：未使用时仍占用资源，效率低下。     |
+| **稳定的连接**：专用路径保证稳定的通信，不受其他用户干扰。 | **资源浪费**：未使用时仍占用资源，效率低下。 |
 | **适合实时通信**：适用于电话和视频通话等实时任务。 | **建立连接时间长**：通信前需要建立连接，增加延迟。 |
-| **无数据丢失**：数据按顺序传输，无分组丢失或乱序问题。 | **扩展性差**：固定资源分配，难以支持更多用户。   |
-| **简单的网络处理**：数据流无需复杂的路由或重组。 | **故障影响大**：路径中断会完全中断通信。         |
+| **无数据丢失**：数据按顺序传输，无分组丢失或乱序问题。 | **扩展性差**：固定资源分配，难以支持更多用户。 |
+| **简单的网络处理**：数据流无需复杂的路由或重组。 | **故障影响大**：路径中断会完全中断通信。 |
 
-##### **适用场景 (Where It Is Applicable)**  
-- 电话网络 (Telephone Networks)。  
-- 视频通话和其他实时通信 (Video Calls and Other Real-time Communications)。  
+##### **适用场景 (Where It Is Applicable)**
+- 电话网络 (Telephone Networks)。
+- 视频通话和其他实时通信 (Video Calls and Other Real-time Communications)。
 
 ---
 
-#### **32.2.2 分组交换 (Packet Switching)**  
+#### **32.2.2 分组交换 (Packet Switching)**
 
-##### **定义 (Definition)**  
-分组交换是一种通信技术，将数据分割成多个小分组，通过共享网络路径独立路由到目标设备。每个分组可以独立选择路径。  
-Packet switching is a communication method that splits data into small packets, which are independently routed through shared network paths to the destination. Each packet can take a different route.  
+##### **定义 (Definition)**
+分组交换是一种通信技术，将数据分割成多个小分组，通过共享网络路径独立路由到目标设备。每个分组可以独立选择路径。
+Packet switching is a communication method that splits data into small packets, which are independently routed through shared network paths to the destination. Each packet can take a different route.
 
-##### **工作原理 (How It Works)**  
-1. **数据分组 (Data Packetization)**  
-   - 数据被分割成多个分组，每个分组包含目标地址和顺序信息。  
-   - Data is divided into packets, each containing destination and sequence information.  
+##### **工作原理 (How It Works)**
+1. **数据分组 (Data Packetization)**
+ - 数据被分割成多个分组，每个分组包含目标地址和顺序信息。
+ - Data is divided into packets, each containing destination and sequence information.
 
-2. **分组路由 (Packet Routing)**  
-   - 分组通过网络路由器独立传输，每个分组可能选择不同路径。  
-   - Packets are independently routed through the network, possibly taking different paths.  
+2. **分组路由 (Packet Routing)**
+ - 分组通过网络路由器独立传输，每个分组可能选择不同路径。
+ - Packets are independently routed through the network, possibly taking different paths.
 
-3. **分组重组 (Packet Reassembly)**  
-   - 接收方根据分组的顺序信息重新组合数据。  
-   - The receiver reassembles the packets into the correct order based on sequence information.  
+3. **分组重组 (Packet Reassembly)**
+ - 接收方根据分组的顺序信息重新组合数据。
+ - The receiver reassembles the packets into the correct order based on sequence information.
 
-##### **优缺点 (Pros and Cons)**  
+##### **优缺点 (Pros and Cons)**
 
-| **优点 (Pros)**              | **缺点 (Cons)**                                |
+| **优点 (Pros)** | **缺点 (Cons)** |
 |------------------------------|-----------------------------------------------|
-| **资源共享**：动态分配网络资源，提高效率。         | **延迟**：分组因路径不同及网络拥塞可能产生较高延迟。 |
-| **灵活性高**：分组可通过不同路径传输，增强容错性。   | **数据丢失**：网络拥塞或故障可能导致分组丢失，需要重传。 |
-| **扩展性强**：支持大量用户和动态流量管理。         | **数据重组复杂**：接收端需要重组分组，增加处理复杂性。   |
-| **成本效益高**：资源共享降低网络整体成本。         | **实时性能不佳**：实时通信中可能因延迟和丢包受影响。    |
-| **支持多种数据类型**：同时适用于文本、音频、视频等。 | **故障处理复杂**：路径故障时需重新选择路由。           |
+| **资源共享**：动态分配网络资源，提高效率。 | **延迟**：分组因路径不同及网络拥塞可能产生较高延迟。 |
+| **灵活性高**：分组可通过不同路径传输，增强容错性。 | **数据丢失**：网络拥塞或故障可能导致分组丢失，需要重传。 |
+| **扩展性强**：支持大量用户和动态流量管理。 | **数据重组复杂**：接收端需要重组分组，增加处理复杂性。 |
+| **成本效益高**：资源共享降低网络整体成本。 | **实时性能不佳**：实时通信中可能因延迟和丢包受影响。 |
+| **支持多种数据类型**：同时适用于文本、音频、视频等。 | **故障处理复杂**：路径故障时需重新选择路由。 |
 
-##### **适用场景 (Where It Is Applicable)**  
-- 数据网络，如互联网 (Data Networks, e.g., the Internet)。  
-- 非实时通信，如电子邮件和文件传输 (Non-real-time Communications, e.g., Emails and File Transfers)。  
-
----
-
-#### **32.2.3 路由器在分组交换中的功能 (Function of a Router in Packet Switching)**  
-
-##### **路由器的作用 (Role of Routers)**  
-1. **分组转发 (Packet Forwarding)**  
-   - 根据分组的目标地址，将其转发到网络的下一个节点。  
-   - Forward packets to the next node in the network based on their destination address.  
-
-2. **路径选择 (Path Selection)**  
-   - 路由器使用路由算法选择最佳路径，确保高效传输。  
-   - Routers use routing algorithms to select the best paths for efficient transmission.  
-
-3. **流量管理 (Traffic Management)**  
-   - 路由器处理网络拥塞，避免延迟和丢包。  
-   - Manage network congestion to avoid delays and packet loss.  
-
-4. **协议支持 (Protocol Support)**  
-   - 路由器支持多种协议（如 TCP/IP），确保不同设备间的兼容性。  
-   - Support multiple protocols (e.g., TCP/IP) to ensure compatibility between devices.  
+##### **适用场景 (Where It Is Applicable)**
+- 数据网络，如互联网 (Data Networks, e.g., the Internet)。
+- 非实时通信，如电子邮件和文件传输 (Non-real-time Communications, e.g., Emails and File Transfers)。
 
 ---
 
-#### **32.2.4 分组交换如何传递消息 (Packet Switching for Passing Messages)**  
+#### **32.2.3 路由器在分组交换中的功能 (Function of a Router in Packet Switching)**
 
-##### **传递消息的步骤 (Steps to Pass Messages Using Packet Switching)**  
-1. **发送端 (Sender)**  
-   - 数据被分割为分组，每个分组包含目标地址、顺序信息和数据内容。  
-   - The sender divides the data into packets, each containing destination address, sequence information, and data content.  
+##### **路由器的作用 (Role of Routers)**
+1. **分组转发 (Packet Forwarding)**
+ - 根据分组的目标地址，将其转发到网络的下一个节点。
+ - Forward packets to the next node in the network based on their destination address.
 
-2. **传输过程 (Transmission Process)**  
-   - 分组通过共享网络路径传输，每个分组可能选择不同路径。  
-   - Packets are transmitted through shared network paths, with each packet potentially taking a different route.  
+2. **路径选择 (Path Selection)**
+ - 路由器使用路由算法选择最佳路径，确保高效传输。
+ - Routers use routing algorithms to select the best paths for efficient transmission.
 
-3. **接收端 (Receiver)**  
-   - 接收端根据分组的顺序信息重新组合数据。若分组丢失，可请求重传。  
-   - The receiver reassembles the data based on sequence information. Lost packets can be requested for retransmission.  
+3. **流量管理 (Traffic Management)**
+ - 路由器处理网络拥塞，避免延迟和丢包。
+ - Manage network congestion to avoid delays and packet loss.
 
-##### **应用场景 (Application Scenarios)**  
-- **互联网通信 (Internet Communication)**：如网页浏览、电子邮件、视频流媒体。  
-- **云服务 (Cloud Services)**：分组交换保证动态负载分配和高效数据传输。  
+4. **协议支持 (Protocol Support)**
+ - 路由器支持多种协议（如 TCP/IP），确保不同设备间的兼容性。
+ - Support multiple protocols (e.g., TCP/IP) to ensure compatibility between devices.
 
 ---
 
-##### **电路交换 vs 分组交换对比总结 (Comparison Summary: Circuit Switching vs Packet Switching)**  
+#### **32.2.4 分组交换如何传递消息 (Packet Switching for Passing Messages)**
 
-| **特点**                  | **电路交换 (Circuit Switching)**                | **分组交换 (Packet Switching)**                   |
+##### **传递消息的步骤 (Steps to Pass Messages Using Packet Switching)**
+1. **发送端 (Sender)**
+ - 数据被分割为分组，每个分组包含目标地址、顺序信息和数据内容。
+ - The sender divides the data into packets, each containing destination address, sequence information, and data content.
+
+2. **传输过程 (Transmission Process)**
+ - 分组通过共享网络路径传输，每个分组可能选择不同路径。
+ - Packets are transmitted through shared network paths, with each packet potentially taking a different route.
+
+3. **接收端 (Receiver)**
+ - 接收端根据分组的顺序信息重新组合数据。若分组丢失，可请求重传。
+ - The receiver reassembles the data based on sequence information. Lost packets can be requested for retransmission.
+
+##### **应用场景 (Application Scenarios)**
+- **互联网通信 (Internet Communication)**：如网页浏览、电子邮件、视频流媒体。
+- **云服务 (Cloud Services)**：分组交换保证动态负载分配和高效数据传输。
+
+---
+
+##### **电路交换 vs 分组交换对比总结 (Comparison Summary: Circuit Switching vs Packet Switching)**
+
+| **特点** | **电路交换 (Circuit Switching)** | **分组交换 (Packet Switching)** |
 |---------------------------|------------------------------------------------|--------------------------------------------------|
-| **连接方式**              | 专用路径，持续连接                              | 动态共享路径，分组独立传输                       |
-| **适用场景**              | 实时通信（如电话、视频通话）                    | 数据网络（如互联网、电子邮件、文件传输）         |
-| **数据传输顺序**          | 保证顺序，无数据丢失                            | 分组可能乱序，需要重组                           |
-| **资源利用率**            | 低效：未使用时仍占用资源                        | 高效：资源按需动态分配                           |
-| **延迟**                  | 建立连接时间长，但传输过程延迟低                | 分组传输延迟较高，尤其在网络拥塞时               |
-| **扩展性**                | 扩展性差：固定资源分配                         | 扩展性强：支持大量用户和动态流量管理             |
-| **故障容错性**            | 容错性低：路径中断通信完全中断                  | 容错性高：分组可通过不同路径传输                 |
-| **实时性能**              | 优秀：适合电话或视频通话等实时通信              | 表现较差：实时通信可能因延迟和丢包受影响         |
-| **网络处理复杂性**        | 简单：无路由或数据重组需求                      | 高复杂性：需要路由选择和分组重组                 |
-| **数据丢失**              | 无数据丢失                                      | 网络拥塞时可能丢包，需要重传                     |
-| **成本效益**              | 资源浪费导致成本较高                            | 资源共享降低网络整体成本                             |
-| **适用数据类型**          | 适用于音频和视频等连续流数据                    | 同时支持文本、音频、视频等多种数据类型           |
+| **连接方式** | 专用路径，持续连接 | 动态共享路径，分组独立传输 |
+| **适用场景** | 实时通信（如电话、视频通话） | 数据网络（如互联网、电子邮件、文件传输） |
+| **数据传输顺序** | 保证顺序，无数据丢失 | 分组可能乱序，需要重组 |
+| **资源利用率** | 低效：未使用时仍占用资源 | 高效：资源按需动态分配 |
+| **延迟** | 建立连接时间长，但传输过程延迟低 | 分组传输延迟较高，尤其在网络拥塞时 |
+| **扩展性** | 扩展性差：固定资源分配 | 扩展性强：支持大量用户和动态流量管理 |
+| **故障容错性** | 容错性低：路径中断通信完全中断 | 容错性高：分组可通过不同路径传输 |
+| **实时性能** | 优秀：适合电话或视频通话等实时通信 | 表现较差：实时通信可能因延迟和丢包受影响 |
+| **网络处理复杂性** | 简单：无路由或数据重组需求 | 高复杂性：需要路由选择和分组重组 |
+| **数据丢失** | 无数据丢失 | 网络拥塞时可能丢包，需要重传 |
+| **成本效益** | 资源浪费导致成本较高 | 资源共享降低网络整体成本 |
+| **适用数据类型** | 适用于音频和视频等连续流数据 | 同时支持文本、音频、视频等多种数据类型 |
 
 
 ### 32.3 HTTP / HTTPS 基础
@@ -54414,121 +54414,121 @@ Packet switching is a communication method that splits data into small packets, 
 
 ##### **HTTP 的特点 (Characteristics of HTTP)**
 1. **无状态 (Stateless)**
-   - 每个请求独立，服务器不保存客户端状态。需要通过 Cookie、Session 或 Token 维护状态。
-   - Each request is independent; the server does not retain client state. State must be maintained via Cookies, Sessions, or Tokens.
+ - 每个请求独立，服务器不保存客户端状态。需要通过 Cookie、Session 或 Token 维护状态。
+ - Each request is independent; the server does not retain client state. State must be maintained via Cookies, Sessions, or Tokens.
 
 2. **基于请求-响应模型 (Request-Response Model)**
-   - 客户端发送请求，服务器返回响应，是一种同步通信模式。
-   - The client sends a request, and the server returns a response, following a synchronous communication pattern.
+ - 客户端发送请求，服务器返回响应，是一种同步通信模式。
+ - The client sends a request, and the server returns a response, following a synchronous communication pattern.
 
 3. **基于 TCP 协议 (Based on TCP)**
-   - HTTP 通常运行在 TCP 之上，保证数据传输的可靠性。
-   - HTTP typically runs over TCP, ensuring reliable data transmission.
+ - HTTP 通常运行在 TCP 之上，保证数据传输的可靠性。
+ - HTTP typically runs over TCP, ensuring reliable data transmission.
 
 4. **可扩展性 (Extensibility)**
-   - 通过请求头和响应头支持各种功能扩展（如缓存、认证、压缩）。
-   - Supports various functional extensions through request and response headers (e.g., caching, authentication, compression).
+ - 通过请求头和响应头支持各种功能扩展（如缓存、认证、压缩）。
+ - Supports various functional extensions through request and response headers (e.g., caching, authentication, compression).
 
 #### **32.3.2 HTTP 请求与响应 (HTTP Request and Response)**
 
 ##### **HTTP 请求结构 (HTTP Request Structure)**
 1. **请求行 (Request Line)**
-   - 包含请求方法、URL 和 HTTP 版本。例如：`GET /index.html HTTP/1.1`
-   - Contains the request method, URL, and HTTP version. Example: `GET /index.html HTTP/1.1`
+ - 包含请求方法、URL 和 HTTP 版本。例如：`GET /index.html HTTP/1.1`
+ - Contains the request method, URL, and HTTP version. Example: `GET /index.html HTTP/1.1`
 
 2. **请求头 (Request Headers)**
-   - 描述请求的元数据，如 `Host`、`User-Agent`、`Accept`、`Content-Type`。
-   - Describes request metadata, such as `Host`, `User-Agent`, `Accept`, `Content-Type`.
+ - 描述请求的元数据，如 `Host`、`User-Agent`、`Accept`、`Content-Type`。
+ - Describes request metadata, such as `Host`, `User-Agent`, `Accept`, `Content-Type`.
 
 3. **请求体 (Request Body)**
-   - 可选部分，包含发送给服务器的数据（如表单数据、JSON）。
-   - Optional section containing data sent to the server (e.g., form data, JSON).
+ - 可选部分，包含发送给服务器的数据（如表单数据、JSON）。
+ - Optional section containing data sent to the server (e.g., form data, JSON).
 
 ##### **HTTP 响应结构 (HTTP Response Structure)**
 1. **状态行 (Status Line)**
-   - 包含 HTTP 版本、状态码和状态描述。例如：`HTTP/1.1 200 OK`
-   - Contains the HTTP version, status code, and status message. Example: `HTTP/1.1 200 OK`
+ - 包含 HTTP 版本、状态码和状态描述。例如：`HTTP/1.1 200 OK`
+ - Contains the HTTP version, status code, and status message. Example: `HTTP/1.1 200 OK`
 
 2. **响应头 (Response Headers)**
-   - 描述响应的元数据，如 `Content-Type`、`Content-Length`、`Set-Cookie`。
-   - Describes response metadata, such as `Content-Type`, `Content-Length`, `Set-Cookie`.
+ - 描述响应的元数据，如 `Content-Type`、`Content-Length`、`Set-Cookie`。
+ - Describes response metadata, such as `Content-Type`, `Content-Length`, `Set-Cookie`.
 
 3. **响应体 (Response Body)**
-   - 包含返回给客户端的实际数据（如 HTML 页面、JSON 数据）。
-   - Contains the actual data returned to the client (e.g., HTML pages, JSON data).
+ - 包含返回给客户端的实际数据（如 HTML 页面、JSON 数据）。
+ - Contains the actual data returned to the client (e.g., HTML pages, JSON data).
 
 #### **32.3.3 HTTP 请求方法 (HTTP Request Methods)**
 
 ##### **常见请求方法 (Common Request Methods)**
 1. **GET**
-   - 请求获取资源，参数附加在 URL 中，幂等且安全。
-   - Requests resource retrieval; parameters are appended to the URL; idempotent and safe.
+ - 请求获取资源，参数附加在 URL 中，幂等且安全。
+ - Requests resource retrieval; parameters are appended to the URL; idempotent and safe.
 
 2. **POST**
-   - 向服务器提交数据，数据放在请求体中，非幂等。
-   - Submits data to the server; data is placed in the request body; not idempotent.
+ - 向服务器提交数据，数据放在请求体中，非幂等。
+ - Submits data to the server; data is placed in the request body; not idempotent.
 
 3. **PUT**
-   - 更新或创建资源，幂等操作。
-   - Updates or creates a resource; idempotent operation.
+ - 更新或创建资源，幂等操作。
+ - Updates or creates a resource; idempotent operation.
 
 4. **DELETE**
-   - 删除指定资源，幂等操作。
-   - Deletes the specified resource; idempotent operation.
+ - 删除指定资源，幂等操作。
+ - Deletes the specified resource; idempotent operation.
 
 5. **PATCH**
-   - 部分更新资源，与 PUT 不同，仅修改部分字段。
-   - Partially updates a resource; unlike PUT, only modifies specific fields.
+ - 部分更新资源，与 PUT 不同，仅修改部分字段。
+ - Partially updates a resource; unlike PUT, only modifies specific fields.
 
 6. **HEAD**
-   - 类似 GET，但只返回响应头，不返回响应体。
-   - Similar to GET, but returns only the response headers without the body.
+ - 类似 GET，但只返回响应头，不返回响应体。
+ - Similar to GET, but returns only the response headers without the body.
 
 7. **OPTIONS**
-   - 查询服务器支持的请求方法，常用于 CORS 预检。
-   - Queries the request methods supported by the server; commonly used in CORS preflight.
+ - 查询服务器支持的请求方法，常用于 CORS 预检。
+ - Queries the request methods supported by the server; commonly used in CORS preflight.
 
 #### **32.3.4 HTTP 状态码 (HTTP Status Codes)**
 
 ##### **状态码分类 (Status Code Categories)**
 1. **1xx 信息性 (Informational)**
-   - 表示请求已收到，继续处理。如 `100 Continue`。
-   - Indicates the request has been received and processing continues. E.g., `100 Continue`.
+ - 表示请求已收到，继续处理。如 `100 Continue`。
+ - Indicates the request has been received and processing continues. E.g., `100 Continue`.
 
 2. **2xx 成功 (Success)**
-   - 表示请求成功。如 `200 OK`、`201 Created`、`204 No Content`。
-   - Indicates the request was successful. E.g., `200 OK`, `201 Created`, `204 No Content`.
+ - 表示请求成功。如 `200 OK`、`201 Created`、`204 No Content`。
+ - Indicates the request was successful. E.g., `200 OK`, `201 Created`, `204 No Content`.
 
 3. **3xx 重定向 (Redirection)**
-   - 表示需要进一步操作。如 `301 Moved Permanently`、`302 Found`、`304 Not Modified`。
-   - Indicates further action is required. E.g., `301 Moved Permanently`, `302 Found`, `304 Not Modified`.
+ - 表示需要进一步操作。如 `301 Moved Permanently`、`302 Found`、`304 Not Modified`。
+ - Indicates further action is required. E.g., `301 Moved Permanently`, `302 Found`, `304 Not Modified`.
 
 4. **4xx 客户端错误 (Client Error)**
-   - 表示客户端请求有误。如 `400 Bad Request`、`401 Unauthorized`、`403 Forbidden`、`404 Not Found`。
-   - Indicates a client-side error. E.g., `400 Bad Request`, `401 Unauthorized`, `403 Forbidden`, `404 Not Found`.
+ - 表示客户端请求有误。如 `400 Bad Request`、`401 Unauthorized`、`403 Forbidden`、`404 Not Found`。
+ - Indicates a client-side error. E.g., `400 Bad Request`, `401 Unauthorized`, `403 Forbidden`, `404 Not Found`.
 
 5. **5xx 服务器错误 (Server Error)**
-   - 表示服务器处理失败。如 `500 Internal Server Error`、`502 Bad Gateway`、`503 Service Unavailable`。
-   - Indicates a server-side failure. E.g., `500 Internal Server Error`, `502 Bad Gateway`, `503 Service Unavailable`.
+ - 表示服务器处理失败。如 `500 Internal Server Error`、`502 Bad Gateway`、`503 Service Unavailable`。
+ - Indicates a server-side failure. E.g., `500 Internal Server Error`, `502 Bad Gateway`, `503 Service Unavailable`.
 
 #### **32.3.5 HTTP 版本演进 (Evolution of HTTP Versions)**
 
 ##### **HTTP 版本对比 (Comparison of HTTP Versions)**
 1. **HTTP/1.0**
-   - 每个请求建立一个新的 TCP 连接，效率低下。
-   - Each request establishes a new TCP connection, which is inefficient.
+ - 每个请求建立一个新的 TCP 连接，效率低下。
+ - Each request establishes a new TCP connection, which is inefficient.
 
 2. **HTTP/1.1**
-   - 引入持久连接（Keep-Alive）、管线化（Pipelining）、分块传输编码（Chunked Encoding）。
-   - Introduces persistent connections (Keep-Alive), pipelining, and chunked transfer encoding.
+ - 引入持久连接（Keep-Alive）、管线化（Pipelining）、分块传输编码（Chunked Encoding）。
+ - Introduces persistent connections (Keep-Alive), pipelining, and chunked transfer encoding.
 
 3. **HTTP/2**
-   - 二进制分帧、多路复用、头部压缩（HPACK）、服务器推送，显著提升性能。
-   - Features binary framing, multiplexing, header compression (HPACK), and server push, significantly improving performance.
+ - 二进制分帧、多路复用、头部压缩（HPACK）、服务器推送，显著提升性能。
+ - Features binary framing, multiplexing, header compression (HPACK), and server push, significantly improving performance.
 
 4. **HTTP/3**
-   - 基于 QUIC 协议（UDP），解决队头阻塞问题，连接建立更快。
-   - Based on the QUIC protocol (over UDP); resolves head-of-line blocking and enables faster connection establishment.
+ - 基于 QUIC 协议（UDP），解决队头阻塞问题，连接建立更快。
+ - Based on the QUIC protocol (over UDP); resolves head-of-line blocking and enables faster connection establishment.
 
 #### **32.3.6 HTTPS 概述 (Overview of HTTPS)**
 
@@ -54538,39 +54538,39 @@ Packet switching is a communication method that splits data into small packets, 
 
 ##### **HTTPS 的核心目标 (Core Goals of HTTPS)**
 1. **机密性 (Confidentiality)**
-   - 通过加密防止数据被窃听。
-   - Prevents data eavesdropping through encryption.
+ - 通过加密防止数据被窃听。
+ - Prevents data eavesdropping through encryption.
 
 2. **完整性 (Integrity)**
-   - 通过消息认证码（MAC）防止数据被篡改。
-   - Prevents data tampering through Message Authentication Codes (MAC).
+ - 通过消息认证码（MAC）防止数据被篡改。
+ - Prevents data tampering through Message Authentication Codes (MAC).
 
 3. **身份认证 (Authentication)**
-   - 通过数字证书验证服务器身份，防止中间人攻击。
-   - Verifies server identity through digital certificates, preventing man-in-the-middle attacks.
+ - 通过数字证书验证服务器身份，防止中间人攻击。
+ - Verifies server identity through digital certificates, preventing man-in-the-middle attacks.
 
 #### **32.3.7 HTTPS 工作原理 (How HTTPS Works)**
 
 ##### **TLS 握手过程 (TLS Handshake Process)**
 1. **客户端问候 (Client Hello)**
-   - 客户端发送支持的 TLS 版本、加密套件列表和随机数。
-   - The client sends supported TLS versions, a list of cipher suites, and a random number.
+ - 客户端发送支持的 TLS 版本、加密套件列表和随机数。
+ - The client sends supported TLS versions, a list of cipher suites, and a random number.
 
 2. **服务器问候 (Server Hello)**
-   - 服务器选择 TLS 版本和加密套件，返回随机数和数字证书。
-   - The server selects the TLS version and cipher suite, returning a random number and digital certificate.
+ - 服务器选择 TLS 版本和加密套件，返回随机数和数字证书。
+ - The server selects the TLS version and cipher suite, returning a random number and digital certificate.
 
 3. **证书验证 (Certificate Verification)**
-   - 客户端通过 CA（证书颁发机构）验证服务器证书的有效性。
-   - The client verifies the server certificate's validity through a Certificate Authority (CA).
+ - 客户端通过 CA（证书颁发机构）验证服务器证书的有效性。
+ - The client verifies the server certificate's validity through a Certificate Authority (CA).
 
 4. **密钥交换 (Key Exchange)**
-   - 双方通过非对称加密（如 RSA、ECDHE）协商出对称加密的会话密钥。
-   - Both parties negotiate a symmetric session key using asymmetric encryption (e.g., RSA, ECDHE).
+ - 双方通过非对称加密（如 RSA、ECDHE）协商出对称加密的会话密钥。
+ - Both parties negotiate a symmetric session key using asymmetric encryption (e.g., RSA, ECDHE).
 
 5. **加密通信 (Encrypted Communication)**
-   - 后续通信使用对称加密，性能高且安全。
-   - Subsequent communication uses symmetric encryption for high performance and security.
+ - 后续通信使用对称加密，性能高且安全。
+ - Subsequent communication uses symmetric encryption for high performance and security.
 
 ##### **加密技术 (Encryption Techniques)**
 - **对称加密 (Symmetric Encryption)**：如 AES，加解密速度快，用于数据传输。
@@ -54581,20 +54581,20 @@ Packet switching is a communication method that splits data into small packets, 
 
 ##### **关键差异 (Key Differences)**
 1. **安全性 (Security)**
-   - HTTP 明文传输，易被窃听和篡改；HTTPS 加密传输，安全性高。
-   - HTTP transmits in plaintext, vulnerable to eavesdropping and tampering; HTTPS uses encrypted transmission for high security.
+ - HTTP 明文传输，易被窃听和篡改；HTTPS 加密传输，安全性高。
+ - HTTP transmits in plaintext, vulnerable to eavesdropping and tampering; HTTPS uses encrypted transmission for high security.
 
 2. **端口 (Port)**
-   - HTTP 默认使用 80 端口；HTTPS 默认使用 443 端口。
-   - HTTP uses port 80 by default; HTTPS uses port 443 by default.
+ - HTTP 默认使用 80 端口；HTTPS 默认使用 443 端口。
+ - HTTP uses port 80 by default; HTTPS uses port 443 by default.
 
 3. **性能 (Performance)**
-   - HTTPS 因加解密和握手过程，性能略低于 HTTP，但 HTTP/2、HTTP/3 已大幅优化。
-   - HTTPS performs slightly slower than HTTP due to encryption and handshake, but HTTP/2 and HTTP/3 have significantly optimized this.
+ - HTTPS 因加解密和握手过程，性能略低于 HTTP，但 HTTP/2、HTTP/3 已大幅优化。
+ - HTTPS performs slightly slower than HTTP due to encryption and handshake, but HTTP/2 and HTTP/3 have significantly optimized this.
 
 4. **证书 (Certificate)**
-   - HTTPS 需要 SSL/TLS 证书，HTTP 不需要。
-   - HTTPS requires an SSL/TLS certificate; HTTP does not.
+ - HTTPS 需要 SSL/TLS 证书，HTTP 不需要。
+ - HTTPS requires an SSL/TLS certificate; HTTP does not.
 
 ## 第 33 章 数据库基础
 ### 33.1 关系型 vs 非关系型
@@ -54607,20 +54607,20 @@ Packet switching is a communication method that splits data into small packets, 
 
 ##### **关系型数据库的特点 (Characteristics of Relational Databases)**
 1. **结构化数据 (Structured Data)**
-   - 数据以表格形式组织，每张表有固定的列（字段）和数据类型，结构严格。
-   - Data is organized in tables with fixed columns (fields) and data types, following a strict structure.
+ - 数据以表格形式组织，每张表有固定的列（字段）和数据类型，结构严格。
+ - Data is organized in tables with fixed columns (fields) and data types, following a strict structure.
 
 2. **支持 SQL (SQL Support)**
-   - 使用结构化查询语言（SQL）进行数据操作，如增删改查（CRUD）。
-   - Uses Structured Query Language (SQL) for data operations, such as Create, Read, Update, Delete (CRUD).
+ - 使用结构化查询语言（SQL）进行数据操作，如增删改查（CRUD）。
+ - Uses Structured Query Language (SQL) for data operations, such as Create, Read, Update, Delete (CRUD).
 
 3. **ACID 事务支持 (ACID Transaction Support)**
-   - 支持原子性、一致性、隔离性、持久性，保证数据可靠性。
-   - Supports Atomicity, Consistency, Isolation, and Durability, ensuring data reliability.
+ - 支持原子性、一致性、隔离性、持久性，保证数据可靠性。
+ - Supports Atomicity, Consistency, Isolation, and Durability, ensuring data reliability.
 
 4. **强一致性 (Strong Consistency)**
-   - 数据始终保持一致状态，适合对数据准确性要求高的场景。
-   - Data remains in a consistent state at all times, suitable for scenarios requiring high data accuracy.
+ - 数据始终保持一致状态，适合对数据准确性要求高的场景。
+ - Data remains in a consistent state at all times, suitable for scenarios requiring high data accuracy.
 
 ##### **常见关系型数据库 (Common Relational Databases)**
 - **MySQL**：开源、广泛使用，适合中小型应用。
@@ -54637,41 +54637,41 @@ Packet switching is a communication method that splits data into small packets, 
 
 ##### **非关系型数据库的特点 (Characteristics of Non-Relational Databases)**
 1. **灵活的数据模型 (Flexible Data Model)**
-   - 不需要预定义模式（Schema-less），可以存储结构化、半结构化和非结构化数据。
-   - Does not require a predefined schema (schema-less), capable of storing structured, semi-structured, and unstructured data.
+ - 不需要预定义模式（Schema-less），可以存储结构化、半结构化和非结构化数据。
+ - Does not require a predefined schema (schema-less), capable of storing structured, semi-structured, and unstructured data.
 
 2. **高扩展性 (High Scalability)**
-   - 通常支持水平扩展（Scale-out），适合处理海量数据和高并发请求。
-   - Typically supports horizontal scaling (scale-out), suitable for handling massive data and high-concurrency requests.
+ - 通常支持水平扩展（Scale-out），适合处理海量数据和高并发请求。
+ - Typically supports horizontal scaling (scale-out), suitable for handling massive data and high-concurrency requests.
 
 3. **最终一致性 (Eventual Consistency)**
-   - 多数 NoSQL 数据库遵循 BASE 原则，强调可用性和分区容忍性，允许短暂的不一致。
-   - Most NoSQL databases follow the BASE principle, emphasizing availability and partition tolerance, allowing temporary inconsistencies.
+ - 多数 NoSQL 数据库遵循 BASE 原则，强调可用性和分区容忍性，允许短暂的不一致。
+ - Most NoSQL databases follow the BASE principle, emphasizing availability and partition tolerance, allowing temporary inconsistencies.
 
 4. **高性能 (High Performance)**
-   - 针对特定场景优化，读写性能优于关系型数据库。
-   - Optimized for specific scenarios, with read/write performance superior to relational databases.
+ - 针对特定场景优化，读写性能优于关系型数据库。
+ - Optimized for specific scenarios, with read/write performance superior to relational databases.
 
 ##### **NoSQL 数据库分类 (Categories of NoSQL Databases)**
 1. **键值存储 (Key-Value Store)**
-   - 以键值对形式存储数据，结构简单，访问速度快。
-   - Stores data as key-value pairs with a simple structure and fast access speed.
-   - **代表 (Examples)**：Redis、Memcached、DynamoDB。
+ - 以键值对形式存储数据，结构简单，访问速度快。
+ - Stores data as key-value pairs with a simple structure and fast access speed.
+ - **代表 (Examples)**：Redis、Memcached、DynamoDB。
 
 2. **文档数据库 (Document Database)**
-   - 以文档（如 JSON、BSON）形式存储数据，支持嵌套结构。
-   - Stores data as documents (e.g., JSON, BSON), supporting nested structures.
-   - **代表 (Examples)**：MongoDB、CouchDB。
+ - 以文档（如 JSON、BSON）形式存储数据，支持嵌套结构。
+ - Stores data as documents (e.g., JSON, BSON), supporting nested structures.
+ - **代表 (Examples)**：MongoDB、CouchDB。
 
 3. **列族数据库 (Column-Family Database)**
-   - 以列族为单位存储数据，适合大规模数据分析。
-   - Stores data in column families, suitable for large-scale data analysis.
-   - **代表 (Examples)**：Cassandra、HBase。
+ - 以列族为单位存储数据，适合大规模数据分析。
+ - Stores data in column families, suitable for large-scale data analysis.
+ - **代表 (Examples)**：Cassandra、HBase。
 
 4. **图数据库 (Graph Database)**
-   - 以节点和边表示数据及其关系，适合处理复杂关系网络。
-   - Represents data and their relationships using nodes and edges, suitable for handling complex relationship networks.
-   - **代表 (Examples)**：Neo4j、ArangoDB。
+ - 以节点和边表示数据及其关系，适合处理复杂关系网络。
+ - Represents data and their relationships using nodes and edges, suitable for handling complex relationship networks.
+ - **代表 (Examples)**：Neo4j、ArangoDB。
 
 #### **33.1.3 关系型 vs 非关系型对比 (Comparison of Relational vs Non-Relational Databases)**
 
@@ -54721,29 +54721,29 @@ Packet switching is a communication method that splits data into small packets, 
 
 ##### **选择关系型数据库的场景 (When to Choose Relational Databases)**
 1. **数据结构稳定 (Stable Data Structure)**
-   - 数据模式固定，字段和类型变化少。
-   - Data schema is fixed with minimal changes to fields and types.
+ - 数据模式固定，字段和类型变化少。
+ - Data schema is fixed with minimal changes to fields and types.
 
 2. **强一致性要求 (Strong Consistency Required)**
-   - 如银行交易、订单系统，要求数据严格一致。
-   - Such as banking transactions and order systems requiring strict data consistency.
+ - 如银行交易、订单系统，要求数据严格一致。
+ - Such as banking transactions and order systems requiring strict data consistency.
 
 3. **复杂查询和事务 (Complex Queries and Transactions)**
-   - 需要多表连接、聚合分析和事务支持。
-   - Requires multi-table joins, aggregate analysis, and transactional support.
+ - 需要多表连接、聚合分析和事务支持。
+ - Requires multi-table joins, aggregate analysis, and transactional support.
 
 ##### **选择非关系型数据库的场景 (When to Choose Non-Relational Databases)**
 1. **数据结构灵活 (Flexible Data Structure)**
-   - 数据模式多变，字段不固定。
-   - Data schema varies frequently with non-fixed fields.
+ - 数据模式多变，字段不固定。
+ - Data schema varies frequently with non-fixed fields.
 
 2. **海量数据和高并发 (Massive Data and High Concurrency)**
-   - 如日志系统、用户行为分析，需要水平扩展能力。
-   - Such as logging systems and user behavior analytics requiring horizontal scaling.
+ - 如日志系统、用户行为分析，需要水平扩展能力。
+ - Such as logging systems and user behavior analytics requiring horizontal scaling.
 
 3. **特定数据场景 (Specific Data Scenarios)**
-   - 缓存（Redis）、文档存储（MongoDB）、关系网络（Neo4j）等专门场景。
-   - Specialized scenarios like caching (Redis), document storage (MongoDB), and relationship networks (Neo4j).
+ - 缓存（Redis）、文档存储（MongoDB）、关系网络（Neo4j）等专门场景。
+ - Specialized scenarios like caching (Redis), document storage (MongoDB), and relationship networks (Neo4j).
 
 ##### **混合使用 (Hybrid Approach)**
 - 现代应用常采用 **多数据库架构 (Polyglot Persistence)**，根据不同业务需求选择合适的数据库。
@@ -54761,20 +54761,20 @@ Packet switching is a communication method that splits data into small packets, 
 
 ##### **SQL 的分类 (Categories of SQL)**
 1. **数据定义语言 (DDL - Data Definition Language)**
-   - 用于定义和修改数据库结构，如 `CREATE`、`ALTER`、`DROP`。
-   - Used to define and modify database structures, such as `CREATE`, `ALTER`, `DROP`.
+ - 用于定义和修改数据库结构，如 `CREATE`、`ALTER`、`DROP`。
+ - Used to define and modify database structures, such as `CREATE`, `ALTER`, `DROP`.
 
 2. **数据操作语言 (DML - Data Manipulation Language)**
-   - 用于操作表中的数据，如 `INSERT`、`UPDATE`、`DELETE`、`SELECT`。
-   - Used to manipulate data in tables, such as `INSERT`, `UPDATE`, `DELETE`, `SELECT`.
+ - 用于操作表中的数据，如 `INSERT`、`UPDATE`、`DELETE`、`SELECT`。
+ - Used to manipulate data in tables, such as `INSERT`, `UPDATE`, `DELETE`, `SELECT`.
 
 3. **数据控制语言 (DCL - Data Control Language)**
-   - 用于控制访问权限，如 `GRANT`、`REVOKE`。
-   - Used to control access permissions, such as `GRANT`, `REVOKE`.
+ - 用于控制访问权限，如 `GRANT`、`REVOKE`。
+ - Used to control access permissions, such as `GRANT`, `REVOKE`.
 
 4. **事务控制语言 (TCL - Transaction Control Language)**
-   - 用于事务管理，如 `COMMIT`、`ROLLBACK`、`SAVEPOINT`。
-   - Used for transaction management, such as `COMMIT`, `ROLLBACK`, `SAVEPOINT`.
+ - 用于事务管理，如 `COMMIT`、`ROLLBACK`、`SAVEPOINT`。
+ - Used for transaction management, such as `COMMIT`, `ROLLBACK`, `SAVEPOINT`.
 
 #### **33.2.2 创建数据库与表 (Creating Databases and Tables)**
 
@@ -54793,12 +54793,12 @@ USE company;
 
 ```sql
 CREATE TABLE employees (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    name VARCHAR(50) NOT NULL,
-    age INT,
-    department VARCHAR(50),
-    salary DECIMAL(10, 2),
-    hire_date DATE DEFAULT CURRENT_DATE
+ id INT PRIMARY KEY AUTO_INCREMENT,
+ name VARCHAR(50) NOT NULL,
+ age INT,
+ department VARCHAR(50),
+ salary DECIMAL(10, 2),
+ hire_date DATE DEFAULT CURRENT_DATE
 );
 ```
 
@@ -54829,10 +54829,10 @@ VALUES ('Alice', 30, 'Engineering', 8000.00);
 
 -- 插入多条记录 (Insert multiple records)
 INSERT INTO employees (name, age, department, salary)
-VALUES 
-    ('Bob', 25, 'Marketing', 6000.00),
-    ('Charlie', 35, 'Engineering', 9500.00),
-    ('David', 28, 'Sales', 7000.00);
+VALUES
+ ('Bob', 25, 'Marketing', 6000.00),
+ ('Charlie', 35, 'Engineering', 9500.00),
+ ('David', 28, 'Sales', 7000.00);
 ```
 
 ##### **从其他表插入 (Insert from Another Table)**
@@ -54867,7 +54867,7 @@ SELECT name, salary FROM employees;
 SELECT * FROM employees WHERE department = 'Engineering';
 
 -- 多条件查询 (Multiple conditions)
-SELECT * FROM employees 
+SELECT * FROM employees
 WHERE department = 'Engineering' AND salary > 8000;
 
 -- 范围查询 (Range query)
@@ -54910,10 +54910,10 @@ SELECT * FROM employees LIMIT 10, 5;
 
 ```sql
 -- 常见聚合函数 (Common aggregate functions)
-SELECT COUNT(*) FROM employees;              -- 统计行数
-SELECT SUM(salary) FROM employees;            -- 求和
-SELECT AVG(salary) FROM employees;            -- 平均值
-SELECT MAX(salary), MIN(salary) FROM employees;  -- 最大值、最小值
+SELECT COUNT(*) FROM employees; -- 统计行数
+SELECT SUM(salary) FROM employees; -- 求和
+SELECT AVG(salary) FROM employees; -- 平均值
+SELECT MAX(salary), MIN(salary) FROM employees; -- 最大值、最小值
 ```
 
 ##### **GROUP BY 分组 (GROUP BY - Grouping)**
@@ -55002,22 +55002,22 @@ DELETE FROM employees;
 
 ##### **DELETE v##### **DELETE vs TRUNCATE vs DROP**
 1. **DELETE**
-   - 删除表中的记录，可使用 `WHERE` 条件，保留表结构，可回滚（事务中）。
-   - Removes records from a table; can use `WHERE` conditions; preserves table structure; can be rolled back (within transactions).
+ - 删除表中的记录，可使用 `WHERE` 条件，保留表结构，可回滚（事务中）。
+ - Removes records from a table; can use `WHERE` conditions; preserves table structure; can be rolled back (within transactions).
 
 2. **TRUNCATE**
-   - 清空整张表的数据，速度快，不可使用 `WHERE`，重置自增 ID，通常不可回滚。
-   - Empties the entire table quickly; cannot use `WHERE`; resets auto-increment IDs; usually cannot be rolled back.
+ - 清空整张表的数据，速度快，不可使用 `WHERE`，重置自增 ID，通常不可回滚。
+ - Empties the entire table quickly; cannot use `WHERE`; resets auto-increment IDs; usually cannot be rolled back.
 
 3. **DROP**
-   - 删除整张表（包括结构和数据），无法恢复。
-   - Removes the entire table (both structure and data); cannot be recovered.
+ - 删除整张表（包括结构和数据），无法恢复。
+ - Removes the entire table (both structure and data); cannot be recovered.
 
 ```sql
 -- 三者对比 (Comparison)
-DELETE FROM employees WHERE id = 5;   -- 删除指定记录
-TRUNCATE TABLE employees;              -- 清空表数据
-DROP TABLE employees;                  -- 删除整张表
+DELETE FROM employees WHERE id = 5; -- 删除指定记录
+TRUNCATE TABLE employees; -- 清空表数据
+DROP TABLE employees; -- 删除整张表
 ```
 
 #### **33.2.7 修改表结构 (Modifying Table Structure)**
@@ -55043,7 +55043,7 @@ ALTER TABLE employees CHANGE COLUMN name full_name VARCHAR(100);
 ALTER TABLE employees ADD INDEX idx_department (department);
 
 -- 添加外键 (Add a foreign key)
-ALTER TABLE employees 
+ALTER TABLE employees
 ADD CONSTRAINT fk_dept FOREIGN KEY (department_id) REFERENCES departments(id);
 ```
 
@@ -55060,8 +55060,8 @@ WHERE salary > (SELECT AVG(salary) FROM employees);
 
 -- 在 FROM 中使用子查询 (Subquery in FROM)
 SELECT department, avg_salary
-FROM (SELECT department, AVG(salary) AS avg_salary 
-      FROM employees GROUP BY department) AS dept_avg
+FROM (SELECT department, AVG(salary) AS avg_salary
+ FROM employees GROUP BY department) AS dept_avg
 WHERE avg_salary > 7000;
 ```
 
@@ -55089,11 +55089,11 @@ SELECT name FROM contractors;
 
 ```sql
 SELECT name, salary,
-    CASE 
-        WHEN salary >= 9000 THEN 'High'
-        WHEN salary >= 7000 THEN 'Medium'
-        ELSE 'Low'
-    END AS salary_level
+ CASE
+ WHEN salary >= 9000 THEN 'High'
+ WHEN salary >= 7000 THEN 'Medium'
+ ELSE 'Low'
+ END AS salary_level
 FROM employees;
 ```
 
@@ -55127,7 +55127,7 @@ START TRANSACTION;
 UPDATE employees SET salary = 8000 WHERE id = 1;
 SAVEPOINT sp1;
 UPDATE employees SET salary = 9000 WHERE id = 2;
-ROLLBACK TO sp1;  -- 回滚到 sp1，仅保留第一个更新
+ROLLBACK TO sp1; -- 回滚到 sp1，仅保留第一个更新
 COMMIT;
 ```
 
@@ -55135,184 +55135,184 @@ COMMIT;
 
 ##### **性能优化建议 (Performance Optimization Tips)**
 1. **避免 SELECT \***：明确指定需要的列，减少数据传输。
-   - **Avoid SELECT \***: Specify needed columns explicitly to reduce data transfer.
+ - **Avoid SELECT \***: Specify needed columns explicitly to reduce data transfer.
 
 2. **合理使用索引 (Use Indexes Wisely)**：在常用查询字段上创建索引，但不要过度索引。
-   - Create indexes on frequently queried fields, but avoid over-indexing.
+ - Create indexes on frequently queried fields, but avoid over-indexing.
 
 3. **WHERE 条件优化 (Optimize WHERE Conditions)**：避免在索引列上使用函数或运算。
-   - Avoid using functions or operations on indexed columns.
+ - Avoid using functions or operations on indexed columns.
 
 4. **使用 LIMIT 分页 (Use LIMIT for Pagination)**：避免一次返回大量数据。
-   - Avoid returning massive data at once.
+ - Avoid returning massive data at once.
 
 5. **谨慎使用 JOIN (Use JOINs Carefully)**：多表连接会影响性能，必要时使用合适的连接类型。
-   - Multi-table joins affect performance; use appropriate join types when necessary.
+ - Multi-table joins affect performance; use appropriate join types when necessary.
 
 ##### **安全建议 (Security Tips)**
 1. **使用参数化查询 (Use Parameterized Queries)**：防止 SQL 注入攻击。
-   - Prevents SQL injection attacks.
+ - Prevents SQL injection attacks.
 
 2. **最小权限原则 (Principle of Least Privilege)**：仅授予必要的数据库权限。
-   - Grant only necessary database privileges.
+ - Grant only necessary database privileges.
 
 3. **备份重要数据 (Backup Important Data)**：定期备份，避免数据丢失。
-   - Backup regularly to prevent data loss.
+ - Backup regularly to prevent data loss.
 
 4. **DELETE 和 UPDATE 必加 WHERE (Always Include WHERE in DELETE/UPDATE)**：避免误操作影响整张表。
-   - Prevents accidental modifications to the entire table.
+ - Prevents accidental modifications to the entire table.
 
 ##### **代码规范 (Coding Standards)**
 1. **关键字大写 (Capitalize Keywords)**：如 `SELECT`、`FROM`、`WHERE`，提高可读性。
-   - Improves readability.
+ - Improves readability.
 
 2. **命名规范 (Naming Conventions)**：使用有意义的表名和字段名，统一使用小写或下划线分隔。
-   - Use meaningful table and field names, consistently using lowercase or underscores.
+ - Use meaningful table and field names, consistently using lowercase or underscores.
 
 3. **注释清晰 (Clear Comments)**：对复杂查询添加注释说明。
-   - Add comments to explain complex queries.
+ - Add comments to explain complex queries.
 
 4. **格式化 SQL (Format SQL Properly)**：合理换行和缩进，便于阅读和维护。
-   - Use proper line breaks and indentation for readability and maintainability.
+ - Use proper line breaks and indentation for readability and maintainability.
 
 ### 数据库和数据建模
 #### **33.5.1. File-Based System 基于文件的系统**
-- **Definition 定义**:  
-  Data is stored in discrete files, which can be accessed, altered, or removed by the user.  
-  数据存储在离散文件中，用户可以访问、修改或删除。
+- **Definition 定义**:
+ Data is stored in discrete files, which can be accessed, altered, or removed by the user.
+ 数据存储在离散文件中，用户可以访问、修改或删除。
 
 - **Disadvantages 缺点**:
-  - No control over file organization or structure.  
-    无文件组织结构控制。  
-  - Data duplication and inconsistency.  
-    数据重复且不一致。  
-  - Manual sorting or programming required for organizing data.  
-    数据排序需手动完成或编写程序。  
-  - Data formats may differ, making them hard to integrate and use.  
-    数据格式不统一，难以整合使用。  
-  - Not suitable for multi-user environments.  
-    无法支持多用户使用。  
-  - Poor security; users can access everything.  
-    安全性差，用户可以访问所有内容。
+ - No control over file organization or structure.
+ 无文件组织结构控制。
+ - Data duplication and inconsistency.
+ 数据重复且不一致。
+ - Manual sorting or programming required for organizing data.
+ 数据排序需手动完成或编写程序。
+ - Data formats may differ, making them hard to integrate and use.
+ 数据格式不统一，难以整合使用。
+ - Not suitable for multi-user environments.
+ 无法支持多用户使用。
+ - Poor security; users can access everything.
+ 安全性差，用户可以访问所有内容。
 
 ---
 
 #### **33.5.2. Database Management System (DBMS) 数据库管理系统**
-- **Definition 定义**:  
-  A system for managing non-redundant interrelated data.  
-  管理非冗余的相互关联数据的系统。
+- **Definition 定义**:
+ A system for managing non-redundant interrelated data.
+ 管理非冗余的相互关联数据的系统。
 
 - **Features 特点**:
-  1. **Data Management 数据管理**:  
-     Data is stored in relational databases as tables saved in secondary storage.  
-     数据存储在关系数据库的表格中，并保存在辅助存储设备上。
-  2. **Data Dictionary 数据字典**:  
-     - Contains a list of all files in the database.  
-       包含数据库中所有文件的列表。  
-     - Includes the number of records, and the names/types of fields.  
-       包括记录数量及字段的名称和类型。
-  3. **Data Modelling 数据建模**:  
-     Analyzes data objects and identifies relationships among them.  
-     分析数据对象并确定它们之间的关系。
-  4. **Data Integrity 数据完整性**:  
-     Ensures consistency when data is modified.  
-     确保数据修改时的一致性。
-  5. **Data Security 数据安全**:  
-     Manages passwords, access rights, and backups automatically.  
-     自动管理密码、访问权限和备份。
+ 1. **Data Management 数据管理**:
+ Data is stored in relational databases as tables saved in secondary storage.
+ 数据存储在关系数据库的表格中，并保存在辅助存储设备上。
+ 2. **Data Dictionary 数据字典**:
+ - Contains a list of all files in the database.
+ 包含数据库中所有文件的列表。
+ - Includes the number of records, and the names/types of fields.
+ 包括记录数量及字段的名称和类型。
+ 3. **Data Modelling 数据建模**:
+ Analyzes data objects and identifies relationships among them.
+ 分析数据对象并确定它们之间的关系。
+ 4. **Data Integrity 数据完整性**:
+ Ensures consistency when data is modified.
+ 确保数据修改时的一致性。
+ 5. **Data Security 数据安全**:
+ Manages passwords, access rights, and backups automatically.
+ 自动管理密码、访问权限和备份。
 
 - **Solutions for Data Change Clashes 数据冲突解决方案**:
-  - Exclusive mode for database access (impractical for multiple users).  
-    数据库独占模式（不适合多用户）。  
-  - Locking records or tables during modifications.  
-    修改时对记录或表进行加锁。  
-  - Handling deadlocks when multiple users try to access the same resource.  
-    处理多用户访问相同资源时的死锁问题。
+ - Exclusive mode for database access (impractical for multiple users).
+ 数据库独占模式（不适合多用户）。
+ - Locking records or tables during modifications.
+ 修改时对记录或表进行加锁。
+ - Handling deadlocks when multiple users try to access the same resource.
+ 处理多用户访问相同资源时的死锁问题。
 
 ---
 
 #### **33.5.3. Relational Database Modelling 关系数据库建模**
 - **Key Terms 核心概念**:
-  - **Entity 实体**: Distinct object/event that can be identified.  
-    可识别的对象或事件。  
-  - **Table 表**: A group of related entities stored in rows and columns.  
-    存储相关实体的行和列的集合。  
-  - **Tuple 元组**: A row or record in a table.  
-    表中的一行记录。  
-  - **Attribute 属性**: A column or field in a table.  
-    表中的列或字段。  
-  - **Primary Key 主键**: Uniquely identifies each record (tuple).  
-    唯一标识每条记录的属性。  
-  - **Foreign Key 外键**: Links different tables together.  
-    连接不同表的属性。  
-  - **Referential Integrity 参照完整性**: Prevents inconsistent data between linked tables.  
-    防止关联表之间数据不一致。  
-  - **Index 索引**: Secondary keys used for faster data access.  
-    用于快速访问数据的次要键。
+ - **Entity 实体**: Distinct object/event that can be identified.
+ 可识别的对象或事件。
+ - **Table 表**: A group of related entities stored in rows and columns.
+ 存储相关实体的行和列的集合。
+ - **Tuple 元组**: A row or record in a table.
+ 表中的一行记录。
+ - **Attribute 属性**: A column or field in a table.
+ 表中的列或字段。
+ - **Primary Key 主键**: Uniquely identifies each record (tuple).
+ 唯一标识每条记录的属性。
+ - **Foreign Key 外键**: Links different tables together.
+ 连接不同表的属性。
+ - **Referential Integrity 参照完整性**: Prevents inconsistent data between linked tables.
+ 防止关联表之间数据不一致。
+ - **Index 索引**: Secondary keys used for faster data access.
+ 用于快速访问数据的次要键。
 
 ---
 
 #### **33.5.4. Relational Design of a System 系统关系设计**
 - **Relationship Types 关系类型**:
-  - One-to-One (1:1) 一对一  
-  - One-to-Many (1:N) 一对多  
-  - Many-to-One (N:1) 多对一  
-  - Many-to-Many (M:N) 多对多  
+ - One-to-One (1:1) 一对一
+ - One-to-Many (1:N) 一对多
+ - Many-to-One (N:1) 多对一
+ - Many-to-Many (M:N) 多对多
 
 ---
 
 #### **33.5.5. Normalization 规范化**
-- **Purpose 目的**:  
-  To reduce data redundancy and ensure data integrity.  
-  减少数据冗余并确保数据完整性。
+- **Purpose 目的**:
+ To reduce data redundancy and ensure data integrity.
+ 减少数据冗余并确保数据完整性。
 
 - **Three Normal Forms 三大范式**:
-  1. **1st Normal Form (1NF) 第一范式**:  
-     - No repeating groups of attributes.  
-       无重复属性组。  
-     - Every field contains only one value.  
-       每个字段只包含一个值。
+ 1. **1st Normal Form (1NF) 第一范式**:
+ - No repeating groups of attributes.
+ 无重复属性组。
+ - Every field contains only one value.
+ 每个字段只包含一个值。
 
-  2. **2nd Normal Form (2NF) 第二范式**:  
-     - Satisfies 1NF.  
-       满足1NF。  
-     - Every non-primary attribute is fully dependent on the primary key.  
-       每个非主键属性完全依赖于主键。
+ 2. **2nd Normal Form (2NF) 第二范式**:
+ - Satisfies 1NF.
+ 满足1NF。
+ - Every non-primary attribute is fully dependent on the primary key.
+ 每个非主键属性完全依赖于主键。
 
-  3. **3rd Normal Form (3NF) 第三范式**:  
-     - Satisfies 2NF.  
-       满足2NF。  
-     - No transitive dependencies between attributes.  
-       属性之间无传递依赖。
+ 3. **3rd Normal Form (3NF) 第三范式**:
+ - Satisfies 2NF.
+ 满足2NF。
+ - No transitive dependencies between attributes.
+ 属性之间无传递依赖。
 
 ---
 
 #### **33.5.6. Data Definition Language (DDL) 数据定义语言**
-- **Definition 定义**:  
-  A set of SQL commands used to define and modify database structure.  
-  用于定义和修改数据库结构的一组SQL命令。
+- **Definition 定义**:
+ A set of SQL commands used to define and modify database structure.
+ 用于定义和修改数据库结构的一组SQL命令。
 
 - **Common Operations 常见操作**:
-  1. **Create a Database 创建数据库**:
-     ```sql
-     CREATE DATABASE <database-name>;
-     ```
-  2. **Create a Table 创建表**:
-     ```sql
-     CREATE TABLE <table-name> (...);
-     ```
-  3. **Alter a Table 修改表**:
-     ```sql
-     ALTER TABLE <table-name> ADD <field-name> <data-type>;
-     ```
-  4. **Delete Records 删除记录**:
-     ```sql
-     DELETE FROM <table-name> WHERE <condition>;
-     ```
-  5. **Update Records 更新记录**:
-     ```sql
-     UPDATE <table-name> SET <field-name> = <value> WHERE <condition>;
-     ```
+ 1. **Create a Database 创建数据库**:
+ ```sql
+ CREATE DATABASE <database-name>;
+ ```
+ 2. **Create a Table 创建表**:
+ ```sql
+ CREATE TABLE <table-name> (...);
+ ```
+ 3. **Alter a Table 修改表**:
+ ```sql
+ ALTER TABLE <table-name> ADD <field-name> <data-type>;
+ ```
+ 4. **Delete Records 删除记录**:
+ ```sql
+ DELETE FROM <table-name> WHERE <condition>;
+ ```
+ 5. **Update Records 更新记录**:
+ ```sql
+ UPDATE <table-name> SET <field-name> = <value> WHERE <condition>;
+ ```
 
 
 ### 33.3 范式（1NF / 2NF / 3NF）
@@ -55339,9 +55339,9 @@ COMMIT;
 ```sql
 -- 不符合 1NF：phone 字段包含多个值
 CREATE TABLE employees (
-    id INT,
-    name VARCHAR(50),
-    phone VARCHAR(100)  -- "123-4567, 987-6543"
+ id INT,
+ name VARCHAR(50),
+ phone VARCHAR(100) -- "123-4567, 987-6543"
 );
 ```
 
@@ -55349,22 +55349,22 @@ CREATE TABLE employees (
 ```sql
 -- 方案 1：拆分为多行
 CREATE TABLE employees (
-    id INT,
-    name VARCHAR(50)
+ id INT,
+ name VARCHAR(50)
 );
 
 CREATE TABLE employee_phones (
-    employee_id INT,
-    phone VARCHAR(20),
-    FOREIGN KEY (employee_id) REFERENCES employees(id)
+ employee_id INT,
+ phone VARCHAR(20),
+ FOREIGN KEY (employee_id) REFERENCES employees(id)
 );
 
 -- 方案 2：拆分为多列（适用于固定数量）
 CREATE TABLE employees (
-    id INT,
-    name VARCHAR(50),
-    phone1 VARCHAR(20),
-    phone2 VARCHAR(20)
+ id INT,
+ name VARCHAR(50),
+ phone1 VARCHAR(20),
+ phone2 VARCHAR(20)
 );
 ```
 
@@ -55379,12 +55379,12 @@ CREATE TABLE employees (
 -- 联合主键：(student_id, course_id)
 -- 问题：student_name 只依赖于 student_id，不依赖 course_id
 CREATE TABLE enrollments (
-    student_id INT,
-    course_id INT,
-    student_name VARCHAR(50),  -- 部分依赖
-    course_name VARCHAR(50),   -- 部分依赖
-    grade DECIMAL(3, 2),
-    PRIMARY KEY (student_id, course_id)
+ student_id INT,
+ course_id INT,
+ student_name VARCHAR(50), -- 部分依赖
+ course_name VARCHAR(50), -- 部分依赖
+ grade DECIMAL(3, 2),
+ PRIMARY KEY (student_id, course_id)
 );
 ```
 
@@ -55392,22 +55392,22 @@ CREATE TABLE enrollments (
 ```sql
 -- 拆分为三张表
 CREATE TABLE students (
-    student_id INT PRIMARY KEY,
-    student_name VARCHAR(50)
+ student_id INT PRIMARY KEY,
+ student_name VARCHAR(50)
 );
 
 CREATE TABLE courses (
-    course_id INT PRIMARY KEY,
-    course_name VARCHAR(50)
+ course_id INT PRIMARY KEY,
+ course_name VARCHAR(50)
 );
 
 CREATE TABLE enrollments (
-    student_id INT,
-    course_id INT,
-    grade DECIMAL(3, 2),
-    PRIMARY KEY (student_id, course_id),
-    FOREIGN KEY (student_id) REFERENCES students(student_id),
-    FOREIGN KEY (course_id) REFERENCES courses(course_id)
+ student_id INT,
+ course_id INT,
+ grade DECIMAL(3, 2),
+ PRIMARY KEY (student_id, course_id),
+ FOREIGN KEY (student_id) REFERENCES students(student_id),
+ FOREIGN KEY (course_id) REFERENCES courses(course_id)
 );
 ```
 
@@ -55422,10 +55422,10 @@ CREATE TABLE enrollments (
 -- 问题：department_head 依赖于 department，而 department 依赖于 employee_id
 -- 这是传递依赖：employee_id → department → department_head
 CREATE TABLE employees (
-    employee_id INT PRIMARY KEY,
-    name VARCHAR(50),
-    department VARCHAR(50),
-    department_head VARCHAR(50)  -- 传递依赖
+ employee_id INT PRIMARY KEY,
+ name VARCHAR(50),
+ department VARCHAR(50),
+ department_head VARCHAR(50) -- 传递依赖
 );
 ```
 
@@ -55433,16 +55433,16 @@ CREATE TABLE employees (
 ```sql
 -- 拆分为两张表
 CREATE TABLE employees (
-    employee_id INT PRIMARY KEY,
-    name VARCHAR(50),
-    department_id INT,
-    FOREIGN KEY (department_id) REFERENCES departments(department_id)
+ employee_id INT PRIMARY KEY,
+ name VARCHAR(50),
+ department_id INT,
+ FOREIGN KEY (department_id) REFERENCES departments(department_id)
 );
 
 CREATE TABLE departments (
-    department_id INT PRIMARY KEY,
-    department_name VARCHAR(50),
-    department_head VARCHAR(50)
+ department_id INT PRIMARY KEY,
+ department_name VARCHAR(50),
+ department_head VARCHAR(50)
 );
 ```
 
@@ -55462,11 +55462,11 @@ CREATE TABLE departments (
 
 ##### **实践建议 (Practical Recommendations)**
 1. **核心业务表遵循 3NF**：保证数据一致性和完整性。
-   - **Core business tables follow 3NF**: Ensures data consistency and integrity.
+ - **Core business tables follow 3NF**: Ensures data consistency and integrity.
 2. **查询密集表适度反范式化**：通过冗余字段减少 JOIN 操作。
-   - **Query-intensive tables moderately denormalized**: Reduce JOIN operations through redundant fields.
+ - **Query-intensive tables moderately denormalized**: Reduce JOIN operations through redundant fields.
 3. **使用缓存和索引优化**：在保持范式的前提下提升性能。
-   - **Use caching and indexing for optimization**: Improve performance while maintaining normalization.
+ - **Use caching and indexing for optimization**: Improve performance while maintaining normalization.
 
 ---
 # 第十部分 工程实践
@@ -55495,16 +55495,16 @@ CREATE TABLE departments (
 ```java
 // Error：不应捕获
 try {
-    // 可能导致 OutOfMemoryError
-} catch (OutOfMemoryError e) {  // 不推荐
-    // 无法有效处理
+ // 可能导致 OutOfMemoryError
+} catch (OutOfMemoryError e) { // 不推荐
+ // 无法有效处理
 }
 
 // Exception：应该捕获
 try {
-    FileReader file = new FileReader("data.txt");
+ FileReader file = new FileReader("data.txt");
 } catch (FileNotFoundException e) {
-    System.err.println("文件未找到: " + e.getMessage());
+ System.err.println("文件未找到: " + e.getMessage());
 }
 ```
 
@@ -55513,11 +55513,11 @@ try {
 # 所有异常都继承自 BaseException
 # Exception 是常规异常的基类
 try:
-    result = 10 / 0
-except ZeroDivisionError as e:  # 捕获具体异常
-    print(f"除零错误: {e}")
-except Exception as e:  # 捕获通用异常
-    print(f"发生异常: {e}")
+ result = 10 / 0
+except ZeroDivisionError as e: # 捕获具体异常
+ print(f"除零错误: {e}")
+except Exception as e: # 捕获通用异常
+ print(f"发生异常: {e}")
 ```
 
 ##### **Go**
@@ -55525,7 +55525,7 @@ except Exception as e:  # 捕获通用异常
 // Go 使用 error 类型表示错误，没有异常机制
 file, err := os.Open("data.txt")
 if err != nil {
-    log.Fatal("文件打开失败:", err)
+ log.Fatal("文件打开失败:", err)
 }
 defer file.Close()
 ```
@@ -55540,9 +55540,9 @@ defer file.Close()
 
 ```java
 try {
-    int result = divide(10, 0);
+ int result = divide(10, 0);
 } catch (ArithmeticException e) {
-    System.err.println("算术错误: " + e.getMessage());
+ System.err.println("算术错误: " + e.getMessage());
 }
 ```
 
@@ -55552,14 +55552,14 @@ try {
 
 ```java
 try {
-    String data = readFile("config.json");
-    JSONObject json = new JSONObject(data);
+ String data = readFile("config.json");
+ JSONObject json = new JSONObject(data);
 } catch (FileNotFoundException e) {
-    System.err.println("文件未找到");
+ System.err.println("文件未找到");
 } catch (JSONException e) {
-    System.err.println("JSON 解析失败");
+ System.err.println("JSON 解析失败");
 } catch (IOException e) {
-    System.err.println("IO 错误");
+ System.err.println("IO 错误");
 }
 ```
 
@@ -55604,13 +55604,13 @@ try {
 #### **34.3.2 finally 的执行时机 (Execution Timing of finally)**
 
 1. **正常执行**：try 块完整执行后，执行 finally。
-   - **Normal execution**: After try block completes, finally executes.
+ - **Normal execution**: After try block completes, finally executes.
 2. **发生异常并捕获**：catch 处理后，执行 finally。
-   - **Exception caught**: After catch handles, finally executes.
+ - **Exception caught**: After catch handles, finally executes.
 3. **发生异常未捕获**：在异常向上传播前，先执行 finally。
-   - **Exception uncaught**: finally executes before the exception propagates upward.
+ - **Exception uncaught**: finally executes before the exception propagates upward.
 4. **try 中有 return**：return 之前先执行 finally。
-   - **return in try**: finally executes before return.
+ - **return in try**: finally executes before return.
 
 #### **34.3.3 try-with-resources（自动资源管理）**
 - 现代语言提供了自动资源管理机制，如 Java 的 try-with-resources、Python 的 with 语句，确保资源在使用完毕后自动释放，避免手动 finally 的繁琐。
@@ -55629,13 +55629,13 @@ try {
 #### **34.4.2 自定义异常的设计原则 (Design Principles for Custom Exceptions)**
 
 1. **继承合适的基类**：通常继承自语言的 Exception 基类或业务异常基类。
-   - **Extend appropriate base class**: Typically extend the language's Exception base class or a business exception base class.
+ - **Extend appropriate base class**: Typically extend the language's Exception base class or a business exception base class.
 2. **命名规范**：以 Exception 或 Error 结尾，名称清晰表达异常含义。
-   - **Naming conventions**: End with Exception or Error; names clearly express exception meaning.
+ - **Naming conventions**: End with Exception or Error; names clearly express exception meaning.
 3. **携带必要信息**：错误码、错误消息、上下文数据等。
-   - **Carry necessary information**: Error codes, messages, contextual data, etc.
+ - **Carry necessary information**: Error codes, messages, contextual data, etc.
 4. **保留异常链**：构造函数支持传入原始异常，便于追溯。
-   - **Preserve exception chain**: Constructors should accept the original exception for traceability.
+ - **Preserve exception chain**: Constructors should accept the original exception for traceability.
 
 #### **34.4.3 异常分层设计 (Exception Hierarchy Design)**
 - 在大型项目中，建议构建异常体系：业务异常基类 → 模块异常 → 具体异常。这样既便于统一处理，又保留了细粒度区分能力。
@@ -55692,15 +55692,15 @@ try {
 #### **34.6.2 常用防御技巧 (Common Defensive Techniques)**
 
 1. **参数校验 (Parameter Validation)**：在方法入口检查参数合法性，如非空、范围、格式等。
-   - Validate parameter legitimacy at method entry: not-null, ranges, formats, etc.
+ - Validate parameter legitimacy at method entry: not-null, ranges, formats, etc.
 2. **空值检查 (Null Checking)**：避免空指针异常，使用 Optional、空对象模式等替代方案。
-   - Avoid null pointer exceptions; use alternatives like Optional or Null Object pattern.
+ - Avoid null pointer exceptions; use alternatives like Optional or Null Object pattern.
 3. **边界条件处理 (Boundary Condition Handling)**：考虑空集合、最大值、最小值等边界情况。
-   - Consider edge cases like empty collections, maximum and minimum values.
+ - Consider edge cases like empty collections, maximum and minimum values.
 4. **断言机制 (Assertions)**：使用断言验证程序的不变量，便于调试。
-   - Use assertions to verify program invariants, aiding debugging.
+ - Use assertions to verify program invariants, aiding debugging.
 5. **资源管理 (Resource Management)**：使用自动资源管理机制确保资源释放。
-   - Use automatic resource management to ensure resource release.
+ - Use automatic resource management to ensure resource release.
 
 #### **34.6.3 防御式编程的度 (Balance in Defensive Programming)**
 - **过度防御的问题**：到处添加检查会导致代码冗余、性能下降、可读性变差。
@@ -55712,16 +55712,16 @@ try {
 
 #### **34.6.4 错误处理的最佳实践 (Best Practices for Error Handling)**
 1. **不要忽略异常**：捕获后至少要记录日志，避免静默失败。
-   - **Don't ignore exceptions**: At least log after catching to avoid silent failures.
+ - **Don't ignore exceptions**: At least log after catching to avoid silent failures.
 2. **捕获具体异常**：避免使用 catch-all 捕获所有异常，难以定位问题。
-   - **Catch specific exceptions**: Avoid catch-all that makes problem identification difficult.
+ - **Catch specific exceptions**: Avoid catch-all that makes problem identification difficult.
 3. **异常不用于流程控制**：异常应用于异常情况，不应作为正常控制流。
-   - **Don't use exceptions for flow control**: Exceptions are for exceptional conditions, not normal flow.
+ - **Don't use exceptions for flow control**: Exceptions are for exceptional conditions, not normal flow.
 4. **记录足够的上下文**：日志中包含输入参数、状态信息，便于排查。
-   - **Log sufficient context**: Include input parameters and state information for troubleshooting.
+ - **Log sufficient context**: Include input parameters and state information for troubleshooting.
 5. **统一异常处理**：在框架或入口层统一处理异常，避免分散和重复。
-   - **Unified exception handling**: Handle exceptions uniformly at framework or entry layers to avoid scattering and duplication.
-     
+ - **Unified exception handling**: Handle exceptions uniformly at framework or entry layers to avoid scattering and duplication.
+
 ## 第 35 章 测试
 
 ### 35.1 单元测试 / 集成测试 / 端到端测试
@@ -55795,13 +55795,13 @@ try {
 
 ##### **金字塔结构 (Pyramid Structure)**
 ```
-         /\
-        /E2E\        ← 端到端测试（少量）
-       /------\
-      /集成测试\      ← 集成测试（适量）
-     /----------\
-    /  单元测试   \   ← 单元测试（大量）
-   /--------------\
+ /\
+ /E2E\ ← 端到端测试（少量）
+ /------\
+ /集成测试\ ← 集成测试（适量）
+ /----------\
+ / 单元测试 \ ← 单元测试（大量）
+ /--------------\
 ```
 
 #### **35.2.2 比例建议 (Ratio Recommendations)**
@@ -55834,11 +55834,11 @@ try {
 
 ##### **三步循环：红-绿-重构 (Three-Step Cycle: Red-Green-Refactor)**
 1. **红 (Red)**：先编写失败的测试用例，明确预期行为。
-   - **Red**: Write a failing test case to clarify expected behavior.
+ - **Red**: Write a failing test case to clarify expected behavior.
 2. **绿 (Green)**：编写最少代码使测试通过，不追求优雅。
-   - **Green**: Write minimal code to pass the test, without pursuing elegance.
+ - **Green**: Write minimal code to pass the test, without pursuing elegance.
 3. **重构 (Refactor)**：在测试保护下优化代码结构和质量。
-   - **Refactor**: Optimize code structure and quality under test protection.
+ - **Refactor**: Optimize code structure and quality under test protection.
 
 #### **35.3.2 TDD 的优势 (Advantages of TDD)**
 - **设计先行**：通过测试思考接口设计，写出更易测试、低耦合的代码。
@@ -56070,13 +56070,13 @@ try {
 
 ##### **调试的科学方法 (Scientific Method of Debugging)**
 1. **观察现象**：收集错误信息、日志、堆栈跟踪等。
-   - **Observe phenomena**: Collect error messages, logs, stack traces, etc.
+ - **Observe phenomena**: Collect error messages, logs, stack traces, etc.
 2. **提出假设**：基于现象推测可能的原因。
-   - **Form hypothesis**: Speculate possible causes based on phenomena.
+ - **Form hypothesis**: Speculate possible causes based on phenomena.
 3. **设计实验**：通过断点、日志、测试用例验证假设。
-   - **Design experiment**: Verify hypothesis through breakpoints, logs, test cases.
+ - **Design experiment**: Verify hypothesis through breakpoints, logs, test cases.
 4. **分析结果**：确认或排除假设，迭代直到找到根因。
-   - **Analyze results**: Confirm or eliminate hypothesis, iterate until root cause is found.
+ - **Analyze results**: Confirm or eliminate hypothesis, iterate until root cause is found.
 
 #### **36.1.2 二分定位法 (Binary Search Debugging)**
 
@@ -56091,22 +56091,22 @@ try {
 - **Scenario**: A bug was introduced in some version, but it's unclear which commit caused it.
 - **方法**：使用 `git bisect` 二分查找有问题的提交。
 - **Method**: Use `git bisect` to binary search for the problematic commit.
-  - 标记已知好的版本和坏的版本。
-  - Mark known good and bad versions.
-  - Git 自动切换到中间版本，测试后标记好坏。
-  - Git automatically switches to middle version, mark as good or bad after testing.
-  - 重复直到定位到引入 Bug 的具体提交。
-  - Repeat until the specific commit introducing the bug is located.
+ - 标记已知好的版本和坏的版本。
+ - Mark known good and bad versions.
+ - Git 自动切换到中间版本，测试后标记好坏。
+ - Git automatically switches to middle version, mark as good or bad after testing.
+ - 重复直到定位到引入 Bug 的具体提交。
+ - Repeat until the specific commit introducing the bug is located.
 
 ###### **2. 执行流程定位 (Execution Flow Localization)**
 - **场景**：程序在某个长流程中出错，不确定是哪个环节。
 - **Scenario**: Program fails in a long workflow, uncertain which step is problematic.
 - **方法**：在流程中间位置打断点或加日志，检查状态是否正常。
 - **Method**: Set breakpoints or add logs at midpoint of workflow, check if state is normal.
-  - 若中间状态正常，问题在后半段；否则在前半段。
-  - If midpoint state is normal, problem is in latter half; otherwise in former half.
-  - 递归二分，直到定位到具体语句。
-  - Recursively bisect until specific statement is located.
+ - 若中间状态正常，问题在后半段；否则在前半段。
+ - If midpoint state is normal, problem is in latter half; otherwise in former half.
+ - 递归二分，直到定位到具体语句。
+ - Recursively bisect until specific statement is located.
 
 ###### **3. 数据范围定位 (Data Range Localization)**
 - **场景**：程序对某些输入数据失败，对其他数据正常。
@@ -56368,7 +56368,7 @@ try {
 - **记录程序执行历史，支持向前和向后单步**，查看变量的历史状态。
 - **Records p#### **36.2.4 调试器的高级功能 (Advanced Debugger Features)** *(续)*
 
-##### **3. 时间旅行调试 (Time-Travel Debugging)** 
+##### **3. 时间旅行调试 (Time-Travel Debugging)**
 - **记录程序执行历史，支持向前和向后单步**，查看变量的历史状态。
 - **Records program execution history, supports forward and backward stepping**, view historical states of variables.
 - **工具示例**：rr（Linux）、WinDbg Time Travel（Windows）、Undo（商业工具）。
@@ -56535,7 +56535,7 @@ logger.warn("External service timeout after 3 retries, using default value");
 - **定期审查 WARN 日志**，识别系统的潜在风险。
 - **Regularly review WARN logs**, identify potential system risks.
 
-##### **5. ERROR（错误级别）** 
+##### **5. ERROR（错误级别）**
 
 ###### **定义 (Definition)**
 - **记录系统错误和异常**，导致某个功能或请求失败，但不影响系统整体运行。
@@ -56612,14 +56612,14 @@ logger.fatal("OutOfMemoryError: Java heap space, application terminating");
 是否导致系统崩溃？
 ├─ 是 → FATAL
 └─ 否 → 是否导致功能失败？
-    ├─ 是 → ERROR
-    └─ 否 → 是否存在潜在风险？
-        ├─ 是 → WARN
-        └─ 否 → 是否为重要业务操作？
-            ├─ 是 → INFO
-            └─ 否 → 是否为调试信息？
-                ├─ 是 → DEBUG
-                └─ 否 → TRACE
+ ├─ 是 → ERROR
+ └─ 否 → 是否存在潜在风险？
+ ├─ 是 → WARN
+ └─ 否 → 是否为重要业务操作？
+ ├─ 是 → INFO
+ └─ 否 → 是否为调试信息？
+ ├─ 是 → DEBUG
+ └─ 否 → TRACE
 ```
 
 ##### **常见场景对照表 (Common Scenario Reference Table)**
@@ -56669,52 +56669,52 @@ logger.fatal("OutOfMemoryError: Java heap space, application terminating");
 ###### **Logback 配置（logback.xml）**
 ```xml
 <configuration>
-    <!-- 控制台输出 -->
-    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
-        <encoder>
-            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
-        </encoder>
-    </appender>
-    
-    <!-- 文件输出 -->
-    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>logs/application.log</file>
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>logs/application.%d{yyyy-MM-dd}.log</fileNamePattern>
-            <maxHistory>30</maxHistory>
-        </rollingPolicy>
-        <encoder>
-            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
-        </encoder>
-    </appender>
-    
-    <!-- 错误日志单独输出 -->
-    <appender name="ERROR_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>logs/error.log</file>
-        <filter class="ch.qos.logback.classic.filter.LevelFilter">
-            <level>ERROR</level>
-            <onMatch>ACCEPT</onMatch>
-            <onMismatch>DENY</onMismatch>
-        </filter>
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>logs/error.%d{yyyy-MM-dd}.log</fileNamePattern>
-            <maxHistory>90</maxHistory>
-        </rollingPolicy>
-        <encoder>
-            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
-        </encoder>
-    </appender>
-    
-    <!-- 根日志级别 -->
-    <root level="INFO">
-        <appender-ref ref="CONSOLE" />
-        <appender-ref ref="FILE" />
-        <appender-ref ref="ERROR_FILE" />
-    </root>
-    
-    <!-- 特定包的日志级别 -->
-    <logger name="com.example.service" level="DEBUG" />
-    <logger name="org.springframework" level="WARN" />
+ <!-- 控制台输出 -->
+ <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+ <encoder>
+ <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+ </encoder>
+ </appender>
+
+ <!-- 文件输出 -->
+ <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+ <file>logs/application.log</file>
+ <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+ <fileNamePattern>logs/application.%d{yyyy-MM-dd}.log</fileNamePattern>
+ <maxHistory>30</maxHistory>
+ </rollingPolicy>
+ <encoder>
+ <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+ </encoder>
+ </appender>
+
+ <!-- 错误日志单独输出 -->
+ <appender name="ERROR_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+ <file>logs/error.log</file>
+ <filter class="ch.qos.logback.classic.filter.LevelFilter">
+ <level>ERROR</level>
+ <onMatch>ACCEPT</onMatch>
+ <onMismatch>DENY</onMismatch>
+ </filter>
+ <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+ <fileNamePattern>logs/error.%d{yyyy-MM-dd}.log</fileNamePattern>
+ <maxHistory>90</maxHistory>
+ </rollingPolicy>
+ <encoder>
+ <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+ </encoder>
+ </appender>
+
+ <!-- 根日志级别 -->
+ <root level="INFO">
+ <appender-ref ref="CONSOLE" />
+ <appender-ref ref="FILE" />
+ <appender-ref ref="ERROR_FILE" />
+ </root>
+
+ <!-- 特定包的日志级别 -->
+ <logger name="com.example.service" level="DEBUG" />
+ <logger name="org.springframework" level="WARN" />
 </configuration>
 ```
 
@@ -56732,24 +56732,24 @@ Git's version control is based on the collaboration of three core areas; underst
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│                        远程仓库 (Remote Repository)           │
-│                    (GitHub / GitLab / Bitbucket)            │
+│ 远程仓库 (Remote Repository) │
+│ (GitHub / GitLab / Bitbucket) │
 └─────────────────────────────────────────────────────────────┘
-                    ↑ push                  ↓ fetch/pull
+ ↑ push ↓ fetch/pull
 ┌─────────────────────────────────────────────────────────────┐
-│                     本地仓库 (Local Repository)               │
-│                        (.git 目录)                            │
-│                   存储所有提交历史和分支                        │
+│ 本地仓库 (Local Repository) │
+│ (.git 目录) │
+│ 存储所有提交历史和分支 │
 └─────────────────────────────────────────────────────────────┘
-                    ↑ commit                ↓ checkout
+ ↑ commit ↓ checkout
 ┌─────────────────────────────────────────────────────────────┐
-│                     暂存区 (Staging Area / Index)            │
-│                   准备提交的文件快照                           │
+│ 暂存区 (Staging Area / Index) │
+│ 准备提交的文件快照 │
 └─────────────────────────────────────────────────────────────┘
-                    ↑ add                   ↓ reset
+ ↑ add ↓ reset
 ┌─────────────────────────────────────────────────────────────┐
-│                     工作区 (Working Directory)                │
-│                   当前正在编辑的文件                           │
+│ 工作区 (Working Directory) │
+│ 当前正在编辑的文件 │
 └─────────────────────────────────────────────────────────────┘
 ```
 
@@ -56775,13 +56775,13 @@ git status
 # 输出示例
 On branch main
 Changes not staged for commit:
-  (use "git add <file>..." to update what will be committed)
-  (use "git restore <file>..." to discard changes in working directory)
-        modified:   src/main.py
+ (use "git add <file>..." to update what will be committed)
+ (use "git restore <file>..." to discard changes in working directory)
+ modified: src/main.py
 
 Untracked files:
-  (use "git add <file>..." to include in what will be committed)
-        new_feature.py
+ (use "git add <file>..." to include in what will be committed)
+ new_feature.py
 ```
 
 ##### **工作区操作 (Working Directory Operations)**
@@ -56958,19 +56958,19 @@ git commit -m "fix: resolve null pointer exception"
 ##### **结构 (Structure)**
 ```
 .git/
-├── HEAD              # 指向当前分支的引用
-├── config            # 仓库配置文件
-├── description       # 仓库描述
-├── hooks/            # Git 钩子脚本
-├── index             # 暂存区文件
-├── objects/          # 所有对象（提交、树、文件内容）
-│   ├── pack/         # 打包的对象
-│   └── info/
-├── refs/             # 分支和标签引用
-│   ├── heads/        # 本地分支
-│   ├── remotes/      # 远程分支
-│   └── tags/         # 标签
-└── logs/             # 操作日志（reflog）
+├── HEAD # 指向当前分支的引用
+├── config # 仓库配置文件
+├── description # 仓库描述
+├── hooks/ # Git 钩子脚本
+├── index # 暂存区文件
+├── objects/ # 所有对象（提交、树、文件内容）
+│ ├── pack/ # 打包的对象
+│ └── info/
+├── refs/ # 分支和标签引用
+│ ├── heads/ # 本地分支
+│ ├── remotes/ # 远程分支
+│ └── tags/ # 标签
+└── logs/ # 操作日志（reflog）
 ```
 
 ##### **提交到本地仓库 (Commit to Local Repository)**
@@ -57156,7 +57156,7 @@ git commit --amend -m "feat: add user authentication with OAuth2"
 ```java
 /**
  * 根据用户 ID 查询用户信息
- * 
+ *
  * @param userId 用户唯一标识，不能为 null
  * @return 用户对象，如果不存在返回 null
  * @throws IllegalArgumentException 如果 userId 为负数
@@ -57284,14 +57284,14 @@ function calculateTotal(items, discountRate) { }
 // 基本分配与释放
 int *arr = (int*)malloc(10 * sizeof(int));
 if (arr == NULL) {
-    // 处理分配失败
-    return -1;
+ // 处理分配失败
+ return -1;
 }
 // 使用内存
 arr[0] = 42;
 // 释放内存
 free(arr);
-arr = NULL;  // 防止悬挂指针
+arr = NULL; // 防止悬挂指针
 ```
 
 #### **39.1.4 常见错误**
@@ -57314,16 +57314,16 @@ arr = NULL;  // 防止悬挂指针
 
 ```mermaid
 graph LR
-    A[创建对象] --> B[引用计数 = 1]
-    B --> C{新增引用?}
-    C -->|是| D[计数 +1]
-    C -->|否| E{删除引用?}
-    D --> E
-    E -->|是| F[计数 -1]
-    E -->|否| C
-    F --> G{计数 == 0?}
-    G -->|是| H[释放内存]
-    G -->|否| C
+ A[创建对象] --> B[引用计数 = 1]
+ B --> C{新增引用?}
+ C -->|是| D[计数 +1]
+ C -->|否| E{删除引用?}
+ D --> E
+ E -->|是| F[计数 -1]
+ E -->|否| C
+ F --> G{计数 == 0?}
+ G -->|是| H[释放内存]
+ G -->|否| C
 ```
 
 #### **39.2.2 特性对比**
@@ -57340,13 +57340,13 @@ graph LR
 ```python
 import sys
 
-a = []                    # 引用计数 = 1
-b = a                     # 引用计数 = 2
+a = [] # 引用计数 = 1
+b = a # 引用计数 = 2
 print(sys.getrefcount(a)) # 输出 3（包括 getrefcount 的临时引用）
 
-del b                     # 引用计数 = 2
-del a                     # 引用计数 = 1（getrefcount 的引用）
-                          # 实际引用计数 = 0，对象被释放
+del b # 引用计数 = 2
+del a # 引用计数 = 1（getrefcount 的引用）
+ # 实际引用计数 = 0，对象被释放
 ```
 
 #### **39.2.4 循环引用问题**
@@ -57360,13 +57360,13 @@ del a                     # 引用计数 = 1（getrefcount 的引用）
 ```python
 # 循环引用示例
 class Node:
-    def __init__(self):
-        self.ref = None
+ def __init__(self):
+ self.ref = None
 
 a = Node()
 b = Node()
-a.ref = b  # a 引用 b
-b.ref = a  # b 引用 a（形成循环）
+a.ref = b # a 引用 b
+b.ref = a # b 引用 a（形成循环）
 # 即使 del a, del b，对象仍不会被释放
 ```
 
@@ -57389,22 +57389,22 @@ b.ref = a  # b 引用 a（形成循环）
 
 ```mermaid
 graph TD
-    A[开始 GC] --> B[暂停程序 Stop-the-World]
-    B --> C[标记阶段 Mark Phase]
-    C --> D[从根对象开始]
-    D --> E[遍历所有可达对象]
-    E --> F[标记为存活]
-    F --> G[清除阶段 Sweep Phase]
-    G --> H[遍历堆内存]
-    H --> I{对象被标记?}
-    I -->|是| J[保留对象]
-    I -->|否| K[回收内存]
-    J --> L[清除标记]
-    K --> L
-    L --> M{遍历完成?}
-    M -->|否| H
-    M -->|是| N[恢复程序执行]
-    N --> O[结束 GC]
+ A[开始 GC] --> B[暂停程序 Stop-the-World]
+ B --> C[标记阶段 Mark Phase]
+ C --> D[从根对象开始]
+ D --> E[遍历所有可达对象]
+ E --> F[标记为存活]
+ F --> G[清除阶段 Sweep Phase]
+ G --> H[遍历堆内存]
+ H --> I{对象被标记?}
+ I -->|是| J[保留对象]
+ I -->|否| K[回收内存]
+ J --> L[清除标记]
+ K --> L
+ L --> M{遍历完成?}
+ M -->|否| H
+ M -->|是| N[恢复程序执行]
+ N --> O[结束 GC]
 ```
 
 #### **39.3.2 算法步骤**
@@ -57469,23 +57469,23 @@ graph TD
 
 ```mermaid
 graph TD
-    A[对象创建] --> B[分配到 Eden 区]
-    B --> C{Eden 满?}
-    C -->|否| B
-    C -->|是| D[Minor GC 触发]
-    D --> E[标记 Eden 和 Survivor 存活对象]
-    E --> F[复制到另一个 Survivor]
-    F --> G[清空 Eden 和原 Survivor]
-    G --> H[年龄 +1]
-    H --> I{年龄 >= 阈值?}
-    I -->|否| J[留在新生代]
-    I -->|是| K[晋升到老年代]
-    J --> C
-    K --> L{老年代满?}
-    L -->|否| M[继续运行]
-    L -->|是| N[Major GC / Full GC]
-    N --> O[标记-清除/整理老年代]
-    O --> M
+ A[对象创建] --> B[分配到 Eden 区]
+ B --> C{Eden 满?}
+ C -->|否| B
+ C -->|是| D[Minor GC 触发]
+ D --> E[标记 Eden 和 Survivor 存活对象]
+ E --> F[复制到另一个 Survivor]
+ F --> G[清空 Eden 和原 Survivor]
+ G --> H[年龄 +1]
+ H --> I{年龄 >= 阈值?}
+ I -->|否| J[留在新生代]
+ I -->|是| K[晋升到老年代]
+ J --> C
+ K --> L{老年代满?}
+ L -->|否| M[继续运行]
+ L -->|是| N[Major GC / Full GC]
+ N --> O[标记-清除/整理老年代]
+ O --> M
 ```
 
 #### **39.4.5 晋升条件**
@@ -57547,15 +57547,15 @@ graph TD
 
 ```mermaid
 graph LR
-    A[源代码] --> B[词法分析 Lexical Analysis]
-    B --> C[Token 流]
-    C --> D[语法分析 Syntax Analysis]
-    D --> E[抽象语法树 AST]
-    E --> F[语义分析 Semantic Analysis]
-    F --> G[中间代码 IR]
-    G --> H[优化 Optimization]
-    H --> I[代码生成 Code Generation]
-    I --> J[目标代码/字节码]
+ A[源代码] --> B[词法分析 Lexical Analysis]
+ B --> C[Token 流]
+ C --> D[语法分析 Syntax Analysis]
+ D --> E[抽象语法树 AST]
+ E --> F[语义分析 Semantic Analysis]
+ F --> G[中间代码 IR]
+ G --> H[优化 Optimization]
+ H --> I[代码生成 Code Generation]
+ I --> J[目标代码/字节码]
 ```
 
 #### **40.1.2 词法分析（Lexical Analysis / Scanning）**
@@ -57692,13 +57692,13 @@ graph LR
 **AST 结构：**
 
 ```
-        =
-       / \
-   result  *
-          / \
-         +   c
-        / \
-       a   b
+ =
+ / \
+ result *
+ / \
+ + c
+ / \
+ a b
 ```
 
 **节点类型：**
@@ -57754,26 +57754,26 @@ graph LR
 
 ```mermaid
 graph TD
-    subgraph 解释器
-    A1[源代码] --> B1[词法分析]
-    B1 --> C1[语法分析]
-    C1 --> D1[AST]
-    D1 --> E1[直接执行]
-    E1 --> F1[输出结果]
-    end
-    
-    subgraph 编译器
-    A2[源代码] --> B2[词法分析]
-    B2 --> C2[语法分析]
-    C2 --> D2[AST]
-    D2 --> E2[语义分析]
-    E2 --> F2[中间代码]
-    F2 --> G2[优化]
-    G2 --> H2[代码生成]
-    H2 --> I2[目标代码]
-    I2 --> J2[执行]
-    J2 --> K2[输出结果]
-    end
+ subgraph 解释器
+ A1[源代码] --> B1[词法分析]
+ B1 --> C1[语法分析]
+ C1 --> D1[AST]
+ D1 --> E1[直接执行]
+ E1 --> F1[输出结果]
+ end
+
+ subgraph 编译器
+ A2[源代码] --> B2[词法分析]
+ B2 --> C2[语法分析]
+ C2 --> D2[AST]
+ D2 --> E2[语义分析]
+ E2 --> F2[中间代码]
+ F2 --> G2[优化]
+ G2 --> H2[代码生成]
+ H2 --> I2[目标代码]
+ I2 --> J2[执行]
+ J2 --> K2[输出结果]
+ end
 ```
 
 #### **40.3.3 混合模式**
@@ -57888,18 +57888,18 @@ graph TD
 **源代码：**
 ```java
 public int add(int a, int b) {
-    return a + b;
+ return a + b;
 }
 ```
 
 **字节码：**
 ```
 public int add(int, int);
-  Code:
-    0: iload_1        // 加载参数 a
-    1: iload_2        // 加载参数 b
-    2: iadd           // 整数相加
-    3: ireturn        // 返回结果
+ Code:
+ 0: iload_1 // 加载参数 a
+ 1: iload_2 // 加载参数 b
+ 2: iadd // 整数相加
+ 3: ireturn // 返回结果
 ```
 
 #### **40.5.4 常见字节码指令分类**
@@ -57937,15 +57937,15 @@ public int add(int, int);
 **源代码：**
 ```python
 def add(a, b):
-    return a + b
+ return a + b
 ```
 
 **字节码（使用 dis 模块查看）：**
 ```
-  2           0 LOAD_FAST                0 (a)
-              2 LOAD_FAST                1 (b)
-              4 BINARY_ADD
-              6 RETURN_VALUE
+ 2 0 LOAD_FAST 0 (a)
+ 2 LOAD_FAST 1 (b)
+ 4 BINARY_ADD
+ 6 RETURN_VALUE
 ```
 
 #### **40.5.7 Python 字节码指令表**
@@ -58086,23 +58086,23 @@ def add(a, b):
 
 | 防御方法 | 说明 | 示例 | 有效性 |
 |----------|------|------|--------|
-| **参数化查询（Prepared Statements）** | 使用占位符，SQL 和数据分离 | `SELECT * FROM users WHERE id=?` | ⭐⭐⭐⭐⭐ |
-| **ORM 框架** | 使用对象关系映射 | Hibernate, Django ORM, SQLAlchemy | ⭐⭐⭐⭐⭐ |
-| **输入验证** | 白名单验证输入格式 | 只允许数字、字母 | ⭐⭐⭐⭐ |
-| **最小权限原则** | 数据库账户只授予必要权限 | 只读账户不能 DROP | ⭐⭐⭐⭐ |
-| **转义特殊字符** | 转义 SQL 特殊字符 | `'` → `\'` | ⭐⭐⭐ (不推荐作为主要防御) |
-| **存储过程** | 封装 SQL 逻辑 | 调用预定义过程 | ⭐⭐⭐⭐ |
+| **参数化查询（Prepared Statements）** | 使用占位符，SQL 和数据分离 | `SELECT * FROM users WHERE id=?` | |
+| **ORM 框架** | 使用对象关系映射 | Hibernate, Django ORM, SQLAlchemy | |
+| **输入验证** | 白名单验证输入格式 | 只允许数字、字母 | |
+| **最小权限原则** | 数据库账户只授予必要权限 | 只读账户不能 DROP | |
+| **转义特殊字符** | 转义 SQL 特殊字符 | `'` → `\'` | (不推荐作为主要防御) |
+| **存储过程** | 封装 SQL 逻辑 | 调用预定义过程 | |
 
 ##### **安全代码示例**
 
 ```python
-# ❌ 不安全：字符串拼接
+# 不安全：字符串拼接
 query = f"SELECT * FROM users WHERE username='{username}'"
 
-# ✅ 安全：参数化查询
+# 安全：参数化查询
 cursor.execute("SELECT * FROM users WHERE username=?", (username,))
 
-# ✅ 安全：ORM
+# 安全：ORM
 user = User.objects.get(username=username)
 ```
 
@@ -58114,9 +58114,9 @@ user = User.objects.get(username=username)
 
 | 类型 | 英文名称 | 存储位置 | 触发方式 | 危害程度 |
 |------|----------|----------|----------|----------|
-| **存储型 XSS** | Stored XSS | 服务器数据库 | 访问包含恶意脚本的页面 | ⭐⭐⭐⭐⭐ |
-| **反射型 XSS** | Reflected XSS | URL 参数 | 点击恶意链接 | ⭐⭐⭐⭐ |
-| **DOM 型 XSS** | DOM-based XSS | 客户端 JavaScript | 客户端脚本处理不当 | ⭐⭐⭐⭐ |
+| **存储型 XSS** | Stored XSS | 服务器数据库 | 访问包含恶意脚本的页面 | |
+| **反射型 XSS** | Reflected XSS | URL 参数 | 点击恶意链接 | |
+| **DOM 型 XSS** | DOM-based XSS | 客户端 JavaScript | 客户端脚本处理不当 | |
 
 ##### **攻击示例**
 
@@ -58151,13 +58151,13 @@ user = User.objects.get(username=username)
 ##### **安全代码示例**
 
 ```javascript
-// ❌ 不安全：直接插入用户输入
+// 不安全：直接插入用户输入
 element.innerHTML = userInput;
 
-// ✅ 安全：使用 textContent
+// 安全：使用 textContent
 element.textContent = userInput;
 
-// ✅ 安全：使用 DOM 净化库
+// 安全：使用 DOM 净化库
 element.innerHTML = DOMPurify.sanitize(userInput);
 ```
 
@@ -58173,12 +58173,12 @@ element.innerHTML = DOMPurify.sanitize(userInput);
 
 ```mermaid
 graph LR
-    A[用户登录银行网站] --> B[获得会话 Cookie]
-    B --> C[访问恶意网站]
-    C --> D[恶意网站发起请求]
-    D --> E[浏览器自动携带 Cookie]
-    E --> F[银行服务器执行转账]
-    F --> G[用户资金被盗]
+ A[用户登录银行网站] --> B[获得会话 Cookie]
+ B --> C[访问恶意网站]
+ C --> D[恶意网站发起请求]
+ D --> E[浏览器自动携带 Cookie]
+ E --> F[银行服务器执行转账]
+ F --> G[用户资金被盗]
 ```
 
 ##### **攻击示例**
@@ -58193,12 +58193,12 @@ graph LR
 
 | 防御方法 | 说明 | 实现方式 | 有效性 |
 |----------|------|----------|--------|
-| **CSRF Token** | 在表单中嵌入随机令牌 | 服务器验证令牌 | ⭐⭐⭐⭐⭐ |
-| **SameSite Cookie** | 限制 Cookie 跨站发送 | `Set-Cookie: session=xxx; SameSite=Strict` | ⭐⭐⭐⭐⭐ |
-| **验证 Referer** | 检查请求来源 | 验证 HTTP Referer 头 | ⭐⭐⭐ |
-| **双重 Cookie** | Cookie 和请求参数都包含令牌 | 比对两者是否一致 | ⭐⭐⭐⭐ |
-| **自定义请求头** | AJAX 请求添加自定义头 | `X-Requested-With: XMLHttpRequest` | ⭐⭐⭐⭐ |
-| **验证码** | 关键操作需要验证码 | 图形验证码、短信验证码 | ⭐⭐⭐⭐⭐ |
+| **CSRF Token** | 在表单中嵌入随机令牌 | 服务器验证令牌 | |
+| **SameSite Cookie** | 限制 Cookie 跨站发送 | `Set-Cookie: session=xxx; SameSite=Strict` | |
+| **验证 Referer** | 检查请求来源 | 验证 HTTP Referer 头 | |
+| **双重 Cookie** | Cookie 和请求参数都包含令牌 | 比对两者是否一致 | |
+| **自定义请求头** | AJAX 请求添加自定义头 | `X-Requested-With: XMLHttpRequest` | |
+| **验证码** | 关键操作需要验证码 | 图形验证码、短信验证码 | |
 
 ##### **CSRF Token 实现**
 
@@ -58210,13 +58210,13 @@ session['csrf_token'] = csrf_token
 
 # HTML 表单
 <form method="POST">
-    <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
-    <button type="submit">提交</button>
+ <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+ <button type="submit">提交</button>
 </form>
 
 # 验证 Token
 if request.form['csrf_token'] != session['csrf_token']:
-    abort(403)
+ abort(403)
 ```
 
 ##### **SameSite Cookie 属性**
@@ -58290,25 +58290,25 @@ if request.form['csrf_token'] != session['csrf_token']:
 
 | 特性 | 说明 | 重要性 |
 |------|------|--------|
-| **确定性（Deterministic）** | 相同输入总是产生相同输出 | ⭐⭐⭐⭐⭐ |
-| **快速计算（Fast Computation）** | 能快速计算哈希值 | ⭐⭐⭐⭐ |
-| **雪崩效应（Avalanche Effect）** | 输入微小变化导致输出巨大变化 | ⭐⭐⭐⭐⭐ |
-| **抗原像攻击（Preimage Resistance）** | 无法从哈希值反推原始数据 | ⭐⭐⭐⭐⭐ |
-| **抗碰撞（Collision Resistance）** | 难以找到两个不同输入产生相同哈希 | ⭐⭐⭐⭐⭐ |
-| **固定长度输出** | 无论输入多长，输出长度固定 | ⭐⭐⭐⭐ |
+| **确定性（Deterministic）** | 相同输入总是产生相同输出 | |
+| **快速计算（Fast Computation）** | 能快速计算哈希值 | |
+| **雪崩效应（Avalanche Effect）** | 输入微小变化导致输出巨大变化 | |
+| **抗原像攻击（Preimage Resistance）** | 无法从哈希值反推原始数据 | |
+| **抗碰撞（Collision Resistance）** | 难以找到两个不同输入产生相同哈希 | |
+| **固定长度输出** | 无论输入多长，输出长度固定 | |
 
 ##### **常见哈希算法对比**
 
 | 算法 | 输出长度 | 安全性 | 速度 | 状态 | 适用场景 |
 |------|----------|--------|------|------|----------|
-| **MD5** | 128 bit (32 hex) | ❌ 已破解 | 极快 | 已弃用 | 仅用于非安全场景（校验和） |
-| **SHA-1** | 160 bit (40 hex) | ❌ 已破解 | 快 | 已弃用 | 不推荐使用 |
-| **SHA-256** | 256 bit (64 hex) | ✅ 安全 | 快 | 推荐 | 文件校验、区块链 |
-| **SHA-512** | 512 bit (128 hex) | ✅ 安全 | 快 | 推荐 | 高安全需求 |
-| **SHA-3** | 可变 | ✅ 安全 | 中等 | 推荐 | 新一代标准 |
-| **bcrypt** | 184 bit | ✅ 安全 | 慢（可调） | 推荐 | 密码存储 |
-| **scrypt** | 可变 | ✅ 安全 | 慢（可调） | 推荐 | 密码存储 |
-| **Argon2** | 可变 | ✅ 安全 | 慢（可调） | 推荐 | 密码存储（最佳） |
+| **MD5** | 128 bit (32 hex) | 已破解 | 极快 | 已弃用 | 仅用于非安全场景（校验和） |
+| **SHA-1** | 160 bit (40 hex) | 已破解 | 快 | 已弃用 | 不推荐使用 |
+| **SHA-256** | 256 bit (64 hex) | 安全 | 快 | 推荐 | 文件校验、区块链 |
+| **SHA-512** | 512 bit (128 hex) | 安全 | 快 | 推荐 | 高安全需求 |
+| **SHA-3** | 可变 | 安全 | 中等 | 推荐 | 新一代标准 |
+| **bcrypt** | 184 bit | 安全 | 慢（可调） | 推荐 | 密码存储 |
+| **scrypt** | 可变 | 安全 | 慢（可调） | 推荐 | 密码存储 |
+| **Argon2** | 可变 | 安全 | 慢（可调） | 推荐 | 密码存储（最佳） |
 
 ##### **哈希示例**
 
@@ -58389,12 +58389,12 @@ decoded = base64.b64decode(encoded)
 
 | 场景 | 应使用 | 原因 | 错误做法 |
 |------|--------|------|----------|
-| **密码存储** | 哈希（bcrypt/Argon2） | 不可逆，防止泄露 | ❌ Base64 编码 |
-| **数据传输保密** | 加密（AES/RSA） | 可解密恢复原文 | ❌ 哈希（无法恢复） |
-| **文件完整性校验** | 哈希（SHA-256） | 检测篡改 | ❌ 加密（无法验证） |
-| **二进制数据传输** | 编码（Base64） | 文本协议兼容 | ❌ 直接传输（可能损坏） |
-| **API Token** | 哈希（存储）+ 加密（传输） | 双重保护 | ❌ 明文存储 |
-| **信用卡号存储** | 加密（AES） | 需要解密使用 | ❌ 哈希（无法恢复） |
+| **密码存储** | 哈希（bcrypt/Argon2） | 不可逆，防止泄露 | Base64 编码 |
+| **数据传输保密** | 加密（AES/RSA） | 可解密恢复原文 | 哈希（无法恢复） |
+| **文件完整性校验** | 哈希（SHA-256） | 检测篡改 | 加密（无法验证） |
+| **二进制数据传输** | 编码（Base64） | 文本协议兼容 | 直接传输（可能损坏） |
+| **API Token** | 哈希（存储）+ 加密（传输） | 双重保护 | 明文存储 |
+| **信用卡号存储** | 加密（AES） | 需要解密使用 | 哈希（无法恢复） |
 
 ---
 
@@ -58416,26 +58416,26 @@ decoded = base64.b64decode(encoded)
 
 | 算法 | 密钥长度 | 块大小 | 安全性 | 速度 | 状态 | 应用 |
 |------|----------|--------|--------|------|------|------|
-| **DES** | 56 bit | 64 bit | ❌ 不安全 | 快 | 已弃用 | 历史遗留系统 |
-| **3DES (Triple DES)** | 168 bit | 64 bit | ⚠️ 弱 | 慢 | 逐步淘汰 | 金融系统（过渡） |
-| **AES-128** | 128 bit | 128 bit | ✅ 安全 | 极快 | 推荐 | 通用加密 |
-| **AES-192** | 192 bit | 128 bit | ✅ 安全 | 极快 | 推荐 | 高安全需求 |
-| **AES-256** | 256 bit | 128 bit | ✅ 安全 | 极快 | 推荐 | 最高安全需求 |
-| **ChaCha20** | 256 bit | 流加密 | ✅ 安全 | 极快 | 推荐 | 移动设备、TLS |
-| **Blowfish** | 32-448 bit | 64 bit | ⚠️ 弱 | 快 | 不推荐 | 历史遗留 |
-| **Twofish** | 128/192/256 bit | 128 bit | ✅ 安全 | 快 | 可用 | AES 候选算法 |
+| **DES** | 56 bit | 64 bit | 不安全 | 快 | 已弃用 | 历史遗留系统 |
+| **3DES (Triple DES)** | 168 bit | 64 bit | 弱 | 慢 | 逐步淘汰 | 金融系统（过渡） |
+| **AES-128** | 128 bit | 128 bit | 安全 | 极快 | 推荐 | 通用加密 |
+| **AES-192** | 192 bit | 128 bit | 安全 | 极快 | 推荐 | 高安全需求 |
+| **AES-256** | 256 bit | 128 bit | 安全 | 极快 | 推荐 | 最高安全需求 |
+| **ChaCha20** | 256 bit | 流加密 | 安全 | 极快 | 推荐 | 移动设备、TLS |
+| **Blowfish** | 32-448 bit | 64 bit | 弱 | 快 | 不推荐 | 历史遗留 |
+| **Twofish** | 128/192/256 bit | 128 bit | 安全 | 快 | 可用 | AES 候选算法 |
 
 ##### **加密模式（Block Cipher Modes）**
 
 | 模式 | 英文全称 | 特点 | 需要 IV | 并行化 | 安全性 | 适用场景 |
 |------|----------|------|---------|--------|--------|----------|
-| **ECB** | Electronic Codebook | 简单，相同明文产生相同密文 | 否 | 是 | ❌ 不安全 | 不推荐 |
-| **CBC** | Cipher Block Chaining | 前一块影响后一块 | 是 | 解密可并行 | ✅ 安全 | 文件加密 |
-| **CTR** | Counter | 流加密模式 | 是 | 是 | ✅ 安全 | 高性能场景 |
-| **GCM** | Galois/Counter Mode | 认证加密（AEAD） | 是 | 是 | ✅ 安全 | TLS、IPsec（推荐） |
-| **CCM** | Counter with CBC-MAC | 认证加密（AEAD） | 是 | 否 | ✅ 安全 | 物联网 |
-| **CFB** | Cipher Feedback | 流加密模式 | 是 | 解密可并行 | ✅ 安全 | 流数据 |
-| **OFB** | Output Feedback | 流加密模式 | 是 | 否 | ✅ 安全 | 流数据 |
+| **ECB** | Electronic Codebook | 简单，相同明文产生相同密文 | 否 | 是 | 不安全 | 不推荐 |
+| **CBC** | Cipher Block Chaining | 前一块影响后一块 | 是 | 解密可并行 | 安全 | 文件加密 |
+| **CTR** | Counter | 流加密模式 | 是 | 是 | 安全 | 高性能场景 |
+| **GCM** | Galois/Counter Mode | 认证加密（AEAD） | 是 | 是 | 安全 | TLS、IPsec（推荐） |
+| **CCM** | Counter with CBC-MAC | 认证加密（AEAD） | 是 | 否 | 安全 | 物联网 |
+| **CFB** | Cipher Feedback | 流加密模式 | 是 | 解密可并行 | 安全 | 流数据 |
+| **OFB** | Output Feedback | 流加密模式 | 是 | 否 | 安全 | 流数据 |
 
 ##### **初始化向量（IV - Initialization Vector）**
 
@@ -58457,7 +58457,7 @@ key = AESGCM.generate_key(bit_length=256)
 aesgcm = AESGCM(key)
 
 # 加密
-nonce = os.urandom(12)  # 96-bit nonce
+nonce = os.urandom(12) # 96-bit nonce
 plaintext = b"Secret message"
 ciphertext = aesgcm.encrypt(nonce, plaintext, None)
 
@@ -58483,23 +58483,23 @@ decrypted = aesgcm.decrypt(nonce, ciphertext, None)
 
 | 算法 | 密钥长度 | 安全基础 | 速度 | 安全性 | 应用 |
 |------|----------|----------|------|--------|------|
-| **RSA** | 2048-4096 bit | 大数分解 | 慢 | ✅ 安全（足够长度） | 数字签名、密钥交换 |
-| **ECC (椭圆曲线)** | 256-521 bit | 椭圆曲线离散对数 | 较快 | ✅ 安全 | 移动设备、区块链 |
-| **ECDSA** | 256-521 bit | 椭圆曲线 | 较快 | ✅ 安全 | 数字签名 |
-| **Ed25519** | 256 bit | 椭圆曲线 | 快 | ✅ 安全 | SSH、数字签名 |
-| **DSA** | 1024-3072 bit | 离散对数 | 中等 | ⚠️ 弱（短密钥） | 数字签名（已过时） |
-| **Diffie-Hellman** | 2048+ bit | 离散对数 | 中等 | ✅ 安全 | 密钥交换 |
-| **ECDH** | 256-521 bit | 椭圆曲线 | 快 | ✅ 安全 | 密钥交换 |
+| **RSA** | 2048-4096 bit | 大数分解 | 慢 | 安全（足够长度） | 数字签名、密钥交换 |
+| **ECC (椭圆曲线)** | 256-521 bit | 椭圆曲线离散对数 | 较快 | 安全 | 移动设备、区块链 |
+| **ECDSA** | 256-521 bit | 椭圆曲线 | 较快 | 安全 | 数字签名 |
+| **Ed25519** | 256 bit | 椭圆曲线 | 快 | 安全 | SSH、数字签名 |
+| **DSA** | 1024-3072 bit | 离散对数 | 中等 | 弱（短密钥） | 数字签名（已过时） |
+| **Diffie-Hellman** | 2048+ bit | 离散对数 | 中等 | 安全 | 密钥交换 |
+| **ECDH** | 256-521 bit | 椭圆曲线 | 快 | 安全 | 密钥交换 |
 
 ##### **密钥长度安全性对比**
 
 | 对称加密 | RSA | ECC | 安全级别 |
 |----------|-----|-----|----------|
-| 80 bit | 1024 bit | 160 bit | ❌ 不安全 |
-| 112 bit | 2048 bit | 224 bit | ⚠️ 最低可接受 |
-| 128 bit | 3072 bit | 256 bit | ✅ 安全 |
-| 192 bit | 7680 bit | 384 bit | ✅ 高安全 |
-| 256 bit | 15360 bit | 521 bit | ✅ 最高安全 |
+| 80 bit | 1024 bit | 160 bit | 不安全 |
+| 112 bit | 2048 bit | 224 bit | 最低可接受 |
+| 128 bit | 3072 bit | 256 bit | 安全 |
+| 192 bit | 7680 bit | 384 bit | 高安全 |
+| 256 bit | 15360 bit | 521 bit | 最高安全 |
 
 
 ---

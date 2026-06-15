@@ -6,7 +6,7 @@ JSON 比 XML 更小、更快，更易解析。
 
 JSON 易于人阅读和编写。
 
-C、Python、C++、Java、PHP、Go 等编程语言都支持 JSON。  
+C、Python、C++、Java、PHP、Go 等编程语言都支持 JSON。
  ![[4691282_json_icon 1.png]]
  ## 什么是 JSON ？
 

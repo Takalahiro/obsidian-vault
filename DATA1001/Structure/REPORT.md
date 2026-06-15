@@ -29,17 +29,17 @@ library(viridis)
 # - 叠加主要街道和地标
 
 # 代码框架：
-crime_sf <- st_as_sf(crime_data, 
-                     coords = c("Longitude", "Latitude"),
-                     crs = 4326)
+crime_sf <- st_as_sf(crime_data,
+ coords = c("Longitude", "Latitude"),
+ crs = 4326)
 
 leaflet(crime_sf) %>%
-  addTiles() %>%
-  addHeatmap(lng = ~Longitude, lat = ~Latitude,
-             intensity = ~1, blur = 20, max = 0.05) %>%
-  addCircleMarkers(radius = 2, 
-                   popup = ~paste("Type:", OFNS_DESC, "<br>",
-                                  "Date:", CMPLNT_FR_DT))
+ addTiles() %>%
+ addHeatmap(lng = ~Longitude, lat = ~Latitude,
+ intensity = ~1, blur = 20, max = 0.05) %>%
+ addCircleMarkers(radius = 2,
+ popup = ~paste("Type:", OFNS_DESC, "<br>",
+ "Date:", CMPLNT_FR_DT))
 ```
 
 **支持的假设检验**：
@@ -82,58 +82,58 @@ library(scales)
 
 # 子图1：Heatmap - 犯罪类型 vs 时段
 p1 <- crime_data %>%
-  mutate(hour = hour(CMPLNT_FR_TM)) %>%
-  count(OFNS_DESC_top10, hour) %>%
-  ggplot(aes(x = hour, y = OFNS_DESC_top10, fill = n)) +
-  geom_tile() +
-  scale_fill_viridis_c(option = "plasma") +
-  labs(title = "Crime Type by Hour of Day",
-       x = "Hour", y = "Crime Type") +
-  theme_minimal()
+ mutate(hour = hour(CMPLNT_FR_TM)) %>%
+ count(OFNS_DESC_top10, hour) %>%
+ ggplot(aes(x = hour, y = OFNS_DESC_top10, fill = n)) +
+ geom_tile() +
+ scale_fill_viridis_c(option = "plasma") +
+ labs(title = "Crime Type by Hour of Day",
+ x = "Hour", y = "Crime Type") +
+ theme_minimal()
 
 # 子图2：Ridgeline Plot - 犯罪时间分布
 p2 <- crime_data %>%
-  ggplot(aes(x = hour(CMPLNT_FR_TM), y = BORO_NM, fill = BORO_NM)) +
-  geom_density_ridges(alpha = 0.7) +
-  scale_fill_brewer(palette = "Set2") +
-  labs(title = "Crime Time Distribution by Borough",
-       x = "Hour of Day", y = "Borough") +
-  theme_ridges()
+ ggplot(aes(x = hour(CMPLNT_FR_TM), y = BORO_NM, fill = BORO_NM)) +
+ geom_density_ridges(alpha = 0.7) +
+ scale_fill_brewer(palette = "Set2") +
+ labs(title = "Crime Time Distribution by Borough",
+ x = "Hour of Day", y = "Borough") +
+ theme_ridges()
 
 # 子图3：Stacked Bar - 受害者人口统计
 p3 <- crime_data %>%
-  filter(!is.na(VIC_AGE_GROUP), VIC_AGE_GROUP != "UNKNOWN") %>%
-  count(VIC_AGE_GROUP, VIC_SEX) %>%
-  ggplot(aes(x = VIC_AGE_GROUP, y = n, fill = VIC_SEX)) +
-  geom_col(position = "fill") +
-  scale_y_continuous(labels = percent) +
-  scale_fill_manual(values = c("#E69F00", "#56B4E9", "#999999")) +
-  labs(title = "Victim Demographics",
-       x = "Age Group", y = "Proportion") +
-  theme_minimal() +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+ filter(!is.na(VIC_AGE_GROUP), VIC_AGE_GROUP != "UNKNOWN") %>%
+ count(VIC_AGE_GROUP, VIC_SEX) %>%
+ ggplot(aes(x = VIC_AGE_GROUP, y = n, fill = VIC_SEX)) +
+ geom_col(position = "fill") +
+ scale_y_continuous(labels = percent) +
+ scale_fill_manual(values = c("#E69F00", "#56B4E9", "#999999")) +
+ labs(title = "Victim Demographics",
+ x = "Age Group", y = "Proportion") +
+ theme_minimal() +
+ theme(axis.text.x = element_text(angle = 45, hjust = 1))
 
 # 子图4：Violin Plot with Points - 犯罪严重程度
 p4 <- crime_data %>%
-  mutate(severity = case_when(
-    LAW_CAT_CD == "FELONY" ~ 3,
-    LAW_CAT_CD == "MISDEMEANOR" ~ 2,
-    LAW_CAT_CD == "VIOLATION" ~ 1
-  )) %>%
-  ggplot(aes(x = BORO_NM, y = severity, fill = BORO_NM)) +
-  geom_violin(alpha = 0.6) +
-  geom_boxplot(width = 0.2, alpha = 0.8) +
-  scale_fill_brewer(palette = "Dark2") +
-  labs(title = "Crime Severity by Borough",
-       x = "Borough", y = "Severity Score") +
-  theme_minimal()
+ mutate(severity = case_when(
+ LAW_CAT_CD == "FELONY" ~ 3,
+ LAW_CAT_CD == "MISDEMEANOR" ~ 2,
+ LAW_CAT_CD == "VIOLATION" ~ 1
+ )) %>%
+ ggplot(aes(x = BORO_NM, y = severity, fill = BORO_NM)) +
+ geom_violin(alpha = 0.6) +
+ geom_boxplot(width = 0.2, alpha = 0.8) +
+ scale_fill_brewer(palette = "Dark2") +
+ labs(title = "Crime Severity by Borough",
+ x = "Borough", y = "Severity Score") +
+ theme_minimal()
 
 # 使用patchwork组合
 (p1 | p2) / (p3 | p4) +
-  plot_annotation(
-    title = "Multi-dimensional Crime Analysis",
-    theme = theme(plot.title = element_text(size = 16, face = "bold"))
-  )
+ plot_annotation(
+ title = "Multi-dimensional Crime Analysis",
+ theme = theme(plot.title = element_text(size = 16, face = "bold"))
+ )
 ```
 
 **支持的假设检验**：
@@ -143,8 +143,8 @@ p4 <- crime_data %>%
 
 # ANOVA检验
 crime_age <- crime_data %>%
-  filter(!is.na(VIC_AGE_GROUP), VIC_AGE_GROUP != "UNKNOWN") %>%
-  count(VIC_AGE_GROUP)
+ filter(!is.na(VIC_AGE_GROUP), VIC_AGE_GROUP != "UNKNOWN") %>%
+ count(VIC_AGE_GROUP)
 
 anova_result <- aov(n ~ VIC_AGE_GROUP, data = crime_age)
 summary(anova_result)
@@ -161,10 +161,10 @@ chisq.test(table(crime_data$VIC_RACE, crime_data$LAW_CAT_CD))
 # Table 1: 描述性统计
 library(gtsummary)
 crime_data %>%
-  select(OFNS_DESC, LAW_CAT_CD, VIC_AGE_GROUP, VIC_SEX, BORO_NM) %>%
-  tbl_summary(by = BORO_NM) %>%
-  add_p() %>%
-  bold_labels()
+ select(OFNS_DESC, LAW_CAT_CD, VIC_AGE_GROUP, VIC_SEX, BORO_NM) %>%
+ tbl_summary(by = BORO_NM) %>%
+ add_p() %>%
+ bold_labels()
 ```
 
 **为什么完美**：
@@ -190,62 +190,62 @@ library(tsibble)
 
 # 准备时间序列数据
 crime_ts <- crime_data %>%
-  mutate(year_month = floor_date(CMPLNT_FR_DT, "month")) %>%
-  count(year_month, OFNS_DESC_top5) %>%
-  as_tsibble(key = OFNS_DESC_top5, index = year_month)
+ mutate(year_month = floor_date(CMPLNT_FR_DT, "month")) %>%
+ count(year_month, OFNS_DESC_top5) %>%
+ as_tsibble(key = OFNS_DESC_top5, index = year_month)
 
 # 主图：Plotly交互式时间序列
 p_interactive <- crime_ts %>%
-  plot_ly(x = ~year_month, y = ~n, color = ~OFNS_DESC_top5,
-          type = 'scatter', mode = 'lines',
-          hovertemplate = paste(
-            '<b>%{fullData.name}</b><br>',
-            'Date: %{x}<br>',
-            'Count: %{y}<br>',
-            '<extra></extra>'
-          )) %>%
-  layout(
-    title = "Crime Trends Over Time (2006-2023)",
-    xaxis = list(title = "Date",
-                 rangeslider = list(visible = TRUE)),
-    yaxis = list(title = "Number of Crimes"),
-    hovermode = "x unified"
-  )
+ plot_ly(x = ~year_month, y = ~n, color = ~OFNS_DESC_top5,
+ type = 'scatter', mode = 'lines',
+ hovertemplate = paste(
+ '<b>%{fullData.name}</b><br>',
+ 'Date: %{x}<br>',
+ 'Count: %{y}<br>',
+ '<extra></extra>'
+ )) %>%
+ layout(
+ title = "Crime Trends Over Time (2006-2023)",
+ xaxis = list(title = "Date",
+ rangeslider = list(visible = TRUE)),
+ yaxis = list(title = "Number of Crimes"),
+ hovermode = "x unified"
+ )
 
 # 辅助图1：季节性分解
 crime_total_ts <- crime_data %>%
-  mutate(year_month = floor_date(CMPLNT_FR_DT, "month")) %>%
-  count(year_month) %>%
-  pull(n) %>%
-  ts(frequency = 12, start = c(2006, 1))
+ mutate(year_month = floor_date(CMPLNT_FR_DT, "month")) %>%
+ count(year_month) %>%
+ pull(n) %>%
+ ts(frequency = 12, start = c(2006, 1))
 
 decomp <- stl(crime_total_ts, s.window = "periodic")
 autoplot(decomp) +
-  labs(title = "Seasonal Decomposition of Crime Data") +
-  theme_minimal()
+ labs(title = "Seasonal Decomposition of Crime Data") +
+ theme_minimal()
 
 # 辅助图2：ARIMA预测
 fit <- auto.arima(crime_total_ts)
 forecast_result <- forecast(fit, h = 12)
 
 autoplot(forecast_result) +
-  labs(title = "12-Month Crime Forecast",
-       x = "Time", y = "Number of Crimes") +
-  theme_minimal()
+ labs(title = "12-Month Crime Forecast",
+ x = "Time", y = "Number of Crimes") +
+ theme_minimal()
 
 # 动画图：gganimate展示年度变化
 p_animate <- crime_data %>%
-  mutate(year = year(CMPLNT_FR_DT)) %>%
-  count(year, BORO_NM) %>%
-  ggplot(aes(x = BORO_NM, y = n, fill = BORO_NM)) +
-  geom_col() +
-  scale_fill_brewer(palette = "Set1") +
-  labs(title = "Crime Count by Borough: {frame_time}",
-       x = "Borough", y = "Number of Crimes") +
-  theme_minimal() +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
-  transition_time(year) +
-  ease_aes('linear')
+ mutate(year = year(CMPLNT_FR_DT)) %>%
+ count(year, BORO_NM) %>%
+ ggplot(aes(x = BORO_NM, y = n, fill = BORO_NM)) +
+ geom_col() +
+ scale_fill_brewer(palette = "Set1") +
+ labs(title = "Crime Count by Borough: {frame_time}",
+ x = "Borough", y = "Number of Crimes") +
+ theme_minimal() +
+ theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+ transition_time(year) +
+ ease_aes('linear')
 
 animate(p_animate, nframes = 100, fps = 10)
 ```
@@ -257,44 +257,44 @@ animate(p_animate, nframes = 100, fps = 10)
 
 # 季节性检验
 crime_seasonal <- crime_data %>%
-  mutate(season = case_when(
-    month(CMPLNT_FR_DT) %in% c(6, 7, 8) ~ "Summer",
-    month(CMPLNT_FR_DT) %in% c(12, 1, 2) ~ "Winter",
-    TRUE ~ "Other"
-  )) %>%
-  filter(season %in% c("Summer", "Winter"))
+ mutate(season = case_when(
+ month(CMPLNT_FR_DT) %in% c(6, 7, 8) ~ "Summer",
+ month(CMPLNT_FR_DT) %in% c(12, 1, 2) ~ "Winter",
+ TRUE ~ "Other"
+ )) %>%
+ filter(season %in% c("Summer", "Winter"))
 
-t.test(n ~ season, 
-       data = crime_seasonal %>% 
-         count(CMPLNT_FR_DT, season))
+t.test(n ~ season,
+ data = crime_seasonal %>%
+ count(CMPLNT_FR_DT, season))
 
 # 时间序列平稳性检验
 library(tseries)
-adf.test(crime_total_ts)  # Augmented Dickey-Fuller检验
+adf.test(crime_total_ts) # Augmented Dickey-Fuller检验
 ```
 
 **外部证据整合**：
 ```r
 # 整合COVID-19数据
 covid_timeline <- data.frame(
-  date = as.Date(c("2020-03-01", "2020-06-01", "2021-01-01")),
-  event = c("NYC Lockdown", "Phase 1 Reopening", "Vaccine Rollout")
+ date = as.Date(c("2020-03-01", "2020-06-01", "2021-01-01")),
+ event = c("NYC Lockdown", "Phase 1 Reopening", "Vaccine Rollout")
 )
 
 # 在图中添加垂直线标注
 p_interactive %>%
-  add_segments(
-    x = covid_timeline$date, xend = covid_timeline$date,
-    y = 0, yend = max(crime_ts$n),
-    line = list(color = "red", dash = "dash"),
-    showlegend = FALSE
-  ) %>%
-  add_annotations(
-    x = covid_timeline$date,
-    y = max(crime_ts$n),
-    text = covid_timeline$event,
-    showarrow = TRUE
-  )
+ add_segments(
+ x = covid_timeline$date, xend = covid_timeline$date,
+ y = 0, yend = max(crime_ts$n),
+ line = list(color = "red", dash = "dash"),
+ showlegend = FALSE
+ ) %>%
+ add_annotations(
+ x = covid_timeline$date,
+ y = max(crime_ts$n),
+ text = covid_timeline$event,
+ showarrow = TRUE
+ )
 ```
 
 **为什么完美**：
@@ -309,9 +309,9 @@ p_interactive %>%
 
 ```
 Figure 1 (leaflet) → 空间分析：WHERE
-        ↓
+ ↓
 Figure 2 (ggplot2) → 人群分析：WHO & WHAT
-        ↓
+ ↓
 Figure 3 (plotly) → 时间分析：WHEN & WHY
 ```
 
@@ -341,11 +341,11 @@ Figure 3 (plotly) → 时间分析：WHEN & WHY
 
 ## 评分标准对应：
 
-✅ **Evidence (3分)**：每个图都有统计表格和数值解释  
-✅ **Hypothesis testing (2分)**：卡方、ANOVA、时间序列检验  
-✅ **External Evidence (2分)**：整合人口普查、COVID数据  
-✅ **ggplot (2分)**：三个图都是R可视化最佳实践  
-✅ **Limitations (2分)**：讨论数据缺失、报案延迟、空间精度  
+ **Evidence (3分)**：每个图都有统计表格和数值解释
+ **Hypothesis testing (2分)**：卡方、ANOVA、时间序列检验
+ **External Evidence (2分)**：整合人口普查、COVID数据
+ **ggplot (2分)**：三个图都是R可视化最佳实践
+ **Limitations (2分)**：讨论数据缺失、报案延迟、空间精度
 
 ---
 
@@ -357,22 +357,22 @@ library(lubridate)
 
 # 读取NYPD数据（假设已下载CSV）
 crime_data <- read_csv("NYPD_Complaint_Data_Historic.csv") %>%
-  # 清洗日期
-  mutate(
-    CMPLNT_FR_DT = mdy(CMPLNT_FR_DT),
-    CMPLNT_FR_TM = hms(CMPLNT_FR_TM)
-  ) %>%
-  # 过滤无效坐标
-  filter(
-    !is.na(Latitude), !is.na(Longitude),
-    Latitude != 0, Longitude != 0,
-    between(Latitude, 40.4, 41.0),
-    between(Longitude, -74.3, -73.7)
-  ) %>%
-  # 提取前10大犯罪类型
-  mutate(
-    OFNS_DESC_top10 = fct_lump_n(OFNS_DESC, 10)
-  )
+ # 清洗日期
+ mutate(
+ CMPLNT_FR_DT = mdy(CMPLNT_FR_DT),
+ CMPLNT_FR_TM = hms(CMPLNT_FR_TM)
+ ) %>%
+ # 过滤无效坐标
+ filter(
+ !is.na(Latitude), !is.na(Longitude),
+ Latitude != 0, Longitude != 0,
+ between(Latitude, 40.4, 41.0),
+ between(Longitude, -74.3, -73.7)
+ ) %>%
+ # 提取前10大犯罪类型
+ mutate(
+ OFNS_DESC_top10 = fct_lump_n(OFNS_DESC, 10)
+ )
 
 # 保存清洗后的数据
 saveRDS(crime_data, "crime_data_clean.rds")

@@ -23,11 +23,11 @@ No , we do not know how many times we need get in code , we can use `__iter__` o
 
 ---
 
-# 📚 全代码知识点分析
+# 全代码知识点分析
 
 ---
 
-## 🟦 第 1 部分：Import（导入模块）
+## 第 1 部分：Import（导入模块）
 
 ```python
 import re
@@ -46,11 +46,11 @@ from imaging import get_image
 - `import re` → 用的时候要写 `re.fullmatch()`
 - `from imaging import get_image` → 直接写 `get_image()`，不用加前缀
 
-🗣️ **English:** "`import` loads a **module**. `from ... import ...` imports a **specific function** directly, so I can call it without the module prefix."
+ **English:** "`import` loads a **module**. `from ... import ...` imports a **specific function** directly, so I can call it without the module prefix."
 
 ---
 
-## 🟦 第 2 部分：字符串重复 & UI
+## 第 2 部分：字符串重复 & UI
 
 ```python
 ui = "*" * 50
@@ -60,15 +60,15 @@ ui = "*" * 50
 - **string repetition**（字符串重复）：`"*" * 50` = 50 个星号
 - `*` 运算符用在 string 上 = 重复
 
-🗣️ **English:** "`'*' * 50` is **string repetition** — it repeats the string 50 times."
+ **English:** "`'*' * 50` is **string repetition** — it repeats the string 50 times."
 
 ---
 
-## 🟦 第 3 部分：`validate_id` 函数
+## 第 3 部分：`validate_id` 函数
 
 ```python
 def validate_id(user_input_id):
-    return bool(re.fullmatch(r"\d{9}|[A-Za-z]{4}\d{4}", user_input_id))
+ return bool(re.fullmatch(r"\d{9}|[A-Za-z]{4}\d{4}", user_input_id))
 ```
 
 ### 知识点拆解
@@ -94,20 +94,20 @@ def validate_id(user_input_id):
 - `fullmatch` 返回 **match object** 或 `None`
 - `bool()` 把它转成 `True` / `False`
 
-🗣️ **English:** "`|` is **alternation**, meaning 'or'. `fullmatch` requires the **entire string** to match. `bool()` converts the **match object** (or None) into a **boolean**."
+ **English:** "`|` is **alternation**, meaning 'or'. `fullmatch` requires the **entire string** to match. `bool()` converts the **match object** (or None) into a **boolean**."
 
 ---
 
-## 🟦 第 4 部分：`validate_code` 函数 ⭐
+## 第 4 部分：`validate_code` 函数
 
 ```python
 def validate_code(code):
-    n = len(code)
-    if not (8 <= n <= 16):
-        return False
-    mid = (n + 1) // 2
-    pattern = rf"[A-Za-z]{{{mid}}}\d{{{n - mid}}}"
-    return bool(re.fullmatch(pattern, code))
+ n = len(code)
+ if not (8 <= n <= 16):
+ return False
+ mid = (n + 1) // 2
+ pattern = rf"[A-Za-z]{{{mid}}}\d{{{n - mid}}}"
+ return bool(re.fullmatch(pattern, code))
 ```
 
 ### 知识点拆解
@@ -127,7 +127,7 @@ mid = (n + 1) // 2
 ```
 - `//` 是 **floor division**，返回 **integer**（整数）
 - `(n+1)` 是为了**奇数时多一个字母**（向上取整）
-  - 例：n=9 → mid=5（5 字母 + 4 数字）
+ - 例：n=9 → mid=5（5 字母 + 4 数字）
 
 **④ f-string 大括号（重点！）**
 ```python
@@ -135,9 +135,9 @@ rf"[A-Za-z]{{{mid}}}\d{{{n - mid}}}"
 ```
 拆解 `{{{mid}}}`：
 ```
-{{   {mid}   }}
-↓     ↓       ↓
-{     5       }   →  输出 {5}
+{{ {mid} }}
+↓ ↓ ↓
+{ 5 } → 输出 {5}
 ```
 - `{{` = **literal** `{`（字面量）
 - `{mid}` = **variable interpolation**（变量插值）
@@ -145,29 +145,29 @@ rf"[A-Za-z]{{{mid}}}\d{{{n - mid}}}"
 
 **⑤ `rf"..."`** = raw + f-string 组合 **prefix**
 
-🗣️ **English:** "`8 <= n <= 16` is a **chained comparison**. `//` is **floor division** returning an integer. In the f-string, `{{` and `}}` are **literal** braces, and `{mid}` is **variable interpolation**."
+ **English:** "`8 <= n <= 16` is a **chained comparison**. `//` is **floor division** returning an integer. In the f-string, `{{` and `}}` are **literal** braces, and `{mid}` is **variable interpolation**."
 
 ---
 
-## 🟦 第 5 部分：`request_image` 函数 ⭐
+## 第 5 部分：`request_image` 函数
 
 ```python
 def request_image(user_id):
-    while (code := input("Enter the image code: ")) != "exit":
-        if not validate_code(code):
-            continue
-        image = get_image(user_id, code)
-        if image is None:
-            print("No image found for this code.")
-            return None
-        print(f"Found image: {image['title']}")
-        return image
-    return None
+ while (code := input("Enter the image code: ")) != "exit":
+ if not validate_code(code):
+ continue
+ image = get_image(user_id, code)
+ if image is None:
+ print("No image found for this code.")
+ return None
+ print(f"Found image: {image['title']}")
+ return image
+ return None
 ```
 
 ### 知识点拆解
 
-**① walrus operator `:=`（海象运算符）⭐**
+**① walrus operator `:=`（海象运算符）**
 ```python
 while (code := input(...)) != "exit":
 ```
@@ -186,22 +186,22 @@ while (code := input(...)) != "exit":
 **④ 字典取值 `image['title']`**
 - `image` 是 **dictionary**，用 **key** 取 **value**
 
-🗣️ **English:** "`:=` is the **walrus operator**, an **assignment expression** that assigns and checks in one line. `continue` skips to the next iteration. I use `is None` for **identity comparison** with None."
+ **English:** "`:=` is the **walrus operator**, an **assignment expression** that assigns and checks in one line. `continue` skips to the next iteration. I use `is None` for **identity comparison** with None."
 
 ---
 
-## 🟦 第 6 部分：`process_image` 函数（写文件）
+## 第 6 部分：`process_image` 函数（写文件）
 
 ```python
 def process_image(img_data):
-    with open("gallery.txt", "a", encoding="utf-8") as file:
-        file.write(f"Title: {img_data['title']}\n")
-        file.write(f"{img_data['image']}\n")
+ with open("gallery.txt", "a", encoding="utf-8") as file:
+ file.write(f"Title: {img_data['title']}\n")
+ file.write(f"{img_data['image']}\n")
 ```
 
 ### 知识点拆解
 
-**① `with` 语句（context manager）⭐**
+**① `with` 语句（context manager）**
 - **context manager**（上下文管理器）
 - 自动**关闭文件**（不用手动 `file.close()`）
 - 即使出错也会安全关闭
@@ -220,33 +220,33 @@ def process_image(img_data):
 
 **④ `\n`** = newline（换行符）
 
-🗣️ **English:** "`with` is a **context manager** that automatically closes the file. Mode `'a'` means **append**, so it adds to the end without overwriting. `encoding='utf-8'` avoids cross-platform issues."
+ **English:** "`with` is a **context manager** that automatically closes the file. Mode `'a'` means **append**, so it adds to the end without overwriting. `encoding='utf-8'` avoids cross-platform issues."
 
 ---
 
-## 🟦 第 7 部分：`view_gallery` 函数（读文件 + 排序）⭐
+## 第 7 部分：`view_gallery` 函数（读文件 + 排序）
 
 ```python
 def view_gallery():
-    if not os.path.exists("gallery.txt"):
-        print("No images found in database.")
-        return
-    with open("gallery.txt", encoding="utf-8") as f:
-        lines = [line.rstrip("\n") for line in f]
-    gallery = {}
-    title, content = None, []
-    for line in lines:
-        if line.startswith("Title: "):
-            if title:
-                gallery[title] = "\n".join(content).rstrip("\n")
-            title, content = line, []
-        elif title:
-            content.append(line)
-    if title:
-        gallery[title] = "\n".join(content).rstrip("\n")
-    for title in sorted(gallery, key=lambda t: t[7:].upper()):
-        print(title)
-        print(gallery[title])
+ if not os.path.exists("gallery.txt"):
+ print("No images found in database.")
+ return
+ with open("gallery.txt", encoding="utf-8") as f:
+ lines = [line.rstrip("\n") for line in f]
+ gallery = {}
+ title, content = None, []
+ for line in lines:
+ if line.startswith("Title: "):
+ if title:
+ gallery[title] = "\n".join(content).rstrip("\n")
+ title, content = line, []
+ elif title:
+ content.append(line)
+ if title:
+ gallery[title] = "\n".join(content).rstrip("\n")
+ for title in sorted(gallery, key=lambda t: t[7:].upper()):
+ print(title)
+ print(gallery[title])
 ```
 
 ### 知识点拆解
@@ -256,7 +256,7 @@ def view_gallery():
 **② early return（提前返回）**
 - 文件不存在就 `return`，**guard clause**（守卫语句）
 
-**③ list comprehension（列表推导式）⭐**  
+**③ list comprehension（列表推导式）**
 ```python
 lines = [line.rstrip("\n") for line in f]
 ```
@@ -283,26 +283,26 @@ gallery[title] = ...
 ```
 - 用 title 当 **key**，内容当 **value**
 
-**⑦ `sorted()` + `key` + `lambda`（重点）⭐**
+**⑦ `sorted()` + `key` + `lambda`（重点）**
 ```python
 sorted(gallery, key=lambda t: t[7:].upper())
 ```
 - `sorted()` 排序
 - `key=` 指定**排序依据**
 - `lambda t: t[7:].upper()` 是 **anonymous function**（匿名函数）
-  - `t[7:]` = **slicing**（切片），跳过 `"Title: "` 这 7 个字符
-  - `.upper()` = 忽略大小写排序（**case-insensitive**）
+ - `t[7:]` = **slicing**（切片），跳过 `"Title: "` 这 7 个字符
+ - `.upper()` = 忽略大小写排序（**case-insensitive**）
 
-🗣️ **English:** "`[... for line in f]` is a **list comprehension**. `sorted(..., key=lambda t: t[7:].upper())` uses a **lambda** (anonymous function) as the sort **key**. `t[7:]` is **slicing**, and `.upper()` makes it **case-insensitive**."
+ **English:** "`[... for line in f]` is a **list comprehension**. `sorted(..., key=lambda t: t[7:].upper())` uses a **lambda** (anonymous function) as the sort **key**. `t[7:]` is **slicing**, and `.upper()` makes it **case-insensitive**."
 
 ---
 
-## 🟦 第 8 部分：主程序（输入验证 + 菜单）
+## 第 8 部分：主程序（输入验证 + 菜单）
 
 ```python
 user_id = input("Enter your ID: ")
 while not validate_id(user_id):
-    user_id = input("Enter your ID: ")
+ user_id = input("Enter your ID: ")
 ```
 
 ### 知识点
@@ -314,28 +314,28 @@ print("* {:<47}*".format(welcome))
 ```
 - **`.format()` 方法** 格式化字符串
 - `{:<47}` = **format specifier**（格式说明符）
-  - `<` = 左对齐（**left-aligned**）
-  - `47` = 占 47 个字符宽度（**padding** 填充）
+ - `<` = 左对齐（**left-aligned**）
+ - `47` = 占 47 个字符宽度（**padding** 填充）
 
 ```python
 while True:
-    option = input("Choose an option: ")
-    if option == "1":
-        ...
-    elif option == "2":
-        ...
-    elif option == "exit":
-        break
+ option = input("Choose an option: ")
+ if option == "1":
+ ...
+ elif option == "2":
+ ...
+ elif option == "exit":
+ break
 ```
 - **infinite loop**（无限循环）`while True`
 - **menu system**（菜单系统）用 `if / elif`
 - `break` 跳出循环
 
-🗣️ **English:** "`{:<47}` is a **format specifier**: `<` means **left-aligned**, `47` is the **padding** width. `while True` is an **infinite loop**, and `break` exits it."
+ **English:** "`{:<47}` is a **format specifier**: `<` means **left-aligned**, `47` is the **padding** width. `while True` is an **infinite loop**, and `break` exits it."
 
 ---
 
-# 🎯 全部知识点术语汇总表
+# 全部知识点术语汇总表
 
 | 中文 | English 术语 | 出现位置 |
 |------|-------------|---------|
@@ -368,7 +368,7 @@ while True:
 
 ---
 
-# 💡 最重要的 5 个考点（tutor 最可能问）
+# 最重要的 5 个考点（tutor 最可能问）
 
 1. **walrus operator `:=`** —— 为什么用它？
 2. **f-string 三层大括号 `{{{mid}}}`** —— 怎么解析？
@@ -378,4 +378,4 @@ while True:
 
 ---
 
-想从哪个知识点开始**练习问答**？我可以一个一个出题 ✍️
+想从哪个知识点开始**练习问答**？我可以一个一个出题

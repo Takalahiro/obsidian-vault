@@ -11,44 +11,44 @@
 ### Control Groups (对照组)
 1. **Contemporaneous control groups**: 对照组与实验组同时进行
 2. **Historical control groups**: 对照组早于实验组进行
-### Double-Blind Test 双盲检验 
+### Double-Blind Test 双盲检验
 
 - **定义**: 实验中受试者和实验操作者都不知道哪些受试者接受了实验处理，哪些接受了对照处理的实验设计方法
 
-- **结构**: 
-  - 受试者不知道自己所在组别（盲法第一层）
-  - 实验操作者/数据收集者不知道受试者组别（盲法第二层）
-  - 只有独立的数据分析者在分析阶段才揭盲
+- **结构**:
+ - 受试者不知道自己所在组别（盲法第一层）
+ - 实验操作者/数据收集者不知道受试者组别（盲法第二层）
+ - 只有独立的数据分析者在分析阶段才揭盲
 
 - **对比**:
-  - **单盲**: 仅受试者不知道分组
-  - **双盲**: 受试者和操作者都不知道分组
-  - **三盲**: 增加数据分析者也不知道分组
+ - **单盲**: 仅受试者不知道分组
+ - **双盲**: 受试者和操作者都不知道分组
+ - **三盲**: 增加数据分析者也不知道分组
 
 - **特点**:
-  - 消除安慰剂效应 (placebo effect)
-  - 消除实验者偏倚 (experimenter bias)
-  - 提高实验结果的客观性和可信度
-  - 是随机对照试验 (RCT) 的金标准
+ - 消除安慰剂效应 (placebo effect)
+ - 消除实验者偏倚 (experimenter bias)
+ - 提高实验结果的客观性和可信度
+ - 是随机对照试验 (RCT) 的金标准
 
 ### Simpson's Paradox (辛普森悖论)
 
 - **定义**: 在分组数据中，各组内部都呈现某种趋势，但合并数据后却呈现相反的趋势
 
-- **数学表示**: 
-  - 分组内: $P(A|B,C) > P(A|\neg B,C)$ 对所有组 $C$ 成立
-  - 合并后: $P(A|B) < P(A|\neg B)$
+- **数学表示**:
+ - 分组内: $P(A|B,C) > P(A|\neg B,C)$ 对所有组 $C$ 成立
+ - 合并后: $P(A|B) < P(A|\neg B)$
 
-- **经典案例**: 
-  - **加州大学伯克利分校录取案例(1973)**:
-    - 整体: 男性录取率高于女性
-    - 分专业: 几乎每个专业女性录取率都高于或等于男性
-    - 原因: 女性更多申请竞争激烈的专业
+- **经典案例**:
+ - **加州大学伯克利分校录取案例(1973)**:
+ - 整体: 男性录取率高于女性
+ - 分专业: 几乎每个专业女性录取率都高于或等于男性
+ - 原因: 女性更多申请竞争激烈的专业
 - **特点**:
-  - 由混杂变量(confounding variable)引起
-  - 样本量分布不均是关键因素
-  - 提醒我们不能只看汇总数据
-  - 需要进行分层分析(stratified analysis)
+ - 由混杂变量(confounding variable)引起
+ - 样本量分布不均是关键因素
+ - 提醒我们不能只看汇总数据
+ - 需要进行分层分析(stratified analysis)
 
 ### Confounding and Bias (混淆与偏倚)
 
@@ -66,12 +66,12 @@
 #### 2. Observer Bias (观察者偏倚)
 - **定义**: 受试者或研究者可能下意识地报告更有利或不利的结果
 - **解决方案**:
-  - **Placebo (安慰剂)**: 设计为中性且与真实treatment无法区分的假治疗
-  - **Placebo effect**: 受试者认为自己接受了治疗而产生的效应
-  - **Randomised Controlled Double-blind trial (双盲随机对照试验)**: 
-    - 受试者和研究者都不知道哪组是treatment组，哪组是control组
-    - 安慰剂应尽可能与真实treatment相似
-    - 需要第三方管理treatment和placebo的分配
+ - **Placebo (安慰剂)**: 设计为中性且与真实treatment无法区分的假治疗
+ - **Placebo effect**: 受试者认为自己接受了治疗而产生的效应
+ - **Randomised Controlled Double-blind trial (双盲随机对照试验)**:
+ - 受试者和研究者都不知道哪组是treatment组，哪组是control组
+ - 安慰剂应尽可能与真实treatment相似
+ - 需要第三方管理treatment和placebo的分配
 
 #### 3. Consent Bias (同意偏倚)
 - **定义**: 当受试者选择是否参与实验时产生
@@ -549,21 +549,21 @@
 ### Mean (均值)
 - **公式**: $\bar{x} = \frac{\sum_{i=1}^{n} x_i}{n}$
 - **R命令**: `mean(data)`
-- **特点**: 
-  - 受outliers影响大
-  - 是数据的"平衡点"
-  - 适用于对称分布
+- **特点**:
+ - 受outliers影响大
+ - 是数据的"平衡点"
+ - 适用于对称分布
 
 ### Median (中位数)
 - **定义**: 数据排序后的中间值
 - **计算**:
-  - 奇数个数据：中间位置的值
-  - 偶数个数据：中间两个值的平均
+ - 奇数个数据：中间位置的值
+ - 偶数个数据：中间两个值的平均
 - **R命令**: `median(data)`
 - **特点**:
-  - **Robust (稳健)**: 不受outliers影响
-  - 适用于偏态分布
-  - 对于房价等数据更有意义
+ - **Robust (稳健)**: 不受outliers影响
+ - 适用于偏态分布
+ - 对于房价等数据更有意义
 
 ### Comparing Mean and Median (比较均值与中位数)
 
@@ -594,9 +594,9 @@ $$s = \sqrt{\frac{1}{n-1}\sum_{i=1}^{n}(x_i - \bar{x})^2}$$
 
 **Root Mean Square (RMS)**
 - 步骤：
-  1. Square the numbers (平方)
-  2. Mean the result (求均值)
-  3. Root the result (开方)
+ 1. Square the numbers (平方)
+ 2. Mean the result (求均值)
+ 3. Root the result (开方)
 - **公式**: $\text{RMS} = \sqrt{\text{Mean of (numbers)}^2}$
 
 **关系**: $\text{SD}_{pop} = \text{RMS of (gaps from the mean)}$
@@ -657,9 +657,9 @@ $$\text{data point} = \text{mean} + \text{SD} \times \text{standard units}$$
 - 数据科学的创作框架
 - 保存并执行代码，同时生成高质量报告供协作者查看和验证
 - **组成部分**:
-  - Chunks of text (用Markdown编写)
-  - Embedded code (如R, Python, SQL)
-  - LaTeX (数学公式)
+ - Chunks of text (用Markdown编写)
+ - Embedded code (如R, Python, SQL)
+ - LaTeX (数学公式)
 - **输出格式**: HTML, PDF, MS Word, Beamer, slides, books, dashboards, Shiny apps等
 
 ## R Markdown实用技巧[[Markdown 技术文档]]
@@ -736,16 +736,16 @@ $$Z = \frac{X - \mu}{\sigma}$$
 - **语法**: `pnorm(x, mean, sd)`
 - **默认**: `pnorm(x)` 假设mean=0, sd=1
 - **例子**:
-  - `pnorm(1.96)` → 0.975 (左侧面积)
-  - `pnorm(1.96, lower.tail=F)` → 0.025 (右侧面积)
-  - `pnorm(275, 284.3, sqrt(5.52))` → 特定分布的概率
+ - `pnorm(1.96)` → 0.975 (左侧面积)
+ - `pnorm(1.96, lower.tail=F)` → 0.025 (右侧面积)
+ - `pnorm(275, 284.3, sqrt(5.52))` → 特定分布的概率
 
 ### qnorm() - 计算分位数
 - **用途**: 给定概率，找对应的x值（百分位数）
 - **语法**: `qnorm(p, mean, sd)`
 - **例子**:
-  - `qnorm(0.6)` → 找60%分位数
-  - `qnorm(0.2, 10, 4)` → 在N(10, 16)中找20%分位数
+ - `qnorm(0.6)` → 找60%分位数
+ - `qnorm(0.2, 10, 4)` → 在N(10, 16)中找20%分位数
 
 ## 数学记号到R记号的转换
 
@@ -845,7 +845,7 @@ $$r_{pop} = \text{mean of (product of variables in standard units)}$$
 
 **R命令**:
 ```r
-cor(x, y)  # 样本相关系数
+cor(x, y) # 样本相关系数
 ```
 
 ## Regression Line (回归线)
@@ -872,8 +872,8 @@ $$a = \bar{y} - b\bar{x}$$
 
 ### R中拟合回归线
 ```r
-lm(y ~ x)  # 线性模型
-# 输出: Coefficients: (Intercept) a    x b
+lm(y ~ x) # 线性模型
+# 输出: Coefficients: (Intercept) a x b
 ```
 
 ### 回归线的性质
@@ -910,8 +910,8 @@ $$\text{RMS error} = SD_y \times \sqrt{1 - r^2}$$
 
 ### 解释
 - **$r^2$**: Coefficient of determination (决定系数)
-  - 表示x解释了y变异的比例
-  - $r^2 = 0.64$ 意味着x解释了64%的y变异
+ - 表示x解释了y变异的比例
+ - $r^2 = 0.64$ 意味着x解释了64%的y变异
 - **$1 - r^2$**: 未被解释的变异比例
 - **RMS error越小**: 预测越准确
 
@@ -1000,9 +1000,9 @@ $$\log(\hat{y}) = a + bx$$
 
 ### R中的转换
 ```r
-lm(log(y) ~ log(x))  # 双对数
-lm(log(y) ~ x)       # 半对数
-lm(sqrt(y) ~ x)      # 平方根转换
+lm(log(y) ~ log(x)) # 双对数
+lm(log(y) ~ x) # 半对数
+lm(sqrt(y) ~ x) # 平方根转换
 ```
 
 ---
@@ -1194,9 +1194,9 @@ $$\text{Sum} \sim N(n \times \mu_{box}, n \times \sigma_{box}^2)$$
 
 ### 定义
 - **Population (总体)**: 我们想要了解的完整群体
-  - 参数: $\mu$ (均值), $\sigma$ (标准差), $p$ (比例)
+ - 参数: $\mu$ (均值), $\sigma$ (标准差), $p$ (比例)
 - **Sample (样本)**: 从总体中选取的子集
-  - 统计量: $\bar{x}$ (样本均值), $s$ (样本标准差), $\hat{p}$ (样本比例)
+ - 统计量: $\bar{x}$ (样本均值), $s$ (样本标准差), $\hat{p}$ (样本比例)
 
 ### 为什么抽样？
 - 总体太大，无法全部调查（人口普查除外）
@@ -1207,29 +1207,29 @@ $$\text{Sum} \sim N(n \times \mu_{box}, n \times \sigma_{box}^2)$$
 
 ### 1. Simple Random Sampling (SRS, 简单随机抽样)
 - **定义**: 总体中每个个体被选中的概率相等
-- **方法**: 
-  - 给总体中每个个体编号
-  - 使用随机数生成器选择
+- **方法**:
+ - 给总体中每个个体编号
+ - 使用随机数生成器选择
 - **优点**: 无偏，理论基础扎实
 - **缺点**: 需要完整的抽样框架，可能成本高
 
 ### 2. Stratified Sampling (分层抽样)
 - **定义**: 将总体分为同质的层（strata），然后从每层中随机抽样
 - **步骤**:
-  1. 将总体分为互不重叠的层
-  2. 从每层中进行SRS
-  3. 合并样本
-- **优点**: 
-  - 确保每个子群体都被代表
-  - 通常比SRS更精确
+ 1. 将总体分为互不重叠的层
+ 2. 从每层中进行SRS
+ 3. 合并样本
+- **优点**:
+ - 确保每个子群体都被代表
+ - 通常比SRS更精确
 - **例子**: 按年龄、性别、地区分层
 
 ### 3. Cluster Sampling (整群抽样)
 - **定义**: 将总体分为群（clusters），随机选择一些群，调查选中群中的所有个体
 - **步骤**:
-  1. 将总体分为群
-  2. 随机选择一些群
-  3. 调查选中群中的所有成员
+ 1. 将总体分为群
+ 2. 随机选择一些群
+ 3. 调查选中群中的所有成员
 - **优点**: 成本低，便于实施
 - **缺点**: 精度通常低于SRS
 - **例子**: 学校调查（随机选择学校，调查选中学校的所有学生）
@@ -1237,9 +1237,9 @@ $$\text{Sum} \sim N(n \times \mu_{box}, n \times \sigma_{box}^2)$$
 ### 4. Systematic Sampling (系统抽样)
 - **定义**: 每隔k个个体选择一个
 - **步骤**:
-  1. 计算 $k = \frac{N}{n}$ (N=总体大小, n=样本大小)
-  2. 随机选择1到k之间的起始点
-  3. 每隔k个选择一个
+ 1. 计算 $k = \frac{N}{n}$ (N=总体大小, n=样本大小)
+ 2. 随机选择1到k之间的起始点
+ 3. 每隔k个选择一个
 - **优点**: 简单易行
 - **缺点**: 如果总体有周期性模式，可能产生偏差
 
@@ -1257,23 +1257,23 @@ $$\text{Sum} \sim N(n \times \mu_{box}, n \times \sigma_{box}^2)$$
 
 #### 1. Selection Bias (选择偏倚)
 - 某些群体被系统性地排除或过度代表
-- **例子**: 
-  - 电话调查排除了没有电话的人
-  - 网络调查排除了不上网的人
+- **例子**:
+ - 电话调查排除了没有电话的人
+ - 网络调查排除了不上网的人
 
 #### 2. Non-response Bias (无应答偏倚)
 - 被选中的人拒绝参与或无法联系
 - **问题**: 应答者可能与非应答者系统性不同
-- **例子**: 
-  - 忙碌的人更可能不回应
-  - 对主题不感兴趣的人不回应
+- **例子**:
+ - 忙碌的人更可能不回应
+ - 对主题不感兴趣的人不回应
 
 #### 3. Voluntary Response Bias (自愿应答偏倚)
 - 人们自己选择是否参与
 - **问题**: 有强烈意见的人更可能参与
-- **例子**: 
-  - 网络投票
-  - 电话热线调查
+- **例子**:
+ - 网络投票
+ - 电话热线调查
 
 #### 4. Undercoverage (覆盖不足)
 - 抽样框架不包括总体的某些部分
@@ -1332,9 +1332,9 @@ $$\bar{x} \pm t^* \times \frac{s}{\sqrt{n}}$$
 
 其中:
 - $z^*$: 标准正态分布的临界值
-  - 95% CI: $z^* = 1.96$
-  - 90% CI: $z^* = 1.645$
-  - 99% CI: $z^* = 2.576$
+ - 95% CI: $z^* = 1.96$
+ - 90% CI: $z^* = 1.645$
+ - 99% CI: $z^* = 2.576$
 - $t^*$: t分布的临界值（自由度 = n-1）
 - $s$: 样本标准差
 
@@ -1472,17 +1472,17 @@ $$2 \times \text{statistic} - \text{upper percentile}, \quad 2 \times \text{stat
 # 原始样本
 data <- c(23, 45, 67, 34, 56, 78, 90, 12)
 n <- length(data)
-B <- 10000  # bootstrap重复次数
+B <- 10000 # bootstrap重复次数
 
 # 存储bootstrap统计量
 boot_means <- numeric(B)
 
 # Bootstrap循环
 for(i in 1:B) {
-  # 有放回抽样
-  boot_sample <- sample(data, size=n, replace=TRUE)
-  # 计算统计量
-  boot_means[i] <- mean(boot_sample)
+ # 有放回抽样
+ boot_sample <- sample(data, size=n, replace=TRUE)
+ # 计算统计量
+ boot_means[i] <- mean(boot_sample)
 }
 
 # Bootstrap标准误
@@ -1499,7 +1499,7 @@ library(boot)
 
 # 定义统计量函数
 mean_func <- function(data, indices) {
-  return(mean(data[indices]))
+ return(mean(data[indices]))
 }
 
 # 执行bootstrap
@@ -1509,7 +1509,7 @@ boot_result <- boot(data, mean_func, R=10000)
 boot_result
 
 # 计算置信区间
-boot.ci(boot_result, type="perc")  # 百分位数法
+boot.ci(boot_result, type="perc") # 百分位数法
 ```
 
 ## Bootstrap的假设和限制
@@ -1553,13 +1553,13 @@ boot.ci(boot_result, type="perc")  # 百分位数法
 ### 例子：中位数的Bootstrap CI
 
 ```r
-data <- c(12, 15, 18, 20, 22, 25, 30, 35, 100)  # 有极端值
+data <- c(12, 15, 18, 20, 22, 25, 30, 35, 100) # 有极端值
 B <- 10000
 
 boot_medians <- numeric(B)
 for(i in 1:B) {
-  boot_sample <- sample(data, size=length(data), replace=TRUE)
-  boot_medians[i] <- median(boot_sample)
+ boot_sample <- sample(data, size=length(data), replace=TRUE)
+ boot_medians[i] <- median(boot_sample)
 }
 
 # 95% CI
@@ -1679,9 +1679,9 @@ p_value <- pnorm(z_obs)
 - **定义**: 正确拒绝错误H₀的概率
 - **公式**: Power = $1 - \beta$
 - **影响因素**:
-  1. 样本量n（n越大，power越高）
-  2. 效应大小（效应越大，power越高）
-  3. 显著性水平α（α越大，power越高，但Type I error也增加）
+ 1. 样本量n（n越大，power越高）
+ 2. 效应大小（效应越大，power越高）
+ 3. 显著性水平α（α越大，power越高，但Type I error也增加）
 
 ### 权衡
 - 降低α会增加β（降低Type I error会增加Type II error）
@@ -1733,23 +1733,23 @@ p_value <- 2*pnorm(abs(z_obs), lower.tail=FALSE)
 
 **解答**:
 1. **假设**:
-   - $H_0: p = 0.5$ (硬币公平)
-   - $H_1: p \neq 0.5$ (硬币不公平)
+ - $H_0: p = 0.5$ (硬币公平)
+ - $H_1: p \neq 0.5$ (硬币不公平)
 
 2. **检验统计量**:
-   - $\hat{p} = 0.6$
-   - $SE = \sqrt{\frac{0.5 \times 0.5}{100}} = 0.05$
-   - $Z = \frac{0.6-0.5}{0.05} = 2$
+ - $\hat{p} = 0.6$
+ - $SE = \sqrt{\frac{0.5 \times 0.5}{100}} = 0.05$
+ - $Z = \frac{0.6-0.5}{0.05} = 2$
 
 3. **P-value**:
-   - P-value = $2 \times P(Z > 2) = 2 \times 0.0228 = 0.0456$
+ - P-value = $2 \times P(Z > 2) = 2 \times 0.0228 = 0.0456$
 
 4. **决策**:
-   - P-value (0.0456) < α (0.05)
-   - 拒绝H₀
+ - P-value (0.0456) < α (0.05)
+ - 拒绝H₀
 
 5. **结论**:
-   - 在5%显著性水平下，有足够证据表明硬币不公平
+ - 在5%显著性水平下，有足够证据表明硬币不公平
 
 ## Two-sample Z-test for Proportions (双样本比例Z检验)
 
@@ -1783,7 +1783,7 @@ prop.test(table(group, outcome))
 
 ### 例子
 
-**问题**: 
+**问题**:
 - 组1: 100人中60人成功
 - 组2: 120人中50人成功
 - 两组成功率是否不同？
@@ -1884,10 +1884,10 @@ $$t = \frac{\bar{x} - \mu_0}{s/\sqrt{n}}$$
 ### 假设
 1. **随机样本**
 2. **独立性**
-3. **正态性**: 
-   - 总体正态分布（小样本必需）
-   - 或样本量足够大（n≥30）
-   - 或数据近似对称，无极端异常值
+3. **正态性**:
+ - 总体正态分布（小样本必需）
+ - 或样本量足够大（n≥30）
+ - 或数据近似对称，无极端异常值
 
 ### R中实现
 
@@ -1960,7 +1960,7 @@ t.test(value ~ group, data=mydata)
 
 ### Welch T-test (Welch检验)
 
-**何时使用**: 
+**何时使用**:
 - 两组方差不相等时
 - R中`t.test()`的默认方法
 
@@ -2039,14 +2039,14 @@ t.test(differences, mu=0)
 
 ```r
 before <- c(65, 70, 68, 72, 75, 69, 71, 73, 67, 74)
-after  <- c(70, 75, 72, 78, 80, 73, 76, 77, 71, 79)
+after <- c(70, 75, 72, 78, 80, 73, 76, 77, 71, 79)
 
 # 配对t检验
 t.test(before, after, paired=TRUE)
 
 # 或者
 diff <- after - before
-t.test(diff, mu=0, alternative="greater")  # 单侧检验
+t.test(diff, mu=0, alternative="greater") # 单侧检验
 ```
 
 ### Paired vs Two-sample T-test
@@ -2317,7 +2317,7 @@ chisq.test(observed, p=expected_prob)
 **解答**:
 ```r
 observed <- c(15, 18, 22, 20, 24, 21)
-expected_prob <- rep(1/6, 6)  # 每面概率1/6
+expected_prob <- rep(1/6, 6) # 每面概率1/6
 
 chisq.test(observed, p=expected_prob)
 
@@ -2355,8 +2355,8 @@ $$df = (r-1)(c-1)$$
 ```r
 # 创建列联表
 table_data <- matrix(c(30, 20, 10,
-                       25, 25, 20), 
-                     nrow=2, byrow=TRUE)
+ 25, 25, 20),
+ nrow=2, byrow=TRUE)
 rownames(table_data) <- c("Group A", "Group B")
 colnames(table_data) <- c("Cat1", "Cat2", "Cat3")
 
@@ -2371,7 +2371,7 @@ chisq.test(table(group, category))
 
 **问题**: 两个班级学生对课程的满意度是否不同？
 
-|  | 满意 | 中立 | 不满意 |
+| | 满意 | 中立 | 不满意 |
 |---|------|------|--------|
 | 班级A | 40 | 30 | 10 |
 | 班级B | 30 | 35 | 15 |
@@ -2379,7 +2379,7 @@ chisq.test(table(group, category))
 **解答**:
 ```r
 data <- matrix(c(40, 30, 10,
-                 30, 35, 15), nrow=2, byrow=TRUE)
+ 30, 35, 15), nrow=2, byrow=TRUE)
 
 result <- chisq.test(data)
 result
@@ -2421,7 +2421,7 @@ chisq.test(table(variable1, variable2))
 
 **问题**: 性别与是否喜欢数学是否独立？
 
-|  | 喜欢 | 不喜欢 |
+| | 喜欢 | 不喜欢 |
 |---|------|--------|
 | 男 | 60 | 40 |
 | 女 | 40 | 60 |
@@ -2429,7 +2429,7 @@ chisq.test(table(variable1, variable2))
 **解答**:
 ```r
 data <- matrix(c(60, 40,
-                 40, 60), nrow=2, byrow=TRUE)
+ 40, 60), nrow=2, byrow=TRUE)
 
 chisq.test(data)
 
@@ -2441,18 +2441,18 @@ chisq.test(data)
 
 ### 假设
 1. **独立性**: 观测必须独立
-2. **期望频数**: 
-   - 所有单元格的期望频数 ≥ 1
-   - 至少80%的单元格期望频数 ≥ 5
+2. **期望频数**:
+ - 所有单元格的期望频数 ≥ 1
+ - 至少80%的单元格期望频数 ≥ 5
 
 ### 违反假设时的处理
 
 **期望频数过小**:
 1. **合并类别**: 将频数小的类别合并
 2. **Fisher's Exact Test**: 用于2×2表格
-   ```r
-   fisher.test(table_data)
-   ```
+ ```r
+ fisher.test(table_data)
+ ```
 3. **增加样本量**
 
 ### Fisher's Exact Test (Fisher精确检验)
@@ -2543,9 +2543,9 @@ summary(model)
 ```r
 # 示例输出
 Coefficients:
-            Estimate Std. Error t value Pr(>|t|)    
-(Intercept)  2.5000     0.5000   5.000  0.00012 ***
-x            1.2000     0.1500   8.000  1.2e-07 ***
+ Estimate Std. Error t value Pr(>|t|)
+(Intercept) 2.5000 0.5000 5.000 0.00012 ***
+x 1.2000 0.1500 8.000 1.2e-07 ***
 ```
 
 **解释**:
@@ -2666,31 +2666,31 @@ p.adjust(p_values, method="BH")
 ```
 数据类型？
 ├─ 分类变量
-│  ├─ 一个变量 → Chi-square Goodness of Fit
-│  ├─ 两个变量
-│  │  ├─ 独立性 → Chi-square Independence
-│  │  └─ 比较组 → Chi-square Homogeneity
-│  └─ 2×2表格，小样本 → Fisher's Exact Test
+│ ├─ 一个变量 → Chi-square Goodness of Fit
+│ ├─ 两个变量
+│ │ ├─ 独立性 → Chi-square Independence
+│ │ └─ 比较组 → Chi-square Homogeneity
+│ └─ 2×2表格，小样本 → Fisher's Exact Test
 │
 └─ 连续变量
-   ├─ 一个样本
-   │  ├─ σ已知 → Z-test
-   │  ├─ σ未知，正态 → One-sample t-test
-   │  └─ 非正态 → Wilcoxon signed-rank
-   │
-   ├─ 两个样本
-   │  ├─ 独立
-   │  │  ├─ 正态，等方差 → Two-sample t-test
-   │  │  ├─ 正态，不等方差 → Welch t-test
-   │  │  └─ 非正态 → Mann-Whitney U
-   │  │
-   │  └─ 配对
-   │     ├─ 正态 → Paired t-test
-   │     └─ 非正态 → Wilcoxon signed-rank
-   │
-   └─ 关系
-      ├─ 线性关系 → T-test for regression slope
-      └─ 相关性 → Correlation test (cor.test)
+ ├─ 一个样本
+ │ ├─ σ已知 → Z-test
+ │ ├─ σ未知，正态 → One-sample t-test
+ │ └─ 非正态 → Wilcoxon signed-rank
+ │
+ ├─ 两个样本
+ │ ├─ 独立
+ │ │ ├─ 正态，等方差 → Two-sample t-test
+ │ │ ├─ 正态，不等方差 → Welch t-test
+ │ │ └─ 非正态 → Mann-Whitney U
+ │ │
+ │ └─ 配对
+ │ ├─ 正态 → Paired t-test
+ │ └─ 非正态 → Wilcoxon signed-rank
+ │
+ └─ 关系
+ ├─ 线性关系 → T-test for regression slope
+ └─ 相关性 → Correlation test (cor.test)
 ```
 
 ---
