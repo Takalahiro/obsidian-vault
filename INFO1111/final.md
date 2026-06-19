@@ -225,13 +225,13 @@
 
 不会的题，按**优先级**蒙：
 
-| 优先级 | 蒙题原则 |
-|---|---|
-| 1️⃣ | 选包含 **"and"** 连接两个动作的（如 "raise **and** escalate"）|
-| 2️⃣ | 选**最长**的选项（细节多通常对）|
-| 3️⃣ | 避开 **always / never / only / must** 的选项 |
-| 4️⃣ | 避开 **automatically / immediately / quietly** 的选项 |
-| 5️⃣ | 选包含 **"fair / honest / public / responsible"** 的 |
+| 优先级 | 蒙题原则                                              |
+| --- | ------------------------------------------------- |
+| 1️⃣ | 选包含 **"and"** 连接两个动作的（如 "raise **and** escalate"） |
+| 2️⃣ | 选**最长**的选项（细节多通常对）                                |
+| 3️⃣ | 避开 **always / never / only / must** 的选项           |
+| 4️⃣ | 避开 **automatically / immediately / quietly** 的选项  |
+| 5️⃣ | 选包含 **"fair / honest / public / responsible"** 的  |
 
 ---
 
