@@ -6,30 +6,31 @@
 
 #  表 1：ACS 伦理题（出现频率最高）
 
-| 题干出现这个英文词 | 立刻选含这个词的选项 |
-|---|---|
-| **privacy / data / confidential** | Trustworthiness / "respect privacy" |
-| **lie / hide / mislead / cover up** | Honesty / "open, truthful" |
-| **discrimination / unfair / bias** | Respect for Others / "fair, impartial" |
-| **public / dignity / wellbeing** | Respect for Profession / "public discourse" |
-| **skip security / unsafe** | "robust, secure systems" |
-| **conflict of interest** | "declare conflicts of interest" |
-| **责任 / responsible** | "accountable" |
-| **What should they do?** | **"raise internally + escalate"** |
-| **breach 后果是什么？** | **"expulsion from ACS"**（开除会籍）|
+| 题干出现这个英文词                           | 立刻选含这个词的选项                                  |
+| ----------------------------------- | ------------------------------------------- |
+| **privacy / data / confidential**   | Trustworthiness / "respect privacy"         |
+| **lie / hide / mislead / cover up** | Honesty / "open, truthful"                  |
+| **discrimination / unfair / bias**  | Respect for Others / "fair, impartial"      |
+| **public / dignity / wellbeing**    | Respect for Profession / "public discourse" |
+| **skip security / unsafe**          | "robust, secure systems"                    |
+| **conflict of interest**            | "declare conflicts of interest"             |
+| **责任 / responsible**                | "accountable"                               |
+| **What should they do?**            | **"raise internally + escalate"**           |
+| **breach 后果是什么？**                   | **"expulsion from ACS"**（开除会籍）              |
+|                                     |                                             |
 
 ---
 
 #  表 2：ACS 排除项（看到立刻划掉）
 
-| 看到选项有这个词 | 立刻排除 |
-|---|---|
+| 看到选项有这个词                             | 立刻排除         |
+| ------------------------------------ | ------------ |
 | **automatically referred to police** | ❌ ACS 不会自动报警 |
-| **quietly fix yourself** | ❌ 越权 |
-| **immediately leave/resign** | ❌ 逃避 |
-| **ignore it** | ❌ 违反伦理 |
-| **only when client complains** | ❌ 被动 |
-| **Code is voluntary** | ❌ 错误，是强制的 |
+| **quietly fix yourself**             | ❌ 越权         |
+| **immediately leave/resign**         | ❌ 逃避         |
+| **ignore it**                        | ❌ 违反伦理       |
+| **only when client complains**       | ❌ 被动         |
+| **Code is voluntary**                | ❌ 错误，是强制的    |
 
 ---
 
@@ -37,15 +38,16 @@
 
 ## 3A：SFIA 5 属性（NOT 题用）
 
-| 是 5 属性吗？ | 项目 |
-|---|---|
-| ✅ 是 | **Autonomy**（自主）|
-| ✅ 是 | **Influence**（影响）|
-| ✅ 是 | **Complexity**（复杂度）|
-| ✅ 是 | **Business skills**（商务技能）|
-| ✅ 是 | **Knowledge**（知识）|
-| ❌ 不是 | Technical Certification |
-| ❌ 不是 | Salary / Age / Experience |
+| 是 5 属性吗？ | 项目                        |
+| -------- | ------------------------- |
+| ✅ 是      | **Autonomy**（自主）          |
+| ✅ 是      | **Influence**（影响）         |
+| ✅ 是      | **Complexity**（复杂度）       |
+| ✅ 是      | **Business skills**（商务技能） |
+| ✅ 是      | **Knowledge**（知识）         |
+| ❌ 不是     | Technical Certification   |
+| ❌ 不是     | Salary / Age / Experience |
+|          |                           |
 
 **口诀**：**自影复商知**
 
