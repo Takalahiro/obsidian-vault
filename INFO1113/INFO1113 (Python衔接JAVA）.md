@@ -1,4 +1,4 @@
-
+详细请看[[Java 技术笔记]]
 # Java 与 Python 基础语法对比
 
 ## Program Structure（程序结构）
