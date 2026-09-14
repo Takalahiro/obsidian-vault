@@ -13,7 +13,7 @@
 > 题目说 "rounding error" 用半刻度；只说"最多偏多少"按截断。
 
 **例题｜Example**
-> 4 个二进制小数位，最坏舍入误差是多少？
+> 4 个二进制小数位，最坏舍入误差是多7少？
 > *4 fractional bits, what's the worst-case rounding error?*
 
 $$2^{-(4+1)} = 2^{-5} = 0.03125 \approx \boxed{0.0313}$$
