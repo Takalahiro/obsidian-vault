@@ -56,7 +56,7 @@ $$15s \ge 137 \Rightarrow s \ge 9.13 \Rightarrow s = 2^4 = \boxed{16}$$
 **是乘法，不是把各自位数相加。**
 
 **例题｜Example**
-> 三个测量 [0,40]、[0,43]、[0,483] 打包，要几位？
+>20
 > *Pack three measurements, how many bits?*
 
 $$41 \times 44 \times 484 = 873{,}136,\quad 2^{19}=524{,}288 < T,\quad 2^{20}\ge T \Rightarrow \boxed{20}$$
