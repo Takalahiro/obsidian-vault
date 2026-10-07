@@ -267,18 +267,53 @@ void loop() {
 ## 替换掉原来的 calibrate()
 
 ```cpp
-// 单个传感器的采集：实时更新 base/peak，直到串口收到一个字符
+// ============================================================
+// ELEC1601 迷宫项目 - 传感器校准模块（完整可编译版本）
+// ============================================================
+
+// ---- 引脚：0=左, 1=前, 2=右 ----
+const int emitP[3] = {10, 6,  2};
+const int recvP[3] = {11, 7,  3};
+const long freqV[3] = {41300, 44300, 42300};
+
+// ---- 校准结果（全局，供后续归一化使用）----
+int baseV[3] = {0, 0, 0};
+int peakV[3] = {1, 1, 1};   // 初始值设 1 防止除零
+
+// ---- 采样次数（影响精度和速度，20~30 是合理范围）----
+const int N = 20;
+
+// ============================================================
+// 单次采样：发射 N 次，统计接收到 LOW 的次数
+// ============================================================
+int oneRead(int i) {
+  int c = 0;
+  for (int k = 0; k < N; k++) {
+    tone(emitP[i], freqV[i]);
+    delay(2);
+    if (digitalRead(recvP[i]) == LOW) c++;
+    noTone(emitP[i]);
+    delay(2);
+  }
+  return c;
+}
+
+// ============================================================
+// 单个传感器校准
+// 调用后 baseV[i] 和 peakV[i] 就绪
+// ============================================================
 void calibrateOne(int i, const char* name) {
   Serial.print(name);
   Serial.println(": 把白纸由远到近慢慢扫, 扫完在串口输入框敲个回车...");
 
-  baseV[i] = 1024;     // 先置成极端值，好让 min 能更新
+  baseV[i] = 1024;   // 先置成极端值，好让 min 能更新
   peakV[i] = 0;
 
   while (Serial.available()) Serial.read();   // 清掉残留输入
 
+  // 先空转 0.3s，避免手还没准备好就开始记录
   unsigned long t0 = millis();
-  while (millis() - t0 < 300) {               // 先空转 0.3s，避免手还没准备好
+  while (millis() - t0 < 300) {
     oneRead(i);
   }
 
@@ -291,21 +326,83 @@ void calibrateOne(int i, const char* name) {
     Serial.print("  min=");  Serial.print(baseV[i]);
     Serial.print("  max=");  Serial.println(peakV[i]);
 
-    if (Serial.available()) {                 // 收到回车/任意键 -> 结束这个传感器
+    if (Serial.available()) {   // 收到回车/任意键 -> 结束这个传感器
       while (Serial.available()) Serial.read();
       break;
     }
   }
+
+  // 防止 peak == base 导致后续归一化除零
+  if (peakV[i] <= baseV[i]) peakV[i] = baseV[i] + 1;
+
   Serial.print(name); Serial.print(" 校准完成: base=");
-  Serial.print(baseV[i]); Serial.print(" peak=");
+  Serial.print(baseV[i]); Serial.print("  peak=");
   Serial.println(peakV[i]);
 }
 
+// ============================================================
+// 三路传感器依次校准（前 → 左 → 右）
+// ============================================================
 void calibrate() {
-  calibrateOne(1, "前");   // 按你说的顺序：先前
-  calibrateOne(0, "左");   // 再左
-  calibrateOne(2, "右");   // 最后右
+  Serial.println(F("\n=== 开始校准 ==="));
+  Serial.println(F("串口监视器行结尾请选 Newline，每路扫完敲回车继续"));
+  Serial.println();
+
+  calibrateOne(1, "前");
+  calibrateOne(0, "左");
+  calibrateOne(2, "右");
+
+  Serial.println(F("\n=== 校准完成 ==="));
+  Serial.println(F("校准结果汇总："));
+  Serial.print(F("  前: base=")); Serial.print(baseV[1]);
+  Serial.print(F("  peak="));    Serial.println(peakV[1]);
+  Serial.print(F("  左: base=")); Serial.print(baseV[0]);
+  Serial.print(F("  peak="));    Serial.println(peakV[0]);
+  Serial.print(F("  右: base=")); Serial.print(baseV[2]);
+  Serial.print(F("  peak="));    Serial.println(peakV[2]);
+  Serial.println();
 }
+
+// ============================================================
+// 归一化：把原始读数映射到 0~100%
+// 0% = 完全没墙，100% = 贴墙
+// ============================================================
+int normPct(int i) {
+  int v = oneRead(i);
+  int lo = baseV[i], hi = peakV[i];
+  return (int)constrain((long)(v - lo) * 100L / (hi - lo), 0, 100);
+}
+
+// ============================================================
+// setup：初始化引脚，运行校准
+// ============================================================
+void setup() {
+  Serial.begin(9600);
+
+  for (int i = 0; i < 3; i++) {
+    pinMode(emitP[i], OUTPUT);
+    pinMode(recvP[i], INPUT);
+  }
+
+  calibrate();
+}
+
+// ============================================================
+// loop：校准完成后持续打印三路归一化读数，方便验证
+// ============================================================
+void loop() {
+  int nL = normPct(0);
+  int nF = normPct(1);
+  int nR = normPct(2);
+
+  Serial.print(F("L=")); Serial.print(nL);
+  Serial.print(F("%  F=")); Serial.print(nF);
+  Serial.print(F("%  R=")); Serial.print(nR);
+  Serial.println(F("%"));
+
+  delay(200);
+}
+
 ```
 
 索引沿用之前约定:**0=左, 1=前, 2=右**,所以 `calibrateOne(1,...)` 是前,`(0,...)` 是左,`(2,...)` 是右。
@@ -1728,4 +1825,536 @@ correction = Kp × error + Kd × (error - 上次error)
 
 ### 5. 中值滤波（Median Filter）
 
-对同一传感器连续读三次，取**中间值**（不是平均值）。原因：单次脉冲噪声（比如路过一辆车的反光）会把平均值拉偏，但无法影响中值——你需要两次以上的噪声才能污染中值。这是嵌入式系统里最常用的去噪方法之一，计算量极小。
+对同一传感器连续读三次，取**中间值**（不是平均值）。原因：单次脉冲噪声（比如路过一辆车的反光）会把平均值拉偏，但无法影响中值——你需要两次以上的噪声才能污染中值。这是嵌入式系统里最常用的去噪方法之一，计算量极小。续写第四部分剩余的技术原理，以及补充一个第五部分作为总结备忘。
+
+---
+
+### 6. 决策树优先级（为什么顺序很重要）
+
+场景识别本质上是一个**多条件分类问题**，有些场景的传感器状态会互相重叠。比如：
+
+- 场景 7（贴左墙 30°）的传感器状态是"左有墙 + 前有墙 + 右无墙"
+- 场景 2（右转位）的传感器状态也是"左有墙 + 前有墙 + 右无墙"
+
+两个场景的二值化结果完全一样，唯一的区别是**左侧读数的大小**——成角度时左边读数明显更大（因为斜对着墙，距离更近）。所以 7/8 必须在 2/3 之前判断，而且要加上"左明显比右近"这个额外条件：
+
+```
+先判断 7/8（二值相同但有数值区分）
+再判断 2/3（纯二值就能区分）
+```
+
+这种"先处理有歧义的情况，再处理无歧义的"就是**优先级决策树**。顺序写错，代码能跑，但场景会被吃掉——这是最难 debug 的一类 bug，因为它不报错，只是行为不对。
+
+### 7. 开环 vs 闭环控制（为什么 PD 比定时更可靠）
+
+**开环控制**：给一个固定指令，不管结果。你代码里的 `turnCW(700)` 就是开环——转 700ms，不管实际转了多少度。问题是马达特性、电池电压、地面摩擦每次都不同，700ms 今天转 88°，明天可能转 95°，误差累积。
+
+**闭环控制**：持续测量结果，把测量值和目标值的差（误差）反馈回来修正指令。`moveForwardPD()` 就是闭环——它不说"走这么长时间"，而是说"只要左右误差不为零就持续修正"。
+
+```
+开环：指令 → 系统 → 结果（不管结果怎样）
+闭环：指令 → 系统 → 结果 → 测量 → 误差 → 修正指令 → 循环
+```
+
+走廊直行用闭环，转弯用开环——这是合理的分工。直行需要持续对准，有传感器可以实时反馈；转弯是一次性动作，完成后立刻重新识别场景，误差靠下一次 PD 修正来消化。
+
+### 8. 为什么用比值而不是差值做误差
+
+直觉上误差 = 右读数 - 左读数，但这有个问题：靠近墙时两侧读数都大，靠近时差值可能是 30；离墙远时读数都小，同样居中但差值可能是 5。**同样的"居中程度"给出了不同大小的误差**，导致 Kp 需要随距离变化，很难调。
+
+用比值：
+
+```
+error = (右 - 左) / (右 + 左)
+```
+
+分母归一化了总强度，居中时不管两侧读数大小，比值始终约等于 0。这个形式在信号处理里叫**归一化差分**，常见于光学传感器和平衡检测电路。
+
+---
+
+## 五、实验室当天备忘卡（撕下来带进去）
+
+```
+┌─────────────────────────────────────────────┐
+│  ELEC1601 实验室操作备忘                     │
+├─────────────────────────────────────────────┤
+│ 烧录前检查                                   │
+│  □ #include <Servo.h>  (不是 TakeHomeBoard) │
+│  □ DEMO_MODE = true                         │
+│  □ 串口监视器行结尾 = Newline               │
+├─────────────────────────────────────────────┤
+│ 校准顺序                                     │
+│  1. 前传感器 → 扫迷宫墙 → 回车             │
+│  2. 左传感器 → 扫迷宫墙 → 回车             │
+│  3. 右传感器 → 扫迷宫墙 → 回车             │
+│  ✓ 每路 peak - base > 10 才算合格          │
+├─────────────────────────────────────────────┤
+│ 识别验证（看串口表格）                       │
+│  场景1：走廊中间 → L≈R，F低               │
+│  场景2：T口靠左墙 → L高F高R低             │
+│  场景3：T口靠右墙 → R高F高L低             │
+│  场景4：死角 → L高F高R高                  │
+│  场景5：贴左墙平行 → R>L，F低             │
+│  场景7：贴左墙30° → L高F高，R低           │
+│  ⚠ 7和2最容易混，重点测                   │
+├─────────────────────────────────────────────┤
+│ 舵机校准顺序（不要乱跳）                     │
+│  1. STOP值：机器人静止不抖                  │
+│  2. TIME_TURN_90：转完对着墙量角度          │
+│  3. TIME_FWD_5CM：走廊量实际距离            │
+│  4. Kp：先设Kd=0，走廊直行调到不摇摆       │
+│  5. Kd：从 Kp×0.1 开始加                  │
+├─────────────────────────────────────────────┤
+│ 验收顺序                                     │
+│  0→1→4→2→3→5→6→7→8                        │
+│  每个场景：LED亮5秒 → 执行动作 → 停        │
+│  ⚠ 场景0必须完全不动                       │
+└─────────────────────────────────────────────┘
+```
+
+---
+
+## 六、如果时间紧，哪些可以先跳过
+
+按"不做会挂科的风险"排序：
+
+**必须做，不能跳**
+- 场景 0/1/2/3/4 识别 + LED 正确 → 这是基本分
+- STOP 值调对 → 否则机器人到处乱跑
+
+**应该做，可以简化**
+- PD 控制 → 实在没时间，改回 `correctCourse()` 那个简单版本也能过
+- 场景 5/6/7/8 → 分值相对低，先把 1/2/3/4 做稳
+
+**最后有时间再做**
+- `TIME_TURN_SMALL` 精调 → 影响 5/6/7/8 动作精度
+- Kd 调参 → Kd=0 的纯 P 控制也能走完迷宫，只是可能稍微抖一些
+- 场景 9/10 → 分值最低，最后做
+
+
+
+你的问题有两个根源，我分别解释再给改好的代码。
+
+## 问题分析
+
+**问题 1：前方被挡住但显示场景 0**
+
+看你的串口输出：
+```
+| 归一化% | 0%  | 96%  | 0%  |
+| 有墙?   |  否  |  是  |  否  |
+-> 场景: 0  未知(停止)
+```
+
+前方 96% 明明有墙，但最终是场景 0。原因在 `loop()` 里的三次确认逻辑：
+
+```cpp
+int s1 = classify(), s2 = classify(), s3 = classify();
+int s = (s1 == s2 && s2 == s3) ? s1 : 0;   // ← 三次不一致就返回 0
+```
+
+每次 `classify()` 内部都重新采样，前方读数在 60% 阈值附近抖动时，三次可能得到不同结果，全部被判为 0。而且三次 classify 合计耗时很长，期间你的手可能稍微动了一下。
+
+**问题 2：检测距离不够**
+
+你用的是 `N=30`，每次采样 30 次，每次 4ms（tone 2ms + noTone 2ms），一次 oneRead 耗时约 120ms，median3 耗时约 360ms。距离不够的核心原因不是采样次数，而是 **IR LED 发射时间太短**——每次只 tone 2ms，对远距离反射来说能量不足。
+
+## 修改方案
+
+三个改动：
+
+1. **延长 tone 时间**：从 2ms 改到 8ms，让 IR LED 发射更长，远距离反射有足够能量。
+2. **三次确认改成两次**：减少因抖动导致的误判为 0。
+3. **`table[8]` 补全**：`010`（仅前有墙）和 `001`（仅右有墙）、`100`（仅左有墙）当前填的是 1（走廊），实际上"仅前有墙"应该触发 refineScenario 而不是直接返回 1。
+
+```cpp
+// ============================================================
+// ELEC1601 迷宫项目 - 传感器感知 / 场景识别（改进版）
+// 修复：远距离检测 + 三次确认误判为0 + table补全
+// ============================================================
+
+const int emitP[3] = {10, 6, 2};
+const int recvP[3] = {11, 7, 3};
+const long freqV[3] = {41300, 44300, 42300};
+
+const int rLedR = A0, rLedM = A1, rLedL = A2;
+
+const int N = 20;   // 采样次数：从30降到20，配合更长的tone时间
+
+int baseV[3] = {0, 0, 0};
+int peakV[3] = {1, 1, 1};
+
+const int NEAR_ON  = 60;
+const int NEAR_OFF = 40;
+
+// 场景查表：idx = (Lb<<2)|(Fb<<1)|Rb
+int table[8] = {
+  0,  // 000 三面无墙      -> 未知
+  1,  // 001 仅右有墙      -> 走廊/细分入口，交给 refineScenario
+  1,  // 010 仅前有墙      -> 走廊/细分入口，交给 refineScenario
+  3,  // 011 右+前有墙     -> 左转位(3) 或 场景8，交给 refineScenario
+  1,  // 100 仅左有墙      -> 走廊/细分入口，交给 refineScenario
+  1,  // 101 左+右有墙     -> 走廊(1)，细分5/6，交给 refineScenario
+  2,  // 110 左+前有墙     -> 右转位(2) 或 场景7，交给 refineScenario
+  4   // 111 三面有墙      -> 死路(4)
+};
+
+const char* scenarioName[11] = {
+  "0  未知(停止)",   "1  走廊直行",    "2  右转位",
+  "3  左转位",       "4  死路(180转)", "5  贴左墙平行",
+  "6  贴右墙平行",   "7  贴左墙~30度", "8  贴右墙~30度",
+  "9  自定义A",      "10 自定义B"
+};
+
+// ============================================================
+// 单次采样：tone 延长到 8ms 提升远距离检测能力
+// ============================================================
+int oneRead(int i) {
+  int c = 0;
+  for (int k = 0; k < N; k++) {
+    tone(emitP[i], freqV[i]);
+    delay(8);                          // 从 2ms 改为 8ms，发射更充分
+    if (digitalRead(recvP[i]) == LOW) c++;
+    noTone(emitP[i]);
+    delay(2);
+  }
+  return c;
+}
+
+int median3(int i) {
+  int a = oneRead(i), b = oneRead(i), c = oneRead(i);
+  if (a > b) { int t=a; a=b; b=t; }
+  if (b > c) { int t=b; b=c; c=t; }
+  if (a > b) { int t=a; a=b; b=t; }
+  return b;
+}
+
+int normPct(int i) {
+  int v = median3(i);
+  int lo = baseV[i], hi = peakV[i];
+  if (hi <= lo) return 0;
+  return (int)constrain((long)(v - lo) * 100L / (hi - lo), 0, 100);
+}
+
+// 一次性读三路，避免重复采样
+void readAll(int &nL, int &nF, int &nR) {
+  nL = normPct(0);
+  nF = normPct(1);
+  nR = normPct(2);
+}
+
+// ============================================================
+// 自校准
+// ============================================================
+void calibrateOne(int i, const char* name) {
+  Serial.print(F("\n[校准] "));
+  Serial.print(name);
+  Serial.println(F(" 传感器：把白纸由远到近慢慢扫，扫完敲回车..."));
+
+  baseV[i] = 9999;
+  peakV[i] = 0;
+  while (Serial.available()) Serial.read();
+  delay(500);
+
+  while (true) {
+    int v = oneRead(i);
+    if (v < baseV[i]) baseV[i] = v;
+    if (v > peakV[i]) peakV[i] = v;
+    Serial.print(F("  raw=")); Serial.print(v);
+    Serial.print(F("  base=")); Serial.print(baseV[i]);
+    Serial.print(F("  peak=")); Serial.println(peakV[i]);
+    if (Serial.available()) {
+      while (Serial.available()) Serial.read();
+      break;
+    }
+  }
+
+  if (peakV[i] <= baseV[i]) peakV[i] = baseV[i] + 1;
+
+  Serial.print(F("[完成] ")); Serial.print(name);
+  Serial.print(F("  base=")); Serial.print(baseV[i]);
+  Serial.print(F("  peak=")); Serial.println(peakV[i]);
+}
+
+void calibrate() {
+  Serial.println(F("\n=== 开始校准（行结尾选 Newline）==="));
+  calibrateOne(1, "前");
+  calibrateOne(0, "左");
+  calibrateOne(2, "右");
+  Serial.println(F("\n=== 校准完成 ===\n"));
+}
+
+// ============================================================
+// 迟滞二值化
+// ============================================================
+bool lastB[3] = {false, false, false};
+
+bool blocked(int i, int nv) {
+  if (lastB[i]) lastB[i] = (nv > NEAR_OFF);
+  else          lastB[i] = (nv > NEAR_ON);
+  return lastB[i];
+}
+
+// ============================================================
+// 场景细分（所有非死路场景都经过这里）
+// ============================================================
+int refineScenario(int nL, int nF, int nR,
+                   bool Lb, bool Fb, bool Rb) {
+  const int MARGIN = 20;
+
+  // 7: 贴左墙~30°：左近+前近，右无墙，左明显比右近
+  // 必须在场景2之前判断
+  if (Lb && Fb && !Rb && (nL > nR + MARGIN)) return 7;
+
+  // 8: 贴右墙~30°：右近+前近，左无墙，右明显比左近
+  // 必须在场景3之前判断
+  if (Rb && Fb && !Lb && (nR > nL + MARGIN)) return 8;
+
+  // 2: 右转位：左+前有墙，右无墙（且不是场景7）
+  if (Lb && Fb && !Rb) return 2;
+
+  // 3: 左转位：右+前有墙，左无墙（且不是场景8）
+  if (Rb && Fb && !Lb) return 3;
+
+  // 仅前有墙，左右都没墙：直行推进
+  if (Fb && !Lb && !Rb) return 1;
+
+  // 5: 左右都有墙，右明显更近，前无墙（贴左墙平行）
+  if (Lb && Rb && !Fb && (nR > nL + MARGIN)) return 5;
+
+  // 6: 左右都有墙，左明显更近，前无墙（贴右墙平行）
+  if (Lb && Rb && !Fb && (nL > nR + MARGIN)) return 6;
+
+  // 1: 走廊居中
+  if (Lb && Rb && !Fb) return 1;
+
+  // 单侧有墙，前无墙：靠边走，视为走廊
+  if (!Fb && (Lb || Rb)) return 1;
+
+  return 0;
+}
+
+int classify(int nL, int nF, int nR) {
+  bool Lb = blocked(0, nL);
+  bool Fb = blocked(1, nF);
+  bool Rb = blocked(2, nR);
+
+  int idx = (Lb << 2) | (Fb << 1) | Rb;
+  int s = table[idx];
+
+  // 死路直接返回，其余全部走细分
+  if (s == 4) return 4;
+  return refineScenario(nL, nF, nR, Lb, Fb, Rb);
+}
+
+// ============================================================
+// LED
+// ============================================================
+void showLed(int s) {
+  if (s >= 8) {
+    digitalWrite(rLedR, LOW);
+    digitalWrite(rLedM, LOW);
+    digitalWrite(rLedL, LOW);
+    bool flashR = (s == 8 || s == 10);
+    bool flashM = (s == 9 || s == 10);
+    for (int i = 0; i < 5; i++) {
+      if (flashR) digitalWrite(rLedR, HIGH);
+      if (flashM) digitalWrite(rLedM, HIGH);
+      delay(1000);
+      digitalWrite(rLedR, LOW);
+      digitalWrite(rLedM, LOW);
+      delay(1000);
+    }
+  } else {
+    digitalWrite(rLedR, (s & 1)        ? HIGH : LOW);
+    digitalWrite(rLedM, ((s >> 1) & 1) ? HIGH : LOW);
+    digitalWrite(rLedL, ((s >> 2) & 1) ? HIGH : LOW);
+    delay(5000);
+  }
+}
+
+// ============================================================
+// 串口表格
+// ============================================================
+void printTable(int nL, int nF, int nR, int s) {
+  Serial.println(F("+---------+-------+-------+-------+"));
+  Serial.println(F("| 传感器  |  左   |  前   |  右   |"));
+  Serial.println(F("+---------+-------+-------+-------+"));
+  Serial.print(F("| 归一化% | ")); Serial.print(nL);
+  Serial.print(F("%\t| "));        Serial.print(nF);
+  Serial.print(F("%\t| "));        Serial.print(nR);
+  Serial.println(F("%\t|"));
+  Serial.print(F("| 有墙?   |  "));
+  Serial.print(lastB[0] ? "是  " : "否  ");
+  Serial.print(F(" |  "));
+  Serial.print(lastB[1] ? "是  " : "否  ");
+  Serial.print(F(" |  "));
+  Serial.print(lastB[2] ? "是  " : "否  ");
+  Serial.println(F(" |"));
+  Serial.println(F("+---------+-------+-------+-------+"));
+  Serial.print(F("-> 场景: "));
+  if (s >= 0 && s <= 10) Serial.println(scenarioName[s]);
+  else Serial.println(s);
+  Serial.print(F("   LED: R(A0)="));
+  Serial.print((s < 8) ? ((s & 1) ? "亮" : "灭") : ((s == 8 || s == 10) ? "闪" : "灭"));
+  Serial.print(F("  M(A1)="));
+  Serial.print((s < 8) ? (((s>>1)&1) ? "亮" : "灭") : ((s == 9 || s == 10) ? "闪" : "灭"));
+  Serial.print(F("  L(A2)="));
+  Serial.println((s < 8) ? (((s>>2)&1) ? "亮" : "灭") : "灭");
+  Serial.println();
+}
+
+// ============================================================
+// setup / loop
+// ============================================================
+void setup() {
+  Serial.begin(9600);
+  for (int i = 0; i < 3; i++) {
+    pinMode(emitP[i], OUTPUT);
+    pinMode(recvP[i], INPUT);
+  }
+  pinMode(rLedR, OUTPUT);
+  pinMode(rLedM, OUTPUT);
+  pinMode(rLedL, OUTPUT);
+  digitalWrite(rLedR, LOW);
+  digitalWrite(rLedM, LOW);
+  digitalWrite(rLedL, LOW);
+
+  calibrate();
+
+  Serial.println(F("=== 进入识别循环 ===\n"));
+}
+
+void loop() {
+  int nL, nF, nR;
+  readAll(nL, nF, nR);
+
+  // 改为两次确认：比三次更宽松，减少边界抖动导致的误判为0
+  int s1 = classify(nL, nF, nR);
+  readAll(nL, nF, nR);
+  int s2 = classify(nL, nF, nR);
+  int s = (s1 == s2) ? s1 : s1;   // 两次不一致取第一次，不再强制返回0
+
+  printTable(nL, nF, nR, s);
+  showLed(s);
+
+  delay(200);
+}
+```
+
+## 关键改动总结
+
+**`oneRead()` 里 `delay(8)` 是核心改动。** IR LED 发射时间从 2ms 延长到 8ms，让更远距离的反射有足够能量触发接收器。代价是每次采样稍慢，所以同步把 N 从 30 降到 20，总耗时基本不变但检测距离明显提升。
+
+**两次确认取代三次确认。** 两次不一致时取第一次结果而不是强制返回 0，这样边界附近的读数不会一直显示"未知停止"。
+
+**`refineScenario` 接管所有细分逻辑。** 原来 `table[8]` 里的 1 只有走廊场景才进细分，现在除了死路（4）之外全部经过 `refineScenario`，这样"仅前有墙"这种情况也能被正确处理而不是漏到场景 0。
+
+
+
+
+
+## 场景测试清单
+
+每个场景的操作方法：
+
+**场景 0 — 未知（停止）**
+把机器人放在空旷地方，三面都不遮挡。串口应显示三路归一化% 都很低，有墙全为"否"，LED 全灭，机器人不动。这是最重要的验收场景，老师会故意摆一个奇怪姿势来测它。
+
+**场景 1 — 走廊直行**
+左右各放一张纸，距离相等（各约 10cm），前方不遮挡。左右归一化% 应该接近，前方低。LED 只亮 R(A0)。
+
+**场景 2 — 右转位**
+左边和前方各放纸，右边不遮挡。串口应显示左高、前高、右低，有墙：左是、前是、右否。LED 只亮 M(A1)。
+
+**场景 3 — 左转位**
+右边和前方各放纸，左边不遮挡。和场景 2 左右对调。LED 亮 R+M(A0+A1)。
+
+**场景 4 — 死路**
+三面都放纸挡住。三路归一化% 都高，有墙全为"是"。LED 只亮 L(A2)。
+
+**场景 5 — 贴左墙平行**
+左右都放纸，但右边的纸更近（右边归一化% 明显更高），前方不遮挡。LED 亮 R+L(A0+A2)。
+
+**场景 6 — 贴右墙平行**
+和场景 5 左右对调，左边更近。LED 亮 M+L(A1+A2)。
+
+**场景 7 — 贴左墙约 30°**
+左边和前方放纸，右边不遮挡，并且左边纸的归一化% 明显高于右边（即使右边没纸，右边的值也应该远低于左边）。LED 三个全亮。这是最难和场景 2 区分的——区别在于 `nL > nR + MARGIN`，也就是左边读数比右边**大很多**。
+
+**场景 8 — 贴右墙约 30°**
+右边和前方放纸，左边不遮挡，右边% 明显高于左边。LED 只有 R(A0) 闪烁（1 秒间隔）。
+
+---
+
+## 代码运行流程
+
+开机后走这条路：
+
+```
+setup()
+  └─ calibrate()
+       ├─ calibrateOne(前)  ← 等你扫纸 + 回车
+       ├─ calibrateOne(左)  ← 等你扫纸 + 回车
+       └─ calibrateOne(右)  ← 等你扫纸 + 回车
+            ↓ 记录每路的 base（远处最小值）和 peak（贴墙最大值）
+
+loop() 每次循环：
+  1. readAll() → 三路各跑 median3() → 每路跑 3 次 oneRead()
+     oneRead() = 发射 N 次 IR，数接收到 LOW 的次数 → raw strength
+     median3() = 取三次 raw 的中值（去噪）
+     normPct() = (raw - base) / (peak - base) × 100 → 0~100%
+  
+  2. 两次 classify()
+     classify() → blocked() 对三路做迟滞二值化（60% 进，40% 退）
+               → 组合成 3bit idx
+               → 查 table[idx]
+               → 除死路外全部走 refineScenario() 细分
+               → 返回场景号 0~10
+  
+  3. 两次结果一致就用，不一致取第一次（不再强制返回 0）
+  
+  4. printTable() → 打印串口表格
+  5. showLed()    → 点亮对应 LED，等 5 秒
+```
+
+`refineScenario` 的判断优先级是固定的：**先判 7/8（成角度），再判 2/3（转弯位），再判 5/6（贴墙平行），最后才是 1（走廊）**。顺序不能乱，因为 7 和 2 的二值化状态完全一样，只靠数值大小区分。
+
+---
+
+## 临时调整方法
+
+你在实验室能改的只有几个常量，不需要重新理解代码：
+
+**识别不准（场景判断错）**
+
+```cpp
+const int NEAR_ON  = 60;   // 调低 → 更容易认为"有墙"（检测更灵敏）
+const int NEAR_OFF = 40;   // 跟着 NEAR_ON 同比调整，保持约 20 的间距
+```
+比如传感器反射弱，一直识别不到墙，把两个都降 10：`NEAR_ON=50, NEAR_OFF=30`。
+
+**场景 5/6/7/8 识别不稳（"明显更近"判断不准）**
+
+```cpp
+// refineScenario() 里这一行：
+const int MARGIN = 20;
+```
+如果走廊居中时左右差值本来就超过 20，会被误判成场景 5/6，就把 MARGIN 加大；如果贴墙时差值不到 20，识别不出来，就调小。实测方法：走廊居中时看串口左右 % 的差值，把 MARGIN 设成这个差值的 1.5 倍。
+
+**检测距离不够（近了才识别到）**
+
+```cpp
+// oneRead() 里：
+delay(8);   // 增大这个数，最高别超过 15，否则采样太慢
+```
+
+**采样太慢（反应迟钝）**
+
+```cpp
+const int N = 20;   // 降到 15 甚至 10，速度更快但读数更抖
+```
+同时可以把 `delay(8)` 降回 `delay(4)` 一起改，两个一起动。
+
+**三面都有墙但识别成别的**
+检查 `table[7]` 是不是 4。这个一般不会错，但如果校准时 peak 值太低，贴墙时读数可能只有 50%，没过 `NEAR_ON=60`，就会被判成"没墙"。解决：重新校准，这次把纸真正贴住传感器。
