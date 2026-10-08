@@ -2358,3 +2358,522 @@ const int N = 20;   // 降到 15 甚至 10，速度更快但读数更抖
 
 **三面都有墙但识别成别的**
 检查 `table[7]` 是不是 4。这个一般不会错，但如果校准时 peak 值太低，贴墙时读数可能只有 50%，没过 `NEAR_ON=60`，就会被判成"没墙"。解决：重新校准，这次把纸真正贴住传感器。
+
+
+```
+// ============================================================
+
+// ELEC1601 迷宫项目 - 传感器感知 / 场景识别
+
+// 含：逐个自校准 + 归一化 + 查表 + 串口实时输出场景表格
+
+// ============================================================
+
+  
+
+const int emitP[3] = {10, 6, 2};       // 0=左, 1=前, 2=右 发射
+
+const int recvP[3] = {11, 7, 3};       // 0=左, 1=前, 2=右 接收
+
+const long freqV[3] = {41300, 44300, 42300};
+
+  
+
+const int rLedR = A0, rLedM = A1, rLedL = A2;
+
+  
+
+const int N = 30;
+
+  
+
+int baseV[3] = {0, 0, 0};
+
+int peakV[3] = {1, 1, 1};
+
+  
+
+// 迟滞阈值（百分比，归一化后 0~100）
+
+const int NEAR_ON  = 60;
+
+const int NEAR_OFF = 40;
+
+  
+
+// 场景查表：idx = (Lb<<2)|(Fb<<1)|Rb
+
+// 0=左, 1=前, 2=右 对应 bit2, bit1, bit0
+
+int table[8] = {
+
+  0,  // 000 三面无墙 -> 未知
+
+  1,  // 001 仅右有墙 -> TODO 摆姿势后填
+
+  1,  // 010 仅前有墙 -> TODO
+
+  3,  // 011 右+前    -> 疑左转位(场景3)/场景8，需实测
+
+  1,  // 100 仅左有墙 -> TODO
+
+  1,  // 101 左+右    -> 走廊(场景1)，细分5/6/7/8靠比值
+
+  2,  // 110 左+前    -> 疑右转位(场景2)/场景7，需实测
+
+  4   // 111 三面有墙 -> 死路(场景4)
+
+};
+
+  
+
+const char* scenarioName[11] = {
+
+  "0  未知(停止)",
+
+  "1  走廊直行",
+
+  "2  右转位",
+
+  "3  左转位",
+
+  "4  死路(180转)",
+
+  "5  贴左墙平行",
+
+  "6  贴右墙平行",
+
+  "7  贴左墙~30度",
+
+  "8  贴右墙~30度",
+
+  "9  自定义A",
+
+  "10 自定义B"
+
+};
+
+  
+
+// ---- 测量 ----
+
+int oneRead(int i) {
+
+  int c = 0;
+
+  for (int k = 0; k < N; k++) {
+
+    tone(emitP[i], freqV[i]); delay(2);
+
+    if (digitalRead(recvP[i]) == LOW) c++;
+
+    noTone(emitP[i]); delay(2);
+
+  }
+
+  return c;
+
+}
+
+  
+
+int median3(int i) {
+
+  int a = oneRead(i), b = oneRead(i), c = oneRead(i);
+
+  if (a > b) { int t=a; a=b; b=t; }
+
+  if (b > c) { int t=b; b=c; c=t; }
+
+  if (a > b) { int t=a; a=b; b=t; }
+
+  return b;
+
+}
+
+  
+
+int normPct(int i) {
+
+  int v = median3(i);
+
+  int lo = baseV[i], hi = peakV[i];
+
+  if (hi <= lo) return 0;
+
+  return constrain((long)(v - lo) * 100 / (hi - lo), 0, 100);
+
+}
+
+  
+
+// ---- 逐个自校准 ----
+
+void calibrateOne(int i, const char* name) {
+
+  Serial.print("\n[校准] ");
+
+  Serial.print(name);
+
+  Serial.println(" 传感器：把白纸由远到近慢慢扫，扫完在串口输入框敲回车...");
+
+  
+
+  baseV[i] = 9999;
+
+  peakV[i] = 0;
+
+  
+
+  while (Serial.available()) Serial.read();
+
+  delay(500);
+
+  
+
+  while (true) {
+
+    int v = oneRead(i);
+
+    if (v < baseV[i]) baseV[i] = v;
+
+    if (v > peakV[i]) peakV[i] = v;
+
+  
+
+    Serial.print("  raw="); Serial.print(v);
+
+    Serial.print("  base="); Serial.print(baseV[i]);
+
+    Serial.print("  peak="); Serial.println(peakV[i]);
+
+  
+
+    if (Serial.available()) {
+
+      while (Serial.available()) Serial.read();
+
+      break;
+
+    }
+
+  }
+
+  
+
+  Serial.print("[完成] "); Serial.print(name);
+
+  Serial.print(" base="); Serial.print(baseV[i]);
+
+  Serial.print("  peak="); Serial.println(peakV[i]);
+
+}
+
+  
+
+void calibrate() {
+
+  calibrateOne(1, "前");
+
+  calibrateOne(0, "左");
+
+  calibrateOne(2, "右");
+
+}
+
+  
+
+// ---- 迟滞二值化 ----
+
+bool lastB[3] = {false, false, false};
+
+bool blocked(int i, int nv) {
+
+  if (lastB[i]) lastB[i] = (nv > NEAR_OFF);
+
+  else          lastB[i] = (nv > NEAR_ON);
+
+  return lastB[i];
+
+}
+
+  
+
+// ---- 细分场景 5/6/7/8（在查表结果为1/走廊时调用）----
+
+int refineScenario(int nL, int nF, int nR,
+
+                   bool Lb, bool Fb, bool Rb) {
+
+  const int MARGIN = 20;   // 归一化后"明显更近"的差值，可调
+
+  
+
+  // 7: 左近+前近，右没墙（贴左墙成角度）
+
+  if (Lb && Fb && !Rb && (nL > nR + MARGIN)) return 7;
+
+  
+
+  // 8: 右近+前近，左没墙（贴右墙成角度）
+
+  if (Rb && Fb && !Lb && (nR > nL + MARGIN)) return 8;
+
+  
+
+  // 5: 左右都有墙，右明显更近（贴左墙平行）
+
+  if (Lb && Rb && !Fb && (nR > nL + MARGIN)) return 5;
+
+  
+
+  // 6: 左右都有墙，左明显更近（贴右墙平行）
+
+  if (Lb && Rb && !Fb && (nL > nR + MARGIN)) return 6;
+
+  
+
+  // 走廊（左右相近）
+
+  if (Lb && Rb && !Fb) return 1;
+
+  
+
+  return 0;
+
+}
+
+  
+
+int classify() {
+
+  int nL = normPct(0), nF = normPct(1), nR = normPct(2);
+
+  bool Lb = blocked(0, nL);
+
+  bool Fb = blocked(1, nF);
+
+  bool Rb = blocked(2, nR);
+
+  
+
+  int idx = (Lb << 2) | (Fb << 1) | Rb;
+
+  int s = table[idx];
+
+  
+
+  // 查表得到1时，用比值细分
+
+  if (s == 1) {
+
+    s = refineScenario(nL, nF, nR, Lb, Fb, Rb);
+
+  }
+
+  
+
+  return s;
+
+}
+
+  
+
+// ---- LED 二进制编码 ----
+
+void showLed(int s) {
+
+  if (s >= 8) {
+
+    // 8/9/10 闪烁
+
+    digitalWrite(rLedR, LOW);
+
+    digitalWrite(rLedM, LOW);
+
+    digitalWrite(rLedL, LOW);
+
+    bool flashR = (s == 8 || s == 10);
+
+    bool flashM = (s == 9 || s == 10);
+
+    for (int i = 0; i < 5; i++) {
+
+      if (flashR) digitalWrite(rLedR, HIGH);
+
+      if (flashM) digitalWrite(rLedM, HIGH);
+
+      delay(1000);
+
+      digitalWrite(rLedR, LOW);
+
+      digitalWrite(rLedM, LOW);
+
+      delay(1000);
+
+    }
+
+  } else {
+
+    digitalWrite(rLedR, (s & 1)      ? HIGH : LOW);
+
+    digitalWrite(rLedM, ((s >> 1)&1) ? HIGH : LOW);
+
+    digitalWrite(rLedL, ((s >> 2)&1) ? HIGH : LOW);
+
+    delay(5000);
+
+  }
+
+}
+
+  
+
+// ---- 串口场景表格输出 ----
+
+void printScenarioTable(int nL, int nF, int nR,
+
+                        bool Lb, bool Fb, bool Rb, int s) {
+
+  Serial.println(F("+---------+-------+-------+-------+"));
+
+  Serial.println(F("| 传感器  |  左   |  前   |  右   |"));
+
+  Serial.println(F("+---------+-------+-------+-------+"));
+
+  
+
+  Serial.print(F("| 归一化% | "));
+
+  Serial.print(nL); Serial.print(F("%\t| "));
+
+  Serial.print(nF); Serial.print(F("%\t| "));
+
+  Serial.print(nR); Serial.println(F("%\t|"));
+
+  
+
+  Serial.print(F("| 有墙?   |  "));
+
+  Serial.print(Lb ? "是  " : "否  ");
+
+  Serial.print(F(" |  "));
+
+  Serial.print(Fb ? "是  " : "否  ");
+
+  Serial.print(F(" |  "));
+
+  Serial.print(Rb ? "是  " : "否  ");
+
+  Serial.println(F(" |"));
+
+  
+
+  Serial.println(F("+---------+-------+-------+-------+"));
+
+  
+
+  Serial.print(F("-> 场景: "));
+
+  if (s >= 0 && s <= 10) {
+
+    Serial.println(scenarioName[s]);
+
+  } else {
+
+    Serial.println(s);
+
+  }
+
+  
+
+  Serial.print(F("   LED: R(A0)="));
+
+  Serial.print((s < 8) ? ((s & 1) ? "亮" : "灭") : "闪");
+
+  Serial.print(F("  M(A1)="));
+
+  Serial.print((s < 8) ? (((s>>1)&1) ? "亮" : "灭") : ((s==9||s==10)?"闪":"灭"));
+
+  Serial.print(F("  L(A2)="));
+
+  Serial.println((s < 8) ? (((s>>2)&1) ? "亮" : "灭") : "灭");
+
+  
+
+  Serial.println();
+
+}
+
+  
+
+void setup() {
+
+  Serial.begin(9600);
+
+  for (int i = 0; i < 3; i++) {
+
+    pinMode(emitP[i], OUTPUT);
+
+    pinMode(recvP[i], INPUT);
+
+  }
+
+  pinMode(rLedR, OUTPUT);
+
+  pinMode(rLedM, OUTPUT);
+
+  pinMode(rLedL, OUTPUT);
+
+  
+
+  digitalWrite(rLedR, LOW);
+
+  digitalWrite(rLedM, LOW);
+
+  digitalWrite(rLedL, LOW);
+
+  
+
+  calibrate();
+
+  
+
+  Serial.println(F("\n=== 校准完成，进入识别循环 ==="));
+
+  Serial.println(F("摆不同姿势，观察下方表格\n"));
+
+}
+
+  
+
+void loop() {
+
+  int nL = normPct(0), nF = normPct(1), nR = normPct(2);
+
+  bool Lb = blocked(0, nL);
+
+  bool Fb = blocked(1, nF);
+
+  bool Rb = blocked(2, nR);
+
+  
+
+  // N 次确认：连续 3 次同号才认账
+
+  int s1 = classify(), s2 = classify(), s3 = classify();
+
+  int s = (s1 == s2 && s2 == s3) ? s1 : 0;
+
+  
+
+  printScenarioTable(nL, nF, nR, Lb, Fb, Rb, s);
+
+  showLed(s);
+
+  
+
+  delay(300);
+
+}
+```
