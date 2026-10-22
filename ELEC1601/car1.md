@@ -852,3 +852,2009 @@ LEFT_90_TIME_实际 = 570 × (90 / 实测角度)
 ```
 
 左右分别标定，两个值通常不同。这是整个代码里唯一无法靠逻辑补救、必须靠物理测量的参数。
+
+```
+#include <Arduino.h>
+
+#include <Servo.h>
+
+  
+
+struct Reading {
+
+int bands;
+
+int votes;
+
+};
+
+  
+
+// 提前声明，避免Arduino自动生成原型时的类型顺序问题。
+
+Reading readSensor(int tx, int rx);
+
+void readAll(Reading &L, Reading &front, Reading &R);
+
+bool sideIsOpen(const Reading &r);
+
+bool sideHasWall(const Reading &r);
+
+void driveStraight(
+
+const Reading &L, const Reading &front, const Reading &R
+
+);
+
+void printReadings(
+
+const Reading &L, const Reading &front, const Reading &R
+
+);
+
+void updateEscape(const Reading &front);
+
+  
+
+// ==================== 引脚 ====================
+
+  
+
+Servo leftServo;
+
+Servo rightServo;
+
+  
+
+const int LEFT_SERVO = 13;
+
+const int RIGHT_SERVO = 12;
+
+  
+
+const int LEFT_TX = 10;
+
+const int LEFT_RX = 11;
+
+const int FRONT_TX = 6;
+
+const int FRONT_RX = 7;
+
+const int RIGHT_TX = 2;
+
+const int RIGHT_RX = 3;
+
+  
+
+const int LED_L = A2;
+
+const int LED_M = A1;
+
+const int LED_R = A0;
+
+  
+
+// ==================== 电机标定 ====================
+
+  
+
+const int LEFT_STOP_PWM = 1490;
+
+const int RIGHT_STOP_PWM = 1495;
+
+  
+
+const int LEFT_FORWARD = 1550;
+
+const int RIGHT_FORWARD = 1438;
+
+  
+
+const int LEFT_BACKWARD = 1430;
+
+const int RIGHT_BACKWARD = 1552;
+
+  
+
+// 普通左右转
+
+const int SPIN_LEFT_L = 1430;
+
+const int SPIN_LEFT_R = 1425;
+
+const int SPIN_RIGHT_L = 1570;
+
+const int SPIN_RIGHT_R = 1575;
+
+  
+
+// Case 9独立掉头输出
+
+const int UTURN_LEFT_L = 1430;
+
+const int UTURN_LEFT_R = 1425;
+
+const int UTURN_RIGHT_L = 1570;
+
+const int UTURN_RIGHT_R = 1575;
+
+  
+
+// 开放路口连续低速直行输出
+
+const int JUNCTION_FORWARD_L = 1517;
+
+const int JUNCTION_FORWARD_R = 1469;
+
+  
+
+// ==================== 时间 ====================
+
+  
+
+// 定时转弯，不是角度闭环。
+
+const unsigned long LEFT_TURN_MS = 475;
+
+const unsigned long RIGHT_TURN_MS = 475;
+
+  
+
+const unsigned long UTURN_LEFT_MS = 1140;
+
+const unsigned long UTURN_RIGHT_MS = 1140;
+
+  
+
+const unsigned long START_ALIGN_MS = 1500;
+
+const unsigned long TURN_ALIGN_MS = 1500;
+
+const unsigned long TURN_SETTLE_MS = 150;
+
+const unsigned long POST_TURN_REARM_MS = 120;
+
+  
+
+const unsigned long ESCAPE_BACKUP_MS = 200;
+
+const unsigned long ACTION_PAUSE_MS = 100;
+
+const unsigned long ESCAPE_TIMEOUT_MS = 5000;
+
+const unsigned long ESCAPE_SETTLE_MS = 100;
+
+const int ESCAPE_CONFIRM_COUNT = 3;
+
+  
+
+// 保留手动Case 7/8参数
+
+const unsigned long TIME_SMALL = 190;
+
+const unsigned long TIME_AFTER_TURN = 250;
+
+const unsigned long LED_SHOW_MS = 5000;
+
+const unsigned long LED_BLINK_MS = 1000;
+
+  
+
+// ==================== 开放路口直行观察 ====================
+
+  
+
+// 双侧开放后，连续低速前进并循环检查前方。
+
+// 超时前若看到前墙：停车复核并选择转向。
+
+// 超时前若连续看到双侧墙：恢复普通纠偏。
+
+// 一直无法确认前墙或稳定通道：锁定停车。
+
+const unsigned long OPEN_ADVANCE_TIMEOUT_MS = 3000;
+
+const int OPEN_EXIT_CONFIRM_COUNT = 3;
+
+  
+
+bool openAdvanceActive = false;
+
+unsigned long openAdvanceStartedAt = 0;
+
+int openAdvanceWallCount = 0;
+
+  
+
+// ==================== 传感器 ====================
+
+  
+
+const int FRONT_WALL_THRESHOLD = 3;
+
+const int SIDE_WALL_THRESHOLD = 2;
+
+const int SIDE_WALL_MIN_VOTES = 3;
+
+const int SIDE_OPEN_THRESHOLD = 0;
+
+const int SIDE_OPEN_MAX_VOTES = 1;
+
+  
+
+const int JUNCTION_SAMPLES = 7;
+
+const int SIDE_CONFIRM_VOTES = 5;
+
+const int FRONT_CONFIRM_VOTES = 6;
+
+  
+
+const unsigned long frequencies[5] = {
+
+38000, 39000, 40000, 41000, 42000
+
+};
+
+  
+
+// ==================== 纠偏 ====================
+
+  
+
+const float FILTER_OLD_WEIGHT = 0.20f;
+
+const float CORRECTION_GAIN = 2.0f;
+
+const float ERROR_DEADBAND = 2.0f;
+
+  
+
+const int ALIGN_LEFT_TARGET = 7;
+
+const int ALIGN_RIGHT_TARGET = 7;
+
+const int MAX_CORRECTION = 22;
+
+const int SINGLE_WALL_MAX_CORRECTION = 12;
+
+const int CORRECTION_STEP = 4;
+
+const int CAUTION_DRIVE_PERCENT = 60;
+
+  
+
+float filteredError = 0.0f;
+
+int lastCorrection = 0;
+
+int correctionWallMask = -1;
+
+  
+
+// ==================== 状态 ====================
+
+  
+
+unsigned long startupTime = 0;
+
+unsigned long turnFinishedTime = 0;
+
+unsigned long alignStartedAt = 0;
+
+  
+
+bool alignActive = false;
+
+bool turnArmed = true;
+
+bool lastNormalTurnLeft = true;
+
+int clearVotes = 0;
+
+  
+
+int ledScenario = -1;
+
+unsigned long ledStartedTime = 0;
+
+unsigned long lastPrintTime = 0;
+
+unsigned long lastWaitPrintTime = 0;
+
+  
+
+// 逃脱状态
+
+int escapeScenario = 0;
+
+bool escapeTurningLeft = true;
+
+bool escapeConfirming = false;
+
+int escapeFrontClearCount = 0;
+
+unsigned long escapeStartedAt = 0;
+
+unsigned long escapeStoppedAt = 0;
+
+  
+
+// 开放直行超时或逃脱失败后锁定停车。
+
+bool motionFault = false;
+
+  
+
+// ==================== 新增：往返完成停车 ====================
+
+  
+
+// 图一开启：第一次到死路掉头，第二次到死路停车。
+
+// 改为false即可关闭此功能。
+
+const bool RING_RETURN_MODE = true;
+
+  
+
+byte ringEndCount = 0;
+
+bool ringTaskDone = false;
+
+  
+
+// ==================== 基础驱动 ====================
+
+  
+
+void motors(int leftPWM, int rightPWM) {
+
+leftServo.writeMicroseconds(leftPWM);
+
+rightServo.writeMicroseconds(rightPWM);
+
+}
+
+  
+
+void stopRobot() {
+
+motors(LEFT_STOP_PWM, RIGHT_STOP_PWM);
+
+}
+
+  
+
+void forwardRobot() {
+
+motors(LEFT_FORWARD, RIGHT_FORWARD);
+
+}
+
+  
+
+void spinLeft() {
+
+motors(SPIN_LEFT_L, SPIN_LEFT_R);
+
+}
+
+  
+
+void spinRight() {
+
+motors(SPIN_RIGHT_L, SPIN_RIGHT_R);
+
+}
+
+  
+
+void resetCorrection() {
+
+filteredError = 0.0f;
+
+lastCorrection = 0;
+
+correctionWallMask = -1;
+
+}
+
+  
+
+void backupFor(unsigned long duration) {
+
+motors(LEFT_BACKWARD, RIGHT_BACKWARD);
+
+delay(duration);
+
+stopRobot();
+
+delay(ACTION_PAUSE_MS);
+
+}
+
+  
+
+void forwardFor(unsigned long duration) {
+
+forwardRobot();
+
+delay(duration);
+
+stopRobot();
+
+delay(ACTION_PAUSE_MS);
+
+}
+
+  
+
+void spinLeftFor(unsigned long duration) {
+
+spinLeft();
+
+delay(duration);
+
+stopRobot();
+
+delay(ACTION_PAUSE_MS);
+
+}
+
+  
+
+void spinRightFor(unsigned long duration) {
+
+spinRight();
+
+delay(duration);
+
+stopRobot();
+
+delay(ACTION_PAUSE_MS);
+
+}
+
+  
+
+// ==================== LED ====================
+
+  
+
+void ledsOff() {
+
+digitalWrite(LED_L, LOW);
+
+digitalWrite(LED_M, LOW);
+
+digitalWrite(LED_R, LOW);
+
+ledScenario = -1;
+
+}
+
+  
+
+void showScenario(int scenario) {
+
+if (scenario < 0 || scenario > 10) {
+
+ledsOff();
+
+return;
+
+}
+
+  
+
+if (ledScenario != scenario) {
+
+ledScenario = scenario;
+
+ledStartedTime = millis();
+
+}
+
+  
+
+if (scenario <= 7) {
+
+digitalWrite(LED_R, (scenario & 1) ? HIGH : LOW);
+
+digitalWrite(LED_M, (scenario & 2) ? HIGH : LOW);
+
+digitalWrite(LED_L, (scenario & 4) ? HIGH : LOW);
+
+return;
+
+}
+
+  
+
+bool on =
+
+((millis() - ledStartedTime) / LED_BLINK_MS) % 2UL == 0;
+
+  
+
+digitalWrite(LED_L, LOW);
+
+digitalWrite(
+
+LED_R,
+
+(on && (scenario == 8 || scenario == 10)) ? HIGH : LOW
+
+);
+
+digitalWrite(
+
+LED_M,
+
+(on && (scenario == 9 || scenario == 10)) ? HIGH : LOW
+
+);
+
+}
+
+  
+
+void showWaiting() {
+
+ledScenario = -1;
+
+bool on = (millis() / 250UL) % 2UL != 0;
+
+digitalWrite(LED_L, on ? HIGH : LOW);
+
+digitalWrite(LED_M, on ? HIGH : LOW);
+
+digitalWrite(LED_R, on ? HIGH : LOW);
+
+}
+
+  
+
+void showScenarioAndHold(int scenario) {
+
+stopRobot();
+
+resetCorrection();
+
+ledsOff();
+
+  
+
+unsigned long started = millis();
+
+  
+
+while (millis() - started < LED_SHOW_MS) {
+
+showScenario(scenario);
+
+delay(10);
+
+}
+
+  
+
+ledsOff();
+
+}
+
+  
+
+// ==================== 红外读取 ====================
+
+  
+
+int irRead(int tx, int rx, unsigned long frequency) {
+
+tone(tx, frequency);
+
+delayMicroseconds(700);
+
+  
+
+int value = digitalRead(rx);
+
+  
+
+noTone(tx);
+
+digitalWrite(tx, LOW);
+
+delayMicroseconds(250);
+
+  
+
+return value;
+
+}
+
+  
+
+Reading readSensor(int tx, int rx) {
+
+Reading result = {0, 0};
+
+  
+
+for (int band = 0; band < 5; band++) {
+
+int hits = 0;
+
+  
+
+for (int sample = 0; sample < 3; sample++) {
+
+if (irRead(tx, rx, frequencies[band]) == LOW) {
+
+hits++;
+
+}
+
+}
+
+  
+
+result.votes += hits;
+
+  
+
+if (hits >= 2) {
+
+result.bands++;
+
+}
+
+}
+
+  
+
+return result;
+
+}
+
+  
+
+void readAll(Reading &L, Reading &front, Reading &R) {
+
+// 优先读取前方，达到阈值就先停轮。
+
+front = readSensor(FRONT_TX, FRONT_RX);
+
+  
+
+if (front.bands >= FRONT_WALL_THRESHOLD) {
+
+stopRobot();
+
+}
+
+  
+
+L = readSensor(LEFT_TX, LEFT_RX);
+
+R = readSensor(RIGHT_TX, RIGHT_RX);
+
+}
+
+  
+
+bool sideIsOpen(const Reading &r) {
+
+return r.bands <= SIDE_OPEN_THRESHOLD &&
+
+r.votes <= SIDE_OPEN_MAX_VOTES;
+
+}
+
+  
+
+bool sideHasWall(const Reading &r) {
+
+return r.bands >= SIDE_WALL_THRESHOLD ||
+
+r.votes >= SIDE_WALL_MIN_VOTES;
+
+}
+
+  
+
+// ==================== 串口 ====================
+
+  
+
+void printWait(const __FlashStringHelper *message) {
+
+unsigned long now = millis();
+
+  
+
+if (now - lastWaitPrintTime < 500) {
+
+return;
+
+}
+
+  
+
+lastWaitPrintTime = now;
+
+Serial.println(message);
+
+}
+
+  
+
+void printReadings(
+
+const Reading &L, const Reading &front, const Reading &R
+
+) {
+
+unsigned long now = millis();
+
+  
+
+if (now - lastPrintTime < 200) {
+
+return;
+
+}
+
+  
+
+lastPrintTime = now;
+
+  
+
+Serial.print(F("L="));
+
+Serial.print(L.bands);
+
+Serial.print('/');
+
+Serial.print(L.votes);
+
+  
+
+Serial.print(F(" F="));
+
+Serial.print(front.bands);
+
+Serial.print('/');
+
+Serial.print(front.votes);
+
+  
+
+Serial.print(F(" R="));
+
+Serial.print(R.bands);
+
+Serial.print('/');
+
+Serial.println(R.votes);
+
+}
+
+  
+
+// ==================== 直行纠偏 ====================
+
+  
+
+void driveStraight(
+
+const Reading &L, const Reading &front, const Reading &R
+
+) {
+
+if (front.bands >= FRONT_WALL_THRESHOLD) {
+
+stopRobot();
+
+resetCorrection();
+
+return;
+
+}
+
+  
+
+unsigned long now = millis();
+
+  
+
+if (alignActive && now - alignStartedAt >= TURN_ALIGN_MS) {
+
+alignActive = false;
+
+}
+
+  
+
+bool leftWall = sideHasWall(L);
+
+bool rightWall = sideHasWall(R);
+
+  
+
+int mask = (leftWall ? 2 : 0) | (rightWall ? 1 : 0);
+
+  
+
+if (mask != correctionWallMask) {
+
+resetCorrection();
+
+correctionWallMask = mask;
+
+}
+
+  
+
+float rawError = 0.0f;
+
+  
+
+if (leftWall && rightWall) {
+
+rawError =
+
+(float)(L.votes - ALIGN_LEFT_TARGET) -
+
+(float)(R.votes - ALIGN_RIGHT_TARGET);
+
+} else if (leftWall) {
+
+int excess = L.votes - ALIGN_LEFT_TARGET;
+
+rawError = excess > 0 ? (float)excess : 0.0f;
+
+} else if (rightWall) {
+
+int excess = R.votes - ALIGN_RIGHT_TARGET;
+
+rawError = excess > 0 ? -(float)excess : 0.0f;
+
+}
+
+  
+
+filteredError =
+
+FILTER_OLD_WEIGHT * filteredError +
+
+(1.0f - FILTER_OLD_WEIGHT) * rawError;
+
+  
+
+if (!(leftWall && rightWall) && rawError == 0.0f) {
+
+filteredError = 0.0f;
+
+lastCorrection = 0;
+
+}
+
+  
+
+bool slow =
+
+now - startupTime < START_ALIGN_MS ||
+
+alignActive ||
+
+!leftWall ||
+
+!rightWall ||
+
+front.bands >= 1 ||
+
+front.votes >= 3 ||
+
+filteredError > 3.0f ||
+
+filteredError < -3.0f;
+
+  
+
+int percent = slow ? CAUTION_DRIVE_PERCENT : 100;
+
+  
+
+int leftOffset =
+
+(LEFT_FORWARD - LEFT_STOP_PWM) * percent / 100;
+
+  
+
+int rightOffset =
+
+(RIGHT_STOP_PWM - RIGHT_FORWARD) * percent / 100;
+
+  
+
+int wanted = 0;
+
+  
+
+if (filteredError > ERROR_DEADBAND ||
+
+filteredError < -ERROR_DEADBAND) {
+
+wanted = (int)(filteredError * CORRECTION_GAIN);
+
+}
+
+  
+
+int limit = (leftWall && rightWall)
+
+? MAX_CORRECTION : SINGLE_WALL_MAX_CORRECTION;
+
+  
+
+int motorLimit = min(leftOffset, rightOffset) - 5;
+
+motorLimit = max(0, motorLimit);
+
+limit = min(limit, motorLimit);
+
+  
+
+wanted = constrain(wanted, -limit, limit);
+
+  
+
+int correction = constrain(
+
+wanted,
+
+lastCorrection - CORRECTION_STEP,
+
+lastCorrection + CORRECTION_STEP
+
+);
+
+  
+
+correction = constrain(correction, -limit, limit);
+
+lastCorrection = correction;
+
+  
+
+motors(
+
+LEFT_STOP_PWM + leftOffset + correction,
+
+RIGHT_STOP_PWM - rightOffset + correction
+
+);
+
+  
+
+if (correction < 0) {
+
+showScenario(5);
+
+} else if (correction > 0) {
+
+showScenario(6);
+
+} else {
+
+showScenario(1);
+
+}
+
+}
+
+  
+
+// ==================== 路口状态与故障 ====================
+
+  
+
+void clearJunctionTracking() {
+
+openAdvanceActive = false;
+
+openAdvanceStartedAt = 0;
+
+openAdvanceWallCount = 0;
+
+}
+
+  
+
+void stopWithFault(const __FlashStringHelper *message) {
+
+stopRobot();
+
+resetCorrection();
+
+motionFault = true;
+
+Serial.println(message);
+
+}
+
+  
+
+// ==================== 前墙复核 ====================
+
+  
+
+// 1：确认开放
+
+// 0：确认有墙
+
+// -1：不确定
+
+int sideState(int openVotes, int wallVotes) {
+
+if (openVotes >= SIDE_CONFIRM_VOTES) {
+
+return 1;
+
+}
+
+  
+
+if (wallVotes >= SIDE_CONFIRM_VOTES) {
+
+return 0;
+
+}
+
+  
+
+return -1;
+
+}
+
+  
+
+void checkJunction(
+
+int &leftState, int &rightState, bool &frontConfirmed
+
+) {
+
+int leftOpen = 0;
+
+int leftWall = 0;
+
+int rightOpen = 0;
+
+int rightWall = 0;
+
+int frontWall = 0;
+
+  
+
+stopRobot();
+
+  
+
+for (int i = 0; i < JUNCTION_SAMPLES; i++) {
+
+Reading L, front, R;
+
+readAll(L, front, R);
+
+  
+
+if (sideIsOpen(L)) {
+
+leftOpen++;
+
+} else if (sideHasWall(L)) {
+
+leftWall++;
+
+}
+
+  
+
+if (sideIsOpen(R)) {
+
+rightOpen++;
+
+} else if (sideHasWall(R)) {
+
+rightWall++;
+
+}
+
+  
+
+if (front.bands >= FRONT_WALL_THRESHOLD) {
+
+frontWall++;
+
+}
+
+  
+
+showWaiting();
+
+delay(10);
+
+}
+
+  
+
+leftState = sideState(leftOpen, leftWall);
+
+rightState = sideState(rightOpen, rightWall);
+
+frontConfirmed = frontWall >= FRONT_CONFIRM_VOTES;
+
+}
+
+  
+
+// ==================== 转弯 ====================
+
+  
+
+void markTurnFinished(bool armed) {
+
+stopRobot();
+
+resetCorrection();
+
+clearJunctionTracking();
+
+  
+
+turnArmed = armed;
+
+clearVotes = 0;
+
+turnFinishedTime = millis();
+
+  
+
+alignActive = true;
+
+alignStartedAt = millis();
+
+}
+
+  
+
+void executeTurnLeft(unsigned long duration, int scenario) {
+
+stopRobot();
+
+resetCorrection();
+
+showScenario(scenario);
+
+  
+
+lastNormalTurnLeft = true;
+
+delay(100);
+
+  
+
+spinLeft();
+
+delay(duration);
+
+  
+
+stopRobot();
+
+delay(TURN_SETTLE_MS);
+
+markTurnFinished(false);
+
+}
+
+  
+
+void executeTurnRight(unsigned long duration, int scenario) {
+
+stopRobot();
+
+resetCorrection();
+
+showScenario(scenario);
+
+  
+
+lastNormalTurnLeft = false;
+
+delay(100);
+
+  
+
+spinRight();
+
+delay(duration);
+
+  
+
+stopRobot();
+
+delay(TURN_SETTLE_MS);
+
+markTurnFinished(false);
+
+}
+
+  
+
+// 保留手动动作，不自动调用。
+
+void executeScenario7() {
+
+showScenarioAndHold(7);
+
+spinRightFor(TIME_SMALL);
+
+forwardFor(TIME_AFTER_TURN);
+
+lastNormalTurnLeft = false;
+
+markTurnFinished(false);
+
+}
+
+  
+
+void executeScenario8() {
+
+showScenarioAndHold(8);
+
+spinLeftFor(TIME_SMALL);
+
+forwardFor(TIME_AFTER_TURN);
+
+lastNormalTurnLeft = true;
+
+markTurnFinished(false);
+
+}
+
+  
+
+// ==================== Case 9/10 ====================
+
+  
+
+void runEscapeMotor() {
+
+if (escapeScenario == 9) {
+
+if (escapeTurningLeft) {
+
+motors(UTURN_LEFT_L, UTURN_LEFT_R);
+
+} else {
+
+motors(UTURN_RIGHT_L, UTURN_RIGHT_R);
+
+}
+
+} else {
+
+if (escapeTurningLeft) {
+
+spinLeft();
+
+} else {
+
+spinRight();
+
+}
+
+}
+
+}
+
+  
+
+void beginEscape(int scenario, bool turnLeft) {
+
+stopRobot();
+
+resetCorrection();
+
+clearJunctionTracking();
+
+alignActive = false;
+
+  
+
+delay(ACTION_PAUSE_MS);
+
+  
+
+// Case 9/10都先后退一次。
+
+backupFor(ESCAPE_BACKUP_MS);
+
+  
+
+escapeScenario = scenario;
+
+escapeTurningLeft = turnLeft;
+
+escapeConfirming = false;
+
+escapeFrontClearCount = 0;
+
+  
+
+showScenario(scenario);
+
+  
+
+Serial.print(F("ESCAPE: "));
+
+Serial.println(scenario);
+
+  
+
+runEscapeMotor();
+
+escapeStartedAt = millis();
+
+}
+
+  
+
+void finishEscape() {
+
+stopRobot();
+
+escapeScenario = 0;
+
+escapeConfirming = false;
+
+escapeFrontClearCount = 0;
+
+  
+
+markTurnFinished(true);
+
+Serial.println(F("ESCAPE: corrected drive next frame"));
+
+}
+
+  
+
+void updateEscape(const Reading &front) {
+
+unsigned long now = millis();
+
+showScenario(escapeScenario);
+
+  
+
+if (now - escapeStartedAt >= ESCAPE_TIMEOUT_MS) {
+
+stopWithFault(F("ESCAPE_TIMEOUT: reposition and reset"));
+
+return;
+
+}
+
+  
+
+if (escapeScenario == 9 && !escapeConfirming) {
+
+unsigned long duration = escapeTurningLeft
+
+? UTURN_LEFT_MS : UTURN_RIGHT_MS;
+
+  
+
+if (now - escapeStartedAt < duration) {
+
+return;
+
+}
+
+  
+
+stopRobot();
+
+escapeConfirming = true;
+
+escapeFrontClearCount = 0;
+
+escapeStoppedAt = millis();
+
+return;
+
+}
+
+  
+
+bool frontClear = front.bands == 0 && front.votes <= 1;
+
+  
+
+if (escapeConfirming) {
+
+stopRobot();
+
+  
+
+if (now - escapeStoppedAt < ESCAPE_SETTLE_MS) {
+
+return;
+
+}
+
+  
+
+if (frontClear) {
+
+escapeFrontClearCount++;
+
+  
+
+if (escapeFrontClearCount >= ESCAPE_CONFIRM_COUNT) {
+
+finishEscape();
+
+}
+
+  
+
+return;
+
+}
+
+  
+
+escapeFrontClearCount = 0;
+
+  
+
+if (escapeScenario == 9) {
+
+// 定时掉头已完成。
+
+// 前方不明时保持停车，不追加盲目旋转。
+
+return;
+
+}
+
+  
+
+// Case 10复核失败，沿原方向继续搜索。
+
+escapeConfirming = false;
+
+runEscapeMotor();
+
+return;
+
+}
+
+  
+
+// Case 10旋转搜索
+
+if (frontClear) {
+
+stopRobot();
+
+escapeConfirming = true;
+
+escapeFrontClearCount = 0;
+
+escapeStoppedAt = millis();
+
+return;
+
+}
+
+  
+
+runEscapeMotor();
+
+}
+
+  
+
+// ==================== 初始化 ====================
+
+  
+
+void setup() {
+
+Serial.begin(9600);
+
+  
+
+pinMode(LEFT_TX, OUTPUT);
+
+pinMode(FRONT_TX, OUTPUT);
+
+pinMode(RIGHT_TX, OUTPUT);
+
+  
+
+digitalWrite(LEFT_TX, LOW);
+
+digitalWrite(FRONT_TX, LOW);
+
+digitalWrite(RIGHT_TX, LOW);
+
+  
+
+pinMode(LEFT_RX, INPUT);
+
+pinMode(FRONT_RX, INPUT);
+
+pinMode(RIGHT_RX, INPUT);
+
+  
+
+pinMode(LED_L, OUTPUT);
+
+pinMode(LED_M, OUTPUT);
+
+pinMode(LED_R, OUTPUT);
+
+  
+
+ledsOff();
+
+  
+
+leftServo.attach(LEFT_SERVO);
+
+rightServo.attach(RIGHT_SERVO);
+
+  
+
+stopRobot();
+
+delay(1000);
+
+  
+
+clearJunctionTracking();
+
+startupTime = millis();
+
+  
+
+Serial.println(F("READY: turns 475ms, U-turn 1140ms"));
+
+Serial.println(F("OPEN: continuous slow straight enabled"));
+
+}
+
+  
+
+// ==================== 主循环 ====================
+
+  
+
+void loop() {
+
+// ---------- 新增：往返完成后永久停车 ----------
+
+if (ringTaskDone) {
+
+stopRobot();
+
+delay(20);
+
+return;
+
+}
+
+  
+
+// ---------- 故障锁定 ----------
+
+if (motionFault) {
+
+stopRobot();
+
+showWaiting();
+
+printWait(F("FAULT: reposition and reset"));
+
+delay(10);
+
+return;
+
+}
+
+  
+
+// ---------- Case 9定时掉头 ----------
+
+// 定时旋转阶段不读红外，避免采样拖延停止时间。
+
+if (escapeScenario == 9 && !escapeConfirming) {
+
+Reading unused = {0, 0};
+
+updateEscape(unused);
+
+delay(1);
+
+return;
+
+}
+
+  
+
+// ---------- Case 9/10确认或搜索 ----------
+
+if (escapeScenario == 9 || escapeScenario == 10) {
+
+if (escapeConfirming &&
+
+millis() - escapeStoppedAt < ESCAPE_SETTLE_MS) {
+
+stopRobot();
+
+showScenario(escapeScenario);
+
+delay(5);
+
+return;
+
+}
+
+  
+
+Reading front = readSensor(FRONT_TX, FRONT_RX);
+
+updateEscape(front);
+
+delay(5);
+
+return;
+
+}
+
+  
+
+// 若开放直行已经达到时间上限，先停轮再采样。
+
+// 后面仍优先检查前墙。
+
+if (openAdvanceActive &&
+
+millis() - openAdvanceStartedAt >=
+
+OPEN_ADVANCE_TIMEOUT_MS) {
+
+stopRobot();
+
+}
+
+  
+
+Reading L, front, R;
+
+readAll(L, front, R);
+
+  
+
+// ---------- 前墙最高优先级 ----------
+
+if (front.bands >= FRONT_WALL_THRESHOLD) {
+
+stopRobot();
+
+resetCorrection();
+
+clearJunctionTracking();
+
+clearVotes = 0;
+
+  
+
+showWaiting();
+
+delay(70);
+
+  
+
+int leftState = -1;
+
+int rightState = -1;
+
+bool frontConfirmed = false;
+
+  
+
+checkJunction(leftState, rightState, frontConfirmed);
+
+  
+
+if (!frontConfirmed) {
+
+printWait(F("WAIT: FRONT_NOT_CONFIRMED"));
+
+return;
+
+}
+
+  
+
+// ---------- 新增：端点计数 ----------
+
+// 前、左、右均确认有墙，认为到达死路端点。
+
+if (leftState == 0 && rightState == 0) {
+
+if (RING_RETURN_MODE) {
+
+ringEndCount++;
+
+  
+
+if (ringEndCount >= 2) {
+
+// 第二次到端点：往返完成。
+
+// 直接停车，不再后退或掉头。
+
+ringTaskDone = true;
+
+stopRobot();
+
+resetCorrection();
+
+clearJunctionTracking();
+
+  
+
+Serial.println(F("RING DONE: stopped"));
+
+return;
+
+}
+
+  
+
+Serial.println(F("RING: first end, turning back"));
+
+}
+
+  
+
+// 第一次到端点，沿用原来的后退和定时掉头。
+
+beginEscape(9, true);
+
+return;
+
+}
+
+  
+
+// 普通转弯尚未解锁，又遇到确认的前墙。
+
+if (!turnArmed) {
+
+if (leftState == 1 || rightState == 1) {
+
+bool turnLeft =
+
+(leftState == 1 && rightState == 1)
+
+? lastNormalTurnLeft
+
+: leftState == 1;
+
+  
+
+beginEscape(10, turnLeft);
+
+} else {
+
+showWaiting();
+
+printWait(F("WAIT: TURN_LOCK_SIDE_UNCERTAIN"));
+
+}
+
+  
+
+return;
+
+}
+
+  
+
+// 前方被确认挡住以后，保留左右分支中的左优先。
+
+if (leftState == 1) {
+
+executeTurnLeft(LEFT_TURN_MS, 3);
+
+return;
+
+}
+
+  
+
+if (rightState == 1) {
+
+executeTurnRight(RIGHT_TURN_MS, 2);
+
+return;
+
+}
+
+  
+
+showWaiting();
+
+printWait(F("WAIT: SIDE_UNCERTAIN"));
+
+return;
+
+}
+
+  
+
+// ---------- 转弯后重新解锁 ----------
+
+if (!turnArmed) {
+
+if (clearVotes < 3) {
+
+clearVotes++;
+
+}
+
+  
+
+if (clearVotes >= 3 &&
+
+millis() - turnFinishedTime >= POST_TURN_REARM_MS) {
+
+turnArmed = true;
+
+}
+
+}
+
+  
+
+// ---------- 开放路口优先直行 ----------
+
+bool bothOpen = sideIsOpen(L) && sideIsOpen(R);
+
+bool bothWalls = sideHasWall(L) && sideHasWall(R);
+
+  
+
+if (!openAdvanceActive && bothOpen) {
+
+openAdvanceActive = true;
+
+openAdvanceStartedAt = millis();
+
+openAdvanceWallCount = 0;
+
+  
+
+// 清除之前的纠偏输出，避免带着偏转进入开放区。
+
+resetCorrection();
+
+  
+
+Serial.println(F("OPEN: slow straight, checking front"));
+
+}
+
+  
+
+if (openAdvanceActive) {
+
+// 连续多组双侧有墙，才认为重新进入稳定通道。
+
+if (bothWalls) {
+
+if (openAdvanceWallCount < OPEN_EXIT_CONFIRM_COUNT) {
+
+openAdvanceWallCount++;
+
+}
+
+} else {
+
+openAdvanceWallCount = 0;
+
+}
+
+  
+
+if (openAdvanceWallCount >= OPEN_EXIT_CONFIRM_COUNT) {
+
+clearJunctionTracking();
+
+resetCorrection();
+
+  
+
+alignActive = true;
+
+alignStartedAt = millis();
+
+  
+
+Serial.println(F("OPEN: corridor recovered"));
+
+  
+
+// 本轮继续执行下方driveStraight，恢复纠偏。
+
+} else {
+
+if (millis() - openAdvanceStartedAt >=
+
+OPEN_ADVANCE_TIMEOUT_MS) {
+
+stopWithFault(
+
+F("OPEN_TIMEOUT: check heading and sensors")
+
+);
+
+return;
+
+}
+
+  
+
+// 连续低速前进，开放区暂不使用墙端反射纠偏。
+
+motors(JUNCTION_FORWARD_L, JUNCTION_FORWARD_R);
+
+showScenario(1);
+
+  
+
+printReadings(L, front, R);
+
+delay(5);
+
+return;
+
+}
+
+}
+
+  
+
+// ---------- 正常通道行驶 ----------
+
+driveStraight(L, front, R);
+
+printReadings(L, front, R);
+
+delay(10);
+
+}
+```
