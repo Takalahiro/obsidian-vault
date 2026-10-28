@@ -1513,3 +1513,510 @@ applyDiscount()
 > 新类型优先把变化放在对应职责的类中；但如果新需求需要现有接口没有提供的信息，就必须说明数据和契约如何扩展。
 
 练习时先打开 `TransitApp.book()`，用 **“distance 5、day 0、有资格优惠乘客、当天第一张票”** 口头追踪出 `125 → 62 → 31`；再打开三种车辆，解释前两个 tick。把这两条运行路径讲熟后，绝大多数 viva 题都能落到具体代码上。
+
+
+
+
+
+下面按 viva 的真实问法，给你“**老师问什么，你应该怎么回答**”。你要记住回答结构：
+
+> **先指出代码，再说明执行顺序，最后解释设计理由和边界情况。**
+
+---
+
+## R1：选一张票，解释三个票价阶段
+
+你可以这样回答：
+
+> 这张票有三个价格阶段。  
+> 第一阶段是基础票价，由 `TransitApp.book()` 根据行程距离计算：
+>
+> ```java
+> base = trip.distance() * 25;
+> ```
+>
+> 第二阶段是日期政策后的票价。如果当天不是节假日，使用 `NormalFare`，价格不变。如果是节假日，使用 `HolidayFare`：当天同一个乘客的第一张票是基础价的一半，之后的票是免费。
+>
+> 第三阶段是乘客折扣后的最终票价。`AdultPassenger` 不打折；符合资格的 `ConcessionPassenger` 把日期票价再除以二。
+>
+> 最后，`Ticket` 保存这三个金额。
+
+例如距离是 5：
+
+```text
+基础票价 = 5 × 25 = 125 cents
+节假日第一张 = 125 / 2 = 62 cents
+优惠乘客最后再减半 = 62 / 2 = 31 cents
+```
+
+你还要指出：
+
+> 这里使用整数 cents，所以 `125 / 2` 的结果是 62，而不是 62.5。
+
+如果老师问“哪个类产生每个数字”：
+
+```text
+基础票价：TransitApp
+日期票价：NormalFare 或 HolidayFare
+最终票价：AdultPassenger 或 ConcessionPassenger
+保存结果：Ticket
+```
+
+---
+
+## R2：按一次 Step，解释每辆车做了什么
+
+先解释系统：
+
+> `TransitApp.tick()` 先把 `currentTick` 加一，然后遍历所有车辆，对每辆车调用 `advance()`。虽然循环中的变量类型是 `Vehicle`，但 Java 会根据实际对象调用 `Bus`、`Train` 或 `Tram` 的具体方法。
+
+然后分别解释。
+
+### Bus
+
+> `Bus.advance()` 每次把位置加 1，并把状态设置为 `IN_SERVICE`。
+
+### Train
+
+> `Train` 有一个自己的 `step` 字段。每次调用 `advance()`，先把 `step` 加一。奇数次调用时，位置加 4，状态变成 `AT_STOP`；偶数次调用时，位置不变，状态变成 `IN_SERVICE`。
+
+例如：
+
+```text
+第 1 次：位置 0 → 4，状态 AT_STOP
+第 2 次：位置保持 4，状态 IN_SERVICE
+第 3 次：位置 4 → 8，状态 AT_STOP
+```
+
+### Tram
+
+> `Tram` 也使用自己的 `step`。奇数次调用时位置加 1，状态是 `APPROACHING`；偶数次调用时位置加 2，状态是 `IN_SERVICE`。
+
+例如：
+
+```text
+第 1 次：位置 0 → 1，APPROACHING
+第 2 次：位置 1 → 3，IN_SERVICE
+```
+
+最后补一句：
+
+> 每种车的行为不同，是因为每个子类都重写了 `advance()`。
+
+---
+
+## R3：解释 Passengers 面板的两行，为什么总价不同？
+
+你不要只说“一个人有折扣”。你要先比较票据。
+
+可以这样回答：
+
+> 我会比较这两位乘客的票据数量、行程距离、订票日期、当天此前已经订过几张票，以及乘客是否符合优惠资格。最终总额是这些票的 `finalFareCents()` 之和。
+
+如果其中一个是成人，另一个是有资格的优惠乘客：
+
+> 两个人可能得到相同的基础票价和节假日票价，但是符合资格的 `ConcessionPassenger` 会在日期票价的基础上再减半，而 `AdultPassenger` 不会打折，所以他们的最终总额不同。
+
+如果差异来自节假日次数：
+
+> 在节假日，同一个乘客当天第一张票半价，之后的票免费。因此即使两个人类型一样，如果他们当天此前的订票数量不同，最终总额也可能不同。
+
+你最好补一句：
+
+> 我可以打开两张具体票，分别比较 `baseFareCents()`、`dayFareCents()` 和 `finalFareCents()`，确认差异发生在哪一个阶段。
+
+---
+
+## C1：展示 `book()`，说明票价流程，以及拒绝后为什么什么都不留下
+
+你可以按顺序回答：
+
+> `book()` 的流程是：
+>
+> 1. 检查 `passenger` 和 `trip` 不能是 `null`；
+> 2. 根据距离计算基础票价；
+> 3. 遍历已有票据，计算同一个乘客当天此前的票数；
+> 4. 根据是否节假日选择 `NormalFare` 或 `HolidayFare`；
+> 5. 计算并验证 `dayFare`；
+> 6. 调用乘客的 `applyDiscount()`，计算并验证 `finalFare`；
+> 7. 创建 `Ticket`；
+> 8. 只有创建成功后，才增加票号并把票加入列表。
+
+关键代码是：
+
+```java
+Ticket ticket = new Ticket(...);
+nextTicketNumber++;
+tickets.add(ticket);
+```
+
+所以：
+
+> 如果前面的输入检查、票价检查或 `Ticket` 构造失败，程序会抛出异常，后面的 `nextTicketNumber++` 和 `tickets.add(ticket)` 不会执行。因此这张被拒绝的票不会进入票据列表，也不会影响之后的历史次数和收入。
+
+还要说明：
+
+> `revenueCents()` 每次都是遍历票据列表，把每张票的最终价格加起来。因此没有进入列表的失败订票不会被算进收入。
+
+如果老师问“为什么异常本身不能保证没有副作用”：
+
+> 因为异常不会自动撤销已经执行的修改，所以必须把修改列表和票号的操作放在所有验证之后。
+
+---
+
+## C2：展示 `tick()`，为什么一个循环能处理三种车辆，而且没有 `instanceof`？
+
+直接这样说：
+
+> `vehicles` 的类型是 `List<Vehicle>`，里面可以保存 `Bus`、`Train` 和 `Tram`，因为它们都是 `Vehicle` 的子类。
+>
+> `Vehicle` 声明了抽象方法 `advance()`，每种具体车辆都重写了这个方法。循环只需要写：
+>
+> ```java
+> for (Vehicle vehicle : vehicles) {
+>     vehicle.advance();
+> }
+> ```
+>
+> Java 会根据实际对象类型执行对应的 `advance()`。如果对象是 Bus，就执行 `Bus.advance()`；如果是 Train，就执行 `Train.advance()`。
+
+最后说设计理由：
+
+> 因为使用了多态，所以不需要写很多 `instanceof` 和类型判断。以后加入新的车辆类型，只要继承 `Vehicle` 并实现 `advance()`，这个循环通常不用修改。
+
+如果老师问“多态是什么”：
+
+> 变量可以声明为父类类型，但实际引用子类对象。调用重写方法时，运行时会执行实际子类的方法。
+
+---
+
+## C3：展示 Train 或 Tram，phase 记在哪里，为什么放在那里？
+
+你的代码没有叫 `phase` 的字段，而是用：
+
+```java
+private int step = 0;
+```
+
+所以要诚实地说：
+
+> 我的代码没有直接叫 `phase` 的字段，而是用私有实例字段 `step` 记住车辆当前处于哪一次阶段。`step` 的奇偶性决定下一次行为。
+
+以 Train 为例：
+
+```java
+step++;
+if (step % 2 == 1) {
+    position += 4;
+    status = VehicleStatus.AT_STOP;
+} else {
+    status = VehicleStatus.IN_SERVICE;
+}
+```
+
+然后解释为什么：
+
+> `step` 必须是实例字段，因为它需要在多次 `advance()` 调用之间保存，而且每辆车都需要自己的进度。不能用局部变量，因为方法结束后状态就丢失；也不能用 `static`，否则所有 Train 会共享同一个计数器。
+
+如果老师问为什么不放在 `TransitApp`：
+
+> 因为运行阶段属于具体车辆的内部行为。`TransitApp` 只负责通知车辆推进，不应该了解 Train 或 Tram 的内部规则。
+
+---
+
+## C4：展示 `HolidayFare`，earlier trips 从哪里来？为什么不传完整票据列表？
+
+展示 `TransitApp` 里的代码：
+
+```java
+for (Ticket t : tickets) {
+    if (t.passenger() == passenger && t.day() == today) {
+        earlierToday++;
+    }
+}
+```
+
+然后说：
+
+> `TransitApp` 拥有票据列表，所以由它负责统计历史。它只统计同一个乘客对象、同一天、当前订票之前已经成功保存的票。
+
+接着：
+
+```java
+policy.dayFare(base, earlierToday);
+```
+
+然后说：
+
+> `HolidayFare` 只接收基础票价和此前的票数。如果 `earlierToday == 0`，返回基础票价的一半；否则返回 0。
+
+为什么不把整个列表传进去：
+
+> 因为 `HolidayFare` 只需要一个数字，不需要知道票据如何保存，也不应该拥有或修改整个票据列表。这样可以降低耦合，也让 `HolidayFare` 更容易单独测试。
+
+非常重要的细节：
+
+> 代码使用 `t.passenger() == passenger`，比较的是同一个对象，而不是名字。如果两个 Passenger 对象名字相同但不是同一个对象，代码会把他们当成不同的乘客。
+
+---
+
+## C5：为什么 `Passenger` 是抽象类，而 `FarePolicy` 是接口？
+
+你可以这样回答：
+
+> `Passenger` 是抽象类，因为不同乘客共享一些数据和代码。父类保存 `name`，负责验证名字，并提供 `name()` 方法；但是具体的折扣算法由子类实现，所以 `applyDiscount()` 是抽象方法。
+
+然后解释接口：
+
+> `FarePolicy` 只定义一个行为：根据基础票价和当天此前的出行次数计算日期票价。它没有需要所有策略共享的字段或构造逻辑，所以用接口表示这个计算契约比较合适。
+
+结合你的类：
+
+```text
+AdultPassenger → 不打乘客折扣
+ConcessionPassenger → 根据资格决定是否减半
+NormalFare → 不改变基础价
+HolidayFare → 根据 earlierTripsToday 计算节假日价格
+```
+
+如果老师问“FarePolicy 能不能写成抽象类”：
+
+> 理论上可以，但当前策略只需要一个行为契约，不需要共享实例状态，所以接口更合适。
+
+---
+
+## C6：展示 `tickets()`，如果返回自己的列表会怎样？
+
+你的实现是：
+
+```java
+return new ArrayList<>(tickets);
+```
+
+你可以说：
+
+> 这里返回的是一个新的列表副本，而不是内部列表本身。调用者可以修改这个副本，但不会修改 `TransitApp` 内部的票据列表。
+
+如果直接返回：
+
+```java
+return tickets;
+```
+
+外部就能这样做：
+
+```java
+app.tickets().clear();
+```
+
+后果是：
+
+- 所有历史票据被删除；
+- `revenueCents()` 计算出的收入会改变；
+- `earlierToday` 的统计会改变；
+- 外部可以加入没有经过 `book()` 验证的票。
+
+所以：
+
+> 返回副本保护了系统内部的集合，避免外部绕过 `book()` 修改系统状态。
+
+但要准确说明：
+
+> 这是浅复制。列表结构是新的，但是里面的 `Ticket` 引用仍然指向原来的票据对象。
+
+如果老师问“返回的列表是不是不可修改”：
+
+> 不是。返回的列表本身可以修改，但修改它不会影响内部列表。
+
+---
+
+## C7：展示 `ConcessionPassenger`，为什么是子类而不是 Passenger 的字段？
+
+你可以这样回答：
+
+> `ConcessionPassenger` 是一种特殊的 `Passenger`。它有自己的优惠类型、年龄和资格判断，并且有不同的 `applyDiscount()` 行为，所以把这些规则放在子类中，可以让乘客类型自己负责自己的折扣逻辑。
+
+资格检查的位置：
+
+```java
+if (concessionType.equals("A") && age < 65) {
+    this.eligible = false;
+} else {
+    this.eligible = true;
+}
+```
+
+你要说得非常准确：
+
+> 资格是在 `ConcessionPassenger` 构造器中检查的。类型和年龄通过验证后，资格保存到 `eligible` 字段中。对于类型 `"A"` 且年龄小于 65 的乘客，对象仍然可以创建，但 `eligible` 是 `false`，所以不会享受乘客折扣。
+
+其他类型：
+
+> `"D"`、`"V"`、`"AD"`、`"AV"`、`"DV"`、`"ADV"` 在当前代码中都会被视为 eligible，只要年龄不是负数。
+
+`TransitApp` 知道什么：
+
+> `TransitApp` 只把它当作 `Passenger` 使用，并调用 `applyDiscount()`。它不需要知道具体的优惠类型、年龄或者资格规则。
+
+设计优点：
+
+> 如果以后加入新的乘客类型，主要修改乘客类，而不是在 `TransitApp` 中不断增加类型判断。
+
+---
+
+## C8：增加 HoverBus、EcoBus 或 SnakeBus，哪些类修改？
+
+回答步骤：
+
+> 首先增加一个新的具体车辆类，让它继承 `Vehicle`，并实现 `advance()`。
+
+例如：
+
+```java
+public class HoverBus extends Vehicle {
+    @Override
+    public void advance() {
+        // HoverBus 自己的移动规则
+    }
+}
+```
+
+如果它确实完全共享 Bus 的行为，也可以考虑：
+
+```java
+class HoverBus extends Bus
+```
+
+但要说明：
+
+> 不能只因为名字里有 Bus 就一定继承 Bus。要看它是否真正符合 Bus 的行为和设计。
+
+需要修改：
+
+- 新增车辆类；
+- 创建车辆的代码，如果系统需要识别新的车辆名称；
+- 如果场景文件或加载代码支持车辆类型字符串，也要更新相应的创建逻辑。
+
+通常不需要修改：
+
+```java
+TransitApp.tick()
+TransitApp.addVehicle()
+List<Vehicle>
+```
+
+因为这些代码已经依赖父类 `Vehicle` 和多态。
+
+你可以这样总结：
+
+> 新增车辆主要扩展具体车辆类和创建入口；通用的 tick 循环可以保持不变。
+
+---
+
+## C9：新增环保折扣，哪些类会变化？
+
+先指出当前代码的限制，这是高分关键：
+
+> 目前 `Trip` 只有起点、终点和距离，没有路线身份或 CO₂ 成本。`book()` 也没有接收路线选择，`FarePolicy` 只收到基础票价和此前票数。因此当前数据不足以计算两条路线的 CO₂ 差异。
+
+然后说设计步骤：
+
+> 首先需要让系统知道乘客选择了哪条路线，以及该路线的 CO₂ 成本。可以增加路线对象，或者扩展订票时传入的路线信息。
+
+之后：
+
+> 然后把环保规则放进计价流程。需要决定它是在基础票价之前、日期政策之前，还是作为独立的折扣阶段执行。
+
+可能涉及：
+
+```text
+TransitApp：协调新的路线和环保计算
+Trip 或新的 Route 类：保存路线和 CO₂ 信息
+FarePolicy 或新的 EcoFarePolicy：计算环保价格
+Ticket：如果要单独显示环保折扣，也需要保存额外阶段
+```
+
+通常不变：
+
+```text
+Passenger 的年龄和优惠资格规则
+AdultPassenger
+ConcessionPassenger
+Vehicle 的移动逻辑
+tick()
+```
+
+一个非常好的边界情况：
+
+> 如果节假日当天后续票已经是 0 cents，那么环保路线不可能比它更便宜。所以环保折扣和节假日免费政策的先后顺序必须明确。
+
+---
+
+## C10：增加学生优惠 S，年龄小于 26，哪些变化？
+
+首先修改允许的类型：
+
+```java
+case "S":
+    break;
+```
+
+然后增加学生资格规则。
+
+例如：
+
+```java
+if (concessionType.equals("A")) {
+    eligible = age >= 65;
+} else if (concessionType.equals("S")) {
+    eligible = age < 26;
+} else {
+    eligible = true;
+}
+```
+
+你要特别指出：
+
+> 只把 `"S"` 加入合法类型还不够。因为当前代码的默认分支会让所有非 `"A"` 类型都 eligible，这会导致 40 岁的学生类型也获得折扣。
+
+年龄边界：
+
+```text
+25 岁：符合
+26 岁：不符合
+```
+
+如果学生和其他优惠一样都是半价，那么以下代码不需要改变：
+
+```java
+public long applyDiscount(long fareCents) {
+    return eligible ? fareCents / 2 : fareCents;
+}
+```
+
+`TransitApp` 也不需要知道学生的存在，因为它仍然只调用：
+
+```java
+passenger.applyDiscount(dayFare);
+```
+
+不变的部分：
+
+- `AdultPassenger`
+- `NormalFare`
+- `HolidayFare`
+- `Ticket`
+- 车辆逻辑
+- `TransitApp` 的整体票价流程
+
+如果题目要求学生必须有学生身份，而不只是年龄小于 26，还需要额外保存或验证学生身份。仅凭年龄不能证明一个人是学生。
+
+---
+
+## 最后给你一段总的开场回答
+
+如果老师让你先概括设计，可以说：
+
+> 我的系统把不同职责分开。`TransitApp` 负责协调订票、时间、车辆和票据；`NormalFare` 和 `HolidayFare` 负责日期相关票价；不同的 `Passenger` 子类负责乘客折扣；不同的 `Vehicle` 子类负责自己的移动方式。系统通过抽象类、接口和多态避免在 `TransitApp` 中写大量类型判断。票据在所有价格验证成功后才加入列表，而 `tickets()` 返回列表副本，保护系统内部状态。
+
+这段话能很好地覆盖整个设计。
