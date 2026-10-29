@@ -778,15 +778,15 @@ if (step % 2 == 1) {
 
 假设三辆新车都加入一个从 tick 0 开始的系统，且每辆只添加一次：
 
-| 调用 tick 次数 | Bus 位置 / 状态 | Train 位置 / 状态 | Tram 位置 / 状态 |
-|---:|---|---|---|
-| 0 | 0 / IN_SERVICE | 0 / IN_SERVICE | 0 / IN_SERVICE |
-| 1 | 1 / IN_SERVICE | 4 / AT_STOP | 1 / APPROACHING |
-| 2 | 2 / IN_SERVICE | 4 / IN_SERVICE | 3 / IN_SERVICE |
-| 3 | 3 / IN_SERVICE | 8 / AT_STOP | 4 / APPROACHING |
-| 4 | 4 / IN_SERVICE | 8 / IN_SERVICE | 6 / IN_SERVICE |
-| 5 | 5 / IN_SERVICE | 12 / AT_STOP | 7 / APPROACHING |
-| 6 | 6 / IN_SERVICE | 12 / IN_SERVICE | 9 / IN_SERVICE |
+| 调用 tick 次数 | Bus 位置 / 状态    | Train 位置 / 状态   | Tram 位置 / 状态    |
+| ---------: | -------------- | --------------- | --------------- |
+|          0 | 0 / IN_SERVICE | 0 / IN_SERVICE  | 0 / IN_SERVICE  |
+|          1 | 1 / IN_SERVICE | 4 / AT_STOP     | 1 / APPROACHING |
+|          2 | 2 / IN_SERVICE | 4 / IN_SERVICE  | 3 / IN_SERVICE  |
+|          3 | 3 / IN_SERVICE | 8 / AT_STOP     | 4 / APPROACHING |
+|          4 | 4 / IN_SERVICE | 8 / IN_SERVICE  | 6 / IN_SERVICE  |
+|          5 | 5 / IN_SERVICE | 12 / AT_STOP    | 7 / APPROACHING |
+|          6 | 6 / IN_SERVICE | 12 / IN_SERVICE | 9 / IN_SERVICE  |
 
 **Train 的关键答法：**
 
