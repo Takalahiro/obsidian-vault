@@ -561,3 +561,562 @@ a_1=2,\qquad a_{n+1}=3a_n-2.
 $$
 
 Find a possible formula for $a_n$, and prove your formula by induction.
+
+
+
+
+我会重新编一整套英文模拟卷，保持 2019 年的结构：20 道单选题加 5 道大题；出完后逐题检查计算、定义域、选项是否唯一正确，避免上一套的歧义。
+
+# MATH1064 Practice Examination 2
+
+This practice paper follows the general style of the 2019 sample exam.
+
+- **Section A:** 20 multiple-choice questions
+- **Section B:** 5 extended-answer questions
+- Choose exactly one answer for each multiple-choice question.
+- Show all working in Section B.
+- Suggested time: **2 hours**
+
+---
+
+# Section A: Multiple Choice
+
+### 1.
+
+Let
+
+$$
+A=\{a,\{b\},\{a,b\},a\}.
+$$
+
+Which statement is true?
+
+(a) $|A|=4$
+
+(b) $b\in A$
+
+(c) $\{b\}\subseteq A$
+
+(d) $|\mathcal P(A)|=8$
+
+---
+
+### 2.
+
+Let
+
+$$
+X=\{1,2,\ldots,2n\}.
+$$
+
+What is $|\mathcal P(X)|$?
+
+(a) $2^n$
+
+(b) $3^n$
+
+(c) $4^n$
+
+(d) $8^n$
+
+---
+
+### 3.
+
+Suppose
+
+$$
+|A|=12,\quad |B|=16,\quad |C|=21,
+$$
+
+$$
+|A\cap B|=5,\quad |A\cap C|=7,\quad |B\cap C|=8,
+$$
+
+and
+
+$$
+|A\cap B\cap C|=3.
+$$
+
+Find $|A\cup B\cup C|$.
+
+(a) $29$
+
+(b) $32$
+
+(c) $35$
+
+(d) $38$
+
+---
+
+### 4.
+
+Let
+
+$$
+f:\mathbb Q\to\mathbb Z,\qquad f(x)=\lfloor 2x\rfloor.
+$$
+
+Which statement is correct?
+
+(a) $f$ is injective but not surjective.
+
+(b) $f$ is surjective but not injective.
+
+(c) $f$ is bijective.
+
+(d) $f$ is neither injective nor surjective.
+
+---
+
+### 5.
+
+Let
+
+$$
+f:\mathbb Z\to\mathbb Z,\qquad f(n)=n^3.
+$$
+
+Which statement is correct?
+
+(a) $f$ is injective and surjective.
+
+(b) $f$ is injective but not surjective.
+
+(c) $f$ is surjective but not injective.
+
+(d) $f$ is neither injective nor surjective.
+
+---
+
+### 6.
+
+What is the coefficient of $x^3$ in $(x-2)^8$?
+
+(a) $\binom83(-2)^3$
+
+(b) $\binom85(-2)^3$
+
+(c) $\binom83(-2)^5$
+
+(d) $\binom85(-2)^5$
+
+---
+
+### 7.
+
+Five identical objects are distributed among three distinct boxes. Empty boxes are allowed. How many distributions are possible?
+
+(a) $\binom52$
+
+(b) $\binom73$
+
+(c) $\binom72$
+
+(d) $3^5$
+
+---
+
+### 8.
+
+How many distinct arrangements are there of the letters in `BANANA`?
+
+(a) $60$
+
+(b) $120$
+
+(c) $180$
+
+(d) $360$
+
+---
+
+### 9.
+
+How many permutations of $\{1,2,3,4\}$ have at least one fixed point?
+
+(a) $9$
+
+(b) $12$
+
+(c) $15$
+
+(d) $18$
+
+---
+
+### 10.
+
+Define a relation $R$ on $\mathbb Z$ by
+
+$$
+xRy\iff x-y\text{ is even}.
+$$
+
+Which statement is correct?
+
+(a) $R$ is reflexive but not symmetric.
+
+(b) $R$ is symmetric but not transitive.
+
+(c) $R$ is an equivalence relation.
+
+(d) $R$ is a partial order.
+
+---
+
+### 11.
+
+Using the Euclidean algorithm, find $\gcd(391,299)$.
+
+(a) $13$
+
+(b) $23$
+
+(c) $31$
+
+(d) $46$
+
+---
+
+### 12.
+
+What is the remainder when $34567$ is divided by $9$?
+
+(a) $5$
+
+(b) $6$
+
+(c) $7$
+
+(d) $8$
+
+---
+
+### 13.
+
+Which proposition is a contradiction?
+
+(a) $p\vee q$
+
+(b) $p\wedge q$
+
+(c) $(p\wedge q)\wedge(\neg p\vee\neg q)$
+
+(d) $(p\vee q)\to p$
+
+---
+
+### 14.
+
+What is the negation of
+
+$$
+\forall x\in D,\; P(x)\vee\neg Q(x)?
+$$
+
+(a) $\exists x\in D,\; \neg P(x)\wedge Q(x)$
+
+(b) $\exists x\in D,\; P(x)\wedge\neg Q(x)$
+
+(c) $\forall x\in D,\; \neg P(x)\wedge Q(x)$
+
+(d) $\forall x\in D,\; P(x)\wedge\neg Q(x)$
+
+---
+
+### 15.
+
+Which statement is false?
+
+(a) $n\log n\in O(n^2)$
+
+(b) $n^2+4n+1\in\Theta(n^2)$
+
+(c) $n^2+4n+1\in\Omega(n)$
+
+(d) $n\log n\in O(n)$
+
+---
+
+### 16.
+
+A graph has six vertices with degrees
+
+$$
+1,2,3,3,4,5.
+$$
+
+How many edges does the graph have?
+
+(a) $8$
+
+(b) $9$
+
+(c) $10$
+
+(d) $18$
+
+---
+
+### 17.
+
+Which graph has an Eulerian circuit?
+
+(a) $K_3$
+
+(b) $K_4$
+
+(c) $K_6$
+
+(d) $K_8$
+
+---
+
+### 18.
+
+A fair die is rolled $24$ times. What is the expected number of times that a $6$ appears?
+
+(a) $3$
+
+(b) $4$
+
+(c) $5$
+
+(d) $6$
+
+---
+
+### 19.
+
+What is the decimal representation of $(110101)_2$?
+
+(a) $51$
+
+(b) $52$
+
+(c) $53$
+
+(d) $54$
+
+---
+
+### 20.
+
+A jar contains blue, red, green and yellow balls. Five balls are selected, and balls of the same colour are considered identical. How many possible colour combinations are there?
+
+(a) $\binom53$
+
+(b) $\binom73$
+
+(c) $\binom84$
+
+(d) $4^5$
+
+---
+
+# Section B: Extended Answer
+
+Show all working and give reasons for your answers.
+
+## Question 1: Sets and Functions
+
+Let
+
+$$
+A=\{1,2,3\},\qquad B=\{x,y\}.
+$$
+
+### (a)
+
+Write down $A\times B$ and $B\times A$.
+
+### (b)
+
+Let
+
+$$
+f:\mathbb Z\to\mathbb Z,\qquad f(n)=3n-2.
+$$
+
+Determine whether $f$ is injective and whether it is surjective. Prove your answers.
+
+### (c)
+
+Let
+
+$$
+g:\mathbb Z\to\mathbb Z,\qquad g(n)=n^2+1.
+$$
+
+Determine whether $g$ is injective and whether it is surjective. Give a proof or a counterexample for each claim.
+
+### (d)
+
+Find the composition $g\circ f$.
+
+---
+
+## Question 2: Counting and Combinatorics
+
+### (a)
+
+State the Binomial Theorem.
+
+### (b)
+
+Find the coefficient of $x^4$ in
+
+$$
+(2x-3)^7.
+$$
+
+Do not evaluate the final binomial coefficient.
+
+### (c)
+
+How many arrangements are there of the letters in `ALGEBRA` containing the consecutive word `BRA`?
+
+### (d)
+
+How many integers between $1000$ and $9999$ can be formed using the digits
+
+$$
+0,1,2,3,4,5,6
+$$
+
+without repetition?
+
+---
+
+## Question 3: Number Theory
+
+### (a)
+
+State the Quotient-Remainder Theorem.
+
+### (b)
+
+Use the Euclidean algorithm to find
+
+$$
+\gcd(527,391).
+$$
+
+### (c)
+
+Prove that if $d\mid a$ and $d\mid b$, then
+
+$$
+d\mid(5a-2b).
+$$
+
+### (d)
+
+Determine whether the following statement is true or false:
+
+$$
+d\mid ab\Longrightarrow d\mid a\text{ or }d\mid b.
+$$
+
+If it is false, give a counterexample.
+
+### (e)
+
+Prove that
+
+$$
+3\mid n^3-n
+$$
+
+for every integer $n$.
+
+---
+
+## Question 4: Logic, Relations and Graph Theory
+
+Let
+
+$$
+S=\{1,2,3,4\}
+$$
+
+and define
+
+$$
+R=\{(1,1),(2,2),(3,3),(4,4),(1,2),(2,1),(2,3),(3,2)\}.
+$$
+
+For each property, determine whether $R$ has that property. Give a reason or a counterexample.
+
+### (a)
+
+Reflexive
+
+### (b)
+
+Symmetric
+
+### (c)
+
+Transitive
+
+### (d)
+
+Antisymmetric
+
+### (e)
+
+Let $G$ be a graph with seven vertices and degrees
+
+$$
+1,2,2,3,3,3,4.
+$$
+
+How many edges does $G$ have?
+
+### (f)
+
+Prove that every simple graph with exactly five vertices and at least seven edges is connected.
+
+---
+
+## Question 5: Mathematical Induction
+
+### (a)
+
+Prove by mathematical induction that, for every positive integer $n$,
+
+$$
+1+3+5+\cdots+(2n-1)=n^2.
+$$
+
+### (b)
+
+Prove by mathematical induction that, for every positive integer $n$,
+
+$$
+2+5+8+\cdots+(3n-1)=\frac{n(3n+1)}2.
+$$
+
+### (c)
+
+Prove by mathematical induction that
+
+$$
+5^n-1
+$$
+
+is divisible by $4$ for every positive integer $n$.
+
+### (d)
+
+A sequence is defined by
+
+$$
+a_1=1,\qquad a_{n+1}=2a_n+3.
+$$
+
+Find a formula for $a_n$, and prove your formula by mathematical induction.
