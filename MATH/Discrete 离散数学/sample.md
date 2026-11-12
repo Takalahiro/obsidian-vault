@@ -1120,3 +1120,560 @@ a_1=1,\qquad a_{n+1}=2a_n+3.
 $$
 
 Find a formula for $a_n$, and prove your formula by mathematical induction.
+
+
+我会先对照知识库里的两张样卷和 Tutorial，编一套新的英文模拟卷，并逐题校验，确保每道选择题只有一个正确选项。
+
+
+两张样卷都包含概念判断和证明题，2025 年卷还加入了状态机、文法和归纳法纠错。我会把这些题型纳入新卷，并标明大题各小问的分值，方便之后准确批改。
+
+**This paper draws on both the 2019 and 2025 sample exams and the Tutorials. Each multiple-choice question has exactly one correct answer. Answers are omitted so you can attempt it under exam conditions.**
+
+# MATH1064 — Practice Examination 3
+
+**Reading time:** 10 minutes  
+**Writing time:** 2 hours  
+**Total marks:** 100
+
+- Section A: 20 multiple-choice questions, worth **50 marks**.
+- Section B: 5 extended-answer questions, worth **50 marks**.
+- All questions may be attempted.
+- Show your working and give reasons in Section B.
+
+**Notation:** $\mathbb N_0=\{0,1,2,\ldots\}$. The symbol $\subseteq$ allows equality; $\subsetneq$ denotes a proper subset. All graphs are finite and undirected unless stated otherwise.
+
+---
+
+**SECTION A — MULTIPLE CHOICE**
+
+Each question is worth **2.5 marks**. Select **exactly one** option.
+
+**1.** Let
+
+$$
+A=\{\varnothing,\{\varnothing\},\{1\}\}.
+$$
+
+Which statement is **false**?
+
+(a) $\varnothing\in A$
+
+(b) $\{\varnothing\}\subseteq A$
+
+(c) $1\in A$
+
+(d) $|\mathcal P(A)|=8$
+
+---
+
+**2.** Let
+
+$$
+S=\{a,b,c\}\times\{0,1\},
+\qquad
+T=\mathcal P(\{x,y,z\}).
+$$
+
+Which statement is correct?
+
+(a) $|S|=6$ and $|T|=8$
+
+(b) $|S|=8$ and $|T|=6$
+
+(c) $|S|=6$ and $|T|=6$
+
+(d) $|S|=9$ and $|T|=8$
+
+---
+
+**3.** Which identity holds for all sets $A,B,C$?
+
+(a) $A\setminus(B\cup C)=(A\setminus B)\cup(A\setminus C)$
+
+(b) $A\setminus(B\cup C)=(A\setminus B)\cap(A\setminus C)$
+
+(c) $A\setminus(B\cup C)=(B\cup C)\setminus A$
+
+(d) $A\setminus(B\cup C)=A\cap(B\cup C)$
+
+---
+
+**4.** Define
+
+$$
+f:\mathbb Z\to\mathbb Z,\qquad
+f(n)=\left\lfloor\frac n2\right\rfloor.
+$$
+
+Then $f$ is:
+
+(a) injective but not surjective.
+
+(b) bijective.
+
+(c) neither injective nor surjective.
+
+(d) surjective but not injective.
+
+---
+
+**5.** Let
+
+$$
+E=\{2k:k\in\mathbb Z\},
+$$
+
+and define
+
+$$
+g:\mathbb Z\to E,\qquad g(n)=2n.
+$$
+
+Then $g$ is:
+
+(a) injective but not surjective.
+
+(b) surjective but not injective.
+
+(c) bijective.
+
+(d) neither injective nor surjective.
+
+---
+
+**6.** How many integers from $1$ to $60$, inclusive, are relatively prime to $10$?
+
+(a) $18$
+
+(b) $24$
+
+(c) $30$
+
+(d) $36$
+
+---
+
+**7.** A shop sells three flavours of cookies and two flavours of muffins. A customer chooses exactly four cookies and exactly three muffins.
+
+Items of the same type and flavour are indistinguishable. Each flavour is available in unlimited quantities.
+
+How many selections are possible?
+
+(a) $\binom42\binom31$
+
+(b) $3^4\,2^3$
+
+(c) $\binom62+\binom41$
+
+(d) $\binom62\binom41$
+
+---
+
+**8.** A committee consists of two people chosen from five students and one person chosen from six tutors.
+
+One particular student and one particular tutor must **not both** be on the committee.
+
+How many committees are possible?
+
+(a) $\binom52\cdot6-4$
+
+(b) $\binom52\cdot6-1$
+
+(c) $\binom42\cdot5$
+
+(d) $\binom52\cdot5$
+
+---
+
+**9.** How many permutations $f$ of $\{1,2,3,4,5\}$ have **exactly two fixed points**?
+
+A fixed point is an element $i$ such that $f(i)=i$.
+
+(a) $10$
+
+(b) $15$
+
+(c) $20$
+
+(d) $60$
+
+---
+
+**10.** Write
+
+$$
+(1+x)^9=\sum_{k=0}^{9}a_kx^k.
+$$
+
+Which statement is correct?
+
+(a) $a_0=9$
+
+(b) $a_2=a_7$
+
+(c) $a_1=a_2$
+
+(d) $a_9=0$
+
+---
+
+**11.** Which proposition is a tautology?
+
+(a) $(p\to q)\to(q\to p)$
+
+(b) $(p\vee q)\to(p\wedge q)$
+
+(c) $(p\to q)\wedge\neg q$
+
+(d) $((p\to q)\wedge\neg q)\to\neg p$
+
+---
+
+**12.** What is the negation of
+
+$$
+\forall x\in D\;\exists y\in D\;
+\bigl(P(x)\to Q(y)\bigr)?
+$$
+
+(a) $\exists x\in D\;\forall y\in D\;\bigl(P(x)\wedge\neg Q(y)\bigr)$
+
+(b) $\forall x\in D\;\exists y\in D\;\bigl(P(x)\wedge\neg Q(y)\bigr)$
+
+(c) $\exists x\in D\;\forall y\in D\;\bigl(\neg P(x)\vee Q(y)\bigr)$
+
+(d) $\exists x\in D\;\exists y\in D\;\bigl(P(x)\wedge\neg Q(y)\bigr)$
+
+---
+
+**13.** Define a relation $R$ on $\mathbb Z$ by
+
+$$
+xRy\iff x\le y.
+$$
+
+Which description is correct?
+
+(a) Reflexive, symmetric and transitive
+
+(b) Symmetric and antisymmetric, but not reflexive
+
+(c) Reflexive, antisymmetric and transitive
+
+(d) Reflexive and symmetric, but not transitive
+
+---
+
+**14.** Which list **cannot** be the degrees of the vertices of a simple graph with five vertices?
+
+(a) $2,2,2,2,2$
+
+(b) $4,4,1,1,0$
+
+(c) $4,1,1,1,1$
+
+(d) $3,3,2,2,2$
+
+---
+
+**15.** Let $G$ have vertex set $\{1,2,3,4,5\}$ and edge set
+
+$$
+E=\bigl\{
+\{1,2\},\{2,3\},\{3,1\},
+\{3,4\},\{4,5\},\{5,3\}
+\bigr\}.
+$$
+
+Which statement is correct?
+
+(a) $G$ is disconnected.
+
+(b) $G$ has exactly two vertices of odd degree.
+
+(c) $G$ has an Eulerian circuit.
+
+(d) $G$ has no Eulerian trail.
+
+---
+
+**16.** For positive integers $n$, let
+
+$$
+h(n)=\frac{n^3+2n}{n+1}.
+$$
+
+Which statement is **false**?
+
+(a) $h(n)\in\Theta(n^2)$
+
+(b) $h(n)\in O(n^3)$
+
+(c) $h(n)\in\Omega(n)$
+
+(d) $h(n)\in\Omega(n^3)$
+
+---
+
+**17.** A fair coin is tossed three times. Let $X$ be the number of heads.
+
+What is $P(X\ge2)$?
+
+(a) $\frac18$
+
+(b) $\frac38$
+
+(c) $\frac12$
+
+(d) $\frac34$
+
+---
+
+**18.** A finite-state automaton has initial state $s_0$ and the following transition table.
+
+| Current state | Input $0$ | Input $1$ |
+|---|---|---|
+| $s_0$ | $s_0$ | $s_1$ |
+| $s_1$ | $s_1$ | $s_0$ |
+
+What is its final state after reading the input string `1011010` from left to right?
+
+(a) $s_0$
+
+(b) $s_1$
+
+(c) It has no final state because the string contains consecutive $1$s.
+
+(d) The transition table does not determine the result.
+
+---
+
+**19.** A grammar has start symbol $S$, terminal alphabet $\{a,b\}$ and productions
+
+$$
+S\to aS\mid b.
+$$
+
+Which language does it generate?
+
+(a) $\{a^nb:n\ge1\}$
+
+(b) $\{a^nb:n\in\mathbb N_0\}$
+
+(c) $\{a^nb^n:n\ge1\}$
+
+(d) $\{ba^n:n\in\mathbb N_0\}$
+
+---
+
+**20.** A student wants to prove
+
+$$
+\sum_{i=1}^{n}i(i+1)=\frac{n(n+1)(n+2)}3
+$$
+
+by induction.
+
+After assuming the formula for $n=k$, which expression correctly represents the sum for $n=k+1$?
+
+(a) $\dfrac{k(k+1)(k+2)}3+(k+1)$
+
+(b) $\dfrac{k(k+1)(k+2)}3+k(k+1)$
+
+(c) $\dfrac{k(k+1)(k+2)}3+(k+1)(k+2)$
+
+(d) $\dfrac{(k+1)(k+2)(k+3)}3+(k+1)(k+2)$
+
+---
+
+**SECTION B — EXTENDED ANSWER**
+
+Each question is worth **10 marks**. Marks for individual parts are shown.
+
+**Question 1 — Sets and Functions [10 marks]**
+
+**(a) [2 marks]** Let
+
+$$
+A=\{\varnothing,1,\{1\}\}.
+$$
+
+Determine whether each statement is true or false.
+
+(i) $\{1\}\in A$
+
+(ii) $\{1\}\subseteq A$
+
+(iii) $\{\{1\}\}\subseteq A$
+
+(iv) $\varnothing\in\mathcal P(A)$
+
+**(b) [3 marks]** Define
+
+$$
+f:\mathbb Z\to\mathbb Z,\qquad f(n)=4n+1.
+$$
+
+Determine whether $f$ is injective and whether it is surjective. Justify both answers.
+
+**(c) [3 marks]** Define
+
+$$
+g:\mathbb Z\times\mathbb Z\to\mathbb Z,\qquad g(a,b)=a-b.
+$$
+
+Determine whether $g$ is injective and whether it is surjective. Justify both answers.
+
+**(d) [2 marks]** Let $u:X\to Y$ and $v:Y\to Z$ be functions.
+
+Prove that if $v\circ u$ is injective, then $u$ is injective.
+
+---
+
+**Question 2 — Counting and Probability [10 marks]**
+
+**(a) [2 marks]** Find the coefficient of $x^5$ in
+
+$$
+(1+x)^4(1+2x)^3.
+$$
+
+You may leave your answer as a sum involving binomial coefficients.
+
+**(b) [2 marks]** How many distinct arrangements of the letters in `BALLOON` have the two letters `L` **not adjacent**?
+
+Give a brief explanation.
+
+**(c) [3 marks]** How many permutations of $\{1,2,3,4,5\}$ have at least one fixed point?
+
+Use the Inclusion–Exclusion Principle and show your calculation.
+
+**(d) [3 marks]** Box $A$ contains two red balls and one blue ball. Box $B$ contains one red ball and three blue balls.
+
+A box is selected with equal probability, and one ball is drawn uniformly at random from that box.
+
+Given that the ball is red, find the probability that it came from Box $A$.
+
+---
+
+**Question 3 — Number Theory and Logic [10 marks]**
+
+**(a) [2 marks]** Use the Euclidean algorithm to find
+
+$$
+\gcd(414,322).
+$$
+
+Show all divisions with remainders.
+
+**(b) [2 marks]** Prove that, for every integer $n$,
+
+$$
+n^2\equiv0\text{ or }1\pmod4.
+$$
+
+**(c) [2 marks]** Hence prove that the equation
+
+$$
+x^2+y^2=4z+3
+$$
+
+has no solutions with $x,y,z\in\mathbb Z$.
+
+**(d) [2 marks]** Write the negation of the following statement. Move the negation inside so that it applies only to $P$ and $Q$.
+
+$$
+\forall x\in D\;\exists y\in D\;
+\bigl(P(x)\wedge Q(y)\bigr).
+$$
+
+**(e) [2 marks]** Determine whether the following argument is valid. Give a reason or a counterexample using truth values.
+
+$$
+p\to q,\qquad q,\qquad \therefore p.
+$$
+
+---
+
+**Question 4 — Relations and Graph Theory [10 marks]**
+
+**(a) [4 marks]** Define a relation $R$ on $\mathbb Z$ by
+
+$$
+xRy\iff |x|=|y|.
+$$
+
+Determine whether $R$ is:
+
+(i) reflexive;
+
+(ii) symmetric;
+
+(iii) transitive;
+
+(iv) antisymmetric.
+
+Give a brief justification or counterexample for each answer.
+
+**(b) [2 marks]** Let $G$ be the simple graph with adjacency matrix
+
+$$
+M=
+\begin{pmatrix}
+0&1&0&1\\
+1&0&1&0\\
+0&1&0&1\\
+1&0&1&0
+\end{pmatrix}.
+$$
+
+(i) How many edges does $G$ have?
+
+(ii) Does $G$ have an Eulerian circuit? Justify your answer.
+
+**(c) [2 marks]** Prove that every simple graph on six vertices with minimum degree at least $3$ is connected.
+
+*Hint: If the graph were disconnected, how many vertices would each connected component need?*
+
+**(d) [2 marks]** Is the union of two equivalence relations on the same set always an equivalence relation?
+
+Give a proof or a specific counterexample.
+
+---
+
+**Question 5 — Induction, Recursion and Grammars [10 marks]**
+
+**(a) [4 marks]** A sequence is defined by
+
+$$
+a_0=2,\qquad a_{n+1}=2a_n+1
+\quad\text{for all }n\in\mathbb N_0.
+$$
+
+(i) Write down $a_1,a_2,a_3$.
+
+(ii) Find a closed formula for $a_n$ and prove it by mathematical induction.
+
+**(b) [3 marks]** Prove by mathematical induction that
+
+$$
+3\mid(4^n-1)
+$$
+
+for every $n\in\mathbb N_0$.
+
+Clearly state your base case, induction hypothesis and induction step.
+
+**(c) [3 marks]** Consider the grammar with start symbol $S$, terminal alphabet $\{a,b\}$ and productions
+
+$$
+S\to aSb\mid ab.
+$$
+
+(i) Give a derivation of the string `aaabbb`.
+
+(ii) Describe the language generated by the grammar using set-builder notation, and briefly explain why your description is correct.
+
+---
+
+**End of Practice Examination**
